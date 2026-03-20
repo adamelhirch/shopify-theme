@@ -2,7 +2,7 @@
   "current": "Default",
   "presets": {
     "Default": {
-      "logo_width": 110,
+      "logo_width": 70,
       "color_schemes": {
         "scheme-1": {
           "settings": {
