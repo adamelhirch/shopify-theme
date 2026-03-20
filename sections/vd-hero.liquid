@@ -26,6 +26,20 @@
             controls: false,
             image_size: '2000x'
         }}
+      {% elsif section.settings.external_video_url != blank %}
+        <video
+          class="vd-hero__video"
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="auto"
+          {% if section.settings.background_image != blank %}
+            poster="{{ section.settings.background_image | image_url: width: 2400 }}"
+          {% endif %}
+        >
+          <source src="{{ section.settings.external_video_url }}" type="video/mp4">
+        </video>
       {% elsif section.settings.use_demo_video %}
         <video
           class="vd-hero__video"
@@ -157,6 +171,12 @@
       "id": "text",
       "label": "Texte",
       "default": "<p>Vanille Désiré compose une expérience sensorielle rare autour de gousses sélectionnées, calibrées pour une cuisine exigeante et un art de vivre sobre, précis et élégant.</p>"
+    },
+    {
+      "type": "text",
+      "id": "external_video_url",
+      "label": "URL video MP4 externe",
+      "info": "Utiliser une video hebergee hors fichiers Shopify"
     },
     {
       "type": "video",
