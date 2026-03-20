@@ -161,11 +161,14 @@
               </div>
             {%- else -%}
               <div class="header__heading-logo-wrapper">
-                {{
-                  'vanille-desire-logo.png'
-                  | asset_url
-                  | image_tag: class: 'vd-header-logo-fallback', alt: shop.name
-                }}
+                <img
+                  src="{{ 'vanille-desire-logo.png' | asset_url }}"
+                  class="vd-header-logo-fallback"
+                  alt="{{ shop.name | escape }}"
+                  loading="eager"
+                  width="320"
+                  height="126"
+                >
               </div>
             {%- endif -%}
           </a>
@@ -207,11 +210,14 @@
               </div>
             {%- else -%}
               <div class="header__heading-logo-wrapper">
-                {{
-                  'vanille-desire-logo.png'
-                  | asset_url
-                  | image_tag: class: 'vd-header-logo-fallback', alt: shop.name
-                }}
+                <img
+                  src="{{ 'vanille-desire-logo.png' | asset_url }}"
+                  class="vd-header-logo-fallback"
+                  alt="{{ shop.name | escape }}"
+                  loading="eager"
+                  width="320"
+                  height="126"
+                >
               </div>
             {%- endif -%}
           </a>

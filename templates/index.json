@@ -24,27 +24,29 @@
       ],
       "settings": {
         "eyebrow": "Vanille Désiré",
-        "heading": "La vanille premium, dans un écrin anthracite.",
-        "text": "<p>Une direction artistique minimaliste, inspirée par les codes du luxe contemporain et la retenue d’un univers Apple. Le résultat met la matière, la provenance et l’intensité aromatique au premier plan.</p>",
-        "button_label": "Voir les produits",
+        "heading": "Vanille noire de Madagascar, dans un ecran de matiere vivante.",
+        "text": "<p>Un accueil plein cadre, pour installer immediatement la provenance, le geste et la noblesse de la matiere. Le produit passe au premier plan, la marque respire, et le parcours commence avec une presence plus cinematographique.</p>",
+        "use_demo_video": true,
+        "media_overlay_opacity": 55,
+        "button_label": "Decouvrir la selection",
         "button_link": "shopify://collections/all",
         "secondary_button_label": "Lire l'histoire",
         "secondary_button_link": "shopify://pages/notre-histoire",
-        "metric_1_value": "Noire",
-        "metric_1_label": "Palette dominante",
-        "metric_2_value": "Rare",
-        "metric_2_label": "Positionnement",
-        "metric_3_value": "Pure",
-        "metric_3_label": "Expérience visuelle",
-        "color_scheme": "scheme-1",
-        "padding_top": 48,
-        "padding_bottom": 28
+        "metric_1_value": "Madagascar",
+        "metric_1_label": "Origine signature",
+        "metric_2_value": "Gourmet",
+        "metric_2_label": "Qualite de selection",
+        "metric_3_value": "Precise",
+        "metric_3_label": "Lecture editoriale",
+        "color_scheme": "scheme-3",
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "La sélection Vanille Désiré",
+        "title": "La selection Vanille Desire",
         "heading_size": "h1",
         "collection": "all",
         "products_to_show": 4,
@@ -67,14 +69,14 @@
         "heading_dcaHjz": {
           "type": "heading",
           "settings": {
-            "heading": "Une présence digitale plus calme, plus dense, plus désirable.",
+            "heading": "Une presence plus calme, plus dense, plus desirable.",
             "heading_size": "h1"
           }
         },
         "text_Mc6D6L": {
           "type": "text",
           "settings": {
-            "text": "<p>Le thème est déjà orienté vers une lecture premium : grands espacements, cartes sombres, boutons satinés et navigation épurée. Vous pourrez ensuite brancher vos collections, photos produits et pages éditoriales dans cette base.</p>"
+            "text": "<p>Le theme privilegie de grands respirations, des surfaces nettes, un contraste maitrise et des cartes sombres qui mettent en avant les produits. La sensation doit rester premium sur mobile comme sur desktop.</p>"
           }
         }
       },
@@ -83,7 +85,7 @@
         "text_Mc6D6L"
       ],
       "settings": {
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
         "full_width": false,
         "padding_top": 28,
         "padding_bottom": 8
@@ -96,21 +98,21 @@
           "type": "pillar",
           "settings": {
             "title": "Rareté lisible",
-            "text": "<p>La boutique peut raconter la différence entre une vanille de dégustation et une vanille d’usage quotidien sans jamais noyer le visiteur.</p>"
+            "text": "<p>La boutique peut raconter la difference entre une vanille de degustation, une vanille pour la patisserie et des epices rares sans jamais perdre en clarte.</p>"
           }
         },
         "pillar_2": {
           "type": "pillar",
           "settings": {
-            "title": "Élégance mobile",
-            "text": "<p>Les blocs restent respirants sur téléphone pour conserver l’impression premium à chaque étape du parcours.</p>"
+            "title": "Elegance mobile",
+            "text": "<p>Le parcours reste fluide sur telephone, avec des volumes nets, des contrastes justes et une hierarchie tres lisible.</p>"
           }
         },
         "pillar_3": {
           "type": "pillar",
           "settings": {
-            "title": "Base éditable",
-            "text": "<p>Les contenus sont pilotables depuis l’éditeur Shopify pour faire évoluer la narration de marque au fil du catalogue.</p>"
+            "title": "Narration editable",
+            "text": "<p>Les contenus peuvent evoluer dans Shopify a mesure que la maison affine son offre, ses lots et ses pages editoriales.</p>"
           }
         }
       },
@@ -120,8 +122,8 @@
         "pillar_3"
       ],
       "settings": {
-        "heading": "Un socle de marque prêt à être enrichi.",
-        "text": "<p>Vous pouvez maintenant brancher vos vraies pages, vos collections premium, vos visuels studio et votre storytelling d’origine sans repartir de zéro.</p>",
+        "heading": "Un socle de marque pret a accueillir les vrais produits.",
+        "text": "<p>Cette base est faite pour recevoir ensuite vos visuels studio, vos notes de degustation, vos collections signatures et votre histoire de marque sans rompre la coherence visuelle.</p>",
         "color_scheme": "scheme-1",
         "padding_top": 20,
         "padding_bottom": 56
@@ -133,21 +135,21 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "Un thème prêt pour vos futurs visuels hero.",
+            "heading": "Un espace editorial pour vos futurs visuels hero.",
             "heading_size": "h1"
           }
         },
         "text": {
           "type": "text",
           "settings": {
-            "text": "Ajoutez ici une photographie éditoriale forte dès que votre univers visuel est prêt.",
+            "text": "Ajoutez ici une photographie forte de gousses, d'epices ou de gestes atelier pour ancrer l'univers premium de la maison.",
             "text_style": "body"
           }
         },
         "button": {
           "type": "buttons",
           "settings": {
-            "button_label_1": "Ajouter un visuel",
+            "button_label_1": "Explorer les produits",
             "button_link_1": "shopify://collections/all",
             "button_style_secondary_1": false,
             "button_label_2": "",
@@ -162,12 +164,12 @@
         "button"
       ],
       "settings": {
-        "image_overlay_opacity": 65,
+        "image_overlay_opacity": 60,
         "image_height": "medium",
         "desktop_content_position": "middle-center",
         "show_text_box": true,
         "desktop_content_alignment": "center",
-        "color_scheme": "scheme-4",
+        "color_scheme": "scheme-2",
         "mobile_content_alignment": "center",
         "stack_images_on_mobile": false,
         "show_text_below": false

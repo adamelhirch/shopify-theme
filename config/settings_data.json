@@ -2,75 +2,75 @@
   "current": "Default",
   "presets": {
     "Default": {
-      "logo_width": 150,
+      "logo_width": 110,
       "color_schemes": {
         "scheme-1": {
           "settings": {
-            "background": "#121214",
+            "background": "#F6F2EC",
             "background_gradient": "",
-            "text": "#F4F0E9",
-            "button": "#D2B888",
-            "button_label": "#121214",
-            "secondary_button_label": "#F4F0E9",
-            "shadow": "#000000"
+            "text": "#111111",
+            "button": "#F26522",
+            "button_label": "#111111",
+            "secondary_button_label": "#111111",
+            "shadow": "#232323"
           }
         },
         "scheme-2": {
           "settings": {
-            "background": "#1D1D20",
+            "background": "#232323",
             "background_gradient": "",
-            "text": "#F4F0E9",
-            "button": "#D2B888",
-            "button_label": "#121214",
-            "secondary_button_label": "#F4F0E9",
-            "shadow": "#000000"
+            "text": "#F6F2EC",
+            "button": "#F26522",
+            "button_label": "#111111",
+            "secondary_button_label": "#F6F2EC",
+            "shadow": "#111111"
           }
         },
         "scheme-3": {
           "settings": {
-            "background": "#252528",
+            "background": "#111111",
             "background_gradient": "",
-            "text": "#F4F0E9",
-            "button": "#F4F0E9",
-            "button_label": "#121214",
-            "secondary_button_label": "#F4F0E9",
-            "shadow": "#000000"
+            "text": "#F6F2EC",
+            "button": "#F26522",
+            "button_label": "#111111",
+            "secondary_button_label": "#F6F2EC",
+            "shadow": "#111111"
           }
         },
         "scheme-4": {
           "settings": {
-            "background": "#0D0D0F",
+            "background": "#232323",
             "background_gradient": "",
-            "text": "#E7DDCF",
-            "button": "#D2B888",
-            "button_label": "#121214",
-            "secondary_button_label": "#E7DDCF",
-            "shadow": "#000000"
+            "text": "#F6F2EC",
+            "button": "#F26522",
+            "button_label": "#111111",
+            "secondary_button_label": "#F6F2EC",
+            "shadow": "#111111"
           }
         },
         "scheme-5": {
           "settings": {
-            "background": "#6E5A3C",
+            "background": "#8A857E",
             "background_gradient": "",
-            "text": "#FFF8EC",
-            "button": "#FFF8EC",
-            "button_label": "#3D311F",
-            "secondary_button_label": "#FFF8EC",
-            "shadow": "#000000"
+            "text": "#F6F2EC",
+            "button": "#F26522",
+            "button_label": "#111111",
+            "secondary_button_label": "#F6F2EC",
+            "shadow": "#232323"
           }
         }
       },
       "type_header_font": "assistant_n4",
-      "heading_scale": 100,
+      "heading_scale": 110,
       "type_body_font": "assistant_n4",
       "body_scale": 100,
-      "page_width": 1200,
-      "spacing_sections": 24,
+      "page_width": 1400,
+      "spacing_sections": 28,
       "spacing_grid_horizontal": 16,
       "spacing_grid_vertical": 16,
       "buttons_border_thickness": 1,
       "buttons_border_opacity": 100,
-      "buttons_radius": 99,
+      "buttons_radius": 40,
       "buttons_shadow_opacity": 15,
       "buttons_shadow_horizontal_offset": 0,
       "buttons_shadow_vertical_offset": 4,
@@ -92,7 +92,7 @@
       "card_style": "standard",
       "card_image_padding": 0,
       "card_text_alignment": "left",
-      "card_color_scheme": "scheme-2",
+      "card_color_scheme": "scheme-3",
       "card_border_thickness": 1,
       "card_border_opacity": 10,
       "card_corner_radius": 28,
@@ -103,7 +103,7 @@
       "collection_card_style": "standard",
       "collection_card_image_padding": 0,
       "collection_card_text_alignment": "left",
-      "collection_card_color_scheme": "scheme-2",
+      "collection_card_color_scheme": "scheme-3",
       "collection_card_border_thickness": 1,
       "collection_card_border_opacity": 10,
       "collection_card_corner_radius": 28,
@@ -114,7 +114,7 @@
       "blog_card_style": "standard",
       "blog_card_image_padding": 0,
       "blog_card_text_alignment": "left",
-      "blog_card_color_scheme": "scheme-2",
+      "blog_card_color_scheme": "scheme-1",
       "blog_card_border_thickness": 0,
       "blog_card_border_opacity": 10,
       "blog_card_corner_radius": 0,

@@ -12,80 +12,124 @@
   }
 {% endstyle %}
 
-<section class="section-{{ section.id }}-padding page-width">
-  <div class="vd-section-shell vd-hero color-{{ section.settings.color_scheme }}">
-    <div class="vd-hero__inner">
-      <div class="vd-hero__copy">
-        {% if section.settings.eyebrow != blank %}
-          <span class="vd-eyebrow">{{ section.settings.eyebrow }}</span>
-        {% endif %}
+<section class="section-{{ section.id }}-padding section-vd-hero color-{{ section.settings.color_scheme }}">
+  <div class="vd-hero vd-hero--immersive">
+    <div class="vd-hero__media">
+      {% if section.settings.background_video != blank %}
+        {{
+          section.settings.background_video
+          | video_tag:
+            class: 'vd-hero__video',
+            autoplay: true,
+            loop: true,
+            muted: true,
+            controls: false,
+            image_size: '2000x'
+        }}
+      {% elsif section.settings.use_demo_video %}
+        <video
+          class="vd-hero__video"
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="auto"
+          poster="{{ 'vd-hero-origin-poster.jpg' | asset_url }}"
+        >
+          <source src="{{ 'vd-hero-origin.mp4' | asset_url }}" type="video/mp4">
+        </video>
+      {% elsif section.settings.background_image != blank %}
+        {{
+          section.settings.background_image
+          | image_url: width: 2400
+          | image_tag:
+            class: 'vd-hero__image',
+            widths: '750, 1100, 1500, 2000, 2400',
+            sizes: '100vw',
+            loading: 'eager'
+        }}
+      {% else %}
+        {{ 'hero-apparel-1' | placeholder_svg_tag: 'vd-hero__image placeholder-svg' }}
+      {% endif %}
+    </div>
 
-        {% if section.settings.heading != blank %}
-          <h1 class="vd-hero__title">{{ section.settings.heading }}</h1>
-        {% endif %}
+    <div class="vd-hero__backdrop" style="--vd-hero-overlay-opacity: {{ section.settings.media_overlay_opacity | divided_by: 100.0 }};"></div>
+    <div class="vd-hero__ambient"></div>
 
-        {% if section.settings.text != blank %}
-          <div class="vd-hero__text rte">{{ section.settings.text }}</div>
-        {% endif %}
-
-        <div class="vd-hero__actions">
-          {% if section.settings.button_label != blank %}
-            <a
-              {% if section.settings.button_link == blank %}
-                role="link" aria-disabled="true"
-              {% else %}
-                href="{{ section.settings.button_link }}"
-              {% endif %}
-              class="button button--primary"
-            >
-              {{ section.settings.button_label }}
-            </a>
+    <div class="page-width vd-hero__frame">
+      <div class="vd-hero__inner">
+        <div class="vd-hero__copy">
+          {% if section.settings.eyebrow != blank %}
+            <span class="vd-eyebrow">{{ section.settings.eyebrow }}</span>
           {% endif %}
 
-          {% if section.settings.secondary_button_label != blank %}
-            <a
-              {% if section.settings.secondary_button_link == blank %}
-                role="link" aria-disabled="true"
-              {% else %}
-                href="{{ section.settings.secondary_button_link }}"
-              {% endif %}
-              class="button button--secondary"
-            >
-              {{ section.settings.secondary_button_label }}
-            </a>
+          {% if section.settings.heading != blank %}
+            <h1 class="vd-hero__title">{{ section.settings.heading }}</h1>
           {% endif %}
+
+          {% if section.settings.text != blank %}
+            <div class="vd-hero__text rte">{{ section.settings.text }}</div>
+          {% endif %}
+
+          <div class="vd-hero__actions">
+            {% if section.settings.button_label != blank %}
+              <a
+                {% if section.settings.button_link == blank %}
+                  role="link" aria-disabled="true"
+                {% else %}
+                  href="{{ section.settings.button_link }}"
+                {% endif %}
+                class="button button--primary"
+              >
+                {{ section.settings.button_label }}
+              </a>
+            {% endif %}
+
+            {% if section.settings.secondary_button_label != blank %}
+              <a
+                {% if section.settings.secondary_button_link == blank %}
+                  role="link" aria-disabled="true"
+                {% else %}
+                  href="{{ section.settings.secondary_button_link }}"
+                {% endif %}
+                class="button button--secondary"
+              >
+                {{ section.settings.secondary_button_label }}
+              </a>
+            {% endif %}
+          </div>
         </div>
-      </div>
 
-      <aside class="vd-hero__aside">
-        {% if section.blocks.size > 0 %}
-          {% for block in section.blocks %}
-            <div class="vd-hero__card" {{ block.shopify_attributes }}>
-              {% if block.settings.title != blank %}
-                <h2 class="vd-hero__card-title">{{ block.settings.title }}</h2>
-              {% endif %}
-              {% if block.settings.text != blank %}
-                <div class="rte">{{ block.settings.text }}</div>
-              {% endif %}
+        <aside class="vd-hero__aside">
+          {% if section.blocks.size > 0 %}
+            {% for block in section.blocks %}
+              <div class="vd-hero__card" {{ block.shopify_attributes }}>
+                {% if block.settings.title != blank %}
+                  <h2 class="vd-hero__card-title">{{ block.settings.title }}</h2>
+                {% endif %}
+                {% if block.settings.text != blank %}
+                  <div class="rte">{{ block.settings.text }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <div class="vd-hero__metrics">
+            <div class="vd-metric">
+              <strong>{{ section.settings.metric_1_value }}</strong>
+              <span>{{ section.settings.metric_1_label }}</span>
             </div>
-          {% endfor %}
-        {% endif %}
-
-        <div class="vd-hero__metrics">
-          <div class="vd-metric">
-            <strong>{{ section.settings.metric_1_value }}</strong>
-            <span>{{ section.settings.metric_1_label }}</span>
+            <div class="vd-metric">
+              <strong>{{ section.settings.metric_2_value }}</strong>
+              <span>{{ section.settings.metric_2_label }}</span>
+            </div>
+            <div class="vd-metric">
+              <strong>{{ section.settings.metric_3_value }}</strong>
+              <span>{{ section.settings.metric_3_label }}</span>
+            </div>
           </div>
-          <div class="vd-metric">
-            <strong>{{ section.settings.metric_2_value }}</strong>
-            <span>{{ section.settings.metric_2_label }}</span>
-          </div>
-          <div class="vd-metric">
-            <strong>{{ section.settings.metric_3_value }}</strong>
-            <span>{{ section.settings.metric_3_label }}</span>
-          </div>
-        </div>
-      </aside>
+        </aside>
+      </div>
     </div>
   </div>
 </section>
@@ -113,6 +157,32 @@
       "id": "text",
       "label": "Texte",
       "default": "<p>Vanille Désiré compose une expérience sensorielle rare autour de gousses sélectionnées, calibrées pour une cuisine exigeante et un art de vivre sobre, précis et élégant.</p>"
+    },
+    {
+      "type": "video",
+      "id": "background_video",
+      "label": "Video de fond"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Image ou GIF de fond"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_demo_video",
+      "label": "Utiliser la video de demo du theme",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "media_overlay_opacity",
+      "min": 10,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Opacite de l'overlay",
+      "default": 55
     },
     {
       "type": "text",
@@ -186,7 +256,7 @@
       "step": 4,
       "unit": "px",
       "label": "Marge haute",
-      "default": 48
+      "default": 0
     },
     {
       "type": "range",
@@ -196,7 +266,7 @@
       "step": 4,
       "unit": "px",
       "label": "Marge basse",
-      "default": 32
+      "default": 0
     }
   ],
   "blocks": [
