@@ -1,0 +1,16 @@
+# Local repository metadata
+.git/
+.github/
+.vscode/
+.DS_Store
+
+# Local docs and agent instructions
+AGENTS.md
+README.md
+docs/
+source-assets/
+
+# Local tooling
+scripts/
+.gitignore
+.shopifyignore

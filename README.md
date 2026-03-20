@@ -1,3 +1,16 @@
+# Shopify Theme Workflow
+
+Project-specific workflow lives in [docs/shopify-collaboration-workflow.md](docs/shopify-collaboration-workflow.md).
+
+Key commands:
+- `./scripts/dev-local.sh`
+- `./scripts/push-qa-shared.sh`
+
+Guardrails:
+- Never work on `main`
+- Never push to the live theme `180888928523`
+- Shared review always goes through `QA Shared` `181070168331`
+
 # Dawn
 
 [![Build status](https://github.com/shopify/dawn/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Shopify/dawn/actions/workflows/ci.yml?query=branch%3Amain)
