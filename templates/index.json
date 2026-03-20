@@ -1,0 +1,184 @@
+{
+  "sections": {
+    "vd_hero_premium_YyXL7E": {
+      "type": "vd-hero",
+      "blocks": {
+        "card_79DWqK": {
+          "type": "card",
+          "settings": {
+            "title": "Une signature pensée pour le haut de gamme",
+            "text": "<p>Le ton est sobre, la matière est noble, et chaque détail vise une perception de qualité immédiate.</p>"
+          }
+        },
+        "card_HiQFTz": {
+          "type": "card",
+          "settings": {
+            "title": "Un socle prêt pour Shopify",
+            "text": "<p>Le thème repose sur Dawn pour rester maintenable, rapide et simple à faire évoluer avec vos futurs produits.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "card_79DWqK",
+        "card_HiQFTz"
+      ],
+      "settings": {
+        "eyebrow": "Vanille Désiré",
+        "heading": "La vanille premium, dans un écrin anthracite.",
+        "text": "<p>Une direction artistique minimaliste, inspirée par les codes du luxe contemporain et la retenue d’un univers Apple. Le résultat met la matière, la provenance et l’intensité aromatique au premier plan.</p>",
+        "button_label": "Voir les produits",
+        "button_link": "shopify://collections/all",
+        "secondary_button_label": "Lire l'histoire",
+        "secondary_button_link": "shopify://pages/notre-histoire",
+        "metric_1_value": "Noire",
+        "metric_1_label": "Palette dominante",
+        "metric_2_value": "Rare",
+        "metric_2_label": "Positionnement",
+        "metric_3_value": "Pure",
+        "metric_3_label": "Expérience visuelle",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 28
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "La sélection Vanille Désiré",
+        "heading_size": "h1",
+        "collection": "all",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "color_scheme": "scheme-1",
+        "show_view_all": true,
+        "swipe_on_mobile": true,
+        "image_ratio": "adapt",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "columns_mobile": "1",
+        "padding_top": 16,
+        "padding_bottom": 16
+      }
+    },
+    "rich_text_AepBxt": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_dcaHjz": {
+          "type": "heading",
+          "settings": {
+            "heading": "Une présence digitale plus calme, plus dense, plus désirable.",
+            "heading_size": "h1"
+          }
+        },
+        "text_Mc6D6L": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Le thème est déjà orienté vers une lecture premium : grands espacements, cartes sombres, boutons satinés et navigation épurée. Vous pourrez ensuite brancher vos collections, photos produits et pages éditoriales dans cette base.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_dcaHjz",
+        "text_Mc6D6L"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "full_width": false,
+        "padding_top": 28,
+        "padding_bottom": 8
+      }
+    },
+    "vd_story_grid_dH7a3t": {
+      "type": "vd-story-grid",
+      "blocks": {
+        "pillar_1": {
+          "type": "pillar",
+          "settings": {
+            "title": "Rareté lisible",
+            "text": "<p>La boutique peut raconter la différence entre une vanille de dégustation et une vanille d’usage quotidien sans jamais noyer le visiteur.</p>"
+          }
+        },
+        "pillar_2": {
+          "type": "pillar",
+          "settings": {
+            "title": "Élégance mobile",
+            "text": "<p>Les blocs restent respirants sur téléphone pour conserver l’impression premium à chaque étape du parcours.</p>"
+          }
+        },
+        "pillar_3": {
+          "type": "pillar",
+          "settings": {
+            "title": "Base éditable",
+            "text": "<p>Les contenus sont pilotables depuis l’éditeur Shopify pour faire évoluer la narration de marque au fil du catalogue.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "pillar_1",
+        "pillar_2",
+        "pillar_3"
+      ],
+      "settings": {
+        "heading": "Un socle de marque prêt à être enrichi.",
+        "text": "<p>Vous pouvez maintenant brancher vos vraies pages, vos collections premium, vos visuels studio et votre storytelling d’origine sans repartir de zéro.</p>",
+        "color_scheme": "scheme-1",
+        "padding_top": 20,
+        "padding_bottom": 56
+      }
+    },
+    "image_banner": {
+      "type": "image-banner",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Un thème prêt pour vos futurs visuels hero.",
+            "heading_size": "h1"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "Ajoutez ici une photographie éditoriale forte dès que votre univers visuel est prêt.",
+            "text_style": "body"
+          }
+        },
+        "button": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Ajouter un visuel",
+            "button_link_1": "shopify://collections/all",
+            "button_style_secondary_1": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "text",
+        "button"
+      ],
+      "settings": {
+        "image_overlay_opacity": 65,
+        "image_height": "medium",
+        "desktop_content_position": "middle-center",
+        "show_text_box": true,
+        "desktop_content_alignment": "center",
+        "color_scheme": "scheme-4",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": false,
+        "show_text_below": false
+      }
+    }
+  },
+  "order": [
+    "vd_hero_premium_YyXL7E",
+    "featured_collection",
+    "rich_text_AepBxt",
+    "vd_story_grid_dH7a3t",
+    "image_banner"
+  ]
+}

@@ -1,0 +1,245 @@
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<section class="section-{{ section.id }}-padding page-width">
+  <div class="vd-section-shell vd-hero color-{{ section.settings.color_scheme }}">
+    <div class="vd-hero__inner">
+      <div class="vd-hero__copy">
+        {% if section.settings.eyebrow != blank %}
+          <span class="vd-eyebrow">{{ section.settings.eyebrow }}</span>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <h1 class="vd-hero__title">{{ section.settings.heading }}</h1>
+        {% endif %}
+
+        {% if section.settings.text != blank %}
+          <div class="vd-hero__text rte">{{ section.settings.text }}</div>
+        {% endif %}
+
+        <div class="vd-hero__actions">
+          {% if section.settings.button_label != blank %}
+            <a
+              {% if section.settings.button_link == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ section.settings.button_link }}"
+              {% endif %}
+              class="button button--primary"
+            >
+              {{ section.settings.button_label }}
+            </a>
+          {% endif %}
+
+          {% if section.settings.secondary_button_label != blank %}
+            <a
+              {% if section.settings.secondary_button_link == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ section.settings.secondary_button_link }}"
+              {% endif %}
+              class="button button--secondary"
+            >
+              {{ section.settings.secondary_button_label }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <aside class="vd-hero__aside">
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            <div class="vd-hero__card" {{ block.shopify_attributes }}>
+              {% if block.settings.title != blank %}
+                <h2 class="vd-hero__card-title">{{ block.settings.title }}</h2>
+              {% endif %}
+              {% if block.settings.text != blank %}
+                <div class="rte">{{ block.settings.text }}</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <div class="vd-hero__metrics">
+          <div class="vd-metric">
+            <strong>{{ section.settings.metric_1_value }}</strong>
+            <span>{{ section.settings.metric_1_label }}</span>
+          </div>
+          <div class="vd-metric">
+            <strong>{{ section.settings.metric_2_value }}</strong>
+            <span>{{ section.settings.metric_2_label }}</span>
+          </div>
+          <div class="vd-metric">
+            <strong>{{ section.settings.metric_3_value }}</strong>
+            <span>{{ section.settings.metric_3_label }}</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "VD Hero Premium",
+  "tag": "section",
+  "class": "section section-vd-hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Vanille premium"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Titre",
+      "default": "La vanille dans sa forme la plus désirable."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Vanille Désiré compose une expérience sensorielle rare autour de gousses sélectionnées, calibrées pour une cuisine exigeante et un art de vivre sobre, précis et élégant.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Bouton principal",
+      "default": "Découvrir la collection"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Lien principal"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Bouton secondaire",
+      "default": "Notre philosophie"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Lien secondaire"
+    },
+    {
+      "type": "text",
+      "id": "metric_1_value",
+      "label": "Valeur métrique 1",
+      "default": "Gourmet"
+    },
+    {
+      "type": "text",
+      "id": "metric_1_label",
+      "label": "Libellé métrique 1",
+      "default": "Sélection"
+    },
+    {
+      "type": "text",
+      "id": "metric_2_value",
+      "label": "Valeur métrique 2",
+      "default": "Traçable"
+    },
+    {
+      "type": "text",
+      "id": "metric_2_label",
+      "label": "Libellé métrique 2",
+      "default": "Origine"
+    },
+    {
+      "type": "text",
+      "id": "metric_3_value",
+      "label": "Valeur métrique 3",
+      "default": "Intense"
+    },
+    {
+      "type": "text",
+      "id": "metric_3_label",
+      "label": "Libellé métrique 3",
+      "default": "Signature aromatique"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Palette",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge haute",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge basse",
+      "default": 32
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Carte éditoriale",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Sélection haute intensité"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Texte",
+          "default": "<p>Des gousses choisies pour leur souplesse, leur brillance et leur profondeur aromatique.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "VD Hero Premium",
+      "blocks": [
+        {
+          "type": "card",
+          "settings": {
+            "title": "Sélection haute intensité",
+            "text": "<p>Des lots triés pour une texture charnue, des grains généreux et une longueur en bouche raffinée.</p>"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Pensé pour les amateurs exigeants",
+            "text": "<p>Pâtisserie, infusion, rhum arrangé ou cuisine fine, la matière première reste au centre du geste.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
