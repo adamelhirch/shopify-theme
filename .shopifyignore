@@ -1,0 +1,12 @@
+.github/
+.vscode/
+.gitignore
+.prettierrc.json
+.theme-check.yml
+AGENTS.md
+LICENSE.md
+README.md
+release-notes.md
+source-assets/
+translation.yml
+vd-logo_2026-03-11_source-discord.png
