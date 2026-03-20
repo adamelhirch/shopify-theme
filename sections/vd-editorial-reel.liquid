@@ -1,0 +1,223 @@
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<section class="section-{{ section.id }}-padding vd-editorial color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    <div class="vd-editorial__head">
+      {% if section.settings.eyebrow != blank %}
+        <span class="vd-section-kicker">{{ section.settings.eyebrow }}</span>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 class="vd-editorial__title">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.text != blank %}
+        <div class="vd-editorial__text rte">{{ section.settings.text }}</div>
+      {% endif %}
+    </div>
+
+    <div class="vd-editorial__track" role="list">
+      {% for block in section.blocks %}
+        <article class="vd-editorial-card" {{ block.shopify_attributes }}>
+          <div class="vd-editorial-card__media">
+            {% if block.settings.video != blank %}
+              {{
+                block.settings.video
+                | video_tag:
+                  class: 'vd-editorial-card__video',
+                  autoplay: true,
+                  loop: true,
+                  muted: true,
+                  controls: false,
+                  image_size: '1600x'
+              }}
+            {% elsif block.settings.external_video_url != blank %}
+              <video
+                class="vd-editorial-card__video"
+                autoplay
+                loop
+                muted
+                playsinline
+                preload="auto"
+                {% if block.settings.image != blank %}
+                  poster="{{ block.settings.image | image_url: width: 1800 }}"
+                {% endif %}
+              >
+                <source src="{{ block.settings.external_video_url }}" type="video/mp4">
+              </video>
+            {% elsif block.settings.image != blank %}
+              {{
+                block.settings.image
+                | image_url: width: 1800
+                | image_tag:
+                  class: 'vd-editorial-card__image',
+                  widths: '700, 900, 1200, 1600, 1800',
+                  sizes: '(min-width: 990px) 50vw, 88vw',
+                  loading: 'lazy'
+              }}
+            {% endif %}
+          </div>
+
+          <div class="vd-editorial-card__shade"></div>
+
+          <div class="vd-editorial-card__content">
+            {% if block.settings.kicker != blank %}
+              <span class="vd-editorial-card__kicker">{{ block.settings.kicker }}</span>
+            {% endif %}
+            {% if block.settings.title != blank %}
+              <h3>{{ block.settings.title }}</h3>
+            {% endif %}
+            {% if block.settings.text != blank %}
+              <div class="rte">{{ block.settings.text }}</div>
+            {% endif %}
+            {% if block.settings.link_label != blank %}
+              <a
+                {% if block.settings.link == blank %}
+                  role="link" aria-disabled="true"
+                {% else %}
+                  href="{{ block.settings.link }}"
+                {% endif %}
+                class="vd-inline-link"
+              >
+                {{ block.settings.link_label }}
+              </a>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "VD Editorial Reel",
+  "tag": "section",
+  "class": "section section-vd-editorial-reel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Sourcing en mouvement"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Une home plus éditoriale, pensée comme une série de gestes."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Ajoute ici des vidéos courtes, des plans matière et des cartes de récit. La section reste propre sur mobile grâce à un scroll horizontal natif.</p>"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Palette",
+      "default": "scheme-2"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge haute",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge basse",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "media_card",
+      "name": "Carte media",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Kicker",
+          "default": "Origine"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Une matière qui raconte déjà l'origine."
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Texte",
+          "default": "<p>Des cartes immersives pour montrer les gestes, la texture et la provenance sans recharger la page.</p>"
+        },
+        {
+          "type": "text",
+          "id": "external_video_url",
+          "label": "URL video MP4 externe"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video Shopify"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Libelle lien",
+          "default": "Explorer"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Lien"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "VD Editorial Reel",
+      "blocks": [
+        {
+          "type": "media_card"
+        },
+        {
+          "type": "media_card"
+        },
+        {
+          "type": "media_card"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

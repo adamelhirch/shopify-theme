@@ -1,0 +1,167 @@
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+{%- liquid
+  assign featured_collection = section.settings.collection
+  assign products_limit = section.settings.products_to_show
+-%}
+
+<section class="section-{{ section.id }}-padding vd-bestsellers color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    <div class="vd-bestsellers__head">
+      <div>
+        {% if section.settings.eyebrow != blank %}
+          <span class="vd-section-kicker">{{ section.settings.eyebrow }}</span>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 class="vd-bestsellers__title">{{ section.settings.heading }}</h2>
+        {% endif %}
+      </div>
+
+      {% if section.settings.text != blank %}
+        <div class="vd-bestsellers__text rte">{{ section.settings.text }}</div>
+      {% endif %}
+    </div>
+
+    {% if featured_collection != blank and featured_collection.products_count > 0 %}
+      <div class="vd-bestsellers__grid" role="list">
+        {% for product in featured_collection.products limit: products_limit %}
+          <article class="vd-best-card{% if forloop.first %} vd-best-card--feature{% endif %}" role="listitem">
+            <a href="{{ product.url }}" class="vd-best-card__link">
+              <div class="vd-best-card__media">
+                {% if product.featured_image != blank %}
+                  {{
+                    product.featured_image
+                    | image_url: width: 1400
+                    | image_tag:
+                      class: 'vd-best-card__image',
+                      widths: '480, 720, 960, 1200, 1400',
+                      sizes: '(min-width: 990px) 33vw, 78vw',
+                      loading: 'lazy',
+                      alt: product.featured_image.alt | default: product.title | escape
+                  }}
+                {% endif %}
+              </div>
+
+              <div class="vd-best-card__content">
+                {% if forloop.first %}
+                  <span class="vd-best-card__badge">Best seller</span>
+                {% endif %}
+                <h3>{{ product.title }}</h3>
+                {% if product.description != blank %}
+                  <p>{{ product.description | strip_html | truncatewords: 18 }}</p>
+                {% endif %}
+                <div class="vd-best-card__meta">
+                  <span class="vd-inline-link">Voir le produit</span>
+                  <strong>{{ product.price | money_without_trailing_zeros }}</strong>
+                </div>
+              </div>
+            </a>
+          </article>
+        {% endfor %}
+      </div>
+
+      {% if section.settings.button_label != blank and featured_collection.url != blank %}
+        <div class="vd-bestsellers__actions">
+          <a href="{{ featured_collection.url }}" class="button button--secondary">
+            {{ section.settings.button_label }}
+          </a>
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="vd-bestsellers__empty">
+        <p>Choisis une collection pour alimenter cette section.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "VD Featured Products",
+  "tag": "section",
+  "class": "section section-vd-featured-products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Best seller"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Les formats que vos clients repèrent en premier."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Une grille plus éditoriale que Dawn, avec une vraie hiérarchie entre le produit vedette et les autres références.</p>"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "label": "Nombre de produits",
+      "default": 4
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Libelle bouton",
+      "default": "Voir toute la collection"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Palette",
+      "default": "scheme-3"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge haute",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge basse",
+      "default": 44
+    }
+  ],
+  "presets": [
+    {
+      "name": "VD Featured Products"
+    }
+  ]
+}
+{% endschema %}

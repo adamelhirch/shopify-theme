@@ -266,6 +266,8 @@
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'vanille-desire.css' | asset_url | stylesheet_tag }}
+    {{ 'cookie-banner.css' | asset_url | stylesheet_tag }}
+    {{ 'component-vd-form-card.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
@@ -322,6 +324,8 @@
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
+
+    {% render 'cookie-banner' %}
 
     {% sections 'footer-group' %}
 
@@ -382,5 +386,7 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    <script src="{{ 'cookie-banner.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>

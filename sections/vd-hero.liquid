@@ -12,6 +12,27 @@
   }
 {% endstyle %}
 
+{%- liquid
+  assign has_metrics = false
+
+  if section.settings.metric_1_value != blank and section.settings.metric_1_label != blank
+    assign has_metrics = true
+  endif
+
+  if section.settings.metric_2_value != blank and section.settings.metric_2_label != blank
+    assign has_metrics = true
+  endif
+
+  if section.settings.metric_3_value != blank and section.settings.metric_3_label != blank
+    assign has_metrics = true
+  endif
+
+  assign has_aside = false
+  if section.blocks.size > 0 or has_metrics
+    assign has_aside = true
+  endif
+-%}
+
 <section class="section-{{ section.id }}-padding section-vd-hero color-{{ section.settings.color_scheme }}">
   <div class="vd-hero vd-hero--immersive">
     <div class="vd-hero__media">
@@ -71,14 +92,14 @@
     <div class="vd-hero__ambient"></div>
 
     <div class="page-width vd-hero__frame">
-      <div class="vd-hero__inner">
+      <div class="vd-hero__inner{% unless has_aside %} vd-hero__inner--solo{% endunless %}">
         <div class="vd-hero__copy">
-          {% if section.settings.eyebrow != blank %}
-            <span class="vd-eyebrow">{{ section.settings.eyebrow }}</span>
-          {% endif %}
-
           {% if section.settings.heading != blank %}
             <h1 class="vd-hero__title">{{ section.settings.heading }}</h1>
+          {% endif %}
+
+          {% if section.settings.eyebrow != blank %}
+            <span class="vd-eyebrow">{{ section.settings.eyebrow }}</span>
           {% endif %}
 
           {% if section.settings.text != blank %}
@@ -114,35 +135,45 @@
           </div>
         </div>
 
-        <aside class="vd-hero__aside">
-          {% if section.blocks.size > 0 %}
-            {% for block in section.blocks %}
-              <div class="vd-hero__card" {{ block.shopify_attributes }}>
-                {% if block.settings.title != blank %}
-                  <h2 class="vd-hero__card-title">{{ block.settings.title }}</h2>
+        {% if has_aside %}
+          <aside class="vd-hero__aside">
+            {% if section.blocks.size > 0 %}
+              {% for block in section.blocks %}
+                <div class="vd-hero__card" {{ block.shopify_attributes }}>
+                  {% if block.settings.title != blank %}
+                    <h2 class="vd-hero__card-title">{{ block.settings.title }}</h2>
+                  {% endif %}
+                  {% if block.settings.text != blank %}
+                    <div class="rte">{{ block.settings.text }}</div>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            {% if has_metrics %}
+              <div class="vd-hero__metrics">
+                {% if section.settings.metric_1_value != blank and section.settings.metric_1_label != blank %}
+                  <div class="vd-metric">
+                    <strong>{{ section.settings.metric_1_value }}</strong>
+                    <span>{{ section.settings.metric_1_label }}</span>
+                  </div>
                 {% endif %}
-                {% if block.settings.text != blank %}
-                  <div class="rte">{{ block.settings.text }}</div>
+                {% if section.settings.metric_2_value != blank and section.settings.metric_2_label != blank %}
+                  <div class="vd-metric">
+                    <strong>{{ section.settings.metric_2_value }}</strong>
+                    <span>{{ section.settings.metric_2_label }}</span>
+                  </div>
+                {% endif %}
+                {% if section.settings.metric_3_value != blank and section.settings.metric_3_label != blank %}
+                  <div class="vd-metric">
+                    <strong>{{ section.settings.metric_3_value }}</strong>
+                    <span>{{ section.settings.metric_3_label }}</span>
+                  </div>
                 {% endif %}
               </div>
-            {% endfor %}
-          {% endif %}
-
-          <div class="vd-hero__metrics">
-            <div class="vd-metric">
-              <strong>{{ section.settings.metric_1_value }}</strong>
-              <span>{{ section.settings.metric_1_label }}</span>
-            </div>
-            <div class="vd-metric">
-              <strong>{{ section.settings.metric_2_value }}</strong>
-              <span>{{ section.settings.metric_2_label }}</span>
-            </div>
-            <div class="vd-metric">
-              <strong>{{ section.settings.metric_3_value }}</strong>
-              <span>{{ section.settings.metric_3_label }}</span>
-            </div>
-          </div>
-        </aside>
+            {% endif %}
+          </aside>
+        {% endif %}
       </div>
     </div>
   </div>
