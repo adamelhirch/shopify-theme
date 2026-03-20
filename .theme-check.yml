@@ -1,3 +1,6 @@
+ignore:
+  - references/**
+
 MatchingTranslations:
   enabled: false
 TemplateLength:

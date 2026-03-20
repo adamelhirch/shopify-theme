@@ -23,7 +23,7 @@
           "type": "text",
           "settings": {
             "heading": "Notre exigence",
-            "subtext": "<p>Vanille Desire accompagne les amateurs de grands aromes avec une selection de vanille et d'epices de Madagascar pensee pour la patisserie, l'infusion et l'art de vivre.</p>"
+            "subtext": "<p>Vanille Désiré sélectionne des vanilles Bourbon, épices et huiles de Madagascar en lien direct avec les producteurs, avec une attention particulière portée à la qualité, à l'origine et au soin apporté à chaque commande.</p>"
           }
         }
       },
@@ -35,8 +35,8 @@
       "settings": {
         "color_scheme": "scheme-2",
         "newsletter_enable": true,
-        "newsletter_heading": "Recevoir nos arrivages et editions limitees",
-        "show_social": false,
+        "newsletter_heading": "S'enregistrer",
+        "show_social": true,
         "enable_country_selector": false,
         "enable_language_selector": false,
         "payment_enable": true,

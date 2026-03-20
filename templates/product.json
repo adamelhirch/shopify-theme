@@ -45,43 +45,43 @@
         "collapsible-row-0": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Materials",
-            "icon": "leather",
-            "content": "",
+            "heading": "Sélection à Madagascar",
+            "icon": "map_pin",
+            "content": "<p>Nous sélectionnons uniquement des épices et vanilles Bourbon de Madagascar de la plus haute qualité, récoltées à la main et préparées selon un savoir-faire ancestral.</p>",
             "page": ""
           }
         },
         "collapsible-row-1": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Shipping & Returns",
-            "icon": "truck",
-            "content": "",
+            "heading": "Soutien aux Producteurs Locaux",
+            "icon": "plant",
+            "content": "<p>Chaque achat contribue directement à soutenir les familles productrices à Madagascar, en assurant un revenu juste et durable.</p>",
             "page": ""
           }
         },
         "collapsible-row-2": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Dimensions",
-            "icon": "ruler",
-            "content": "",
+            "heading": "Livraison Rapide & Sûre",
+            "icon": "truck",
+            "content": "<p>Vos commandes sont soigneusement emballées et expédiées rapidement, pour préserver toute la fraîcheur et l'arôme de nos produits.</p>",
             "page": ""
           }
         },
         "collapsible-row-3": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Care Instructions",
-            "icon": "heart",
-            "content": "",
+            "heading": "Une question ?",
+            "icon": "question_mark",
+            "content": "<p>Besoin d'un conseil ou d'une précision sur un produit ? Nous restons disponibles pour vous orienter selon vos usages et vos attentes.</p>",
             "page": ""
           }
         },
         "share": {
           "type": "share",
           "settings": {
-            "share_label": "Share"
+            "share_label": "Partager"
           }
         }
       },
@@ -118,23 +118,33 @@
         "image-with-text-0": {
           "type": "heading",
           "settings": {
-            "heading": "Image with text",
+            "heading": "La famille de Désiré",
             "heading_size": "h1"
           }
         },
         "image-with-text-1": {
           "type": "text",
           "settings": {
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+            "text": "<p>Chaque gousse raconte une histoire : celle d'un terroir unique, d'un savoir-faire transmis, et d'un engagement envers la qualité et l'humain.<\/p>",
             "text_style": "body"
+          }
+        },
+        "image-with-text-2": {
+          "type": "button",
+          "settings": {
+            "button_label": "Découvrir notre histoire",
+            "button_link": "shopify://pages/qui-sommes-nous",
+            "button_style_secondary": false
           }
         }
       },
       "block_order": [
         "image-with-text-0",
-        "image-with-text-1"
+        "image-with-text-1",
+        "image-with-text-2"
       ],
       "settings": {
+        "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg",
         "height": "small",
         "desktop_image_width": "medium",
         "layout": "text_first",
@@ -153,32 +163,42 @@
         "column-0": {
           "type": "column",
           "settings": {
-            "title": "Free Shipping",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
+            "title": "Vanille Bourbon",
+            "text": "<p>La collection signature de la maison, avec des gousses choisies pour leur intensité et leur régularité aromatique.<\/p>",
+            "link_label": "Voir la collection",
+            "link": "shopify://collections/vanille-bourbon"
           }
         },
         "column-1": {
           "type": "column",
           "settings": {
-            "title": "Hassle-Free Exchanges",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
+            "title": "Poivres & baies",
+            "text": "<p>Des profils plus chauds, floraux ou résineux pour enrichir l'univers aromatique autour de la vanille.<\/p>",
+            "link_label": "Explorer",
+            "link": "shopify://collections/poivre-baies"
+          }
+        },
+        "column-2": {
+          "type": "column",
+          "settings": {
+            "title": "Épices de Madagascar",
+            "text": "<p>Une sélection d'épices et de mélanges qui prolongent le travail d'origine mené par Vanille Désiré.<\/p>",
+            "link_label": "Découvrir",
+            "link": "shopify://collections/epices-madagascar"
           }
         }
       },
       "block_order": [
         "column-0",
-        "column-1"
+        "column-1",
+        "column-2"
       ],
       "settings": {
-        "title": "",
+        "title": "Découvrir aussi l'univers Vanille Désiré",
         "heading_size": "h1",
         "image_width": "full",
         "image_ratio": "adapt",
-        "columns_desktop": 2,
+        "columns_desktop": 3,
         "column_alignment": "left",
         "background_style": "none",
         "button_label": "",
@@ -193,7 +213,7 @@
     "related-products": {
       "type": "related-products",
       "settings": {
-        "heading": "You may also like",
+        "heading": "Ils pourraient vous plaire",
         "heading_size": "h2",
         "columns_desktop": 4,
         "color_scheme": "scheme-1",

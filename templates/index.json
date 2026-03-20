@@ -6,15 +6,15 @@
         "card_79DWqK": {
           "type": "card",
           "settings": {
-            "title": "Une signature pensée pour le haut de gamme",
-            "text": "<p>Le ton est sobre, la matière est noble, et chaque détail vise une perception de qualité immédiate.</p>"
+            "title": "Produits d'Exception",
+            "text": "<p>Nous sélectionnons uniquement des épices et vanilles Bourbon de Madagascar de la plus haute qualité, récoltées à la main et préparées selon un savoir-faire ancestral.</p>"
           }
         },
         "card_HiQFTz": {
           "type": "card",
           "settings": {
-            "title": "Un socle prêt pour Shopify",
-            "text": "<p>Le thème repose sur Dawn pour rester maintenable, rapide et simple à faire évoluer avec vos futurs produits.</p>"
+            "title": "Soutien aux Producteurs Locaux",
+            "text": "<p>Chaque achat contribue directement à soutenir les familles productrices à Madagascar, en assurant un revenu juste et durable.</p>"
           }
         }
       },
@@ -23,32 +23,96 @@
         "card_HiQFTz"
       ],
       "settings": {
-        "eyebrow": "Vanille Désiré",
-        "heading": "Vanille noire de Madagascar, dans un ecran de matiere vivante.",
-        "text": "<p>Un accueil plein cadre, pour installer immediatement la provenance, le geste et la noblesse de la matiere. Le produit passe au premier plan, la marque respire, et le parcours commence avec une presence plus cinematographique.</p>",
-        "use_demo_video": true,
-        "media_overlay_opacity": 55,
-        "button_label": "Decouvrir la selection",
-        "button_link": "shopify://collections/all",
-        "secondary_button_label": "Lire l'histoire",
-        "secondary_button_link": "shopify://pages/notre-histoire",
-        "metric_1_value": "Madagascar",
-        "metric_1_label": "Origine signature",
-        "metric_2_value": "Gourmet",
-        "metric_2_label": "Qualite de selection",
-        "metric_3_value": "Precise",
-        "metric_3_label": "Lecture editoriale",
+        "eyebrow": "Producteurs directs de Madagascar",
+        "heading": "Vanille Bourbon & épices de Madagascar",
+        "text": "<p>Vanille Désiré rassemble des produits d'exception sourcés à Madagascar, pensés pour la pâtisserie, l'infusion et les usages gastronomiques qui exigent une vraie intensité aromatique.</p>",
+        "background_image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
+        "use_demo_video": false,
+        "media_overlay_opacity": 45,
+        "button_label": "Découvrir la vanille",
+        "button_link": "shopify://collections/vanille-bourbon",
+        "secondary_button_label": "Découvrir notre histoire",
+        "secondary_button_link": "shopify://pages/qui-sommes-nous",
+        "metric_1_value": "Direct",
+        "metric_1_label": "Origine Madagascar",
+        "metric_2_value": "Bourbon",
+        "metric_2_label": "Vanille signature",
+        "metric_3_value": "Rapide",
+        "metric_3_label": "Livraison soignée",
         "color_scheme": "scheme-3",
         "padding_top": 0,
         "padding_bottom": 0
       }
     },
+    "multicolumn_categories_CmA41M": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_vanille": {
+          "type": "column",
+          "settings": {
+            "title": "Vanille Bourbon",
+            "text": "<p>La collection signature de la maison, avec des gousses sélectionnées pour leur puissance et leur régularité.</p>",
+            "link_label": "Voir la collection",
+            "link": "shopify://collections/vanille-bourbon"
+          }
+        },
+        "column_poivres": {
+          "type": "column",
+          "settings": {
+            "title": "Poivres & baies",
+            "text": "<p>Des profils plus épicés, floraux ou résineux pour compléter la palette aromatique de la boutique.</p>",
+            "link_label": "Explorer",
+            "link": "shopify://collections/poivre-baies"
+          }
+        },
+        "column_huiles": {
+          "type": "column",
+          "settings": {
+            "title": "Huiles de Madagascar",
+            "text": "<p>Une sélection d'huiles et essences à forte personnalité, issue du même travail d'origine et de qualité.</p>",
+            "link_label": "Découvrir",
+            "link": "shopify://collections/huiles-madagascar"
+          }
+        },
+        "column_epices": {
+          "type": "column",
+          "settings": {
+            "title": "Épices de Madagascar",
+            "text": "<p>Curcuma, piments et mélanges qui prolongent l'univers Vanille Désiré au-delà de la vanille seule.</p>",
+            "link_label": "Voir les épices",
+            "link": "shopify://collections/epices-madagascar"
+          }
+        }
+      },
+      "block_order": [
+        "column_vanille",
+        "column_poivres",
+        "column_huiles",
+        "column_epices"
+      ],
+      "settings": {
+        "title": "Explorer nos familles de produits",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "columns_desktop": 4,
+        "column_alignment": "left",
+        "background_style": "none",
+        "button_label": "",
+        "button_link": "",
+        "swipe_on_mobile": true,
+        "color_scheme": "scheme-1",
+        "columns_mobile": "1",
+        "padding_top": 20,
+        "padding_bottom": 16
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "La selection Vanille Desire",
+        "title": "En vedette",
         "heading_size": "h1",
-        "collection": "all",
+        "collection": "vanille-bourbon",
         "products_to_show": 4,
         "columns_desktop": 4,
         "color_scheme": "scheme-1",
@@ -69,14 +133,14 @@
         "heading_dcaHjz": {
           "type": "heading",
           "settings": {
-            "heading": "Une presence plus calme, plus dense, plus desirable.",
+            "heading": "Caviar de vanille",
             "heading_size": "h1"
           }
         },
         "text_Mc6D6L": {
           "type": "text",
           "settings": {
-            "text": "<p>Le theme privilegie de grands respirations, des surfaces nettes, un contraste maitrise et des cartes sombres qui mettent en avant les produits. La sensation doit rester premium sur mobile comme sur desktop.</p>"
+            "text": "<p>Découvrez le Caviar de vanille, un concentré d'arôme intense et authentique. De véritables graines de vanille Bourbon, prêtes à l'emploi, pour sublimer vos recettes sucrées et salées.</p>"
           }
         }
       },
@@ -97,22 +161,22 @@
         "pillar_1": {
           "type": "pillar",
           "settings": {
-            "title": "Rareté lisible",
-            "text": "<p>La boutique peut raconter la difference entre une vanille de degustation, une vanille pour la patisserie et des epices rares sans jamais perdre en clarte.</p>"
+            "title": "Produits d'Exception",
+            "text": "<p>Nous sélectionnons uniquement des épices et vanilles Bourbon de Madagascar de la plus haute qualité, récoltées à la main et préparées selon un savoir-faire ancestral.</p>"
           }
         },
         "pillar_2": {
           "type": "pillar",
           "settings": {
-            "title": "Elegance mobile",
-            "text": "<p>Le parcours reste fluide sur telephone, avec des volumes nets, des contrastes justes et une hierarchie tres lisible.</p>"
+            "title": "Soutien aux Producteurs Locaux",
+            "text": "<p>Chaque achat contribue directement à soutenir les familles productrices à Madagascar, en assurant un revenu juste et durable.</p>"
           }
         },
         "pillar_3": {
           "type": "pillar",
           "settings": {
-            "title": "Narration editable",
-            "text": "<p>Les contenus peuvent evoluer dans Shopify a mesure que la maison affine son offre, ses lots et ses pages editoriales.</p>"
+            "title": "Livraison Rapide & Sûre",
+            "text": "<p>Vos commandes sont soigneusement emballées et expédiées rapidement, pour préserver toute la fraîcheur et l'arôme de nos produits.</p>"
           }
         }
       },
@@ -122,8 +186,8 @@
         "pillar_3"
       ],
       "settings": {
-        "heading": "Un socle de marque pret a accueillir les vrais produits.",
-        "text": "<p>Cette base est faite pour recevoir ensuite vos visuels studio, vos notes de degustation, vos collections signatures et votre histoire de marque sans rompre la coherence visuelle.</p>",
+        "heading": "Pourquoi commander chez Vanille Désiré",
+        "text": "<p>Le thème live mettait surtout en avant trois promesses simples. Je les ai reprises ici dans votre nouveau design pour conserver la continuité de marque pendant la refonte.</p>",
         "color_scheme": "scheme-1",
         "padding_top": 20,
         "padding_bottom": 56
@@ -135,22 +199,22 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "Un espace editorial pour vos futurs visuels hero.",
+            "heading": "La famille de Désiré",
             "heading_size": "h1"
           }
         },
         "text": {
           "type": "text",
           "settings": {
-            "text": "Ajoutez ici une photographie forte de gousses, d'epices ou de gestes atelier pour ancrer l'univers premium de la maison.",
+            "text": "Chaque gousse raconte une histoire : celle d'un terroir unique, d'un savoir-faire transmis, et d'un engagement envers la qualité et l'humain.",
             "text_style": "body"
           }
         },
         "button": {
           "type": "buttons",
           "settings": {
-            "button_label_1": "Explorer les produits",
-            "button_link_1": "shopify://collections/all",
+            "button_label_1": "Découvrir notre histoire",
+            "button_link_1": "shopify://pages/qui-sommes-nous",
             "button_style_secondary_1": false,
             "button_label_2": "",
             "button_link_2": "",
@@ -164,6 +228,7 @@
         "button"
       ],
       "settings": {
+        "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg",
         "image_overlay_opacity": 60,
         "image_height": "medium",
         "desktop_content_position": "middle-center",
@@ -178,6 +243,7 @@
   },
   "order": [
     "vd_hero_premium_YyXL7E",
+    "multicolumn_categories_CmA41M",
     "featured_collection",
     "rich_text_AepBxt",
     "vd_story_grid_dH7a3t",
