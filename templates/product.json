@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -11,7 +20,8 @@
           }
         },
         "title": {
-          "type": "title"
+          "type": "title",
+          "settings": {}
         },
         "caption": {
           "type": "text",
@@ -21,7 +31,8 @@
           }
         },
         "price": {
-          "type": "price"
+          "type": "price",
+          "settings": {}
         },
         "variant_picker": {
           "type": "variant_picker",
@@ -30,7 +41,8 @@
           }
         },
         "quantity_selector": {
-          "type": "quantity_selector"
+          "type": "quantity_selector",
+          "settings": {}
         },
         "buy_buttons": {
           "type": "buy_buttons",
@@ -40,7 +52,8 @@
           }
         },
         "description": {
-          "type": "description"
+          "type": "description",
+          "settings": {}
         },
         "collapsible-row-0": {
           "type": "collapsible_tab",
@@ -102,9 +115,9 @@
       ],
       "settings": {
         "enable_sticky_info": true,
-        "gallery_layout": "stacked",
         "media_size": "large",
         "constrain_to_viewport": true,
+        "gallery_layout": "stacked",
         "mobile_thumbnails": "hide",
         "hide_variants": true,
         "enable_video_looping": false,
@@ -125,7 +138,7 @@
         "image-with-text-1": {
           "type": "text",
           "settings": {
-            "text": "<p>Chaque gousse raconte une histoire : celle d'un terroir unique, d'un savoir-faire transmis, et d'un engagement envers la qualité et l'humain.<\/p>",
+            "text": "<p>Chaque gousse raconte une histoire : celle d'un terroir unique, d'un savoir-faire transmis, et d'un engagement envers la qualité et l'humain.</p>",
             "text_style": "body"
           }
         },
@@ -148,11 +161,11 @@
         "height": "small",
         "desktop_image_width": "medium",
         "layout": "text_first",
+        "content_layout": "no-overlap",
         "desktop_content_position": "top",
         "desktop_content_alignment": "left",
-        "content_layout": "no-overlap",
-        "color_scheme": "scheme-2",
         "mobile_content_alignment": "left",
+        "color_scheme": "scheme-2",
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -164,7 +177,7 @@
           "type": "column",
           "settings": {
             "title": "Vanille Bourbon",
-            "text": "<p>La collection signature de la maison, avec des gousses choisies pour leur intensité et leur régularité aromatique.<\/p>",
+            "text": "<p>La collection signature de la maison, avec des gousses choisies pour leur intensité et leur régularité aromatique.</p>",
             "link_label": "Voir la collection",
             "link": "shopify://collections/vanille-bourbon"
           }
@@ -173,7 +186,7 @@
           "type": "column",
           "settings": {
             "title": "Poivres & baies",
-            "text": "<p>Des profils plus chauds, floraux ou résineux pour enrichir l'univers aromatique autour de la vanille.<\/p>",
+            "text": "<p>Des profils plus chauds, floraux ou résineux pour enrichir l'univers aromatique autour de la vanille.</p>",
             "link_label": "Explorer",
             "link": "shopify://collections/poivre-baies"
           }
@@ -182,7 +195,7 @@
           "type": "column",
           "settings": {
             "title": "Épices de Madagascar",
-            "text": "<p>Une sélection d'épices et de mélanges qui prolongent le travail d'origine mené par Vanille Désiré.<\/p>",
+            "text": "<p>Une sélection d'épices et de mélanges qui prolongent le travail d'origine mené par Vanille Désiré.</p>",
             "link_label": "Découvrir",
             "link": "shopify://collections/epices-madagascar"
           }
@@ -198,14 +211,14 @@
         "heading_size": "h1",
         "image_width": "full",
         "image_ratio": "adapt",
+        "button_label": "",
+        "button_link": "",
         "columns_desktop": 3,
         "column_alignment": "left",
         "background_style": "none",
-        "button_label": "",
-        "button_link": "",
-        "swipe_on_mobile": false,
         "color_scheme": "scheme-1",
         "columns_mobile": "1",
+        "swipe_on_mobile": false,
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -216,12 +229,12 @@
         "heading": "Ils pourraient vous plaire",
         "heading_size": "h2",
         "columns_desktop": 4,
+        "columns_mobile": "2",
         "color_scheme": "scheme-1",
         "image_ratio": "square",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
-        "columns_mobile": "2",
         "padding_top": 36,
         "padding_bottom": 28
       }

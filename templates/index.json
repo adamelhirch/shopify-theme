@@ -1,9 +1,16 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "vd_hero_premium_YyXL7E": {
       "type": "vd-hero",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "eyebrow": "Producteurs directs de Madagascar",
         "heading": "",
@@ -39,7 +46,6 @@
             "title": "Fecondation manuelle",
             "text": "<p>Chaque fleur est pollinisee a la main, au bon moment, avec un geste rapide et precis qui ne laisse aucune place a l'approximation.</p>",
             "image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
-            "video": "",
             "quote": "\"La saveur commence avant la gousse.\""
           }
         },
@@ -50,7 +56,6 @@
             "title": "Maturation en climat reel",
             "text": "<p>La liane evolue au rythme de Madagascar. On laisse le temps faire son travail avant toute recolte, sans acceleration ni standardisation.</p>",
             "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg",
-            "video": "",
             "quote": "\"Le temps reste notre premier allie.\""
           }
         },
@@ -61,7 +66,6 @@
             "title": "Affinage et tri final",
             "text": "<p>Echaudage, etuvage, sechage puis affinage: une suite d'etapes lentes qui construit la souplesse, la brillance et la profondeur aromatique.</p>",
             "image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
-            "video": "",
             "quote": "\"Le profil final se construit couche apres couche.\""
           }
         }
@@ -87,64 +91,12 @@
       "settings": {
         "eyebrow": "Nos produits en vedette",
         "heading": "Une galerie qui met la collection en mouvement.",
-        "text": "<p>On passe sur toute la largeur de la page avec un rail horizontal plus immersif, pour donner aux produits une lecture plus premium qu'une simple grille.</p>",
         "collection": "vanille-bourbon",
         "products_to_show": 6,
         "button_label": "Voir toute la collection",
         "color_scheme": "scheme-3",
         "padding_top": 12,
         "padding_bottom": 28
-      }
-    },
-    "vd_testimonials_q3Jn8A": {
-      "type": "vd-testimonials",
-      "blocks": {
-        "testimonial_1": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"Une intensite aromatique que je n'avais plus rencontree depuis mes voyages a La Reunion. Leur caviar est un tresor.\"",
-            "author": "Jean-Marc L.",
-            "location": "Chef patissier, Lyon",
-            "meta": "Caviar de vanille"
-          }
-        },
-        "testimonial_2": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"La qualite des gousses est exceptionnelle. Charnues, huileuses, elles transforment une simple creme anglaise en oeuvre d'art.\"",
-            "author": "Elise B.",
-            "location": "Passionnee de gastronomie",
-            "meta": "Gousses noires"
-          }
-        },
-        "testimonial_3": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"Enfin une marque qui respecte le produit et les producteurs. L'extrait sans alcool est d'une purete absolue.\"",
-            "author": "Dr. Thomas V.",
-            "location": "Collectionneur d'epices",
-            "meta": "Extrait premium"
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_1",
-        "testimonial_2",
-        "testimonial_3"
-      ],
-      "settings": {
-        "eyebrow": "Judge.me",
-        "heading": "Avis clients verifies",
-        "text": "<p>Quelques retours clients sur les produits les plus commandes, avec un rendu plus sobre et plus precis.</p>",
-        "button_label": "Voir tous les avis",
-        "button_link": "",
-        "color_scheme": "scheme-3",
-        "reviews_limit": "6",
-        "padding_top": 24,
-        "padding_bottom": 32
       }
     },
     "vd_wiki_grid_A2mL9d": {
@@ -202,13 +154,13 @@
         "wiki_4"
       ],
       "settings": {
-        "heading": "Le Wiki de Désiré",
-        "text": "<p>Un teaser éditorial pensé pour donner envie d'entrer dans le Wiki, comprendre la vanille en profondeur et prolonger la crédibilité de la maison au-delà du simple blog.</p>",
-        "button_label": "Explorer le Wiki",
+        "heading": "Le Wiki Vanille",
+        "text": "<p>Explorez un espace editorial construit pour eduquer, inspirer et credibiliser la maison, loin d'une simple grille de blog standard.</p>",
+        "button_label": "Explorer le wiki",
         "button_link": "shopify://blogs/le-wiki",
         "color_scheme": "scheme-3",
-        "padding_top": 0,
-        "padding_bottom": 0
+        "padding_top": 28,
+        "padding_bottom": 60
       }
     }
   },
@@ -216,7 +168,6 @@
     "vd_hero_premium_YyXL7E",
     "vd_craftsmanship_m7Kp2L",
     "vd_featured_products_v7M2Qw",
-    "vd_testimonials_q3Jn8A",
     "vd_wiki_grid_A2mL9d"
   ]
 }
