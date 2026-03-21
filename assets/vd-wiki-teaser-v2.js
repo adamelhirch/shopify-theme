@@ -57,6 +57,37 @@
     }
   }
 
+  function createSplitGroup(title, SplitText) {
+    if (!title) {
+      return { node: null, split: null, chars: [] };
+    }
+
+    if (SplitText && typeof SplitText.create === 'function') {
+      var split = SplitText.create(title, {
+        type: 'chars,words,lines',
+        linesClass: 'vd-wiki-teaser__clip'
+      });
+
+      return {
+        node: title,
+        split: split,
+        chars: split && split.chars ? split.chars.slice() : [title]
+      };
+    }
+
+    return {
+      node: title,
+      split: null,
+      chars: [title]
+    };
+  }
+
+  function getCharTargets(group) {
+    if (!group) return [];
+    if (group.chars && group.chars.length) return group.chars;
+    return group.node ? [group.node] : [];
+  }
+
   function setStaticState(section, slides, navButtons, cta) {
     var counter = section.querySelector('[data-vd-wiki-counter]');
     var total = slides.length || 1;
@@ -92,37 +123,6 @@
     syncCta(cta, slides[0]);
   }
 
-  function createSplitGroup(title, SplitText) {
-    if (!title) {
-      return { node: null, split: null, chars: [] };
-    }
-
-    if (SplitText && typeof SplitText.create === 'function') {
-      var split = SplitText.create(title, {
-        type: 'chars,words,lines',
-        linesClass: 'vd-wiki-teaser__clip'
-      });
-
-      return {
-        node: title,
-        split: split,
-        chars: split && split.chars ? split.chars.slice() : [title]
-      };
-    }
-
-    return {
-      node: title,
-      split: null,
-      chars: [title]
-    };
-  }
-
-  function getCharTargets(group) {
-    if (!group) return [];
-    if (group.chars && group.chars.length) return group.chars;
-    return group.node ? [group.node] : [];
-  }
-
   function initSection(section) {
     if (!section) return;
 
@@ -130,6 +130,7 @@
 
     var gsap = window.gsap;
     var ScrollTrigger = window.ScrollTrigger;
+    var Observer = window.Observer;
     var SplitText = window.SplitText;
     var ScrollSmoother = window.ScrollSmoother;
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -142,13 +143,17 @@
 
     if (!slides.length || !viewport) return;
 
-    if (!gsap || !ScrollTrigger || typeof ScrollTrigger.observe !== 'function' || reduceMotion.matches || slides.length < 2) {
+    if (!gsap || !ScrollTrigger || reduceMotion.matches || slides.length < 2) {
       setStaticState(section, slides, navButtons, cta);
       return;
     }
 
     if (typeof gsap.registerPlugin === 'function') {
       gsap.registerPlugin(ScrollTrigger);
+
+      if (Observer) {
+        gsap.registerPlugin(Observer);
+      }
 
       if (SplitText) {
         gsap.registerPlugin(SplitText);
@@ -170,10 +175,16 @@
     var splitGroups = slides.map(function (slide) {
       return createSplitGroup(slide.querySelector('[data-vd-wiki-title]'), SplitText);
     });
-    var currentIndex = 0;
+    var currentIndex = -1;
     var animating = false;
     var suppressObserver = false;
     var cleanups = [];
+    var observe = ScrollTrigger.observe ? ScrollTrigger.observe.bind(ScrollTrigger) : null;
+
+    if (!observe) {
+      setStaticState(section, slides, navButtons, cta);
+      return;
+    }
 
     function setSmootherPaused(shouldPause) {
       if (!smoother || typeof smoother.paused !== 'function') return;
@@ -224,6 +235,7 @@
       var nextScroll = direction > 0 ? activationTrigger.end + 2 : activationTrigger.start - 2;
 
       activationTrigger.scroll(nextScroll);
+
       window.setTimeout(function () {
         suppressObserver = false;
       }, 180);
@@ -245,7 +257,10 @@
         }
 
         if (mediaNodes[slideIndex]) {
-          gsap.set(mediaNodes[slideIndex], { yPercent: 0 });
+          gsap.set(mediaNodes[slideIndex], {
+            yPercent: 0,
+            scale: isActive ? 1 : 1.12
+          });
         }
 
         if (charTargets.length) {
@@ -268,10 +283,9 @@
       if (!immediate && index === currentIndex) return;
 
       var previousIndex = currentIndex;
-      var fromTop = direction === -1;
-      var directionFactor = fromTop ? -1 : 1;
-      var wrappers = [outerWrappers[index], innerWrappers[index]].filter(Boolean);
-      var charTargets = getCharTargets(splitGroups[index]);
+      var directionFactor = direction === -1 ? -1 : 1;
+      var enteringChars = getCharTargets(splitGroups[index]);
+      var leavingChars = previousIndex > -1 ? getCharTargets(splitGroups[previousIndex]) : [];
       var timeline;
 
       animating = true;
@@ -283,7 +297,11 @@
       }
 
       timeline = gsap.timeline({
-        defaults: { duration: 1.25, ease: 'power1.inOut' },
+        defaults: {
+          duration: 1.22,
+          ease: 'power1.inOut',
+          overwrite: 'auto'
+        },
         onComplete: function () {
           animating = false;
         }
@@ -292,38 +310,71 @@
       if (previousIndex >= 0 && previousIndex !== index) {
         gsap.set(slides[previousIndex], { zIndex: 0 });
 
-        if (mediaNodes[previousIndex]) {
-          timeline.to(mediaNodes[previousIndex], { yPercent: -15 * directionFactor }, 0);
+        if (leavingChars.length) {
+          timeline.to(
+            leavingChars,
+            {
+              autoAlpha: 0,
+              yPercent: -90 * directionFactor,
+              duration: 0.54,
+              ease: 'power2.in',
+              stagger: {
+                each: 0.008,
+                from: 'random'
+              }
+            },
+            0
+          );
         }
 
-        timeline.set(slides[previousIndex], { autoAlpha: 0 }, 0.82);
+        if (mediaNodes[previousIndex]) {
+          timeline.to(
+            mediaNodes[previousIndex],
+            {
+              yPercent: -16 * directionFactor,
+              scale: 1.08
+            },
+            0
+          );
+        }
+
+        timeline.set(slides[previousIndex], { autoAlpha: 0 }, 0.84);
       }
 
       gsap.set(slides[index], { autoAlpha: 1, zIndex: 1 });
 
-      if (wrappers.length) {
+      timeline.fromTo(
+        [outerWrappers[index], innerWrappers[index]].filter(Boolean),
+        {
+          yPercent: function (_item, itemIndex) {
+            return itemIndex ? -100 * directionFactor : 100 * directionFactor;
+          }
+        },
+        { yPercent: 0 },
+        0
+      );
+
+      if (mediaNodes[index]) {
         timeline.fromTo(
-          wrappers,
+          mediaNodes[index],
           {
-            yPercent: function (_item, itemIndex) {
-              return itemIndex ? -100 * directionFactor : 100 * directionFactor;
-            }
+            yPercent: 16 * directionFactor,
+            scale: 1.16
           },
-          { yPercent: 0 },
+          {
+            yPercent: 0,
+            scale: 1
+          },
           0
         );
       }
 
-      if (mediaNodes[index]) {
-        timeline.fromTo(mediaNodes[index], { yPercent: 15 * directionFactor }, { yPercent: 0 }, 0);
-      }
-
-      if (charTargets.length) {
+      if (enteringChars.length) {
         timeline.fromTo(
-          charTargets,
+          enteringChars,
           {
             autoAlpha: 0,
-            yPercent: 150 * directionFactor
+            yPercent: 140 * directionFactor
           },
           {
             autoAlpha: 1,
@@ -331,11 +382,11 @@
             duration: 1,
             ease: 'power2.out',
             stagger: {
-              each: 0.02,
+              each: 0.018,
               from: 'random'
             }
           },
-          0.2
+          0.16
         );
       }
 
@@ -362,6 +413,7 @@
     gsap.set(outerWrappers.filter(Boolean), { yPercent: 100 });
     gsap.set(innerWrappers.filter(Boolean), { yPercent: -100 });
     gsap.set(slides, { autoAlpha: 0, zIndex: 0 });
+    gsap.set(mediaNodes.filter(Boolean), { scale: 1.12 });
 
     splitGroups.forEach(function (group) {
       var charTargets = getCharTargets(group);
@@ -371,9 +423,9 @@
       }
     });
 
-    setImmediateState(0);
+    gotoSection(0, 1, true);
 
-    var intentObserver = ScrollTrigger.observe({
+    var intentObserver = observe({
       target: viewport,
       type: 'wheel,touch,pointer',
       wheelSpeed: -1,
@@ -393,7 +445,7 @@
       }
     });
 
-    var preventScroll = ScrollTrigger.observe({
+    var preventScroll = observe({
       type: 'wheel,scroll,touch',
       preventDefault: true,
       allowClicks: true,
@@ -499,16 +551,45 @@
     toArray((root || document).querySelectorAll('[data-vd-wiki-teaser]')).forEach(initSection);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () {
-      initAll(document);
-    });
+  function runAfterFontsReady(callback) {
+    if (document.fonts && document.fonts.ready && typeof document.fonts.ready.then === 'function') {
+      document.fonts.ready.then(function () {
+        window.requestAnimationFrame(callback);
+      });
+      return true;
+    }
+
+    return false;
+  }
+
+  function initAllWhenPageReady(root) {
+    var done = false;
+
+    function finish() {
+      if (done) return;
+      done = true;
+      initAll(root);
+    }
+
+    if (!runAfterFontsReady(finish)) {
+      window.requestAnimationFrame(finish);
+    }
+  }
+
+  if (document.readyState === 'complete') {
+    initAllWhenPageReady(document);
   } else {
-    initAll(document);
+    window.addEventListener(
+      'load',
+      function () {
+        initAllWhenPageReady(document);
+      },
+      { once: true }
+    );
   }
 
   document.addEventListener('shopify:section:load', function (event) {
-    initAll(event.target);
+    initAllWhenPageReady(event.target);
   });
 
   document.addEventListener('shopify:section:unload', function (event) {
