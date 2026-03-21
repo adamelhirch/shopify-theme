@@ -96,57 +96,6 @@
         "padding_bottom": 28
       }
     },
-    "vd_testimonials_q3Jn8A": {
-      "type": "vd-testimonials",
-      "blocks": {
-        "testimonial_1": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"Une intensite aromatique que je n'avais plus rencontree depuis mes voyages a La Reunion. Leur caviar est un tresor.\"",
-            "author": "Jean-Marc L.",
-            "location": "Chef patissier, Lyon",
-            "meta": "Caviar de vanille"
-          }
-        },
-        "testimonial_2": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"La qualite des gousses est exceptionnelle. Charnues, huileuses, elles transforment une simple creme anglaise en oeuvre d'art.\"",
-            "author": "Elise B.",
-            "location": "Passionnee de gastronomie",
-            "meta": "Gousses noires"
-          }
-        },
-        "testimonial_3": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"Enfin une marque qui respecte le produit et les producteurs. L'extrait sans alcool est d'une purete absolue.\"",
-            "author": "Dr. Thomas V.",
-            "location": "Collectionneur d'epices",
-            "meta": "Extrait premium"
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_1",
-        "testimonial_2",
-        "testimonial_3"
-      ],
-      "settings": {
-        "eyebrow": "Judge.me",
-        "heading": "Avis clients verifies",
-        "text": "<p>Quelques retours clients sur les produits les plus commandes, avec un rendu plus sobre et plus precis.</p>",
-        "button_label": "Voir tous les avis",
-        "button_link": "",
-        "color_scheme": "scheme-3",
-        "reviews_limit": 6,
-        "padding_top": 24,
-        "padding_bottom": 32
-      }
-    },
     "vd_wiki_grid_A2mL9d": {
       "type": "vd-wiki-grid",
       "blocks": {
@@ -216,7 +165,6 @@
     "vd_hero_premium_YyXL7E",
     "vd_craftsmanship_m7Kp2L",
     "vd_featured_products_v7M2Qw",
-    "vd_testimonials_q3Jn8A",
     "vd_wiki_grid_A2mL9d"
   ]
 }
