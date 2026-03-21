@@ -102,8 +102,8 @@
 
 .vd-wiki-teaser__overlay {
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.14) 0%, rgba(0, 0, 0, 0.22) 18%, rgba(0, 0, 0, 0.4) 56%, rgba(0, 0, 0, 0.84) 100%),
-    linear-gradient(120deg, rgba(0, 0, 0, 0.54) 0%, rgba(0, 0, 0, 0.12) 42%, rgba(0, 0, 0, 0.48) 100%);
+    linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.16) 18%, rgba(0, 0, 0, 0.34) 56%, rgba(0, 0, 0, 0.74) 100%),
+    linear-gradient(120deg, rgba(0, 0, 0, 0.38) 0%, rgba(0, 0, 0, 0.08) 42%, rgba(0, 0, 0, 0.42) 100%);
 }
 
 .vd-wiki-teaser__overlay::after {
@@ -140,24 +140,29 @@
 
 .vd-wiki-teaser__panel-title {
   margin: 0;
-  max-width: 11ch;
+  width: min(90vw, 1200px);
+  max-width: none;
   color: rgb(var(--vd-ivory));
-  font-size: clamp(3.6rem, 10vw, 9.6rem);
-  line-height: 0.88;
-  letter-spacing: -0.075em;
+  font-size: clamp(4.1rem, 8.4vw, 10rem);
+  line-height: 0.94;
+  letter-spacing: -0.055em;
+  margin-right: -0.12em;
   text-shadow:
     0 0.02em 0 rgba(0, 0, 0, 0.28),
     0 0.28em 0.8em rgba(0, 0, 0, 0.28);
 }
 
 .vd-wiki-teaser__panel-title--cover {
-  max-width: 9ch;
-  font-size: clamp(4rem, 11.5vw, 11rem);
+  font-size: clamp(4.8rem, 9.3vw, 11rem);
 }
 
+.vd-wiki-teaser__clip,
 .vd-wiki-teaser__title-line {
   display: block;
   overflow: hidden;
+}
+
+.vd-wiki-teaser__panel-title * {
   will-change: transform, opacity;
 }
 
@@ -293,12 +298,12 @@
   }
 
   .vd-wiki-teaser__panel-title {
-    max-width: 9ch;
-    font-size: clamp(3.3rem, 13vw, 6.4rem);
+    width: min(90vw, 42rem);
+    font-size: clamp(3.5rem, 13vw, 6.8rem);
   }
 
   .vd-wiki-teaser__panel-title--cover {
-    font-size: clamp(3.8rem, 15vw, 7.2rem);
+    font-size: clamp(4rem, 15vw, 7.6rem);
   }
 
   .vd-wiki-teaser__hud {
@@ -335,11 +340,11 @@
   }
 
   .vd-wiki-teaser__panel-title {
-    font-size: clamp(3rem, 15vw, 5.3rem);
+    font-size: clamp(3.3rem, 15vw, 5.6rem);
   }
 
   .vd-wiki-teaser__panel-title--cover {
-    font-size: clamp(3.4rem, 17vw, 6rem);
+    font-size: clamp(3.7rem, 17vw, 6.4rem);
   }
 
   .vd-wiki-teaser__hud {

@@ -92,34 +92,34 @@
     syncCta(cta, slides[0]);
   }
 
-  function createTitleGroup(title, SplitText) {
+  function createSplitGroup(title, SplitText) {
     if (!title) {
-      return { node: null, split: null, lines: [] };
+      return { node: null, split: null, chars: [] };
     }
 
     if (SplitText && typeof SplitText.create === 'function') {
       var split = SplitText.create(title, {
-        type: 'lines',
-        linesClass: 'vd-wiki-teaser__title-line'
+        type: 'chars,words,lines',
+        linesClass: 'vd-wiki-teaser__clip'
       });
 
       return {
         node: title,
         split: split,
-        lines: split && split.lines ? split.lines.slice() : [title]
+        chars: split && split.chars ? split.chars.slice() : [title]
       };
     }
 
     return {
       node: title,
       split: null,
-      lines: [title]
+      chars: [title]
     };
   }
 
-  function getTitleTargets(group) {
+  function getCharTargets(group) {
     if (!group) return [];
-    if (group.lines && group.lines.length) return group.lines;
+    if (group.chars && group.chars.length) return group.chars;
     return group.node ? [group.node] : [];
   }
 
@@ -131,12 +131,14 @@
     var gsap = window.gsap;
     var ScrollTrigger = window.ScrollTrigger;
     var SplitText = window.SplitText;
+    var ScrollSmoother = window.ScrollSmoother;
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     var slides = toArray(section.querySelectorAll('[data-vd-wiki-slide]'));
     var navButtons = toArray(section.querySelectorAll('[data-vd-wiki-nav]'));
     var viewport = section.querySelector('[data-vd-wiki-viewport]');
     var counter = section.querySelector('[data-vd-wiki-counter]');
     var cta = section.querySelector('[data-vd-wiki-cta]');
+    var smoother = ScrollSmoother && typeof ScrollSmoother.get === 'function' ? ScrollSmoother.get() : null;
 
     if (!slides.length || !viewport) return;
 
@@ -165,13 +167,18 @@
     var mediaNodes = slides.map(function (slide) {
       return slide.querySelector('[data-vd-wiki-media]');
     });
-    var titleGroups = slides.map(function (slide) {
-      return createTitleGroup(slide.querySelector('[data-vd-wiki-title]'), SplitText);
+    var splitGroups = slides.map(function (slide) {
+      return createSplitGroup(slide.querySelector('[data-vd-wiki-title]'), SplitText);
     });
     var currentIndex = 0;
     var animating = false;
     var suppressObserver = false;
     var cleanups = [];
+
+    function setSmootherPaused(shouldPause) {
+      if (!smoother || typeof smoother.paused !== 'function') return;
+      smoother.paused(shouldPause);
+    }
 
     function updateUi(index) {
       var total = slides.length;
@@ -211,6 +218,7 @@
       suppressObserver = true;
       intentObserver.disable();
       preventScroll.disable();
+      setSmootherPaused(false);
       animating = false;
 
       var nextScroll = direction > 0 ? activationTrigger.end + 2 : activationTrigger.start - 2;
@@ -224,7 +232,7 @@
     function setImmediateState(index) {
       slides.forEach(function (slide, slideIndex) {
         var isActive = slideIndex === index;
-        var titleTargets = getTitleTargets(titleGroups[slideIndex]);
+        var charTargets = getCharTargets(splitGroups[slideIndex]);
 
         gsap.set(slide, { autoAlpha: isActive ? 1 : 0, zIndex: isActive ? 1 : 0 });
 
@@ -237,16 +245,17 @@
         }
 
         if (mediaNodes[slideIndex]) {
-          gsap.set(mediaNodes[slideIndex], { yPercent: 0, scale: 1 });
+          gsap.set(mediaNodes[slideIndex], { yPercent: 0 });
         }
 
-        if (titleTargets.length) {
-          gsap.set(titleTargets, { autoAlpha: isActive ? 1 : 0, yPercent: 0, rotate: 0 });
+        if (charTargets.length) {
+          gsap.set(charTargets, { autoAlpha: isActive ? 1 : 0, yPercent: 0 });
         }
       });
 
       currentIndex = index;
       animating = false;
+      updateUi(index);
     }
 
     function gotoSection(index, direction, immediate) {
@@ -259,10 +268,10 @@
       if (!immediate && index === currentIndex) return;
 
       var previousIndex = currentIndex;
-      var directionFactor = direction < 0 ? -1 : 1;
-      var previousTitleTargets = getTitleTargets(titleGroups[previousIndex]);
-      var nextTitleTargets = getTitleTargets(titleGroups[index]);
+      var fromTop = direction === -1;
+      var directionFactor = fromTop ? -1 : 1;
       var wrappers = [outerWrappers[index], innerWrappers[index]].filter(Boolean);
+      var charTargets = getCharTargets(splitGroups[index]);
       var timeline;
 
       animating = true;
@@ -274,35 +283,20 @@
       }
 
       timeline = gsap.timeline({
-        defaults: { duration: 1.24, ease: 'power2.inOut' },
+        defaults: { duration: 1.25, ease: 'power1.inOut' },
         onComplete: function () {
           animating = false;
         }
       });
 
-      if (previousIndex !== index) {
+      if (previousIndex >= 0 && previousIndex !== index) {
         gsap.set(slides[previousIndex], { zIndex: 0 });
 
         if (mediaNodes[previousIndex]) {
-          timeline.to(mediaNodes[previousIndex], { yPercent: -12 * directionFactor, scale: 1.08 }, 0);
+          timeline.to(mediaNodes[previousIndex], { yPercent: -15 * directionFactor }, 0);
         }
 
-        if (previousTitleTargets.length) {
-          timeline.to(
-            previousTitleTargets,
-            {
-              autoAlpha: 0,
-              yPercent: -112 * directionFactor,
-              rotate: 2 * directionFactor,
-              duration: 0.76,
-              ease: 'power2.in',
-              stagger: 0.06
-            },
-            0.02
-          );
-        }
-
-        timeline.set(slides[previousIndex], { autoAlpha: 0 }, 0.84);
+        timeline.set(slides[previousIndex], { autoAlpha: 0 }, 0.82);
       }
 
       gsap.set(slides[index], { autoAlpha: 1, zIndex: 1 });
@@ -321,26 +315,27 @@
       }
 
       if (mediaNodes[index]) {
-        timeline.fromTo(mediaNodes[index], { yPercent: 14 * directionFactor, scale: 1.12 }, { yPercent: 0, scale: 1 }, 0);
+        timeline.fromTo(mediaNodes[index], { yPercent: 15 * directionFactor }, { yPercent: 0 }, 0);
       }
 
-      if (nextTitleTargets.length) {
+      if (charTargets.length) {
         timeline.fromTo(
-          nextTitleTargets,
+          charTargets,
           {
             autoAlpha: 0,
-            yPercent: 120 * directionFactor,
-            rotate: -2 * directionFactor
+            yPercent: 150 * directionFactor
           },
           {
             autoAlpha: 1,
             yPercent: 0,
-            rotate: 0,
-            duration: 0.96,
-            ease: 'power3.out',
-            stagger: 0.08
+            duration: 1,
+            ease: 'power2.out',
+            stagger: {
+              each: 0.02,
+              from: 'random'
+            }
           },
-          0.16
+          0.2
         );
       }
 
@@ -368,28 +363,28 @@
     gsap.set(innerWrappers.filter(Boolean), { yPercent: -100 });
     gsap.set(slides, { autoAlpha: 0, zIndex: 0 });
 
-    titleGroups.forEach(function (group) {
-      var titleTargets = getTitleTargets(group);
+    splitGroups.forEach(function (group) {
+      var charTargets = getCharTargets(group);
 
-      if (titleTargets.length) {
-        gsap.set(titleTargets, { autoAlpha: 0, yPercent: 0, rotate: 0 });
+      if (charTargets.length) {
+        gsap.set(charTargets, { autoAlpha: 0, yPercent: 0 });
       }
     });
 
-    gotoSection(0, 1, true);
+    setImmediateState(0);
 
     var intentObserver = ScrollTrigger.observe({
       target: viewport,
       type: 'wheel,touch,pointer',
       wheelSpeed: -1,
-      tolerance: 12,
+      tolerance: 10,
       preventDefault: true,
       allowClicks: true,
-      onUp: function () {
-        handleDirectionalChange(1);
-      },
       onDown: function () {
         handleDirectionalChange(-1);
+      },
+      onUp: function () {
+        handleDirectionalChange(1);
       },
       onPress: function (observer) {
         if (ScrollTrigger.isTouch && observer.event) {
@@ -420,14 +415,22 @@
       onEnter: function (self) {
         if (suppressObserver) return;
         self.scroll(self.start + 1);
+        setSmootherPaused(true);
         preventScroll.enable();
         intentObserver.enable();
       },
       onEnterBack: function (self) {
         if (suppressObserver) return;
         self.scroll(self.end - 1);
+        setSmootherPaused(true);
         preventScroll.enable();
         intentObserver.enable();
+      },
+      onLeave: function () {
+        setSmootherPaused(false);
+      },
+      onLeaveBack: function () {
+        setSmootherPaused(false);
       }
     });
 
@@ -460,6 +463,7 @@
       preventScroll.disable();
       preventScroll.kill();
       activationTrigger.kill();
+      setSmootherPaused(false);
 
       gsap.set(
         slides
@@ -470,11 +474,11 @@
         { clearProps: 'all' }
       );
 
-      titleGroups.forEach(function (group) {
-        var titleTargets = getTitleTargets(group);
+      splitGroups.forEach(function (group) {
+        var charTargets = getCharTargets(group);
 
-        if (titleTargets.length) {
-          gsap.set(titleTargets, { clearProps: 'all' });
+        if (charTargets.length) {
+          gsap.set(charTargets, { clearProps: 'all' });
         }
 
         if (group.split && typeof group.split.revert === 'function') {
