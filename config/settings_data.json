@@ -1,8 +1,19 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": "Default",
   "presets": {
     "Default": {
-      "logo_width": 70,
+      "logo": "shopify://shop_images/vectorised-image2.svg",
+      "logo_width": 110,
+      "favicon": "shopify://shop_images/logo512_d2819787-1f4c-4f9b-8c48-bbadfad34d0f.png",
       "color_schemes": {
         "scheme-1": {
           "settings": {
@@ -154,10 +165,10 @@
       "sale_badge_color_scheme": "scheme-5",
       "sold_out_badge_color_scheme": "scheme-3",
       "social_twitter_link": "",
-      "social_facebook_link": "",
+      "social_facebook_link": "https://www.facebook.com/vanilledesire/",
       "social_pinterest_link": "",
-      "social_instagram_link": "",
-      "social_tiktok_link": "",
+      "social_instagram_link": "https://www.instagram.com/vanilledesire/",
+      "social_tiktok_link": "https://www.tiktok.com/@vanilledesire",
       "social_tumblr_link": "",
       "social_snapchat_link": "",
       "social_youtube_link": "",

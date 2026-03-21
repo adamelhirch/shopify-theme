@@ -1,186 +1,173 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "vd_hero_premium_YyXL7E": {
       "type": "vd-hero",
-      "blocks": {
-        "card_79DWqK": {
-          "type": "card",
-          "settings": {
-            "title": "Une signature pensée pour le haut de gamme",
-            "text": "<p>Le ton est sobre, la matière est noble, et chaque détail vise une perception de qualité immédiate.</p>"
-          }
-        },
-        "card_HiQFTz": {
-          "type": "card",
-          "settings": {
-            "title": "Un socle prêt pour Shopify",
-            "text": "<p>Le thème repose sur Dawn pour rester maintenable, rapide et simple à faire évoluer avec vos futurs produits.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "card_79DWqK",
-        "card_HiQFTz"
-      ],
       "settings": {
-        "eyebrow": "Vanille Désiré",
-        "heading": "Vanille noire de Madagascar, dans un ecran de matiere vivante.",
-        "text": "<p>Un accueil plein cadre, pour installer immediatement la provenance, le geste et la noblesse de la matiere. Le produit passe au premier plan, la marque respire, et le parcours commence avec une presence plus cinematographique.</p>",
-        "use_demo_video": true,
-        "media_overlay_opacity": 55,
-        "button_label": "Decouvrir la selection",
-        "button_link": "shopify://collections/all",
-        "secondary_button_label": "Lire l'histoire",
-        "secondary_button_link": "shopify://pages/notre-histoire",
-        "metric_1_value": "Madagascar",
-        "metric_1_label": "Origine signature",
-        "metric_2_value": "Gourmet",
-        "metric_2_label": "Qualite de selection",
-        "metric_3_value": "Precise",
-        "metric_3_label": "Lecture editoriale",
+        "eyebrow": "Producteurs directs de Madagascar",
+        "heading": "",
+        "text": "",
+        "show_scroll_indicator": true,
+        "scroll_label": "Glisser vers le bas",
+        "external_video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "background_image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
+        "use_demo_video": false,
+        "media_overlay_opacity": 35,
+        "button_label": "",
+        "button_link": "",
+        "secondary_button_label": "",
+        "secondary_button_link": "",
+        "metric_1_value": "",
+        "metric_1_label": "",
+        "metric_2_value": "",
+        "metric_2_label": "",
+        "metric_3_value": "",
+        "metric_3_label": "",
         "color_scheme": "scheme-3",
         "padding_top": 0,
         "padding_bottom": 0
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "La selection Vanille Desire",
-        "heading_size": "h1",
-        "collection": "all",
-        "products_to_show": 4,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "show_view_all": true,
-        "swipe_on_mobile": true,
-        "image_ratio": "adapt",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "columns_mobile": "1",
-        "padding_top": 16,
-        "padding_bottom": 16
-      }
-    },
-    "rich_text_AepBxt": {
-      "type": "rich-text",
+    "vd_craftsmanship_m7Kp2L": {
+      "type": "vd-craftsmanship",
       "blocks": {
-        "heading_dcaHjz": {
-          "type": "heading",
+        "craft_step_1": {
+          "type": "story_panel",
           "settings": {
-            "heading": "Une presence plus calme, plus dense, plus desirable.",
-            "heading_size": "h1"
+            "step_label": "01",
+            "title": "Fecondation manuelle",
+            "text": "<p>Chaque fleur est pollinisee a la main, au bon moment, avec un geste rapide et precis qui ne laisse aucune place a l'approximation.</p>",
+            "image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
+            "quote": "\"La saveur commence avant la gousse.\""
           }
         },
-        "text_Mc6D6L": {
-          "type": "text",
+        "craft_step_2": {
+          "type": "story_panel",
           "settings": {
-            "text": "<p>Le theme privilegie de grands respirations, des surfaces nettes, un contraste maitrise et des cartes sombres qui mettent en avant les produits. La sensation doit rester premium sur mobile comme sur desktop.</p>"
+            "step_label": "02",
+            "title": "Maturation en climat reel",
+            "text": "<p>La liane evolue au rythme de Madagascar. On laisse le temps faire son travail avant toute recolte, sans acceleration ni standardisation.</p>",
+            "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg",
+            "quote": "\"Le temps reste notre premier allie.\""
+          }
+        },
+        "craft_step_3": {
+          "type": "story_panel",
+          "settings": {
+            "step_label": "03",
+            "title": "Affinage et tri final",
+            "text": "<p>Echaudage, etuvage, sechage puis affinage: une suite d'etapes lentes qui construit la souplesse, la brillance et la profondeur aromatique.</p>",
+            "image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
+            "quote": "\"Le profil final se construit couche apres couche.\""
           }
         }
       },
       "block_order": [
-        "heading_dcaHjz",
-        "text_Mc6D6L"
+        "craft_step_1",
+        "craft_step_2",
+        "craft_step_3"
       ],
       "settings": {
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "padding_top": 28,
-        "padding_bottom": 8
-      }
-    },
-    "vd_story_grid_dH7a3t": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "Rareté lisible",
-            "text": "<p>La boutique peut raconter la difference entre une vanille de degustation, une vanille pour la patisserie et des epices rares sans jamais perdre en clarte.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Elegance mobile",
-            "text": "<p>Le parcours reste fluide sur telephone, avec des volumes nets, des contrastes justes et une hierarchie tres lisible.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Narration editable",
-            "text": "<p>Les contenus peuvent evoluer dans Shopify a mesure que la maison affine son offre, ses lots et ses pages editoriales.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "Un socle de marque pret a accueillir les vrais produits.",
-        "text": "<p>Cette base est faite pour recevoir ensuite vos visuels studio, vos notes de degustation, vos collections signatures et votre histoire de marque sans rompre la coherence visuelle.</p>",
-        "color_scheme": "scheme-1",
+        "eyebrow": "Heritage",
+        "heading": "Notre savoir-faire",
+        "text": "<p>Une section qui reste sur place pendant que l'histoire se deroule. Le but est de montrer le geste, le temps long et l'affinage comme une meme choregraphie, pas comme trois cartes statiques.</p>",
+        "button_label": "Notre histoire",
+        "button_link": "shopify://pages/qui-sommes-nous",
+        "color_scheme": "scheme-3",
         "padding_top": 20,
-        "padding_bottom": 56
+        "padding_bottom": 32
       }
     },
-    "image_banner": {
-      "type": "image-banner",
+    "vd_featured_products_v7M2Qw": {
+      "type": "vd-featured-products",
+      "settings": {
+        "eyebrow": "Nos produits en vedette",
+        "heading": "Une galerie qui met la collection en mouvement.",
+        "collection": "vanille-bourbon",
+        "products_to_show": 6,
+        "button_label": "Voir toute la collection",
+        "color_scheme": "scheme-3",
+        "padding_top": 12,
+        "padding_bottom": 28
+      }
+    },
+    "vd_wiki_grid_A2mL9d": {
+      "type": "vd-wiki-grid",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "wiki_1": {
+          "type": "article_card",
           "settings": {
-            "heading": "Un espace editorial pour vos futurs visuels hero.",
-            "heading_size": "h1"
+            "number": "01",
+            "category": "Botanique",
+            "title": "L'Orchidee Planifolia",
+            "text": "Comprendre la liane, la pollinisation et le temps long qui precede l'arome.",
+            "link": "shopify://blogs/le-wiki",
+            "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg"
           }
         },
-        "text": {
-          "type": "text",
+        "wiki_2": {
+          "type": "article_card",
           "settings": {
-            "text": "Ajoutez ici une photographie forte de gousses, d'epices ou de gestes atelier pour ancrer l'univers premium de la maison.",
-            "text_style": "body"
+            "number": "02",
+            "category": "Science",
+            "title": "La Vanilline Naturelle",
+            "text": "Faire la difference entre concentration aromatique, extraction et faux raccourcis aromatiques.",
+            "link": "shopify://blogs/le-wiki",
+            "image": ""
           }
         },
-        "button": {
-          "type": "buttons",
+        "wiki_3": {
+          "type": "article_card",
           "settings": {
-            "button_label_1": "Explorer les produits",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": false,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "number": "03",
+            "category": "Terroirs",
+            "title": "Terroirs & Crus",
+            "text": "Lire les nuances entre regions, affinage, humidite et texture des gousses.",
+            "link": "shopify://blogs/le-wiki",
+            "image": ""
+          }
+        },
+        "wiki_4": {
+          "type": "article_card",
+          "settings": {
+            "number": "04",
+            "category": "Techniques Pro",
+            "title": "Gestes & Usages",
+            "text": "Infusion, fente, dosage et conservation: les gestes qui changent vraiment le resultat.",
+            "link": "shopify://blogs/le-wiki",
+            "image": ""
           }
         }
       },
       "block_order": [
-        "heading",
-        "text",
-        "button"
+        "wiki_1",
+        "wiki_2",
+        "wiki_3",
+        "wiki_4"
       ],
       "settings": {
-        "image_overlay_opacity": 60,
-        "image_height": "medium",
-        "desktop_content_position": "middle-center",
-        "show_text_box": true,
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-2",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "heading": "Le Wiki de Désiré",
+        "text": "<p>Un teaser editorial pense pour faire entrer dans le Wiki sans casser l'immersion.</p>",
+        "button_label": "Explorer le wiki",
+        "button_link": "shopify://blogs/le-wiki",
+        "color_scheme": "scheme-3",
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     }
   },
   "order": [
     "vd_hero_premium_YyXL7E",
-    "featured_collection",
-    "rich_text_AepBxt",
-    "vd_story_grid_dH7a3t",
-    "image_banner"
+    "vd_craftsmanship_m7Kp2L",
+    "vd_featured_products_v7M2Qw",
+    "vd_wiki_grid_A2mL9d"
   ]
 }

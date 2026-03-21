@@ -59,7 +59,7 @@
     </div>
   {%- endif -%}
   <div class="banner__content banner__content--{{ section.settings.desktop_content_position }} page-width">
-    <div class="email-signup-banner__box banner__box newsletter newsletter__wrapper isolate{% if section.settings.show_background_image == false %} email-signup-banner__box--no-image{% endif %} content-container color-{{ section.settings.color_scheme }} gradient content-container--full-width-mobile">
+    <div class="email-signup-banner__box banner__box newsletter newsletter__wrapper isolate vd-form-shell{% if section.settings.show_background_image == false %} email-signup-banner__box--no-image{% endif %} content-container color-{{ section.settings.color_scheme }} gradient content-container--full-width-mobile">
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'heading' -%}
@@ -72,10 +72,10 @@
             </div>
           {%- when 'email_form' -%}
             <div {{ block.shopify_attributes }}>
-              {% form 'customer', class: 'newsletter-form' %}
+              {% form 'customer', class: 'newsletter-form vd-form vd-form--newsletter' %}
                 <input type="hidden" name="contact[tags]" value="newsletter">
-                <div class="newsletter-form__field-wrapper">
-                  <div class="field">
+                <div class="newsletter-form__field-wrapper vd-form__stack">
+                  <div class="field vd-form__field">
                     <input
                       id="NewsletterForm--{{ section.id }}"
                       type="email"
@@ -101,7 +101,7 @@
                     </label>
                     <button
                       type="submit"
-                      class="newsletter-form__button field__button"
+                      class="newsletter-form__button field__button vd-form__submit"
                       name="commit"
                       id="Subscribe"
                       aria-label="{{ 'newsletter.button_label' | t }}"

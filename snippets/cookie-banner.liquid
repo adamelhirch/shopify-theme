@@ -1,0 +1,105 @@
+<cookie-banner class="cookie-banner" hidden>
+  <button
+    type="button"
+    class="cookie-banner__launcher"
+    data-cookie-launcher
+    aria-label="Ouvrir les préférences cookies"
+    aria-controls="CookieBannerPanel"
+    aria-expanded="false"
+  >
+    <span class="cookie-banner__launcher-icon" aria-hidden="true"></span>
+  </button>
+
+  <div
+    class="cookie-card"
+    id="CookieBannerPanel"
+    role="dialog"
+    aria-label="Préférences cookies"
+    aria-modal="false"
+  >
+    <div class="cookie-card__header">
+      <div class="cookie-card__intro">
+        <p class="cookie-card__eyebrow">Cookies</p>
+        <p class="cookie-card__title">Des choix simples, sans perturber la visite.</p>
+      </div>
+      <button type="button" class="cookie-card__close" data-cookie-close aria-label="Fermer les préférences cookies">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <p class="cookie-card__description">
+      Les cookies essentiels restent actifs. Les préférences, la mesure d'audience et le marketing ne s'activent que
+      si vous le souhaitez.
+      {%- if shop.privacy_policy.body != blank -%}
+        <a href="{{ shop.privacy_policy.url }}">Politique de confidentialité</a>
+      {%- endif -%}
+    </p>
+
+    <div class="cookie-card__preferences" data-cookie-preferences hidden>
+      <label class="cookie-card__option cookie-card__option--locked">
+        <span class="cookie-card__option-copy">
+          <span class="cookie-card__option-title">Essentiels</span>
+          <span class="cookie-card__option-text">Nécessaires au site, au panier et au checkout.</span>
+        </span>
+        <span class="cookie-card__switch">
+          <input type="checkbox" checked disabled>
+          <span class="cookie-card__switch-ui" aria-hidden="true"></span>
+        </span>
+      </label>
+
+      <label class="cookie-card__option">
+        <span class="cookie-card__option-copy">
+          <span class="cookie-card__option-title">Préférences</span>
+          <span class="cookie-card__option-text">Mémorise vos choix d'affichage et vos préférences de navigation.</span>
+        </span>
+        <span class="cookie-card__switch">
+          <input type="checkbox" data-consent-category="preferences">
+          <span class="cookie-card__switch-ui" aria-hidden="true"></span>
+        </span>
+      </label>
+
+      <label class="cookie-card__option">
+        <span class="cookie-card__option-copy">
+          <span class="cookie-card__option-title">Mesure d'audience</span>
+          <span class="cookie-card__option-text">Aide à comprendre ce qui fonctionne et ce qu'il faut améliorer.</span>
+        </span>
+        <span class="cookie-card__switch">
+          <input type="checkbox" data-consent-category="analytics">
+          <span class="cookie-card__switch-ui" aria-hidden="true"></span>
+        </span>
+      </label>
+
+      <label class="cookie-card__option">
+        <span class="cookie-card__option-copy">
+          <span class="cookie-card__option-title">Marketing</span>
+          <span class="cookie-card__option-text">
+            Autorise les contenus et campagnes publicitaires personnalisés sur les plateformes compatibles.
+          </span>
+        </span>
+        <span class="cookie-card__switch">
+          <input type="checkbox" data-consent-category="marketing">
+          <span class="cookie-card__switch-ui" aria-hidden="true"></span>
+        </span>
+      </label>
+    </div>
+
+    <div class="cookie-card__actions">
+      <button type="button" class="cookie-card__button cookie-card__button--ghost" data-cookie-reject>
+        Refuser
+      </button>
+      <button type="button" class="cookie-card__button cookie-card__button--primary" data-cookie-accept>
+        Accepter
+      </button>
+    </div>
+
+    <div class="cookie-card__footer">
+      <button type="button" class="cookie-card__pref" data-cookie-toggle-preferences aria-expanded="false">
+        Personnaliser
+      </button>
+      <button type="button" class="cookie-card__save" data-cookie-save hidden>
+        Enregistrer
+      </button>
+    </div>
+  </div>
+</cookie-banner>

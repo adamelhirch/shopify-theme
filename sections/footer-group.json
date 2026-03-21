@@ -8,22 +8,22 @@
         "footer-0": {
           "type": "link_list",
           "settings": {
-            "heading": "Maison",
+            "heading": "Navigation",
             "menu": "footer"
           }
         },
         "footer-1": {
-          "type": "link_list",
+          "type": "text",
           "settings": {
-            "heading": "Collection",
-            "menu": "footer"
+            "heading": "Maison",
+            "subtext": "<p>Vanille Desire selectionne des gousses, extraits et epices de Madagascar en lien direct avec les producteurs, dans une lecture plus editoriale que folklorique.</p>"
           }
         },
         "footer-2": {
           "type": "text",
           "settings": {
-            "heading": "Notre exigence",
-            "subtext": "<p>Vanille Desire accompagne les amateurs de grands aromes avec une selection de vanille et d'epices de Madagascar pensee pour la patisserie, l'infusion et l'art de vivre.</p>"
+            "heading": "Contact",
+            "subtext": "<p>Instagram<br>@vanilledesire</p><p>Questions, commandes speciales et collaborations via la page contact.</p>"
           }
         }
       },
@@ -35,11 +35,12 @@
       "settings": {
         "color_scheme": "scheme-2",
         "newsletter_enable": true,
-        "newsletter_heading": "Recevoir nos arrivages et editions limitees",
-        "show_social": false,
+        "newsletter_heading": "Entrer dans l'univers Vanille Desire",
+        "enable_follow_on_shop": false,
+        "show_social": true,
         "enable_country_selector": false,
         "enable_language_selector": false,
-        "payment_enable": true,
+        "payment_enable": false,
         "show_policy": false,
         "margin_top": 48,
         "padding_top": 36,

@@ -1,51 +1,145 @@
+.search__field.field {
+  --search-field-height: 5.2rem;
+  --search-field-radius: 3rem;
+  --search-field-radius-active: 0.8rem;
+  --search-field-border-color: rgb(var(--color-foreground));
+  align-items: center;
+  min-height: var(--search-field-height);
+  padding-inline: 1.2rem;
+  border-radius: var(--search-field-radius);
+  background: rgb(var(--color-background));
+  box-shadow: 0 0 0 0.1rem rgba(var(--color-foreground), 0.12);
+  transition: border-radius 0.5s ease;
+}
+
+.search__field.field::before {
+  display: none;
+}
+
+.search__field.field::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  top: auto;
+  height: 0.2rem;
+  border: 0;
+  border-radius: 0.1rem;
+  background: var(--search-field-border-color);
+  box-shadow: none;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.search__field.field:focus-within {
+  border-radius: var(--search-field-radius-active);
+}
+
+.search__field.field:focus-within::after {
+  transform: scaleX(1);
+}
+
+.search__field .search__input.field__input {
+  height: var(--search-field-height);
+  min-height: var(--search-field-height);
+  margin: 0;
+  padding: 0 4.8rem 0 4rem;
+  background: transparent;
+  border-radius: inherit;
+  box-shadow: none;
+}
+
+.search__field .search__input.field__input:focus,
+.search__field .search__input.field__input:focus-visible,
+.search__field .search__input.field__input:not(:placeholder-shown),
+.search__field .search__input.field__input:-webkit-autofill {
+  margin: 0;
+  padding: 0 4.8rem 0 4rem;
+  box-shadow: none;
+}
+
+.search__field .search__input.field__input::placeholder {
+  opacity: 1;
+  color: rgba(var(--color-foreground), 0.55);
+}
+
+.search__field .search__input.field__input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 100rem rgb(var(--color-background)) inset;
+  -webkit-text-fill-color: rgb(var(--color-foreground));
+}
+
+.search__field .field__label {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .search__input.field__input {
   padding-right: 9.8rem;
 }
 
-.search__button {
-  right: var(--inputs-border-width);
-  top: var(--inputs-border-width);
+.search__field .field__button {
+  top: 50%;
+  width: 3rem;
+  height: 3rem;
+  transform: translateY(-50%);
+  background: none;
+  box-shadow: none;
+  color: rgba(var(--color-foreground), 0.55);
+  z-index: 2;
 }
 
-.reset__button {
-  right: calc(var(--inputs-border-width) + 4.4rem);
-  top: var(--inputs-border-width);
+.search__field .field__button > .svg-wrapper {
+  width: 1.7rem;
+  height: 1.7rem;
 }
 
-.reset__button:not(:focus-visible)::after {
-  border-right: 0.1rem solid rgba(var(--color-foreground), 0.08);
-  display: block;
-  height: calc(100% - 1.6rem);
-  content: '';
-  position: absolute;
-  right: 0;
+.search__field .search__button {
+  left: 1rem;
+  right: auto;
 }
 
-.reset__button:not(:focus)::after {
-  border-right: 0.1rem solid rgba(var(--color-foreground), 0.08);
-  display: block;
-  height: calc(100% - 1.8rem);
-  content: '';
-  position: absolute;
-  right: 0;
+.search__field .reset__button {
+  right: 1rem;
 }
 
-.search__button:focus-visible,
-.reset__button:focus-visible {
-  background-color: rgb(var(--color-background));
-  z-index: 4;
+.search__field .reset__button::after {
+  display: none;
 }
 
-.search__button:focus,
-.reset__button:focus {
-  background-color: rgb(var(--color-background));
-  z-index: 4;
+.search__field .field__button:hover {
+  color: rgb(var(--color-foreground));
 }
 
-.search__button:not(:focus-visible):not(.focused),
-.reset__button:not(:focus-visible):not(.focused) {
-  box-shadow: inherit;
-  background-color: inherit;
+.search__field .search__button:focus-visible,
+.search__field .reset__button:focus-visible,
+.search__field .search__button:focus,
+.search__field .reset__button:focus {
+  background: none;
+  box-shadow: none;
+  color: rgb(var(--color-foreground));
+  z-index: 3;
+}
+
+.search__field .search__button:not(:focus-visible):not(.focused),
+.search__field .reset__button:not(:focus-visible):not(.focused) {
+  background: none;
+}
+
+.search__field .search__button .icon,
+.search__field .reset__button .icon,
+.search__field .field__button svg {
+  width: 1.7rem;
+  height: 1.7rem;
 }
 
 .search__button:hover .icon,

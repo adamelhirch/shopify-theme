@@ -1,0 +1,64 @@
+{% comment %}
+  Reusable form card example.
+
+  Usage:
+  {% render 'vd-form-card-example' %}
+{% endcomment %}
+
+<div class="vd-form-card">
+  <div class="vd-form-card__group">
+    <label class="vd-form-card__label" for="vd-form-name">Nom</label>
+    <div class="vd-form-card__field">
+      <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+      <input
+        id="vd-form-name"
+        class="vd-form-card__input"
+        type="text"
+        name="contact[name]"
+        placeholder="Votre nom"
+      >
+    </div>
+  </div>
+
+  <div class="vd-form-card__group">
+    <label class="vd-form-card__label" for="vd-form-email">Email</label>
+    <div class="vd-form-card__field">
+      <input
+        id="vd-form-email"
+        class="vd-form-card__input"
+        type="email"
+        name="contact[email]"
+        placeholder="vous@exemple.com"
+      >
+    </div>
+  </div>
+
+  <div class="vd-form-card__group">
+    <label class="vd-form-card__label" for="vd-form-message">Message</label>
+    <div class="vd-form-card__field">
+      <textarea
+        id="vd-form-message"
+        class="vd-form-card__textarea"
+        name="contact[body]"
+        placeholder="Votre message"
+      ></textarea>
+    </div>
+  </div>
+
+  <div class="vd-form-card__row">
+    <label>
+      <input type="checkbox" name="contact[consent]">
+      J'accepte d'être recontacté(e)
+    </label>
+    <a class="vd-form-card__link" href="{{ shop.privacy_policy.url | default: routes.root_url }}">Confidentialité</a>
+  </div>
+
+  <button class="vd-form-card__submit" type="submit">Envoyer</button>
+
+  <p class="vd-form-card__hint">Ou continuer avec</p>
+
+  <button class="vd-form-card__alt-button" type="button">
+    <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+    Connexion rapide
+  </button>
+</div>
