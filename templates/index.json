@@ -142,7 +142,7 @@
         "button_label": "Voir tous les avis",
         "button_link": "",
         "color_scheme": "scheme-3",
-        "reviews_limit": 6,
+        "reviews_limit": "6",
         "padding_top": 24,
         "padding_bottom": 32
       }
@@ -202,9 +202,9 @@
         "wiki_4"
       ],
       "settings": {
-        "heading": "Le Wiki Vanille",
-        "text": "<p>Explorez un espace editorial construit pour eduquer, inspirer et credibiliser la maison, loin d'une simple grille de blog standard.</p>",
-        "button_label": "Explorer le wiki",
+        "heading": "Le Wiki de Désiré",
+        "text": "<p>Un teaser éditorial pensé pour donner envie d'entrer dans le Wiki, comprendre la vanille en profondeur et prolonger la crédibilité de la maison au-delà du simple blog.</p>",
+        "button_label": "Explorer le Wiki",
         "button_link": "shopify://blogs/le-wiki",
         "color_scheme": "scheme-3",
         "padding_top": 28,

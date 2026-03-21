@@ -12,89 +12,320 @@
   }
 {% endstyle %}
 
-<section class="section-{{ section.id }}-padding vd-wiki color-{{ section.settings.color_scheme }} vd-reveal">
+{{ 'vd-wiki-teaser.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'vd-wiki-teaser.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign total_slides = section.blocks.size | plus: 1
+  assign total_slides_label = total_slides
+  if total_slides < 10
+    assign total_slides_label = '0' | append: total_slides
+  endif
+
+  assign cover_link = section.settings.button_link
+  if cover_link == blank and section.blocks.size > 0
+    assign cover_link = section.blocks.first.settings.link
+  endif
+
+  assign cover_image = section.settings.cover_image
+  if cover_image == blank and section.blocks.size > 0
+    assign cover_image = section.blocks.first.settings.image
+  endif
+-%}
+
+<section
+  class="section-{{ section.id }}-padding vd-wiki vd-wiki-teaser color-{{ section.settings.color_scheme }}"
+  data-vd-wiki-teaser
+  data-section-id="{{ section.id }}"
+  data-total-slides="{{ total_slides }}"
+>
   <div class="page-width">
-    <div class="vd-wiki__head vd-reveal-item">
-      {% if section.settings.heading != blank %}
-        <h2 class="vd-wiki__title">{{ section.settings.heading }}</h2>
-      {% endif %}
-      {% if section.settings.text != blank %}
-        <div class="vd-wiki__text rte">{{ section.settings.text }}</div>
-      {% endif %}
-    </div>
-
-    <div class="vd-wiki__grid" role="list">
-      {% for block in section.blocks %}
-        <a
-          class="vd-wiki-card vd-reveal-item{% if forloop.first %} vd-wiki-card--feature{% endif %}"
-          {% if block.settings.link == blank %}
-            role="link" aria-disabled="true"
-          {% else %}
-            href="{{ block.settings.link }}"
+    <div class="vd-wiki-teaser__shell">
+      <div class="vd-wiki-teaser__header">
+        <div class="vd-wiki-teaser__header-main">
+          <p class="vd-wiki-teaser__eyebrow">Le Wiki de Désiré</p>
+          {% if section.settings.heading != blank %}
+            <h2 class="vd-wiki-teaser__title">{{ section.settings.heading }}</h2>
           {% endif %}
-          role="listitem"
-          {{ block.shopify_attributes }}
-        >
-          {% if block.settings.image != blank %}
-            <div class="vd-wiki-card__media">
-              {{
-                block.settings.image
-                | image_url: width: 1600
-                | image_tag:
-                  class: 'vd-wiki-card__image',
-                  widths: '360, 540, 720, 960, 1280, 1600',
-                  sizes: '(min-width: 990px) 32vw, 92vw',
-                  loading: 'lazy',
-                  alt: block.settings.image.alt | default: block.settings.title | escape
-              }}
-            </div>
-          {% endif %}
+        </div>
 
-          <div class="vd-wiki-card__body">
-            <div class="vd-wiki-card__topline">
-              {% if block.settings.number != blank %}
-                <span>{{ block.settings.number }}</span>
-              {% endif %}
-              {% if block.settings.category != blank %}
-                <span>{{ block.settings.category }}</span>
-              {% endif %}
-            </div>
-
-            {% if block.settings.title != blank %}
-              <h3>{{ block.settings.title }}</h3>
-            {% endif %}
-
-            {% if block.settings.text != blank %}
-              <p>{{ block.settings.text }}</p>
-            {% endif %}
-          </div>
-        </a>
-      {% endfor %}
-    </div>
-
-    {% if section.settings.button_label != blank %}
-      <div class="vd-wiki__actions">
-        <a
-          {% if section.settings.button_link == blank %}
-            role="link" aria-disabled="true"
-          {% else %}
-            href="{{ section.settings.button_link }}"
-          {% endif %}
-          class="vd-arrow-cta{% if section.settings.button_link == blank %} is-disabled{% endif %}"
-        >
-          <span class="vd-arrow-cta__label">{{ section.settings.button_label }}</span>
-          <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-            <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-          </svg>
-        </a>
+        {% if section.settings.text != blank %}
+          <div class="vd-wiki-teaser__lead rte">{{ section.settings.text }}</div>
+        {% endif %}
       </div>
-    {% endif %}
+
+      <div class="vd-wiki-teaser__experience">
+        <div class="vd-wiki-teaser__viewport" data-vd-wiki-viewport tabindex="0" aria-label="Teaser du Wiki de Désiré">
+          <article
+            class="vd-wiki-teaser__slide is-cover"
+            data-vd-wiki-slide
+            data-slide-index="0"
+            aria-hidden="false"
+          >
+            <div class="vd-wiki-teaser__outer" data-vd-wiki-outer>
+              <div class="vd-wiki-teaser__inner" data-vd-wiki-inner>
+                {% if cover_link != blank %}
+                  <a class="vd-wiki-teaser__panel-link" href="{{ cover_link }}">
+                {% else %}
+                  <div class="vd-wiki-teaser__panel-link is-disabled">
+                {% endif %}
+                  <div class="vd-wiki-teaser__media" data-vd-wiki-media>
+                    {% if section.settings.cover_video != blank %}
+                      {{
+                        section.settings.cover_video
+                        | video_tag:
+                          class: 'vd-wiki-teaser__video',
+                          autoplay: true,
+                          loop: true,
+                          muted: true,
+                          controls: false,
+                          image_size: '2000x'
+                      }}
+                    {% elsif section.settings.cover_external_video_url != blank %}
+                      <video
+                        class="vd-wiki-teaser__video"
+                        autoplay
+                        loop
+                        muted
+                        playsinline
+                        preload="auto"
+                        {% if cover_image != blank %}
+                          poster="{{ cover_image | image_url: width: 2200 }}"
+                        {% else %}
+                          poster="{{ 'vd-wiki-cover.jpg' | asset_url }}"
+                        {% endif %}
+                      >
+                        <source src="{{ section.settings.cover_external_video_url }}" type="video/mp4">
+                      </video>
+                    {% elsif cover_image != blank %}
+                      {{
+                        cover_image
+                        | image_url: width: 2200
+                        | image_tag:
+                          class: 'vd-wiki-teaser__image',
+                          widths: '750, 1100, 1500, 1900, 2200',
+                          sizes: '(min-width: 990px) 70vw, 100vw',
+                          loading: 'eager',
+                          alt: section.settings.heading | default: 'Le Wiki de Désiré' | escape
+                      }}
+                    {% else %}
+                      <img
+                        class="vd-wiki-teaser__image"
+                        src="{{ 'vd-wiki-cover.jpg' | asset_url }}"
+                        alt="{{ section.settings.heading | default: 'Le Wiki de Désiré' | escape }}"
+                        loading="eager"
+                      >
+                    {% endif %}
+                  </div>
+
+                  <div class="vd-wiki-teaser__overlay"></div>
+
+                  <div class="vd-wiki-teaser__copy">
+                    <div class="vd-wiki-teaser__copy-main">
+                      <span class="vd-wiki-teaser__tag" data-vd-wiki-copy>Atlas éditorial</span>
+
+                      {% if section.settings.heading != blank %}
+                        <h3 class="vd-wiki-teaser__panel-title" data-vd-wiki-copy>{{ section.settings.heading }}</h3>
+                      {% endif %}
+
+                      {% if section.settings.text != blank %}
+                        <div class="vd-wiki-teaser__panel-text rte" data-vd-wiki-copy>{{ section.settings.text }}</div>
+                      {% endif %}
+                    </div>
+
+                    <div class="vd-wiki-teaser__panel-footer" data-vd-wiki-copy>
+                      {% if section.settings.button_label != blank %}
+                        <span class="vd-arrow-cta vd-wiki-teaser__cta">
+                          <span class="vd-arrow-cta__label">{{ section.settings.button_label }}</span>
+                          <svg
+                            class="vd-arrow-cta__icon"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 46 16"
+                          >
+                            <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                          </svg>
+                        </span>
+                      {% endif %}
+
+                      <span class="vd-wiki-teaser__hint">Défilez ou glissez pour parcourir le Wiki</span>
+                    </div>
+                  </div>
+                {% if cover_link != blank %}
+                  </a>
+                {% else %}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </article>
+
+          {% for block in section.blocks %}
+            {%- liquid
+              assign fallback_asset = 'vd-wiki-cover.jpg'
+              case forloop.index
+                when 1
+                  assign fallback_asset = 'vd-wiki-botanique.jpg'
+                when 2
+                  assign fallback_asset = 'vd-wiki-science.jpg'
+                when 3
+                  assign fallback_asset = 'vd-wiki-terroirs.jpg'
+                when 4
+                  assign fallback_asset = 'vd-wiki-techniques.jpg'
+              endcase
+            -%}
+            <article
+              class="vd-wiki-teaser__slide"
+              data-vd-wiki-slide
+              data-slide-index="{{ forloop.index }}"
+              aria-hidden="true"
+              {{ block.shopify_attributes }}
+            >
+              <div class="vd-wiki-teaser__outer" data-vd-wiki-outer>
+                <div class="vd-wiki-teaser__inner" data-vd-wiki-inner>
+                  {% if block.settings.link != blank %}
+                    <a class="vd-wiki-teaser__panel-link" href="{{ block.settings.link }}">
+                  {% else %}
+                    <div class="vd-wiki-teaser__panel-link is-disabled">
+                  {% endif %}
+                    <div class="vd-wiki-teaser__media" data-vd-wiki-media>
+                      {% if block.settings.video != blank %}
+                        {{
+                          block.settings.video
+                          | video_tag:
+                            class: 'vd-wiki-teaser__video',
+                            autoplay: true,
+                            loop: true,
+                            muted: true,
+                            controls: false,
+                            image_size: '2000x'
+                        }}
+                      {% elsif block.settings.external_video_url != blank %}
+                        <video
+                          class="vd-wiki-teaser__video"
+                          autoplay
+                          loop
+                          muted
+                          playsinline
+                          preload="auto"
+                          {% if block.settings.image != blank %}
+                            poster="{{ block.settings.image | image_url: width: 2200 }}"
+                          {% else %}
+                            poster="{{ fallback_asset | asset_url }}"
+                          {% endif %}
+                        >
+                          <source src="{{ block.settings.external_video_url }}" type="video/mp4">
+                        </video>
+                      {% elsif block.settings.image != blank %}
+                        {{
+                          block.settings.image
+                          | image_url: width: 2200
+                          | image_tag:
+                            class: 'vd-wiki-teaser__image',
+                            widths: '750, 1100, 1500, 1900, 2200',
+                            sizes: '(min-width: 990px) 70vw, 100vw',
+                            loading: 'lazy',
+                            alt: block.settings.image.alt | default: block.settings.title | escape
+                        }}
+                      {% else %}
+                        <img
+                          class="vd-wiki-teaser__image"
+                          src="{{ fallback_asset | asset_url }}"
+                          alt="{{ block.settings.title | escape }}"
+                          loading="lazy"
+                        >
+                      {% endif %}
+                    </div>
+
+                    <div class="vd-wiki-teaser__overlay"></div>
+
+                    <div class="vd-wiki-teaser__copy">
+                      <div class="vd-wiki-teaser__copy-main">
+                        <div class="vd-wiki-teaser__tag-row" data-vd-wiki-copy>
+                          {% if block.settings.number != blank %}
+                            <span class="vd-wiki-teaser__tag-index">{{ block.settings.number }}</span>
+                          {% endif %}
+                          {% if block.settings.category != blank %}
+                            <span class="vd-wiki-teaser__tag">{{ block.settings.category }}</span>
+                          {% endif %}
+                        </div>
+
+                        {% if block.settings.title != blank %}
+                          <h3 class="vd-wiki-teaser__panel-title" data-vd-wiki-copy>{{ block.settings.title }}</h3>
+                        {% endif %}
+
+                        {% if block.settings.text != blank %}
+                          <p class="vd-wiki-teaser__panel-text" data-vd-wiki-copy>{{ block.settings.text }}</p>
+                        {% endif %}
+                      </div>
+
+                      <div class="vd-wiki-teaser__panel-footer" data-vd-wiki-copy>
+                        <span class="vd-arrow-cta vd-wiki-teaser__cta">
+                          <span class="vd-arrow-cta__label">Lire sur le Wiki</span>
+                          <svg
+                            class="vd-arrow-cta__icon"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 46 16"
+                          >
+                            <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                          </svg>
+                        </span>
+
+                        <span class="vd-wiki-teaser__hint">Chaque panneau ouvre directement le Wiki</span>
+                      </div>
+                    </div>
+                  {% if block.settings.link != blank %}
+                    </a>
+                  {% else %}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+
+        <div class="vd-wiki-teaser__rail" data-vd-wiki-rail>
+          <button class="vd-wiki-teaser__nav-button is-active" type="button" data-vd-wiki-nav="0" aria-pressed="true">
+            <span class="vd-wiki-teaser__nav-index">00</span>
+            <span class="vd-wiki-teaser__nav-title">{{ section.settings.button_label | default: 'Explorer le Wiki' }}</span>
+            <span class="vd-wiki-teaser__nav-text">Une entrée manifeste avant les thèmes du Wiki.</span>
+          </button>
+
+          {% for block in section.blocks %}
+            {%- liquid
+              assign nav_index = block.settings.number | strip
+              if nav_index == blank
+                assign nav_index = forloop.index
+              endif
+              assign nav_index = nav_index | append: ''
+              if nav_index.size == 1
+                assign nav_index = '0' | append: nav_index
+              endif
+            -%}
+            <button class="vd-wiki-teaser__nav-button" type="button" data-vd-wiki-nav="{{ forloop.index }}" aria-pressed="false">
+              <span class="vd-wiki-teaser__nav-index">{{ nav_index }}</span>
+              <span class="vd-wiki-teaser__nav-title">{{ block.settings.title }}</span>
+              <span class="vd-wiki-teaser__nav-text">{{ block.settings.category | default: 'Chapitre' }}</span>
+            </button>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="vd-wiki-teaser__footer">
+        <div class="vd-wiki-teaser__progress-track">
+          <span class="vd-wiki-teaser__progress-bar" data-vd-wiki-progress></span>
+        </div>
+        <span class="vd-wiki-teaser__counter" data-vd-wiki-counter>01 / {{ total_slides_label }}</span>
+      </div>
+    </div>
   </div>
 </section>
 
 {% schema %}
 {
-  "name": "VD Wiki Grid",
+  "name": "VD Wiki Teaser",
   "tag": "section",
   "class": "section section-vd-wiki-grid",
   "settings": [
@@ -102,24 +333,39 @@
       "type": "text",
       "id": "heading",
       "label": "Titre",
-      "default": "Le Wiki Vanille"
+      "default": "Le Wiki de Désiré"
     },
     {
       "type": "richtext",
       "id": "text",
       "label": "Texte",
-      "default": "<p>Une porte d'entree editoriale pour parler terroirs, varietes, usages et gestes professionnels sans retomber dans une grille de blog standard.</p>"
+      "default": "<p>Un espace éditorial pour apprendre la vanille depuis la liane jusqu'au geste juste, avec un regard plus crédible, plus vivant et plus incarné.</p>"
     },
     {
       "type": "text",
       "id": "button_label",
-      "label": "Libelle bouton",
-      "default": "Explorer le wiki"
+      "label": "Libellé bouton",
+      "default": "Explorer le Wiki"
     },
     {
       "type": "url",
       "id": "button_link",
       "label": "Lien bouton"
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "Image de couverture"
+    },
+    {
+      "type": "video",
+      "id": "cover_video",
+      "label": "Vidéo Shopify de couverture"
+    },
+    {
+      "type": "text",
+      "id": "cover_external_video_url",
+      "label": "URL vidéo MP4 externe de couverture"
     },
     {
       "type": "color_scheme",
@@ -157,26 +403,26 @@
         {
           "type": "text",
           "id": "number",
-          "label": "Numero",
+          "label": "Numéro",
           "default": "01"
         },
         {
           "type": "text",
           "id": "category",
-          "label": "Categorie",
+          "label": "Catégorie",
           "default": "Botanique"
         },
         {
           "type": "text",
           "id": "title",
           "label": "Titre",
-          "default": "L'Orchidee Planifolia"
+          "default": "L'Orchidée Planifolia"
         },
         {
           "type": "textarea",
           "id": "text",
-          "label": "Resume",
-          "default": "Comprendre la liane, la pollinisation et le temps long qui precede l'arome."
+          "label": "Résumé",
+          "default": "Comprendre la liane, la pollinisation et le temps long qui précède l'arôme."
         },
         {
           "type": "url",
@@ -187,13 +433,23 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Vidéo Shopify"
+        },
+        {
+          "type": "text",
+          "id": "external_video_url",
+          "label": "URL vidéo MP4 externe"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "VD Wiki Grid",
+      "name": "VD Wiki Teaser",
       "blocks": [
         {
           "type": "article_card"
@@ -204,7 +460,7 @@
             "number": "02",
             "category": "Science",
             "title": "La Vanilline Naturelle",
-            "text": "Faire la difference entre concentration aromatique, extraction et faux raccourcis."
+            "text": "Faire la différence entre concentration aromatique, extraction et faux raccourcis."
           }
         },
         {
@@ -213,7 +469,7 @@
             "number": "03",
             "category": "Terroirs",
             "title": "Terroirs & Crus",
-            "text": "Lire les nuances entre regions, affinage, humidite et texture des gousses."
+            "text": "Lire les nuances entre régions, affinage, humidité et texture des gousses."
           }
         }
       ]
