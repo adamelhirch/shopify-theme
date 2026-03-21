@@ -1,0 +1,223 @@
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<section class="section-{{ section.id }}-padding vd-wiki color-{{ section.settings.color_scheme }} vd-reveal">
+  <div class="page-width">
+    <div class="vd-wiki__head vd-reveal-item">
+      {% if section.settings.heading != blank %}
+        <h2 class="vd-wiki__title">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.text != blank %}
+        <div class="vd-wiki__text rte">{{ section.settings.text }}</div>
+      {% endif %}
+    </div>
+
+    <div class="vd-wiki__grid" role="list">
+      {% for block in section.blocks %}
+        <a
+          class="vd-wiki-card vd-reveal-item{% if forloop.first %} vd-wiki-card--feature{% endif %}"
+          {% if block.settings.link == blank %}
+            role="link" aria-disabled="true"
+          {% else %}
+            href="{{ block.settings.link }}"
+          {% endif %}
+          role="listitem"
+          {{ block.shopify_attributes }}
+        >
+          {% if block.settings.image != blank %}
+            <div class="vd-wiki-card__media">
+              {{
+                block.settings.image
+                | image_url: width: 1600
+                | image_tag:
+                  class: 'vd-wiki-card__image',
+                  widths: '360, 540, 720, 960, 1280, 1600',
+                  sizes: '(min-width: 990px) 32vw, 92vw',
+                  loading: 'lazy',
+                  alt: block.settings.image.alt | default: block.settings.title | escape
+              }}
+            </div>
+          {% endif %}
+
+          <div class="vd-wiki-card__body">
+            <div class="vd-wiki-card__topline">
+              {% if block.settings.number != blank %}
+                <span>{{ block.settings.number }}</span>
+              {% endif %}
+              {% if block.settings.category != blank %}
+                <span>{{ block.settings.category }}</span>
+              {% endif %}
+            </div>
+
+            {% if block.settings.title != blank %}
+              <h3>{{ block.settings.title }}</h3>
+            {% endif %}
+
+            {% if block.settings.text != blank %}
+              <p>{{ block.settings.text }}</p>
+            {% endif %}
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+
+    {% if section.settings.button_label != blank %}
+      <div class="vd-wiki__actions">
+        <a
+          {% if section.settings.button_link == blank %}
+            role="link" aria-disabled="true"
+          {% else %}
+            href="{{ section.settings.button_link }}"
+          {% endif %}
+          class="vd-arrow-cta{% if section.settings.button_link == blank %} is-disabled{% endif %}"
+        >
+          <span class="vd-arrow-cta__label">{{ section.settings.button_label }}</span>
+          <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+            <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+          </svg>
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "VD Wiki Grid",
+  "tag": "section",
+  "class": "section section-vd-wiki-grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Le Wiki Vanille"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Une porte d'entree editoriale pour parler terroirs, varietes, usages et gestes professionnels sans retomber dans une grille de blog standard.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Libelle bouton",
+      "default": "Explorer le wiki"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Lien bouton"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Palette",
+      "default": "scheme-3"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge haute",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge basse",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "article_card",
+      "name": "Carte wiki",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Numero",
+          "default": "01"
+        },
+        {
+          "type": "text",
+          "id": "category",
+          "label": "Categorie",
+          "default": "Botanique"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "L'Orchidee Planifolia"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Resume",
+          "default": "Comprendre la liane, la pollinisation et le temps long qui precede l'arome."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Lien"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "VD Wiki Grid",
+      "blocks": [
+        {
+          "type": "article_card"
+        },
+        {
+          "type": "article_card",
+          "settings": {
+            "number": "02",
+            "category": "Science",
+            "title": "La Vanilline Naturelle",
+            "text": "Faire la difference entre concentration aromatique, extraction et faux raccourcis."
+          }
+        },
+        {
+          "type": "article_card",
+          "settings": {
+            "number": "03",
+            "category": "Terroirs",
+            "title": "Terroirs & Crus",
+            "text": "Lire les nuances entre regions, affinage, humidite et texture des gousses."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

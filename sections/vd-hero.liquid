@@ -99,7 +99,9 @@
           {% endif %}
 
           {% if section.settings.eyebrow != blank %}
-            <span class="vd-eyebrow">{{ section.settings.eyebrow }}</span>
+            <span class="{% if section.settings.heading != blank %}vd-eyebrow{% else %}vd-hero__statement{% endif %}">
+              {{ section.settings.eyebrow }}
+            </span>
           {% endif %}
 
           {% if section.settings.text != blank %}
@@ -133,6 +135,16 @@
               </a>
             {% endif %}
           </div>
+
+          {% if section.settings.show_scroll_indicator %}
+            <button
+              class="vd-hero__scroll"
+              type="button"
+              onclick="window.scrollTo({ top: window.innerHeight * 0.92, behavior: 'smooth' });"
+            >
+              <span>{{ section.settings.scroll_label }}</span>
+            </button>
+          {% endif %}
         </div>
 
         {% if has_aside %}
@@ -202,6 +214,18 @@
       "id": "text",
       "label": "Texte",
       "default": "<p>Vanille Désiré compose une expérience sensorielle rare autour de gousses sélectionnées, calibrées pour une cuisine exigeante et un art de vivre sobre, précis et élégant.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_indicator",
+      "label": "Afficher l'indicateur de scroll",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "scroll_label",
+      "label": "Libelle indicateur de scroll",
+      "default": "Glisser vers le bas"
     },
     {
       "type": "text",

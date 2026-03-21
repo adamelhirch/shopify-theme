@@ -47,37 +47,36 @@
 .cookie-banner__launcher-icon {
   position: relative;
   display: block;
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 1.9rem;
+  height: 1.9rem;
   margin: 0 auto;
+  transform: translateY(-0.25rem);
 }
 
-.cookie-banner__chip {
+.cookie-banner__launcher-icon::before {
+  content: '';
   position: absolute;
+  top: 2.35rem;
+  left: 0;
+  width: 1.9rem;
+  height: 0.24rem;
   display: block;
   border-radius: 999px;
-  background: rgba(var(--vd-ivory), 0.95);
+  background: rgba(242, 101, 34, 0.2);
+  filter: blur(0.02rem);
+  animation: cookieLoaderShadow 0.72s linear infinite;
 }
 
-.cookie-banner__chip--one {
-  top: 0.1rem;
-  left: 0.25rem;
-  width: 1.2rem;
-  height: 1.2rem;
-}
-
-.cookie-banner__chip--two {
-  right: 0.05rem;
-  top: 0.45rem;
-  width: 0.55rem;
-  height: 0.55rem;
-}
-
-.cookie-banner__chip--three {
-  left: 0.45rem;
-  bottom: 0.05rem;
-  width: 0.42rem;
-  height: 0.42rem;
+.cookie-banner__launcher-icon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 0.35rem;
+  background: rgb(var(--vd-ivory));
+  box-shadow:
+    0 0.2rem 0.45rem rgba(var(--vd-shadow), 0.12),
+    inset 0 0 0 0.08rem rgba(17, 17, 17, 0.08);
+  animation: cookieLoaderJump 0.72s linear infinite;
 }
 
 .cookie-banner--pending .cookie-banner__launcher::after {
@@ -103,6 +102,42 @@
   100% {
     opacity: 0;
     transform: scale(1.18);
+  }
+}
+
+@keyframes cookieLoaderJump {
+  15% {
+    border-bottom-right-radius: 0.22rem;
+  }
+
+  25% {
+    transform: translateY(0.38rem) rotate(22.5deg);
+  }
+
+  50% {
+    transform: translateY(0.76rem) scale(1, 0.9) rotate(45deg);
+    border-bottom-right-radius: 1rem;
+  }
+
+  75% {
+    transform: translateY(0.38rem) rotate(67.5deg);
+  }
+
+  100% {
+    transform: translateY(0) rotate(90deg);
+  }
+}
+
+@keyframes cookieLoaderShadow {
+  0%,
+  100% {
+    transform: scale(1, 1);
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(1.18, 1);
+    opacity: 0.42;
   }
 }
 
@@ -434,5 +469,19 @@
 
   .cookie-card__actions {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cookie-banner__launcher,
+  .cookie-banner__launcher-icon::before,
+  .cookie-banner__launcher-icon::after,
+  .cookie-banner--pending .cookie-banner__launcher::after {
+    animation: none;
+    transition: none;
+  }
+
+  .cookie-banner__launcher-icon::after {
+    transform: rotate(12deg);
   }
 }

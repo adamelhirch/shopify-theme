@@ -42,6 +42,11 @@
     <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'gsap.min.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'scroll-trigger.min.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'scroll-smoother.min.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'split-text.min.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'vd-gsap.js' | asset_url }}" defer="defer"></script>
 
     {%- if settings.animations_reveal_on_scroll -%}
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
@@ -321,13 +326,17 @@
 
     {% sections 'header-group' %}
 
-    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
-      {{ content_for_layout }}
-    </main>
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+          {{ content_for_layout }}
+        </main>
 
-    {% render 'cookie-banner' %}
+        {% render 'cookie-banner' %}
 
-    {% sections 'footer-group' %}
+        {% sections 'footer-group' %}
+      </div>
+    </div>
 
     <ul hidden>
       <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>

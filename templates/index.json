@@ -6,12 +6,14 @@
       "block_order": [],
       "settings": {
         "eyebrow": "Producteurs directs de Madagascar",
-        "heading": "Vanille Bourbon & épices de Madagascar",
+        "heading": "",
         "text": "",
+        "show_scroll_indicator": true,
+        "scroll_label": "Glisser vers le bas",
         "external_video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
         "background_image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
         "use_demo_video": false,
-        "media_overlay_opacity": 20,
+        "media_overlay_opacity": 35,
         "button_label": "",
         "button_link": "",
         "secondary_button_label": "",
@@ -27,162 +29,194 @@
         "padding_bottom": 0
       }
     },
-    "vd_editorial_reel_tW8mNq": {
-      "type": "vd-editorial-reel",
+    "vd_craftsmanship_m7Kp2L": {
+      "type": "vd-craftsmanship",
       "blocks": {
-        "media_card_A1": {
-          "type": "media_card",
+        "craft_step_1": {
+          "type": "story_panel",
           "settings": {
-            "kicker": "Video",
-            "title": "Une matière qui parle avant le texte.",
-            "text": "<p>Des plans serrés, de la texture et du rythme. La home doit montrer la vanille avant de l'expliquer.</p>",
-            "external_video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+            "step_label": "01",
+            "title": "Fecondation manuelle",
+            "text": "<p>Chaque fleur est pollinisee a la main, au bon moment, avec un geste rapide et precis qui ne laisse aucune place a l'approximation.</p>",
             "image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
-            "link_label": "Voir la collection",
-            "link": "shopify://collections/vanille-bourbon"
+            "video": "",
+            "quote": "\"La saveur commence avant la gousse.\""
           }
         },
-        "media_card_A2": {
-          "type": "media_card",
+        "craft_step_2": {
+          "type": "story_panel",
           "settings": {
-            "kicker": "Selection",
-            "title": "Un univers plus éditorial, moins Dawn.",
-            "text": "<p>On remplace les cartes génériques par des blocs plus premium, plus cadrés et plus lisibles sur mobile.</p>",
-            "external_video_url": "",
+            "step_label": "02",
+            "title": "Maturation en climat reel",
+            "text": "<p>La liane evolue au rythme de Madagascar. On laisse le temps faire son travail avant toute recolte, sans acceleration ni standardisation.</p>",
             "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg",
-            "link_label": "Notre histoire",
-            "link": "shopify://pages/qui-sommes-nous"
+            "video": "",
+            "quote": "\"Le temps reste notre premier allie.\""
           }
         },
-        "media_card_A3": {
-          "type": "media_card",
+        "craft_step_3": {
+          "type": "story_panel",
           "settings": {
-            "kicker": "Mobile first",
-            "title": "Une lecture nette sur telephone et tablette.",
-            "text": "<p>Les blocs deviennent scrollables sans casser la composition, pour garder le meme impact sur petits ecrans.</p>",
-            "external_video_url": "",
+            "step_label": "03",
+            "title": "Affinage et tri final",
+            "text": "<p>Echaudage, etuvage, sechage puis affinage: une suite d'etapes lentes qui construit la souplesse, la brillance et la profondeur aromatique.</p>",
             "image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
-            "link_label": "Voir les epices",
-            "link": "shopify://collections/epices-madagascar"
+            "video": "",
+            "quote": "\"Le profil final se construit couche apres couche.\""
           }
         }
       },
       "block_order": [
-        "media_card_A1",
-        "media_card_A2",
-        "media_card_A3"
+        "craft_step_1",
+        "craft_step_2",
+        "craft_step_3"
       ],
       "settings": {
-        "eyebrow": "Immersion",
-        "heading": "Une home construite comme une suite de plans.",
-        "text": "<p>On garde l'anthracite comme base, puis on laisse la video, les matieres et les visuels porter le reste.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 24,
-        "padding_bottom": 20
-      }
-    },
-    "vd_featured_products_Hm93eQ": {
-      "type": "vd-featured-products",
-      "settings": {
-        "eyebrow": "Best seller",
-        "heading": "Les produits que l'on doit voir tout de suite.",
-        "text": "<p>Une vraie hierarchie visuelle entre la reference mise en avant et les autres produits, dans un registre plus premium et plus lisible.</p>",
-        "collection": "vanille-bourbon",
-        "products_to_show": 4,
-        "button_label": "Voir toute la vanille",
+        "eyebrow": "Heritage",
+        "heading": "Notre savoir-faire",
+        "text": "<p>Une section qui reste sur place pendant que l'histoire se deroule. Le but est de montrer le geste, le temps long et l'affinage comme une meme choregraphie, pas comme trois cartes statiques.</p>",
+        "button_label": "Notre histoire",
+        "button_link": "shopify://pages/qui-sommes-nous",
         "color_scheme": "scheme-3",
         "padding_top": 20,
-        "padding_bottom": 20
+        "padding_bottom": 32
       }
     },
-    "vd_story_grid_dH7a3t": {
-      "type": "vd-story-grid",
+    "vd_featured_products_v7M2Qw": {
+      "type": "vd-featured-products",
+      "settings": {
+        "eyebrow": "Nos produits en vedette",
+        "heading": "Une galerie qui met la collection en mouvement.",
+        "text": "<p>On passe sur toute la largeur de la page avec un rail horizontal plus immersif, pour donner aux produits une lecture plus premium qu'une simple grille.</p>",
+        "collection": "vanille-bourbon",
+        "products_to_show": 6,
+        "button_label": "Voir toute la collection",
+        "color_scheme": "scheme-3",
+        "padding_top": 12,
+        "padding_bottom": 28
+      }
+    },
+    "vd_testimonials_q3Jn8A": {
+      "type": "vd-testimonials",
       "blocks": {
-        "pillar_1": {
-          "type": "pillar",
+        "testimonial_1": {
+          "type": "testimonial",
           "settings": {
-            "title": "Origine directe",
-            "text": "<p>Une relation courte avec Madagascar, sans surcharge de discours et sans decor inutile.</p>"
+            "rating": 5,
+            "quote": "\"Une intensite aromatique que je n'avais plus rencontree depuis mes voyages a La Reunion. Leur caviar est un tresor.\"",
+            "author": "Jean-Marc L.",
+            "location": "Chef patissier, Lyon",
+            "meta": "Caviar de vanille"
           }
         },
-        "pillar_2": {
-          "type": "pillar",
+        "testimonial_2": {
+          "type": "testimonial",
           "settings": {
-            "title": "Qualite lisible",
-            "text": "<p>Un design plus net pour laisser la matiere, les usages et les references prendre la place qu'ils meritent.</p>"
+            "rating": 5,
+            "quote": "\"La qualite des gousses est exceptionnelle. Charnues, huileuses, elles transforment une simple creme anglaise en oeuvre d'art.\"",
+            "author": "Elise B.",
+            "location": "Passionnee de gastronomie",
+            "meta": "Gousses noires"
           }
         },
-        "pillar_3": {
-          "type": "pillar",
+        "testimonial_3": {
+          "type": "testimonial",
           "settings": {
-            "title": "Livraison soignee",
-            "text": "<p>Une experience claire du premier scroll jusqu'au panier, sur desktop comme sur mobile.</p>"
+            "rating": 5,
+            "quote": "\"Enfin une marque qui respecte le produit et les producteurs. L'extrait sans alcool est d'une purete absolue.\"",
+            "author": "Dr. Thomas V.",
+            "location": "Collectionneur d'epices",
+            "meta": "Extrait premium"
           }
         }
       },
       "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
+        "testimonial_1",
+        "testimonial_2",
+        "testimonial_3"
       ],
       "settings": {
-        "heading": "Trois garanties simples, sans surcharge.",
-        "text": "<p>Le ton reste premium, mais plus sec, plus clair et plus contemporain.</p>",
+        "eyebrow": "Judge.me",
+        "heading": "Avis clients verifies",
+        "text": "<p>Quelques retours clients sur les produits les plus commandes, avec un rendu plus sobre et plus precis.</p>",
+        "button_label": "Voir tous les avis",
+        "button_link": "",
         "color_scheme": "scheme-3",
-        "padding_top": 12,
-        "padding_bottom": 24
+        "reviews_limit": 6,
+        "padding_top": 24,
+        "padding_bottom": 32
       }
     },
-    "vd_social_wall_U7fLk2": {
-      "type": "vd-social-wall",
+    "vd_wiki_grid_A2mL9d": {
+      "type": "vd-wiki-grid",
       "blocks": {
-        "social_1": {
-          "type": "social_card",
+        "wiki_1": {
+          "type": "article_card",
           "settings": {
-            "platform": "Instagram",
-            "caption": "Gestes, coulisses et matieres.",
-            "link": "https://www.instagram.com/vanilledesire/",
-            "image": "shopify://shop_images/vanille_bourbon_accueil.jpg"
-          }
-        },
-        "social_2": {
-          "type": "social_card",
-          "settings": {
-            "platform": "TikTok",
-            "caption": "Formats courts, textures et recettes.",
-            "link": "https://www.tiktok.com/@vanilledesire",
+            "number": "01",
+            "category": "Botanique",
+            "title": "L'Orchidee Planifolia",
+            "text": "Comprendre la liane, la pollinisation et le temps long qui precede l'arome.",
+            "link": "shopify://blogs/le-wiki",
             "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg"
           }
         },
-        "social_3": {
-          "type": "social_card",
+        "wiki_2": {
+          "type": "article_card",
           "settings": {
-            "platform": "Facebook",
-            "caption": "Nouveautes, sorties et vie de la marque.",
-            "link": "https://www.facebook.com/vanilledesire/",
+            "number": "02",
+            "category": "Science",
+            "title": "La Vanilline Naturelle",
+            "text": "Faire la difference entre concentration aromatique, extraction et faux raccourcis aromatiques.",
+            "link": "shopify://blogs/le-wiki",
+            "image": ""
+          }
+        },
+        "wiki_3": {
+          "type": "article_card",
+          "settings": {
+            "number": "03",
+            "category": "Terroirs",
+            "title": "Terroirs & Crus",
+            "text": "Lire les nuances entre regions, affinage, humidite et texture des gousses.",
+            "link": "shopify://blogs/le-wiki",
+            "image": ""
+          }
+        },
+        "wiki_4": {
+          "type": "article_card",
+          "settings": {
+            "number": "04",
+            "category": "Techniques Pro",
+            "title": "Gestes & Usages",
+            "text": "Infusion, fente, dosage et conservation: les gestes qui changent vraiment le resultat.",
+            "link": "shopify://blogs/le-wiki",
             "image": ""
           }
         }
       },
       "block_order": [
-        "social_1",
-        "social_2",
-        "social_3"
+        "wiki_1",
+        "wiki_2",
+        "wiki_3",
+        "wiki_4"
       ],
       "settings": {
-        "heading": "Suivez-nous sur nos reseaux",
-        "text": "<p>On ajoute un bloc de fin de page plus vivant pour faire sortir la marque du seul tunnel e-commerce.</p>",
-        "color_scheme": "scheme-1",
-        "padding_top": 20,
-        "padding_bottom": 56
+        "heading": "Le Wiki Vanille",
+        "text": "<p>Explorez un espace editorial construit pour eduquer, inspirer et credibiliser la maison, loin d'une simple grille de blog standard.</p>",
+        "button_label": "Explorer le wiki",
+        "button_link": "shopify://blogs/le-wiki",
+        "color_scheme": "scheme-3",
+        "padding_top": 28,
+        "padding_bottom": 60
       }
     }
   },
   "order": [
     "vd_hero_premium_YyXL7E",
-    "vd_editorial_reel_tW8mNq",
-    "vd_featured_products_Hm93eQ",
-    "vd_story_grid_dH7a3t",
-    "vd_social_wall_U7fLk2"
+    "vd_craftsmanship_m7Kp2L",
+    "vd_featured_products_v7M2Qw",
+    "vd_testimonials_q3Jn8A",
+    "vd_wiki_grid_A2mL9d"
   ]
 }
