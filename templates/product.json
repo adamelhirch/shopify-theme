@@ -113,102 +113,42 @@
         "padding_bottom": 12
       }
     },
-    "image-with-text": {
-      "type": "image-with-text",
+    "vd_story_grid_product_j7P2mK": {
+      "type": "vd-story-grid",
       "blocks": {
-        "image-with-text-0": {
-          "type": "heading",
+        "pillar_1": {
+          "type": "pillar",
           "settings": {
-            "heading": "La famille de Désiré",
-            "heading_size": "h1"
+            "title": "Usage lisible",
+            "text": "<p>La fiche doit aider a comprendre vite si ce format est fait pour l'infusion, le dosage quotidien, le cadeau ou une patisserie plus exigeante.</p>"
           }
         },
-        "image-with-text-1": {
-          "type": "text",
+        "pillar_2": {
+          "type": "pillar",
           "settings": {
-            "text": "<p>Chaque gousse raconte une histoire : celle d'un terroir unique, d'un savoir-faire transmis, et d'un engagement envers la qualité et l'humain.<\/p>",
-            "text_style": "body"
+            "title": "Origine suivie",
+            "text": "<p>On rappelle la selection a Madagascar, le tri et la tenue de la matiere sans tomber dans un discours folklorique ou bavard.</p>"
           }
         },
-        "image-with-text-2": {
-          "type": "button",
+        "pillar_3": {
+          "type": "pillar",
           "settings": {
-            "button_label": "Découvrir notre histoire",
-            "button_link": "shopify://pages/qui-sommes-nous",
-            "button_style_secondary": false
+            "title": "Suite logique",
+            "text": "<p>Apres la fiche, il faut pouvoir basculer naturellement vers la collection, le wiki ou les produits complementaires.</p>"
           }
         }
       },
       "block_order": [
-        "image-with-text-0",
-        "image-with-text-1",
-        "image-with-text-2"
+        "pillar_1",
+        "pillar_2",
+        "pillar_3"
       ],
       "settings": {
-        "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg",
-        "height": "small",
-        "desktop_image_width": "medium",
-        "layout": "text_first",
-        "desktop_content_position": "top",
-        "desktop_content_alignment": "left",
-        "content_layout": "no-overlap",
+        "heading": "La fiche produit doit tenir sans artifices.",
+        "text": "<p>On retire les sections trop génériques et on garde une base plus dure, plus utile et plus raccord avec la direction du site.</p>",
         "color_scheme": "scheme-2",
-        "mobile_content_alignment": "left",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "multicolumn": {
-      "type": "multicolumn",
-      "blocks": {
-        "column-0": {
-          "type": "column",
-          "settings": {
-            "title": "Vanille Bourbon",
-            "text": "<p>La collection signature de la maison, avec des gousses choisies pour leur intensité et leur régularité aromatique.<\/p>",
-            "link_label": "Voir la collection",
-            "link": "shopify://collections/vanille-bourbon"
-          }
-        },
-        "column-1": {
-          "type": "column",
-          "settings": {
-            "title": "Poivres & baies",
-            "text": "<p>Des profils plus chauds, floraux ou résineux pour enrichir l'univers aromatique autour de la vanille.<\/p>",
-            "link_label": "Explorer",
-            "link": "shopify://collections/poivre-baies"
-          }
-        },
-        "column-2": {
-          "type": "column",
-          "settings": {
-            "title": "Épices de Madagascar",
-            "text": "<p>Une sélection d'épices et de mélanges qui prolongent le travail d'origine mené par Vanille Désiré.<\/p>",
-            "link_label": "Découvrir",
-            "link": "shopify://collections/epices-madagascar"
-          }
-        }
-      },
-      "block_order": [
-        "column-0",
-        "column-1",
-        "column-2"
-      ],
-      "settings": {
-        "title": "Découvrir aussi l'univers Vanille Désiré",
-        "heading_size": "h1",
-        "image_width": "full",
-        "image_ratio": "adapt",
-        "columns_desktop": 3,
-        "column_alignment": "left",
-        "background_style": "none",
-        "button_label": "",
-        "button_link": "",
-        "swipe_on_mobile": false,
-        "color_scheme": "scheme-3",
-        "columns_mobile": "1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "padding_top": 20,
+        "padding_bottom": 28
       }
     },
     "related-products": {
@@ -245,8 +185,7 @@
   },
   "order": [
     "main",
-    "image-with-text",
-    "multicolumn",
+    "vd_story_grid_product_j7P2mK",
     "related-products",
     "vd_testimonials_product_k3L8sP"
   ]

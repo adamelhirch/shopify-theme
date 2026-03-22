@@ -18,12 +18,79 @@
 
 {%- paginate blog.articles by 6 -%}
   <div class="main-blog vd-blog-shell page-width section-{{ section.id }}-padding">
-    <h1 class="title--primary{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-      {{ blog.title | escape }}
-    </h1>
+    {%- assign featured_article = blog.articles.first -%}
+
+    <div class="vd-blog-shell__head{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+      <div class="vd-blog-shell__head-copy">
+        <span class="vd-section-kicker">Edition</span>
+        <h1 class="title--primary">{{ blog.title | escape }}</h1>
+        <p>
+          Une lecture plus construite du contenu: un article fort en ouverture, puis une grille plus lisible pour
+          continuer sans perdre la direction de marque.
+        </p>
+      </div>
+      <div class="vd-blog-shell__head-panel">
+        <div class="vd-blog-shell__metric">
+          <span>Articles</span>
+          <strong>{{ blog.articles_count }}</strong>
+        </div>
+        <div class="vd-blog-shell__metric">
+          <span>Angle</span>
+          <strong>Pedagogie produit</strong>
+        </div>
+        <div class="vd-blog-shell__metric">
+          <span>Sortie</span>
+          <strong>Recettes & catalogue</strong>
+        </div>
+      </div>
+    </div>
+
+    {%- if featured_article != blank -%}
+      <article class="vd-blog-shell__feature{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        <a href="{{ featured_article.url }}" class="vd-blog-shell__feature-link">
+          <div class="vd-blog-shell__feature-media">
+            {%- if featured_article.image and section.settings.show_image -%}
+              <img
+                srcset="
+                  {%- if featured_article.image.src.width >= 533 -%}{{ featured_article.image.src | image_url: width: 533 }} 533w,{%- endif -%}
+                  {%- if featured_article.image.src.width >= 720 -%}{{ featured_article.image.src | image_url: width: 720 }} 720w,{%- endif -%}
+                  {%- if featured_article.image.src.width >= 1100 -%}{{ featured_article.image.src | image_url: width: 1100 }} 1100w,{%- endif -%}
+                  {%- if featured_article.image.src.width >= 1500 -%}{{ featured_article.image.src | image_url: width: 1500 }} 1500w,{%- endif -%}
+                  {{ featured_article.image.src | image_url }} {{ featured_article.image.src.width }}w
+                "
+                src="{{ featured_article.image.src | image_url: width: 1100 }}"
+                sizes="(min-width: 990px) 52vw, 92vw"
+                alt="{{ featured_article.image.src.alt | escape }}"
+                loading="eager"
+                width="{{ featured_article.image.width }}"
+                height="{{ featured_article.image.height }}"
+              >
+            {%- endif -%}
+          </div>
+          <div class="vd-blog-shell__feature-copy">
+            <span class="vd-section-kicker">A la une</span>
+            <h2>{{ featured_article.title | escape }}</h2>
+            <p>
+              {%- if featured_article.excerpt.size > 0 -%}
+                {{ featured_article.excerpt | strip_html | truncatewords: 30 }}
+              {%- else -%}
+                {{ featured_article.content | strip_html | truncatewords: 30 }}
+              {%- endif -%}
+            </p>
+            <div class="vd-blog-shell__feature-meta">
+              <span>{{ featured_article.published_at | time_tag: format: 'date' }}</span>
+              <strong>Lire l'article</strong>
+            </div>
+          </div>
+        </a>
+      </article>
+    {%- endif -%}
 
     <div class="blog-articles {% if section.settings.layout == 'collage' %}blog-articles--collage{% endif %}">
       {%- for article in blog.articles -%}
+        {%- if paginate.current_page == 1 and forloop.first -%}
+          {% continue %}
+        {%- endif -%}
         <div
           class="blog-articles__article article{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
           {% if settings.animations_reveal_on_scroll %}

@@ -1,6 +1,23 @@
 {{ 'section-blog-post.css' | asset_url | stylesheet_tag }}
 
+{%- liquid
+  assign article_word_count = article.content | strip_html | split: ' ' | size
+  assign article_read_time = article_word_count | divided_by: 180
+  if article_read_time < 1
+    assign article_read_time = 1
+  endif
+-%}
+
 <article class="article-template vd-article-shell">
+  <div class="page-width page-width--narrow vd-article-shell__intro{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+    <a href="{{ blog.url }}" class="vd-arrow-cta vd-article-shell__backlink">
+      <span class="vd-arrow-cta__label">Retour au {{ blog.title }}</span>
+      <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+        <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+      </svg>
+    </a>
+  </div>
+
   {%- for block in section.blocks -%}
     {%- case block.type -%}
       {%- when '@app' -%}
@@ -43,24 +60,34 @@
 
       {%- when 'title' -%}
         <header
-          class="page-width page-width--narrow{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+          class="page-width page-width--narrow vd-article-shell__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
           {{ block.shopify_attributes }}
         >
+          <span class="vd-section-kicker">{{ blog.title }}</span>
           <h1
             class="article-template__title"
           >
             {{ article.title | escape }}
           </h1>
-          {%- if block.settings.blog_show_date -%}
-            <span class="circle-divider caption-with-letter-spacing">
-              {{- article.published_at | time_tag: format: 'date' -}}
-            </span>
-          {%- endif -%}
-          {%- if block.settings.blog_show_author -%}
-            <span class="caption-with-letter-spacing">
-              <span>{{ article.author }}</span>
-            </span>
-          {%- endif -%}
+          <div class="vd-article-shell__meta">
+            {%- if block.settings.blog_show_date -%}
+              <span class="circle-divider caption-with-letter-spacing">
+                {{- article.published_at | time_tag: format: 'date' -}}
+              </span>
+            {%- endif -%}
+            {%- if block.settings.blog_show_author -%}
+              <span class="caption-with-letter-spacing">
+                <span>{{ article.author }}</span>
+              </span>
+            {%- endif -%}
+            <span class="caption-with-letter-spacing">{{ article_read_time }} min de lecture</span>
+          </div>
+          <div class="vd-article-shell__lede">
+            <p>
+              Le wiki ne doit pas etre un cul de sac. Cette page garde un niveau editorial premium tout en restant
+              lisible, utile et raccord avec le catalogue.
+            </p>
+          </div>
         </header>
 
       {%- when 'content' -%}
