@@ -551,9 +551,9 @@
 
       var timeline = gsap.timeline({
         scrollTrigger: {
-          trigger: section,
-          start: 'top top+=72',
-          end: '+=125%',
+          trigger: gallery,
+          start: 'center center',
+          end: '+=100%',
           pin: stage,
           scrub: 1,
           anticipatePin: 1,
@@ -563,24 +563,22 @@
 
       timeline.add(
         Flip.to(flipState, {
-          absolute: true,
-          ease: 'power2.inOut',
           simple: true,
-          stagger: 0.03,
+          ease: 'expo.inOut',
           duration: 1
         }),
         0
       );
 
-      timeline.to(
-        items,
+      timeline.fromTo(
+        gallery,
         {
-          scale: function (index) {
-            return index === 2 ? 1.02 : 0.98;
-          },
-          ease: 'none',
-          stagger: 0.01,
-          duration: 1
+          filter: 'blur(0px)'
+        },
+        {
+          filter: 'blur(0px)',
+          duration: 1,
+          ease: 'none'
         },
         0
       );
