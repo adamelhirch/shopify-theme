@@ -1,0 +1,224 @@
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<section class="section-{{ section.id }}-padding vd-catalogue color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    <div class="vd-catalogue__hero">
+      <div class="vd-catalogue__hero-copy">
+        {% if section.settings.eyebrow != blank %}
+          <span class="vd-section-kicker">{{ section.settings.eyebrow }}</span>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <h2 class="vd-catalogue__title">{{ section.settings.heading }}</h2>
+        {% endif %}
+
+        {% if section.settings.text != blank %}
+          <div class="vd-catalogue__text rte">{{ section.settings.text }}</div>
+        {% endif %}
+
+        <div class="vd-catalogue__actions">
+          {% if section.settings.primary_link_label != blank and section.settings.primary_link != blank %}
+            <a href="{{ section.settings.primary_link }}" class="vd-arrow-cta">
+              <span class="vd-arrow-cta__label">{{ section.settings.primary_link_label }}</span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+          {% endif %}
+
+          {% if section.settings.secondary_link_label != blank and section.settings.secondary_link != blank %}
+            <a href="{{ section.settings.secondary_link }}" class="vd-arrow-cta">
+              <span class="vd-arrow-cta__label">{{ section.settings.secondary_link_label }}</span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="vd-catalogue__hero-panel">
+        <div class="vd-catalogue__metric-list" role="list">
+          <div class="vd-catalogue__metric" role="listitem">
+            <span>Navigation</span>
+            <strong>Par usage</strong>
+          </div>
+          <div class="vd-catalogue__metric" role="listitem">
+            <span>Direction</span>
+            <strong>Peu de bruit</strong>
+          </div>
+          <div class="vd-catalogue__metric" role="listitem">
+            <span>Palette</span>
+            <strong>Anthracite / orange</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vd-catalogue__grid" role="list">
+      {% for block in section.blocks %}
+        <article class="vd-catalogue__card" role="listitem" {{ block.shopify_attributes }}>
+          <div class="vd-catalogue__card-head">
+            <span>{{ block.settings.kicker }}</span>
+            {% if block.settings.collection != blank %}
+              <strong>{{ block.settings.collection.all_products_count }} refs</strong>
+            {% endif %}
+          </div>
+
+          <h3>{{ block.settings.title }}</h3>
+
+          {% if block.settings.text != blank %}
+            <div class="vd-catalogue__card-text rte">{{ block.settings.text }}</div>
+          {% endif %}
+
+          {% if block.settings.collection != blank %}
+            <a href="{{ block.settings.collection.url }}" class="vd-arrow-cta">
+              <span class="vd-arrow-cta__label">
+                {{ block.settings.link_label | default: 'Explorer la collection' }}
+              </span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "VD Catalogue Orbital",
+  "tag": "section",
+  "class": "section section-vd-catalogue-orbital",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Catalogue"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Un catalogue plus logique, plus luxe, plus orienté usage."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Cette base ne cherche pas a tout raconter. Elle doit d'abord aider a entrer vite dans le bon univers produit, avec une lecture plus nette des formats, des usages et du niveau de gamme.</p>"
+    },
+    {
+      "type": "text",
+      "id": "primary_link_label",
+      "label": "CTA principal",
+      "default": "Voir tous les produits"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Lien principal"
+    },
+    {
+      "type": "text",
+      "id": "secondary_link_label",
+      "label": "CTA secondaire",
+      "default": "Lire le wiki"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Lien secondaire"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Palette",
+      "default": "scheme-3"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge haute",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge basse",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "entry",
+      "name": "Entree collection",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Kicker",
+          "default": "Univers"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Vanille Bourbon"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Texte",
+          "default": "<p>Le coeur de la maison, avec les formats les plus lisibles pour cuisiner, offrir ou constituer un premier panier.</p>"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Libelle lien",
+          "default": "Explorer"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "VD Catalogue Orbital",
+      "blocks": [
+        { "type": "entry" },
+        { "type": "entry" },
+        { "type": "entry" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -4237,7 +4237,7 @@ body:has(.section-vd-hero) .header-wrapper {
   position: relative;
   padding: 1.8rem;
   border: 1px solid rgba(var(--vd-white), 0.08);
-  border-radius: 3.2rem;
+  border-radius: 0.8rem;
   background:
     linear-gradient(145deg, rgba(var(--vd-white), 0.06), rgba(var(--vd-white), 0.02)),
     rgba(var(--vd-black-soft), 0.72);
@@ -4257,7 +4257,7 @@ body:has(.section-vd-hero) .header-wrapper {
   display: flex;
   min-height: 100%;
   overflow: hidden;
-  border-radius: 2.4rem;
+  border-radius: 0.6rem;
   border: 1px solid rgba(var(--vd-white), 0.08);
   background: rgba(var(--vd-white), 0.04);
   box-shadow: 0 1.8rem 4rem rgba(var(--vd-shadow), 0.16);
@@ -4386,7 +4386,7 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .vd-new-product__copy {
   padding: clamp(2.4rem, 3vw, 4rem);
-  border-radius: 3rem;
+  border-radius: 0.8rem;
   border: 1px solid rgba(var(--vd-white), 0.08);
   background:
     radial-gradient(circle at top right, rgba(var(--vd-orange), 0.16), transparent 36%),
@@ -4426,7 +4426,7 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .vd-new-product__fact {
   padding: 1.4rem 1.6rem;
-  border-radius: 1.8rem;
+  border-radius: 0.4rem;
   background: rgba(var(--vd-white), 0.05);
   border: 1px solid rgba(var(--vd-white), 0.08);
 }
@@ -4489,7 +4489,7 @@ body:has(.section-vd-hero) .header-wrapper {
 .vd-page-flow__recipe-card,
 .vd-page-flow__product-card,
 .vd-contact-section__card {
-  border-radius: 2.6rem;
+  border-radius: 0.8rem;
   border: 1px solid rgba(var(--vd-white), 0.08);
   background:
     linear-gradient(180deg, rgba(var(--vd-white), 0.06), rgba(var(--vd-white), 0.03)),
@@ -4544,7 +4544,7 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .vd-page-flow__metric {
   padding: 1.2rem 1.4rem;
-  border-radius: 1.8rem;
+  border-radius: 0.4rem;
   background: rgba(var(--vd-white), 0.05);
   border: 1px solid rgba(var(--vd-white), 0.08);
 }
@@ -4643,7 +4643,7 @@ body:has(.section-vd-hero) .header-wrapper {
 .vd-page-flow__prose {
   max-width: 96rem;
   margin-top: 3.2rem;
-  border-radius: 2.6rem;
+  border-radius: 0.8rem;
   border: 1px solid rgba(var(--vd-white), 0.08);
   background: rgba(var(--vd-white), 0.04);
 }
@@ -4689,7 +4689,7 @@ body:has(.section-vd-hero) .header-wrapper {
   grid-template-columns: minmax(0, 1.15fr) minmax(24rem, 0.85fr);
   gap: clamp(2rem, 4vw, 5rem);
   padding: clamp(2.4rem, 3.2vw, 4.2rem);
-  border-radius: 3rem;
+  border-radius: 0.8rem;
   border: 1px solid rgba(var(--vd-white), 0.08);
   background:
     radial-gradient(circle at top right, rgba(var(--vd-orange), 0.18), transparent 32%),
@@ -4726,7 +4726,7 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .vd-page-banner__metric {
   padding: 1.6rem 1.8rem;
-  border-radius: 2rem;
+  border-radius: 0.4rem;
   border: 1px solid rgba(var(--vd-white), 0.08);
   background: rgba(var(--vd-white), 0.05);
 }
@@ -4765,7 +4765,7 @@ body:has(.section-vd-hero) .header-wrapper {
 .vd-search-shell .template-search__search .field,
 .vd-faq-shell .collapsible-trigger,
 .vd-faq-shell .collapsible-content__inner {
-  border-radius: 2rem;
+  border-radius: 0.8rem;
 }
 
 .vd-blog-shell .article-card,
@@ -4816,7 +4816,7 @@ body:has(.section-vd-hero) .header-wrapper {
 .vd-article-shell .article-template__content,
 .vd-article-shell .article-template__social-sharing {
   padding: 2.4rem;
-  border-radius: 2.6rem;
+  border-radius: 0.8rem;
   border: 1px solid rgba(var(--vd-white), 0.08);
   background:
     linear-gradient(180deg, rgba(var(--vd-white), 0.05), rgba(var(--vd-white), 0.03)),
@@ -4864,10 +4864,124 @@ body:has(.section-vd-hero) .header-wrapper {
 .vd-cart-shell .cart-item,
 .vd-cart-shell .cart__blocks,
 .vd-cart-shell .cart__warnings {
-  border-radius: 2rem;
+  border-radius: 0.8rem;
+}
+
+.vd-catalogue {
+  overflow: clip;
+}
+
+.vd-catalogue__hero,
+.vd-wiki-hub__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(28rem, 0.85fr);
+  gap: clamp(2rem, 4vw, 5rem);
+  align-items: start;
+}
+
+.vd-catalogue__hero-panel,
+.vd-wiki-hub__summary,
+.vd-catalogue__card,
+.vd-wiki-hub__card {
+  padding: 2.4rem;
+  border: 1px solid rgba(var(--vd-white), 0.08);
+  border-radius: 0.8rem;
+  background:
+    linear-gradient(180deg, rgba(var(--vd-white), 0.05), rgba(var(--vd-white), 0.03)),
+    rgba(var(--vd-black-soft), 0.74);
+  box-shadow: 0 2rem 5rem rgba(var(--vd-shadow), 0.2);
+}
+
+.vd-catalogue__title,
+.vd-wiki-hub__title {
+  margin: 1.2rem 0 0;
+  color: rgb(var(--vd-ivory));
+  font-size: clamp(4.4rem, 4.8vw, 7rem);
+  line-height: 0.94;
+}
+
+.vd-catalogue__text,
+.vd-catalogue__text p,
+.vd-wiki-hub__text,
+.vd-wiki-hub__text p {
+  margin: 1.8rem 0 0;
+  color: rgba(var(--vd-ivory), 0.8);
+  font-size: clamp(1.7rem, 1.3vw, 1.95rem);
+  line-height: 1.72;
+}
+
+.vd-catalogue__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem;
+  margin-top: 2.4rem;
+}
+
+.vd-catalogue__metric-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.vd-catalogue__metric {
+  padding: 1.4rem 1.6rem;
+  border: 1px solid rgba(var(--vd-white), 0.08);
+  background: rgba(var(--vd-white), 0.03);
+}
+
+.vd-catalogue__metric span,
+.vd-catalogue__card-head span,
+.vd-wiki-hub__summary span,
+.vd-wiki-hub__card span {
+  display: block;
+  color: rgba(var(--vd-ivory), 0.56);
+  font-size: 1.1rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.vd-catalogue__metric strong,
+.vd-catalogue__card-head strong {
+  display: block;
+  margin-top: 0.8rem;
+  color: rgb(var(--vd-ivory));
+}
+
+.vd-catalogue__grid,
+.vd-wiki-hub__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.6rem;
+  margin-top: 3.2rem;
+}
+
+.vd-catalogue__card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.2rem;
+  align-items: start;
+}
+
+.vd-catalogue__card h3,
+.vd-wiki-hub__card h3 {
+  margin: 1.2rem 0 0;
+  color: rgb(var(--vd-ivory));
+  font-size: clamp(2.6rem, 2.3vw, 3.6rem);
+  line-height: 0.98;
+}
+
+.vd-catalogue__card-text,
+.vd-catalogue__card-text p,
+.vd-wiki-hub__summary p,
+.vd-wiki-hub__card-text,
+.vd-wiki-hub__card-text p {
+  margin: 1.2rem 0 0;
+  color: rgba(var(--vd-ivory), 0.74);
+  line-height: 1.72;
 }
 
 @media screen and (max-width: 989px) {
+  .vd-catalogue__hero,
+  .vd-wiki-hub__hero,
   .vd-page-banner__shell,
   .vd-new-product__shell,
   .vd-page-flow__hero,
@@ -4899,7 +5013,9 @@ body:has(.section-vd-hero) .header-wrapper {
   .vd-page-flow__metrics,
   .vd-page-flow__pillars,
   .vd-page-flow__recipe-grid,
-  .vd-page-flow__product-grid {
+  .vd-page-flow__product-grid,
+  .vd-catalogue__grid,
+  .vd-wiki-hub__grid {
     grid-template-columns: 1fr;
   }
 }
@@ -4912,9 +5028,13 @@ body:has(.section-vd-hero) .header-wrapper {
   .vd-page-flow__pillar,
   .vd-page-flow__recipe-card,
   .vd-page-flow__prose,
+  .vd-catalogue__hero-panel,
+  .vd-catalogue__card,
+  .vd-wiki-hub__summary,
+  .vd-wiki-hub__card,
   .vd-contact-section__card,
   .vd-contact-section__form-shell {
-    border-radius: 2rem;
+    border-radius: 0.6rem;
   }
 
   .vd-new-product__item-copy {

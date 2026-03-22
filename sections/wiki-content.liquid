@@ -1,0 +1,165 @@
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+<section class="section-{{ section.id }}-padding vd-wiki-hub color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    <div class="vd-wiki-hub__hero">
+      <div class="vd-wiki-hub__copy">
+        {% if section.settings.eyebrow != blank %}
+          <span class="vd-section-kicker">{{ section.settings.eyebrow }}</span>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <h2 class="vd-wiki-hub__title">{{ section.settings.heading }}</h2>
+        {% endif %}
+
+        {% if section.settings.text != blank %}
+          <div class="vd-wiki-hub__text rte">{{ section.settings.text }}</div>
+        {% endif %}
+      </div>
+
+      <div class="vd-wiki-hub__summary">
+        <span>Base de travail</span>
+        <p>{{ section.settings.summary }}</p>
+      </div>
+    </div>
+
+    <div class="vd-wiki-hub__grid" role="list">
+      {% for block in section.blocks %}
+        <article class="vd-wiki-hub__card" role="listitem" {{ block.shopify_attributes }}>
+          <span>{{ block.settings.kicker }}</span>
+          <h3>{{ block.settings.title }}</h3>
+          <div class="vd-wiki-hub__card-text rte">{{ block.settings.text }}</div>
+
+          {% if block.settings.link != blank and block.settings.link_label != blank %}
+            <a href="{{ block.settings.link }}" class="vd-arrow-cta">
+              <span class="vd-arrow-cta__label">{{ block.settings.link_label }}</span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "VD Wiki Content",
+  "tag": "section",
+  "class": "section section-vd-wiki-content",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Le Wiki"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Une base editoriale a enrichir, sans surcharge ni folklore."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Cette section pose une base simple: un angle clair, trois ou quatre blocs forts, et des passerelles nettes vers les produits ou contenus lies. Vous pourrez ensuite injecter les videos, les demonstrations et les approfondissements.</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "summary",
+      "label": "Resume lateral",
+      "default": "Une page wiki doit cadrer un sujet, le rendre lisible rapidement et ouvrir des pistes de lecture ou d'achat sans perdre la tenue de marque."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Palette",
+      "default": "scheme-3"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge haute",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge basse",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Bloc",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Kicker",
+          "default": "Lecture"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Un angle net"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Texte",
+          "default": "<p>Un bloc court pour poser une idée forte, une preuve ou une passerelle vers un produit ou une autre page du wiki.</p>"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Libelle lien",
+          "default": "Continuer"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Lien"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "VD Wiki Content",
+      "blocks": [
+        { "type": "item" },
+        { "type": "item" },
+        { "type": "item" }
+      ]
+    }
+  ]
+}
+{% endschema %}

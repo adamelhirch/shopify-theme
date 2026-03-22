@@ -37,9 +37,12 @@
                 {% else %}
                   href="{{ section.settings.primary_button_link }}"
                 {% endif %}
-                class="button button--primary"
+                class="vd-arrow-cta"
               >
-                {{ section.settings.primary_button_label }}
+                <span class="vd-arrow-cta__label">{{ section.settings.primary_button_label }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
               </a>
             {% endif %}
 
@@ -50,9 +53,12 @@
                 {% else %}
                   href="{{ section.settings.secondary_button_link }}"
                 {% endif %}
-                class="button button--secondary"
+                class="vd-arrow-cta"
               >
-                {{ section.settings.secondary_button_label }}
+                <span class="vd-arrow-cta__label">{{ section.settings.secondary_button_label }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
               </a>
             {% endif %}
           </div>

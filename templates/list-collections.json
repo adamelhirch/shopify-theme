@@ -1,9 +1,61 @@
 {
   "sections": {
+    "vd_catalogue_orbital_G7w2nC": {
+      "type": "vd-catalogue-orbital",
+      "blocks": {
+        "collection_1": {
+          "type": "entry",
+          "settings": {
+            "kicker": "Signature",
+            "title": "Vanille Bourbon",
+            "text": "<p>Le coeur de la maison: gousses, caviar, poudre, extraits et formats d'entree ou de cadeau. C'est ici qu'on doit comprendre le mieux la marque.</p>",
+            "collection": "vanille-bourbon",
+            "link_label": "Entrer dans l'univers"
+          }
+        },
+        "collection_2": {
+          "type": "entry",
+          "settings": {
+            "kicker": "Extension",
+            "title": "Epices de Madagascar",
+            "text": "<p>Une lecture plus large du sourcing maison: epices aromatiques, accords et formats qui prolongent naturellement l'univers principal.</p>",
+            "collection": "epices-madagascar",
+            "link_label": "Explorer les epices"
+          }
+        },
+        "collection_3": {
+          "type": "entry",
+          "settings": {
+            "kicker": "Selection",
+            "title": "Poivres, baies & coffrets",
+            "text": "<p>Le catalogue doit aussi offrir des points d'entree plus rapides: idee cadeau, premier panier, ou besoins plus pointus autour des accords.</p>",
+            "collection": "poivre-baies",
+            "link_label": "Voir les selections"
+          }
+        }
+      },
+      "block_order": [
+        "collection_1",
+        "collection_2",
+        "collection_3"
+      ],
+      "settings": {
+        "eyebrow": "Catalogue",
+        "heading": "Une navigation catalogue plus logique, plus tranchee, plus premium.",
+        "text": "<p>On ne veut plus d'une page de collections neutre. Elle doit orienter selon le besoin, la maturite du client et le type d'usage, avec une vraie sensation de luxe sobre.</p>",
+        "primary_link_label": "Voir tous les produits",
+        "primary_link": "shopify://collections/all",
+        "secondary_link_label": "Aller aux recettes",
+        "secondary_link": "shopify://pages/recettes",
+        "color_scheme": "scheme-3",
+        "padding_top": 20,
+        "padding_bottom": 28
+      }
+    },
     "main": {
       "type": "main-list-collections",
       "settings": {
-        "title": "Nos univers produits",
+        "title": "Tous les univers",
         "sort": "alphabetical",
         "image_ratio": "square"
       }
@@ -14,22 +66,22 @@
         "pillar_1": {
           "type": "pillar",
           "settings": {
-            "title": "Vanille",
-            "text": "<p>Le coeur de la maison, avec une lecture nette des formats et des usages.</p>"
+            "title": "Entrer vite",
+            "text": "<p>Le client doit comprendre tout de suite ou aller: cadeau, usage quotidien, patisserie ou sourcing plus expert.</p>"
           }
         },
         "pillar_2": {
           "type": "pillar",
           "settings": {
-            "title": "Epices & baies",
-            "text": "<p>Une extension naturelle de la marque pour prolonger l'univers aromatique.</p>"
+            "title": "Monter en gamme",
+            "text": "<p>Le catalogue doit donner une sensation de precision, pas une impression de bazar ou de simples tuiles Shopify.</p>"
           }
         },
         "pillar_3": {
           "type": "pillar",
           "settings": {
-            "title": "Coffrets & decouverte",
-            "text": "<p>Des portes d'entree plus simples pour offrir, tester ou composer un premier panier.</p>"
+            "title": "Relier au contenu",
+            "text": "<p>Chaque univers doit pouvoir renvoyer vers les bons usages, recettes ou pages de wiki pour aider a choisir.</p>"
           }
         }
       },
@@ -39,15 +91,16 @@
         "pillar_3"
       ],
       "settings": {
-        "heading": "Une navigation catalogue deja plus habitee.",
-        "text": "<p>Cette page liste les collections, mais elle doit deja raconter une logique de gamme et une direction de marque.</p>",
+        "heading": "Un catalogue qui raconte une logique avant d'empiler des cartes.",
+        "text": "<p>Cette base est faite pour etre ensuite enrichie avec vos videos, vos preuves visuelles et des niveaux de lecture plus fins.</p>",
         "color_scheme": "scheme-2",
-        "padding_top": 16,
+        "padding_top": 0,
         "padding_bottom": 56
       }
     }
   },
   "order": [
+    "vd_catalogue_orbital_G7w2nC",
     "main",
     "vd_story_grid_list_collections_n9Q2uK"
   ]
