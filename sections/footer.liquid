@@ -50,6 +50,46 @@
   -%}
     {%- unless only_empty_brand -%}
       <div class="footer__content-top page-width">
+        <div class="vd-footer-intro{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+          <div class="vd-footer-intro__copy">
+            <span class="vd-section-kicker">Maison</span>
+            <h2>Une maison directe, une lecture plus sobre, un catalogue plus clair.</h2>
+            <p>
+              Vanille Desire relie produit, wiki, recettes et contact dans une meme direction. Le footer doit refermer
+              le site proprement, pas juste lister des liens.
+            </p>
+          </div>
+          <div class="vd-footer-intro__links">
+            <a href="/collections/all" class="vd-arrow-cta">
+              <span class="vd-arrow-cta__label">Voir le catalogue</span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+            <a href="/pages/contact" class="vd-arrow-cta">
+              <span class="vd-arrow-cta__label">Nous contacter</span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="vd-footer-signals{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+          <article class="vd-footer-signals__card">
+            <span>Origine</span>
+            <strong>Direct Madagascar</strong>
+          </article>
+          <article class="vd-footer-signals__card">
+            <span>Lecture</span>
+            <strong>Formats, usages, wiki</strong>
+          </article>
+          <article class="vd-footer-signals__card">
+            <span>Service</span>
+            <strong>Expedition soignee</strong>
+          </article>
+        </div>
+
         {%- if section.blocks.size > 0 -%}
           {%- liquid
             if section.blocks.size == 9

@@ -10,14 +10,46 @@
   }
 </style>
 
-<div class="template-404 page-width page-margin center">
-  <p>
-    {{ 'templates.404.subtext' | t }}
-  </p>
-  <h1 class="title">
-    {{ 'templates.404.title' | t }}
-  </h1>
-  <a href="{{ routes.all_products_collection_url }}" class="button">
-    {{ 'general.continue_shopping' | t }}
-  </a>
+<div class="template-404 vd-404 page-width page-margin">
+  <div class="vd-404__shell">
+    <div class="vd-404__copy">
+      <span class="vd-section-kicker">{{ 'templates.404.subtext' | t }}</span>
+      <h1 class="title">
+        {{ 'templates.404.title' | t }}
+      </h1>
+      <p>
+        Cette page n'existe pas ou n'est pas encore publiee dans la boutique. L'important est de repartir proprement
+        vers le catalogue, les recettes ou le contact.
+      </p>
+      <div class="vd-404__actions">
+        <a href="{{ routes.all_products_collection_url }}" class="vd-arrow-cta">
+          <span class="vd-arrow-cta__label">{{ 'general.continue_shopping' | t }}</span>
+          <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+            <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+          </svg>
+        </a>
+        <a href="/pages/contact" class="vd-arrow-cta">
+          <span class="vd-arrow-cta__label">Nous contacter</span>
+          <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+            <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="vd-404__panel">
+      <article class="vd-404__metric">
+        <span>Retour rapide</span>
+        <strong>Catalogue</strong>
+      </article>
+      <article class="vd-404__metric">
+        <span>Lecture utile</span>
+        <strong>Recettes & wiki</strong>
+      </article>
+      <article class="vd-404__metric">
+        <span>Besoin precis</span>
+        <strong>Contact direct</strong>
+      </article>
+    </div>
+  </div>
 </div>

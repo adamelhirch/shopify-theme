@@ -4822,11 +4822,127 @@ body:has(.section-vd-hero) .header-wrapper {
   font-size: 2rem;
 }
 
+.vd-footer-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(28rem, 0.9fr);
+  gap: 1.6rem;
+  margin-bottom: 1.8rem;
+}
+
+.vd-footer-intro__copy,
+.vd-footer-intro__links,
+.vd-footer-signals__card,
+.vd-search-shell__hero-copy,
+.vd-search-shell__hero-panel,
+.vd-search-shell__result-intro,
+.vd-404__copy,
+.vd-404__metric {
+  padding: 2.2rem;
+  border-radius: 0.8rem;
+  border: 1px solid rgba(var(--vd-white), 0.08);
+  background:
+    linear-gradient(180deg, rgba(var(--vd-white), 0.05), rgba(var(--vd-white), 0.03)),
+    rgba(var(--vd-black-soft), 0.68);
+  box-shadow: 0 2rem 5rem rgba(var(--vd-shadow), 0.18);
+}
+
+.vd-footer-intro__copy h2,
+.vd-404__copy .title {
+  margin: 1rem 0 0;
+  color: rgb(var(--vd-ivory));
+  font-size: clamp(3rem, 3vw, 4.8rem);
+  line-height: 0.98;
+}
+
+.vd-footer-intro__copy p,
+.vd-search-shell__hero-copy p,
+.vd-404__copy p {
+  margin: 1.4rem 0 0;
+  color: rgba(var(--vd-ivory), 0.76);
+  line-height: 1.72;
+}
+
+.vd-footer-intro__links {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.vd-footer-signals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.vd-footer-signals__card span,
+.vd-search-shell__hero-metric span,
+.vd-404__metric span {
+  display: block;
+  color: rgba(var(--vd-ivory), 0.56);
+  font-size: 1.05rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.vd-footer-signals__card strong,
+.vd-search-shell__hero-metric strong,
+.vd-404__metric strong {
+  display: block;
+  margin-top: 0.7rem;
+  color: rgb(var(--vd-ivory));
+  font-size: 1.5rem;
+  line-height: 1.35;
+}
+
 .vd-blog-shell,
 .vd-search-shell,
 .vd-article-shell,
 .vd-faq-shell {
   color: rgb(var(--vd-ivory));
+}
+
+.vd-search-shell__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(28rem, 0.9fr);
+  gap: 1.6rem;
+  margin-bottom: 2rem;
+}
+
+.vd-search-shell__hero-copy .h2 {
+  margin: 1rem 0 0;
+  text-align: left;
+}
+
+.vd-search-shell__hero-panel,
+.vd-search-shell__hero-links {
+  display: grid;
+  gap: 1rem;
+}
+
+.vd-search-shell__result-intro {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.6rem;
+  align-items: end;
+  margin-bottom: 1.6rem;
+}
+
+.vd-search-shell__result-copy h2 {
+  margin: 1rem 0 0;
+  color: rgb(var(--vd-ivory));
+  font-size: clamp(2.6rem, 2.8vw, 3.8rem);
+  line-height: 1.02;
+}
+
+.vd-search-shell__result-meta {
+  display: flex;
+  align-items: center;
+}
+
+.vd-search-shell__result-meta strong {
+  color: rgb(var(--vd-ivory));
+  font-size: 1.8rem;
 }
 
 .vd-blog-shell__head,
@@ -5175,6 +5291,23 @@ body:has(.section-vd-hero) .header-wrapper {
 .vd-faq-shell .collapsible-content__inner {
   margin-bottom: 1rem;
   padding: 0 2rem 2rem;
+}
+
+.vd-404 {
+  color: rgb(var(--vd-ivory));
+}
+
+.vd-404__shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(28rem, 0.85fr);
+  gap: 1.6rem;
+  align-items: stretch;
+}
+
+.vd-404__actions,
+.vd-404__panel {
+  display: grid;
+  gap: 1rem;
 }
 
 .vd-cart-shell .page-width {
@@ -5638,6 +5771,9 @@ body:has(.section-vd-hero) .header-wrapper {
   .vd-catalogue__hero,
   .vd-wiki-hub__hero,
   .vd-page-banner__shell,
+  .vd-footer-intro,
+  .vd-search-shell__hero,
+  .vd-404__shell,
   .vd-blog-shell__head,
   .vd-blog-shell__feature-link,
   .collection-hero__inner,
@@ -5675,6 +5811,7 @@ body:has(.section-vd-hero) .header-wrapper {
   }
 
   .vd-page-flow__metrics,
+  .vd-footer-signals,
   .collection-hero__metrics,
   .vd-page-flow__pillars,
   .vd-page-flow__recipe-grid,
@@ -5696,6 +5833,14 @@ body:has(.section-vd-hero) .header-wrapper {
 
 @media screen and (max-width: 749px) {
   .vd-page-banner__shell,
+  .vd-footer-intro__copy,
+  .vd-footer-intro__links,
+  .vd-footer-signals__card,
+  .vd-search-shell__hero-copy,
+  .vd-search-shell__hero-panel,
+  .vd-search-shell__result-intro,
+  .vd-404__copy,
+  .vd-404__metric,
   .vd-page-flow__hero-card,
   .vd-page-flow__pillar,
   .vd-page-flow__recipe-card,
@@ -5729,6 +5874,11 @@ body:has(.section-vd-hero) .header-wrapper {
 
   .vd-new-product__item-copy strong {
     font-size: clamp(2.8rem, 8vw, 4rem);
+  }
+
+  .vd-search-shell__result-intro {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .footer__list-social .list-social__link {
