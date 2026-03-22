@@ -6,24 +6,24 @@
       "block_order": [],
       "settings": {
         "eyebrow": "Producteurs directs de Madagascar",
-        "heading": "",
-        "text": "",
+        "heading": "Vanille, caviar et epices de Madagascar.",
+        "text": "<p>Une maison qui va droit au produit: origine claire, formats lisibles et intensite aromatique reelle pour cuisiner, offrir ou sourcer serieusement.</p>",
         "show_scroll_indicator": true,
         "scroll_label": "Glisser vers le bas",
         "external_video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
         "background_image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
         "use_demo_video": false,
         "media_overlay_opacity": 35,
-        "button_label": "",
-        "button_link": "",
-        "secondary_button_label": "",
-        "secondary_button_link": "",
-        "metric_1_value": "",
-        "metric_1_label": "",
-        "metric_2_value": "",
-        "metric_2_label": "",
-        "metric_3_value": "",
-        "metric_3_label": "",
+        "button_label": "Entrer dans le catalogue",
+        "button_link": "shopify://collections/all",
+        "secondary_button_label": "Voir la vanille bourbon",
+        "secondary_button_link": "shopify://collections/vanille-bourbon",
+        "metric_1_value": "Direct",
+        "metric_1_label": "Producteurs",
+        "metric_2_value": "Formats",
+        "metric_2_label": "Usage clair",
+        "metric_3_value": "Madagascar",
+        "metric_3_label": "Origine",
         "color_scheme": "scheme-3",
         "padding_top": 0,
         "padding_bottom": 0
@@ -34,7 +34,7 @@
       "settings": {
         "eyebrow": "Nouveau produit",
         "heading": "Caviar de vanille",
-        "text": "<p>Un concentre aromatique dense, net et pret a l'emploi.</p>",
+        "text": "<p>Les graines de vanille dans leur forme la plus directe: dense, propre, visible a l'assiette et simple a doser.</p>",
         "featured_product": "caviar-vanille-bourbon-madagascar-20g",
         "supporting_collection": "vanille-bourbon",
         "primary_button_label": "J'en profite",
@@ -91,7 +91,7 @@
       "settings": {
         "eyebrow": "Heritage",
         "heading": "Notre savoir-faire",
-        "text": "<p>Une section qui reste sur place pendant que l'histoire se deroule. Le but est de montrer le geste, le temps long et l'affinage comme une meme choregraphie, pas comme trois cartes statiques.</p>",
+        "text": "<p>Pollinisation, maturation, affinage: trois etapes lentes qui donnent aux gousses leur souplesse, leur parfum et leur profondeur.</p>",
         "button_label": "Notre histoire",
         "button_link": "shopify://pages/qui-sommes-nous",
         "color_scheme": "scheme-3",
@@ -99,12 +99,107 @@
         "padding_bottom": 32
       }
     },
+    "vd_story_grid_home_P8j4Rz": {
+      "type": "vd-story-grid",
+      "blocks": {
+        "pillar_1": {
+          "type": "pillar",
+          "settings": {
+            "title": "Choisir vite",
+            "text": "<p>Entrer par le bon format sans se perdre entre les references: gousses, caviar, poudre, extraits ou coffrets.</p>"
+          }
+        },
+        "pillar_2": {
+          "type": "pillar",
+          "settings": {
+            "title": "Comprendre vraiment",
+            "text": "<p>Le wiki et les recettes servent a mieux acheter, pas a decorer le site. Chaque lecture doit aider a choisir plus juste.</p>"
+          }
+        },
+        "pillar_3": {
+          "type": "pillar",
+          "settings": {
+            "title": "Acheter avec confiance",
+            "text": "<p>Une maison plus directe, des pages plus lisibles et une vraie sensation de qualite avant meme d'ouvrir le colis.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "pillar_1",
+        "pillar_2",
+        "pillar_3"
+      ],
+      "settings": {
+        "heading": "Un site qui doit aider a choisir, pas juste a regarder.",
+        "text": "<p>On clarifie la navigation, on densifie les preuves et on relie mieux le contenu au catalogue pour que chaque page serve la vente autant que l'image de marque.</p>",
+        "color_scheme": "scheme-2",
+        "padding_top": 4,
+        "padding_bottom": 16
+      }
+    },
+    "vd_editorial_reel_home_R4n6Qy": {
+      "type": "vd-editorial-reel",
+      "blocks": {
+        "media_card_1": {
+          "type": "media_card",
+          "settings": {
+            "kicker": "Origine",
+            "title": "Madagascar n'est pas un decor, c'est la source.",
+            "text": "<p>Le site doit montrer le produit, le geste et la matiere avant de parler de design.</p>",
+            "external_video_url": "",
+            "video": "",
+            "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg",
+            "link_label": "Voir la maison",
+            "link": "shopify://pages/qui-sommes-nous"
+          }
+        },
+        "media_card_2": {
+          "type": "media_card",
+          "settings": {
+            "kicker": "Usages",
+            "title": "Des formats lisibles pour cuisiner sans hesiter.",
+            "text": "<p>Le client doit comprendre tout de suite quand prendre une gousse, du caviar, de la poudre ou un coffret.</p>",
+            "external_video_url": "",
+            "video": "",
+            "image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
+            "link_label": "Voir le catalogue",
+            "link": "shopify://collections/all"
+          }
+        },
+        "media_card_3": {
+          "type": "media_card",
+          "settings": {
+            "kicker": "Transmission",
+            "title": "Le wiki et les recettes prolongent la vente.",
+            "text": "<p>On rassure par le contenu, puis on ramene naturellement vers le bon produit.</p>",
+            "external_video_url": "",
+            "video": "",
+            "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg",
+            "link_label": "Explorer le wiki",
+            "link": "shopify://blogs/le-wiki"
+          }
+        }
+      },
+      "block_order": [
+        "media_card_1",
+        "media_card_2",
+        "media_card_3"
+      ],
+      "settings": {
+        "eyebrow": "Matiere & parcours",
+        "heading": "Une home plus dense, plus utile, plus credible.",
+        "text": "<p>Avant les futures videos 4K, cette base doit deja tenir par sa structure: origine, usages, preuves, catalogue et contenus relies.</p>",
+        "color_scheme": "scheme-2",
+        "padding_top": 0,
+        "padding_bottom": 16
+      }
+    },
     "vd_featured_products_v7M2Qw": {
       "type": "vd-featured-products",
       "settings": {
         "eyebrow": "Nos produits en vedette",
-        "heading": "Une galerie qui met la collection en mouvement.",
-        "text": "<p>On passe sur toute la largeur de la page avec un rail horizontal plus immersif, pour donner aux produits une lecture plus premium qu'une simple grille.</p>",
+        "heading": "Les formats qui structurent la maison.",
+        "text": "<p>Une selection resserree pour entrer vite dans l'offre et comprendre les references qui comptent.</p>",
         "collection": "vanille-bourbon",
         "products_to_show": 6,
         "button_label": "Voir toute la collection",
@@ -169,7 +264,7 @@
       ],
       "settings": {
         "heading": "Le Wiki Vanille",
-        "text": "<p>Explorez un espace editorial construit pour eduquer, inspirer et credibiliser la maison, loin d'une simple grille de blog standard.</p>",
+        "text": "<p>Origine, gestes, varietes, dosage et conservation: un contenu fait pour mieux acheter, mieux cuisiner et mieux comprendre.</p>",
         "button_label": "Explorer le wiki",
         "button_link": "shopify://blogs/le-wiki",
         "color_scheme": "scheme-3",
@@ -182,6 +277,8 @@
     "vd_hero_premium_YyXL7E",
     "vd_new_product_bento_KmT2rQ",
     "vd_craftsmanship_m7Kp2L",
+    "vd_story_grid_home_P8j4Rz",
+    "vd_editorial_reel_home_R4n6Qy",
     "vd_featured_products_v7M2Qw",
     "vd_wiki_grid_A2mL9d"
   ]
