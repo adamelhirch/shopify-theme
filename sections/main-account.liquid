@@ -15,19 +15,50 @@
 {%- endstyle -%}
 
 <div class="customer account section-{{ section.id }}-padding">
-  <div>
-    <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
-    <a href="{{ routes.account_logout_url }}">
-      <span class="svg-wrapper">
-        {{- 'icon-account.svg' | inline_asset_content -}}
-      </span>
-      {{ 'customer.log_out' | t }}
-    </a>
-  </div>
+  {%- assign latest_order = customer.orders.first -%}
+  <div class="vd-customer-shell">
+    <div class="vd-customer-shell__header">
+      <div>
+        <p class="vd-customer-shell__eyebrow">Espace client</p>
+        <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
+        <p class="vd-customer-shell__lede">
+          Une lecture plus directe pour suivre les commandes, les statuts et les adresses sans passer par des ecrans neutres.
+        </p>
+      </div>
+      <div class="vd-customer-shell__links">
+        <a href="{{ routes.account_addresses_url }}" class="button button--secondary">
+          {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
+        </a>
+        <a href="{{ routes.account_logout_url }}" class="vd-customer-shell__text-link">
+          <span class="svg-wrapper">
+            {{- 'icon-account.svg' | inline_asset_content -}}
+          </span>
+          {{ 'customer.log_out' | t }}
+        </a>
+      </div>
+    </div>
 
-  <div>
-    <div>
-      <h2>{{ 'customer.orders.title' | t }}</h2>
+    <div class="vd-customer-shell__metrics" role="list">
+      <div class="vd-customer-shell__metric" role="listitem">
+        <span class="vd-customer-shell__metric-label">Commandes</span>
+        <strong>{{ customer.orders_count }}</strong>
+      </div>
+      <div class="vd-customer-shell__metric" role="listitem">
+        <span class="vd-customer-shell__metric-label">Adresses</span>
+        <strong>{{ customer.addresses_count }}</strong>
+      </div>
+      <div class="vd-customer-shell__metric" role="listitem">
+        <span class="vd-customer-shell__metric-label">Derniere commande</span>
+        <strong>{% if latest_order %}{{ latest_order.name }}{% else %}Aucune{% endif %}</strong>
+      </div>
+    </div>
+
+    <div class="vd-customer-dashboard">
+      <div class="vd-customer-card vd-customer-card--wide">
+        <div class="vd-customer-card__head">
+          <p class="vd-customer-card__kicker">{{ 'customer.orders.title' | t }}</p>
+          <h2>Historique des commandes</h2>
+        </div>
 
       {% paginate customer.orders by 20 %}
         {%- if customer.orders.size > 0 -%}
@@ -136,16 +167,23 @@
           {%- endif -%}
         {%- endif -%}
       {% endpaginate %}
-    </div>
+      </div>
 
-    <div>
-      <h2>{{ 'customer.account.details' | t }}</h2>
+      <div class="vd-customer-card vd-customer-card--aside">
+        <div class="vd-customer-card__head">
+          <p class="vd-customer-card__kicker">{{ 'customer.account.details' | t }}</p>
+          <h2>Adresse principale</h2>
+          <p>La base utile pour relancer vite une commande ou verifier une livraison.</p>
+        </div>
 
-      {{ customer.default_address | format_address }}
+        <div class="vd-customer-address">
+          {{ customer.default_address | format_address }}
+        </div>
 
-      <a href="{{ routes.account_addresses_url }}">
-        {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
-      </a>
+        <a href="{{ routes.account_addresses_url }}" class="button button--secondary">
+          {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
+        </a>
+      </div>
     </div>
   </div>
 </div>

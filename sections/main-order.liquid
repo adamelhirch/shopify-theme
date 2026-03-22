@@ -15,14 +15,38 @@
 {%- endstyle -%}
 
 <div class="customer order section-{{ section.id }}-padding">
-  <div>
-    <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
-    <a href="{{ routes.account_url }}">{{ 'customer.account.return' | t }}</a>
-  </div>
+  <div class="vd-customer-shell">
+    <div class="vd-customer-shell__header">
+      <div>
+        <p class="vd-customer-shell__eyebrow">Commande detaillee</p>
+        <h1 class="customer__title">{{ 'customer.order.title' | t: name: order.name }}</h1>
+      </div>
+      <div class="vd-customer-shell__links">
+        <a href="{{ routes.account_url }}" class="button button--secondary">{{ 'customer.account.return' | t }}</a>
+      </div>
+    </div>
 
-  <div>
-    <div>
-      <h2>{{ 'customer.order.title' | t: name: order.name }}</h2>
+    <div class="vd-customer-shell__metrics" role="list">
+      <div class="vd-customer-shell__metric" role="listitem">
+        <span class="vd-customer-shell__metric-label">{{ 'customer.order.payment_status' | t }}</span>
+        <strong>{{ order.financial_status_label }}</strong>
+      </div>
+      <div class="vd-customer-shell__metric" role="listitem">
+        <span class="vd-customer-shell__metric-label">{{ 'customer.order.fulfillment_status' | t }}</span>
+        <strong>{{ order.fulfillment_status_label }}</strong>
+      </div>
+      <div class="vd-customer-shell__metric" role="listitem">
+        <span class="vd-customer-shell__metric-label">Montant</span>
+        <strong>{{ order.total_net_amount | money_with_currency }}</strong>
+      </div>
+    </div>
+
+    <div class="vd-customer-dashboard">
+      <div class="vd-customer-card vd-customer-card--wide">
+        <div class="vd-customer-card__head">
+          <p class="vd-customer-card__kicker">Suivi</p>
+          <h2>{{ 'customer.order.title' | t: name: order.name }}</h2>
+        </div>
       {%- assign order_date = order.created_at | time_tag: format: 'date_at_time' -%}
       <p>{{ 'customer.order.date_html' | t: date: order_date }}</p>
       {%- if order.cancelled -%}
@@ -303,23 +327,31 @@
           </tr>
         </tfoot>
       </table>
-    </div>
-    <div>
-      <div>
-        <h2>{{ 'customer.order.billing_address' | t }}</h2>
+      </div>
+      <div class="vd-customer-card vd-customer-card--aside">
+        <div class="vd-customer-card__head">
+          <p class="vd-customer-card__kicker">Facturation</p>
+          <h2>{{ 'customer.order.billing_address' | t }}</h2>
+        </div>
         <p>
           <strong>{{ 'customer.order.payment_status' | t }}:</strong>
           {{ order.financial_status_label }}
         </p>
-        {{ order.billing_address | format_address }}
-      </div>
-      <div>
-        <h2>{{ 'customer.order.shipping_address' | t }}</h2>
+        <div class="vd-customer-address">
+          {{ order.billing_address | format_address }}
+        </div>
+
+        <div class="vd-customer-card__head">
+          <p class="vd-customer-card__kicker">Livraison</p>
+          <h2>{{ 'customer.order.shipping_address' | t }}</h2>
+        </div>
         <p>
           <strong>{{ 'customer.order.fulfillment_status' | t }}:</strong>
           {{ order.fulfillment_status_label }}
         </p>
-        {{ order.shipping_address | format_address }}
+        <div class="vd-customer-address">
+          {{ order.shipping_address | format_address }}
+        </div>
       </div>
     </div>
   </div>

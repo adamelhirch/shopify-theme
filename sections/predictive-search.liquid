@@ -6,6 +6,11 @@
     | plus: predictive_search.resources.articles.size
   %}
   <div id="predictive-search-results" role="listbox">
+    <div class="vd-predictive-search__shell">
+      <div class="vd-predictive-search__head">
+        <p class="vd-predictive-search__eyebrow">Recherche instantanee</p>
+        <h2>Explorer "{{ predictive_search.terms | escape }}"</h2>
+      </div>
     {%- if first_column_results_size > 0 or predictive_search.resources.products.size > 0 -%}
       <div
         id="predictive-search-results-groups-wrapper"
@@ -235,6 +240,7 @@
           {{- 'icon-arrow.svg' | inline_asset_content -}}
         </span>
       </button>
+    </div>
     </div>
   </div>
 

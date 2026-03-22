@@ -19,154 +19,169 @@
 {%- endif -%}
 
 <div class="customer login section-{{ section.id }}-padding">
-  <h1 id="recover" tabindex="-1">
-    {{ 'customer.recover_password.title' | t }}
-  </h1>
-  <div>
-    <p>
-      {{ 'customer.recover_password.subtext' | t }}
-    </p>
-
-    {%- form 'recover_customer_password' -%}
-      {% assign recover_success = form.posted_successfully? %}
-      <div class="field">
-        <input
-          type="email"
-          value=""
-          name="email"
-          id="RecoverEmail"
-          autocorrect="off"
-          autocapitalize="off"
-          autocomplete="email"
-          {% if form.errors %}
-            aria-invalid="true"
-            aria-describedby="RecoverEmail-email-error"
-            autofocus
-          {% endif %}
-          placeholder="{{ 'customer.login_page.email' | t }}"
-        >
-        <label for="RecoverEmail">
-          {{ 'customer.login_page.email' | t }}
-        </label>
+  <div class="vd-customer-shell vd-customer-shell--auth">
+    <div class="vd-customer-shell__intro">
+      <p class="vd-customer-shell__eyebrow">Compte client</p>
+      <h1 id="login" tabindex="-1" class="customer__title">Retrouver vos commandes sans bruit.</h1>
+      <p class="vd-customer-shell__lede">
+        Un acces simple pour suivre les achats, recuperer vos adresses et reprendre plus vite sur le catalogue.
+      </p>
+      <div class="vd-customer-shell__signals" role="list">
+        <span class="vd-customer-shell__signal" role="listitem">Suivi commande</span>
+        <span class="vd-customer-shell__signal" role="listitem">Adresses enregistrees</span>
+        <span class="vd-customer-shell__signal" role="listitem">Recommande rapide</span>
       </div>
-      {%- if form.errors -%}
-        <small id="RecoverEmail-email-error" class="form__message">
-          <span class="svg-wrapper">
-            {{- 'icon-error.svg' | inline_asset_content -}}
-          </span>
-          {{ form.errors.messages.form }}
-        </small>
-      {%- endif -%}
-
-      <button>
-        {{ 'customer.login_page.submit' | t }}
-      </button>
-
-      <a href="#login">
-        {{ 'customer.login_page.cancel' | t }}
-      </a>
-    {%- endform -%}
-  </div>
-
-  <h1 id="login" tabindex="-1">
-    {{ 'customer.login_page.title' | t }}
-  </h1>
-  <div>
-    {%- if recover_success == true -%}
-      <h3 class="form__message" tabindex="-1" autofocus>
-        <span class="svg-wrapper">
-          {{- 'icon-success.svg' | inline_asset_content -}}
-        </span>
-        {{ 'customer.recover_password.success' | t }}
-      </h3>
-    {%- endif -%}
-    {%- form 'customer_login', novalidate: 'novalidate' -%}
-      {%- if form.errors -%}
-        <h2 class="form__message" tabindex="-1" autofocus>
-          <span class="visually-hidden">{{ 'accessibility.error' | t }} </span>
-          <span class="svg-wrapper">
-            {{- 'icon-error.svg' | inline_asset_content -}}
-          </span>
-          {{ 'templates.contact.form.error_heading' | t }}
-        </h2>
-        {{ form.errors | default_errors }}
-      {%- endif -%}
-
-      {%- if shop.features.login_with_shop_classic_customer_accounts? -%}
-        <section name="sign-in-with-shop-provider">
-          {{ shop | login_button: hide_button: hide_shop_login_button }}
-
-          {%- unless hide_shop_login_button -%}
-            <p>
-              {{ 'customer.login_page.alternate_provider_separator' | t }}
-            </p>
-          {%- endunless -%}
-        </section>
-      {%- endif -%}
-
-      <div class="field">
-        <input
-          type="email"
-          name="customer[email]"
-          id="CustomerEmail"
-          autocomplete="email"
-          autocorrect="off"
-          autocapitalize="off"
-          {% if form.errors contains 'form' %}
-            aria-invalid="true"
-          {% endif %}
-          placeholder="{{ 'customer.login_page.email' | t }}"
-        >
-        <label for="CustomerEmail">
-          {{ 'customer.login_page.email' | t }}
-        </label>
-      </div>
-
-      {%- if form.password_needed -%}
-        <div class="field">
-          <input
-            type="password"
-            value=""
-            name="customer[password]"
-            id="CustomerPassword"
-            autocomplete="current-password"
-            {% if form.errors contains 'form' %}
-              aria-invalid="true"
-            {% endif %}
-            placeholder="{{ 'customer.login_page.password' | t }}"
-          >
-          <label for="CustomerPassword">
-            {{ 'customer.login_page.password' | t }}
-          </label>
-        </div>
-
-        <a href="#recover">
-          {{ 'customer.login_page.forgot_password' | t }}
+      <div class="vd-customer-shell__links">
+        <a href="{{ routes.all_products_collection_url }}" class="button button--secondary">Voir le catalogue</a>
+        <a href="{{ routes.account_register_url }}" class="vd-customer-shell__text-link">
+          {{ 'customer.login_page.create_account' | t }}
         </a>
-      {%- endif -%}
-
-      <button>
-        {{ 'customer.login_page.sign_in' | t }}
-      </button>
-
-      <a href="{{ routes.account_register_url }}">
-        {{ 'customer.login_page.create_account' | t }}
-      </a>
-    {%- endform -%}
-  </div>
-
-  {%- if shop.checkout.guest_login -%}
-    <div>
-      <hr>
-      <h2>{{ 'customer.login_page.guest_title' | t }}</h2>
-
-      {%- form 'guest_login' -%}
-        <button>
-          {{ 'customer.login_page.guest_continue' | t }}
-        </button>
-      {%- endform -%}
+      </div>
     </div>
-  {%- endif -%}
+
+    <div class="vd-customer-auth-grid">
+      <div class="vd-customer-card vd-customer-card--primary">
+        {%- form 'customer_login', novalidate: 'novalidate' -%}
+          <div class="vd-customer-card__head">
+            <p class="vd-customer-card__kicker">Connexion</p>
+            <h2>{{ 'customer.login_page.title' | t }}</h2>
+            <p>Reprenez votre espace client sans passer par des ecrans parasites.</p>
+          </div>
+          {%- if form.errors -%}
+            <h3 class="form__message" tabindex="-1" autofocus>
+              <span class="visually-hidden">{{ 'accessibility.error' | t }} </span>
+              <span class="svg-wrapper">
+                {{- 'icon-error.svg' | inline_asset_content -}}
+              </span>
+              {{ 'templates.contact.form.error_heading' | t }}
+            </h3>
+            {{ form.errors | default_errors }}
+          {%- endif -%}
+
+          {%- if shop.features.login_with_shop_classic_customer_accounts? -%}
+            <section name="sign-in-with-shop-provider" class="vd-customer-card__provider">
+              {{ shop | login_button: hide_button: hide_shop_login_button }}
+
+              {%- unless hide_shop_login_button -%}
+                <p class="vd-customer-card__provider-note">
+                  {{ 'customer.login_page.alternate_provider_separator' | t }}
+                </p>
+              {%- endunless -%}
+            </section>
+          {%- endif -%}
+
+          <div class="field">
+            <input
+              type="email"
+              name="customer[email]"
+              id="CustomerEmail"
+              autocomplete="email"
+              autocorrect="off"
+              autocapitalize="off"
+              {% if form.errors contains 'form' %}
+                aria-invalid="true"
+              {% endif %}
+              placeholder="{{ 'customer.login_page.email' | t }}"
+            >
+            <label for="CustomerEmail">
+              {{ 'customer.login_page.email' | t }}
+            </label>
+          </div>
+
+          {%- if form.password_needed -%}
+            <div class="field">
+              <input
+                type="password"
+                value=""
+                name="customer[password]"
+                id="CustomerPassword"
+                autocomplete="current-password"
+                {% if form.errors contains 'form' %}
+                  aria-invalid="true"
+                {% endif %}
+                placeholder="{{ 'customer.login_page.password' | t }}"
+              >
+              <label for="CustomerPassword">
+                {{ 'customer.login_page.password' | t }}
+              </label>
+            </div>
+
+            <a href="#recover" class="vd-customer-shell__text-link">
+              {{ 'customer.login_page.forgot_password' | t }}
+            </a>
+          {%- endif -%}
+
+          <button>
+            {{ 'customer.login_page.sign_in' | t }}
+          </button>
+        {%- endform -%}
+
+        {%- if shop.checkout.guest_login -%}
+          <div class="vd-customer-card__guest">
+            <p class="vd-customer-card__kicker">{{ 'customer.login_page.guest_title' | t }}</p>
+            <p>Continuer sans compte si vous terminez simplement une commande.</p>
+            {%- form 'guest_login' -%}
+              <button>{{ 'customer.login_page.guest_continue' | t }}</button>
+            {%- endform -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="vd-customer-card vd-customer-card--secondary" id="recover" tabindex="-1">
+        <div class="vd-customer-card__head">
+          <p class="vd-customer-card__kicker">Recuperation</p>
+          <h2>{{ 'customer.recover_password.title' | t }}</h2>
+          <p>{{ 'customer.recover_password.subtext' | t }}</p>
+        </div>
+        {%- form 'recover_customer_password' -%}
+          {%- if form.posted_successfully? -%}
+            <h3 class="form__message" tabindex="-1" autofocus>
+              <span class="svg-wrapper">
+                {{- 'icon-success.svg' | inline_asset_content -}}
+              </span>
+              {{ 'customer.recover_password.success' | t }}
+            </h3>
+          {%- endif -%}
+          <div class="field">
+            <input
+              type="email"
+              value=""
+              name="email"
+              id="RecoverEmail"
+              autocorrect="off"
+              autocapitalize="off"
+              autocomplete="email"
+              {% if form.errors %}
+                aria-invalid="true"
+                aria-describedby="RecoverEmail-email-error"
+                autofocus
+              {% endif %}
+              placeholder="{{ 'customer.login_page.email' | t }}"
+            >
+            <label for="RecoverEmail">
+              {{ 'customer.login_page.email' | t }}
+            </label>
+          </div>
+          {%- if form.errors -%}
+            <small id="RecoverEmail-email-error" class="form__message">
+              <span class="svg-wrapper">
+                {{- 'icon-error.svg' | inline_asset_content -}}
+              </span>
+              {{ form.errors.messages.form }}
+            </small>
+          {%- endif -%}
+
+          <button>
+            {{ 'customer.login_page.submit' | t }}
+          </button>
+
+          <a href="#login" class="vd-customer-shell__text-link">
+            {{ 'customer.login_page.cancel' | t }}
+          </a>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
 </div>
 
 {% schema %}
