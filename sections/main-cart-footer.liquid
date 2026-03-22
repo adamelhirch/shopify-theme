@@ -127,6 +127,43 @@
           {%- endcase -%}
         {% endfor %}
 
+        <div class="vd-cart-assurance" aria-label="Réassurance panier">
+          <article class="vd-cart-assurance__card vd-cart-assurance__card--payment">
+            <div class="vd-cart-assurance__payment-visual" aria-hidden="true">
+              <div class="vd-cart-assurance__payment-left">
+                <div class="vd-cart-assurance__payment-card">
+                  <span class="vd-cart-assurance__payment-line"></span>
+                  <span class="vd-cart-assurance__payment-dots"></span>
+                </div>
+                <div class="vd-cart-assurance__payment-slip">
+                  <span class="vd-cart-assurance__payment-slip-top"></span>
+                  <span class="vd-cart-assurance__payment-slip-screen">€</span>
+                  <span class="vd-cart-assurance__payment-slip-grid"></span>
+                </div>
+              </div>
+              <div class="vd-cart-assurance__payment-right">
+                <strong>Paiement sécurisé</strong>
+                <span>Checkout propre, rapide et rassurant.</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="vd-cart-assurance__card vd-cart-assurance__card--shipping">
+            <div class="vd-cart-assurance__truck" aria-hidden="true">
+              <div class="vd-cart-assurance__truck-body">
+                <span class="vd-cart-assurance__truck-cabin"></span>
+              </div>
+              <div class="vd-cart-assurance__truck-wheel vd-cart-assurance__truck-wheel--front"></div>
+              <div class="vd-cart-assurance__truck-wheel vd-cart-assurance__truck-wheel--rear"></div>
+              <span class="vd-cart-assurance__truck-road"></span>
+            </div>
+            <div class="vd-cart-assurance__copy">
+              <strong>Expédition soignée</strong>
+              <span>Préparation rapide, protection propre, suivi simple.</span>
+            </div>
+          </article>
+        </div>
+
         <div id="cart-errors"></div>
       </div>
     </div>
