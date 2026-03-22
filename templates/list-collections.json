@@ -41,8 +41,8 @@
       ],
       "settings": {
         "eyebrow": "Catalogue",
-        "heading": "Entrer dans le catalogue par besoin, par format ou par univers.",
-        "text": "<p>Cette page doit orienter vite: premier achat, idee cadeau, usage quotidien, patisserie ou besoin plus expert. Le client ne doit jamais se retrouver face a un simple mur de collections.</p>",
+        "heading": "Une navigation catalogue plus logique, plus tranchee, plus premium.",
+        "text": "<p>On ne veut plus d'une page de collections neutre. Elle doit orienter selon le besoin, la maturite du client et le type d'usage, avec une vraie sensation de luxe sobre.</p>",
         "primary_link_label": "Voir tous les produits",
         "primary_link": "shopify://collections/all",
         "secondary_link_label": "Aller aux recettes",
@@ -91,8 +91,8 @@
         "pillar_3"
       ],
       "settings": {
-        "heading": "Une logique d'achat avant une logique de grille.",
-        "text": "<p>Le catalogue doit faire gagner du temps, monter la perception luxe et relier naturellement vers les recettes, le wiki et le contact.</p>",
+        "heading": "Un catalogue qui raconte une logique avant d'empiler des cartes.",
+        "text": "<p>Cette base est faite pour etre ensuite enrichie avec vos videos, vos preuves visuelles et des niveaux de lecture plus fins.</p>",
         "color_scheme": "scheme-2",
         "padding_top": 0,
         "padding_bottom": 56

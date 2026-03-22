@@ -5938,49 +5938,6 @@ body::after {
   box-shadow: 0 22px 60px rgba(0, 0, 0, 0.32);
 }
 
-.vd-entry-nav {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.8rem;
-  padding: 0 2.1rem 1.4rem;
-}
-
-.vd-entry-nav__item {
-  display: grid;
-  gap: 0.35rem;
-  padding: 1rem 1.1rem;
-  border: 1px solid rgba(var(--vd-white), 0.08);
-  border-radius: 0.55rem;
-  background: rgba(var(--vd-white), 0.03);
-  text-decoration: none;
-  transition:
-    transform 180ms ease,
-    background-color 180ms ease,
-    border-color 180ms ease;
-}
-
-.vd-entry-nav__item span {
-  color: rgba(var(--vd-ivory), 0.54);
-  font-size: 0.88rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.vd-entry-nav__item strong {
-  color: rgb(var(--vd-ivory));
-  font-size: 1.35rem;
-  line-height: 1.18;
-  font-weight: 700;
-}
-
-.vd-entry-nav__item:hover,
-.vd-entry-nav__item:focus-visible {
-  transform: translateY(-0.12rem);
-  background: rgba(var(--vd-white), 0.06);
-  border-color: rgba(var(--vd-white), 0.12);
-}
-
 .button,
 .shopify-payment-button__button,
 .shopify-challenge__button,
@@ -6372,12 +6329,6 @@ body::after {
 }
 
 @media screen and (max-width: 989px) {
-  .vd-entry-nav {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding-left: 1.6rem;
-    padding-right: 1.6rem;
-  }
-
   .vd-customer-shell__header,
   .vd-customer-auth-grid,
   .vd-customer-dashboard,
@@ -6388,16 +6339,6 @@ body::after {
 }
 
 @media screen and (max-width: 749px) {
-  .vd-entry-nav {
-    grid-template-columns: 1fr;
-    gap: 0.6rem;
-    padding: 0 1.2rem 1rem;
-  }
-
-  .vd-entry-nav__item {
-    border-radius: 0.45rem;
-  }
-
   .vd-predictive-search__shell,
   .vd-customer-shell__signal,
   .vd-customer-shell__metric,
