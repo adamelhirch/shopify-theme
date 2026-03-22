@@ -1,0 +1,35 @@
+{%- liquid
+  capture gridView
+    render 'products_per_row', products_per_row: per_row, style: 'fractions'
+  endcapture
+
+  # These assignments have no effect if a sizes parameter is passed in
+  assign sizeVariable = gridView
+  if fallback != blank
+    assign fallback = fallback
+  else
+    assign fallback = 'variable'
+  endif
+-%}
+
+<div class="grid__item grid-search {{ gridView }}">
+  <div class="grid-search__page">
+    <a href="{{ item.url }}" class="grid-search__page-link">
+      <span class="grid-search__page-content">
+        <span class="h4">{{ item.title }}</span>
+        {%- if item.object_type == 'article' and item.image -%}
+          {%- render 'image-element',
+            img: item.image,
+            classes: 'grid-product__image',
+            alt: item.title,
+            widths: '180, 360, 540',
+            sizes: sizes,
+            sizeVariable: sizeVariable,
+            fallback: fallback,
+          -%}
+        {%- endif -%}
+        {{ item.content | strip_html | truncatewords: 60 }}
+      </span>
+    </a>
+  </div>
+</div>

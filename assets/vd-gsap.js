@@ -80,6 +80,18 @@
     gsap.set([strip].concat(cards), { clearProps: 'all' });
   }
 
+  function clearNewProductBentoStyles(gsap, section, gallery, items) {
+    section.classList.remove('is-enhanced');
+
+    if (gallery) {
+      gallery.classList.remove('vd-new-product__gallery--final');
+    }
+
+    if (items.length) {
+      gsap.set(items, { clearProps: 'all' });
+    }
+  }
+
   function runRegisteredCleanups(cleanups) {
     if (!cleanups || !cleanups.length) return;
 
@@ -517,6 +529,64 @@
     });
   }
 
+  function initNewProductBentos(gsap, ScrollTrigger, prefersReducedMotion, Flip) {
+    gsap.utils.toArray('[data-vd-bento-section]').forEach(function (section) {
+      var stage = section.querySelector('[data-vd-bento-stage]');
+      var gallery = section.querySelector('[data-vd-bento-gallery]');
+      var items = gsap.utils.toArray(section.querySelectorAll('[data-vd-bento-item]'));
+
+      if (!stage || !gallery || items.length < 4 || !Flip) return;
+
+      clearNewProductBentoStyles(gsap, section, gallery, items);
+
+      if (prefersReducedMotion || window.innerWidth < 990) {
+        return;
+      }
+
+      section.classList.add('is-enhanced');
+
+      gallery.classList.add('vd-new-product__gallery--final');
+      var flipState = Flip.getState(items);
+      gallery.classList.remove('vd-new-product__gallery--final');
+
+      var timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top+=72',
+          end: '+=125%',
+          pin: stage,
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true
+        }
+      });
+
+      timeline.add(
+        Flip.to(flipState, {
+          absolute: true,
+          ease: 'power2.inOut',
+          simple: true,
+          stagger: 0.03,
+          duration: 1
+        }),
+        0
+      );
+
+      timeline.to(
+        items,
+        {
+          scale: function (index) {
+            return index === 2 ? 1.02 : 0.98;
+          },
+          ease: 'none',
+          stagger: 0.01,
+          duration: 1
+        },
+        0
+      );
+    });
+  }
+
   function initTestimonials(gsap, ScrollTrigger, prefersReducedMotion) {
     gsap.utils.toArray('[data-vd-testimonials-section]').forEach(function (section) {
       if (typeof section.__vdTestimonialsCleanup === 'function') {
@@ -749,8 +819,13 @@
     var gsap = window.gsap;
     var ScrollTrigger = window.ScrollTrigger;
     var ScrollSmoother = window.ScrollSmoother;
+    var Flip = window.Flip || null;
 
-    gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+    if (Flip) {
+      gsap.registerPlugin(ScrollTrigger, ScrollSmoother, Flip);
+    } else {
+      gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+    }
 
     ScrollTrigger.getAll().forEach(function (trigger) {
       trigger.kill();
@@ -818,6 +893,7 @@
 
     initCraftStories(gsap, ScrollTrigger, prefersReducedMotion);
     initFeatureGalleries(gsap, ScrollTrigger, prefersReducedMotion);
+    initNewProductBentos(gsap, ScrollTrigger, prefersReducedMotion, Flip);
     initTestimonials(gsap, ScrollTrigger, prefersReducedMotion);
 
     gsap.utils.toArray('.vd-reveal').forEach(function (section) {

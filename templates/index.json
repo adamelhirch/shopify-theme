@@ -29,6 +29,23 @@
         "padding_bottom": 0
       }
     },
+    "vd_new_product_bento_KmT2rQ": {
+      "type": "vd-new-product-bento",
+      "settings": {
+        "eyebrow": "Nouveau produit",
+        "heading": "Caviar de vanille",
+        "text": "<p>Le nouveau focus maison: un concentre aromatique dense, net et pret a l'emploi. Le bento met la nouveaute au centre, avec tout l'univers produit autour pour donner de la profondeur sans perdre la lisibilite.</p>",
+        "featured_product": "caviar-vanille-bourbon-madagascar-20g",
+        "supporting_collection": "vanille-bourbon",
+        "primary_button_label": "J'en profite",
+        "primary_button_link": "",
+        "secondary_button_label": "Voir tous les produits",
+        "secondary_button_link": "",
+        "color_scheme": "scheme-3",
+        "padding_top": 24,
+        "padding_bottom": 20
+      }
+    },
     "vd_craftsmanship_m7Kp2L": {
       "type": "vd-craftsmanship",
       "blocks": {
@@ -163,6 +180,7 @@
   },
   "order": [
     "vd_hero_premium_YyXL7E",
+    "vd_new_product_bento_KmT2rQ",
     "vd_craftsmanship_m7Kp2L",
     "vd_featured_products_v7M2Qw",
     "vd_wiki_grid_A2mL9d"

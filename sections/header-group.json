@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.header.name",
   "type": "header",
@@ -5,27 +14,15 @@
     "header": {
       "type": "header",
       "settings": {
-        "color_scheme": "scheme-2",
         "logo_position": "middle-center",
+        "mobile_logo_position": "center",
         "menu": "main-menu",
-        "brand_menu_label": "Vanille Desire",
-        "shop_menu_label": "Shop",
-        "shop_link_1_label": "Vanille Bourbon",
-        "shop_link_1_url": "shopify://collections/vanille-bourbon",
-        "shop_link_2_label": "Epices de Madagascar",
-        "shop_link_2_url": "shopify://collections/epices-madagascar",
-        "shop_link_3_label": "Caviar & Extraits",
-        "shop_link_3_url": "shopify://collections/all",
-        "shop_link_4_label": "Coffrets",
-        "shop_link_4_url": "shopify://collections/all",
-        "shop_link_5_label": "Tous les produits",
-        "shop_link_5_url": "shopify://collections/all",
         "menu_type_desktop": "dropdown",
         "sticky_header_type": "none",
         "show_line_separator": false,
+        "color_scheme": "scheme-2",
         "enable_country_selector": false,
         "enable_language_selector": false,
-        "mobile_logo_position": "center",
         "margin_bottom": 0,
         "padding_top": 12,
         "padding_bottom": 12

@@ -101,6 +101,7 @@
         "share"
       ],
       "settings": {
+        "color_scheme": "scheme-3",
         "enable_sticky_info": true,
         "gallery_layout": "stacked",
         "media_size": "large",
@@ -204,7 +205,7 @@
         "button_label": "",
         "button_link": "",
         "swipe_on_mobile": false,
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-3",
         "columns_mobile": "1",
         "padding_top": 36,
         "padding_bottom": 36
@@ -222,8 +223,23 @@
         "show_vendor": false,
         "show_rating": false,
         "columns_mobile": "2",
+        "color_scheme": "scheme-3",
         "padding_top": 36,
         "padding_bottom": 28
+      }
+    },
+    "vd_testimonials_product_k3L8sP": {
+      "type": "vd-testimonials",
+      "settings": {
+        "eyebrow": "Rassurance",
+        "heading": "Le produit ne doit pas vivre seul.",
+        "text": "<p>Une derniere couche de credibilite avant la fin de page: avis, confiance et continuité de marque.</p>",
+        "reviews_limit": "6",
+        "button_label": "Voir plus de produits",
+        "button_link": "shopify://collections/vanille-bourbon",
+        "color_scheme": "scheme-3",
+        "padding_top": 12,
+        "padding_bottom": 56
       }
     }
   },
@@ -231,6 +247,7 @@
     "main",
     "image-with-text",
     "multicolumn",
-    "related-products"
+    "related-products",
+    "vd_testimonials_product_k3L8sP"
   ]
 }

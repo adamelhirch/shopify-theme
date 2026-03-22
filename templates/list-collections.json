@@ -3,13 +3,52 @@
     "main": {
       "type": "main-list-collections",
       "settings": {
-        "title": "Collections",
+        "title": "Nos univers produits",
         "sort": "alphabetical",
         "image_ratio": "square"
+      }
+    },
+    "vd_story_grid_list_collections_n9Q2uK": {
+      "type": "vd-story-grid",
+      "blocks": {
+        "pillar_1": {
+          "type": "pillar",
+          "settings": {
+            "title": "Vanille",
+            "text": "<p>Le coeur de la maison, avec une lecture nette des formats et des usages.</p>"
+          }
+        },
+        "pillar_2": {
+          "type": "pillar",
+          "settings": {
+            "title": "Epices & baies",
+            "text": "<p>Une extension naturelle de la marque pour prolonger l'univers aromatique.</p>"
+          }
+        },
+        "pillar_3": {
+          "type": "pillar",
+          "settings": {
+            "title": "Coffrets & decouverte",
+            "text": "<p>Des portes d'entree plus simples pour offrir, tester ou composer un premier panier.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "pillar_1",
+        "pillar_2",
+        "pillar_3"
+      ],
+      "settings": {
+        "heading": "Une navigation catalogue deja plus habitee.",
+        "text": "<p>Cette page liste les collections, mais elle doit deja raconter une logique de gamme et une direction de marque.</p>",
+        "color_scheme": "scheme-2",
+        "padding_top": 16,
+        "padding_bottom": 56
       }
     }
   },
   "order": [
-    "main"
+    "main",
+    "vd_story_grid_list_collections_n9Q2uK"
   ]
 }

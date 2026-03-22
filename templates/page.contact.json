@@ -3,8 +3,8 @@
     "main": {
       "type": "main-page",
       "settings": {
-        "padding_top": 36,
-        "padding_bottom": 36
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "form": {
@@ -12,14 +12,69 @@
       "settings": {
         "heading": "",
         "heading_size": "h1",
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
+        "color_scheme": "scheme-3",
+        "padding_top": 24,
         "padding_bottom": 36
+      }
+    },
+    "vd_testimonials_contact_n4J8kM": {
+      "type": "vd-testimonials",
+      "blocks": {
+        "testimonial_1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "\"Des produits tres propres, une lecture claire du site et une vraie sensation de maison serieuse.\"",
+            "author": "Claire M.",
+            "location": "Cliente boutique",
+            "meta": "Vanille Bourbon",
+            "product_link": "shopify://collections/vanille-bourbon"
+          }
+        },
+        "testimonial_2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "\"Le contact a ete simple et rapide. On comprend tout de suite qu'il y a quelqu'un derriere la marque.\"",
+            "author": "Hugo R.",
+            "location": "Demande professionnelle",
+            "meta": "Contact & sourcing",
+            "product_link": "shopify://pages/contact"
+          }
+        },
+        "testimonial_3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "\"La qualite produit donne envie de revenir, et les explications rassurent sur l'origine et l'usage.\"",
+            "author": "Sarah D.",
+            "location": "Commande en ligne",
+            "meta": "Caviar de vanille",
+            "product_link": "shopify://products/caviar-vanille-bourbon-madagascar-20g"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_1",
+        "testimonial_2",
+        "testimonial_3"
+      ],
+      "settings": {
+        "eyebrow": "Confiance",
+        "heading": "Un point de contact qui reste premium",
+        "text": "<p>Le formulaire ne doit pas etre une page blanche. Il doit rassurer, credibiliser et prolonger la qualite percue sur les produits.</p>",
+        "reviews_limit": "6",
+        "button_label": "Voir la collection",
+        "button_link": "shopify://collections/vanille-bourbon",
+        "color_scheme": "scheme-3",
+        "padding_top": 0,
+        "padding_bottom": 56
       }
     }
   },
   "order": [
     "main",
-    "form"
+    "form",
+    "vd_testimonials_contact_n4J8kM"
   ]
 }

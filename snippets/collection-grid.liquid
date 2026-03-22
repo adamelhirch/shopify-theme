@@ -1,0 +1,104 @@
+{% comment %}
+- collection
+- items
+- mobile_flush_grid
+- collection_subnav_style
+- quick_shop_enable
+- per_row
+{% endcomment %}
+
+{% liquid
+  if collection.products
+      assign count = collection.products_count
+      assign count_label = 'collections.general.items_with_count'
+  endif
+
+  if collection.results
+      assign count = collection.results_count
+      assign count_label = 'general.search.result_count'
+  endif
+%}
+
+<div class="grid grid--uniform{% if mobile_flush_grid %} small--grid--flush{% endif %}">
+  {%- liquid
+    assign have_sidebar = false
+    assign tag_count = 0
+    assign tag_limit = 7
+    assign have_extra_tags = false
+  -%}
+
+  {%- if collection_subnav_style == 'inline' -%}
+    {%- liquid
+      if linklists.main-menu.levels > 0
+        for link in linklists.main-menu.links
+          if link.active
+            if link.links.size > 0
+              assign have_sidebar = true
+            endif
+          elsif link.child_active
+            assign have_sidebar = true
+          endif
+        endfor
+      endif
+    -%}
+
+    {%- if have_sidebar -%}
+      {%- liquid
+        capture gridView
+          render 'products_per_row', products_per_row: per_row, style: 'fractions'
+        endcapture
+      -%}
+      <aside class="sidebar">
+        <div class="grid__item {{ gridView }} grid__item--{{ section.id }}">
+          <ul class="tags tags--vertical">
+            {%- if linklists.main-menu.levels > 0 -%}
+              {%- for link in linklists.main-menu.links -%}
+                {%- if link.active -%}
+                  {%- render 'subcollection-list', links: link.links -%}
+                {%- elsif link.child_active -%}
+                  {%- for sub_link in link.links -%}
+                    {%- if sub_link.active or sub_link.child_active -%}
+                      {%- if sub_link.levels > 0 -%}
+                        {%- render 'subcollection-list', links: sub_link.links -%}
+                      {%- else -%}
+                        {%- render 'subcollection-list', links: link.links -%}
+                      {%- endif -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              {%- endfor -%}
+
+              {%- if have_extra_tags -%}
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+          </ul>
+
+          {%- assign show_button_limit = tag_limit | minus: 1 -%}
+          {%- if tag_count > show_button_limit -%}
+            <p>
+              <button type="button" class="collapsible-trigger collapsible--auto-height collapsible-trigger-btn btn btn--tertiary tags-toggle" aria-controls="TagList-{{ section.id }}">
+                <span class="collapsible-label__closed">{{ 'collections.general.see_more' | t }}</span>
+                <span class="collapsible-label__open">{{ 'collections.general.see_less' | t }}</span>
+              </button>
+            </p>
+          {%- endif -%}
+        </div>
+      </aside>
+    {%- endif -%}
+  {%- endif -%}
+
+  <div class="product-grid-container product-grid-container--sidebar-{{ have_sidebar }}">
+    {%- for item in items -%}
+      {%- if item.object_type == 'product' -%}
+        {%- render 'product-grid-item', product: item, per_row: per_row, -%}
+      {%- else -%}
+        {%- render 'search-grid-item', item: item,  per_row: per_row, -%}
+      {%- endif -%}
+    {%- else -%}
+      <div class="grid__item">
+        <p>{{ 'collections.general.no_matches' | t }}</p>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>

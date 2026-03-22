@@ -1,5 +1,13 @@
 {
   "sections": {
+    "vd_page_flow_q2V8pL": {
+      "type": "vd-page-flow",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "padding_top": 16,
+        "padding_bottom": 8
+      }
+    },
     "main": {
       "type": "main-page",
       "settings": {
@@ -9,6 +17,7 @@
     }
   },
   "order": [
+    "vd_page_flow_q2V8pL",
     "main"
   ]
 }

@@ -1,0 +1,345 @@
+{% style %}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+{%- liquid
+  assign supporting_collection = section.settings.supporting_collection
+  assign featured_product = section.settings.featured_product
+
+  if featured_product == blank and supporting_collection != blank
+    assign featured_product = supporting_collection.products.first
+  endif
+
+  assign display_title = section.settings.heading
+  if display_title == blank and featured_product != blank
+    assign display_title = featured_product.title
+  endif
+
+  assign display_text = section.settings.text
+  assign product_subtitle = featured_product.metafields.descriptors.subtitle.value
+  assign primary_link = section.settings.primary_button_link
+  assign secondary_link = section.settings.secondary_button_link
+
+  if primary_link == blank and featured_product != blank
+    assign primary_link = featured_product.url
+  endif
+
+  if secondary_link == blank and supporting_collection != blank
+    assign secondary_link = supporting_collection.url
+  endif
+-%}
+
+<section
+  class="section-{{ section.id }}-padding vd-new-product color-{{ section.settings.color_scheme }}"
+  data-vd-bento-section
+>
+  <div class="page-width">
+    <div class="vd-new-product__shell">
+      <div class="vd-new-product__stage" data-vd-bento-stage>
+        {% if featured_product != blank %}
+          <div class="vd-new-product__gallery-shell">
+            <div class="vd-new-product__gallery" data-vd-bento-gallery>
+              {%- liquid
+                assign support_rendered = 0
+              -%}
+
+              {% for product in supporting_collection.products %}
+                {% if featured_product != blank and product.id == featured_product.id %}
+                  {% continue %}
+                {% endif %}
+                {% if support_rendered >= 2 %}
+                  {% break %}
+                {% endif %}
+
+                {%- liquid
+                  assign support_rendered = support_rendered | plus: 1
+                  assign card_image = product.featured_media.preview_image | default: product.featured_image
+                  assign card_subtitle = product.metafields.descriptors.subtitle.value | default: product.vendor
+                -%}
+
+                <a class="vd-new-product__item vd-new-product__item--support" href="{{ product.url }}" data-vd-bento-item>
+                  <div class="vd-new-product__item-media">
+                    {% if card_image != blank %}
+                      {{
+                        card_image
+                        | image_url: width: 1600
+                        | image_tag:
+                          class: 'vd-new-product__item-image',
+                          widths: '320, 540, 720, 960, 1280, 1600',
+                          sizes: '(min-width: 990px) 18vw, 42vw',
+                          loading: 'lazy',
+                          alt: card_image.alt | default: product.title | escape
+                      }}
+                    {% else %}
+                      {{ 'image' | placeholder_svg_tag: 'vd-new-product__item-image placeholder-svg' }}
+                    {% endif %}
+                  </div>
+
+                  <span class="vd-new-product__item-overlay"></span>
+                  <span class="vd-new-product__item-copy">
+                    <span class="vd-new-product__item-meta">{{ card_subtitle }}</span>
+                    <strong>{{ product.title }}</strong>
+                  </span>
+                </a>
+              {% endfor %}
+
+              {%- liquid
+                assign featured_image = featured_product.featured_media.preview_image | default: featured_product.featured_image
+              -%}
+
+              <a class="vd-new-product__item vd-new-product__item--featured" href="{{ featured_product.url }}" data-vd-bento-item>
+                <div class="vd-new-product__item-media">
+                  {% if featured_image != blank %}
+                    {{
+                      featured_image
+                      | image_url: width: 2000
+                      | image_tag:
+                        class: 'vd-new-product__item-image',
+                        widths: '540, 720, 960, 1280, 1600, 2000',
+                        sizes: '(min-width: 990px) 36vw, 88vw',
+                        loading: 'lazy',
+                        alt: featured_image.alt | default: featured_product.title | escape
+                    }}
+                  {% else %}
+                    {{ 'image' | placeholder_svg_tag: 'vd-new-product__item-image placeholder-svg' }}
+                  {% endif %}
+                </div>
+
+                <span class="vd-new-product__item-overlay"></span>
+                <span class="vd-new-product__item-copy">
+                  <span class="vd-new-product__item-meta">{{ section.settings.eyebrow }}</span>
+                  <strong>{{ featured_product.title }}</strong>
+                </span>
+              </a>
+
+              {% for product in supporting_collection.products %}
+                {% if featured_product != blank and product.id == featured_product.id %}
+                  {% continue %}
+                {% endif %}
+                {% if support_rendered < 2 %}
+                  {%- liquid
+                    assign support_rendered = support_rendered | plus: 1
+                  -%}
+                  {% continue %}
+                {% endif %}
+                {% if support_rendered >= 7 %}
+                  {% break %}
+                {% endif %}
+
+                {%- liquid
+                  assign support_rendered = support_rendered | plus: 1
+                  assign card_image = product.featured_media.preview_image | default: product.featured_image
+                  assign card_subtitle = product.metafields.descriptors.subtitle.value | default: product.vendor
+                -%}
+
+                <a class="vd-new-product__item vd-new-product__item--support" href="{{ product.url }}" data-vd-bento-item>
+                  <div class="vd-new-product__item-media">
+                    {% if card_image != blank %}
+                      {{
+                        card_image
+                        | image_url: width: 1600
+                        | image_tag:
+                          class: 'vd-new-product__item-image',
+                          widths: '320, 540, 720, 960, 1280, 1600',
+                          sizes: '(min-width: 990px) 18vw, 42vw',
+                          loading: 'lazy',
+                          alt: card_image.alt | default: product.title | escape
+                      }}
+                    {% else %}
+                      {{ 'image' | placeholder_svg_tag: 'vd-new-product__item-image placeholder-svg' }}
+                    {% endif %}
+                  </div>
+
+                  <span class="vd-new-product__item-overlay"></span>
+                  <span class="vd-new-product__item-copy">
+                    <span class="vd-new-product__item-meta">{{ card_subtitle }}</span>
+                    <strong>{{ product.title }}</strong>
+                  </span>
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+        {% else %}
+          <div class="vd-new-product__empty">
+            <p>Choisissez un produit vedette et une collection d'appui pour alimenter la galerie.</p>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="vd-new-product__copy-shell">
+        <div class="vd-new-product__copy">
+          {% if section.settings.eyebrow != blank %}
+            <span class="vd-section-kicker">{{ section.settings.eyebrow }}</span>
+          {% endif %}
+
+          {% if display_title != blank %}
+            <h2 class="vd-new-product__title">{{ display_title }}</h2>
+          {% endif %}
+
+          {% if product_subtitle != blank %}
+            <p class="vd-new-product__subtitle">{{ product_subtitle }}</p>
+          {% endif %}
+
+          {% if display_text != blank %}
+            <div class="vd-new-product__text rte">{{ display_text }}</div>
+          {% elsif featured_product != blank and featured_product.description != blank %}
+            <div class="vd-new-product__text">
+              <p>{{ featured_product.description | strip_html | truncatewords: 38 }}</p>
+            </div>
+          {% endif %}
+
+          {% if featured_product != blank %}
+            <div class="vd-new-product__facts" role="list">
+              <div class="vd-new-product__fact" role="listitem">
+                <span>Prix</span>
+                <strong>{{ featured_product.price | money_without_trailing_zeros }}</strong>
+              </div>
+
+              {% if featured_product.type != blank %}
+                <div class="vd-new-product__fact" role="listitem">
+                  <span>Catégorie</span>
+                  <strong>{{ featured_product.type }}</strong>
+                </div>
+              {% endif %}
+
+              {% if supporting_collection != blank %}
+                <div class="vd-new-product__fact" role="listitem">
+                  <span>Collection</span>
+                  <strong>{{ supporting_collection.title }}</strong>
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          <div class="vd-new-product__actions">
+            {% if section.settings.primary_button_label != blank %}
+              <a
+                {% if primary_link == blank %}
+                  role="link" aria-disabled="true"
+                {% else %}
+                  href="{{ primary_link }}"
+                {% endif %}
+                class="button button--primary"
+              >
+                {{ section.settings.primary_button_label }}
+              </a>
+            {% endif %}
+
+            {% if section.settings.secondary_button_label != blank %}
+              <a
+                {% if secondary_link == blank %}
+                  role="link" aria-disabled="true"
+                {% else %}
+                  href="{{ secondary_link }}"
+                {% endif %}
+                class="button button--secondary"
+              >
+                {{ section.settings.secondary_button_label }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "VD Nouveau Produit Bento",
+  "tag": "section",
+  "class": "section section-vd-new-product-bento",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Nouveau produit"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Un focus net sur la nouveaute, avec un produit hero et tout son ecosystème autour pour donner de la profondeur a la gamme.</p>"
+    },
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Produit vedette"
+    },
+    {
+      "type": "collection",
+      "id": "supporting_collection",
+      "label": "Collection d'appui"
+    },
+    {
+      "type": "text",
+      "id": "primary_button_label",
+      "label": "Bouton principal",
+      "default": "J'en profite"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_link",
+      "label": "Lien bouton principal"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Bouton secondaire",
+      "default": "Voir tous les produits"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Lien bouton secondaire"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Palette",
+      "default": "scheme-3"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge haute",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge basse",
+      "default": 28
+    }
+  ],
+  "presets": [
+    {
+      "name": "VD Nouveau Produit Bento"
+    }
+  ]
+}
+{% endschema %}

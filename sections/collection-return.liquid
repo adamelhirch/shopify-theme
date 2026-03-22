@@ -1,0 +1,91 @@
+{%- if collection -%}
+  {%- liquid
+    assign grid_item_width = ''
+
+    if collection.next_product
+      assign grid_item_width = 'medium-up--one-half'
+      assign sizeVariable = 'medium-up--one-half'
+    endif
+
+    if collection.image
+      assign collection_image = collection.image
+    else
+      assign collection_image = collection.products.first.featured_media.preview_image
+    endif
+  -%}
+
+  <div class="grid grid--no-gutters skrim-grid skrim-grid--pagination product-navigation">
+    {%- if collection.next_product -%}
+      <div class="grid__item {{ grid_item_width }} skrim__item medium-up--hide" data-aos="skrim__animation">
+        <a href="{{ collection.next_product }}" class="skrim__link skrim__item-content">
+          <div
+            class="skrim__overlay grid__image">
+            {%- render 'image-element',
+              img: collection.next_product.featured_media.preview_image,
+              classes: 'image-fit',
+              sizeVariable: sizeVariable,
+            -%}
+            </div>
+          <div class="skrim__title-wrapper">
+            <span class="skrim__title skrim__title--right">
+              <div class="skrim__underline-me">
+                {{ 'products.general.next_product' | t: title: collection.next_product.title }}
+              </div> <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon--wide icon-arrow-right" viewBox="0 0 50 15"><title>icon-right-arrow</title><path d="M0 9.63V5.38h35V0l15 7.5L35 15V9.63Z"/></svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    {%- endif -%}
+    <div class="grid__item {{ grid_item_width }} skrim__item" data-aos="skrim__animation">
+      <a href="{{ collection.url }}" class="skrim__link skrim__item-content">
+        <div
+          class="skrim__overlay grid__image">
+          {%- render 'image-element',
+            img: collection_image,
+            classes: 'image-fit',
+            sizeVariable: sizeVariable,
+          -%}
+          </div>
+        <div class="skrim__title-wrapper">
+          <span class="skrim__title">
+            <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon--wide icon-arrow-left" viewBox="0 0 50 15"><title>icon-left-arrow</title><path d="M50 5.38v4.25H15V15L0 7.5 15 0v5.38Z"/></svg> <div class="skrim__underline-me">{{ 'products.general.collection_return' | t: collection: collection.title }}</div>
+          </span>
+        </div>
+      </a>
+    </div>
+    {%- if collection.next_product -%}
+      <div class="grid__item {{ grid_item_width }} skrim__item small--hide" data-aos="skrim__animation">
+        <a href="{{ collection.next_product }}" class="skrim__link skrim__item-content">
+          <div
+            class="skrim__overlay grid__image">
+            {%- render 'image-element',
+              img: collection.next_product.featured_media.preview_image,
+              classes: 'image-fit',
+              sizeVariable: sizeVariable,
+            -%}
+          </div>
+          <div class="skrim__title-wrapper">
+            <span class="skrim__title skrim__title--right">
+              <div class="skrim__underline-me">{{ 'products.general.next_product' | t: title: collection.next_product.title }}</div> <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon--wide icon-arrow-right" viewBox="0 0 50 15"><title>icon-right-arrow</title><path d="M0 9.63V5.38h35V0l15 7.5L35 15V9.63Z"/></svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.collection-return.name",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.collection-return.settings.content"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["footer", "header", "custom.popups"]
+  }
+}
+{% endschema %}

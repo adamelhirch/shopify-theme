@@ -1,6 +1,6 @@
 {{ 'section-blog-post.css' | asset_url | stylesheet_tag }}
 
-<article class="article-template">
+<article class="article-template vd-article-shell">
   {%- for block in section.blocks -%}
     {%- case block.type -%}
       {%- when '@app' -%}
