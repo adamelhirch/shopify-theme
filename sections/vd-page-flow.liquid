@@ -15,6 +15,19 @@
 {%- liquid
   assign is_about_page = false
   assign is_recipes_page = false
+  assign is_generic_page = false
+  assign page_kicker = 'Editorial'
+  assign page_intro = 'Une base de page plus dense pour eviter les pages nues et garder une vraie tenue de marque.'
+  assign metric_1_label = 'Lecture'
+  assign metric_1_value = 'Claire'
+  assign metric_2_label = 'Ton'
+  assign metric_2_value = 'Sobre'
+  assign metric_3_label = 'Suite'
+  assign metric_3_value = 'Catalogue'
+  assign primary_link = '/collections/all'
+  assign primary_label = 'Voir le catalogue'
+  assign secondary_link = '/pages/contact'
+  assign secondary_label = 'Nous contacter'
 
   if page.handle == 'qui-sommes-nous'
     assign is_about_page = true
@@ -24,10 +37,57 @@
     assign is_recipes_page = true
   endif
 
+  unless is_about_page or is_recipes_page
+    assign is_generic_page = true
+  endunless
+
+  if page.handle contains 'faq'
+    assign page_kicker = 'Questions frequentes'
+    assign page_intro = 'Une page qui doit lever les doutes utiles, rassurer vite et rediriger vers les bons contenus ou produits.'
+    assign metric_1_label = 'Sujet'
+    assign metric_1_value = 'Reponses nettes'
+    assign metric_2_label = 'Angle'
+    assign metric_2_value = 'Produit + service'
+    assign metric_3_label = 'Suite'
+    assign metric_3_value = 'Contact'
+    assign primary_label = 'Voir les produits'
+  elsif page.handle contains 'wiki' or page.handle contains 'savoir' or page.handle contains 'glossaire'
+    assign page_kicker = 'Le Wiki'
+    assign page_intro = 'Une base editoriale plus severe et plus lisible, faite pour accueillir ensuite vos videos, details matiere et comparatifs.'
+    assign metric_1_label = 'Angle'
+    assign metric_1_value = 'Pedagogique'
+    assign metric_2_label = 'But'
+    assign metric_2_value = 'Orienter'
+    assign metric_3_label = 'Suite'
+    assign metric_3_value = 'Produits'
+    assign primary_link = '/pages/recettes'
+    assign primary_label = 'Voir les recettes'
+  elsif page.handle contains 'contact'
+    assign page_kicker = 'Contact'
+    assign page_intro = 'Un point de contact premium pour les demandes boutique, professionnelles ou de sourcing.'
+    assign metric_1_label = 'Canal'
+    assign metric_1_value = 'Direct'
+    assign metric_2_label = 'Usage'
+    assign metric_2_value = 'Conseil + pro'
+    assign metric_3_label = 'Suite'
+    assign metric_3_value = 'Accompagnement'
+  elsif page.handle contains 'huile'
+    assign page_kicker = 'Usage & precautions'
+    assign page_intro = 'Une page qui doit rester claire, responsable et premium, sans laisser l information utile se perdre dans le decor.'
+    assign metric_1_label = 'Focus'
+    assign metric_1_value = 'Usage externe'
+    assign metric_2_label = 'Ton'
+    assign metric_2_value = 'Responsable'
+    assign metric_3_label = 'Suite'
+    assign metric_3_value = 'Collection'
+    assign primary_link = '/collections/huiles-essentielles'
+    assign primary_label = 'Voir les huiles'
+  endif
+
   assign recipe_handles = 'caviar-vanille-bourbon-madagascar-20g,extrait-vanille-bourbon-madagascar-20ml,vanille-bourbon-madagascar-3-gousses' | split: ','
 -%}
 
-{% if is_about_page or is_recipes_page %}
+{% if is_about_page or is_recipes_page or is_generic_page %}
   <section class="section-{{ section.id }}-padding vd-page-flow color-{{ section.settings.color_scheme }}">
     <div class="page-width">
       {% if is_about_page %}
@@ -201,6 +261,81 @@
               {% endif %}
             {% endfor %}
           </div>
+        </div>
+
+        {% if page.content != blank %}
+          <div class="vd-page-flow__prose rte">
+            {{ page.content }}
+          </div>
+        {% endif %}
+      {% endif %}
+
+      {% if is_generic_page %}
+        <div class="vd-page-flow__hero">
+          <div class="vd-page-flow__hero-copy">
+            <span class="vd-section-kicker">{{ page_kicker }}</span>
+            <h1 class="vd-page-flow__title">{{ page.title }}</h1>
+            <div class="vd-page-flow__text">
+              <p>{{ page_intro }}</p>
+            </div>
+
+            <div class="vd-page-flow__metrics" role="list">
+              <div class="vd-page-flow__metric" role="listitem">
+                <span>{{ metric_1_label }}</span>
+                <strong>{{ metric_1_value }}</strong>
+              </div>
+              <div class="vd-page-flow__metric" role="listitem">
+                <span>{{ metric_2_label }}</span>
+                <strong>{{ metric_2_value }}</strong>
+              </div>
+              <div class="vd-page-flow__metric" role="listitem">
+                <span>{{ metric_3_label }}</span>
+                <strong>{{ metric_3_value }}</strong>
+              </div>
+            </div>
+
+            <div class="vd-page-flow__actions">
+              <a class="vd-arrow-cta" href="{{ primary_link }}">
+                <span class="vd-arrow-cta__label">{{ primary_label }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </a>
+              <a class="vd-arrow-cta" href="{{ secondary_link }}">
+                <span class="vd-arrow-cta__label">{{ secondary_label }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="vd-page-flow__hero-card">
+            <span class="vd-page-flow__card-kicker">Base de page</span>
+            <h2>Une structure propre avant les futurs assets.</h2>
+            <p>
+              Cette page recupere une vraie presence visuelle, des points d entree nets et une lecture plus haut de
+              gamme, meme avant l ajout des videos et contenus definitifs.
+            </p>
+          </div>
+        </div>
+
+        <div class="vd-page-flow__pillars" role="list">
+          <article class="vd-page-flow__pillar" role="listitem">
+            <span>01</span>
+            <h2>Cadre immediat</h2>
+            <p>Un titre, un angle et des metriques lisibles pour ne plus laisser une page partir dans le vide.</p>
+          </article>
+          <article class="vd-page-flow__pillar" role="listitem">
+            <span>02</span>
+            <h2>Parcours plus logique</h2>
+            <p>Chaque page doit pouvoir renvoyer soit vers le catalogue, soit vers le wiki, soit vers le contact.</p>
+          </article>
+          <article class="vd-page-flow__pillar" role="listitem">
+            <span>03</span>
+            <h2>Direction plus luxe</h2>
+            <p>Moins d effets parasites, plus de contraste, une lecture plus dure et plus stable visuellement.</p>
+          </article>
         </div>
 
         {% if page.content != blank %}

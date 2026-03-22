@@ -50,6 +50,20 @@
       </div>
 
       <div class="vd-catalogue__hero-panel">
+        <div class="vd-catalogue__quicklinks">
+          <a href="/collections/all" class="vd-catalogue__quicklink">
+            <span>Commencer</span>
+            <strong>Voir tout le catalogue</strong>
+          </a>
+          <a href="/pages/recettes" class="vd-catalogue__quicklink">
+            <span>Usage</span>
+            <strong>Entrer par les recettes</strong>
+          </a>
+          <a href="/pages/contact" class="vd-catalogue__quicklink">
+            <span>Conseil</span>
+            <strong>Nous demander quoi choisir</strong>
+          </a>
+        </div>
         <div class="vd-catalogue__metric-list" role="list">
           <div class="vd-catalogue__metric" role="listitem">
             <span>Navigation</span>
@@ -70,6 +84,20 @@
     <div class="vd-catalogue__grid" role="list">
       {% for block in section.blocks %}
         <article class="vd-catalogue__card" role="listitem" {{ block.shopify_attributes }}>
+          {% if block.settings.collection != blank and block.settings.collection.featured_image != blank %}
+            <div class="vd-catalogue__card-media">
+              {{
+                block.settings.collection.featured_image
+                | image_url: width: 1200
+                | image_tag:
+                  class: 'vd-catalogue__card-image',
+                  widths: '360, 540, 720, 960, 1200',
+                  sizes: '(min-width: 990px) 32vw, 92vw',
+                  loading: 'lazy',
+                  alt: block.settings.title | escape
+              }}
+            </div>
+          {% endif %}
           <div class="vd-catalogue__card-head">
             <span>{{ block.settings.kicker }}</span>
             {% if block.settings.collection != blank %}
