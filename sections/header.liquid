@@ -242,25 +242,59 @@
       {%- if desktop_secondary_link != blank -%}
         <div class="vd-header-secondary-menu small-hide">
           {%- if desktop_secondary_link.links != blank -%}
-            <header-menu>
-              <details id="Details-HeaderSecondaryMenu">
-                <summary
-                  id="HeaderMenu-{{ desktop_secondary_link.handle }}"
-                  class="vd-header-secondary-menu__toggle link focus-inset"
-                  data-menu-url="{{ desktop_secondary_link.url }}"
-                >
-                  <span
-                    {%- if desktop_secondary_link.child_active %}
-                      class="header__active-menu-item"
-                    {% endif %}
-                  >
-                    {{- desktop_secondary_link.title | escape -}}
-                  </span>
-                  {{- 'icon-caret.svg' | inline_asset_content -}}
-                </summary>
-                <div class="vd-header-secondary-menu__panel">
-                  <div class="vd-header-secondary-menu__panel-grid">
-                    {%- for childlink in desktop_secondary_link.links -%}
+            {%- liquid
+              assign has_secondary_simple_children = false
+
+              for childlink in desktop_secondary_link.links
+                if childlink.links == blank
+                  assign has_secondary_simple_children = true
+                endif
+              endfor
+            -%}
+            <button
+              type="button"
+              id="HeaderMenu-{{ desktop_secondary_link.handle }}"
+              class="vd-header-secondary-menu__toggle link focus-inset"
+              aria-haspopup="true"
+            >
+              <span
+                {%- if desktop_secondary_link.child_active %}
+                  class="header__active-menu-item"
+                {% endif %}
+              >
+                {{- desktop_secondary_link.title | escape -}}
+              </span>
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </button>
+            <div class="vd-header-secondary-menu__panel">
+              <div class="vd-header-secondary-menu__grid">
+                <div class="vd-header-secondary-menu__content">
+                  {%- if has_secondary_simple_children -%}
+                    <div class="vd-header-secondary-menu__column vd-header-secondary-menu__column--simple">
+                      <span class="vd-header-secondary-menu__eyebrow">{{ desktop_secondary_link.title | escape }}</span>
+                      <ul class="vd-header-secondary-menu__list" role="list">
+                        {%- for childlink in desktop_secondary_link.links -%}
+                          {%- if childlink.links == blank -%}
+                            <li>
+                              <a
+                                id="HeaderMenu-{{ desktop_secondary_link.handle }}-{{ childlink.handle }}"
+                                href="{{ childlink.url }}"
+                                class="vd-header-secondary-menu__item link focus-inset{% if childlink.current %} list-menu__item--active{% endif %}"
+                                {% if childlink.current %}
+                                  aria-current="page"
+                                {% endif %}
+                              >
+                                {{ childlink.title | escape }}
+                              </a>
+                            </li>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </ul>
+                    </div>
+                  {%- endif -%}
+
+                  {%- for childlink in desktop_secondary_link.links -%}
+                    {%- if childlink.links != blank -%}
                       <div class="vd-header-secondary-menu__column">
                         <a
                           id="HeaderMenu-{{ desktop_secondary_link.handle }}-{{ childlink.handle }}"
@@ -273,30 +307,40 @@
                           {{ childlink.title | escape }}
                         </a>
 
-                        {%- if childlink.links != blank -%}
-                          <ul class="vd-header-secondary-menu__list" role="list">
-                            {%- for grandchildlink in childlink.links -%}
-                              <li>
-                                <a
-                                  id="HeaderMenu-{{ desktop_secondary_link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
-                                  href="{{ grandchildlink.url }}"
-                                  class="vd-header-secondary-menu__item link focus-inset{% if grandchildlink.current %} list-menu__item--active{% endif %}"
-                                  {% if grandchildlink.current %}
-                                    aria-current="page"
-                                  {% endif %}
-                                >
-                                  {{ grandchildlink.title | escape }}
-                                </a>
-                              </li>
-                            {%- endfor -%}
-                          </ul>
-                        {%- endif -%}
+                        <ul class="vd-header-secondary-menu__list" role="list">
+                          {%- for grandchildlink in childlink.links -%}
+                            <li>
+                              <a
+                                id="HeaderMenu-{{ desktop_secondary_link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                href="{{ grandchildlink.url }}"
+                                class="vd-header-secondary-menu__item link focus-inset{% if grandchildlink.current %} list-menu__item--active{% endif %}"
+                                {% if grandchildlink.current %}
+                                  aria-current="page"
+                                {% endif %}
+                              >
+                                {{ grandchildlink.title | escape }}
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
                       </div>
-                    {%- endfor -%}
-                  </div>
+                    {%- endif -%}
+                  {%- endfor -%}
                 </div>
-              </details>
-            </header-menu>
+
+                <a
+                  href="{{ desktop_secondary_link.url }}"
+                  class="vd-header-secondary-menu__feature link focus-inset"
+                  {% if desktop_secondary_link.current %}
+                    aria-current="page"
+                  {% endif %}
+                >
+                  <span class="vd-header-secondary-menu__feature-kicker">{{ desktop_secondary_link.title | escape }}</span>
+                  <strong class="vd-header-secondary-menu__feature-title">Entrer dans la maison</strong>
+                  <span class="vd-header-secondary-menu__feature-cta">Voir tout</span>
+                </a>
+              </div>
+            </div>
           {%- else -%}
             <a
               href="{{ desktop_secondary_link.url }}"

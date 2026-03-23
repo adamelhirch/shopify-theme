@@ -11,12 +11,27 @@
       {%- if forloop.index <= 2 -%}
         <li>
           {%- if link.links != blank -%}
+            {%- liquid
+              assign has_simple_children = false
+              assign feature_title = 'Voir tout'
+
+              if link.title contains 'Catalogue'
+                assign feature_title = 'Explorer la boutique'
+              elsif link.title contains 'Wiki'
+                assign feature_title = 'Parcourir nos guides'
+              endif
+
+              for childlink in link.links
+                if childlink.links == blank
+                  assign has_simple_children = true
+                endif
+              endfor
+            -%}
             <header-menu>
-              <details id="Details-HeaderMenu-{{ forloop.index }}">
+              <details id="Details-HeaderMenu-{{ forloop.index }}" class="vd-header-primary-menu">
                 <summary
                   id="HeaderMenu-{{ link.handle }}"
-                  class="header__menu-item list-menu__item link focus-inset"
-                  data-menu-url="{{ link.url }}"
+                  class="header__menu-item list-menu__item link focus-inset vd-header-primary-menu__toggle"
                 >
                   <span
                     {%- if link.child_active %}
@@ -27,59 +42,85 @@
                   </span>
                   {{- 'icon-caret.svg' | inline_asset_content -}}
                 </summary>
-                <ul
+                <div
                   id="HeaderMenu-MenuList-{{ forloop.index }}"
-                  class="header__submenu list-menu list-menu--disclosure color-{{ section.settings.menu_color_scheme }} gradient caption-large motion-reduce global-settings-popup"
-                  role="list"
+                  class="vd-header-primary-menu__panel header__submenu list-menu list-menu--disclosure color-{{ section.settings.menu_color_scheme }} gradient caption-large motion-reduce global-settings-popup"
                   tabindex="-1"
                 >
-                  {%- for childlink in link.links -%}
-                    <li>
-                      {%- if childlink.links == blank -%}
-                        <a
-                          id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
-                          href="{{ childlink.url }}"
-                          class="header__menu-item list-menu__item link link--text focus-inset caption-large{% if childlink.current %} list-menu__item--active{% endif %}"
-                          {% if childlink.current %}
-                            aria-current="page"
-                          {% endif %}
-                        >
-                          {{ childlink.title | escape }}
-                        </a>
-                      {%- else -%}
-                        <details id="Details-HeaderSubMenu-{{ link.handle }}-{{ childlink.handle }}">
-                          <summary
-                            id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
-                            class="header__menu-item link link--text list-menu__item focus-inset caption-large"
-                            data-menu-url="{{ childlink.url }}"
-                          >
-                            <span>{{ childlink.title | escape }}</span>
-                            {{- 'icon-caret.svg' | inline_asset_content -}}
-                          </summary>
-                          <ul
-                            id="HeaderMenu-SubMenuList-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
-                            class="header__submenu list-menu motion-reduce"
-                          >
-                            {%- for grandchildlink in childlink.links -%}
-                              <li>
-                                <a
-                                  id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
-                                  href="{{ grandchildlink.url }}"
-                                  class="header__menu-item list-menu__item link link--text focus-inset caption-large{% if grandchildlink.current %} list-menu__item--active{% endif %}"
-                                  {% if grandchildlink.current %}
-                                    aria-current="page"
-                                  {% endif %}
-                                >
-                                  {{ grandchildlink.title | escape }}
-                                </a>
-                              </li>
+                  <div class="vd-header-primary-menu__grid{% if link.levels == 1 %} vd-header-primary-menu__grid--simple{% endif %}">
+                    <div class="vd-header-primary-menu__columns">
+                      {%- if has_simple_children -%}
+                        <div class="vd-header-primary-menu__column vd-header-primary-menu__column--simple">
+                          <span class="vd-header-primary-menu__eyebrow">{{ link.title | escape }}</span>
+                          <ul class="vd-header-primary-menu__list" role="list">
+                            {%- for childlink in link.links -%}
+                              {%- if childlink.links == blank -%}
+                                <li>
+                                  <a
+                                    id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
+                                    href="{{ childlink.url }}"
+                                    class="vd-header-primary-menu__link link focus-inset{% if childlink.current %} list-menu__item--active{% endif %}"
+                                    {% if childlink.current %}
+                                      aria-current="page"
+                                    {% endif %}
+                                  >
+                                    {{ childlink.title | escape }}
+                                  </a>
+                                </li>
+                              {%- endif -%}
                             {%- endfor -%}
                           </ul>
-                        </details>
+                        </div>
                       {%- endif -%}
-                    </li>
-                  {%- endfor -%}
-                </ul>
+
+                      {%- for childlink in link.links -%}
+                        {%- if childlink.links != blank -%}
+                          <div class="vd-header-primary-menu__column">
+                            <a
+                              id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
+                              href="{{ childlink.url }}"
+                              class="vd-header-primary-menu__heading link focus-inset{% if childlink.current %} list-menu__item--active{% endif %}"
+                              {% if childlink.current %}
+                                aria-current="page"
+                              {% endif %}
+                            >
+                              {{ childlink.title | escape }}
+                            </a>
+
+                            <ul class="vd-header-primary-menu__list" role="list">
+                              {%- for grandchildlink in childlink.links -%}
+                                <li>
+                                  <a
+                                    id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                    href="{{ grandchildlink.url }}"
+                                    class="vd-header-primary-menu__link link focus-inset{% if grandchildlink.current %} list-menu__item--active{% endif %}"
+                                    {% if grandchildlink.current %}
+                                      aria-current="page"
+                                    {% endif %}
+                                  >
+                                    {{ grandchildlink.title | escape }}
+                                  </a>
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                          </div>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+
+                    <a
+                      href="{{ link.url }}"
+                      class="vd-header-primary-menu__feature link focus-inset"
+                      {% if link.current %}
+                        aria-current="page"
+                      {% endif %}
+                    >
+                      <span class="vd-header-primary-menu__feature-kicker">{{ link.title | escape }}</span>
+                      <strong class="vd-header-primary-menu__feature-title">{{ feature_title }}</strong>
+                      <span class="vd-header-primary-menu__feature-cta">Voir tout</span>
+                    </a>
+                  </div>
+                </div>
               </details>
             </header-menu>
           {%- else -%}
