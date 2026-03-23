@@ -742,6 +742,135 @@
     });
   }
 
+  function initHeaderHoverMenus() {
+    if (typeof window.__vdHeaderMenuCleanup === 'function') {
+      window.__vdHeaderMenuCleanup();
+    }
+
+    if (window.innerWidth < 990) {
+      window.__vdHeaderMenuCleanup = null;
+      return;
+    }
+
+    var cleanups = [];
+
+    document.querySelectorAll('.header__inline-menu header-menu > details').forEach(function (details) {
+      var summary = details.querySelector('summary');
+
+      if (!summary) return;
+
+      var closeTimer = 0;
+      var focusOutHandler = function () {
+        window.setTimeout(function () {
+          if (!details.contains(document.activeElement)) {
+            details.removeAttribute('open');
+          }
+        }, 0);
+      };
+      var openMenu = function () {
+        window.clearTimeout(closeTimer);
+        details.setAttribute('open', '');
+      };
+      var closeMenu = function () {
+        window.clearTimeout(closeTimer);
+        closeTimer = window.setTimeout(function () {
+          if (!details.matches(':focus-within')) {
+            details.removeAttribute('open');
+          }
+        }, 120);
+      };
+
+      details.addEventListener('mouseenter', openMenu);
+      details.addEventListener('mouseleave', closeMenu);
+      summary.addEventListener('focus', openMenu);
+      details.addEventListener('focusout', focusOutHandler);
+
+      cleanups.push(function () {
+        window.clearTimeout(closeTimer);
+        details.removeEventListener('mouseenter', openMenu);
+        details.removeEventListener('mouseleave', closeMenu);
+        summary.removeEventListener('focus', openMenu);
+        details.removeEventListener('focusout', focusOutHandler);
+      });
+    });
+
+    window.__vdHeaderMenuCleanup = function () {
+      cleanups.forEach(function (cleanup) {
+        cleanup();
+      });
+      cleanups.length = 0;
+      window.__vdHeaderMenuCleanup = null;
+    };
+  }
+
+  function initHeaderChrome(gsap, ScrollTrigger, prefersReducedMotion) {
+    if (typeof window.__vdHeaderChromeCleanup === 'function') {
+      window.__vdHeaderChromeCleanup();
+    }
+
+    var headerWrapper = document.querySelector('.header-wrapper');
+    var header = headerWrapper ? headerWrapper.querySelector('.header') : null;
+    var logo = header ? header.querySelector('.header__heading-logo-wrapper') : null;
+    var mobileQuery = window.matchMedia('(max-width: 989px)');
+
+    if (!headerWrapper || !header || mobileQuery.matches) {
+      window.__vdHeaderChromeCleanup = null;
+      return;
+    }
+
+    var tween = gsap.timeline({ paused: true, defaults: { ease: 'power2.out', duration: 1 } });
+    var trigger = null;
+
+    tween.to(
+      header,
+      {
+        minHeight: '5.2rem'
+      },
+      0
+    );
+
+    tween.to(
+      headerWrapper,
+      {
+        scale: 0.972,
+        y: 2,
+        borderRadius: '2.3rem',
+        boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 18px 36px rgba(0, 0, 0, 0.22)'
+      },
+      0
+    );
+
+    if (logo) {
+      tween.to(
+        logo,
+        {
+          scale: 0.88
+        },
+        0
+      );
+    }
+
+    trigger = ScrollTrigger.create({
+      trigger: document.documentElement,
+      start: 24,
+      end: 220,
+      scrub: prefersReducedMotion ? false : 0.45,
+      onUpdate: function (self) {
+        tween.progress(self.progress);
+      }
+    });
+
+    window.__vdHeaderChromeCleanup = function () {
+      if (trigger) {
+        trigger.kill();
+      }
+
+      tween.kill();
+      gsap.set([headerWrapper, header, logo], { clearProps: 'all' });
+      window.__vdHeaderChromeCleanup = null;
+    };
+  }
+
   function initVanilleGsap() {
     if (!window.gsap || !window.ScrollTrigger || !window.ScrollSmoother) return;
     if (window.Shopify && window.Shopify.designMode) return;
@@ -772,6 +901,9 @@
         smoothTouch: false
       });
     }
+
+    initHeaderHoverMenus();
+    initHeaderChrome(gsap, ScrollTrigger, prefersReducedMotion);
 
     var hero = document.querySelector('.section-vd-hero');
     if (hero) {

@@ -1,13 +1,19 @@
 {% comment %}
   Renders a standard dropdown style menu for the header.
 
+  Accepts:
+  - nav_class: {String} Additional classes for the nav wrapper (optional)
+  - link_offset: {Number} Zero-based offset for the menu loop (optional)
+  - link_limit: {Number} Limit for the menu loop (optional)
+
   Usage:
   {% render 'header-dropdown-menu' %}
+  {% render 'header-dropdown-menu', nav_class: 'header__inline-menu--secondary', link_offset: 2 %}
 {% endcomment %}
 
-<nav class="header__inline-menu">
+<nav class="header__inline-menu{% if nav_class != blank %} {{ nav_class }}{% endif %}">
   <ul class="list-menu list-menu--inline" role="list">
-    {%- for link in section.settings.menu.links -%}
+    {%- for link in section.settings.menu.links offset: link_offset limit: link_limit -%}
       <li>
         {%- if link.links != blank -%}
           <header-menu>

@@ -180,7 +180,11 @@
     {%- liquid
       if section.settings.menu != blank
         if section.settings.menu_type_desktop == 'dropdown'
-          render 'header-dropdown-menu'
+          if section.settings.logo_position == 'middle-center'
+            render 'header-dropdown-menu', nav_class: 'header__inline-menu--primary', link_offset: 0, link_limit: 2
+          else
+            render 'header-dropdown-menu'
+          endif
         elsif section.settings.menu_type_desktop != 'drawer'
           render 'header-mega-menu'
         endif
@@ -250,6 +254,9 @@
           </localization-form>
         {%- endif -%}
       </div>
+      {%- if section.settings.menu != blank and section.settings.menu_type_desktop == 'dropdown' and section.settings.logo_position == 'middle-center' -%}
+        {% render 'header-dropdown-menu', nav_class: 'header__inline-menu--secondary', link_offset: 2 %}
+      {%- endif -%}
       {% render 'header-search', input_id: 'Search-In-Modal' %}
 
       {%- if shop.customer_accounts_enabled -%}
