@@ -254,9 +254,6 @@
           </localization-form>
         {%- endif -%}
       </div>
-      {%- if section.settings.menu != blank and section.settings.menu_type_desktop == 'dropdown' and section.settings.logo_position == 'middle-center' -%}
-        {% render 'header-dropdown-menu', nav_class: 'header__inline-menu--secondary', link_offset: 2 %}
-      {%- endif -%}
       {% render 'header-search', input_id: 'Search-In-Modal' %}
 
       {%- if shop.customer_accounts_enabled -%}

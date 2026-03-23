@@ -803,6 +803,62 @@
     };
   }
 
+  function initHeaderHoverFx(gsap) {
+    if (typeof window.__vdHeaderHoverFxCleanup === 'function') {
+      window.__vdHeaderHoverFxCleanup();
+    }
+
+    if (window.innerWidth < 990) {
+      window.__vdHeaderHoverFxCleanup = null;
+      return;
+    }
+
+    var targets = Array.prototype.slice.call(document.querySelectorAll('.header__menu-item, .header__icon'));
+    var cleanups = [];
+
+    targets.forEach(function (target) {
+      var enter = function () {
+        gsap.to(target, {
+          scale: 1.03,
+          filter: 'drop-shadow(0 14px 26px rgba(255, 255, 255, 0.08))',
+          duration: 1,
+          ease: 'power2.out',
+          overwrite: true
+        });
+      };
+      var leave = function () {
+        gsap.to(target, {
+          scale: 1,
+          filter: 'drop-shadow(0 0 0 rgba(255, 255, 255, 0))',
+          duration: 1,
+          ease: 'power2.out',
+          overwrite: true
+        });
+      };
+
+      target.addEventListener('mouseenter', enter);
+      target.addEventListener('mouseleave', leave);
+      target.addEventListener('focus', enter);
+      target.addEventListener('blur', leave);
+
+      cleanups.push(function () {
+        target.removeEventListener('mouseenter', enter);
+        target.removeEventListener('mouseleave', leave);
+        target.removeEventListener('focus', enter);
+        target.removeEventListener('blur', leave);
+      });
+    });
+
+    window.__vdHeaderHoverFxCleanup = function () {
+      cleanups.forEach(function (cleanup) {
+        cleanup();
+      });
+      cleanups.length = 0;
+      gsap.set(targets, { clearProps: 'scale,filter' });
+      window.__vdHeaderHoverFxCleanup = null;
+    };
+  }
+
   function initHeaderChrome(gsap, ScrollTrigger, prefersReducedMotion) {
     if (typeof window.__vdHeaderChromeCleanup === 'function') {
       window.__vdHeaderChromeCleanup();
@@ -824,7 +880,9 @@
     tween.to(
       header,
       {
-        minHeight: '5.2rem'
+        minHeight: '7.2rem',
+        paddingTop: '1.6rem',
+        paddingBottom: '1.6rem'
       },
       0
     );
@@ -832,10 +890,10 @@
     tween.to(
       headerWrapper,
       {
-        scale: 0.972,
+        scale: 0.985,
         y: 2,
-        borderRadius: '2.3rem',
-        boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 18px 36px rgba(0, 0, 0, 0.22)'
+        borderRadius: '2.8rem',
+        boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 18px 42px rgba(0, 0, 0, 0.16)'
       },
       0
     );
@@ -903,6 +961,7 @@
     }
 
     initHeaderHoverMenus();
+    initHeaderHoverFx(gsap);
     initHeaderChrome(gsap, ScrollTrigger, prefersReducedMotion);
 
     var hero = document.querySelector('.section-vd-hero');
