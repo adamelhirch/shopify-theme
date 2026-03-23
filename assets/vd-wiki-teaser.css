@@ -346,7 +346,6 @@
 }
 
 .vd-wiki-teaser__specimen-card,
-.vd-wiki-teaser__map-caption,
 .vd-wiki-teaser__cinema-note {
   position: absolute;
   left: clamp(1.15rem, 2vw, 1.8rem);
@@ -368,8 +367,7 @@
   background: rgba(9, 9, 9, 0.42);
 }
 
-.vd-wiki-teaser__specimen-card span,
-.vd-wiki-teaser__map-caption span {
+.vd-wiki-teaser__specimen-card span {
   display: block;
   margin-bottom: 0.45rem;
   color: rgba(var(--vd-ivory), 0.6);
@@ -379,196 +377,72 @@
   text-transform: uppercase;
 }
 
-.vd-wiki-teaser__specimen-card p,
-.vd-wiki-teaser__map-caption p {
+.vd-wiki-teaser__specimen-card p {
   margin: 0;
 }
 
 .vd-wiki-teaser__map-frame {
-  width: min(100%, 64rem);
-  min-height: clamp(34rem, 62vh, 43rem);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: min(100%, 68rem);
+  min-height: clamp(35rem, 64vh, 46rem);
   margin-left: auto;
   background:
-    radial-gradient(circle at 72% 54%, rgba(215, 160, 85, 0.08), transparent 24%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
-    rgba(5, 5, 5, 0.68);
-  backdrop-filter: blur(18px);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
+    rgba(5, 5, 5, 0.44);
+  backdrop-filter: blur(22px);
   box-shadow:
     0 2.5rem 6rem rgba(0, 0, 0, 0.42),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-.vd-wiki-teaser__map {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.vd-wiki-teaser__map-grid path {
-  fill: none;
-  stroke: rgba(var(--vd-ivory), 0.075);
-  stroke-width: 1;
-}
-
-.vd-wiki-teaser__map-world path {
-  fill: rgba(255, 255, 255, 0.04);
-  stroke: rgba(255, 255, 255, 0.15);
-  stroke-width: 1.2;
-}
-
-.vd-wiki-teaser__map-labels circle {
-  fill: rgba(var(--vd-orange), 0.78);
-}
-
 .vd-wiki-teaser__madagascar-panel {
   position: absolute;
-  top: 18%;
-  right: 14%;
-  z-index: 3;
-  width: clamp(9rem, 12vw, 11.5rem);
+  inset: 6% 4.5% 6% 43%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
   filter:
-    drop-shadow(0 0 18px rgba(215, 160, 85, 0.22))
-    drop-shadow(0 0 36px rgba(215, 160, 85, 0.14));
+    drop-shadow(0 0 18px rgba(215, 160, 85, 0.18))
+    drop-shadow(0 0 42px rgba(215, 160, 85, 0.1));
 }
 
 .vd-madagascar-outline {
   display: block;
-  width: 100%;
-  height: auto;
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .vd-madagascar-outline__fill {
-  fill: rgba(255, 255, 255, 0.04);
+  fill: rgba(255, 255, 255, 0.03);
 }
 
 .vd-madagascar-outline__stroke {
   fill: none;
   stroke: var(--vd-wiki-gold);
-  stroke-width: 2.8;
+  stroke-width: 3.1;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.vd-wiki-teaser__sava-core {
+.vd-wiki-teaser__map-marker {
   position: absolute;
-  top: 28.4%;
-  left: 73.4%;
-  z-index: 4;
-  width: 0.52rem;
-  height: 0.52rem;
+  top: var(--map-marker-y);
+  left: var(--map-marker-x);
+  z-index: 3;
+  width: 0.72rem;
+  height: 0.72rem;
   border-radius: 999px;
   background: #f3d7ab;
   transform: translate(-50%, -50%);
-  filter: drop-shadow(0 0 18px rgba(215, 160, 85, 0.78));
-}
-
-.vd-wiki-teaser__sava-halo {
-  position: absolute;
-  top: 28.4%;
-  left: 73.4%;
-  z-index: 3;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 999px;
-  background: rgba(215, 160, 85, 0.16);
-  transform: translate(-50%, -50%);
-  transform-origin: center;
-}
-
-.vd-wiki-teaser__sava-trigger {
-  position: absolute;
-  top: var(--sava-y);
-  left: var(--sava-x);
-  z-index: 4;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.7rem;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: rgba(var(--vd-ivory), 0.82);
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  text-shadow: 0 0 1.4rem rgba(0, 0, 0, 0.4);
-}
-
-.vd-wiki-teaser__sava-dot {
-  display: block;
-  width: 0.9rem;
-  height: 0.9rem;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.52);
-  background: radial-gradient(circle, #f6d49f 0%, #d7a055 55%, rgba(215, 160, 85, 0.1) 100%);
   box-shadow:
-    0 0 0 0 rgba(215, 160, 85, 0.34),
-    0 0 1.6rem rgba(215, 160, 85, 0.38);
-}
-
-.vd-wiki-teaser__sava-label {
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-
-.vd-wiki-teaser__glass-orb {
-  position: absolute;
-  right: clamp(1.2rem, 2.8vw, 2.2rem);
-  bottom: clamp(1.2rem, 2.8vw, 2.2rem);
-  z-index: 4;
-  width: min(23rem, calc(100% - 2.4rem));
-  padding: 1.15rem 1.2rem 1.1rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 2rem;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.03)),
-    rgba(11, 11, 11, 0.28);
-  backdrop-filter: blur(22px);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 1rem 2.8rem rgba(0, 0, 0, 0.24);
-  opacity: 0;
-  transform: translateY(0.8rem) scale(0.94);
-  transition:
-    opacity 260ms ease,
-    transform 260ms ease;
-}
-
-.vd-wiki-teaser__glass-orb.is-active {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-.vd-wiki-teaser__glass-orb span {
-  display: block;
-  color: rgba(var(--vd-ivory), 0.56);
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
-.vd-wiki-teaser__glass-orb strong {
-  display: block;
-  margin-top: 0.4rem;
-  color: var(--vd-wiki-ink);
-  font-family: "Cormorant Garamond", serif;
-  font-size: 1.3rem;
-  line-height: 1.1;
-}
-
-.vd-wiki-teaser__glass-orb ul {
-  margin: 0.75rem 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.vd-wiki-teaser__glass-orb li {
-  color: rgba(var(--vd-ivory), 0.76);
-  font-size: 0.83rem;
-  line-height: 1.5;
+    0 0 0 1px rgba(255, 255, 255, 0.22),
+    0 0 1.15rem rgba(215, 160, 85, 0.52);
 }
 
 .vd-wiki-teaser__cinema-grid {
@@ -845,9 +719,8 @@
     width: 14rem;
   }
 
-  .vd-wiki-teaser__glass-orb {
-    width: auto;
-    border-radius: 1.2rem;
+  .vd-wiki-teaser__madagascar-panel {
+    inset: 8% 3% 8% 37%;
   }
 
   .vd-wiki-teaser__cinema-frame--hero {
@@ -903,21 +776,23 @@
   }
 
   .vd-wiki-teaser__specimen-card,
-  .vd-wiki-teaser__map-caption,
   .vd-wiki-teaser__cinema-note {
     left: 0.9rem;
     right: 0.9rem;
     max-width: none;
   }
 
-  .vd-wiki-teaser__glass-orb {
-    right: 0.9rem;
-    left: 0.9rem;
-    width: auto;
+  .vd-wiki-teaser__map-frame {
+    min-height: 31rem;
   }
 
-  .vd-wiki-teaser__sava-label {
-    display: none;
+  .vd-wiki-teaser__madagascar-panel {
+    inset: 8% 2.5% 8% 32%;
+  }
+
+  .vd-wiki-teaser__map-marker {
+    width: 0.66rem;
+    height: 0.66rem;
   }
 
   .vd-wiki-teaser__counter {
@@ -929,7 +804,6 @@
 @media (prefers-reduced-motion: reduce) {
   .vd-wiki-teaser__film-grain,
   .vd-wiki-teaser__cinema-image,
-  .vd-wiki-teaser__glass-orb,
   .vd-wiki-teaser__nav-button,
   .vd-wiki-teaser__nav-pill::after {
     animation: none;

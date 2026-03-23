@@ -244,8 +244,7 @@
     var chapterVideos = toArray(section.querySelectorAll('video'));
     var blurNode = section.querySelector('[data-vd-wiki-blur-node]');
     var mapPath = section.querySelector('[data-vd-wiki-map-draw]');
-    var savaHalo = section.querySelector('[data-vd-wiki-sava-halo]');
-    var savaDot = section.querySelector('.vd-wiki-teaser__sava-dot');
+    var mapMarker = section.querySelector('[data-vd-wiki-map-marker]');
     var mapLength = mapPath && typeof mapPath.getTotalLength === 'function' ? mapPath.getTotalLength() : 0;
     var activeIndex = 0;
     var modeCleanup = function () {};
@@ -481,7 +480,6 @@
       var titleGroups = [];
       var animations = [];
       var triggers = [];
-      var pulseTween = null;
       var blurState = { value: 0 };
       var blurTween = null;
       var lastProgress = 0;
@@ -705,27 +703,8 @@
           )
         );
 
-        if (savaHalo && savaDot) {
-          pulseTween = gsap
-            .timeline({ repeat: -1, yoyo: true, paused: true, defaults: { ease: 'sine.inOut', duration: 1.5 } })
-            .to(savaHalo, { scale: 1.18, transformOrigin: 'center center' }, 0)
-            .to(savaDot, { scale: 1.12, transformOrigin: 'center center' }, 0);
-
-          triggers.push(
-            ScrollTrigger.create({
-              trigger: slides[1],
-              containerAnimation: mainTween,
-              start: 'left 72%',
-              end: 'right 28%',
-              onToggle: function (self) {
-                if (self.isActive) {
-                  pulseTween.play();
-                } else {
-                  pulseTween.pause(0);
-                }
-              }
-            })
-          );
+        if (mapMarker) {
+          gsap.set(mapMarker, { autoAlpha: 1, scale: 1 });
         }
       }
 

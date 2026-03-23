@@ -241,71 +241,14 @@
                     {% when 2 %}
                       <div class="vd-wiki-teaser__stage-shell vd-wiki-teaser__stage-shell--terroirs" data-vd-wiki-stage-main>
                         <div class="vd-wiki-teaser__map-frame">
-                          <svg
-                            class="vd-wiki-teaser__map"
-                            viewBox="0 0 1200 820"
+                          <div
+                            class="vd-wiki-teaser__madagascar-panel"
                             role="img"
-                            aria-label="Carte stylisee des terroirs de vanille"
+                            aria-label="Carte de Madagascar avec repere sur Vangaindrano"
+                            style="--map-marker-x: 60.3%; --map-marker-y: 83.7%;"
                           >
-                            <g class="vd-wiki-teaser__map-grid" aria-hidden="true">
-                              <path d="M150 162H1050"></path>
-                              <path d="M150 286H1050"></path>
-                              <path d="M150 410H1050"></path>
-                              <path d="M150 534H1050"></path>
-                              <path d="M150 658H1050"></path>
-                              <path d="M245 112V710"></path>
-                              <path d="M430 112V710"></path>
-                              <path d="M615 112V710"></path>
-                              <path d="M800 112V710"></path>
-                              <path d="M985 112V710"></path>
-                            </g>
-
-                            <g class="vd-wiki-teaser__map-world" aria-hidden="true">
-                              <path d="M222 332c76-52 150-72 222-60 70 11 116 48 132 103 15 50-17 96-86 123-82 31-174 37-245 14-53-17-101-54-116-92-15-37-7-66 19-88 20-16 44-16 74 0z"></path>
-                              <path d="M488 217c69-44 155-55 232-30 61 21 96 62 89 104-6 36-40 70-95 95-51 22-110 32-156 26-42-6-74-28-81-58-10-38 5-84 11-97z"></path>
-                              <path d="M707 262c78-34 173-42 267-24 118 24 198 92 198 170 0 80-75 144-190 164-121 22-261 1-332-49-49-35-71-87-58-139 16-59 48-94 115-122z"></path>
-                              <path d="M820 572c44-30 106-39 152-20 35 15 54 45 51 79-5 44-40 77-100 95-62 18-123 11-159-18-44-36-31-97 31-136z"></path>
-                              <path d="M120 488c27-18 66-23 96-12 25 8 40 26 40 46 0 24-18 46-49 59-38 15-78 15-106-1-26-15-30-43-10-64 7-8 17-19 29-28z"></path>
-                              <path d="M1024 627c34-12 68-5 82 18 13 20 6 47-18 66-25 18-63 25-91 16-25-7-41-28-38-51 2-22 24-39 65-49z"></path>
-                            </g>
-
-                            <g class="vd-wiki-teaser__map-labels" aria-hidden="true">
-                              <circle cx="232" cy="515" r="5.5"></circle>
-                              <circle cx="974" cy="658" r="5.5"></circle>
-                              <circle cx="838" cy="501" r="5.5"></circle>
-                            </g>
-                          </svg>
-
-                          <div class="vd-wiki-teaser__madagascar-panel" aria-hidden="true">
                             {% render 'vd-madagascar-outline' %}
-                            <span class="vd-wiki-teaser__sava-halo" data-vd-wiki-sava-halo></span>
-                            <span class="vd-wiki-teaser__sava-core" data-vd-wiki-sava-core></span>
-                          </div>
-
-                          <div class="vd-wiki-teaser__map-caption">
-                            <span>Radar de luxe</span>
-                            <p>Madagascar s'ecrit en or fin. Le reste demeure presque fantome.</p>
-                          </div>
-
-                          <button
-                            class="vd-wiki-teaser__sava-trigger"
-                            type="button"
-                            data-vd-wiki-region-button="sava"
-                            data-vd-wiki-cursor-label="Decouvrir"
-                            style="--sava-x: 72.6%; --sava-y: 28.4%;"
-                          >
-                            <span class="vd-wiki-teaser__sava-dot"></span>
-                            <span class="vd-wiki-teaser__sava-label">SAVA</span>
-                          </button>
-
-                          <div class="vd-wiki-teaser__glass-orb is-active" data-vd-wiki-region-card="sava">
-                            <span>Nord-Est malgache</span>
-                            <strong>Humidite elevee, altitude douce, air sale.</strong>
-                            <ul>
-                              <li>Humidite : forte et reguliere</li>
-                              <li>Altitude : 200 a 600 m</li>
-                              <li>Lecture : bourbon sombre, ample, pulpeux</li>
-                            </ul>
+                            <span class="vd-wiki-teaser__map-marker" data-vd-wiki-map-marker></span>
                           </div>
                         </div>
                       </div>
