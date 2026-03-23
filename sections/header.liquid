@@ -114,7 +114,21 @@
   endif
 %}
 
-<{{ header_tag }} {% if header_tag == 'sticky-header' %}data-sticky-type="{{ section.settings.sticky_header_type }}"{% endif %} class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}">
+{%- liquid
+  assign desktop_brand_link_title = shop.name
+  assign desktop_brand_link_url = routes.root_url
+
+  if section.settings.menu != blank
+    for link in section.settings.menu.links
+      if forloop.index == 3
+        assign desktop_brand_link_title = link.title
+        assign desktop_brand_link_url = link.url
+      endif
+    endfor
+  endif
+-%}
+
+<{{ header_tag }} {% if header_tag == 'sticky-header' %}data-sticky-type="{{ section.settings.sticky_header_type }}"{% endif %} class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}" data-vd-header-wrapper>
   {%- liquid
     assign social_links = false
     assign localization_forms = false
@@ -227,6 +241,29 @@
     {%- endif -%}
 
     <div class="header__icons{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header__icons--localization header-localization{% endif %}">
+      <a href="{{ desktop_brand_link_url }}" class="vd-header-brand-link small-hide focus-inset">
+        <span>{{ desktop_brand_link_title }}</span>
+      </a>
+
+      <search-form class="vd-header-inline-search small-hide">
+        <form action="{{ routes.search_url }}" method="get" role="search">
+          <label class="visually-hidden" for="Vd-Desktop-Search">{{ 'general.search.search' | t }}</label>
+          <span class="vd-header-inline-search__icon">
+            {{- 'icon-search.svg' | inline_asset_content -}}
+          </span>
+          <input
+            id="Vd-Desktop-Search"
+            class="vd-header-inline-search__input"
+            type="search"
+            name="q"
+            value="{{ search.terms | escape }}"
+            placeholder="{{ 'general.search.search' | t }}"
+            autocomplete="off"
+          >
+          <input type="hidden" name="options[prefix]" value="last">
+        </form>
+      </search-form>
+
       <div class="desktop-localization-wrapper">
         {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
           <localization-form class="small-hide medium-hide" data-prevent-hide>

@@ -846,6 +846,28 @@
       });
     }
 
+    var headerWrapper = document.querySelector('[data-vd-header-wrapper]');
+
+    if (headerWrapper) {
+      gsap.set(headerWrapper, { clearProps: 'all' });
+
+      if (!prefersReducedMotion) {
+        gsap.to(headerWrapper, {
+          '--vd-header-shell-height': '5.4rem',
+          '--vd-header-shell-padding-x': '1.4rem',
+          '--vd-header-shell-blur': '20px',
+          duration: 1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: document.documentElement,
+            start: 0,
+            end: '+=180',
+            scrub: true
+          }
+        });
+      }
+    }
+
     var hero = document.querySelector('.section-vd-hero');
     if (hero) {
       var statement = hero.querySelector('.vd-hero__statement');
