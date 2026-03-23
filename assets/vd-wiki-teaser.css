@@ -70,6 +70,15 @@
   object-position: center center;
 }
 
+.vd-wiki-teaser__backdrop-video,
+.vd-wiki-teaser__macro-video,
+.vd-wiki-teaser__cinema-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .vd-wiki-teaser__backdrop-shade {
   background:
     linear-gradient(90deg, rgba(5, 5, 5, 0.9) 0%, rgba(5, 5, 5, 0.68) 28%, rgba(5, 5, 5, 0.46) 55%, rgba(5, 5, 5, 0.78) 100%),
@@ -279,7 +288,9 @@
 }
 
 .vd-wiki-teaser__macro-image,
-.vd-wiki-teaser__cinema-image {
+.vd-wiki-teaser__macro-video,
+.vd-wiki-teaser__cinema-image,
+.vd-wiki-teaser__cinema-video {
   display: block;
   width: 100%;
   height: 100%;
@@ -535,7 +546,7 @@
 }
 
 .vd-wiki-teaser__cinema-frame--hero {
-  inset: 6% 18% 10% 0;
+  inset: 6% 4% 10% 0;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
     rgba(8, 8, 8, 0.3);
@@ -563,6 +574,11 @@
 
 .vd-wiki-teaser__cinema-image {
   animation: vdWikiKenBurns 11s ease-in-out infinite alternate;
+}
+
+.vd-wiki-teaser__cinema-video {
+  transform: none;
+  filter: saturate(0.94) contrast(1.04);
 }
 
 .vd-wiki-teaser__hud {

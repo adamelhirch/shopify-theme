@@ -41,6 +41,25 @@
     }
   }
 
+  function syncVideoElement(video, shouldPlay) {
+    if (!video) return;
+
+    video.muted = true;
+    video.playsInline = true;
+
+    if (shouldPlay) {
+      var playPromise = video.play();
+
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(function () {});
+      }
+
+      return;
+    }
+
+    video.pause();
+  }
+
   function initRegions(section) {
     var buttons = toArray(section.querySelectorAll('[data-vd-wiki-region-button]'));
     var cards = toArray(section.querySelectorAll('[data-vd-wiki-region-card]'));
@@ -222,6 +241,7 @@
     var navButtons = toArray(section.querySelectorAll('[data-vd-wiki-nav]'));
     var counter = section.querySelector('[data-vd-wiki-counter]');
     var backdropLayers = toArray(section.querySelectorAll('[data-vd-wiki-backdrop-layer]'));
+    var chapterVideos = toArray(section.querySelectorAll('video'));
     var blurNode = section.querySelector('[data-vd-wiki-blur-node]');
     var mapPath = section.querySelector('[data-vd-wiki-map-draw]');
     var savaHalo = section.querySelector('[data-vd-wiki-sava-halo]');
@@ -286,6 +306,12 @@
         counter.textContent = padNumber(clamped + 1) + ' / ' + padNumber(slides.length);
       }
 
+      chapterVideos.forEach(function (video) {
+        var owner = video.closest('[data-vd-wiki-video-index]');
+        var videoIndex = owner ? Number(owner.getAttribute('data-vd-wiki-video-index')) : -1;
+        syncVideoElement(video, videoIndex === clamped);
+      });
+
       cursorController.sync();
     }
 
@@ -293,7 +319,7 @@
       if (!backdropLayers.length) return;
 
       backdropLayers.forEach(function (layer, index) {
-        var image = layer.querySelector('img');
+        var image = layer.querySelector('img, video');
         var distance = Math.abs(index - position);
         var opacity = clamp(1 - distance, 0, 1);
         var scale = 1 + (1 - opacity) * 0.2;
@@ -762,10 +788,13 @@
     generalCleanups.push(safeAddListener(reduceMotion, rebuildMode));
     generalCleanups.push(safeAddListener(desktopQuery, rebuildMode));
 
-    section.__vdWikiTeaserCleanup = function () {
+      section.__vdWikiTeaserCleanup = function () {
       modeCleanup();
       generalCleanups.forEach(function (cleanup) {
         cleanup();
+      });
+      chapterVideos.forEach(function (video) {
+        syncVideoElement(video, false);
       });
       section.classList.remove('is-desktop');
       section.classList.remove('is-mobile');

@@ -43,6 +43,11 @@
           assign fallback_asset = 'vd-wiki-botanique.jpg'
           assign fallback_width = 1350
           assign fallback_height = 1800
+          assign has_chapter_video = false
+
+          if block.settings.video != blank
+            assign has_chapter_video = true
+          endif
 
           if forloop.index == 2
             assign fallback_asset = 'vd-wiki-terroirs.jpg'
@@ -59,8 +64,22 @@
           class="vd-wiki-teaser__backdrop-layer{% if forloop.first %} is-active{% endif %}"
           data-vd-wiki-backdrop-layer
           data-vd-wiki-layer="{{ forloop.index0 }}"
+          data-vd-wiki-video-index="{{ forloop.index0 }}"
         >
-          {% if block.settings.image != blank %}
+          {% if has_chapter_video %}
+            {{
+              block.settings.video
+              | video_tag:
+                class: 'vd-wiki-teaser__backdrop-video',
+                autoplay: true,
+                loop: true,
+                muted: true,
+                controls: false,
+                playsinline: true,
+                preload: 'metadata',
+                image_size: '2000x'
+            }}
+          {% elsif block.settings.image != blank %}
             {{
               block.settings.image
               | image_url: width: 2400
@@ -95,22 +114,6 @@
 
   <div class="page-width">
     <div class="vd-wiki-teaser__shell">
-      <header class="vd-wiki-teaser__masthead">
-        <div class="vd-wiki-teaser__masthead-copy">
-          {% if section.settings.eyebrow != blank %}
-            <span class="vd-wiki-teaser__eyebrow">{{ section.settings.eyebrow }}</span>
-          {% endif %}
-
-          {% if section.settings.heading != blank %}
-            <p class="vd-wiki-teaser__heading">{{ section.settings.heading }}</p>
-          {% endif %}
-
-          {% if section.settings.text != blank %}
-            <div class="vd-wiki-teaser__lede rte">{{ section.settings.text }}</div>
-          {% endif %}
-        </div>
-      </header>
-
       <div class="vd-wiki-teaser__viewport" data-vd-wiki-viewport tabindex="0">
         <div class="vd-wiki-teaser__track" data-vd-wiki-track role="list">
           {% for block in section.blocks %}
@@ -145,6 +148,11 @@
               if slide_link_label == blank
                 assign slide_link_label = 'Explorer le chapitre'
               endif
+
+              assign has_chapter_video = false
+              if block.settings.video != blank
+                assign has_chapter_video = true
+              endif
             -%}
 
             <article
@@ -175,18 +183,6 @@
                     <div class="vd-wiki-teaser__body rte" data-vd-wiki-body>{{ block.settings.text }}</div>
                   {% endif %}
 
-                  <div class="vd-wiki-teaser__detail-list" data-vd-wiki-body>
-                    {% if block.settings.detail_one != blank %}
-                      <span class="vd-wiki-teaser__detail-pill">{{ block.settings.detail_one }}</span>
-                    {% endif %}
-                    {% if block.settings.detail_two != blank %}
-                      <span class="vd-wiki-teaser__detail-pill">{{ block.settings.detail_two }}</span>
-                    {% endif %}
-                    {% if block.settings.detail_three != blank %}
-                      <span class="vd-wiki-teaser__detail-pill">{{ block.settings.detail_three }}</span>
-                    {% endif %}
-                  </div>
-
                   {% if block.settings.link != blank %}
                     <div class="vd-wiki-teaser__actions" data-vd-wiki-body>
                       <a
@@ -204,8 +200,21 @@
                   {% case forloop.index %}
                     {% when 1 %}
                       <div class="vd-wiki-teaser__stage-shell vd-wiki-teaser__stage-shell--botanique" data-vd-wiki-stage-main>
-                        <div class="vd-wiki-teaser__macro-frame">
-                          {% if block.settings.image != blank %}
+                        <div class="vd-wiki-teaser__macro-frame" data-vd-wiki-video-index="{{ forloop.index0 }}">
+                          {% if has_chapter_video %}
+                            {{
+                              block.settings.video
+                              | video_tag:
+                                class: 'vd-wiki-teaser__macro-video',
+                                autoplay: true,
+                                loop: true,
+                                muted: true,
+                                controls: false,
+                                playsinline: true,
+                                preload: 'metadata',
+                                image_size: '1800x'
+                            }}
+                          {% elsif block.settings.image != blank %}
                             {{
                               block.settings.image
                               | image_url: width: 2200
@@ -227,17 +236,6 @@
                             >
                           {% endif %}
                           <div class="vd-wiki-teaser__film-grain"></div>
-                        </div>
-
-                        <div class="vd-wiki-teaser__orchid-bloom" aria-hidden="true">
-                          <span class="vd-wiki-teaser__bloom-ring vd-wiki-teaser__bloom-ring--1" data-vd-wiki-bloom></span>
-                          <span class="vd-wiki-teaser__bloom-ring vd-wiki-teaser__bloom-ring--2" data-vd-wiki-bloom></span>
-                          <span class="vd-wiki-teaser__bloom-ring vd-wiki-teaser__bloom-ring--3" data-vd-wiki-bloom></span>
-                        </div>
-
-                        <div class="vd-wiki-teaser__specimen-card" data-vd-wiki-body>
-                          <span>Vanilla planifolia</span>
-                          <p>Floraison breve. Pollinisation manuelle. Aromatique patiente.</p>
                         </div>
                       </div>
                     {% when 2 %}
@@ -316,45 +314,32 @@
                     {% else %}
                       <div class="vd-wiki-teaser__stage-shell vd-wiki-teaser__stage-shell--techniques" data-vd-wiki-stage-main>
                         <div class="vd-wiki-teaser__cinema-grid">
-                          <div class="vd-wiki-teaser__cinema-frame vd-wiki-teaser__cinema-frame--hero">
-                            <img
-                              class="vd-wiki-teaser__cinema-image"
-                              src="{{ fallback_asset | asset_url }}"
-                              alt="{{ block.settings.title | escape }}"
-                              loading="lazy"
-                              width="1800"
-                              height="1350"
-                            >
+                          <div class="vd-wiki-teaser__cinema-frame vd-wiki-teaser__cinema-frame--hero" data-vd-wiki-video-index="{{ forloop.index0 }}">
+                            {% if has_chapter_video %}
+                              {{
+                                block.settings.video
+                                | video_tag:
+                                  class: 'vd-wiki-teaser__cinema-video',
+                                  autoplay: true,
+                                  loop: true,
+                                  muted: true,
+                                  controls: false,
+                                  playsinline: true,
+                                  preload: 'metadata',
+                                  image_size: '1800x'
+                              }}
+                            {% else %}
+                              <img
+                                class="vd-wiki-teaser__cinema-image"
+                                src="{{ fallback_asset | asset_url }}"
+                                alt="{{ block.settings.title | escape }}"
+                                loading="lazy"
+                                width="1800"
+                                height="1350"
+                              >
+                            {% endif %}
                             <div class="vd-wiki-teaser__film-grain"></div>
                           </div>
-
-                          <div class="vd-wiki-teaser__cinema-frame vd-wiki-teaser__cinema-frame--detail">
-                            <img
-                              class="vd-wiki-teaser__cinema-image"
-                              src="{{ fallback_secondary | asset_url }}"
-                              alt=""
-                              loading="lazy"
-                              width="1350"
-                              height="1800"
-                            >
-                            <div class="vd-wiki-teaser__film-grain"></div>
-                          </div>
-
-                          <div class="vd-wiki-teaser__cinema-frame vd-wiki-teaser__cinema-frame--climate">
-                            <img
-                              class="vd-wiki-teaser__cinema-image"
-                              src="{{ fallback_tertiary | asset_url }}"
-                              alt=""
-                              loading="lazy"
-                              width="1800"
-                              height="1350"
-                            >
-                            <div class="vd-wiki-teaser__film-grain"></div>
-                          </div>
-                        </div>
-
-                        <div class="vd-wiki-teaser__cinema-note" data-vd-wiki-body>
-                          Pas de video moyenne. Juste le temps, le grain, et le geste.
                         </div>
                       </div>
                   {% endcase %}
@@ -533,6 +518,11 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image principale"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video principale"
         }
       ]
     }
