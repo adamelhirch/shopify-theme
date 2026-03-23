@@ -578,6 +578,18 @@
   }
 
   customElements.define('sticky-header', StickyHeader);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const isDesktopPointer = window.matchMedia('(min-width: 990px) and (pointer: fine)').matches;
+
+    if (!isDesktopPointer) return;
+
+    document.querySelectorAll('.vd-header-secondary-menu__toggle').forEach((toggle) => {
+      toggle.addEventListener('mousedown', (event) => {
+        event.preventDefault();
+      });
+    });
+  });
 {% endjavascript %}
 
 <script type="application/ld+json">
