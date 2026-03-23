@@ -78,6 +78,8 @@
                       loop: true,
                       muted: true,
                       controls: false,
+                      playsinline: true,
+                      preload: 'metadata',
                       image_size: '2200x'
                   }}
                 {% elsif cover_external_video_url != blank %}
@@ -181,6 +183,8 @@
                         loop: true,
                         muted: true,
                         controls: false,
+                        playsinline: true,
+                        preload: 'metadata',
                         image_size: '2200x'
                     }}
                   {% elsif block.settings.external_video_url != blank %}
