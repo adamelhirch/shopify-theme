@@ -104,6 +104,11 @@
     cleanups.length = 0;
   }
 
+  function registerCleanup(cleanups, cleanup) {
+    if (!cleanups || typeof cleanup !== 'function') return;
+    cleanups.push(cleanup);
+  }
+
   function getNodeText(node) {
     return node ? (node.textContent || '').replace(/\s+/g, ' ').trim() : '';
   }
@@ -328,7 +333,7 @@
     return seamlessLoop;
   }
 
-  function initCraftStories(gsap, ScrollTrigger, prefersReducedMotion) {
+  function initCraftStories(gsap, ScrollTrigger, prefersReducedMotion, cleanups) {
     gsap.utils.toArray('[data-vd-craft-story]').forEach(function (section) {
       var sticky = section.querySelector('.vd-craft-story__sticky');
       var panels = gsap.utils.toArray(section.querySelectorAll('[data-vd-craft-panel]'));
@@ -348,14 +353,14 @@
 
       var defaults = { ease: 'expo.out', duration: 1.6 };
 
-      gsap.set(panels, { autoAlpha: 0, scale: 1.08, yPercent: 8, filter: 'blur(18px)' });
-      gsap.set(panels[0], { autoAlpha: 1, scale: 1, yPercent: 0, filter: 'blur(0px)' });
-      gsap.set(quoteCards, { autoAlpha: 0, y: 24, filter: 'blur(14px)' });
-      gsap.set(steps, { autoAlpha: 0.34, x: 0, filter: 'blur(0px)' });
-      gsap.set(steps[0], { autoAlpha: 1, x: 0, filter: 'blur(0px)' });
+      gsap.set(panels, { autoAlpha: 0, scale: 1.08, yPercent: 8 });
+      gsap.set(panels[0], { autoAlpha: 1, scale: 1, yPercent: 0 });
+      gsap.set(quoteCards, { autoAlpha: 0, y: 24 });
+      gsap.set(steps, { autoAlpha: 0.34, x: 0 });
+      gsap.set(steps[0], { autoAlpha: 1, x: 0 });
 
       if (quoteCards[0]) {
-        gsap.set(quoteCards[0], { autoAlpha: 1, y: 0, filter: 'blur(0px)' });
+        gsap.set(quoteCards[0], { autoAlpha: 1, y: 0 });
       }
 
       syncCraftStoryState(panels, steps, 0, true);
@@ -407,7 +412,6 @@
             autoAlpha: 0.14,
             scale: 0.95,
             yPercent: -6,
-            filter: 'blur(18px)',
             duration: 1.5
           },
           label
@@ -419,7 +423,6 @@
             {
               autoAlpha: 0,
               y: -16,
-              filter: 'blur(16px)',
               duration: 1.2
             },
             label
@@ -431,7 +434,6 @@
           {
             autoAlpha: 0.34,
             x: 0,
-            filter: 'blur(0px)',
             duration: 1.25
           },
           label
@@ -443,7 +445,6 @@
             autoAlpha: 1,
             scale: 1,
             yPercent: 0,
-            filter: 'blur(0px)',
             duration: 1.8
           },
           label
@@ -454,7 +455,6 @@
           {
             autoAlpha: 1,
             x: 0,
-            filter: 'blur(0px)',
             duration: 1.45
           },
           label + '+=0.15'
@@ -466,7 +466,6 @@
             {
               autoAlpha: 1,
               y: 0,
-              filter: 'blur(0px)',
               duration: 1.35
             },
             label + '+=0.2'
@@ -484,10 +483,19 @@
           label + '+=0.25'
         );
       });
+
+      registerCleanup(cleanups, function () {
+        if (timeline.scrollTrigger) {
+          timeline.scrollTrigger.kill();
+        }
+
+        timeline.kill();
+        clearCraftStoryStyles(gsap, section, panels, steps, quoteCards, introItems);
+      });
     });
   }
 
-  function initFeatureGalleries(gsap, ScrollTrigger, prefersReducedMotion) {
+  function initFeatureGalleries(gsap, ScrollTrigger, prefersReducedMotion, cleanups) {
     gsap.utils.toArray('[data-vd-feature-gallery]').forEach(function (section) {
       var wrapper = section.querySelector('[data-vd-feature-gallery-wrapper]');
       var strip = section.querySelector('[data-vd-feature-gallery-strip]');
@@ -503,13 +511,13 @@
 
       section.classList.add('is-enhanced');
 
-      gsap.set(cards, { autoAlpha: 1, y: 0, filter: 'blur(0px)' });
+      gsap.set(cards, { autoAlpha: 1, y: 0 });
 
       var getScrollLength = function () {
         return Math.max(strip.scrollWidth - window.innerWidth, 0);
       };
 
-      gsap.to(strip, {
+      var animation = gsap.to(strip, {
         x: function () {
           return -getScrollLength();
         },
@@ -526,10 +534,19 @@
           invalidateOnRefresh: true
         }
       });
+
+      registerCleanup(cleanups, function () {
+        if (animation.scrollTrigger) {
+          animation.scrollTrigger.kill();
+        }
+
+        animation.kill();
+        clearFeatureGalleryStyles(gsap, section, strip, cards);
+      });
     });
   }
 
-  function initNewProductBentos(gsap, ScrollTrigger, prefersReducedMotion, Flip) {
+  function initNewProductBentos(gsap, ScrollTrigger, prefersReducedMotion, Flip, cleanups) {
     gsap.utils.toArray('[data-vd-bento-section]').forEach(function (section) {
       var stage = section.querySelector('[data-vd-bento-stage]');
       var gallery = section.querySelector('[data-vd-bento-gallery]');
@@ -570,22 +587,18 @@
         0
       );
 
-      timeline.fromTo(
-        gallery,
-        {
-          filter: 'blur(0px)'
-        },
-        {
-          filter: 'blur(0px)',
-          duration: 1,
-          ease: 'none'
-        },
-        0
-      );
+      registerCleanup(cleanups, function () {
+        if (timeline.scrollTrigger) {
+          timeline.scrollTrigger.kill();
+        }
+
+        timeline.kill();
+        clearNewProductBentoStyles(gsap, section, gallery, items);
+      });
     });
   }
 
-  function initTestimonials(gsap, ScrollTrigger, prefersReducedMotion) {
+  function initTestimonials(gsap, ScrollTrigger, prefersReducedMotion, cleanups) {
     gsap.utils.toArray('[data-vd-testimonials-section]').forEach(function (section) {
       if (typeof section.__vdTestimonialsCleanup === 'function') {
         section.__vdTestimonialsCleanup();
@@ -619,6 +632,12 @@
         runRegisteredCleanups(lifecycleCleanups);
         section.__vdTestimonialsCleanup = null;
       };
+
+      registerCleanup(cleanups, function () {
+        if (typeof section.__vdTestimonialsCleanup === 'function') {
+          section.__vdTestimonialsCleanup();
+        }
+      });
 
       function syncFromJudge() {
         var reviews = extractJudgeReviews(source, limit);
@@ -810,7 +829,7 @@
     });
   }
 
-  function initVanilleGsap() {
+  function initVanilleGsap(forceRebuild) {
     if (!window.gsap || !window.ScrollTrigger || !window.ScrollSmoother) return;
     if (window.Shopify && window.Shopify.designMode) return;
 
@@ -818,6 +837,13 @@
     var ScrollTrigger = window.ScrollTrigger;
     var ScrollSmoother = window.ScrollSmoother;
     var Flip = window.Flip || null;
+    var state = window.__vdGsapState || {
+      cleanups: [],
+      initialized: false,
+      allowSmoother: null,
+      isDesktop: null,
+      prefersReducedMotion: null
+    };
 
     if (Flip) {
       gsap.registerPlugin(ScrollTrigger, ScrollSmoother, Flip);
@@ -825,15 +851,27 @@
       gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
     }
 
-    ScrollTrigger.getAll().forEach(function (trigger) {
-      trigger.kill();
-    });
+    var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var isDesktop = window.innerWidth >= 990;
+    var allowSmoother = !prefersReducedMotion && isDesktop;
+    var shouldRebuild =
+      forceRebuild ||
+      !state.initialized ||
+      state.allowSmoother !== allowSmoother ||
+      state.isDesktop !== isDesktop ||
+      state.prefersReducedMotion !== prefersReducedMotion;
+
+    window.__vdGsapState = state;
+
+    if (!shouldRebuild) {
+      ScrollTrigger.refresh();
+      return;
+    }
+
+    runRegisteredCleanups(state.cleanups);
 
     var existingSmoother = ScrollSmoother.get();
     if (existingSmoother) existingSmoother.kill();
-
-    var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var allowSmoother = !prefersReducedMotion && window.innerWidth >= 990;
 
     if (allowSmoother && document.querySelector('#smooth-wrapper') && document.querySelector('#smooth-content')) {
       ScrollSmoother.create({
@@ -852,7 +890,7 @@
       gsap.set(headerWrapper, { clearProps: 'all' });
 
       if (!prefersReducedMotion) {
-        gsap.to(headerWrapper, {
+        var headerTween = gsap.to(headerWrapper, {
           '--vd-header-shell-height': '5.4rem',
           '--vd-header-shell-padding-x': '1.4rem',
           '--vd-header-shell-blur': '20px',
@@ -864,6 +902,15 @@
             end: '+=180',
             scrub: true
           }
+        });
+
+        registerCleanup(state.cleanups, function () {
+          if (headerTween.scrollTrigger) {
+            headerTween.scrollTrigger.kill();
+          }
+
+          headerTween.kill();
+          gsap.set(headerWrapper, { clearProps: 'all' });
         });
       }
     }
@@ -882,8 +929,8 @@
       if (wordsStatement.length) {
         heroTimeline.fromTo(
           wordsStatement,
-          { autoAlpha: 0, y: 24, filter: 'blur(20px)', letterSpacing: '0.18em' },
-          { autoAlpha: 1, y: 0, filter: 'blur(0px)', letterSpacing: '0.03em', duration: 1.8, stagger: 0.1 },
+          { autoAlpha: 0, y: 24, letterSpacing: '0.18em' },
+          { autoAlpha: 1, y: 0, letterSpacing: '0.03em', duration: 1.8, stagger: 0.1 },
           0
         );
       }
@@ -891,14 +938,14 @@
       if (words.length) {
         heroTimeline.fromTo(
           words,
-          { autoAlpha: 0, y: 18, filter: 'blur(10px)', letterSpacing: '0.34em' },
-          { autoAlpha: 1, y: 0, filter: 'blur(0px)', letterSpacing: '0.18em', duration: 1.5, stagger: 0.1 },
+          { autoAlpha: 0, y: 18, letterSpacing: '0.34em' },
+          { autoAlpha: 1, y: 0, letterSpacing: '0.18em', duration: 1.5, stagger: 0.1 },
           '-=1.05'
         );
       }
 
       if (media) {
-        gsap.to(media, {
+        var heroMediaTween = gsap.to(media, {
           yPercent: -8,
           ease: 'none',
           scrollTrigger: {
@@ -908,26 +955,38 @@
             scrub: true
           }
         });
+
+        registerCleanup(state.cleanups, function () {
+          if (heroMediaTween.scrollTrigger) {
+            heroMediaTween.scrollTrigger.kill();
+          }
+
+          heroMediaTween.kill();
+          gsap.set(media, { clearProps: 'transform' });
+        });
       }
+
+      registerCleanup(state.cleanups, function () {
+        heroTimeline.kill();
+      });
     }
 
-    initCraftStories(gsap, ScrollTrigger, prefersReducedMotion);
-    initFeatureGalleries(gsap, ScrollTrigger, prefersReducedMotion);
-    initNewProductBentos(gsap, ScrollTrigger, prefersReducedMotion, Flip);
-    initTestimonials(gsap, ScrollTrigger, prefersReducedMotion);
+    initCraftStories(gsap, ScrollTrigger, prefersReducedMotion, state.cleanups);
+    initFeatureGalleries(gsap, ScrollTrigger, prefersReducedMotion, state.cleanups);
+    initNewProductBentos(gsap, ScrollTrigger, prefersReducedMotion, Flip, state.cleanups);
+    initTestimonials(gsap, ScrollTrigger, prefersReducedMotion, state.cleanups);
 
     gsap.utils.toArray('.vd-reveal').forEach(function (section) {
       var items = section.querySelectorAll('.vd-reveal-item');
 
       if (!items.length) return;
 
-      gsap.fromTo(
+      var revealTween = gsap.fromTo(
         items,
-        { autoAlpha: 0, y: 32, filter: 'blur(20px)' },
+        { autoAlpha: 0, y: 32 },
         {
           autoAlpha: 1,
           y: 0,
-          filter: 'blur(0px)',
           duration: 1.6,
           ease: 'expo.out',
           stagger: 0.1,
@@ -937,10 +996,19 @@
           }
         }
       );
+
+      registerCleanup(state.cleanups, function () {
+        if (revealTween.scrollTrigger) {
+          revealTween.scrollTrigger.kill();
+        }
+
+        revealTween.kill();
+        gsap.set(items, { clearProps: 'all' });
+      });
     });
 
     gsap.utils.toArray('[data-speed]').forEach(function (element) {
-      gsap.to(element, {
+      var speedTween = gsap.to(element, {
         yPercent: Number(element.getAttribute('data-speed')) * -10,
         ease: 'none',
         scrollTrigger: {
@@ -948,17 +1016,48 @@
           scrub: true
         }
       });
+
+      registerCleanup(state.cleanups, function () {
+        if (speedTween.scrollTrigger) {
+          speedTween.scrollTrigger.kill();
+        }
+
+        speedTween.kill();
+        gsap.set(element, { clearProps: 'transform' });
+      });
     });
+
+    state.allowSmoother = allowSmoother;
+    state.isDesktop = isDesktop;
+    state.prefersReducedMotion = prefersReducedMotion;
+    state.initialized = true;
+
+    ScrollTrigger.refresh();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initVanilleGsap);
+    document.addEventListener('DOMContentLoaded', function () {
+      initVanilleGsap(true);
+    });
   } else {
-    initVanilleGsap();
+    initVanilleGsap(true);
+  }
+
+  var reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var handleReducedMotionChange = function () {
+    initVanilleGsap(true);
+  };
+
+  if (typeof reducedMotionQuery.addEventListener === 'function') {
+    reducedMotionQuery.addEventListener('change', handleReducedMotionChange);
+  } else if (typeof reducedMotionQuery.addListener === 'function') {
+    reducedMotionQuery.addListener(handleReducedMotionChange);
   }
 
   window.addEventListener('resize', function () {
     window.clearTimeout(window.__vdGsapResizeTimer);
-    window.__vdGsapResizeTimer = window.setTimeout(initVanilleGsap, 220);
+    window.__vdGsapResizeTimer = window.setTimeout(function () {
+      initVanilleGsap(false);
+    }, 220);
   });
 })();
