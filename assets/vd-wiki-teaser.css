@@ -421,24 +421,59 @@
   fill: rgba(var(--vd-orange), 0.78);
 }
 
-.vd-wiki-teaser__madagascar-outline {
+.vd-wiki-teaser__madagascar-panel {
+  position: absolute;
+  top: 18%;
+  right: 14%;
+  z-index: 3;
+  width: clamp(9rem, 12vw, 11.5rem);
+  pointer-events: none;
+  filter:
+    drop-shadow(0 0 18px rgba(215, 160, 85, 0.22))
+    drop-shadow(0 0 36px rgba(215, 160, 85, 0.14));
+}
+
+.vd-madagascar-outline {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.vd-madagascar-outline__fill {
+  fill: rgba(255, 255, 255, 0.04);
+}
+
+.vd-madagascar-outline__stroke {
   fill: none;
   stroke: var(--vd-wiki-gold);
-  stroke-width: 4.5;
+  stroke-width: 2.8;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter:
-    drop-shadow(0 0 18px rgba(215, 160, 85, 0.45))
-    drop-shadow(0 0 34px rgba(215, 160, 85, 0.24));
 }
 
 .vd-wiki-teaser__sava-core {
-  fill: #f3d7ab;
+  position: absolute;
+  top: 28.4%;
+  left: 73.4%;
+  z-index: 4;
+  width: 0.52rem;
+  height: 0.52rem;
+  border-radius: 999px;
+  background: #f3d7ab;
+  transform: translate(-50%, -50%);
   filter: drop-shadow(0 0 18px rgba(215, 160, 85, 0.78));
 }
 
 .vd-wiki-teaser__sava-halo {
-  fill: rgba(215, 160, 85, 0.16);
+  position: absolute;
+  top: 28.4%;
+  left: 73.4%;
+  z-index: 3;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: rgba(215, 160, 85, 0.16);
+  transform: translate(-50%, -50%);
   transform-origin: center;
 }
 
