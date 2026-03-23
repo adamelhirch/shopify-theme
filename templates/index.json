@@ -13,7 +13,7 @@
         "external_video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
         "background_image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
         "use_demo_video": false,
-        "media_overlay_opacity": 0,
+        "media_overlay_opacity": 10,
         "button_label": "",
         "button_link": "",
         "secondary_button_label": "",
