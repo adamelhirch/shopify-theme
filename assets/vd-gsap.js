@@ -859,76 +859,6 @@
     };
   }
 
-  function initHeaderChrome(gsap, ScrollTrigger, prefersReducedMotion) {
-    if (typeof window.__vdHeaderChromeCleanup === 'function') {
-      window.__vdHeaderChromeCleanup();
-    }
-
-    var headerWrapper = document.querySelector('.header-wrapper');
-    var header = headerWrapper ? headerWrapper.querySelector('.header') : null;
-    var logo = header ? header.querySelector('.header__heading-logo-wrapper') : null;
-    var mobileQuery = window.matchMedia('(max-width: 989px)');
-
-    if (!headerWrapper || !header || mobileQuery.matches) {
-      window.__vdHeaderChromeCleanup = null;
-      return;
-    }
-
-    var tween = gsap.timeline({ paused: true, defaults: { ease: 'power2.out', duration: 1 } });
-    var trigger = null;
-
-    tween.to(
-      header,
-      {
-        minHeight: '7.2rem',
-        paddingTop: '1.6rem',
-        paddingBottom: '1.6rem'
-      },
-      0
-    );
-
-    tween.to(
-      headerWrapper,
-      {
-        scale: 0.985,
-        y: 2,
-        borderRadius: '2.8rem',
-        boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 18px 42px rgba(0, 0, 0, 0.16)'
-      },
-      0
-    );
-
-    if (logo) {
-      tween.to(
-        logo,
-        {
-          scale: 0.88
-        },
-        0
-      );
-    }
-
-    trigger = ScrollTrigger.create({
-      trigger: document.documentElement,
-      start: 24,
-      end: 220,
-      scrub: prefersReducedMotion ? false : 0.45,
-      onUpdate: function (self) {
-        tween.progress(self.progress);
-      }
-    });
-
-    window.__vdHeaderChromeCleanup = function () {
-      if (trigger) {
-        trigger.kill();
-      }
-
-      tween.kill();
-      gsap.set([headerWrapper, header, logo], { clearProps: 'all' });
-      window.__vdHeaderChromeCleanup = null;
-    };
-  }
-
   function initVanilleGsap() {
     if (!window.gsap || !window.ScrollTrigger || !window.ScrollSmoother) return;
     if (window.Shopify && window.Shopify.designMode) return;
@@ -962,7 +892,6 @@
 
     initHeaderHoverMenus();
     initHeaderHoverFx(gsap);
-    initHeaderChrome(gsap, ScrollTrigger, prefersReducedMotion);
 
     var hero = document.querySelector('.section-vd-hero');
     if (hero) {

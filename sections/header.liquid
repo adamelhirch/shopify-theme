@@ -178,10 +178,12 @@
     {%- endif -%}
 
     {%- liquid
-      if section.settings.menu != blank
+        if section.settings.menu != blank
         if section.settings.menu_type_desktop == 'dropdown'
           if section.settings.logo_position == 'middle-center'
+            echo '<div class="vd-header__left small-hide medium-hide">'
             render 'header-dropdown-menu', nav_class: 'header__inline-menu--primary', link_offset: 0, link_limit: 2
+            echo '</div>'
           else
             render 'header-dropdown-menu'
           endif
