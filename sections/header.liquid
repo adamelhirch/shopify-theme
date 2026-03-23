@@ -330,7 +330,10 @@
 
                 <a
                   href="{{ desktop_secondary_link.url }}"
-                  class="vd-header-secondary-menu__feature link focus-inset"
+                  class="vd-header-secondary-menu__feature link focus-inset{% if section.settings.brand_feature_image != blank %} vd-header-secondary-menu__feature--media{% endif %}"
+                  {% if section.settings.brand_feature_image != blank %}
+                    style="--vd-header-feature-image: url('{{ section.settings.brand_feature_image | image_url: width: 1200 }}');"
+                  {% endif %}
                   {% if desktop_secondary_link.current %}
                     aria-current="page"
                   {% endif %}
@@ -735,6 +738,25 @@
       "id": "menu_color_scheme",
       "label": "t:sections.header.settings.menu_color_scheme.label",
       "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Visuels des menus"
+    },
+    {
+      "type": "image_picker",
+      "id": "catalogue_feature_image",
+      "label": "Image panneau Catalogue"
+    },
+    {
+      "type": "image_picker",
+      "id": "wiki_feature_image",
+      "label": "Image panneau Le Wiki"
+    },
+    {
+      "type": "image_picker",
+      "id": "brand_feature_image",
+      "label": "Image panneau Vanille Désiré"
     },
     {
       "type": "header",

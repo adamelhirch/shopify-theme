@@ -14,11 +14,14 @@
             {%- liquid
               assign has_simple_children = false
               assign feature_title = 'Voir tout'
+              assign feature_image = blank
 
               if link.title contains 'Catalogue'
                 assign feature_title = 'Explorer la boutique'
+                assign feature_image = section.settings.catalogue_feature_image
               elsif link.title contains 'Wiki'
                 assign feature_title = 'Parcourir nos guides'
+                assign feature_image = section.settings.wiki_feature_image
               endif
 
               for childlink in link.links
@@ -110,7 +113,10 @@
 
                     <a
                       href="{{ link.url }}"
-                      class="vd-header-primary-menu__feature link focus-inset"
+                      class="vd-header-primary-menu__feature link focus-inset{% if feature_image != blank %} vd-header-primary-menu__feature--media{% endif %}"
+                      {% if feature_image != blank %}
+                        style="--vd-header-feature-image: url('{{ feature_image | image_url: width: 1200 }}');"
+                      {% endif %}
                       {% if link.current %}
                         aria-current="page"
                       {% endif %}
