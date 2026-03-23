@@ -20,7 +20,7 @@
         "shop_link_4_url": "shopify://collections/all",
         "shop_link_5_label": "Tous les produits",
         "shop_link_5_url": "shopify://collections/all",
-        "menu_type_desktop": "dropdown",
+        "menu_type_desktop": "mega",
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": false,
         "enable_country_selector": false,
