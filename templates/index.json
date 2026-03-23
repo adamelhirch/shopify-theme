@@ -117,45 +117,46 @@
       "type": "vd-wiki-grid",
       "blocks": {
         "wiki_1": {
-          "type": "article_card",
+          "type": "wiki_chapter",
           "settings": {
             "number": "01",
             "category": "Botanique",
-            "title": "L'Orchidee Planifolia",
-            "text": "Comprendre la liane, la pollinisation et le temps long qui precede l'arome.",
+            "title": "Botanique",
+            "text": "<p>La fleur n'apparait qu'un instant. Tout commence la, dans un equilibre fragile.</p>",
+            "detail_one": "Vanilla planifolia",
+            "detail_two": "Pollinisation manuelle",
+            "detail_three": "Floraison eclair",
+            "link_label": "Entrer dans le chapitre",
             "link": "shopify://blogs/le-wiki",
             "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg"
           }
         },
         "wiki_2": {
-          "type": "article_card",
+          "type": "wiki_chapter",
           "settings": {
             "number": "02",
-            "category": "Science",
-            "title": "La Vanilline Naturelle",
-            "text": "Faire la difference entre concentration aromatique, extraction et faux raccourcis aromatiques.",
+            "category": "Terroirs & Crus",
+            "title": "Terroirs",
+            "text": "<p>Une lecture de l'origine par le climat, le relief et la lenteur de l'affinage.</p>",
+            "detail_one": "Madagascar",
+            "detail_two": "Tahiti",
+            "detail_three": "Papouasie",
+            "link_label": "Voir les origines",
             "link": "shopify://blogs/le-wiki",
             "image": ""
           }
         },
         "wiki_3": {
-          "type": "article_card",
+          "type": "wiki_chapter",
           "settings": {
             "number": "03",
-            "category": "Terroirs",
-            "title": "Terroirs & Crus",
-            "text": "Lire les nuances entre regions, affinage, humidite et texture des gousses.",
-            "link": "shopify://blogs/le-wiki",
-            "image": ""
-          }
-        },
-        "wiki_4": {
-          "type": "article_card",
-          "settings": {
-            "number": "04",
-            "category": "Techniques Pro",
-            "title": "Gestes & Usages",
-            "text": "Infusion, fente, dosage et conservation: les gestes qui changent vraiment le resultat.",
+            "category": "Techniques",
+            "title": "Le Geste",
+            "text": "<p>Moins de texte, plus de rythme: la main, la coupe, le sechage, la tension juste.</p>",
+            "detail_one": "Incision nette",
+            "detail_two": "Sechage lent",
+            "detail_three": "Affinage precis",
+            "link_label": "Voir les gestes",
             "link": "shopify://blogs/le-wiki",
             "image": ""
           }
@@ -164,17 +165,17 @@
       "block_order": [
         "wiki_1",
         "wiki_2",
-        "wiki_3",
-        "wiki_4"
+        "wiki_3"
       ],
       "settings": {
-        "heading": "Le Wiki Vanille",
-        "text": "<p>Explorez un espace editorial construit pour eduquer, inspirer et credibiliser la maison, loin d'une simple grille de blog standard.</p>",
+        "eyebrow": "Le Wiki",
+        "heading": "Un codex digital pour la matiere, les terroirs et le geste.",
+        "text": "<p>Trois chapitres plein ecran. Plus d'espace, plus de rythme, plus de credibilite editoriale.</p>",
         "button_label": "Explorer le wiki",
         "button_link": "shopify://blogs/le-wiki",
         "color_scheme": "scheme-3",
-        "padding_top": 28,
-        "padding_bottom": 60
+        "padding_top": 12,
+        "padding_bottom": 20
       }
     }
   },

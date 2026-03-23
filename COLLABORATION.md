@@ -14,14 +14,18 @@
 - One Shopify development theme per person.
 - Never share the same Shopify development theme while working in parallel.
 - Push to the shared QA theme only when a task is ready for review.
+- `QA Shared v1` is frozen and restore-only.
+- Never push normal work to `QA Shared v1`.
+- The only shared preview target for routine work is `QA Shared v1.1` (`181079441675`).
+- Before any Shopify push, confirm that `./bin/theme-push-qa.sh` and the CLI output both target `181079441675`.
 
 ## Daily flow
 
-1. Update local `main`.
-2. Create a dedicated branch.
+1. Update the agreed Git base branch for the active delivery track.
+2. Create a dedicated branch from that base.
 3. Work locally with `shopify theme dev`.
 4. When the task is finished, push the Git branch.
-5. If the task must be visible to others in Shopify, push the code to `QA Shared v1.1`.
+5. If the task must be visible to others in Shopify, push the code only to `QA Shared v1.1`.
 
 ## Commands
 
@@ -35,6 +39,12 @@ Push current local code to the shared QA theme:
 
 ```bash
 ./bin/theme-push-qa.sh
+```
+
+Expected target:
+
+```text
+QA Shared v1.1 (181079441675)
 ```
 
 ## Important distinction

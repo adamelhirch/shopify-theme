@@ -1,3 +1,6 @@
+{{ 'vd-wiki-teaser.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'vd-wiki-teaser.js' | asset_url }}" defer="defer"></script>
+
 {% style %}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -12,83 +15,448 @@
   }
 {% endstyle %}
 
-<section class="section-{{ section.id }}-padding vd-wiki color-{{ section.settings.color_scheme }} vd-reveal">
+{%- liquid
+  assign slide_count = section.blocks.size
+  if slide_count < 1
+    assign slide_count = 1
+  endif
+-%}
+
+<section
+  class="section-{{ section.id }}-padding vd-wiki-teaser color-{{ section.settings.color_scheme }}"
+  data-vd-wiki-teaser
+  data-vd-wiki-count="{{ slide_count }}"
+  style="--vd-wiki-slide-count: {{ slide_count }};"
+>
   <div class="page-width">
-    <div class="vd-wiki__head vd-reveal-item">
-      {% if section.settings.heading != blank %}
-        <h2 class="vd-wiki__title">{{ section.settings.heading }}</h2>
-      {% endif %}
-      {% if section.settings.text != blank %}
-        <div class="vd-wiki__text rte">{{ section.settings.text }}</div>
-      {% endif %}
-    </div>
-
-    <div class="vd-wiki__grid" role="list">
-      {% for block in section.blocks %}
-        <a
-          class="vd-wiki-card vd-reveal-item{% if forloop.first %} vd-wiki-card--feature{% endif %}"
-          {% if block.settings.link == blank %}
-            role="link" aria-disabled="true"
-          {% else %}
-            href="{{ block.settings.link }}"
-          {% endif %}
-          role="listitem"
-          {{ block.shopify_attributes }}
-        >
-          {% if block.settings.image != blank %}
-            <div class="vd-wiki-card__media">
-              {{
-                block.settings.image
-                | image_url: width: 1600
-                | image_tag:
-                  class: 'vd-wiki-card__image',
-                  widths: '360, 540, 720, 960, 1280, 1600',
-                  sizes: '(min-width: 990px) 32vw, 92vw',
-                  loading: 'lazy',
-                  alt: block.settings.image.alt | default: block.settings.title | escape
-              }}
-            </div>
+    <div class="vd-wiki-teaser__shell" data-vd-wiki-shell>
+      <header class="vd-wiki-teaser__masthead">
+        <div class="vd-wiki-teaser__masthead-copy">
+          {% if section.settings.eyebrow != blank %}
+            <span class="vd-wiki-teaser__eyebrow">{{ section.settings.eyebrow }}</span>
           {% endif %}
 
-          <div class="vd-wiki-card__body">
-            <div class="vd-wiki-card__topline">
-              {% if block.settings.number != blank %}
-                <span>{{ block.settings.number }}</span>
-              {% endif %}
-              {% if block.settings.category != blank %}
-                <span>{{ block.settings.category }}</span>
-              {% endif %}
-            </div>
-
-            {% if block.settings.title != blank %}
-              <h3>{{ block.settings.title }}</h3>
-            {% endif %}
-
-            {% if block.settings.text != blank %}
-              <p>{{ block.settings.text }}</p>
-            {% endif %}
-          </div>
-        </a>
-      {% endfor %}
-    </div>
-
-    {% if section.settings.button_label != blank %}
-      <div class="vd-wiki__actions">
-        <a
-          {% if section.settings.button_link == blank %}
-            role="link" aria-disabled="true"
-          {% else %}
-            href="{{ section.settings.button_link }}"
+          {% if section.settings.heading != blank %}
+            <p class="vd-wiki-teaser__heading">{{ section.settings.heading }}</p>
           {% endif %}
-          class="vd-arrow-cta{% if section.settings.button_link == blank %} is-disabled{% endif %}"
-        >
-          <span class="vd-arrow-cta__label">{{ section.settings.button_label }}</span>
-          <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-            <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-          </svg>
-        </a>
+
+          {% if section.settings.text != blank %}
+            <div class="vd-wiki-teaser__lede rte">{{ section.settings.text }}</div>
+          {% endif %}
+        </div>
+      </header>
+
+      <div class="vd-wiki-teaser__viewport" data-vd-wiki-viewport tabindex="0">
+        <div class="vd-wiki-teaser__track" data-vd-wiki-track role="list">
+          {% for block in section.blocks %}
+            {%- liquid
+              assign chapter_key = 'botanique'
+              assign fallback_asset = 'vd-wiki-botanique.jpg'
+              assign fallback_secondary = 'vd-wiki-cover.jpg'
+              assign fallback_tertiary = 'vd-wiki-science.jpg'
+
+              if forloop.index == 2
+                assign chapter_key = 'terroirs'
+                assign fallback_asset = 'vd-wiki-terroirs.jpg'
+                assign fallback_secondary = 'vd-wiki-cover.jpg'
+                assign fallback_tertiary = 'vd-wiki-science.jpg'
+              elsif forloop.index == 3
+                assign chapter_key = 'techniques'
+                assign fallback_asset = 'vd-wiki-techniques.jpg'
+                assign fallback_secondary = 'vd-wiki-cover.jpg'
+                assign fallback_tertiary = 'vd-wiki-terroirs.jpg'
+              endif
+
+              assign slide_link_label = block.settings.link_label
+              if slide_link_label == blank
+                assign slide_link_label = 'Explorer'
+              endif
+            -%}
+
+            <article
+              class="vd-wiki-teaser__slide vd-wiki-teaser__slide--{{ chapter_key }}{% if forloop.first %} is-active{% endif %}"
+              data-vd-wiki-slide
+              data-vd-wiki-index="{{ forloop.index0 }}"
+              aria-label="{{ forloop.index }} / {{ slide_count }}"
+              role="listitem"
+              {{ block.shopify_attributes }}
+            >
+              <div class="vd-wiki-teaser__panel">
+                <div class="vd-wiki-teaser__copy">
+                  <div class="vd-wiki-teaser__meta" data-vd-wiki-meta>
+                    {% if block.settings.number != blank %}
+                      <span>{{ block.settings.number }}</span>
+                    {% endif %}
+                    {% if block.settings.category != blank %}
+                      <span>{{ block.settings.category }}</span>
+                    {% endif %}
+                  </div>
+
+                  {% if block.settings.title != blank %}
+                    <h2 class="vd-wiki-teaser__panel-title" data-vd-wiki-title>{{ block.settings.title }}</h2>
+                  {% endif %}
+
+                  {% if block.settings.text != blank %}
+                    <div class="vd-wiki-teaser__body rte" data-vd-wiki-body>{{ block.settings.text }}</div>
+                  {% endif %}
+
+                  <div class="vd-wiki-teaser__detail-list" data-vd-wiki-body>
+                    {% if block.settings.detail_one != blank %}
+                      <span class="vd-wiki-teaser__detail-pill">{{ block.settings.detail_one }}</span>
+                    {% endif %}
+                    {% if block.settings.detail_two != blank %}
+                      <span class="vd-wiki-teaser__detail-pill">{{ block.settings.detail_two }}</span>
+                    {% endif %}
+                    {% if block.settings.detail_three != blank %}
+                      <span class="vd-wiki-teaser__detail-pill">{{ block.settings.detail_three }}</span>
+                    {% endif %}
+                  </div>
+
+                  {% if block.settings.link != blank %}
+                    <div class="vd-wiki-teaser__actions" data-vd-wiki-body>
+                      <a class="vd-inline-link" href="{{ block.settings.link }}">{{ slide_link_label }}</a>
+                    </div>
+                  {% endif %}
+                </div>
+
+                <div class="vd-wiki-teaser__visual" data-vd-wiki-media>
+                  {% case forloop.index %}
+                    {% when 1 %}
+                      <div class="vd-wiki-teaser__media-shell vd-wiki-teaser__media-shell--botanique">
+                        <div class="vd-wiki-teaser__media-frame">
+                          {% if block.settings.image != blank %}
+                            {{
+                              block.settings.image
+                              | image_url: width: 2200
+                              | image_tag:
+                                class: 'vd-wiki-teaser__image',
+                                widths: '800, 1200, 1600, 2000, 2200',
+                                sizes: '(min-width: 990px) 52vw, 100vw',
+                                loading: 'eager',
+                                alt: block.settings.image.alt | default: block.settings.title | escape
+                            }}
+                          {% else %}
+                            <img
+                              class="vd-wiki-teaser__image"
+                              src="{{ fallback_asset | asset_url }}"
+                              alt="{{ block.settings.title | escape }}"
+                              loading="eager"
+                              width="1350"
+                              height="1800"
+                            >
+                          {% endif %}
+                        </div>
+
+                        <div class="vd-wiki-teaser__orchid" aria-hidden="true">
+                          <span class="vd-wiki-teaser__petal vd-wiki-teaser__petal--1" data-vd-wiki-petal></span>
+                          <span class="vd-wiki-teaser__petal vd-wiki-teaser__petal--2" data-vd-wiki-petal></span>
+                          <span class="vd-wiki-teaser__petal vd-wiki-teaser__petal--3" data-vd-wiki-petal></span>
+                          <span class="vd-wiki-teaser__petal vd-wiki-teaser__petal--4" data-vd-wiki-petal></span>
+                          <span class="vd-wiki-teaser__petal vd-wiki-teaser__petal--5" data-vd-wiki-petal></span>
+                        </div>
+
+                        <div class="vd-wiki-teaser__caption">
+                          Vanilla planifolia. Floraison breve, pollen manuel, maturite lente.
+                        </div>
+                      </div>
+                    {% when 2 %}
+                      <div class="vd-wiki-teaser__atlas-shell">
+                        <div class="vd-wiki-teaser__atlas-noise" aria-hidden="true"></div>
+                        <svg
+                          class="vd-wiki-teaser__atlas-svg"
+                          viewBox="0 0 1200 700"
+                          role="img"
+                          aria-label="Carte stylisee des terroirs de vanille"
+                        >
+                          <g class="vd-wiki-teaser__atlas-grid" aria-hidden="true">
+                            <path d="M70 120H1130"></path>
+                            <path d="M70 230H1130"></path>
+                            <path d="M70 340H1130"></path>
+                            <path d="M70 450H1130"></path>
+                            <path d="M70 560H1130"></path>
+                            <path d="M170 70V630"></path>
+                            <path d="M370 70V630"></path>
+                            <path d="M570 70V630"></path>
+                            <path d="M770 70V630"></path>
+                            <path d="M970 70V630"></path>
+                          </g>
+
+                          <g class="vd-wiki-teaser__atlas-world" aria-hidden="true">
+                            <path d="M130 220c62-74 178-111 272-88 53 13 86 41 94 77 6 28-8 58-39 82-38 29-63 36-78 59-17 24-54 39-112 44-58 4-115-6-163-30-44-21-76-58-80-96-5-18 1-34 17-48 20-17 52-17 89 0z"></path>
+                            <path d="M432 149c26-14 57-18 92-10 40 9 69 33 77 62 11 36-14 73-67 99-50 25-101 33-138 21-39-13-55-42-42-76 10-28 33-49 78-72z"></path>
+                            <path d="M524 282c36-36 88-52 141-43 47 8 79 34 85 69 8 41-22 80-84 109-57 26-112 32-155 16-36-13-60-41-60-71 0-29 16-56 73-80z"></path>
+                            <path d="M704 190c84-43 188-50 283-19 96 32 144 95 126 166-16 64-88 117-188 139-109 23-235 6-307-43-58-38-82-99-61-155 17-39 60-71 147-88z"></path>
+                            <path d="M822 511c19-14 49-22 78-21 34 2 60 16 69 39 11 28-4 58-38 79-35 21-78 29-112 22-28-7-49-24-54-46-6-25 10-52 57-73z"></path>
+                            <path d="M1041 520c22-9 46-7 63 4 16 12 23 32 16 48-8 17-29 28-54 29-23 2-42-6-51-20-8-13-7-29 2-42 5-7 13-14 24-19z"></path>
+                            <path d="M773 418c14-5 30-3 42 5 11 7 17 20 15 31-3 12-13 22-27 27-16 5-33 4-45-4-10-6-15-17-14-28 2-12 12-24 29-31z"></path>
+                          </g>
+
+                          <g class="vd-wiki-teaser__atlas-hotspots" aria-hidden="true">
+                            <circle data-vd-wiki-region-mark="madagascar" cx="778" cy="444" r="16"></circle>
+                            <circle data-vd-wiki-region-mark="tahiti" cx="192" cy="418" r="18"></circle>
+                            <circle data-vd-wiki-region-mark="mexique" cx="300" cy="270" r="18"></circle>
+                            <circle data-vd-wiki-region-mark="papouasie" cx="1038" cy="516" r="18"></circle>
+                          </g>
+                        </svg>
+
+                        <button
+                          class="vd-wiki-teaser__region-button is-active"
+                          type="button"
+                          data-vd-wiki-region-button="madagascar"
+                          style="--region-x: 64.8%; --region-y: 63.4%;"
+                        >
+                          <span class="vd-wiki-teaser__region-dot"></span>
+                          <span class="vd-wiki-teaser__region-label">Madagascar</span>
+                        </button>
+                        <button
+                          class="vd-wiki-teaser__region-button"
+                          type="button"
+                          data-vd-wiki-region-button="tahiti"
+                          style="--region-x: 16%; --region-y: 60.4%;"
+                        >
+                          <span class="vd-wiki-teaser__region-dot"></span>
+                          <span class="vd-wiki-teaser__region-label">Tahiti</span>
+                        </button>
+                        <button
+                          class="vd-wiki-teaser__region-button"
+                          type="button"
+                          data-vd-wiki-region-button="mexique"
+                          style="--region-x: 24.8%; --region-y: 36.4%;"
+                        >
+                          <span class="vd-wiki-teaser__region-dot"></span>
+                          <span class="vd-wiki-teaser__region-label">Mexique</span>
+                        </button>
+                        <button
+                          class="vd-wiki-teaser__region-button"
+                          type="button"
+                          data-vd-wiki-region-button="papouasie"
+                          style="--region-x: 86.6%; --region-y: 72.6%;"
+                        >
+                          <span class="vd-wiki-teaser__region-dot"></span>
+                          <span class="vd-wiki-teaser__region-label">Papouasie</span>
+                        </button>
+
+                        <div class="vd-wiki-teaser__region-cards">
+                          <article class="vd-wiki-teaser__region-card is-active" data-vd-wiki-region-card="madagascar">
+                            <div class="vd-wiki-teaser__region-image">
+                              <img
+                                src="{{ 'vd-wiki-terroirs.jpg' | asset_url }}"
+                                alt="Texture de terroir malgache"
+                                loading="lazy"
+                                width="1800"
+                                height="1350"
+                              >
+                            </div>
+                            <div class="vd-wiki-teaser__region-copy">
+                              <span>Madagascar</span>
+                              <strong>Bourbon dense, humide, solaire.</strong>
+                              <p>Un relief chaud, des pluies franches et un affinage qui gagne en profondeur.</p>
+                            </div>
+                          </article>
+
+                          <article class="vd-wiki-teaser__region-card" data-vd-wiki-region-card="tahiti">
+                            <div class="vd-wiki-teaser__region-image">
+                              <img
+                                src="{{ 'vd-wiki-cover.jpg' | asset_url }}"
+                                alt="Climat oceanique et terroir tahitien"
+                                loading="lazy"
+                                width="1800"
+                                height="1151"
+                              >
+                            </div>
+                            <div class="vd-wiki-teaser__region-copy">
+                              <span>Tahiti</span>
+                              <strong>Profil floral, presque aerien.</strong>
+                              <p>Un climat marin, plus de rondeur, et un registre qui part vers le balsamique.</p>
+                            </div>
+                          </article>
+
+                          <article class="vd-wiki-teaser__region-card" data-vd-wiki-region-card="mexique">
+                            <div class="vd-wiki-teaser__region-image">
+                              <img
+                                src="{{ 'vd-wiki-science.jpg' | asset_url }}"
+                                alt="Sol mineral et climat mexicain"
+                                loading="lazy"
+                                width="1800"
+                                height="1350"
+                              >
+                            </div>
+                            <div class="vd-wiki-teaser__region-copy">
+                              <span>Mexique</span>
+                              <strong>La source historique, plus epicee.</strong>
+                              <p>Un relief mineral et des profils souvent plus secs, plus droits, plus nerveux.</p>
+                            </div>
+                          </article>
+
+                          <article class="vd-wiki-teaser__region-card" data-vd-wiki-region-card="papouasie">
+                            <div class="vd-wiki-teaser__region-image">
+                              <img
+                                src="{{ 'vd-wiki-techniques.jpg' | asset_url }}"
+                                alt="Climat tropical et sechoir"
+                                loading="lazy"
+                                width="1374"
+                                height="1800"
+                              >
+                            </div>
+                            <div class="vd-wiki-teaser__region-copy">
+                              <span>Papouasie</span>
+                              <strong>Une trame plus brute, plus fumee.</strong>
+                              <p>Un climat dense et une signature souvent plus sauvage, plus terrienne.</p>
+                            </div>
+                          </article>
+                        </div>
+                      </div>
+                    {% else %}
+                      <div class="vd-wiki-teaser__planes" data-vd-wiki-planes>
+                        <div class="vd-wiki-teaser__plane vd-wiki-teaser__plane--primary" data-vd-wiki-plane>
+                          {% if block.settings.video != blank %}
+                            {{
+                              block.settings.video
+                              | video_tag:
+                                class: 'vd-wiki-teaser__video',
+                                autoplay: true,
+                                loop: true,
+                                muted: true,
+                                controls: false,
+                                playsinline: true,
+                                preload: 'metadata',
+                                image_size: '1800x'
+                            }}
+                          {% elsif block.settings.external_video_url != blank %}
+                            <video
+                              class="vd-wiki-teaser__video"
+                              autoplay
+                              loop
+                              muted
+                              playsinline
+                              preload="metadata"
+                              {% if block.settings.image != blank %}
+                                poster="{{ block.settings.image | image_url: width: 1800 }}"
+                              {% endif %}
+                            >
+                              <source src="{{ block.settings.external_video_url }}" type="video/mp4">
+                            </video>
+                          {% elsif block.settings.image != blank %}
+                            {{
+                              block.settings.image
+                              | image_url: width: 2200
+                              | image_tag:
+                                class: 'vd-wiki-teaser__image',
+                                widths: '800, 1200, 1600, 2000, 2200',
+                                sizes: '(min-width: 990px) 46vw, 88vw',
+                                loading: 'lazy',
+                                alt: block.settings.image.alt | default: block.settings.title | escape
+                            }}
+                          {% else %}
+                            <img
+                              class="vd-wiki-teaser__image"
+                              src="{{ fallback_asset | asset_url }}"
+                              alt="{{ block.settings.title | escape }}"
+                              loading="lazy"
+                              width="1374"
+                              height="1800"
+                            >
+                          {% endif %}
+                        </div>
+
+                        <div class="vd-wiki-teaser__plane vd-wiki-teaser__plane--secondary" data-vd-wiki-plane>
+                          {% if block.settings.secondary_image != blank %}
+                            {{
+                              block.settings.secondary_image
+                              | image_url: width: 1600
+                              | image_tag:
+                                class: 'vd-wiki-teaser__image',
+                                widths: '700, 900, 1200, 1600',
+                                sizes: '(min-width: 990px) 20vw, 44vw',
+                                loading: 'lazy',
+                                alt: block.settings.secondary_image.alt | default: block.settings.title | escape
+                            }}
+                          {% else %}
+                            <img
+                              class="vd-wiki-teaser__image"
+                              src="{{ fallback_secondary | asset_url }}"
+                              alt="{{ block.settings.title | escape }}"
+                              loading="lazy"
+                              width="1800"
+                              height="1151"
+                            >
+                          {% endif %}
+                        </div>
+
+                        <div class="vd-wiki-teaser__plane vd-wiki-teaser__plane--tertiary" data-vd-wiki-plane>
+                          {% if block.settings.tertiary_image != blank %}
+                            {{
+                              block.settings.tertiary_image
+                              | image_url: width: 1600
+                              | image_tag:
+                                class: 'vd-wiki-teaser__image',
+                                widths: '700, 900, 1200, 1600',
+                                sizes: '(min-width: 990px) 16vw, 36vw',
+                                loading: 'lazy',
+                                alt: block.settings.tertiary_image.alt | default: block.settings.title | escape
+                            }}
+                          {% else %}
+                            <img
+                              class="vd-wiki-teaser__image"
+                              src="{{ fallback_tertiary | asset_url }}"
+                              alt="{{ block.settings.title | escape }}"
+                              loading="lazy"
+                              width="1800"
+                              height="1350"
+                            >
+                          {% endif %}
+                        </div>
+
+                        <div class="vd-wiki-teaser__plane-label">
+                          Incision. Sechage. Affinage. Le geste ne laisse aucune place au bruit.
+                        </div>
+                      </div>
+                  {% endcase %}
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
       </div>
-    {% endif %}
+
+      <div class="vd-wiki-teaser__hud">
+        {% if section.settings.button_label != blank %}
+          <a
+            {% if section.settings.button_link == blank %}
+              role="link" aria-disabled="true"
+            {% else %}
+              href="{{ section.settings.button_link }}"
+            {% endif %}
+            class="vd-arrow-cta vd-wiki-teaser__cta-link{% if section.settings.button_link == blank %} is-disabled{% endif %}"
+          >
+            <span class="vd-arrow-cta__label">{{ section.settings.button_label }}</span>
+            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+            </svg>
+          </a>
+        {% endif %}
+
+        <div class="vd-wiki-teaser__rail" role="tablist" aria-label="Navigation du wiki">
+          {% for block in section.blocks %}
+            <button
+              class="vd-wiki-teaser__nav-button{% if forloop.first %} is-active{% endif %}"
+              type="button"
+              data-vd-wiki-nav="{{ forloop.index0 }}"
+              aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+            >
+              <span class="vd-wiki-teaser__nav-pill"></span>
+              <span class="vd-wiki-teaser__sr">
+                {{ block.settings.category | default: block.settings.title | default: 'Chapitre' }}
+              </span>
+            </button>
+          {% endfor %}
+        </div>
+
+        <div class="vd-wiki-teaser__counter" data-vd-wiki-counter>
+          {% if slide_count < 10 %}0{% endif %}1 / {% if slide_count < 10 %}0{% endif %}{{ slide_count }}
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -100,15 +468,21 @@
   "settings": [
     {
       "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Le Wiki"
+    },
+    {
+      "type": "text",
       "id": "heading",
       "label": "Titre",
-      "default": "Le Wiki Vanille"
+      "default": "Un codex digital pour la matiere, les terroirs et le geste."
     },
     {
       "type": "richtext",
       "id": "text",
       "label": "Texte",
-      "default": "<p>Une porte d'entree editoriale pour parler terroirs, varietes, usages et gestes professionnels sans retomber dans une grille de blog standard.</p>"
+      "default": "<p>Trois chapitres plein ecran. Plus d'espace, plus de rythme, plus de credibilite editoriale.</p>"
     },
     {
       "type": "text",
@@ -135,7 +509,7 @@
       "step": 4,
       "unit": "px",
       "label": "Marge haute",
-      "default": 28
+      "default": 12
     },
     {
       "type": "range",
@@ -145,14 +519,14 @@
       "step": 4,
       "unit": "px",
       "label": "Marge basse",
-      "default": 56
+      "default": 20
     }
   ],
   "blocks": [
     {
-      "type": "article_card",
-      "name": "Carte wiki",
-      "limit": 6,
+      "type": "wiki_chapter",
+      "name": "Chapitre wiki",
+      "limit": 3,
       "settings": [
         {
           "type": "text",
@@ -170,13 +544,37 @@
           "type": "text",
           "id": "title",
           "label": "Titre",
-          "default": "L'Orchidee Planifolia"
+          "default": "Botanique"
         },
         {
-          "type": "textarea",
+          "type": "richtext",
           "id": "text",
-          "label": "Resume",
-          "default": "Comprendre la liane, la pollinisation et le temps long qui precede l'arome."
+          "label": "Texte",
+          "default": "<p>Une lecture plus ample de la fleur, du temps de maturation et du geste initial.</p>"
+        },
+        {
+          "type": "text",
+          "id": "detail_one",
+          "label": "Detail 1",
+          "default": "Matiere"
+        },
+        {
+          "type": "text",
+          "id": "detail_two",
+          "label": "Detail 2",
+          "default": "Temps long"
+        },
+        {
+          "type": "text",
+          "id": "detail_three",
+          "label": "Detail 3",
+          "default": "Precision"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Libelle lien",
+          "default": "Explorer"
         },
         {
           "type": "url",
@@ -186,7 +584,27 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"
+          "label": "Image principale"
+        },
+        {
+          "type": "image_picker",
+          "id": "secondary_image",
+          "label": "Image secondaire"
+        },
+        {
+          "type": "image_picker",
+          "id": "tertiary_image",
+          "label": "Image tertiaire"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video Shopify"
+        },
+        {
+          "type": "text",
+          "id": "external_video_url",
+          "label": "URL video MP4 externe"
         }
       ]
     }
@@ -196,24 +614,39 @@
       "name": "VD Wiki Grid",
       "blocks": [
         {
-          "type": "article_card"
-        },
-        {
-          "type": "article_card",
+          "type": "wiki_chapter",
           "settings": {
-            "number": "02",
-            "category": "Science",
-            "title": "La Vanilline Naturelle",
-            "text": "Faire la difference entre concentration aromatique, extraction et faux raccourcis."
+            "number": "01",
+            "category": "Botanique",
+            "title": "Botanique",
+            "text": "<p>La fleur n'apparait qu'un instant. Tout commence la, dans un equilibre fragile.</p>",
+            "detail_one": "Vanilla planifolia",
+            "detail_two": "Pollinisation manuelle",
+            "detail_three": "Floraison eclaire"
           }
         },
         {
-          "type": "article_card",
+          "type": "wiki_chapter",
+          "settings": {
+            "number": "02",
+            "category": "Terroirs & Crus",
+            "title": "Terroirs",
+            "text": "<p>Une lecture de l'origine par le climat, le relief et la lenteur de l'affinage.</p>",
+            "detail_one": "Madagascar",
+            "detail_two": "Tahiti",
+            "detail_three": "Papouasie"
+          }
+        },
+        {
+          "type": "wiki_chapter",
           "settings": {
             "number": "03",
-            "category": "Terroirs",
-            "title": "Terroirs & Crus",
-            "text": "Lire les nuances entre regions, affinage, humidite et texture des gousses."
+            "category": "Techniques",
+            "title": "Le Geste",
+            "text": "<p>Moins de texte, plus de rythme: la main, la coupe, le sechage, la tension juste.</p>",
+            "detail_one": "Incision nette",
+            "detail_two": "Sechage lent",
+            "detail_three": "Affinage precis"
           }
         }
       ]

@@ -10,44 +10,41 @@
     return String(value).padStart(2, '0');
   }
 
-  function getSlideLink(slide) {
-    return slide ? slide.querySelector('.vd-wiki-teaser__panel-link[href]') : null;
+  function safeAddListener(query, handler) {
+    if (!query) return function () {};
+
+    if (typeof query.addEventListener === 'function') {
+      query.addEventListener('change', handler);
+      return function () {
+        query.removeEventListener('change', handler);
+      };
+    }
+
+    if (typeof query.addListener === 'function') {
+      query.addListener(handler);
+      return function () {
+        query.removeListener(handler);
+      };
+    }
+
+    return function () {};
   }
 
   function setMediaPlayback(slide, shouldPlay) {
-    var video = slide ? slide.querySelector('video') : null;
+    toArray(slide ? slide.querySelectorAll('video') : []).forEach(function (video) {
+      video.muted = true;
+      video.playsInline = true;
 
-    if (!video) return;
+      if (shouldPlay) {
+        var playPromise = video.play();
 
-    video.muted = true;
-    video.playsInline = true;
-
-    if (shouldPlay) {
-      var playPromise = video.play();
-
-      if (playPromise && typeof playPromise.catch === 'function') {
-        playPromise.catch(function () {});
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(function () {});
+        }
+      } else {
+        video.pause();
       }
-    } else {
-      video.pause();
-    }
-  }
-
-  function syncCta(cta, slide) {
-    if (!cta) return;
-
-    var target = getSlideLink(slide);
-    var href = target ? target.getAttribute('href') : '';
-
-    cta.setAttribute('href', href || '#');
-
-    if (href) {
-      cta.classList.remove('is-disabled');
-      cta.removeAttribute('aria-disabled');
-    } else {
-      cta.classList.add('is-disabled');
-      cta.setAttribute('aria-disabled', 'true');
-    }
+    });
   }
 
   function cleanupSection(section) {
@@ -57,70 +54,67 @@
     }
   }
 
-  function setStaticState(section, slides, navButtons, cta) {
-    var counter = section.querySelector('[data-vd-wiki-counter]');
-    var total = slides.length || 1;
+  function initRegions(section) {
+    var buttons = toArray(section.querySelectorAll('[data-vd-wiki-region-button]'));
+    var cards = toArray(section.querySelectorAll('[data-vd-wiki-region-card]'));
+    var marks = toArray(section.querySelectorAll('[data-vd-wiki-region-mark]'));
+    var cleanups = [];
 
-    section.classList.add('is-static');
-    section.classList.remove('is-ready');
-
-    slides.forEach(function (slide, index) {
-      var isActive = index === 0;
-      var link = slide.querySelector('.vd-wiki-teaser__panel-link');
-
-      slide.classList.toggle('is-active', isActive);
-      slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
-
-      if (link) {
-        link.tabIndex = isActive ? 0 : -1;
-      }
-
-      setMediaPlayback(slide, isActive);
-    });
-
-    navButtons.forEach(function (button, index) {
-      var isActive = index === 0;
-
-      button.classList.toggle('is-active', isActive);
-      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-    });
-
-    if (counter) {
-      counter.textContent = padNumber(1) + ' / ' + padNumber(total);
+    if (!buttons.length || !cards.length) {
+      return function () {};
     }
 
-    syncCta(cta, slides[0]);
-  }
-
-  function createTitleGroup(title, SplitText) {
-    if (!title) {
-      return { node: null, split: null, lines: [] };
-    }
-
-    if (SplitText && typeof SplitText.create === 'function') {
-      var split = SplitText.create(title, {
-        type: 'lines',
-        linesClass: 'vd-wiki-teaser__title-line'
+    function setActiveRegion(regionId) {
+      buttons.forEach(function (button) {
+        var isActive = button.getAttribute('data-vd-wiki-region-button') === regionId;
+        button.classList.toggle('is-active', isActive);
+        button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
       });
 
-      return {
-        node: title,
-        split: split,
-        lines: split && split.lines ? split.lines.slice() : [title]
-      };
+      cards.forEach(function (card) {
+        var isActive = card.getAttribute('data-vd-wiki-region-card') === regionId;
+        card.classList.toggle('is-active', isActive);
+      });
+
+      marks.forEach(function (mark) {
+        var isActive = mark.getAttribute('data-vd-wiki-region-mark') === regionId;
+        mark.classList.toggle('is-active', isActive);
+      });
     }
 
-    return {
-      node: title,
-      split: null,
-      lines: [title]
-    };
-  }
+    buttons.forEach(function (button, index) {
+      var regionId = button.getAttribute('data-vd-wiki-region-button');
 
-  function getTitleTargets(group) {
-    if (!group) return [];
-    if (group.lines && group.lines.length) return group.lines;
-    return group.node ? [group.node] : [];
+      if (!button.hasAttribute('aria-pressed')) {
+        button.setAttribute('aria-pressed', index === 0 ? 'true' : 'false');
+      }
+
+      function handleActivate(event) {
+        if (event && event.type === 'click') {
+          event.preventDefault();
+        }
+
+        setActiveRegion(regionId);
+      }
+
+      button.addEventListener('mouseenter', handleActivate);
+      button.addEventListener('focus', handleActivate);
+      button.addEventListener('click', handleActivate);
+
+      cleanups.push(function () {
+        button.removeEventListener('mouseenter', handleActivate);
+        button.removeEventListener('focus', handleActivate);
+        button.removeEventListener('click', handleActivate);
+      });
+    });
+
+    setActiveRegion(buttons[0].getAttribute('data-vd-wiki-region-button'));
+
+    return function () {
+      cleanups.forEach(function (cleanup) {
+        cleanup();
+      });
+    };
   }
 
   function initSection(section) {
@@ -131,21 +125,22 @@
     var gsap = window.gsap;
     var ScrollTrigger = window.ScrollTrigger;
     var SplitText = window.SplitText;
-    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var viewport = section.querySelector('[data-vd-wiki-viewport]');
+    var track = section.querySelector('[data-vd-wiki-track]');
     var slides = toArray(section.querySelectorAll('[data-vd-wiki-slide]'));
     var navButtons = toArray(section.querySelectorAll('[data-vd-wiki-nav]'));
-    var viewport = section.querySelector('[data-vd-wiki-viewport]');
     var counter = section.querySelector('[data-vd-wiki-counter]');
-    var cta = section.querySelector('[data-vd-wiki-cta]');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var desktopQuery = window.matchMedia('(min-width: 990px)');
+    var activeIndex = 0;
+    var modeCleanup = function () {};
+    var generalCleanups = [];
+    var currentMode = 'mobile';
+    var desktopState = null;
 
-    if (!slides.length || !viewport) return;
+    if (!viewport || !track || !slides.length) return;
 
-    if (!gsap || !ScrollTrigger || typeof ScrollTrigger.observe !== 'function' || reduceMotion.matches || slides.length < 2) {
-      setStaticState(section, slides, navButtons, cta);
-      return;
-    }
-
-    if (typeof gsap.registerPlugin === 'function') {
+    if (gsap && ScrollTrigger && typeof gsap.registerPlugin === 'function') {
       gsap.registerPlugin(ScrollTrigger);
 
       if (SplitText) {
@@ -153,341 +148,468 @@
       }
     }
 
-    section.classList.remove('is-static');
-    section.classList.add('is-ready');
+    generalCleanups.push(initRegions(section));
 
-    var outerWrappers = slides.map(function (slide) {
-      return slide.querySelector('[data-vd-wiki-outer]');
-    });
-    var innerWrappers = slides.map(function (slide) {
-      return slide.querySelector('[data-vd-wiki-inner]');
-    });
-    var mediaNodes = slides.map(function (slide) {
-      return slide.querySelector('[data-vd-wiki-media]');
-    });
-    var titleGroups = slides.map(function (slide) {
-      return createTitleGroup(slide.querySelector('[data-vd-wiki-title]'), SplitText);
-    });
-    var currentIndex = 0;
-    var animating = false;
-    var suppressObserver = false;
-    var cleanups = [];
+    function setActive(index) {
+      var clamped = Math.max(0, Math.min(index, slides.length - 1));
 
-    function updateUi(index) {
-      var total = slides.length;
-      var activeSlide = slides[index];
+      activeIndex = clamped;
+      section.setAttribute('data-vd-wiki-active', String(clamped));
 
       slides.forEach(function (slide, slideIndex) {
-        var link = slide.querySelector('.vd-wiki-teaser__panel-link');
-        var isActive = slideIndex === index;
-
+        var isActive = slideIndex === clamped;
         slide.classList.toggle('is-active', isActive);
-        slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
-
-        if (link) {
-          link.tabIndex = isActive ? 0 : -1;
-        }
-
+        slide.setAttribute('aria-current', isActive ? 'true' : 'false');
         setMediaPlayback(slide, isActive);
       });
 
       navButtons.forEach(function (button, buttonIndex) {
-        var isActive = buttonIndex === index;
-
+        var isActive = buttonIndex === clamped;
         button.classList.toggle('is-active', isActive);
         button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
       });
 
       if (counter) {
-        counter.textContent = padNumber(index + 1) + ' / ' + padNumber(total);
+        counter.textContent = padNumber(clamped + 1) + ' / ' + padNumber(slides.length);
       }
-
-      syncCta(cta, activeSlide);
     }
 
-    function releaseScroll(direction) {
-      if (suppressObserver) return;
+    function scrollViewportTo(index) {
+      var targetLeft = Math.max(0, index) * viewport.clientWidth;
 
-      suppressObserver = true;
-      intentObserver.disable();
-      preventScroll.disable();
-      animating = false;
-
-      var nextScroll = direction > 0 ? activationTrigger.end + 2 : activationTrigger.start - 2;
-
-      activationTrigger.scroll(nextScroll);
-      window.setTimeout(function () {
-        suppressObserver = false;
-      }, 180);
+      if (typeof viewport.scrollTo === 'function') {
+        viewport.scrollTo({
+          left: targetLeft,
+          behavior: reduceMotion.matches ? 'auto' : 'smooth'
+        });
+      } else {
+        viewport.scrollLeft = targetLeft;
+      }
     }
 
-    function setImmediateState(index) {
-      slides.forEach(function (slide, slideIndex) {
-        var isActive = slideIndex === index;
-        var titleTargets = getTitleTargets(titleGroups[slideIndex]);
+    function scrollWindowTo(index) {
+      if (!desktopState || !desktopState.trigger) return;
 
-        gsap.set(slide, { autoAlpha: isActive ? 1 : 0, zIndex: isActive ? 1 : 0 });
+      var trigger = desktopState.trigger;
+      var progress = slides.length > 1 ? index / (slides.length - 1) : 0;
+      var targetTop = trigger.start + (trigger.end - trigger.start) * progress;
+      var smoother =
+        window.ScrollSmoother && typeof window.ScrollSmoother.get === 'function' ? window.ScrollSmoother.get() : null;
 
-        if (outerWrappers[slideIndex]) {
-          gsap.set(outerWrappers[slideIndex], { yPercent: 0 });
-        }
-
-        if (innerWrappers[slideIndex]) {
-          gsap.set(innerWrappers[slideIndex], { yPercent: 0 });
-        }
-
-        if (mediaNodes[slideIndex]) {
-          gsap.set(mediaNodes[slideIndex], { yPercent: 0, scale: 1 });
-        }
-
-        if (titleTargets.length) {
-          gsap.set(titleTargets, { autoAlpha: isActive ? 1 : 0, yPercent: 0, rotate: 0 });
-        }
-      });
-
-      currentIndex = index;
-      animating = false;
-    }
-
-    function gotoSection(index, direction, immediate) {
-      if (index < 0 || index >= slides.length) {
-        releaseScroll(direction);
+      if (smoother && typeof smoother.scrollTo === 'function') {
+        smoother.scrollTo(targetTop, !reduceMotion.matches);
         return;
       }
 
-      if (animating && !immediate) return;
-      if (!immediate && index === currentIndex) return;
-
-      var previousIndex = currentIndex;
-      var directionFactor = direction < 0 ? -1 : 1;
-      var previousTitleTargets = getTitleTargets(titleGroups[previousIndex]);
-      var nextTitleTargets = getTitleTargets(titleGroups[index]);
-      var wrappers = [outerWrappers[index], innerWrappers[index]].filter(Boolean);
-      var timeline;
-
-      animating = true;
-      updateUi(index);
-
-      if (immediate) {
-        setImmediateState(index);
-        return;
-      }
-
-      timeline = gsap.timeline({
-        defaults: { duration: 1.24, ease: 'power2.inOut' },
-        onComplete: function () {
-          animating = false;
-        }
-      });
-
-      if (previousIndex !== index) {
-        gsap.set(slides[previousIndex], { zIndex: 0 });
-
-        if (mediaNodes[previousIndex]) {
-          timeline.to(mediaNodes[previousIndex], { yPercent: -12 * directionFactor, scale: 1.08 }, 0);
-        }
-
-        if (previousTitleTargets.length) {
-          timeline.to(
-            previousTitleTargets,
-            {
-              autoAlpha: 0,
-              yPercent: -112 * directionFactor,
-              rotate: 2 * directionFactor,
-              duration: 0.76,
-              ease: 'power2.in',
-              stagger: 0.06
-            },
-            0.02
-          );
-        }
-
-        timeline.set(slides[previousIndex], { autoAlpha: 0 }, 0.84);
-      }
-
-      gsap.set(slides[index], { autoAlpha: 1, zIndex: 1 });
-
-      if (wrappers.length) {
-        timeline.fromTo(
-          wrappers,
-          {
-            yPercent: function (_item, itemIndex) {
-              return itemIndex ? -100 * directionFactor : 100 * directionFactor;
-            }
-          },
-          { yPercent: 0 },
-          0
-        );
-      }
-
-      if (mediaNodes[index]) {
-        timeline.fromTo(mediaNodes[index], { yPercent: 14 * directionFactor, scale: 1.12 }, { yPercent: 0, scale: 1 }, 0);
-      }
-
-      if (nextTitleTargets.length) {
-        timeline.fromTo(
-          nextTitleTargets,
-          {
-            autoAlpha: 0,
-            yPercent: 120 * directionFactor,
-            rotate: -2 * directionFactor
-          },
-          {
-            autoAlpha: 1,
-            yPercent: 0,
-            rotate: 0,
-            duration: 0.96,
-            ease: 'power3.out',
-            stagger: 0.08
-          },
-          0.16
-        );
-      }
-
-      currentIndex = index;
-    }
-
-    function handleDirectionalChange(step) {
-      if (suppressObserver || animating) return;
-      gotoSection(currentIndex + step, step, false);
-    }
-
-    function handleKeydown(event) {
-      if (event.key === 'ArrowDown' || event.key === 'PageDown' || event.key === ' ') {
-        event.preventDefault();
-        handleDirectionalChange(1);
-      }
-
-      if (event.key === 'ArrowUp' || event.key === 'PageUp') {
-        event.preventDefault();
-        handleDirectionalChange(-1);
+      if (typeof window.scrollTo === 'function') {
+        window.scrollTo({
+          top: targetTop,
+          behavior: reduceMotion.matches ? 'auto' : 'smooth'
+        });
       }
     }
 
-    gsap.set(outerWrappers.filter(Boolean), { yPercent: 100 });
-    gsap.set(innerWrappers.filter(Boolean), { yPercent: -100 });
-    gsap.set(slides, { autoAlpha: 0, zIndex: 0 });
+    function goToSlide(index) {
+      var clamped = Math.max(0, Math.min(index, slides.length - 1));
 
-    titleGroups.forEach(function (group) {
-      var titleTargets = getTitleTargets(group);
-
-      if (titleTargets.length) {
-        gsap.set(titleTargets, { autoAlpha: 0, yPercent: 0, rotate: 0 });
+      if (currentMode === 'desktop') {
+        scrollWindowTo(clamped);
+      } else {
+        scrollViewportTo(clamped);
       }
-    });
-
-    gotoSection(0, 1, true);
-
-    var intentObserver = ScrollTrigger.observe({
-      target: viewport,
-      type: 'wheel,touch,pointer',
-      wheelSpeed: -1,
-      tolerance: 12,
-      preventDefault: true,
-      allowClicks: true,
-      onUp: function () {
-        handleDirectionalChange(1);
-      },
-      onDown: function () {
-        handleDirectionalChange(-1);
-      },
-      onPress: function (observer) {
-        if (ScrollTrigger.isTouch && observer.event) {
-          observer.event.preventDefault();
-        }
-      }
-    });
-
-    var preventScroll = ScrollTrigger.observe({
-      type: 'wheel,scroll,touch',
-      preventDefault: true,
-      allowClicks: true,
-      onEnable: function (observer) {
-        observer.savedScroll = observer.scrollY();
-      },
-      onChangeY: function (observer) {
-        observer.scrollY(observer.savedScroll);
-      }
-    });
-
-    intentObserver.disable();
-    preventScroll.disable();
-
-    var activationTrigger = ScrollTrigger.create({
-      trigger: section,
-      start: 'top top',
-      end: '+=1',
-      onEnter: function (self) {
-        if (suppressObserver) return;
-        self.scroll(self.start + 1);
-        preventScroll.enable();
-        intentObserver.enable();
-      },
-      onEnterBack: function (self) {
-        if (suppressObserver) return;
-        self.scroll(self.end - 1);
-        preventScroll.enable();
-        intentObserver.enable();
-      }
-    });
+    }
 
     navButtons.forEach(function (button) {
-      function handleButtonClick() {
-        var targetIndex = Number(button.getAttribute('data-vd-wiki-nav'));
-
-        if (Number.isNaN(targetIndex) || targetIndex === currentIndex) return;
-        gotoSection(targetIndex, targetIndex > currentIndex ? 1 : -1, false);
+      function handleClick(event) {
+        event.preventDefault();
+        goToSlide(Number(button.getAttribute('data-vd-wiki-nav')));
       }
 
-      button.addEventListener('click', handleButtonClick);
-      cleanups.push(function () {
-        button.removeEventListener('click', handleButtonClick);
+      button.addEventListener('click', handleClick);
+      generalCleanups.push(function () {
+        button.removeEventListener('click', handleClick);
       });
     });
 
+    function handleKeydown(event) {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
+        event.preventDefault();
+        goToSlide(activeIndex + 1);
+      }
+
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+        event.preventDefault();
+        goToSlide(activeIndex - 1);
+      }
+    }
+
     viewport.addEventListener('keydown', handleKeydown);
-    cleanups.push(function () {
+    generalCleanups.push(function () {
       viewport.removeEventListener('keydown', handleKeydown);
     });
 
-    section.__vdWikiTeaserCleanup = function () {
-      cleanups.forEach(function (cleanup) {
-        cleanup();
-      });
+    function shouldUseDesktopMode() {
+      return !!(gsap && ScrollTrigger && desktopQuery.matches && !reduceMotion.matches && slides.length > 1);
+    }
 
-      intentObserver.disable();
-      intentObserver.kill();
-      preventScroll.disable();
-      preventScroll.kill();
-      activationTrigger.kill();
+    function clearInlineTransforms() {
+      if (!gsap) return;
 
       gsap.set(
-        slides
-          .concat(outerWrappers)
-          .concat(innerWrappers)
-          .concat(mediaNodes)
-          .filter(Boolean),
+        toArray(section.querySelectorAll('[data-vd-wiki-title], [data-vd-wiki-body], [data-vd-wiki-media], [data-vd-wiki-petal], [data-vd-wiki-plane], [data-vd-wiki-region-button], [data-vd-wiki-region-mark], [data-vd-wiki-track]')),
         { clearProps: 'all' }
       );
+    }
 
-      titleGroups.forEach(function (group) {
-        var titleTargets = getTitleTargets(group);
+    function setupMobileMode() {
+      var ticking = false;
 
-        if (titleTargets.length) {
-          gsap.set(titleTargets, { clearProps: 'all' });
+      currentMode = reduceMotion.matches ? 'reduced' : 'mobile';
+      desktopState = null;
+
+      section.classList.remove('is-desktop');
+      section.classList.add('is-mobile');
+      section.classList.toggle('is-reduced', reduceMotion.matches);
+
+      clearInlineTransforms();
+
+      function syncActiveSlide() {
+        ticking = false;
+        setActive(Math.round(viewport.scrollLeft / Math.max(viewport.clientWidth, 1)));
+      }
+
+      function handleScroll() {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(syncActiveSlide);
+      }
+
+      viewport.addEventListener('scroll', handleScroll, { passive: true });
+      syncActiveSlide();
+
+      return function () {
+        viewport.removeEventListener('scroll', handleScroll);
+      };
+    }
+
+    function setupDesktopMode() {
+      var titleGroups = [];
+      var animations = [];
+      var triggers = [];
+      var titles = [];
+      var mainTween;
+      var mainTrigger;
+
+      currentMode = 'desktop';
+      section.classList.add('is-desktop');
+      section.classList.remove('is-mobile');
+      section.classList.remove('is-reduced');
+      viewport.scrollLeft = 0;
+
+      titles = slides.map(function (slide) {
+        return slide.querySelector('[data-vd-wiki-title]');
+      });
+
+      titleGroups = titles.map(function (title) {
+        if (!title || !SplitText || typeof SplitText.create !== 'function') {
+          return { node: title, split: null, lines: title ? [title] : [] };
         }
 
-        if (group.split && typeof group.split.revert === 'function') {
-          group.split.revert();
+        var split = SplitText.create(title, {
+          type: 'lines',
+          linesClass: 'vd-wiki-teaser__title-line'
+        });
+
+        return {
+          node: title,
+          split: split,
+          lines: split && split.lines ? split.lines.slice() : [title]
+        };
+      });
+
+      mainTween = gsap.to(track, {
+        x: function () {
+          return -(track.scrollWidth - viewport.clientWidth);
+        },
+        ease: 'none',
+        overwrite: true
+      });
+
+      mainTrigger = ScrollTrigger.create({
+        animation: mainTween,
+        trigger: section,
+        start: 'top top',
+        end: function () {
+          var distance = track.scrollWidth - viewport.clientWidth;
+          return '+=' + Math.max(distance, viewport.clientWidth * (slides.length - 1));
+        },
+        pin: true,
+        scrub: 0.85,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        snap:
+          slides.length > 1
+            ? {
+                snapTo: function (value) {
+                  var step = 1 / (slides.length - 1);
+                  return Math.round(value / step) * step;
+                },
+                duration: { min: 0.18, max: 0.42 },
+                ease: 'power2.out'
+              }
+            : false,
+        onUpdate: function (self) {
+          setActive(Math.round(self.progress * (slides.length - 1)));
         }
       });
 
+      desktopState = { trigger: mainTrigger };
+      animations.push(mainTween);
+      triggers.push(mainTrigger);
+
+      slides.forEach(function (slide, index) {
+        var titleTargets = titleGroups[index].lines && titleGroups[index].lines.length ? titleGroups[index].lines : [];
+        var bodyTargets = toArray(slide.querySelectorAll('[data-vd-wiki-body], [data-vd-wiki-meta]'));
+        var mediaTarget = slide.querySelector('[data-vd-wiki-media]');
+        var petalTargets = toArray(slide.querySelectorAll('[data-vd-wiki-petal]'));
+        var planeTargets = toArray(slide.querySelectorAll('[data-vd-wiki-plane]'));
+        var regionTargets = toArray(slide.querySelectorAll('[data-vd-wiki-region-button]'));
+        var markTargets = toArray(slide.querySelectorAll('[data-vd-wiki-region-mark]'));
+
+        if (titleTargets.length) {
+          animations.push(
+            gsap.fromTo(
+              titleTargets,
+              { xPercent: 18, yPercent: 20, autoAlpha: 0.34 },
+              {
+                xPercent: -8,
+                yPercent: 0,
+                autoAlpha: 1,
+                ease: 'none',
+                stagger: 0.08,
+                scrollTrigger: {
+                  trigger: slide,
+                  containerAnimation: mainTween,
+                  start: 'left 82%',
+                  end: 'right 18%',
+                  scrub: true
+                }
+              }
+            )
+          );
+        }
+
+        if (bodyTargets.length) {
+          animations.push(
+            gsap.fromTo(
+              bodyTargets,
+              { xPercent: 10, yPercent: 8, autoAlpha: 0.2 },
+              {
+                xPercent: -6,
+                yPercent: 0,
+                autoAlpha: 1,
+                ease: 'none',
+                stagger: 0.04,
+                scrollTrigger: {
+                  trigger: slide,
+                  containerAnimation: mainTween,
+                  start: 'left 74%',
+                  end: 'right 24%',
+                  scrub: true
+                }
+              }
+            )
+          );
+        }
+
+        if (mediaTarget) {
+          animations.push(
+            gsap.fromTo(
+              mediaTarget,
+              { xPercent: index % 2 === 0 ? 10 : -10, scale: 1.06 },
+              {
+                xPercent: index % 2 === 0 ? -6 : 6,
+                scale: 1,
+                ease: 'none',
+                scrollTrigger: {
+                  trigger: slide,
+                  containerAnimation: mainTween,
+                  start: 'left 88%',
+                  end: 'right 14%',
+                  scrub: true
+                }
+              }
+            )
+          );
+        }
+
+        if (petalTargets.length) {
+          animations.push(
+            gsap.fromTo(
+              petalTargets,
+              { scale: 0.74, rotate: -18, autoAlpha: 0.28 },
+              {
+                scale: 1.08,
+                rotate: 18,
+                autoAlpha: 0.84,
+                ease: 'none',
+                stagger: 0.05,
+                scrollTrigger: {
+                  trigger: slide,
+                  containerAnimation: mainTween,
+                  start: 'left 88%',
+                  end: 'right 16%',
+                  scrub: true
+                }
+              }
+            )
+          );
+        }
+
+        if (planeTargets.length) {
+          animations.push(
+            gsap.fromTo(
+              planeTargets,
+              { xPercent: 10, yPercent: 6, rotate: -3 },
+              {
+                xPercent: -4,
+                yPercent: -4,
+                rotate: 2,
+                ease: 'none',
+                stagger: 0.06,
+                scrollTrigger: {
+                  trigger: slide,
+                  containerAnimation: mainTween,
+                  start: 'left 78%',
+                  end: 'right 22%',
+                  scrub: true
+                }
+              }
+            )
+          );
+        }
+
+        if (regionTargets.length) {
+          animations.push(
+            gsap.fromTo(
+              regionTargets,
+              { autoAlpha: 0.35, yPercent: 10 },
+              {
+                autoAlpha: 1,
+                yPercent: 0,
+                ease: 'none',
+                stagger: 0.04,
+                scrollTrigger: {
+                  trigger: slide,
+                  containerAnimation: mainTween,
+                  start: 'left 78%',
+                  end: 'right 20%',
+                  scrub: true
+                }
+              }
+            )
+          );
+        }
+
+        if (markTargets.length) {
+          animations.push(
+            gsap.fromTo(
+              markTargets,
+              { scale: 0.82, autoAlpha: 0.46 },
+              {
+                scale: 1.1,
+                autoAlpha: 0.98,
+                ease: 'none',
+                stagger: 0.04,
+                scrollTrigger: {
+                  trigger: slide,
+                  containerAnimation: mainTween,
+                  start: 'left 78%',
+                  end: 'right 20%',
+                  scrub: true
+                }
+              }
+            )
+          );
+        }
+
+        triggers.push(
+          ScrollTrigger.create({
+            trigger: slide,
+            containerAnimation: mainTween,
+            start: 'left center',
+            end: 'right center',
+            onToggle: function (self) {
+              if (self.isActive) {
+                setActive(index);
+              }
+            }
+          })
+        );
+      });
+
+      setActive(activeIndex);
+      ScrollTrigger.refresh();
+
+      return function () {
+        triggers.forEach(function (trigger) {
+          if (trigger && typeof trigger.kill === 'function') {
+            trigger.kill();
+          }
+        });
+
+        animations.forEach(function (animation) {
+          if (animation && typeof animation.kill === 'function') {
+            animation.kill();
+          }
+        });
+
+        titleGroups.forEach(function (group) {
+          if (group.split && typeof group.split.revert === 'function') {
+            group.split.revert();
+          }
+        });
+
+        clearInlineTransforms();
+        desktopState = null;
+      };
+    }
+
+    function rebuildMode() {
+      modeCleanup();
+      modeCleanup = shouldUseDesktopMode() ? setupDesktopMode() : setupMobileMode();
+    }
+
+    rebuildMode();
+    setActive(0);
+
+    var resizeTimer = null;
+
+    function handleResize() {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(rebuildMode, 180);
+    }
+
+    window.addEventListener('resize', handleResize);
+    generalCleanups.push(function () {
+      window.clearTimeout(resizeTimer);
+      window.removeEventListener('resize', handleResize);
+    });
+
+    generalCleanups.push(safeAddListener(reduceMotion, rebuildMode));
+    generalCleanups.push(safeAddListener(desktopQuery, rebuildMode));
+
+    section.__vdWikiTeaserCleanup = function () {
+      modeCleanup();
+      generalCleanups.forEach(function (cleanup) {
+        cleanup();
+      });
       slides.forEach(function (slide) {
         setMediaPlayback(slide, false);
       });
-
-      section.classList.remove('is-ready');
-      section.classList.remove('is-static');
+      section.classList.remove('is-desktop');
+      section.classList.remove('is-mobile');
+      section.classList.remove('is-reduced');
     };
   }
 
