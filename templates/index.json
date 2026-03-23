@@ -122,13 +122,13 @@
             "number": "01",
             "category": "Botanique",
             "title": "Botanique",
-            "text": "<p>La fleur n'apparait qu'un instant. Tout commence la, dans un equilibre fragile.</p>",
+            "text": "<p>La fleur n'apparait qu'un instant. Tout commence dans une matiere encore verte, avant meme le parfum.</p>",
             "detail_one": "Vanilla planifolia",
             "detail_two": "Pollinisation manuelle",
             "detail_three": "Floraison eclair",
             "link_label": "Entrer dans le chapitre",
             "link": "shopify://blogs/le-wiki",
-            "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg"
+            "image": ""
           }
         },
         "wiki_2": {
@@ -137,10 +137,10 @@
             "number": "02",
             "category": "Terroirs & Crus",
             "title": "Terroirs",
-            "text": "<p>Une lecture de l'origine par le climat, le relief et la lenteur de l'affinage.</p>",
-            "detail_one": "Madagascar",
-            "detail_two": "Tahiti",
-            "detail_three": "Papouasie",
+            "text": "<p>Une geographie sobre, presque nocturne, ou l'origine apparait comme un trait d'or.</p>",
+            "detail_one": "SAVA",
+            "detail_two": "Humidite elevee",
+            "detail_three": "Altitude douce",
             "link_label": "Voir les origines",
             "link": "shopify://blogs/le-wiki",
             "image": ""
@@ -152,8 +152,8 @@
             "number": "03",
             "category": "Techniques",
             "title": "Le Geste",
-            "text": "<p>Moins de texte, plus de rythme: la main, la coupe, le sechage, la tension juste.</p>",
-            "detail_one": "Incision nette",
+            "text": "<p>Pas de discours long. Le tri, la tension des mains, le temps de sechage, la repetition juste.</p>",
+            "detail_one": "Tri manuel",
             "detail_two": "Sechage lent",
             "detail_three": "Affinage precis",
             "link_label": "Voir les gestes",
@@ -174,8 +174,8 @@
         "button_label": "Explorer le wiki",
         "button_link": "shopify://blogs/le-wiki",
         "color_scheme": "scheme-3",
-        "padding_top": 12,
-        "padding_bottom": 20
+        "padding_top": 18,
+        "padding_bottom": 30
       }
     }
   },

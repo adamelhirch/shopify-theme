@@ -6,6 +6,10 @@
     return Array.prototype.slice.call(items || []);
   }
 
+  function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
+
   function padNumber(value) {
     return String(value).padStart(2, '0');
   }
@@ -30,23 +34,6 @@
     return function () {};
   }
 
-  function setMediaPlayback(slide, shouldPlay) {
-    toArray(slide ? slide.querySelectorAll('video') : []).forEach(function (video) {
-      video.muted = true;
-      video.playsInline = true;
-
-      if (shouldPlay) {
-        var playPromise = video.play();
-
-        if (playPromise && typeof playPromise.catch === 'function') {
-          playPromise.catch(function () {});
-        }
-      } else {
-        video.pause();
-      }
-    });
-  }
-
   function cleanupSection(section) {
     if (section && typeof section.__vdWikiTeaserCleanup === 'function') {
       section.__vdWikiTeaserCleanup();
@@ -57,7 +44,6 @@
   function initRegions(section) {
     var buttons = toArray(section.querySelectorAll('[data-vd-wiki-region-button]'));
     var cards = toArray(section.querySelectorAll('[data-vd-wiki-region-card]'));
-    var marks = toArray(section.querySelectorAll('[data-vd-wiki-region-mark]'));
     var cleanups = [];
 
     if (!buttons.length || !cards.length) {
@@ -75,19 +61,10 @@
         var isActive = card.getAttribute('data-vd-wiki-region-card') === regionId;
         card.classList.toggle('is-active', isActive);
       });
-
-      marks.forEach(function (mark) {
-        var isActive = mark.getAttribute('data-vd-wiki-region-mark') === regionId;
-        mark.classList.toggle('is-active', isActive);
-      });
     }
 
-    buttons.forEach(function (button, index) {
+    buttons.forEach(function (button) {
       var regionId = button.getAttribute('data-vd-wiki-region-button');
-
-      if (!button.hasAttribute('aria-pressed')) {
-        button.setAttribute('aria-pressed', index === 0 ? 'true' : 'false');
-      }
 
       function handleActivate(event) {
         if (event && event.type === 'click') {
@@ -117,6 +94,118 @@
     };
   }
 
+  function initCursor(section, getDefaultLabel) {
+    var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+    var cursor = section.querySelector('[data-vd-wiki-cursor]');
+    var cursorText = section.querySelector('[data-vd-wiki-cursor-text]');
+    var hoverTargets = toArray(section.querySelectorAll('[data-vd-wiki-cursor-label]'));
+    var cleanups = [];
+    var overrideLabel = '';
+    var isEnabled = !!(cursor && cursorText && finePointer.matches);
+    var xTo;
+    var yTo;
+
+    if (!isEnabled) {
+      return {
+        cleanup: function () {},
+        sync: function () {}
+      };
+    }
+
+    section.classList.add('has-cursor');
+
+    if (window.gsap) {
+      xTo = window.gsap.quickTo(cursor, 'x', { duration: 0.18, ease: 'power3.out' });
+      yTo = window.gsap.quickTo(cursor, 'y', { duration: 0.18, ease: 'power3.out' });
+    }
+
+    function getLabel() {
+      return overrideLabel || getDefaultLabel() || 'Explorer';
+    }
+
+    function syncLabel() {
+      cursorText.textContent = getLabel();
+    }
+
+    function handlePointerEnter() {
+      syncLabel();
+
+      if (window.gsap) {
+        window.gsap.to(cursor, { autoAlpha: 1, scale: 1, duration: 0.24, ease: 'power2.out' });
+      } else {
+        cursor.style.opacity = '1';
+      }
+    }
+
+    function handlePointerMove(event) {
+      if (xTo && yTo) {
+        xTo(event.clientX);
+        yTo(event.clientY);
+      } else {
+        cursor.style.transform = 'translate3d(' + event.clientX + 'px,' + event.clientY + 'px,0)';
+      }
+    }
+
+    function handlePointerLeave() {
+      if (window.gsap) {
+        window.gsap.to(cursor, { autoAlpha: 0, scale: 0.92, duration: 0.22, ease: 'power2.out' });
+      } else {
+        cursor.style.opacity = '0';
+      }
+
+      overrideLabel = '';
+      syncLabel();
+    }
+
+    function bindHoverTarget(target) {
+      function activate() {
+        overrideLabel = target.getAttribute('data-vd-wiki-cursor-label') || '';
+        syncLabel();
+      }
+
+      function clear() {
+        overrideLabel = '';
+        syncLabel();
+      }
+
+      target.addEventListener('mouseenter', activate);
+      target.addEventListener('focus', activate);
+      target.addEventListener('mouseleave', clear);
+      target.addEventListener('blur', clear);
+
+      cleanups.push(function () {
+        target.removeEventListener('mouseenter', activate);
+        target.removeEventListener('focus', activate);
+        target.removeEventListener('mouseleave', clear);
+        target.removeEventListener('blur', clear);
+      });
+    }
+
+    section.addEventListener('pointerenter', handlePointerEnter);
+    section.addEventListener('pointermove', handlePointerMove);
+    section.addEventListener('pointerleave', handlePointerLeave);
+
+    hoverTargets.forEach(bindHoverTarget);
+
+    cleanups.push(function () {
+      section.removeEventListener('pointerenter', handlePointerEnter);
+      section.removeEventListener('pointermove', handlePointerMove);
+      section.removeEventListener('pointerleave', handlePointerLeave);
+      section.classList.remove('has-cursor');
+    });
+
+    syncLabel();
+
+    return {
+      cleanup: function () {
+        cleanups.forEach(function (cleanup) {
+          cleanup();
+        });
+      },
+      sync: syncLabel
+    };
+  }
+
   function initSection(section) {
     if (!section) return;
 
@@ -125,18 +214,25 @@
     var gsap = window.gsap;
     var ScrollTrigger = window.ScrollTrigger;
     var SplitText = window.SplitText;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var desktopQuery = window.matchMedia('(min-width: 990px)');
     var viewport = section.querySelector('[data-vd-wiki-viewport]');
     var track = section.querySelector('[data-vd-wiki-track]');
     var slides = toArray(section.querySelectorAll('[data-vd-wiki-slide]'));
     var navButtons = toArray(section.querySelectorAll('[data-vd-wiki-nav]'));
     var counter = section.querySelector('[data-vd-wiki-counter]');
-    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var desktopQuery = window.matchMedia('(min-width: 990px)');
+    var backdropLayers = toArray(section.querySelectorAll('[data-vd-wiki-backdrop-layer]'));
+    var blurNode = section.querySelector('[data-vd-wiki-blur-node]');
+    var mapPath = section.querySelector('[data-vd-wiki-map-draw]');
+    var savaHalo = section.querySelector('[data-vd-wiki-sava-halo]');
+    var savaDot = section.querySelector('.vd-wiki-teaser__sava-dot');
+    var mapLength = mapPath && typeof mapPath.getTotalLength === 'function' ? mapPath.getTotalLength() : 0;
     var activeIndex = 0;
     var modeCleanup = function () {};
     var generalCleanups = [];
     var currentMode = 'mobile';
     var desktopState = null;
+    var cursorController;
 
     if (!viewport || !track || !slides.length) return;
 
@@ -148,10 +244,28 @@
       }
     }
 
+    if (mapPath && mapLength) {
+      mapPath.style.strokeDasharray = String(mapLength);
+      mapPath.style.strokeDashoffset = String(mapLength);
+    }
+
+    function getDefaultCursorLabel() {
+      return slides[activeIndex] ? slides[activeIndex].getAttribute('data-vd-wiki-cursor') || 'Explorer' : 'Explorer';
+    }
+
+    cursorController = initCursor(section, getDefaultCursorLabel);
+    generalCleanups.push(function () {
+      cursorController.cleanup();
+    });
     generalCleanups.push(initRegions(section));
 
+    function setBlur(value) {
+      if (!blurNode) return;
+      blurNode.setAttribute('stdDeviation', value.toFixed(2) + ' 0');
+    }
+
     function setActive(index) {
-      var clamped = Math.max(0, Math.min(index, slides.length - 1));
+      var clamped = clamp(Math.round(index), 0, slides.length - 1);
 
       activeIndex = clamped;
       section.setAttribute('data-vd-wiki-active', String(clamped));
@@ -160,7 +274,6 @@
         var isActive = slideIndex === clamped;
         slide.classList.toggle('is-active', isActive);
         slide.setAttribute('aria-current', isActive ? 'true' : 'false');
-        setMediaPlayback(slide, isActive);
       });
 
       navButtons.forEach(function (button, buttonIndex) {
@@ -172,10 +285,76 @@
       if (counter) {
         counter.textContent = padNumber(clamped + 1) + ' / ' + padNumber(slides.length);
       }
+
+      cursorController.sync();
     }
 
+    function setBackdropState(position) {
+      if (!backdropLayers.length) return;
+
+      backdropLayers.forEach(function (layer, index) {
+        var image = layer.querySelector('img');
+        var distance = Math.abs(index - position);
+        var opacity = clamp(1 - distance, 0, 1);
+        var scale = 1 + (1 - opacity) * 0.2;
+        var brightness = 0.4 + opacity * 0.42;
+        var contrast = 0.9 + opacity * 0.16;
+        var saturation = 0.94 + opacity * 0.08;
+
+        layer.classList.toggle('is-active', opacity > 0.02);
+
+        if (gsap) {
+          gsap.set(layer, {
+            autoAlpha: opacity,
+            scale: scale,
+            zIndex: opacity > 0.02 ? 2 + Math.round(opacity * 10) : 0
+          });
+        } else {
+          layer.style.opacity = String(opacity);
+        }
+
+        if (image) {
+          image.style.filter =
+            'brightness(' +
+            brightness.toFixed(3) +
+            ') contrast(' +
+            contrast.toFixed(3) +
+            ') saturate(' +
+            saturation.toFixed(3) +
+            ')';
+        }
+      });
+    }
+
+    function setMapReveal(progress) {
+      if (!mapPath || !mapLength) return;
+      mapPath.style.strokeDashoffset = String(mapLength * (1 - clamp(progress, 0, 1)));
+    }
+
+    function syncStaticVisuals(position) {
+      var mapProximity = clamp(1 - Math.abs(position - 1), 0, 1);
+      setBackdropState(position);
+      setMapReveal(mapProximity);
+    }
+
+    navButtons.forEach(function (button) {
+      function handleClick(event) {
+        var index = Number(button.getAttribute('data-vd-wiki-nav'));
+
+        event.preventDefault();
+        setActive(index);
+        syncStaticVisuals(index);
+        goToSlide(index);
+      }
+
+      button.addEventListener('click', handleClick);
+      generalCleanups.push(function () {
+        button.removeEventListener('click', handleClick);
+      });
+    });
+
     function scrollViewportTo(index) {
-      var targetLeft = Math.max(0, index) * viewport.clientWidth;
+      var targetLeft = clamp(index, 0, slides.length - 1) * viewport.clientWidth;
 
       if (typeof viewport.scrollTo === 'function') {
         viewport.scrollTo({
@@ -188,13 +367,16 @@
     }
 
     function scrollWindowTo(index) {
-      if (!desktopState || !desktopState.trigger) return;
-
-      var trigger = desktopState.trigger;
-      var progress = slides.length > 1 ? index / (slides.length - 1) : 0;
-      var targetTop = trigger.start + (trigger.end - trigger.start) * progress;
+      var trigger = desktopState && desktopState.trigger;
       var smoother =
         window.ScrollSmoother && typeof window.ScrollSmoother.get === 'function' ? window.ScrollSmoother.get() : null;
+      var progress;
+      var targetTop;
+
+      if (!trigger) return;
+
+      progress = slides.length > 1 ? clamp(index, 0, slides.length - 1) / (slides.length - 1) : 0;
+      targetTop = trigger.start + (trigger.end - trigger.start) * progress;
 
       if (smoother && typeof smoother.scrollTo === 'function') {
         smoother.scrollTo(targetTop, !reduceMotion.matches);
@@ -210,26 +392,12 @@
     }
 
     function goToSlide(index) {
-      var clamped = Math.max(0, Math.min(index, slides.length - 1));
-
       if (currentMode === 'desktop') {
-        scrollWindowTo(clamped);
+        scrollWindowTo(index);
       } else {
-        scrollViewportTo(clamped);
+        scrollViewportTo(index);
       }
     }
-
-    navButtons.forEach(function (button) {
-      function handleClick(event) {
-        event.preventDefault();
-        goToSlide(Number(button.getAttribute('data-vd-wiki-nav')));
-      }
-
-      button.addEventListener('click', handleClick);
-      generalCleanups.push(function () {
-        button.removeEventListener('click', handleClick);
-      });
-    });
 
     function handleKeydown(event) {
       if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
@@ -252,40 +420,31 @@
       return !!(gsap && ScrollTrigger && desktopQuery.matches && !reduceMotion.matches && slides.length > 1);
     }
 
-    function clearInlineTransforms() {
-      if (!gsap) return;
-
-      gsap.set(
-        toArray(section.querySelectorAll('[data-vd-wiki-title], [data-vd-wiki-body], [data-vd-wiki-media], [data-vd-wiki-petal], [data-vd-wiki-plane], [data-vd-wiki-region-button], [data-vd-wiki-region-mark], [data-vd-wiki-track]')),
-        { clearProps: 'all' }
-      );
-    }
-
     function setupMobileMode() {
       var ticking = false;
 
       currentMode = reduceMotion.matches ? 'reduced' : 'mobile';
       desktopState = null;
-
       section.classList.remove('is-desktop');
       section.classList.add('is-mobile');
       section.classList.toggle('is-reduced', reduceMotion.matches);
+      setBlur(0);
 
-      clearInlineTransforms();
-
-      function syncActiveSlide() {
+      function syncFromScroll() {
+        var position = viewport.scrollLeft / Math.max(viewport.clientWidth, 1);
         ticking = false;
-        setActive(Math.round(viewport.scrollLeft / Math.max(viewport.clientWidth, 1)));
+        setActive(position);
+        syncStaticVisuals(position);
       }
 
       function handleScroll() {
         if (ticking) return;
         ticking = true;
-        window.requestAnimationFrame(syncActiveSlide);
+        window.requestAnimationFrame(syncFromScroll);
       }
 
       viewport.addEventListener('scroll', handleScroll, { passive: true });
-      syncActiveSlide();
+      syncFromScroll();
 
       return function () {
         viewport.removeEventListener('scroll', handleScroll);
@@ -296,7 +455,10 @@
       var titleGroups = [];
       var animations = [];
       var triggers = [];
-      var titles = [];
+      var pulseTween = null;
+      var blurState = { value: 0 };
+      var blurTween = null;
+      var lastProgress = 0;
       var mainTween;
       var mainTrigger;
 
@@ -306,24 +468,21 @@
       section.classList.remove('is-reduced');
       viewport.scrollLeft = 0;
 
-      titles = slides.map(function (slide) {
-        return slide.querySelector('[data-vd-wiki-title]');
-      });
+      titleGroups = slides.map(function (slide) {
+        var title = slide.querySelector('[data-vd-wiki-title]');
 
-      titleGroups = titles.map(function (title) {
         if (!title || !SplitText || typeof SplitText.create !== 'function') {
-          return { node: title, split: null, lines: title ? [title] : [] };
+          return { split: null, chars: title ? [title] : [] };
         }
 
         var split = SplitText.create(title, {
-          type: 'lines',
-          linesClass: 'vd-wiki-teaser__title-line'
+          type: 'chars',
+          charsClass: 'vd-wiki-char'
         });
 
         return {
-          node: title,
           split: split,
-          lines: split && split.lines ? split.lines.slice() : [title]
+          chars: split && split.chars ? split.chars.slice() : [title]
         };
       });
 
@@ -335,63 +494,88 @@
         overwrite: true
       });
 
+      function kickBlur(delta) {
+        var target = clamp(Math.abs(delta) * 1200, 0, 14);
+
+        if (blurTween) {
+          blurTween.kill();
+        }
+
+        blurState.value = target;
+        setBlur(blurState.value);
+
+        blurTween = gsap.to(blurState, {
+          value: 0,
+          duration: 0.42,
+          ease: 'power2.out',
+          overwrite: true,
+          onUpdate: function () {
+            setBlur(blurState.value);
+          }
+        });
+      }
+
       mainTrigger = ScrollTrigger.create({
         animation: mainTween,
         trigger: section,
         start: 'top top',
         end: function () {
-          var distance = track.scrollWidth - viewport.clientWidth;
-          return '+=' + Math.max(distance, viewport.clientWidth * (slides.length - 1));
+          return '+=' + Math.max(track.scrollWidth - viewport.clientWidth, viewport.clientWidth * (slides.length - 1));
         },
         pin: true,
-        scrub: 0.85,
+        scrub: 0.92,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         snap:
           slides.length > 1
             ? {
-                snapTo: function (value) {
-                  var step = 1 / (slides.length - 1);
-                  return Math.round(value / step) * step;
-                },
-                duration: { min: 0.18, max: 0.42 },
-                ease: 'power2.out'
+                snapTo: 1 / (slides.length - 1),
+                duration: { min: 0.18, max: 0.36 },
+                ease: 'power2.inOut'
               }
             : false,
         onUpdate: function (self) {
-          setActive(Math.round(self.progress * (slides.length - 1)));
+          var position = self.progress * (slides.length - 1);
+          setActive(position);
+          setBackdropState(position);
+          kickBlur(self.progress - lastProgress);
+          lastProgress = self.progress;
         }
       });
 
       desktopState = { trigger: mainTrigger };
       animations.push(mainTween);
       triggers.push(mainTrigger);
+      syncStaticVisuals(0);
 
       slides.forEach(function (slide, index) {
-        var titleTargets = titleGroups[index].lines && titleGroups[index].lines.length ? titleGroups[index].lines : [];
+        var group = titleGroups[index];
         var bodyTargets = toArray(slide.querySelectorAll('[data-vd-wiki-body], [data-vd-wiki-meta]'));
-        var mediaTarget = slide.querySelector('[data-vd-wiki-media]');
-        var petalTargets = toArray(slide.querySelectorAll('[data-vd-wiki-petal]'));
-        var planeTargets = toArray(slide.querySelectorAll('[data-vd-wiki-plane]'));
-        var regionTargets = toArray(slide.querySelectorAll('[data-vd-wiki-region-button]'));
-        var markTargets = toArray(slide.querySelectorAll('[data-vd-wiki-region-mark]'));
+        var stageTargets = toArray(slide.querySelectorAll('[data-vd-wiki-stage-main]'));
+        var bloomTargets = toArray(slide.querySelectorAll('[data-vd-wiki-bloom]'));
 
-        if (titleTargets.length) {
+        if (group.chars.length) {
           animations.push(
             gsap.fromTo(
-              titleTargets,
-              { xPercent: 18, yPercent: 20, autoAlpha: 0.34 },
+              group.chars,
               {
-                xPercent: -8,
-                yPercent: 0,
+                autoAlpha: 0.02,
+                xPercent: 18,
+                yPercent: 12,
+                filter: 'blur(10px)'
+              },
+              {
                 autoAlpha: 1,
-                ease: 'none',
-                stagger: 0.08,
+                xPercent: 0,
+                yPercent: 0,
+                filter: 'blur(0px)',
+                stagger: 0.014,
+                ease: 'power3.out',
                 scrollTrigger: {
                   trigger: slide,
                   containerAnimation: mainTween,
-                  start: 'left 82%',
-                  end: 'right 18%',
+                  start: 'left 76%',
+                  end: 'left 38%',
                   scrub: true
                 }
               }
@@ -403,18 +587,20 @@
           animations.push(
             gsap.fromTo(
               bodyTargets,
-              { xPercent: 10, yPercent: 8, autoAlpha: 0.2 },
               {
-                xPercent: -6,
-                yPercent: 0,
+                autoAlpha: 0.34,
+                yPercent: 10
+              },
+              {
                 autoAlpha: 1,
-                ease: 'none',
-                stagger: 0.04,
+                yPercent: 0,
+                stagger: 0.05,
+                ease: 'power2.out',
                 scrollTrigger: {
                   trigger: slide,
                   containerAnimation: mainTween,
                   start: 'left 74%',
-                  end: 'right 24%',
+                  end: 'left 34%',
                   scrub: true
                 }
               }
@@ -422,20 +608,25 @@
           );
         }
 
-        if (mediaTarget) {
+        if (stageTargets.length) {
           animations.push(
             gsap.fromTo(
-              mediaTarget,
-              { xPercent: index % 2 === 0 ? 10 : -10, scale: 1.06 },
+              stageTargets,
               {
-                xPercent: index % 2 === 0 ? -6 : 6,
+                autoAlpha: 0.62,
+                xPercent: 4,
+                scale: 1.02
+              },
+              {
+                autoAlpha: 1,
+                xPercent: -2,
                 scale: 1,
                 ease: 'none',
                 scrollTrigger: {
                   trigger: slide,
                   containerAnimation: mainTween,
                   start: 'left 88%',
-                  end: 'right 14%',
+                  end: 'right 18%',
                   scrub: true
                 }
               }
@@ -443,115 +634,87 @@
           );
         }
 
-        if (petalTargets.length) {
+        if (bloomTargets.length) {
           animations.push(
             gsap.fromTo(
-              petalTargets,
-              { scale: 0.74, rotate: -18, autoAlpha: 0.28 },
+              bloomTargets,
               {
-                scale: 1.08,
-                rotate: 18,
-                autoAlpha: 0.84,
-                ease: 'none',
-                stagger: 0.05,
-                scrollTrigger: {
-                  trigger: slide,
-                  containerAnimation: mainTween,
-                  start: 'left 88%',
-                  end: 'right 16%',
-                  scrub: true
-                }
-              }
-            )
-          );
-        }
-
-        if (planeTargets.length) {
-          animations.push(
-            gsap.fromTo(
-              planeTargets,
-              { xPercent: 10, yPercent: 6, rotate: -3 },
+                autoAlpha: 0.18,
+                scale: 0.88
+              },
               {
-                xPercent: -4,
-                yPercent: -4,
-                rotate: 2,
-                ease: 'none',
+                autoAlpha: 0.9,
+                scale: 1.04,
                 stagger: 0.06,
-                scrollTrigger: {
-                  trigger: slide,
-                  containerAnimation: mainTween,
-                  start: 'left 78%',
-                  end: 'right 22%',
-                  scrub: true
-                }
-              }
-            )
-          );
-        }
-
-        if (regionTargets.length) {
-          animations.push(
-            gsap.fromTo(
-              regionTargets,
-              { autoAlpha: 0.35, yPercent: 10 },
-              {
-                autoAlpha: 1,
-                yPercent: 0,
                 ease: 'none',
-                stagger: 0.04,
                 scrollTrigger: {
                   trigger: slide,
                   containerAnimation: mainTween,
-                  start: 'left 78%',
-                  end: 'right 20%',
+                  start: 'left 82%',
+                  end: 'right 28%',
                   scrub: true
                 }
               }
             )
           );
         }
-
-        if (markTargets.length) {
-          animations.push(
-            gsap.fromTo(
-              markTargets,
-              { scale: 0.82, autoAlpha: 0.46 },
-              {
-                scale: 1.1,
-                autoAlpha: 0.98,
-                ease: 'none',
-                stagger: 0.04,
-                scrollTrigger: {
-                  trigger: slide,
-                  containerAnimation: mainTween,
-                  start: 'left 78%',
-                  end: 'right 20%',
-                  scrub: true
-                }
-              }
-            )
-          );
-        }
-
-        triggers.push(
-          ScrollTrigger.create({
-            trigger: slide,
-            containerAnimation: mainTween,
-            start: 'left center',
-            end: 'right center',
-            onToggle: function (self) {
-              if (self.isActive) {
-                setActive(index);
-              }
-            }
-          })
-        );
       });
 
-      setActive(activeIndex);
+      if (mapPath && mapLength && slides[1]) {
+        animations.push(
+          gsap.fromTo(
+            mapPath,
+            { strokeDashoffset: mapLength },
+            {
+              strokeDashoffset: 0,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: slides[1],
+                containerAnimation: mainTween,
+                start: 'left 72%',
+                end: 'left 38%',
+                scrub: true
+              }
+            }
+          )
+        );
+
+        if (savaHalo && savaDot) {
+          pulseTween = gsap
+            .timeline({ repeat: -1, yoyo: true, paused: true, defaults: { ease: 'sine.inOut', duration: 1.5 } })
+            .to(savaHalo, { scale: 1.18, transformOrigin: 'center center' }, 0)
+            .to(savaDot, { scale: 1.12, transformOrigin: 'center center' }, 0);
+
+          triggers.push(
+            ScrollTrigger.create({
+              trigger: slides[1],
+              containerAnimation: mainTween,
+              start: 'left 72%',
+              end: 'right 28%',
+              onToggle: function (self) {
+                if (self.isActive) {
+                  pulseTween.play();
+                } else {
+                  pulseTween.pause(0);
+                }
+              }
+            })
+          );
+        }
+      }
+
+      setActive(0);
       ScrollTrigger.refresh();
 
       return function () {
+        if (blurTween) {
+          blurTween.kill();
+        }
+
+        if (pulseTween) {
+          pulseTween.kill();
+        }
+
         triggers.forEach(function (trigger) {
           if (trigger && typeof trigger.kill === 'function') {
             trigger.kill();
@@ -570,8 +733,9 @@
           }
         });
 
-        clearInlineTransforms();
-        desktopState = null;
+        setBlur(0);
+        setActive(activeIndex);
+        syncStaticVisuals(activeIndex);
       };
     }
 
@@ -581,7 +745,6 @@
     }
 
     rebuildMode();
-    setActive(0);
 
     var resizeTimer = null;
 
@@ -604,12 +767,10 @@
       generalCleanups.forEach(function (cleanup) {
         cleanup();
       });
-      slides.forEach(function (slide) {
-        setMediaPlayback(slide, false);
-      });
       section.classList.remove('is-desktop');
       section.classList.remove('is-mobile');
       section.classList.remove('is-reduced');
+      setBlur(0);
     };
   }
 
