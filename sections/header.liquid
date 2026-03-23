@@ -115,14 +115,12 @@
 %}
 
 {%- liquid
-  assign desktop_brand_link_title = shop.name
-  assign desktop_brand_link_url = routes.root_url
+  assign desktop_secondary_link = blank
 
   if section.settings.menu != blank
     for link in section.settings.menu.links
       if forloop.index == 3
-        assign desktop_brand_link_title = link.title
-        assign desktop_brand_link_url = link.url
+        assign desktop_secondary_link = link
       endif
     endfor
   endif
@@ -241,9 +239,83 @@
     {%- endif -%}
 
     <div class="header__icons{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header__icons--localization header-localization{% endif %}">
-      <a href="{{ desktop_brand_link_url }}" class="vd-header-brand-link small-hide focus-inset">
-        <span>{{ desktop_brand_link_title }}</span>
-      </a>
+      {%- if desktop_secondary_link != blank -%}
+        <div class="vd-header-secondary-menu small-hide">
+          {%- if desktop_secondary_link.links != blank -%}
+            <header-menu>
+              <details id="Details-HeaderSecondaryMenu">
+                <summary
+                  id="HeaderMenu-{{ desktop_secondary_link.handle }}"
+                  class="vd-header-secondary-menu__toggle link focus-inset"
+                  data-menu-url="{{ desktop_secondary_link.url }}"
+                >
+                  <span
+                    {%- if desktop_secondary_link.child_active %}
+                      class="header__active-menu-item"
+                    {% endif %}
+                  >
+                    {{- desktop_secondary_link.title | escape -}}
+                  </span>
+                  {{- 'icon-caret.svg' | inline_asset_content -}}
+                </summary>
+                <div class="vd-header-secondary-menu__panel">
+                  <div class="vd-header-secondary-menu__panel-grid">
+                    {%- for childlink in desktop_secondary_link.links -%}
+                      <div class="vd-header-secondary-menu__column">
+                        <a
+                          id="HeaderMenu-{{ desktop_secondary_link.handle }}-{{ childlink.handle }}"
+                          href="{{ childlink.url }}"
+                          class="vd-header-secondary-menu__heading link focus-inset{% if childlink.current %} list-menu__item--active{% endif %}"
+                          {% if childlink.current %}
+                            aria-current="page"
+                          {% endif %}
+                        >
+                          {{ childlink.title | escape }}
+                        </a>
+
+                        {%- if childlink.links != blank -%}
+                          <ul class="vd-header-secondary-menu__list" role="list">
+                            {%- for grandchildlink in childlink.links -%}
+                              <li>
+                                <a
+                                  id="HeaderMenu-{{ desktop_secondary_link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                  href="{{ grandchildlink.url }}"
+                                  class="vd-header-secondary-menu__item link focus-inset{% if grandchildlink.current %} list-menu__item--active{% endif %}"
+                                  {% if grandchildlink.current %}
+                                    aria-current="page"
+                                  {% endif %}
+                                >
+                                  {{ grandchildlink.title | escape }}
+                                </a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      </div>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              </details>
+            </header-menu>
+          {%- else -%}
+            <a
+              href="{{ desktop_secondary_link.url }}"
+              class="vd-header-secondary-menu__toggle link focus-inset"
+              {% if desktop_secondary_link.current %}
+                aria-current="page"
+              {% endif %}
+            >
+              <span
+                {%- if desktop_secondary_link.current %}
+                  class="header__active-menu-item"
+                {% endif %}
+              >
+                {{- desktop_secondary_link.title | escape -}}
+              </span>
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
 
       <search-form class="vd-header-inline-search small-hide">
         <form action="{{ routes.search_url }}" method="get" role="search">
