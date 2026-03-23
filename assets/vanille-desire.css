@@ -6897,6 +6897,9 @@ body:has(.section-vd-hero) .header-wrapper {
 }
 
 .vd-header-secondary-menu:hover > .vd-header-secondary-menu__panel,
+.vd-header-secondary-menu:focus-within > .vd-header-secondary-menu__panel,
+.vd-header-secondary-menu__panel:hover,
+.vd-header-secondary-menu__panel:focus-within,
 .vd-header-secondary-menu__toggle:focus-visible + .vd-header-secondary-menu__panel {
   opacity: 1;
   visibility: visible;
@@ -6912,6 +6915,19 @@ body:has(.section-vd-hero) .header-wrapper {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
     0 1.8rem 4.4rem rgba(0, 0, 0, 0.12);
+}
+
+.vd-header-primary-menu__panel,
+.vd-header-primary-menu__panel.header__submenu,
+.vd-header-primary-menu__panel.mega-menu__content {
+  background:
+    linear-gradient(180deg, rgba(14, 14, 14, 0.56) 0%, rgba(14, 14, 14, 0.42) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(115%) !important;
+  backdrop-filter: blur(26px) saturate(115%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 1.8rem 4.4rem rgba(0, 0, 0, 0.14) !important;
 }
 
 .vd-header-primary-menu__grid,
