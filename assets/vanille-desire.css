@@ -6389,7 +6389,7 @@ body:has(.section-vd-hero) .header-wrapper {
 }
 
 body:has(.section-vd-hero) .header-wrapper {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
   border-color: rgba(255, 255, 255, 0.18);
 }
 
@@ -6547,6 +6547,11 @@ body:has(.section-vd-hero) .header-wrapper {
 }
 
 .vd-header-inline-search__icon .svg-wrapper {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.vd-header-inline-search__icon svg {
   width: 1.6rem;
   height: 1.6rem;
 }
