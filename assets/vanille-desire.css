@@ -7117,3 +7117,74 @@ body:has(.section-vd-hero) .header-wrapper {
     display: none;
   }
 }
+
+/* Header refinement v4: true glass shell directly over hero media */
+
+.section-header.shopify-section-group-header-group,
+body:has(.section-vd-hero) .section-header.shopify-section-group-header-group {
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.shopify-section-group-header-group::before,
+body:has(.section-vd-hero) .shopify-section-group-header-group::before {
+  display: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.header-wrapper,
+body:has(.section-vd-hero) .header-wrapper {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.048) 0%, rgba(255, 255, 255, 0.016) 100%) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(110%) !important;
+  backdrop-filter: blur(22px) saturate(110%) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 1.2rem 3rem rgba(0, 0, 0, 0.04) !important;
+}
+
+.shopify-section-header-sticky .header-wrapper,
+.scrolled-past-header .header-wrapper,
+.shopify-section-header-sticky body:has(.section-vd-hero) .header-wrapper {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.026) 100%) !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+.header__menu-item,
+.list-menu__item--link,
+.vd-header-secondary-menu__toggle,
+.vd-header-inline-search form {
+  background: transparent !important;
+}
+
+.vd-header-inline-search form {
+  border-color: rgba(255, 255, 255, 0.11) !important;
+  background: rgba(255, 255, 255, 0.022) !important;
+}
+
+.vd-header-inline-search form:focus-within {
+  background: rgba(255, 255, 255, 0.042) !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+body:has(.section-vd-hero) .vd-hero__media::after,
+#MainContent > .shopify-section:first-child.section-vd-hero .vd-hero__media::after {
+  background: linear-gradient(180deg, rgba(7, 7, 7, 0.02) 0%, rgba(7, 7, 7, 0.12) 56%, rgba(7, 7, 7, 0.28) 100%) !important;
+}
+
+body:has(.section-vd-hero) .vd-hero__media,
+#MainContent > .shopify-section:first-child.section-vd-hero .vd-hero__media {
+  filter: brightness(1.1) saturate(1.04) contrast(0.98) !important;
+}
+
+body:has(.section-vd-hero) .vd-hero__video,
+body:has(.section-vd-hero) .vd-hero__image,
+#MainContent > .shopify-section:first-child.section-vd-hero .vd-hero__video,
+#MainContent > .shopify-section:first-child.section-vd-hero .vd-hero__image {
+  filter: none !important;
+}
