@@ -59,7 +59,17 @@
             {% endif %}
             {{ block.shopify_attributes }}
           >
-            <article class="vd-testimonials__card-shell" data-vd-testimonial-shell>
+            <article
+              class="vd-testimonials__card-shell"
+              data-vd-testimonial-shell
+              tabindex="0"
+              data-vd-testimonial-rating="{{ rating }}"
+              data-vd-testimonial-author="{{ block.settings.author | escape }}"
+              data-vd-testimonial-date="{{ block.settings.location | escape }}"
+              data-vd-testimonial-product="{{ block.settings.meta | escape }}"
+              data-vd-testimonial-quote="{{ block.settings.quote | strip_html | escape }}"
+              data-vd-testimonial-source-label="Avis client"
+            >
               <div class="vd-testimonials__card-top">
                 <div class="vd-testimonials__stars" aria-hidden="true">
                   {% for i in (1..5) %}
@@ -82,14 +92,25 @@
                 <blockquote class="vd-testimonials__quote" data-vd-testimonial-quote>{{ block.settings.quote }}</blockquote>
               {% endif %}
 
-              <div class="vd-testimonials__meta">
-                {% if block.settings.author != blank %}
-                  <strong>{{ block.settings.author }}</strong>
-                {% endif %}
+              <div class="vd-testimonials__meta-row">
+                <div class="vd-testimonials__meta">
+                  {% if block.settings.author != blank %}
+                    <strong>{{ block.settings.author }}</strong>
+                  {% endif %}
 
-                {% if block.settings.location != blank %}
-                  <span>{{ block.settings.location }}</span>
-                {% endif %}
+                  {% if block.settings.location != blank %}
+                    <span>{{ block.settings.location }}</span>
+                  {% endif %}
+                </div>
+
+                <button
+                  type="button"
+                  class="vd-testimonials__read-more"
+                  data-vd-testimonial-open
+                  aria-haspopup="dialog"
+                >
+                  Lire l'avis
+                </button>
               </div>
             </article>
           </li>
@@ -103,6 +124,35 @@
       </div>
     </div>
   </div>
+
+  <dialog class="vd-testimonials__dialog" data-vd-testimonials-dialog>
+    <div class="vd-testimonials__dialog-panel" role="document">
+      <button
+        type="button"
+        class="vd-testimonials__dialog-close"
+        data-vd-testimonials-close
+        aria-label="Fermer l'avis"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+      <div class="vd-testimonials__dialog-topline">
+        <span class="vd-testimonials__dialog-source" data-vd-testimonials-dialog-source>Avis client</span>
+        <div class="vd-testimonials__dialog-stars" data-vd-testimonials-dialog-stars aria-hidden="true"></div>
+      </div>
+
+      <div class="vd-testimonials__dialog-product" data-vd-testimonials-dialog-product-wrap hidden>
+        <a href="#" class="vd-testimonials__dialog-product-link" data-vd-testimonials-dialog-product></a>
+      </div>
+
+      <blockquote class="vd-testimonials__dialog-quote" data-vd-testimonials-dialog-quote></blockquote>
+
+      <div class="vd-testimonials__dialog-meta">
+        <strong data-vd-testimonials-dialog-author></strong>
+        <span data-vd-testimonials-dialog-date></span>
+      </div>
+    </div>
+  </dialog>
 
   <div class="page-width vd-testimonials__footer-shell" data-vd-testimonials-footer>
     <div class="vd-testimonials__footer">
