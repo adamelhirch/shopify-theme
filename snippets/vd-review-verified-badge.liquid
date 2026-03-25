@@ -1,0 +1,12 @@
+{%- liquid
+  assign vd_verified_label = label | default: 'Vérifié'
+  assign vd_verified_class = class | default: 'vd-review-verified-badge'
+-%}
+<span class="{{ vd_verified_class }}">
+  <span class="{{ vd_verified_class }}__icon" aria-hidden="true">
+    <svg viewBox="0 0 16 16" focusable="false" aria-hidden="true">
+      <path d="M6.6 10.9 3.9 8.2l-.9.9 3.6 3.6 6.4-6.4-.9-.9z" fill="currentColor"/>
+    </svg>
+  </span>
+  <span class="{{ vd_verified_class }}__label">{{ vd_verified_label }}</span>
+</span>

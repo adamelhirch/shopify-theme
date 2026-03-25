@@ -59,6 +59,17 @@ Creer un metachamp produit:
 
 Ce metachamp sert a relier des avis a un produit precis.
 
+### 2 bis. Fallback JSON en production
+
+Le theme sait aussi lire un metachamp produit JSON:
+
+- Namespace: `custom`
+- Key: `vd_reviews_json`
+- Type: `json`
+
+Ce fallback permet de migrer rapidement les avis existants sans attendre la couche
+`metaobject` complete.
+
 ### 3. Metachamps agreges produit
 
 Creer ces metachamps produit pour remplacer progressivement `product.metafields.reviews.*`:
@@ -104,8 +115,25 @@ Le badge note produit lit uniquement:
 - `product.metafields.custom.vd_rating_average`
 - `product.metafields.custom.vd_rating_count`
 - `product.metafields.custom.vd_reviews`
+- `product.metafields.custom.vd_reviews_json`
 
 Il n'y a plus de fallback vers un ancien systeme de reviews tiers.
+
+## Migration Judge.me
+
+Le script `bin/migrate-judgeme-reviews.rb` :
+
+- lit les produits qui ont encore un `reviews.rating_count`
+- recupere les avis Judge.me depuis le storefront
+- ecrit un payload JSON custom sur chaque produit
+- met a jour `custom.vd_rating_average`
+- met a jour `custom.vd_rating_count`
+
+Commande :
+
+```bash
+./bin/migrate-judgeme-reviews.rb
+```
 
 ## Phase suivante pour une vraie app privee
 

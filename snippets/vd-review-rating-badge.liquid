@@ -9,6 +9,8 @@
 
     if vd_rating_count == blank and product.metafields.custom.vd_reviews.value != blank
       assign vd_rating_count = product.metafields.custom.vd_reviews.value.count | default: product.metafields.custom.vd_reviews.value.size
+    elsif vd_rating_count == blank and product.metafields.custom.vd_reviews_json.value != blank
+      assign vd_rating_count = product.metafields.custom.vd_reviews_json.value.size
     endif
   endif
 

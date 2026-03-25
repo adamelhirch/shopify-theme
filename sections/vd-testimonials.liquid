@@ -24,11 +24,16 @@
   assign featured_product_title = blank
   assign featured_product_url = blank
   assign featured_source = blank
+  assign featured_is_verified = false
   assign use_custom_reviews = false
+  assign use_json_reviews = false
   assign display_limit = section.settings.reviews_limit | plus: 0
 
   if section.settings.reviews_source == 'product_metafield' and product != blank and product.metafields.custom.vd_reviews.value != blank
     assign selected_reviews = product.metafields.custom.vd_reviews.value
+  elsif section.settings.reviews_source == 'product_metafield' and product != blank and product.metafields.custom.vd_reviews_json.value != blank
+    assign selected_reviews = product.metafields.custom.vd_reviews_json.value
+    assign use_json_reviews = true
   elsif section.settings.review_entries != blank
     assign selected_reviews = section.settings.review_entries
   endif
@@ -41,22 +46,30 @@
 
   if use_custom_reviews
     for review in selected_reviews limit: display_limit
-      assign review_rating = review.rating.value | default: 5 | round
-      assign review_quote = review.quote.value | default: blank
-      assign review_author = review.author.value | default: 'Client'
-      assign review_context = review.context.value | default: blank
-      assign review_source = review.source.value | default: blank
+      if use_json_reviews
+        assign review_rating = review.rating | default: 5 | round
+        assign review_quote = review.quote | default: blank
+        assign review_author = review.author | default: 'Client'
+        assign review_context = review.context | default: blank
+        assign review_source = review.source | default: blank
 
-      if review.review_date.value != blank
-        assign review_context = review.review_date.value | date: '%d/%m/%Y'
+        if review.review_date != blank
+          assign review_context = review.review_date | date: '%d/%m/%Y'
+        endif
+      else
+        assign review_rating = review.rating.value | default: 5 | round
+        assign review_quote = review.quote.value | default: blank
+        assign review_author = review.author.value | default: 'Client'
+        assign review_context = review.context.value | default: blank
+        assign review_source = review.source.value | default: blank
+
+        if review.review_date.value != blank
+          assign review_context = review.review_date.value | date: '%d/%m/%Y'
+        endif
       endif
 
       if review_source == blank
-        if review.verified.value == true
-          assign review_source = 'Avis client verifie'
-        else
-          assign review_source = 'Avis client'
-        endif
+        assign review_source = 'Avis client'
       endif
 
       assign reviews_total = reviews_total | plus: review_rating
@@ -69,7 +82,18 @@
         assign featured_date = review_context
         assign featured_source = review_source
 
-        if review.product.value != blank
+        if use_json_reviews
+          if review.verified == true or review.verified == 'true'
+            assign featured_is_verified = true
+          endif
+        elsif review.verified.value == true
+          assign featured_is_verified = true
+        endif
+
+        if use_json_reviews
+          assign featured_product_title = review.product_title | default: blank
+          assign featured_product_url = review.product_url | default: blank
+        elsif review.product.value != blank
           assign featured_product_title = review.product.value.title
           assign featured_product_url = review.product.value.url
         endif
@@ -146,7 +170,12 @@
   <div class="page-width vd-testimonials__featured-shell" data-vd-testimonials-featured-shell>
     <article class="vd-testimonials__featured" data-vd-testimonials-featured>
       <div class="vd-testimonials__featured-topline">
-        <span class="vd-testimonials__featured-source" data-vd-testimonials-featured-source>{{ featured_source }}</span>
+        <div class="vd-product-reviews__source-row">
+          <span class="vd-testimonials__featured-source" data-vd-testimonials-featured-source>{{ featured_source }}</span>
+          {% if featured_is_verified %}
+            {% render 'vd-review-verified-badge', class: 'vd-review-verified-badge' %}
+          {% endif %}
+        </div>
         <div data-vd-testimonials-featured-stars>
           {% render 'vd-review-stars', rating: featured_rating, class: 'vd-testimonials__featured-stars' %}
         </div>
@@ -199,30 +228,50 @@
         {% if use_custom_reviews %}
           {% for review in selected_reviews limit: display_limit %}
             {%- liquid
-              assign review_rating = review.rating.value | default: 5 | round
-              assign review_quote = review.quote.value | default: blank
-              assign review_author = review.author.value | default: 'Client'
-              assign review_context = review.context.value | default: blank
-              assign review_source = review.source.value | default: blank
-              assign review_product = review.product.value
+              assign review_is_verified = false
               assign review_product_title = blank
               assign review_product_url = blank
 
-              if review.review_date.value != blank
-                assign review_context = review.review_date.value | date: '%d/%m/%Y'
-              endif
+              if use_json_reviews
+                assign review_rating = review.rating | default: 5 | round
+                assign review_quote = review.quote | default: blank
+                assign review_author = review.author | default: 'Client'
+                assign review_context = review.context | default: blank
+                assign review_source = review.source | default: blank
+                assign review_product_title = review.product_title | default: blank
+                assign review_product_url = review.product_url | default: blank
 
-              if review_source == blank
+                if review.review_date != blank
+                  assign review_context = review.review_date | date: '%d/%m/%Y'
+                endif
+
+                if review.verified == true or review.verified == 'true'
+                  assign review_is_verified = true
+                endif
+              else
+                assign review_rating = review.rating.value | default: 5 | round
+                assign review_quote = review.quote.value | default: blank
+                assign review_author = review.author.value | default: 'Client'
+                assign review_context = review.context.value | default: blank
+                assign review_source = review.source.value | default: blank
+                assign review_product = review.product.value
+
+                if review.review_date.value != blank
+                  assign review_context = review.review_date.value | date: '%d/%m/%Y'
+                endif
+
                 if review.verified.value == true
-                  assign review_source = 'Avis client verifie'
-                else
-                  assign review_source = 'Avis client'
+                  assign review_is_verified = true
+                endif
+
+                if review_product != blank
+                  assign review_product_title = review_product.title
+                  assign review_product_url = review_product.url
                 endif
               endif
 
-              if review_product != blank
-                assign review_product_title = review_product.title
-                assign review_product_url = review_product.url
+              if review_source == blank
+                assign review_source = 'Avis client'
               endif
             -%}
             <li
@@ -245,7 +294,12 @@
                 data-vd-testimonial-source-label="{{ review_source | escape }}"
               >
                 <div class="vd-testimonials__card-top">
-                  {% render 'vd-review-stars', rating: review_rating, class: 'vd-testimonials__stars' %}
+                  <div class="vd-product-reviews__source-row">
+                    {% render 'vd-review-stars', rating: review_rating, class: 'vd-testimonials__stars' %}
+                    {% if review_is_verified %}
+                      {% render 'vd-review-verified-badge', class: 'vd-review-verified-badge' %}
+                    {% endif %}
+                  </div>
 
                   {% if review_product_title != blank %}
                     {% if review_product_url != blank %}

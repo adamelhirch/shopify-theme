@@ -14,16 +14,22 @@
 
 {%- liquid
   assign product_reviews = blank
+  assign use_json_reviews = false
   assign reviews_count = 0
   assign review_limit = section.settings.reviews_limit | plus: 0
   assign reviews_total = 0
   assign average_rating = blank
   assign featured_review = blank
   assign has_reviews = false
+  assign review_count_label = blank
 
   if product != blank and product.metafields.custom.vd_reviews.value != blank
     assign product_reviews = product.metafields.custom.vd_reviews.value
     assign reviews_count = product_reviews.count | default: product_reviews.size | default: 0
+  elsif product != blank and product.metafields.custom.vd_reviews_json.value != blank
+    assign product_reviews = product.metafields.custom.vd_reviews_json.value
+    assign reviews_count = product_reviews.size | default: 0
+    assign use_json_reviews = true
   endif
 
   if reviews_count > 0
@@ -34,7 +40,11 @@
       assign average_rating = product.metafields.custom.vd_rating_average.value | plus: 0
     else
       for review in product_reviews
-        assign review_rating = review.rating.value | default: 5 | plus: 0
+        if use_json_reviews
+          assign review_rating = review.rating | default: 5 | plus: 0
+        else
+          assign review_rating = review.rating.value | default: 5 | plus: 0
+        endif
         assign reviews_total = reviews_total | plus: review_rating
       endfor
 
@@ -42,6 +52,14 @@
         assign average_rating = reviews_total | times: 1.0 | divided_by: reviews_count
       endif
     endif
+  endif
+
+  if product.metafields.custom.vd_rating_count.value != blank
+    assign review_count_label = product.metafields.custom.vd_rating_count.value
+  elsif product.metafields.custom.vd_rating_count != blank
+    assign review_count_label = product.metafields.custom.vd_rating_count
+  else
+    assign review_count_label = reviews_count
   endif
 -%}
 
@@ -66,7 +84,7 @@
         <div class="vd-product-reviews__score">
           {% if has_reviews %}
             <strong>{{ average_rating | default: 5 | round: 1 }}/5</strong>
-            <span>{{ reviews_count }} avis relies a ce produit</span>
+            <span>{{ review_count_label }} avis relies a ce produit</span>
           {% else %}
             <strong>0 avis</strong>
             <span>{{ section.settings.empty_label }}</span>
@@ -77,29 +95,52 @@
 
     {% if has_reviews %}
       {%- liquid
-        assign featured_rating = featured_review.rating.value | default: 5 | round
-        assign featured_quote = featured_review.quote.value | default: blank
-        assign featured_author = featured_review.author.value | default: 'Client'
-        assign featured_context = featured_review.context.value | default: blank
-        assign featured_source = featured_review.source.value | default: blank
+        assign featured_is_verified = false
 
-        if featured_review.review_date.value != blank
-          assign featured_context = featured_review.review_date.value | date: '%d/%m/%Y'
+        if use_json_reviews
+          assign featured_rating = featured_review.rating | default: 5 | round
+          assign featured_quote = featured_review.quote | default: blank
+          assign featured_author = featured_review.author | default: 'Client'
+          assign featured_context = featured_review.context | default: blank
+          assign featured_source = featured_review.source | default: blank
+
+          if featured_review.review_date != blank
+            assign featured_context = featured_review.review_date | date: '%d/%m/%Y'
+          endif
+
+          if featured_review.verified == true or featured_review.verified == 'true'
+            assign featured_is_verified = true
+          endif
+        else
+          assign featured_rating = featured_review.rating.value | default: 5 | round
+          assign featured_quote = featured_review.quote.value | default: blank
+          assign featured_author = featured_review.author.value | default: 'Client'
+          assign featured_context = featured_review.context.value | default: blank
+          assign featured_source = featured_review.source.value | default: blank
+
+          if featured_review.review_date.value != blank
+            assign featured_context = featured_review.review_date.value | date: '%d/%m/%Y'
+          endif
+
+          if featured_review.verified.value == true
+            assign featured_is_verified = true
+          endif
         endif
 
         if featured_source == blank
-          if featured_review.verified.value == true
-            assign featured_source = 'Avis verifie'
-          else
-            assign featured_source = 'Avis client'
-          endif
+          assign featured_source = 'Avis client'
         endif
       -%}
 
       <div class="vd-product-reviews__layout">
         <article class="vd-product-reviews__featured">
           <div class="vd-product-reviews__featured-topline">
-            <span class="vd-product-reviews__source">{{ featured_source }}</span>
+            <div class="vd-product-reviews__source-row">
+              <span class="vd-product-reviews__source">{{ featured_source }}</span>
+              {% if featured_is_verified %}
+                {% render 'vd-review-verified-badge', class: 'vd-review-verified-badge' %}
+              {% endif %}
+            </div>
             {% render 'vd-review-stars', rating: featured_rating, class: 'vd-product-reviews__stars' %}
           </div>
 
@@ -118,28 +159,51 @@
         <div class="vd-product-reviews__list" role="list">
           {% for review in product_reviews limit: review_limit offset: 1 %}
             {%- liquid
-              assign review_rating = review.rating.value | default: 5 | round
-              assign review_quote = review.quote.value | default: blank
-              assign review_author = review.author.value | default: 'Client'
-              assign review_context = review.context.value | default: blank
-              assign review_source = review.source.value | default: blank
+              assign review_is_verified = false
 
-              if review.review_date.value != blank
-                assign review_context = review.review_date.value | date: '%d/%m/%Y'
+              if use_json_reviews
+                assign review_rating = review.rating | default: 5 | round
+                assign review_quote = review.quote | default: blank
+                assign review_author = review.author | default: 'Client'
+                assign review_context = review.context | default: blank
+                assign review_source = review.source | default: blank
+
+                if review.review_date != blank
+                  assign review_context = review.review_date | date: '%d/%m/%Y'
+                endif
+
+                if review.verified == true or review.verified == 'true'
+                  assign review_is_verified = true
+                endif
+              else
+                assign review_rating = review.rating.value | default: 5 | round
+                assign review_quote = review.quote.value | default: blank
+                assign review_author = review.author.value | default: 'Client'
+                assign review_context = review.context.value | default: blank
+                assign review_source = review.source.value | default: blank
+
+                if review.review_date.value != blank
+                  assign review_context = review.review_date.value | date: '%d/%m/%Y'
+                endif
+
+                if review.verified.value == true
+                  assign review_is_verified = true
+                endif
               endif
 
               if review_source == blank
-                if review.verified.value == true
-                  assign review_source = 'Avis verifie'
-                else
-                  assign review_source = 'Avis client'
-                endif
+                assign review_source = 'Avis client'
               endif
             -%}
 
             <article class="vd-product-reviews__card" role="listitem">
               <div class="vd-product-reviews__card-topline">
-                <span class="vd-product-reviews__source">{{ review_source }}</span>
+                <div class="vd-product-reviews__source-row">
+                  <span class="vd-product-reviews__source">{{ review_source }}</span>
+                  {% if review_is_verified %}
+                    {% render 'vd-review-verified-badge', class: 'vd-review-verified-badge' %}
+                  {% endif %}
+                </div>
                 {% render 'vd-review-stars', rating: review_rating, class: 'vd-product-reviews__stars' %}
               </div>
 
