@@ -416,18 +416,20 @@
   height: 100%;
   max-width: 100%;
   max-height: 100%;
+  shape-rendering: geometricPrecision;
 }
 
 .vd-madagascar-outline__fill {
-  fill: rgba(255, 255, 255, 0.03);
+  fill: rgba(255, 255, 255, 0.02);
 }
 
 .vd-madagascar-outline__stroke {
   fill: none;
   stroke: var(--vd-wiki-gold);
-  stroke-width: 3.1;
+  stroke-width: 2.45;
   stroke-linecap: round;
   stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
 }
 
 .vd-wiki-teaser__map-marker {
@@ -435,14 +437,45 @@
   top: var(--map-marker-y);
   left: var(--map-marker-x);
   z-index: 3;
-  width: 0.72rem;
-  height: 0.72rem;
+  width: 0.84rem;
+  height: 0.84rem;
   border-radius: 999px;
-  background: #f3d7ab;
+  background:
+    radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.14) 28%, transparent 29%),
+    radial-gradient(circle, #f7dfba 0%, #ddb16a 54%, #c38a3a 100%);
   transform: translate(-50%, -50%);
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.22),
-    0 0 1.15rem rgba(215, 160, 85, 0.52);
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    0 0 1.1rem rgba(215, 160, 85, 0.36),
+    0 0 2rem rgba(215, 160, 85, 0.12);
+}
+
+.vd-wiki-teaser__map-label {
+  position: absolute;
+  top: var(--map-marker-y);
+  left: var(--map-marker-x);
+  z-index: 3;
+  color: rgba(var(--vd-ivory), 0.94);
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1rem, 1.3vw, 1.35rem);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  white-space: nowrap;
+  text-shadow: 0 0 1rem rgba(0, 0, 0, 0.28);
+  transform: translate(calc(-100% - 2.45rem), calc(-100% - 0.3rem));
+}
+
+.vd-wiki-teaser__map-label::after {
+  content: "";
+  position: absolute;
+  top: 58%;
+  left: calc(100% + 0.8rem);
+  width: 1.55rem;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.12), rgba(215, 160, 85, 0.88));
+  transform: translateY(-50%);
 }
 
 .vd-wiki-teaser__cinema-grid {
@@ -791,8 +824,18 @@
   }
 
   .vd-wiki-teaser__map-marker {
-    width: 0.66rem;
-    height: 0.66rem;
+    width: 0.72rem;
+    height: 0.72rem;
+  }
+
+  .vd-wiki-teaser__map-label {
+    font-size: 0.92rem;
+    transform: translate(calc(-100% - 1.9rem), calc(-100% - 0.25rem));
+  }
+
+  .vd-wiki-teaser__map-label::after {
+    left: calc(100% + 0.65rem);
+    width: 1rem;
   }
 
   .vd-wiki-teaser__counter {
