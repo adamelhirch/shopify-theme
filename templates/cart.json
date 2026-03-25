@@ -58,6 +58,8 @@
         "eyebrow": "Confiance",
         "heading": "Le panier doit rassurer jusqu'au bout.",
         "text": "<p>Avant le checkout, on prolonge la credibilite de la marque avec une couche de preuve sociale et de coherence visuelle.</p>",
+        "reviews_source": "manual_blocks",
+        "trust_label": "Avis archives",
         "reviews_limit": "6",
         "button_label": "Voir la collection",
         "button_link": "shopify://collections/vanille-bourbon",
