@@ -88,6 +88,15 @@ La section peut maintenant lire 3 sources:
 
 Le premier avis devient la citation vedette.
 
+### Section `VD Product Reviews`
+
+La fiche produit peut maintenant utiliser une section dediee:
+
+- lecture directe de `product.metafields.custom.vd_reviews`
+- hero review en tete
+- liste secondaire d'avis du meme produit
+- etat vide propre tant qu'aucun avis n'est relie
+
 ### Notes produit
 
 Le badge note produit lit uniquement:
