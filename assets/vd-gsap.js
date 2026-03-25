@@ -127,153 +127,6 @@
     return node;
   }
 
-  function formatTestimonialProductLabel(value) {
-    if (!value) return '';
-
-    var label = String(value)
-      .replace(/\s+/g, ' ')
-      .replace(/\s+\(([^)]+)\)\s*$/, '')
-      .trim();
-
-    if (label.indexOf(' - ') !== -1) {
-      label = label.split(' - ')[0].trim();
-    }
-
-    if (label.indexOf(' – ') !== -1) {
-      label = label.split(' – ')[0].trim();
-    }
-
-    return label;
-  }
-
-  function formatTestimonialDateLabel(value) {
-    if (!value) return '';
-
-    var date = new Date(value);
-    if (Number.isNaN(date.getTime())) {
-      var parts = String(value).match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-
-      if (parts) {
-        date = new Date(Number(parts[3]), Number(parts[1]) - 1, Number(parts[2]));
-      }
-    }
-
-    if (Number.isNaN(date.getTime())) {
-      return String(value).trim();
-    }
-
-    return date.toLocaleDateString('fr-FR', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    });
-  }
-
-  function extractJudgeReviews(source, limit) {
-    if (!source) return [];
-
-    var items = source.querySelectorAll('.jdgm-carousel-item');
-    var reviews = [];
-    var seen = {};
-
-    Array.prototype.forEach.call(items, function (item) {
-      if (reviews.length >= limit) return;
-
-      var title = getNodeText(item.querySelector('.jdgm-carousel-item__review-title'));
-      var quote = getNodeText(item.querySelector('.jdgm-carousel-item__review-body'));
-      var author = getNodeText(item.querySelector('.jdgm-carousel-item__reviewer-name'));
-      var date = getNodeText(item.querySelector('.jdgm-carousel-item__timestamp'));
-      var productAnchor = item.querySelector('.jdgm-carousel-item__product');
-      var product = getNodeText(item.querySelector('.jdgm-carousel-item__product-title'));
-      var productLink = productAnchor ? productAnchor.getAttribute('href') : '';
-      var rating = item.querySelectorAll('.jdgm-carousel-item__review-rating .jdgm-star.jdgm--on').length || 5;
-      var key = [title, quote, author, date, product, productLink].join('||');
-
-      if ((!title && !quote) || !product || product.toLowerCase() === 'vanilledesire' || !productLink || seen[key]) return;
-
-      seen[key] = true;
-      reviews.push({
-        title: title,
-        quote: quote || title,
-        author: author || 'Client verifie',
-        date: formatTestimonialDateLabel(date) || 'Avis client',
-        product: formatTestimonialProductLabel(product) || 'Selection Judge.me',
-        productLink: productLink,
-        rating: Math.max(1, Math.min(5, rating)),
-        sourceLabel: 'Avis verifie via Judge.me'
-      });
-    });
-
-    reviews.sort(function (left, right) {
-      return (right.quote || '').length - (left.quote || '').length;
-    });
-
-    return reviews;
-  }
-
-  function buildTestimonialCard(review) {
-    var item = createNode('li', 'vd-testimonials__card');
-    var card = createNode('article', 'vd-testimonials__card-shell');
-    var top = createNode('div', 'vd-testimonials__card-top');
-    var stars = createNode('div', 'vd-testimonials__stars');
-    var productLink = review.productLink ? createNode('a', 'vd-testimonials__product-link', review.product) : createNode('span', 'vd-testimonials__product-link', review.product);
-    var quote = createNode('blockquote', 'vd-testimonials__quote', review.quote);
-    var meta = createNode('div', 'vd-testimonials__meta');
-    var author = createNode('strong', '', review.author);
-    var location = createNode('span', '', review.date);
-    var index;
-
-    item.setAttribute('data-vd-testimonial-card', '');
-    item.setAttribute('role', 'listitem');
-    card.setAttribute('data-vd-testimonial-shell', '');
-    card.tabIndex = 0;
-    card.setAttribute('data-vd-testimonial-rating', review.rating);
-    card.setAttribute('data-vd-testimonial-author', review.author || '');
-    card.setAttribute('data-vd-testimonial-date', review.date || '');
-    card.setAttribute('data-vd-testimonial-product', review.product || '');
-    card.setAttribute('data-vd-testimonial-quote', review.quote || '');
-    card.setAttribute('data-vd-testimonial-source-label', review.sourceLabel || 'Avis client');
-    if (review.productLink) {
-      item.setAttribute('data-vd-testimonial-link', review.productLink);
-    }
-
-    for (index = 0; index < 5; index += 1) {
-      var star = createNode('span', index < review.rating ? 'is-active' : '', '★');
-      stars.appendChild(star);
-    }
-
-    if (review.productLink) {
-      productLink.href = review.productLink;
-    }
-
-    if (review.product) {
-      productLink.title = review.product;
-    }
-
-    top.appendChild(stars);
-    top.appendChild(productLink);
-
-    card.appendChild(top);
-    quote.setAttribute('data-vd-testimonial-quote', '');
-    card.appendChild(quote);
-    meta.appendChild(author);
-    meta.appendChild(location);
-    card.appendChild(meta);
-    item.appendChild(card);
-
-    return item;
-  }
-
-  function renderTestimonialCards(cardsContainer, reviews) {
-    if (!cardsContainer || !reviews.length) return;
-
-    cardsContainer.innerHTML = '';
-
-    reviews.forEach(function (review) {
-      cardsContainer.appendChild(buildTestimonialCard(review));
-    });
-  }
-
   function syncTestimonialsCta(cta, card) {
     if (!cta || cta.hasAttribute('data-vd-testimonials-static-link')) return;
 
@@ -679,7 +532,6 @@
       var stage = section.querySelector('[data-vd-testimonials-stage]');
       var viewport = section.querySelector('[data-vd-testimonials-viewport]');
       var cardsContainer = section.querySelector('[data-vd-testimonials-cards]');
-      var source = section.querySelector('[data-vd-testimonials-judge-source]');
       var cta = section.querySelector('[data-vd-testimonials-cta]');
       var header = section.querySelector('[data-vd-testimonials-header]');
       var featuredShell = section.querySelector('[data-vd-testimonials-featured-shell]');
@@ -690,7 +542,6 @@
       var featuredQuote = section.querySelector('[data-vd-testimonials-featured-quote]');
       var featuredAuthor = section.querySelector('[data-vd-testimonials-featured-author]');
       var featuredDate = section.querySelector('[data-vd-testimonials-featured-date]');
-      var limit = Number(section.getAttribute('data-vd-testimonials-limit')) || 10;
       var lifecycleCleanups = [];
       var interactiveCleanups = [];
       var revealTargets = [header, featuredShell, stage].filter(Boolean);
@@ -721,15 +572,6 @@
           section.__vdTestimonialsCleanup();
         }
       });
-
-      function syncFromJudge() {
-        var reviews = extractJudgeReviews(source, limit);
-
-        if (!reviews.length) return false;
-
-        renderTestimonialCards(cardsContainer, reviews);
-        return true;
-      }
 
       function syncFeaturedFromCard(card) {
         if (!card || !featuredQuote || !featuredAuthor || !featuredDate || !featuredStars || !featuredSource) return;
@@ -1060,24 +902,7 @@
         });
       }
 
-      var hasLiveReviews = syncFromJudge();
-
       mountCurrentCards();
-
-      if (!hasLiveReviews && source) {
-        var observer = new MutationObserver(function () {
-          if (syncFromJudge()) {
-            mountCurrentCards();
-            observer.disconnect();
-          }
-        });
-
-        observer.observe(source, { childList: true, subtree: true });
-
-        lifecycleCleanups.push(function () {
-          observer.disconnect();
-        });
-      }
     });
   }
 

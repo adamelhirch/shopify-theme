@@ -1,0 +1,58 @@
+{%- liquid
+  assign vd_rating_value = blank
+  assign vd_rating_max = 5
+  assign vd_rating_count = blank
+
+  if product.metafields.custom.vd_rating_average.value != blank
+    assign vd_rating_value = product.metafields.custom.vd_rating_average.value | plus: 0
+    assign vd_rating_count = product.metafields.custom.vd_rating_count.value | default: product.metafields.custom.vd_rating_count
+
+    if vd_rating_count == blank and product.metafields.custom.vd_reviews.value != blank
+      assign vd_rating_count = product.metafields.custom.vd_reviews.value.count | default: product.metafields.custom.vd_reviews.value.size
+    endif
+  elsif product.metafields.reviews.rating.value != blank
+    assign vd_rating_value = product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value
+    assign vd_rating_max = product.metafields.reviews.rating.value.scale_max | default: 5
+    assign vd_rating_count = product.metafields.reviews.rating_count
+  endif
+
+  if vd_rating_value != blank
+    assign rating_decimal = 0
+    assign decimal = vd_rating_value | modulo: 1
+
+    if decimal >= 0.3 and decimal <= 0.7
+      assign rating_decimal = 0.5
+    elsif decimal > 0.7
+      assign rating_decimal = 1
+    endif
+  endif
+-%}
+
+{%- if vd_rating_value != blank -%}
+  <div class="rating-wrapper">
+    <div
+      class="rating"
+      role="img"
+      aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: vd_rating_value | round: 1, rating_max: vd_rating_max }}"
+    >
+      <span
+        aria-hidden="true"
+        class="rating-star"
+        style="--rating: {{ vd_rating_value | floor }}; --rating-max: {{ vd_rating_max }}; --rating-decimal: {{ rating_decimal }};"
+      ></span>
+    </div>
+    <p class="rating-text caption">
+      <span aria-hidden="true">
+        {{- vd_rating_value | round: 1 }} /
+        {{ vd_rating_max -}}
+      </span>
+    </p>
+    <p class="rating-count caption">
+      <span aria-hidden="true">({{ vd_rating_count | default: 0 }})</span>
+      <span class="visually-hidden">
+        {{- vd_rating_count | default: 0 }}
+        {{ 'accessibility.total_reviews' | t -}}
+      </span>
+    </p>
+  </div>
+{%- endif -%}

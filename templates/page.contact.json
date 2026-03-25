@@ -120,6 +120,8 @@
         "eyebrow": "Confiance",
         "heading": "Un point de contact qui reste premium",
         "text": "<p>Le formulaire ne doit pas etre une page blanche. Il doit rassurer, credibiliser et prolonger la qualite percue sur les produits.</p>",
+        "reviews_source": "manual_blocks",
+        "trust_label": "Avis archives",
         "reviews_limit": "6",
         "button_label": "Voir la collection",
         "button_link": "shopify://collections/vanille-bourbon",

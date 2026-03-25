@@ -183,6 +183,8 @@
         "eyebrow": "Avis clients",
         "heading": "Ce qu'ils disent quand le produit tient vraiment ses promesses.",
         "text": "<p>Une lecture plus calme, plus editoriale, pour laisser les retours parler avec la meme exigence que le reste de la home.</p>",
+        "reviews_source": "manual_blocks",
+        "trust_label": "Selection maison",
         "reviews_limit": "6",
         "button_label": "",
         "button_link": "",

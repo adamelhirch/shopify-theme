@@ -1,0 +1,10 @@
+{%- liquid
+  assign vd_star_rating = rating | default: 5 | round
+  assign vd_star_rating = vd_star_rating | at_most: 5
+  assign vd_star_rating = vd_star_rating | at_least: 1
+-%}
+<div class="{{ class | default: 'vd-testimonials__stars' }}" aria-hidden="true">
+  {% for i in (1..5) %}
+    <span class="{% if i <= vd_star_rating %}is-active{% endif %}">&#9733;</span>
+  {% endfor %}
+</div>

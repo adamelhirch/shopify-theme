@@ -69,6 +69,8 @@
         "eyebrow": "Avis clients",
         "heading": "La confiance doit aussi vivre au niveau collection.",
         "text": "<p>Une couche de preuve sociale pour soutenir les pages catalogue, pas seulement les fiches produit.</p>",
+        "reviews_source": "manual_blocks",
+        "trust_label": "Avis archives",
         "reviews_limit": "6",
         "button_label": "Voir les produits",
         "button_link": "shopify://collections/vanille-bourbon",
