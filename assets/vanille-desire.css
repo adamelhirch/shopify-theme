@@ -4034,6 +4034,43 @@ body:has(.section-vd-hero) .header-wrapper {
   color: rgb(var(--vd-gold));
 }
 
+.vd-review-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  padding: 0.28rem 0.55rem;
+  border: 1px solid rgba(var(--vd-gold), 0.18);
+  border-radius: 999px;
+  background: rgba(var(--vd-gold), 0.08);
+  color: rgb(var(--vd-ivory));
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.vd-review-verified-badge__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 999px;
+  background: rgba(var(--vd-gold), 0.18);
+  color: rgb(var(--vd-gold));
+}
+
+.vd-review-verified-badge__icon svg {
+  width: 0.68rem;
+  height: 0.68rem;
+}
+
+.vd-review-verified-badge__label {
+  display: inline-block;
+}
+
 .vd-testimonials__featured-product-wrap {
   display: block;
 }
@@ -4505,6 +4542,13 @@ body:has(.section-vd-hero) .header-wrapper {
   justify-content: space-between;
   gap: 1rem;
   align-items: center;
+}
+
+.vd-product-reviews__source-row {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
 }
 
 .vd-product-reviews__stars {
