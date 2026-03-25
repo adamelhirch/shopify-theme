@@ -432,18 +432,35 @@
   vector-effect: non-scaling-stroke;
 }
 
-.vd-wiki-teaser__map-marker {
+.vd-wiki-teaser__map-callout {
   position: absolute;
   top: var(--map-marker-y);
   left: var(--map-marker-x);
   z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  transform: translate(calc(-100% - 0.4rem), calc(-50% - 0.75rem));
+}
+
+.vd-wiki-teaser__map-callout::after {
+  content: "";
+  display: block;
+  width: 1.6rem;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(215, 160, 85, 0.82));
+  box-shadow: 0 0 0.8rem rgba(215, 160, 85, 0.08);
+}
+
+.vd-wiki-teaser__map-marker {
+  position: relative;
+  z-index: 1;
   width: 0.84rem;
   height: 0.84rem;
   border-radius: 999px;
   background:
     radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.14) 28%, transparent 29%),
     radial-gradient(circle, #f7dfba 0%, #ddb16a 54%, #c38a3a 100%);
-  transform: translate(-50%, -50%);
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.2),
     0 0 1.1rem rgba(215, 160, 85, 0.36),
@@ -451,31 +468,15 @@
 }
 
 .vd-wiki-teaser__map-label {
-  position: absolute;
-  top: var(--map-marker-y);
-  left: var(--map-marker-x);
-  z-index: 3;
   color: rgba(var(--vd-ivory), 0.94);
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(1rem, 1.3vw, 1.35rem);
-  font-style: italic;
-  font-weight: 500;
-  letter-spacing: 0.03em;
+  font-size: clamp(1rem, 1.2vw, 1.25rem);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.045em;
   line-height: 1;
   white-space: nowrap;
-  text-shadow: 0 0 1rem rgba(0, 0, 0, 0.28);
-  transform: translate(calc(-100% - 2.45rem), calc(-100% - 0.3rem));
-}
-
-.vd-wiki-teaser__map-label::after {
-  content: "";
-  position: absolute;
-  top: 58%;
-  left: calc(100% + 0.8rem);
-  width: 1.55rem;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.12), rgba(215, 160, 85, 0.88));
-  transform: translateY(-50%);
+  text-shadow: 0 0 1rem rgba(0, 0, 0, 0.24);
 }
 
 .vd-wiki-teaser__cinema-grid {
@@ -828,14 +829,17 @@
     height: 0.72rem;
   }
 
-  .vd-wiki-teaser__map-label {
-    font-size: 0.92rem;
-    transform: translate(calc(-100% - 1.9rem), calc(-100% - 0.25rem));
+  .vd-wiki-teaser__map-callout {
+    gap: 0.65rem;
+    transform: translate(calc(-100% - 0.35rem), calc(-50% - 0.5rem));
   }
 
-  .vd-wiki-teaser__map-label::after {
-    left: calc(100% + 0.65rem);
+  .vd-wiki-teaser__map-callout::after {
     width: 1rem;
+  }
+
+  .vd-wiki-teaser__map-label {
+    font-size: 0.92rem;
   }
 
   .vd-wiki-teaser__counter {
