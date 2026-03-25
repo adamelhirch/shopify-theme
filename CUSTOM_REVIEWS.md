@@ -1,12 +1,12 @@
 # Custom Reviews
 
-Base de travail pour sortir completement du rendu Judge.me.
+Base de travail du systeme d'avis proprietaire Vanille Desire.
 
 ## Objectif
 
 - Stocker les avis dans Shopify, pas dans une app de rendu tierce.
 - Garder un front 100% custom dans le theme.
-- Pouvoir brancher plus tard une vraie app privee de collecte/moderation sans refaire l'affichage.
+- Brancher une vraie app privee de collecte/moderation sans refaire l'affichage.
 
 ## Donnees Shopify recommandees
 
@@ -84,13 +84,23 @@ La section peut maintenant lire 3 sources:
    Via `product.metafields.custom.vd_reviews`
 
 3. `Blocs manuels`
-   Fallback editor-only
+   Secours editor-only
 
 Le premier avis devient la citation vedette.
 
+### Notes produit
+
+Le badge note produit lit uniquement:
+
+- `product.metafields.custom.vd_rating_average`
+- `product.metafields.custom.vd_rating_count`
+- `product.metafields.custom.vd_reviews`
+
+Il n'y a plus de fallback vers un ancien systeme de reviews tiers.
+
 ## Phase suivante pour une vraie app privee
 
-Quand on voudra aller plus loin, l'app privee devra gerer:
+L'app privee devra gerer:
 
 - formulaire de depot d'avis
 - verification commande / email
