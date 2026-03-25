@@ -127,6 +127,48 @@
     return node;
   }
 
+  function formatTestimonialProductLabel(value) {
+    if (!value) return '';
+
+    var label = String(value)
+      .replace(/\s+/g, ' ')
+      .replace(/\s+\(([^)]+)\)\s*$/, '')
+      .trim();
+
+    if (label.indexOf(' - ') !== -1) {
+      label = label.split(' - ')[0].trim();
+    }
+
+    if (label.indexOf(' – ') !== -1) {
+      label = label.split(' – ')[0].trim();
+    }
+
+    return label;
+  }
+
+  function formatTestimonialDateLabel(value) {
+    if (!value) return '';
+
+    var date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      var parts = String(value).match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+
+      if (parts) {
+        date = new Date(Number(parts[3]), Number(parts[1]) - 1, Number(parts[2]));
+      }
+    }
+
+    if (Number.isNaN(date.getTime())) {
+      return String(value).trim();
+    }
+
+    return date.toLocaleDateString('fr-FR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+  }
+
   function extractJudgeReviews(source, limit) {
     if (!source) return [];
 
@@ -154,8 +196,8 @@
         title: title,
         quote: quote || title,
         author: author || 'Client verifie',
-        date: date || 'Avis client',
-        product: product || 'Selection Judge.me',
+        date: formatTestimonialDateLabel(date) || 'Avis client',
+        product: formatTestimonialProductLabel(product) || 'Selection Judge.me',
         productLink: productLink,
         rating: Math.max(1, Math.min(5, rating)),
         sourceLabel: 'Avis verifie via Judge.me'
@@ -172,11 +214,9 @@
     var stars = createNode('div', 'vd-testimonials__stars');
     var productLink = review.productLink ? createNode('a', 'vd-testimonials__product-link', review.product) : createNode('span', 'vd-testimonials__product-link', review.product);
     var quote = createNode('blockquote', 'vd-testimonials__quote', review.quote);
-    var metaRow = createNode('div', 'vd-testimonials__meta-row');
     var meta = createNode('div', 'vd-testimonials__meta');
     var author = createNode('strong', '', review.author);
     var location = createNode('span', '', review.date);
-    var readMore = createNode('button', 'vd-testimonials__read-more', 'Lire l\'avis');
     var index;
 
     item.setAttribute('data-vd-testimonial-card', '');
@@ -202,6 +242,10 @@
       productLink.href = review.productLink;
     }
 
+    if (review.product) {
+      productLink.title = review.product;
+    }
+
     top.appendChild(stars);
     top.appendChild(productLink);
 
@@ -210,12 +254,7 @@
     card.appendChild(quote);
     meta.appendChild(author);
     meta.appendChild(location);
-    readMore.type = 'button';
-    readMore.setAttribute('data-vd-testimonial-open', '');
-    readMore.setAttribute('aria-haspopup', 'dialog');
-    metaRow.appendChild(meta);
-    metaRow.appendChild(readMore);
-    card.appendChild(metaRow);
+    card.appendChild(meta);
     item.appendChild(card);
 
     return item;
@@ -639,20 +678,18 @@
       var source = section.querySelector('[data-vd-testimonials-judge-source]');
       var cta = section.querySelector('[data-vd-testimonials-cta]');
       var header = section.querySelector('[data-vd-testimonials-header]');
-      var footer = section.querySelector('[data-vd-testimonials-footer]');
-      var dialog = section.querySelector('[data-vd-testimonials-dialog]');
-      var dialogClose = section.querySelector('[data-vd-testimonials-close]');
-      var dialogSource = section.querySelector('[data-vd-testimonials-dialog-source]');
-      var dialogStars = section.querySelector('[data-vd-testimonials-dialog-stars]');
-      var dialogProductWrap = section.querySelector('[data-vd-testimonials-dialog-product-wrap]');
-      var dialogProduct = section.querySelector('[data-vd-testimonials-dialog-product]');
-      var dialogQuote = section.querySelector('[data-vd-testimonials-dialog-quote]');
-      var dialogAuthor = section.querySelector('[data-vd-testimonials-dialog-author]');
-      var dialogDate = section.querySelector('[data-vd-testimonials-dialog-date]');
+      var featuredShell = section.querySelector('[data-vd-testimonials-featured-shell]');
+      var featuredSource = section.querySelector('[data-vd-testimonials-featured-source]');
+      var featuredStars = section.querySelector('[data-vd-testimonials-featured-stars]');
+      var featuredProductWrap = section.querySelector('[data-vd-testimonials-featured-product-wrap]');
+      var featuredProduct = section.querySelector('[data-vd-testimonials-featured-product]');
+      var featuredQuote = section.querySelector('[data-vd-testimonials-featured-quote]');
+      var featuredAuthor = section.querySelector('[data-vd-testimonials-featured-author]');
+      var featuredDate = section.querySelector('[data-vd-testimonials-featured-date]');
       var limit = Number(section.getAttribute('data-vd-testimonials-limit')) || 10;
       var lifecycleCleanups = [];
       var interactiveCleanups = [];
-      var revealTargets = [header, footer].filter(Boolean);
+      var revealTargets = [header, featuredShell, stage].filter(Boolean);
 
       if (!stage || !viewport || !cardsContainer) return;
 
@@ -690,19 +727,8 @@
         return true;
       }
 
-      function closeDialog() {
-        if (!dialog) return;
-
-        if (typeof dialog.close === 'function' && dialog.open) {
-          dialog.close();
-        } else {
-          dialog.removeAttribute('open');
-        }
-      }
-
-      function openDialogFromCard(card) {
-        if (!dialog || !card || !dialogQuote || !dialogAuthor || !dialogDate || !dialogStars || !dialogSource) return;
-
+      function syncFeaturedFromCard(card) {
+        if (!card || !featuredQuote || !featuredAuthor || !featuredDate || !featuredStars || !featuredSource) return;
         var shell = card.matches('[data-vd-testimonial-shell]') ? card : card.querySelector('[data-vd-testimonial-shell]');
         var target = card.getAttribute('data-vd-testimonial-link') || '';
         var productText = '';
@@ -711,44 +737,34 @@
 
         productText = shell.getAttribute('data-vd-testimonial-product') || '';
 
-        dialogSource.textContent = shell.getAttribute('data-vd-testimonial-source-label') || 'Avis client';
-        dialogStars.innerHTML = buildTestimonialStarsMarkup(shell.getAttribute('data-vd-testimonial-rating'));
-        dialogQuote.textContent = shell.getAttribute('data-vd-testimonial-quote') || '';
-        dialogAuthor.textContent = shell.getAttribute('data-vd-testimonial-author') || '';
-        dialogDate.textContent = shell.getAttribute('data-vd-testimonial-date') || '';
+        featuredSource.textContent = shell.getAttribute('data-vd-testimonial-source-label') || 'Avis client';
+        featuredStars.innerHTML = buildTestimonialStarsMarkup(shell.getAttribute('data-vd-testimonial-rating'));
+        featuredQuote.textContent = shell.getAttribute('data-vd-testimonial-quote') || '';
+        featuredAuthor.textContent = shell.getAttribute('data-vd-testimonial-author') || '';
+        featuredDate.textContent = shell.getAttribute('data-vd-testimonial-date') || '';
 
-        if (dialogProduct && dialogProductWrap) {
+        if (featuredProduct && featuredProductWrap) {
           if (!target) {
             var inlineProductAnchor = card.querySelector('.vd-testimonials__product-link[href]');
             target = inlineProductAnchor ? inlineProductAnchor.getAttribute('href') : '';
           }
 
           if (productText.length) {
-            dialogProduct.textContent = productText;
+            featuredProduct.textContent = productText;
 
             if (target) {
-              dialogProduct.href = target;
-              dialogProduct.removeAttribute('aria-disabled');
+              featuredProduct.href = target;
+              featuredProduct.removeAttribute('aria-disabled');
             } else {
-              dialogProduct.removeAttribute('href');
-              dialogProduct.setAttribute('aria-disabled', 'true');
+              featuredProduct.removeAttribute('href');
+              featuredProduct.setAttribute('aria-disabled', 'true');
             }
 
-            dialogProductWrap.hidden = false;
+            featuredProductWrap.hidden = false;
           } else {
-            dialogProductWrap.hidden = true;
-            dialogProduct.removeAttribute('href');
+            featuredProductWrap.hidden = true;
+            featuredProduct.removeAttribute('href');
           }
-        }
-
-        if (dialog.open && typeof dialog.close === 'function') {
-          dialog.close();
-        }
-
-        if (typeof dialog.showModal === 'function') {
-          dialog.showModal();
-        } else {
-          dialog.setAttribute('open', 'open');
         }
       }
 
@@ -757,6 +773,7 @@
 
         var cards = gsap.utils.toArray(section.querySelectorAll('[data-vd-testimonial-card]'));
         var cardShells = gsap.utils.toArray(section.querySelectorAll('[data-vd-testimonial-shell]'));
+        var activeIndex = 0;
 
         if (!cards.length) {
           syncTestimonialsCta(cta, null);
@@ -794,6 +811,15 @@
             );
           }
 
+          if (featuredShell) {
+            revealTimeline.fromTo(
+              featuredShell,
+              { autoAlpha: 0, y: 36 },
+              { autoAlpha: 1, y: 0, duration: 1.2 },
+              header ? 0.08 : 0
+            );
+          }
+
           if (cards.length) {
             revealTimeline.fromTo(
               cards,
@@ -801,19 +827,10 @@
               {
                 autoAlpha: 1,
                 y: 0,
-                duration: 1.1,
+                duration: 0.95,
                 stagger: 0.08
               },
-              header ? 0.08 : 0
-            );
-          }
-
-          if (footer) {
-            revealTimeline.fromTo(
-              footer,
-              { autoAlpha: 0, y: 24 },
-              { autoAlpha: 1, y: 0, duration: 1 },
-              0.22
+              featuredShell ? 0.18 : header ? 0.08 : 0
             );
           }
 
@@ -826,10 +843,37 @@
           });
         }
 
-        setTestimonialsActiveState(cards, 0);
-        syncTestimonialsCta(cta, cards[0] || null);
+        function setActiveCard(nextIndex) {
+          var boundedIndex = Math.max(0, Math.min(cards.length - 1, nextIndex));
+
+          activeIndex = boundedIndex;
+          setTestimonialsActiveState(cards, activeIndex);
+          syncTestimonialsCta(cta, cards[activeIndex] || null);
+          syncFeaturedFromCard(cards[activeIndex] || null);
+        }
+
+        setActiveCard(0);
 
         if (prefersReducedMotion || window.innerWidth < 990 || cards.length < 3) {
+          cards.forEach(function (card, index) {
+            var onActivate = function (event) {
+              if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
+              if (event.type === 'keydown') {
+                event.preventDefault();
+              }
+
+              setActiveCard(index);
+            };
+
+            card.addEventListener('click', onActivate);
+            card.addEventListener('keydown', onActivate);
+
+            interactiveCleanups.push(function () {
+              card.removeEventListener('click', onActivate);
+              card.removeEventListener('keydown', onActivate);
+            });
+          });
+
           return;
         }
 
@@ -842,7 +886,6 @@
         var rangeStart = snapOffsets[0] || 0;
         var rangeEnd = snapOffsets[snapOffsets.length - 1] || rangeStart;
         var rangeSpan = Math.max(rangeEnd - rangeStart, 0);
-        var activeIndex = 0;
         var currentOffset = rangeStart;
         var clampOffset = function (offset) {
           return gsap.utils.clamp(rangeStart, rangeEnd, offset);
@@ -859,11 +902,8 @@
           gsap.set(cardsContainer, { x: -nextOffset });
 
           if (nextIndex !== activeIndex || !cards[activeIndex]) {
-            activeIndex = nextIndex;
-            syncTestimonialsCta(cta, cards[activeIndex] || null);
+            setActiveCard(nextIndex);
           }
-
-          setTestimonialsActiveState(cards, activeIndex);
         };
 
         if (rangeSpan < 24) {
@@ -919,7 +959,7 @@
             return;
           }
 
-          if (event.target && typeof event.target.closest === 'function' && event.target.closest('a, button')) {
+          if (event.target && typeof event.target.closest === 'function' && event.target.closest('a')) {
             return;
           }
 
@@ -964,17 +1004,9 @@
         };
         var onCardAction = function (event) {
           var card = event.target.closest('[data-vd-testimonial-card]');
-          var openButton = event.target.closest('[data-vd-testimonial-open]');
           var inlineLink = event.target.closest('.vd-testimonials__product-link[href]');
 
           if (!card || inlineLink) return;
-
-          if (openButton) {
-            event.preventDefault();
-            event.stopPropagation();
-            openDialogFromCard(card);
-            return;
-          }
 
           if (dragState.moved) return;
 
@@ -982,6 +1014,7 @@
           if (index === -1) return;
 
           if (cards[index] !== cards[activeIndex]) {
+            setActiveCard(index);
             scrollToOffset(snapOffsets[index]);
           }
         };
@@ -992,12 +1025,12 @@
 
           if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('[data-vd-testimonial-shell]')) {
             event.preventDefault();
-            openDialogFromCard(card);
-          }
-        };
-        var onDialogClick = function (event) {
-          if (event.target === dialog) {
-            closeDialog();
+            var index = cards.indexOf(card);
+
+            if (index !== -1) {
+              setActiveCard(index);
+              scrollToOffset(snapOffsets[index]);
+            }
           }
         };
 
@@ -1010,11 +1043,6 @@
         window.addEventListener('pointerup', onPointerUp);
         window.addEventListener('pointercancel', onPointerUp);
 
-        if (dialog && dialogClose) {
-          dialogClose.addEventListener('click', closeDialog);
-          dialog.addEventListener('click', onDialogClick);
-        }
-
         interactiveCleanups.push(function () {
           viewport.removeEventListener('pointerdown', onPointerDown);
           cardsContainer.removeEventListener('click', onCardAction);
@@ -1022,13 +1050,6 @@
           window.removeEventListener('pointermove', onPointerMove);
           window.removeEventListener('pointerup', onPointerUp);
           window.removeEventListener('pointercancel', onPointerUp);
-
-          closeDialog();
-
-          if (dialog && dialogClose) {
-            dialogClose.removeEventListener('click', closeDialog);
-            dialog.removeEventListener('click', onDialogClick);
-          }
 
           trigger.kill();
           scrub.kill();
