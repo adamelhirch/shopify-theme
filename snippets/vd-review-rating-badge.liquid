@@ -10,10 +10,6 @@
     if vd_rating_count == blank and product.metafields.custom.vd_reviews.value != blank
       assign vd_rating_count = product.metafields.custom.vd_reviews.value.count | default: product.metafields.custom.vd_reviews.value.size
     endif
-  elsif product.metafields.reviews.rating.value != blank
-    assign vd_rating_value = product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value
-    assign vd_rating_max = product.metafields.reviews.rating.value.scale_max | default: 5
-    assign vd_rating_count = product.metafields.reviews.rating_count
   endif
 
   if vd_rating_value != blank
