@@ -27,20 +27,20 @@
   data-vd-testimonials-section
   data-vd-testimonials-limit="{{ section.settings.reviews_limit }}"
 >
-  <div class="page-width vd-testimonials__header-shell">
-    <div class="vd-testimonials__head">
+  <div class="page-width vd-testimonials__header-shell" data-vd-testimonials-header>
+    <div class="vd-testimonials__head" data-vd-testimonials-head>
       <div>
         {% if section.settings.eyebrow != blank %}
           <span class="vd-section-kicker">{{ section.settings.eyebrow }}</span>
         {% endif %}
 
         {% if section.settings.heading != blank %}
-          <h2 class="vd-testimonials__title">{{ section.settings.heading }}</h2>
+          <h2 class="vd-testimonials__title" data-vd-testimonials-title>{{ section.settings.heading }}</h2>
         {% endif %}
       </div>
 
       {% if section.settings.text != blank %}
-        <div class="vd-testimonials__text rte">{{ section.settings.text }}</div>
+        <div class="vd-testimonials__text rte" data-vd-testimonials-copy>{{ section.settings.text }}</div>
       {% endif %}
     </div>
   </div>
@@ -59,7 +59,7 @@
             {% endif %}
             {{ block.shopify_attributes }}
           >
-            <article class="vd-testimonials__card-shell">
+            <article class="vd-testimonials__card-shell" data-vd-testimonial-shell>
               <div class="vd-testimonials__card-top">
                 <div class="vd-testimonials__stars" aria-hidden="true">
                   {% for i in (1..5) %}
@@ -79,7 +79,7 @@
               </div>
 
               {% if block.settings.quote != blank %}
-                <blockquote class="vd-testimonials__quote">{{ block.settings.quote }}</blockquote>
+                <blockquote class="vd-testimonials__quote" data-vd-testimonial-quote>{{ block.settings.quote }}</blockquote>
               {% endif %}
 
               <div class="vd-testimonials__meta">
@@ -104,9 +104,9 @@
     </div>
   </div>
 
-  <div class="page-width vd-testimonials__footer-shell">
+  <div class="page-width vd-testimonials__footer-shell" data-vd-testimonials-footer>
     <div class="vd-testimonials__footer">
-      <div class="vd-testimonials__trust">
+      <div class="vd-testimonials__trust" data-vd-testimonials-trust>
         <span class="vd-testimonials__trust-label">
           {% if has_judgeme_data %}
             Judge.me

@@ -178,6 +178,7 @@
 
     item.setAttribute('data-vd-testimonial-card', '');
     item.setAttribute('role', 'listitem');
+    card.setAttribute('data-vd-testimonial-shell', '');
     if (review.productLink) {
       item.setAttribute('data-vd-testimonial-link', review.productLink);
     }
@@ -195,6 +196,7 @@
     top.appendChild(productLink);
 
     card.appendChild(top);
+    quote.setAttribute('data-vd-testimonial-quote', '');
     card.appendChild(quote);
     meta.appendChild(author);
     meta.appendChild(location);
@@ -263,8 +265,9 @@
     return nearestIndex;
   }
 
-  function clearTestimonialStyles(gsap, section, stage, viewport, cardsContainer, cards) {
+  function clearTestimonialStyles(gsap, section, stage, viewport, cardsContainer, cards, revealTargets) {
     var targets = cardsContainer ? [cardsContainer].concat(cards) : cards;
+    var mergedTargets = revealTargets && revealTargets.length ? targets.concat(revealTargets) : targets;
 
     section.classList.remove('is-enhanced');
 
@@ -278,8 +281,8 @@
 
     setTestimonialsActiveState(cards, -1);
 
-    if (targets.length) {
-      gsap.set(targets, { clearProps: 'all' });
+    if (mergedTargets.length) {
+      gsap.set(mergedTargets, { clearProps: 'all' });
     }
   }
 
@@ -609,9 +612,12 @@
       var cardsContainer = section.querySelector('[data-vd-testimonials-cards]');
       var source = section.querySelector('[data-vd-testimonials-judge-source]');
       var cta = section.querySelector('[data-vd-testimonials-cta]');
+      var header = section.querySelector('[data-vd-testimonials-header]');
+      var footer = section.querySelector('[data-vd-testimonials-footer]');
       var limit = Number(section.getAttribute('data-vd-testimonials-limit')) || 10;
       var lifecycleCleanups = [];
       var interactiveCleanups = [];
+      var revealTargets = [header, footer].filter(Boolean);
 
       if (!stage || !viewport || !cardsContainer) return;
 
@@ -623,7 +629,8 @@
           stage,
           viewport,
           cardsContainer,
-          gsap.utils.toArray(section.querySelectorAll('[data-vd-testimonial-card]'))
+          gsap.utils.toArray(section.querySelectorAll('[data-vd-testimonial-card]')),
+          revealTargets
         );
       }
 
@@ -652,10 +659,74 @@
         clearInteractiveCarousel();
 
         var cards = gsap.utils.toArray(section.querySelectorAll('[data-vd-testimonial-card]'));
+        var cardShells = gsap.utils.toArray(section.querySelectorAll('[data-vd-testimonial-shell]'));
 
         if (!cards.length) {
           syncTestimonialsCta(cta, null);
           return;
+        }
+
+        if (!prefersReducedMotion) {
+          if (revealTargets.length) {
+            gsap.set(revealTargets, { autoAlpha: 1, y: 0 });
+          }
+
+          if (cards.length) {
+            gsap.set(cards, { autoAlpha: 1, y: 0 });
+          }
+
+          if (cardShells.length) {
+            gsap.set(cardShells, { clearProps: 'filter' });
+          }
+
+          var revealTimeline = gsap.timeline({
+            defaults: { ease: 'expo.out', duration: 1.15 },
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 78%',
+              once: true
+            }
+          });
+
+          if (header) {
+            revealTimeline.fromTo(
+              header,
+              { autoAlpha: 0, y: 28 },
+              { autoAlpha: 1, y: 0 },
+              0
+            );
+          }
+
+          if (cards.length) {
+            revealTimeline.fromTo(
+              cards,
+              { autoAlpha: 0, y: 34 },
+              {
+                autoAlpha: 1,
+                y: 0,
+                duration: 1.1,
+                stagger: 0.08
+              },
+              header ? 0.08 : 0
+            );
+          }
+
+          if (footer) {
+            revealTimeline.fromTo(
+              footer,
+              { autoAlpha: 0, y: 24 },
+              { autoAlpha: 1, y: 0, duration: 1 },
+              0.22
+            );
+          }
+
+          interactiveCleanups.push(function () {
+            if (revealTimeline.scrollTrigger) {
+              revealTimeline.scrollTrigger.kill();
+            }
+
+            revealTimeline.kill();
+          });
         }
 
         setTestimonialsActiveState(cards, 0);
@@ -667,7 +738,7 @@
 
         section.classList.add('is-enhanced');
 
-        var focusPoint = Math.min(Math.max(viewport.clientWidth * 0.38, 320), 520);
+        var focusPoint = viewport.clientWidth * 0.5;
         var snapOffsets = cards.map(function (card) {
           return card.offsetLeft + card.offsetWidth * 0.5 - focusPoint;
         });
