@@ -168,15 +168,15 @@
         "padding_bottom": 28
       }
     },
-    "vd_testimonials_product_k3L8sP": {
-      "type": "vd-testimonials",
+    "vd_product_reviews_k3L8sP": {
+      "type": "vd-product-reviews",
       "settings": {
-        "eyebrow": "Rassurance",
-        "heading": "Le produit ne doit pas vivre seul.",
-        "text": "<p>Une derniere couche de credibilite avant la fin de page: avis, confiance et continuité de marque.</p>",
-        "reviews_source": "product_metafield",
-        "trust_label": "Avis produit",
-        "reviews_limit": "6",
+        "eyebrow": "Avis produit",
+        "heading": "Les retours relies directement a cette fiche.",
+        "text": "<p>Une lecture claire, propre et sans intermediaire: uniquement les avis rattaches a ce produit.</p>",
+        "empty_label": "Les premiers retours arriveront ici",
+        "empty_text": "Aucun avis n'est encore relie a ce produit. La section est deja prete pour lire les prochains retours custom.",
+        "reviews_limit": "5",
         "button_label": "Voir plus de produits",
         "button_link": "shopify://collections/vanille-bourbon",
         "color_scheme": "scheme-3",
@@ -189,6 +189,6 @@
     "main",
     "vd_story_grid_product_j7P2mK",
     "related-products",
-    "vd_testimonials_product_k3L8sP"
+    "vd_product_reviews_k3L8sP"
   ]
 }
