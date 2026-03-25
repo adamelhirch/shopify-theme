@@ -204,6 +204,10 @@
       });
     });
 
+    reviews.sort(function (left, right) {
+      return (right.quote || '').length - (left.quote || '').length;
+    });
+
     return reviews;
   }
 
