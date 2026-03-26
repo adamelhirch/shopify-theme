@@ -7,6 +7,7 @@ Base de travail du systeme d'avis proprietaire Vanille Desire.
 - Stocker les avis dans Shopify, pas dans une app de rendu tierce.
 - Garder un front 100% custom dans le theme.
 - Brancher une vraie app privee de collecte/moderation sans refaire l'affichage.
+- Sortir totalement de Judge.me une fois la base historique recuperee.
 
 ## Donnees Shopify recommandees
 
@@ -46,6 +47,66 @@ Creer un type de metaobject `vd_review` avec ces champs:
   Type: booleen
   Optionnel. Sert de fallback si `source` est vide
 
+- `legacy_uuid`
+  Type: texte simple
+  Optionnel. Permet de dedoublonner les anciens imports
+
+- `verification_method`
+  Type: texte simple
+  Optionnel. Ex: `order_match`, `email_match`, `manual`
+
+- `order_name`
+  Type: texte simple
+  Optionnel. Ex: `#1458`
+
+- `status`
+  Type: texte simple
+  Valeurs recommandees: `published`, `pending`, `rejected`, `flagged`
+
+### 1 bis. Metaobject `vd_review_request`
+
+Type recommande pour la future app de workflow:
+
+- `token`
+  Type: texte simple
+  Token unique porte par l'email / QR code
+
+- `product`
+  Type: reference produit
+
+- `order_name`
+  Type: texte simple
+
+- `customer_email`
+  Type: texte simple
+
+- `state`
+  Type: texte simple
+  Valeurs recommandees: `queued`, `sent`, `opened`, `submitted`, `expired`
+
+- `channel`
+  Type: texte simple
+  Ex: `post_purchase_email`, `qr_card`, `support_followup`
+
+- `expires_at`
+  Type: date et heure
+
+### 1 ter. Metaobject `vd_review_qr`
+
+Type recommande pour la couche QR:
+
+- `product`
+  Type: reference produit
+
+- `landing_url`
+  Type: URL
+
+- `campaign`
+  Type: texte simple
+
+- `label`
+  Type: texte simple
+
 ## Liaison des avis
 
 ### 2. Metachamp produit
@@ -81,6 +142,41 @@ Creer ces metachamps produit pour remplacer progressivement `product.metafields.
   Type: entier
 
 Le theme prefere deja ces valeurs custom si elles existent.
+
+### 4. Snapshot exportable de la base d'avis
+
+Pour sortir de la dependance Judge.me, la base d'avis custom peut desormais etre
+extraite localement:
+
+```bash
+./bin/export-custom-reviews.rb
+```
+
+Le script ecrit un snapshot complet dans:
+
+- `data/custom-reviews-export.json`
+
+Ce snapshot devient la base de travail de l'app reviews proprietaire.
+
+### 5. Liens de demande d'avis / QR
+
+Le script suivant prepare un CSV exploitable pour les futurs emails post-achat,
+cartes dans les colis, QR codes imprimes et supports SAV:
+
+```bash
+./bin/build-review-request-links.rb
+```
+
+Il ecrit:
+
+- `data/review-request-links.csv`
+
+Chaque ligne contient:
+
+- l'identifiant produit
+- le handle
+- l'URL produit
+- l'URL de la future page de depot d'avis
 
 ## Theme
 
@@ -135,15 +231,53 @@ Commande :
 ./bin/migrate-judgeme-reviews.rb
 ```
 
-## Phase suivante pour une vraie app privee
+## Etat actuel du systeme proprietaire
 
-L'app privee devra gerer:
+Ce qui est deja en place:
 
-- formulaire de depot d'avis
-- verification commande / email
+- badge note produit base sur `custom.vd_rating_average` et `custom.vd_rating_count`
+- section produit custom `VD Product Reviews`
+- section home testimonials capable de lire le systeme custom
+- badge `Verifie` maison
+- import historique Judge.me vers `custom.vd_reviews_json`
+
+Ce qu'il reste a construire pour atteindre une vraie app reviews:
+
+1. Ecriture des avis en `metaobjects` `vd_review`
+2. Formulaire de depot d'avis connecte a un endpoint app / app proxy
+3. Moderation et back-office
+4. Workflow post-achat Shopify
+5. Liens tokenises par commande
+6. Generation et impression de QR codes
+7. Media reviews photo/video
+8. Reponses internes / reponses marque
+9. Signals anti spam / anti abus
+10. Sync des agregats produit apres publication
+
+## Roadmap recommandee
+
+### Phase 1. Assainir la base
+
+- figer le snapshot exporte
+- valider le nombre total d'avis importes
+- basculer progressivement de `vd_reviews_json` vers `vd_review`
+
+### Phase 2. Workflow Shopify
+
+- creation automatique d'une `vd_review_request` apres achat
+- relance email apres delai configurable
+- lien unique par commande / produit
+
+### Phase 3. QR et offline
+
+- QR par produit
+- QR par commande
+- QR imprime sur carte colis
+
+### Phase 4. App privee complete
+
 - moderation
-- calcul automatique des moyennes
-- ecriture des metaobjects `vd_review`
-- mise a jour des metachamps agreges produit
-
-Le front du theme est deja prepare pour consommer ces donnees custom.
+- publication
+- suppression / masquage
+- analytics par produit
+- gestion du verifie

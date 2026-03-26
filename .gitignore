@@ -10,3 +10,5 @@ Thumbs.db
 .shopify
 theme_export__*.zip
 references/motion-live-export/
+data/custom-reviews-export.json
+data/review-request-links.csv
