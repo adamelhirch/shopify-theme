@@ -891,6 +891,77 @@
           });
         }
 
+        if (viewport && window.innerWidth >= 990) {
+          var pointerDown = false;
+          var dragMoved = false;
+          var dragStartX = 0;
+          var dragStartScroll = 0;
+          var pointerId = null;
+
+          var onPointerDown = function (event) {
+            if (event.pointerType === 'touch') return;
+
+            pointerDown = true;
+            dragMoved = false;
+            pointerId = event.pointerId;
+            dragStartX = event.clientX;
+            dragStartScroll = viewport.scrollLeft;
+            viewport.removeAttribute('data-vd-dragged');
+            viewport.classList.add('is-dragging');
+            viewport.setPointerCapture(pointerId);
+          };
+
+          var onPointerMove = function (event) {
+            if (!pointerDown) return;
+
+            var delta = event.clientX - dragStartX;
+
+            if (Math.abs(delta) > 6) {
+              dragMoved = true;
+              viewport.setAttribute('data-vd-dragged', 'true');
+            }
+
+            viewport.scrollLeft = dragStartScroll - delta;
+          };
+
+          var onPointerUp = function () {
+            if (!pointerDown) return;
+            pointerDown = false;
+            viewport.classList.remove('is-dragging');
+
+            if (pointerId !== null) {
+              try {
+                viewport.releasePointerCapture(pointerId);
+              } catch (error) {
+                /* noop */
+              }
+            }
+
+            pointerId = null;
+
+            if (dragMoved) {
+              window.setTimeout(function () {
+                viewport.removeAttribute('data-vd-dragged');
+              }, 120);
+            }
+          };
+
+          viewport.addEventListener('pointerdown', onPointerDown);
+          viewport.addEventListener('pointermove', onPointerMove);
+          viewport.addEventListener('pointerup', onPointerUp);
+          viewport.addEventListener('pointercancel', onPointerUp);
+          viewport.addEventListener('mouseleave', onPointerUp);
+
+          interactiveCleanups.push(function () {
+            viewport.removeEventListener('pointerdown', onPointerDown);
+            viewport.removeEventListener('pointermove', onPointerMove);
+            viewport.removeEventListener('pointerup', onPointerUp);
+            viewport.removeEventListener('pointercancel', onPointerUp);
+            viewport.removeEventListener('mouseleave', onPointerUp);
+            viewport.classList.remove('is-dragging');
+          });
+        }
+
         function setActiveCard(nextIndex) {
           var boundedIndex = Math.max(0, Math.min(cards.length - 1, nextIndex));
 
@@ -904,6 +975,14 @@
         section.classList.add('is-enhanced');
         cards.forEach(function (card, index) {
           var onActivate = function (event) {
+            if (viewport && viewport.classList.contains('is-dragging')) {
+              return;
+            }
+
+            if (viewport && viewport.getAttribute('data-vd-dragged') === 'true') {
+              return;
+            }
+
             if (event.type === 'click' && event.target && typeof event.target.closest === 'function' && event.target.closest('a')) {
               return;
             }

@@ -76,48 +76,6 @@
   data-vd-testimonials-section
   data-vd-testimonials-limit="{{ section.settings.reviews_limit }}"
 >
-  <div class="page-width vd-testimonials__header-shell" data-vd-testimonials-header>
-    <div class="vd-testimonials__head" data-vd-testimonials-head>
-      <div class="vd-testimonials__intro">
-        {% if section.settings.eyebrow != blank %}
-          <span class="vd-section-kicker">{{ section.settings.eyebrow }}</span>
-        {% endif %}
-
-        {% if section.settings.heading != blank %}
-          <h2 class="vd-testimonials__title" data-vd-testimonials-title>{{ section.settings.heading }}</h2>
-        {% endif %}
-      </div>
-
-      <div class="vd-testimonials__aside">
-        {% if section.settings.text != blank %}
-          <div class="vd-testimonials__text rte" data-vd-testimonials-copy>{{ section.settings.text }}</div>
-        {% endif %}
-
-        <div class="vd-testimonials__trust" data-vd-testimonials-trust>
-          <span class="vd-testimonials__trust-label">
-            {% if has_judgeme_data %}
-              Archives clients
-            {% else %}
-              Selection maison
-            {% endif %}
-          </span>
-
-          <div class="vd-testimonials__trust-copy">
-            <strong>{{ jdgm_reviews_rating | round: 1 }}/5</strong>
-            <span>
-              {{ jdgm_reviews_count }} avis
-              {% if has_judgeme_data %}
-                verifies
-              {% else %}
-                selectionnes
-              {% endif %}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="page-width vd-testimonials__featured-shell" data-vd-testimonials-featured-shell>
     <article class="vd-testimonials__featured" data-vd-testimonials-featured>
       <div class="vd-testimonials__featured-topline">
