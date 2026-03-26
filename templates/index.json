@@ -170,6 +170,61 @@
             "meta": "Selection Madagascar",
             "product_link": ""
           }
+        },
+        "testimonial_6": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "\"Tres bon pour assaisonner les plats !\"",
+            "author": "Nicolas S.",
+            "location": "Cuisine du quotidien",
+            "meta": "Combava sauvage en poudre",
+            "product_link": "/products/poudre-combava-sauvage-madagascar-20g"
+          }
+        },
+        "testimonial_7": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "\"Nous adorons ce poivre si parfume !\"",
+            "author": "Virginie P.",
+            "location": "Cuisine epicee",
+            "meta": "Poivre sauvage de Madagascar",
+            "product_link": "/products/poivre-sauvage-voatsiperifery-sachet-50g-madagascar"
+          }
+        },
+        "testimonial_8": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "\"Vanille en poudre de tres bonne qualite et tres pratique quand on a besoin pour des entremets par exemple.\"",
+            "author": "Gil F.",
+            "location": "Patisserie maison",
+            "meta": "Vanille Bourbon en poudre",
+            "product_link": "/products/poudre-vanille-bourbon-madagascar-20g"
+          }
+        },
+        "testimonial_9": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "\"Livraison rapide et efficace. Excellentes gousses de vanille qui ont embaume toute la maison a l'ouverture du colis.\"",
+            "author": "Gil et Aline",
+            "location": "Commande recente",
+            "meta": "Vanille Bourbon 10 gousses",
+            "product_link": "/products/vanille-bourbon-madagascar-10-gousses-tube-verre"
+          }
+        },
+        "testimonial_10": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "\"Toujours ravi, jamais decu comme d'habitude.\"",
+            "author": "Client fidele",
+            "location": "Commande repetee",
+            "meta": "Vanille Bourbon 3 gousses",
+            "product_link": "/products/vanille-bourbon-madagascar-3-gousses"
+          }
         }
       },
       "block_order": [
@@ -177,13 +232,18 @@
         "testimonial_2",
         "testimonial_3",
         "testimonial_4",
-        "testimonial_5"
+        "testimonial_5",
+        "testimonial_6",
+        "testimonial_7",
+        "testimonial_8",
+        "testimonial_9",
+        "testimonial_10"
       ],
       "settings": {
         "eyebrow": "Avis clients",
         "heading": "Ce qu'ils disent quand le produit tient vraiment ses promesses.",
         "text": "<p>Une lecture plus calme, plus editoriale, pour laisser les retours parler avec la meme exigence que le reste de la home.</p>",
-        "reviews_limit": "6",
+        "reviews_limit": "10",
         "button_label": "",
         "button_link": "",
         "color_scheme": "scheme-3",

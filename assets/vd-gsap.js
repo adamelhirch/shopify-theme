@@ -857,206 +857,36 @@
         }
 
         setActiveCard(0);
-
-        if (prefersReducedMotion || window.innerWidth < 990 || cards.length < 3) {
-          cards.forEach(function (card, index) {
-            var onActivate = function (event) {
-              if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
-              if (event.type === 'keydown') {
-                event.preventDefault();
-              }
-
-              setActiveCard(index);
-            };
-
-            card.addEventListener('click', onActivate);
-            card.addEventListener('keydown', onActivate);
-
-            interactiveCleanups.push(function () {
-              card.removeEventListener('click', onActivate);
-              card.removeEventListener('keydown', onActivate);
-            });
-          });
-
-          return;
-        }
-
         section.classList.add('is-enhanced');
-
-        var focusPoint = viewport.clientWidth * 0.5;
-        var snapOffsets = cards.map(function (card) {
-          return card.offsetLeft + card.offsetWidth * 0.5 - focusPoint;
-        });
-        var rangeStart = snapOffsets[0] || 0;
-        var rangeEnd = snapOffsets[snapOffsets.length - 1] || rangeStart;
-        var rangeSpan = Math.max(rangeEnd - rangeStart, 0);
-        var currentOffset = rangeStart;
-        var clampOffset = function (offset) {
-          return gsap.utils.clamp(rangeStart, rangeEnd, offset);
-        };
-        var progressForOffset = function (offset) {
-          if (!rangeSpan) return 0;
-          return (clampOffset(offset) - rangeStart) / rangeSpan;
-        };
-        var updateOffset = function (offset) {
-          var nextOffset = clampOffset(offset);
-          var nextIndex = findClosestTestimonialIndex(snapOffsets, nextOffset);
-
-          currentOffset = nextOffset;
-          gsap.set(cardsContainer, { x: -nextOffset });
-
-          if (nextIndex !== activeIndex || !cards[activeIndex]) {
-            setActiveCard(nextIndex);
-          }
-        };
-
-        if (rangeSpan < 24) {
-          section.classList.remove('is-enhanced');
-          updateOffset(rangeStart);
-          return;
-        }
-
-        var playhead = { offset: rangeStart };
-        var scrub = gsap.to(playhead, {
-          offset: rangeEnd,
-          ease: 'none',
-          paused: true,
-          onUpdate: function () {
-            updateOffset(playhead.offset);
-          }
-        });
-        var trigger = ScrollTrigger.create({
-          trigger: stage,
-          start: 'top bottom-=72',
-          end: 'bottom top+=72',
-          scrub: 0.6,
-          animation: scrub,
-          invalidateOnRefresh: true,
-          snap: {
-            snapTo: function (progress) {
-              var offset = rangeStart + progress * rangeSpan;
-              var snappedIndex = findClosestTestimonialIndex(snapOffsets, offset);
-
-              return progressForOffset(snapOffsets[snappedIndex]);
-            },
-            duration: { min: 0.16, max: 0.3 },
-            delay: 0.04,
-            ease: 'power2.out'
-          }
-        });
-        var progressToScroll = function (progress) {
-          var totalRange = trigger.end - trigger.start;
-          return gsap.utils.clamp(trigger.start, trigger.end, trigger.start + gsap.utils.clamp(0, 1, progress) * totalRange);
-        };
-        var scrollToOffset = function (offset) {
-          trigger.scroll(progressToScroll(progressForOffset(offset)));
-        };
-        var dragState = {
-          active: false,
-          pointerId: null,
-          startX: 0,
-          startOffset: rangeStart,
-          moved: false
-        };
-        var onPointerDown = function (event) {
-          if (typeof event.button === 'number' && event.button !== 0) {
-            return;
-          }
-
-          if (event.target && typeof event.target.closest === 'function' && event.target.closest('a')) {
-            return;
-          }
-
-          dragState.active = true;
-          dragState.pointerId = event.pointerId;
-          dragState.startX = event.clientX;
-          dragState.startOffset = currentOffset;
-          dragState.moved = false;
-          viewport.classList.add('is-dragging');
-
-          if (typeof viewport.setPointerCapture === 'function') {
-            try {
-              viewport.setPointerCapture(event.pointerId);
-            } catch (error) {}
-          }
-        };
-        var onPointerMove = function (event) {
-          if (!dragState.active) return;
-
-          var sensitivity = rangeSpan / Math.max(viewport.clientWidth * 0.92, 1);
-          if (Math.abs(dragState.startX - event.clientX) > 5) {
-            dragState.moved = true;
-          }
-          var nextOffset = dragState.startOffset + (dragState.startX - event.clientX) * sensitivity;
-
-          scrollToOffset(nextOffset);
-        };
-        var onPointerUp = function () {
-          if (!dragState.active) return;
-
-          dragState.active = false;
-          viewport.classList.remove('is-dragging');
-
-          if (typeof viewport.releasePointerCapture === 'function' && dragState.pointerId !== null) {
-            try {
-              viewport.releasePointerCapture(dragState.pointerId);
-            } catch (error) {}
-          }
-
-          scrollToOffset(snapOffsets[findClosestTestimonialIndex(snapOffsets, currentOffset)]);
-          dragState.pointerId = null;
-        };
-        var onCardAction = function (event) {
-          var card = event.target.closest('[data-vd-testimonial-card]');
-          var inlineLink = event.target.closest('.vd-testimonials__product-link[href]');
-
-          if (!card || inlineLink) return;
-
-          if (dragState.moved) return;
-
-          var index = cards.indexOf(card);
-          if (index === -1) return;
-
-          if (cards[index] !== cards[activeIndex]) {
-            setActiveCard(index);
-            scrollToOffset(snapOffsets[index]);
-          }
-        };
-        var onCardKeydown = function (event) {
-          var card = event.target.closest('[data-vd-testimonial-card]');
-
-          if (!card) return;
-
-          if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('[data-vd-testimonial-shell]')) {
-            event.preventDefault();
-            var index = cards.indexOf(card);
-
-            if (index !== -1) {
-              setActiveCard(index);
-              scrollToOffset(snapOffsets[index]);
+        cards.forEach(function (card, index) {
+          var onActivate = function (event) {
+            if (event.type === 'click' && event.target && typeof event.target.closest === 'function' && event.target.closest('a')) {
+              return;
             }
-          }
-        };
 
-        updateOffset(rangeStart);
+            if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
+            if (event.type === 'keydown') {
+              event.preventDefault();
+            }
 
-        viewport.addEventListener('pointerdown', onPointerDown);
-        cardsContainer.addEventListener('click', onCardAction);
-        cardsContainer.addEventListener('keydown', onCardKeydown);
-        window.addEventListener('pointermove', onPointerMove);
-        window.addEventListener('pointerup', onPointerUp);
-        window.addEventListener('pointercancel', onPointerUp);
+            setActiveCard(index);
+          };
+          var onHover = function () {
+            if (window.innerWidth < 990) return;
+            setActiveCard(index);
+          };
 
-        interactiveCleanups.push(function () {
-          viewport.removeEventListener('pointerdown', onPointerDown);
-          cardsContainer.removeEventListener('click', onCardAction);
-          cardsContainer.removeEventListener('keydown', onCardKeydown);
-          window.removeEventListener('pointermove', onPointerMove);
-          window.removeEventListener('pointerup', onPointerUp);
-          window.removeEventListener('pointercancel', onPointerUp);
+          card.addEventListener('click', onActivate);
+          card.addEventListener('keydown', onActivate);
+          card.addEventListener('mouseenter', onHover);
+          card.addEventListener('focusin', onHover);
 
-          trigger.kill();
-          scrub.kill();
+          interactiveCleanups.push(function () {
+            card.removeEventListener('click', onActivate);
+            card.removeEventListener('keydown', onActivate);
+            card.removeEventListener('mouseenter', onHover);
+            card.removeEventListener('focusin', onHover);
+          });
         });
       }
 

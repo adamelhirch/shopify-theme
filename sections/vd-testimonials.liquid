@@ -13,12 +13,31 @@
 {% endstyle %}
 
 {%- liquid
+  assign display_limit = section.settings.reviews_limit | plus: 0
   assign jdgm_reviews_count = shop.metafields.judgeme.all_reviews_count | default: section.blocks.size
   assign jdgm_reviews_rating = shop.metafields.judgeme.all_reviews_rating | default: 5
   assign has_judgeme_data = false
+  assign featured_rating = 5
+  assign featured_source_label = 'Avis clients'
+  assign featured_quote = blank
+  assign featured_author = blank
+  assign featured_date = blank
+  assign featured_product = blank
+  assign featured_product_link = blank
+
+  if section.blocks.size > 0
+    assign featured_block = section.blocks.first
+    assign featured_rating = featured_block.settings.rating | default: 5
+    assign featured_quote = featured_block.settings.quote | default: blank
+    assign featured_author = featured_block.settings.author | default: blank
+    assign featured_date = featured_block.settings.location | default: blank
+    assign featured_product = featured_block.settings.meta | default: blank
+    assign featured_product_link = featured_block.settings.product_link | default: blank
+  endif
 
   if shop.metafields.judgeme.featured_carousel != blank or shop.metafields.judgeme.all_reviews_count != blank
     assign has_judgeme_data = true
+    assign featured_source_label = 'Avis verifies'
   endif
 -%}
 
@@ -72,51 +91,59 @@
   <div class="page-width vd-testimonials__featured-shell" data-vd-testimonials-featured-shell>
     <article class="vd-testimonials__featured" data-vd-testimonials-featured>
       <div class="vd-testimonials__featured-topline">
-        <span class="vd-testimonials__featured-source" data-vd-testimonials-featured-source>
-          {% if has_judgeme_data %}
-            Avis verifies
-          {% else %}
-            Avis clients
-          {% endif %}
-        </span>
-        <div class="vd-testimonials__featured-stars" data-vd-testimonials-featured-stars aria-hidden="true"></div>
-      </div>
-
-      <div class="vd-testimonials__featured-product-wrap" data-vd-testimonials-featured-product-wrap hidden>
-        <a href="#" class="vd-testimonials__featured-product-link" data-vd-testimonials-featured-product></a>
-      </div>
-
-      <blockquote class="vd-testimonials__featured-quote" data-vd-testimonials-featured-quote></blockquote>
-
-      <div class="vd-testimonials__featured-footer">
-        <div class="vd-testimonials__featured-meta">
-          <strong data-vd-testimonials-featured-author></strong>
-          <span data-vd-testimonials-featured-date></span>
+        <span class="vd-testimonials__featured-source" data-vd-testimonials-featured-source>{{ featured_source_label }}</span>
+        <div class="vd-testimonials__featured-stars" data-vd-testimonials-featured-stars aria-hidden="true">
+          {% for i in (1..5) %}
+            <span class="{% if i <= featured_rating %}is-active{% endif %}">&#9733;</span>
+          {% endfor %}
         </div>
+      </div>
 
-        {% if section.settings.button_label != blank %}
-          <a
-            href="{{ section.settings.button_link | default: '#' }}"
-            class="vd-arrow-cta vd-testimonials__cta"
-            data-vd-testimonials-cta
-            {% if section.settings.button_link != blank %}
-              data-vd-testimonials-static-link="true"
-            {% endif %}
-          >
-            <span class="vd-arrow-cta__label">{{ section.settings.button_label }}</span>
-            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-            </svg>
-          </a>
-        {% endif %}
+      <div class="vd-testimonials__featured-main">
+        <blockquote class="vd-testimonials__featured-quote" data-vd-testimonials-featured-quote>{{ featured_quote }}</blockquote>
+
+        <div class="vd-testimonials__featured-side">
+          <div class="vd-testimonials__featured-product-wrap" data-vd-testimonials-featured-product-wrap {% if featured_product == blank %}hidden{% endif %}>
+            <a
+              {% if featured_product_link != blank %}
+                href="{{ featured_product_link }}"
+              {% else %}
+                href="#"
+              {% endif %}
+              class="vd-testimonials__featured-product-link"
+              data-vd-testimonials-featured-product
+            >{{ featured_product }}</a>
+          </div>
+
+          <div class="vd-testimonials__featured-meta">
+            <strong data-vd-testimonials-featured-author>{{ featured_author }}</strong>
+            <span data-vd-testimonials-featured-date>{{ featured_date }}</span>
+          </div>
+
+          {% if section.settings.button_label != blank %}
+            <a
+              href="{{ section.settings.button_link | default: '#' }}"
+              class="vd-arrow-cta vd-testimonials__cta"
+              data-vd-testimonials-cta
+              {% if section.settings.button_link != blank %}
+                data-vd-testimonials-static-link="true"
+              {% endif %}
+            >
+              <span class="vd-arrow-cta__label">{{ section.settings.button_label }}</span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+          {% endif %}
+        </div>
       </div>
     </article>
   </div>
 
-  <div class="vd-testimonials__stage" data-vd-testimonials-stage>
+  <div class="page-width vd-testimonials__stage" data-vd-testimonials-stage>
     <div class="vd-testimonials__viewport" data-vd-testimonials-viewport>
       <ul class="vd-testimonials__cards" data-vd-testimonials-cards role="list">
-        {% for block in section.blocks %}
+        {% for block in section.blocks limit: display_limit %}
           {% assign rating = block.settings.rating | default: 5 %}
           <li
             class="vd-testimonials__card"
@@ -211,15 +238,19 @@
       "type": "select",
       "id": "reviews_limit",
       "label": "Nombre d'avis",
-      "default": "6",
+      "default": "10",
       "options": [
         {
-          "value": "5",
-          "label": "5"
+          "value": "8",
+          "label": "8"
         },
         {
-          "value": "6",
-          "label": "6"
+          "value": "10",
+          "label": "10"
+        },
+        {
+          "value": "12",
+          "label": "12"
         }
       ]
     },
@@ -265,7 +296,7 @@
     {
       "type": "testimonial",
       "name": "Apercu avis",
-      "limit": 6,
+      "limit": 12,
       "settings": [
         {
           "type": "range",
