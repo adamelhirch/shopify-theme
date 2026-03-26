@@ -6,7 +6,7 @@
     <title>VD Reviews Admin</title>
     <link rel="stylesheet" href="./assets/admin.css">
   </head>
-  <body>
+  <body data-admin-api-base="http://127.0.0.1:4567">
     <div class="admin-shell">
       <aside class="admin-sidebar">
         <div class="admin-brand">
@@ -81,9 +81,10 @@
 
           <article class="admin-card">
             <div class="admin-card__head">
-              <h2>Fallback</h2>
+              <h2>Configuration active</h2>
             </div>
             <div class="admin-card__body">
+              <div data-admin-settings></div>
               <p class="admin-footer-note" hidden data-admin-fallback>Genere d abord `reviews-admin-summary.json` avec les scripts `bin/export-custom-reviews.rb`, `bin/build-review-request-links.rb` puis `bin/generate-review-admin-data.rb`.</p>
               <p class="admin-footer-note">L objectif est d organiser notre backoffice comme un vrai produit reviews: import, moderation, demandes post-achat, QR, widgets storefront, analytics et score produit.</p>
             </div>

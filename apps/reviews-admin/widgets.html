@@ -6,7 +6,7 @@
     <title>VD Reviews Admin · Widgets</title>
     <link rel="stylesheet" href="./assets/admin.css">
   </head>
-  <body>
+  <body data-admin-api-base="http://127.0.0.1:4567">
     <div class="admin-shell">
       <aside class="admin-sidebar">
         <div class="admin-brand">
@@ -39,6 +39,13 @@
         </header>
 
         <section class="admin-widget-grid" data-admin-widgets></section>
+
+        <section class="admin-card" style="margin-top: 1rem;">
+          <div class="admin-card__head">
+            <h2>Configuration storefront</h2>
+          </div>
+          <div class="admin-card__body" data-admin-settings></div>
+        </section>
       </main>
     </div>
     <script src="./assets/admin.js"></script>

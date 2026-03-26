@@ -6,7 +6,7 @@
     <title>VD Reviews Admin · Commentaires</title>
     <link rel="stylesheet" href="./assets/admin.css">
   </head>
-  <body>
+  <body data-admin-api-base="http://127.0.0.1:4567">
     <div class="admin-shell">
       <aside class="admin-sidebar">
         <div class="admin-brand">
@@ -51,7 +51,10 @@
               <span class="admin-badge admin-badge--muted">Source: base maison</span>
             </div>
           </div>
-          <div class="admin-card__body" data-admin-moderation></div>
+          <div class="admin-card__body">
+            <div data-admin-moderation-summary></div>
+            <div style="margin-top: 1rem;" data-admin-reviews></div>
+          </div>
         </section>
       </main>
     </div>

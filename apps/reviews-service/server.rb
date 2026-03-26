@@ -25,7 +25,13 @@ class ReviewsApiServlet < WEBrick::HTTPServlet::AbstractServlet
     when '/api/reviews'
       write_json(response, 200, { reviews: @store.list_reviews(status: request.query['status']) })
     when '/api/requests'
-      write_json(response, 200, { requests: @store.list_requests(state: request.query['state']) })
+      write_json(response, 200, { requests: @store.list_requests(state: request.query['state']), summary: @store.dashboard[:requests] })
+    when '/api/products'
+      write_json(response, 200, { products: @store.products })
+    when '/api/widgets'
+      write_json(response, 200, { widgets: @store.widgets })
+    when '/api/settings'
+      write_json(response, 200, { settings: @store.settings })
     else
       write_json(response, 404, { error: 'Not found' })
     end
@@ -47,6 +53,9 @@ class ReviewsApiServlet < WEBrick::HTTPServlet::AbstractServlet
     when '/api/requests'
       request_entry = @store.create_review_request(payload)
       write_json(response, 201, { ok: true, review_request: request_entry })
+    when '/api/settings'
+      settings = @store.update_settings(payload)
+      write_json(response, 200, { ok: true, settings: settings })
     else
       write_json(response, 404, { error: 'Not found' })
     end

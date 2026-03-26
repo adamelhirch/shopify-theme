@@ -191,6 +191,45 @@ Il ecrit:
 
 - `data/reviews-admin-summary.json`
 
+### 7. Service reviews local
+
+Le service applicatif de travail est maintenant disponible:
+
+```bash
+./bin/reviews-app-dev.rb
+```
+
+Il gere deja:
+
+- depot d'avis
+- review requests tokenisees
+- moderation
+- reponses marque
+- dashboard local
+- API admin vivante pour dashboard / produits / widgets / demandes
+
+Persistence:
+
+- `data/reviews-app-store.json`
+
+### 8. Bootstrap Shopify des definitions
+
+Le script suivant prepare Shopify pour la vraie app reviews:
+
+```bash
+./bin/bootstrap-reviews-metaobjects.rb
+```
+
+Il cree:
+
+- metaobject `vd_review`
+- metaobject `vd_review_request`
+- metaobject `vd_review_qr`
+- metachamps produit `custom.vd_reviews`
+- metachamps produit `custom.vd_review_requests`
+- agregats `custom.vd_rating_average`
+- agregats `custom.vd_rating_count`
+
 ## Theme
 
 ### Section `VD Testimonials`
@@ -269,8 +308,8 @@ Ce qui est deja en place:
 Ce qu'il reste a construire pour atteindre une vraie app reviews:
 
 1. Ecriture des avis en `metaobjects` `vd_review`
-2. Formulaire de depot d'avis connecte a un endpoint app / app proxy
-3. Moderation et back-office
+2. App proxy Shopify branche sur le service reviews
+3. Moderation back-office branchee a Shopify
 4. Workflow post-achat Shopify
 5. Liens tokenises par commande
 6. Generation et impression de QR codes

@@ -11,34 +11,62 @@ class ReviewsStore
   DEFAULT_DB_PATH = File.expand_path('../../../data/reviews-app-store.json', __dir__)
   DEFAULT_SNAPSHOT_PATH = File.expand_path('../../../data/custom-reviews-export.json', __dir__)
   DEFAULT_REQUESTS_PATH = File.expand_path('../../../data/review-request-links.csv', __dir__)
+  DEFAULT_WIDGETS = [
+    {
+      'id' => 'product_reviews',
+      'name' => 'Widget d avis produit',
+      'description' => 'Affiche les avis complets sur les pages produits et gere la review vedette.',
+      'surface' => 'product',
+      'status' => 'active'
+    },
+    {
+      'id' => 'rating_badge',
+      'name' => 'Badge de notation produit',
+      'description' => 'Expose la note moyenne et le volume d avis dans les cartes produit et la fiche produit.',
+      'surface' => 'product_card',
+      'status' => 'active'
+    },
+    {
+      'id' => 'homepage_editorial',
+      'name' => 'Selection home testimonials',
+      'description' => 'Selection editoriale d avis relies aux produits pour animer la home sans flux externe.',
+      'surface' => 'home',
+      'status' => 'active'
+    },
+    {
+      'id' => 'review_request_form',
+      'name' => 'Formulaire de depot d avis',
+      'description' => 'Page storefront recevant les demandes tokenisees, QR codes et soumissions clients.',
+      'surface' => 'page',
+      'status' => 'active'
+    },
+    {
+      'id' => 'ugc_gallery',
+      'name' => 'Galerie UGC',
+      'description' => 'Surface future pour photos, videos et contenus clients associes aux avis.',
+      'surface' => 'future',
+      'status' => 'planned'
+    }
+  ].freeze
 
   def initialize(db_path: DEFAULT_DB_PATH, snapshot_path: DEFAULT_SNAPSHOT_PATH, requests_path: DEFAULT_REQUESTS_PATH)
     @db_path = db_path
     @snapshot_path = snapshot_path
     @requests_path = requests_path
-    @state = load_state
+    @state = normalize_state(load_state)
   end
 
   def dashboard
-    published_reviews = @state.fetch('reviews').select { |review| review['status'] == 'published' }
-    total_reviews = published_reviews.size
-    average_rating = if total_reviews.positive?
-      published_reviews.sum { |review| review['rating'].to_f } / total_reviews
-    else
-      0
-    end
+    metrics = overview_metrics
 
     {
       generated_at: Time.now.utc.iso8601,
-      overview: {
-        total_reviews: total_reviews,
-        pending_reviews: @state.fetch('reviews').count { |review| review['status'] == 'pending' },
-        verified_reviews: published_reviews.count { |review| review['verified'] == true },
-        average_rating: average_rating.round(2),
-        review_requests: @state.fetch('review_requests').size
-      },
+      overview: metrics,
       recent_reviews: recent_reviews,
-      top_products: top_products
+      top_products: products.first(10),
+      requests: requests_overview,
+      widgets: widgets,
+      moderation: moderation_overview
     }
   end
 
@@ -52,6 +80,58 @@ class ReviewsStore
     requests = @state.fetch('review_requests')
     requests = requests.select { |request| request['state'] == state } if state && !state.empty?
     requests.sort_by { |request| parse_time(request['created_at']) || Time.at(0) }.reverse
+  end
+
+  def products(limit: nil)
+    records = published_reviews_grouped.map do |handle, reviews|
+      total = reviews.size
+      average = reviews.sum { |review| review.fetch('rating').to_f } / total
+      last_review = reviews.max_by { |review| parse_time(review['submitted_at']) || Time.at(0) }
+
+      {
+        id: @state.dig('products', handle, 'id'),
+        handle: handle,
+        title: resolve_product_title(handle),
+        url: resolve_product_url(handle),
+        reviews: total,
+        rating: average.round(2),
+        verified_reviews: reviews.count { |review| review['verified'] == true },
+        pending_reviews: @state.fetch('reviews').count do |review|
+          review['product_handle'] == handle && review['status'] == 'pending'
+        end,
+        latest_review_date: last_review && last_review['review_date']
+      }
+    end.sort_by { |entry| [-entry[:reviews], -entry[:rating], entry[:title].to_s] }
+
+    limit ? records.first(limit) : records
+  end
+
+  def widgets
+    metrics = overview_metrics
+
+    @state.fetch('widgets').map do |widget|
+      widget.merge(
+        'reviews_count' => metrics[:total_reviews],
+        'verified_reviews' => metrics[:verified_reviews]
+      )
+    end
+  end
+
+  def settings
+    @state.fetch('settings')
+  end
+
+  def update_settings(payload)
+    settings = @state.fetch('settings')
+
+    settings['auto_publish_verified'] = payload['auto_publish_verified'] unless payload['auto_publish_verified'].nil?
+    settings['auto_publish_unverified'] = payload['auto_publish_unverified'] unless payload['auto_publish_unverified'].nil?
+
+    review_page_url = payload['review_page_url'].to_s.strip
+    settings['review_page_url'] = review_page_url unless review_page_url.empty?
+
+    persist!
+    settings
   end
 
   def submit_review(payload)
@@ -153,10 +233,42 @@ class ReviewsStore
 
   private
 
+  def overview_metrics
+    published_reviews = @state.fetch('reviews').select { |review| review['status'] == 'published' }
+    total_reviews = published_reviews.size
+    average_rating = if total_reviews.positive?
+      published_reviews.sum { |review| review['rating'].to_f } / total_reviews
+    else
+      0
+    end
+
+    {
+      total_reviews: total_reviews,
+      pending_reviews: @state.fetch('reviews').count { |review| review['status'] == 'pending' },
+      verified_reviews: published_reviews.count { |review| review['verified'] == true },
+      average_rating: average_rating.round(2),
+      review_requests: @state.fetch('review_requests').size,
+      reviewed_products: published_reviews_grouped.keys.size,
+      qr_ready_products: @state.fetch('review_requests').count { |request| request['channel'] == 'qr_catalog' }
+    }
+  end
+
   def load_state
     return JSON.parse(File.read(@db_path)) if File.exist?(@db_path)
 
     bootstrap_state
+  end
+
+  def normalize_state(state)
+    state['settings'] ||= {}
+    state['settings']['auto_publish_verified'] = true if state['settings']['auto_publish_verified'].nil?
+    state['settings']['auto_publish_unverified'] = false if state['settings']['auto_publish_unverified'].nil?
+    state['settings']['review_page_url'] ||= 'https://vanilledesire.com/pages/review-request'
+    state['widgets'] ||= DEFAULT_WIDGETS.map(&:dup)
+    state['reviews'] ||= []
+    state['review_requests'] ||= []
+    state['products'] ||= {}
+    state
   end
 
   def bootstrap_state
@@ -166,6 +278,7 @@ class ReviewsStore
         'auto_publish_unverified' => false,
         'review_page_url' => 'https://vanilledesire.com/pages/review-request'
       },
+      'widgets' => DEFAULT_WIDGETS.map(&:dup),
       'reviews' => [],
       'review_requests' => [],
       'products' => {}
@@ -320,20 +433,38 @@ class ReviewsStore
     end
   end
 
-  def top_products
-    grouped = storefront_payload_by_product
+  def moderation_overview
+    reviews = @state.fetch('reviews')
 
-    grouped.map do |handle, reviews|
-      total = reviews.size
-      average = reviews.sum { |review| review.fetch('rating').to_f } / total
-      {
-        handle: handle,
-        title: resolve_product_title(handle),
-        url: resolve_product_url(handle),
-        reviews: total,
-        rating: average.round(2)
-      }
-    end.sort_by { |entry| [-entry[:reviews], -entry[:rating]] }.first(10)
+    {
+      pending: reviews.count { |review| review['status'] == 'pending' },
+      published: reviews.count { |review| review['status'] == 'published' },
+      flagged: reviews.count { |review| review['status'] == 'flagged' },
+      archived: reviews.count { |review| review['status'] == 'archived' }
+    }
+  end
+
+  def requests_overview
+    requests = list_requests
+
+    {
+      total: requests.size,
+      queued: requests.count { |request| request['state'] == 'queued' },
+      submitted: requests.count { |request| request['state'] == 'submitted' },
+      qr_catalog: requests.count { |request| request['channel'] == 'qr_catalog' },
+      review_page_url: @state.dig('settings', 'review_page_url'),
+      samples: requests.first(12)
+    }
+  end
+
+  def published_reviews_grouped
+    list_reviews(status: 'published').each_with_object({}) do |review, grouped|
+      handle = review['product_handle'].to_s.strip
+      next if handle.empty?
+
+      grouped[handle] ||= []
+      grouped[handle] << review
+    end
   end
 
   def storefront_review(review)

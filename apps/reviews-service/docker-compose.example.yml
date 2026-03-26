@@ -1,0 +1,13 @@
+services:
+  vd-reviews:
+    build:
+      context: ../..
+      dockerfile: apps/reviews-service/Dockerfile
+    container_name: vd-reviews
+    ports:
+      - "4567:4567"
+    environment:
+      VD_REVIEWS_PORT: "4567"
+    volumes:
+      - ../../data:/app/data
+    restart: unless-stopped
