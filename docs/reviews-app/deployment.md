@@ -14,6 +14,10 @@ Il ecoute sur:
 - `127.0.0.1:4567` en local
 - `0.0.0.0:4567` dans le container
 
+Variable utile:
+
+- `VD_REVIEWS_BIND=0.0.0.0` dans Docker
+
 ## 2. Docker
 
 Build:

@@ -86,10 +86,11 @@ class ReviewsApiServlet < WEBrick::HTTPServlet::AbstractServlet
 end
 
 port = ENV.fetch('VD_REVIEWS_PORT', '4567').to_i
+bind_address = ENV.fetch('VD_REVIEWS_BIND', '127.0.0.1')
 store = ReviewsStore.new
 
 server = WEBrick::HTTPServer.new(
-  BindAddress: '127.0.0.1',
+  BindAddress: bind_address,
   Port: port,
   AccessLog: [],
   Logger: WEBrick::Log.new($stdout, WEBrick::Log::WARN)
@@ -98,5 +99,5 @@ server = WEBrick::HTTPServer.new(
 server.mount('/', ReviewsApiServlet, store: store)
 trap('INT') { server.shutdown }
 
-puts "VD Reviews service listening on http://127.0.0.1:#{port}"
+puts "VD Reviews service listening on http://#{bind_address}:#{port}"
 server.start
