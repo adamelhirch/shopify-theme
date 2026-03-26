@@ -1,0 +1,8 @@
+{%- liquid
+  assign badge_label = label | default: 'Verifie'
+  assign is_compact = compact | default: false
+-%}
+<span class="vd-review-verified-badge{% if is_compact %} is-compact{% endif %}">
+  <span class="vd-review-verified-badge__icon" aria-hidden="true"></span>
+  <span class="vd-review-verified-badge__label">{{ badge_label }}</span>
+</span>

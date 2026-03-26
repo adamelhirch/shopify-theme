@@ -18,12 +18,16 @@
   assign jdgm_reviews_rating = shop.metafields.judgeme.all_reviews_rating | default: 5
   assign has_judgeme_data = false
   assign featured_rating = 5
-  assign featured_source_label = 'Avis clients'
+  assign featured_source_label = 'Avis verifie'
   assign featured_quote = blank
   assign featured_author = blank
   assign featured_date = blank
   assign featured_product = blank
   assign featured_product_link = blank
+  assign featured_product_object = blank
+  assign featured_product_handle = blank
+  assign featured_product_media = blank
+  assign featured_product_url = blank
 
   if section.blocks.size > 0
     assign featured_block = section.blocks.first
@@ -33,11 +37,37 @@
     assign featured_date = featured_block.settings.location | default: blank
     assign featured_product = featured_block.settings.meta | default: blank
     assign featured_product_link = featured_block.settings.product_link | default: blank
+
+    if featured_block.settings.product != blank
+      assign featured_product_object = all_products[featured_block.settings.product]
+    elsif featured_product_link != blank
+      assign featured_product_href = featured_product_link | append: ''
+
+      if featured_product_href contains '/products/'
+        assign featured_product_handle = featured_product_href | split: '/products/' | last | split: '?' | first | split: '#' | first
+      elsif featured_product_href contains 'shopify://products/'
+        assign featured_product_handle = featured_product_href | split: 'shopify://products/' | last
+      endif
+
+      if featured_product_handle != blank
+        assign featured_product_object = all_products[featured_product_handle]
+      endif
+    endif
+
+    if featured_product_object != blank
+      assign featured_product_media = featured_product_object.featured_media.preview_image | default: featured_product_object.featured_image
+      assign featured_product_url = featured_product_object.url
+
+      if featured_product == blank
+        assign featured_product = featured_product_object.title
+      endif
+    else
+      assign featured_product_url = featured_product_link
+    endif
   endif
 
   if shop.metafields.judgeme.featured_carousel != blank or shop.metafields.judgeme.all_reviews_count != blank
     assign has_judgeme_data = true
-    assign featured_source_label = 'Avis verifies'
   endif
 -%}
 
@@ -66,9 +96,9 @@
         <div class="vd-testimonials__trust" data-vd-testimonials-trust>
           <span class="vd-testimonials__trust-label">
             {% if has_judgeme_data %}
-              Judge.me
+              Archives clients
             {% else %}
-              Apercu
+              Selection maison
             {% endif %}
           </span>
 
@@ -79,7 +109,7 @@
               {% if has_judgeme_data %}
                 verifies
               {% else %}
-                en exemple
+                selectionnes
               {% endif %}
             </span>
           </div>
@@ -91,50 +121,94 @@
   <div class="page-width vd-testimonials__featured-shell" data-vd-testimonials-featured-shell>
     <article class="vd-testimonials__featured" data-vd-testimonials-featured>
       <div class="vd-testimonials__featured-topline">
-        <span class="vd-testimonials__featured-source" data-vd-testimonials-featured-source>{{ featured_source_label }}</span>
-        <div class="vd-testimonials__featured-stars" data-vd-testimonials-featured-stars aria-hidden="true">
-          {% for i in (1..5) %}
-            <span class="{% if i <= featured_rating %}is-active{% endif %}">&#9733;</span>
-          {% endfor %}
+        {% render 'vd-review-verified-badge', label: featured_source_label %}
+        <div class="vd-testimonials__featured-stars-wrap">
+          <span class="vd-testimonials__featured-source" data-vd-testimonials-featured-source>{{ featured_source_label }}</span>
+          <div class="vd-testimonials__featured-stars" data-vd-testimonials-featured-stars aria-hidden="true">
+            {% for i in (1..5) %}
+              <span class="{% if i <= featured_rating %}is-active{% endif %}">&#9733;</span>
+            {% endfor %}
+          </div>
         </div>
       </div>
 
       <div class="vd-testimonials__featured-main">
-        <blockquote class="vd-testimonials__featured-quote" data-vd-testimonials-featured-quote>{{ featured_quote }}</blockquote>
+        <div class="vd-testimonials__featured-copy">
+          <blockquote class="vd-testimonials__featured-quote" data-vd-testimonials-featured-quote>{{ featured_quote }}</blockquote>
 
-        <div class="vd-testimonials__featured-side">
-          <div class="vd-testimonials__featured-product-wrap" data-vd-testimonials-featured-product-wrap {% if featured_product == blank %}hidden{% endif %}>
+          <div class="vd-testimonials__featured-footer">
+            <div class="vd-testimonials__featured-product-wrap" data-vd-testimonials-featured-product-wrap {% if featured_product == blank %}hidden{% endif %}>
+              <a
+                {% if featured_product_url != blank %}
+                  href="{{ featured_product_url }}"
+                {% elsif featured_product_link != blank %}
+                  href="{{ featured_product_link }}"
+                {% else %}
+                  href="#"
+                {% endif %}
+                class="vd-testimonials__featured-product-link"
+                data-vd-testimonials-featured-product
+              >{{ featured_product }}</a>
+            </div>
+
+            <div class="vd-testimonials__featured-meta">
+              <strong data-vd-testimonials-featured-author>{{ featured_author }}</strong>
+              <span data-vd-testimonials-featured-date>{{ featured_date }}</span>
+            </div>
+
+            {% if section.settings.button_label != blank %}
+              <a
+                href="{{ section.settings.button_link | default: '#' }}"
+                class="vd-arrow-cta vd-testimonials__cta"
+                data-vd-testimonials-cta
+                {% if section.settings.button_link != blank %}
+                  data-vd-testimonials-static-link="true"
+                {% endif %}
+              >
+                <span class="vd-arrow-cta__label">{{ section.settings.button_label }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </a>
+            {% endif %}
+          </div>
+        </div>
+
+        <div
+          class="vd-testimonials__featured-media-panel"
+          data-vd-testimonials-featured-media-panel
+          {% if featured_product_media == blank %}hidden{% endif %}
+        >
+          <div class="vd-testimonials__featured-media-card">
             <a
-              {% if featured_product_link != blank %}
+              class="vd-testimonials__featured-media-link"
+              data-vd-testimonials-featured-media-link
+              {% if featured_product_url != blank %}
+                href="{{ featured_product_url }}"
+              {% elsif featured_product_link != blank %}
                 href="{{ featured_product_link }}"
-              {% else %}
-                href="#"
-              {% endif %}
-              class="vd-testimonials__featured-product-link"
-              data-vd-testimonials-featured-product
-            >{{ featured_product }}</a>
-          </div>
-
-          <div class="vd-testimonials__featured-meta">
-            <strong data-vd-testimonials-featured-author>{{ featured_author }}</strong>
-            <span data-vd-testimonials-featured-date>{{ featured_date }}</span>
-          </div>
-
-          {% if section.settings.button_label != blank %}
-            <a
-              href="{{ section.settings.button_link | default: '#' }}"
-              class="vd-arrow-cta vd-testimonials__cta"
-              data-vd-testimonials-cta
-              {% if section.settings.button_link != blank %}
-                data-vd-testimonials-static-link="true"
               {% endif %}
             >
-              <span class="vd-arrow-cta__label">{{ section.settings.button_label }}</span>
-              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-              </svg>
+              {% if featured_product_media != blank %}
+                {{
+                  featured_product_media
+                  | image_url: width: 1600
+                  | image_tag:
+                    class: 'vd-testimonials__featured-image',
+                    data-vd-testimonials-featured-image: '',
+                    widths: '480, 720, 960, 1280, 1600',
+                    sizes: '(min-width: 990px) 28vw, 92vw',
+                    loading: 'lazy',
+                    alt: featured_product_media.alt | default: featured_product | escape
+                }}
+              {% endif %}
             </a>
-          {% endif %}
+
+            <div class="vd-testimonials__featured-media-caption">
+              {% render 'vd-review-verified-badge', label: 'Verifie', compact: true %}
+              <span class="vd-testimonials__featured-media-product" data-vd-testimonials-featured-media-product>{{ featured_product }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </article>
@@ -145,12 +219,43 @@
       <ul class="vd-testimonials__cards" data-vd-testimonials-cards role="list">
         {% for block in section.blocks limit: display_limit %}
           {% assign rating = block.settings.rating | default: 5 %}
+          {%- liquid
+            assign testimonial_product = blank
+            assign testimonial_product_handle = blank
+            assign testimonial_product_url = block.settings.product_link
+            assign testimonial_product_media = blank
+            assign testimonial_product_label = block.settings.meta
+            assign testimonial_product_alt = block.settings.meta
+
+            if block.settings.product != blank
+              assign testimonial_product = all_products[block.settings.product]
+            elsif block.settings.product_link != blank
+              assign testimonial_product_href = block.settings.product_link | append: ''
+
+              if testimonial_product_href contains '/products/'
+                assign testimonial_product_handle = testimonial_product_href | split: '/products/' | last | split: '?' | first | split: '#' | first
+              elsif testimonial_product_href contains 'shopify://products/'
+                assign testimonial_product_handle = testimonial_product_href | split: 'shopify://products/' | last
+              endif
+
+              if testimonial_product_handle != blank
+                assign testimonial_product = all_products[testimonial_product_handle]
+              endif
+            endif
+
+            if testimonial_product != blank
+              assign testimonial_product_url = testimonial_product.url
+              assign testimonial_product_media = testimonial_product.featured_media.preview_image | default: testimonial_product.featured_image
+              assign testimonial_product_label = testimonial_product.title | default: testimonial_product_label
+              assign testimonial_product_alt = testimonial_product_media.alt | default: testimonial_product.title
+            endif
+          -%}
           <li
             class="vd-testimonials__card"
             data-vd-testimonial-card
             role="listitem"
-            {% if block.settings.product_link != blank %}
-              data-vd-testimonial-link="{{ block.settings.product_link }}"
+            {% if testimonial_product_url != blank %}
+              data-vd-testimonial-link="{{ testimonial_product_url }}"
             {% endif %}
             {{ block.shopify_attributes }}
           >
@@ -161,40 +266,74 @@
               data-vd-testimonial-rating="{{ rating }}"
               data-vd-testimonial-author="{{ block.settings.author | escape }}"
               data-vd-testimonial-date="{{ block.settings.location | escape }}"
-              data-vd-testimonial-product="{{ block.settings.meta | escape }}"
+              data-vd-testimonial-product="{{ testimonial_product_label | escape }}"
               data-vd-testimonial-quote="{{ block.settings.quote | strip_html | escape }}"
-              data-vd-testimonial-source-label="{% if has_judgeme_data %}Avis verifie via Judge.me{% else %}Avis client{% endif %}"
+              data-vd-testimonial-source-label="Avis verifie"
+              data-vd-testimonial-verified="true"
+              {% if testimonial_product_url != blank %}
+                data-vd-testimonial-product-url="{{ testimonial_product_url }}"
+              {% endif %}
+              {% if testimonial_product_media != blank %}
+                data-vd-testimonial-image="{{ testimonial_product_media | image_url: width: 1600 }}"
+                data-vd-testimonial-image-alt="{{ testimonial_product_alt | escape }}"
+              {% endif %}
             >
-              <div class="vd-testimonials__card-top">
-                <div class="vd-testimonials__stars" aria-hidden="true">
-                  {% for i in (1..5) %}
-                    <span class="{% if i <= rating %}is-active{% endif %}">&#9733;</span>
-                  {% endfor %}
-                </div>
-
-                {% if block.settings.meta != blank %}
-                  {% if block.settings.product_link != blank %}
-                    <a href="{{ block.settings.product_link }}" class="vd-testimonials__product-link">
-                      {{ block.settings.meta }}
-                    </a>
-                  {% else %}
-                    <span class="vd-testimonials__product-link">{{ block.settings.meta }}</span>
-                  {% endif %}
+              <div class="vd-testimonials__card-media-wrap">
+                {% if testimonial_product_media != blank %}
+                  <a class="vd-testimonials__card-media-link" href="{{ testimonial_product_url | default: '#' }}">
+                    {{
+                      testimonial_product_media
+                      | image_url: width: 900
+                      | image_tag:
+                        class: 'vd-testimonials__card-image',
+                        widths: '320, 480, 640, 900',
+                        sizes: '(min-width: 990px) 22vw, 92vw',
+                        loading: 'lazy',
+                        alt: testimonial_product_alt | escape
+                    }}
+                  </a>
+                {% else %}
+                  <div class="vd-testimonials__card-media-fallback" aria-hidden="true">
+                    <span>{{ testimonial_product_label | default: block.settings.author | slice: 0 }}</span>
+                  </div>
                 {% endif %}
               </div>
 
-              {% if block.settings.quote != blank %}
-                <blockquote class="vd-testimonials__quote" data-vd-testimonial-quote>{{ block.settings.quote }}</blockquote>
-              {% endif %}
+              <div class="vd-testimonials__card-body">
+                <div class="vd-testimonials__card-topline">
+                  {% render 'vd-review-verified-badge', label: 'Verifie', compact: true %}
+                  <div class="vd-testimonials__stars" aria-hidden="true">
+                    {% for i in (1..5) %}
+                      <span class="{% if i <= rating %}is-active{% endif %}">&#9733;</span>
+                    {% endfor %}
+                  </div>
+                </div>
 
-              <div class="vd-testimonials__meta">
-                {% if block.settings.author != blank %}
-                  <strong>{{ block.settings.author }}</strong>
+                {% if testimonial_product_label != blank %}
+                  <div class="vd-testimonials__card-top">
+                    {% if testimonial_product_url != blank %}
+                      <a href="{{ testimonial_product_url }}" class="vd-testimonials__product-link">
+                        {{ testimonial_product_label }}
+                      </a>
+                    {% else %}
+                      <span class="vd-testimonials__product-link">{{ testimonial_product_label }}</span>
+                    {% endif %}
+                  </div>
                 {% endif %}
 
-                {% if block.settings.location != blank %}
-                  <span>{{ block.settings.location }}</span>
+                {% if block.settings.quote != blank %}
+                  <blockquote class="vd-testimonials__quote" data-vd-testimonial-quote>{{ block.settings.quote }}</blockquote>
                 {% endif %}
+
+                <div class="vd-testimonials__meta">
+                  {% if block.settings.author != blank %}
+                    <strong>{{ block.settings.author }}</strong>
+                  {% endif %}
+
+                  {% if block.settings.location != blank %}
+                    <span>{{ block.settings.location }}</span>
+                  {% endif %}
+                </div>
               </div>
             </article>
           </li>
@@ -220,7 +359,7 @@
       "type": "text",
       "id": "eyebrow",
       "label": "Sur-titre",
-      "default": "Judge.me"
+      "default": "Avis clients"
     },
     {
       "type": "text",
@@ -330,6 +469,11 @@
           "id": "meta",
           "label": "Nom produit",
           "default": "Bourbon Gourmet"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Produit associe"
         },
         {
           "type": "url",

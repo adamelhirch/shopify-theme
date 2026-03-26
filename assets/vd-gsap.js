@@ -197,10 +197,10 @@
         quote: quote || title,
         author: author || 'Client verifie',
         date: formatTestimonialDateLabel(date) || 'Avis client',
-        product: formatTestimonialProductLabel(product) || 'Selection Judge.me',
+        product: formatTestimonialProductLabel(product) || 'Selection maison',
         productLink: productLink,
         rating: Math.max(1, Math.min(5, rating)),
-        sourceLabel: 'Avis verifie via Judge.me'
+        sourceLabel: 'Avis verifie'
       });
     });
 
@@ -214,8 +214,16 @@
   function buildTestimonialCard(review) {
     var item = createNode('li', 'vd-testimonials__card');
     var card = createNode('article', 'vd-testimonials__card-shell');
+    var mediaWrap = createNode('div', 'vd-testimonials__card-media-wrap');
+    var mediaFallback = createNode('div', 'vd-testimonials__card-media-fallback');
+    var mediaInitial = createNode('span', '', (review.product || review.author || 'V').charAt(0));
+    var body = createNode('div', 'vd-testimonials__card-body');
+    var topLine = createNode('div', 'vd-testimonials__card-topline');
     var top = createNode('div', 'vd-testimonials__card-top');
     var stars = createNode('div', 'vd-testimonials__stars');
+    var badge = createNode('span', 'vd-review-verified-badge is-compact');
+    var badgeIcon = createNode('span', 'vd-review-verified-badge__icon');
+    var badgeLabel = createNode('span', 'vd-review-verified-badge__label', 'Verifie');
     var productLink = review.productLink ? createNode('a', 'vd-testimonials__product-link', review.product) : createNode('span', 'vd-testimonials__product-link', review.product);
     var quote = createNode('blockquote', 'vd-testimonials__quote', review.quote);
     var meta = createNode('div', 'vd-testimonials__meta');
@@ -237,6 +245,9 @@
       item.setAttribute('data-vd-testimonial-link', review.productLink);
     }
 
+    badge.appendChild(badgeIcon);
+    badge.appendChild(badgeLabel);
+
     for (index = 0; index < 5; index += 1) {
       var star = createNode('span', index < review.rating ? 'is-active' : '', '★');
       stars.appendChild(star);
@@ -250,15 +261,21 @@
       productLink.title = review.product;
     }
 
-    top.appendChild(stars);
+    mediaFallback.appendChild(mediaInitial);
+    mediaWrap.appendChild(mediaFallback);
+    topLine.appendChild(badge);
+    topLine.appendChild(stars);
     top.appendChild(productLink);
 
-    card.appendChild(top);
+    card.appendChild(mediaWrap);
+    body.appendChild(topLine);
+    body.appendChild(top);
     quote.setAttribute('data-vd-testimonial-quote', '');
-    card.appendChild(quote);
+    body.appendChild(quote);
     meta.appendChild(author);
     meta.appendChild(location);
-    card.appendChild(meta);
+    body.appendChild(meta);
+    card.appendChild(body);
     item.appendChild(card);
 
     return item;
@@ -687,6 +704,10 @@
       var featuredStars = section.querySelector('[data-vd-testimonials-featured-stars]');
       var featuredProductWrap = section.querySelector('[data-vd-testimonials-featured-product-wrap]');
       var featuredProduct = section.querySelector('[data-vd-testimonials-featured-product]');
+      var featuredMediaPanel = section.querySelector('[data-vd-testimonials-featured-media-panel]');
+      var featuredMediaLink = section.querySelector('[data-vd-testimonials-featured-media-link]');
+      var featuredMediaImage = section.querySelector('[data-vd-testimonials-featured-image]');
+      var featuredMediaProduct = section.querySelector('[data-vd-testimonials-featured-media-product]');
       var featuredQuote = section.querySelector('[data-vd-testimonials-featured-quote]');
       var featuredAuthor = section.querySelector('[data-vd-testimonials-featured-author]');
       var featuredDate = section.querySelector('[data-vd-testimonials-featured-date]');
@@ -736,12 +757,16 @@
         var shell = card.matches('[data-vd-testimonial-shell]') ? card : card.querySelector('[data-vd-testimonial-shell]');
         var target = card.getAttribute('data-vd-testimonial-link') || '';
         var productText = '';
+        var image = '';
+        var imageAlt = '';
 
         if (!shell) return;
 
         productText = shell.getAttribute('data-vd-testimonial-product') || '';
+        image = shell.getAttribute('data-vd-testimonial-image') || '';
+        imageAlt = shell.getAttribute('data-vd-testimonial-image-alt') || productText || '';
 
-        featuredSource.textContent = shell.getAttribute('data-vd-testimonial-source-label') || 'Avis client';
+        featuredSource.textContent = shell.getAttribute('data-vd-testimonial-source-label') || 'Avis verifie';
         featuredStars.innerHTML = buildTestimonialStarsMarkup(shell.getAttribute('data-vd-testimonial-rating'));
         featuredQuote.textContent = shell.getAttribute('data-vd-testimonial-quote') || '';
         featuredAuthor.textContent = shell.getAttribute('data-vd-testimonial-author') || '';
@@ -768,6 +793,25 @@
           } else {
             featuredProductWrap.hidden = true;
             featuredProduct.removeAttribute('href');
+          }
+        }
+
+        if (featuredMediaPanel && featuredMediaLink && featuredMediaProduct) {
+          featuredMediaProduct.textContent = productText;
+
+          if (target) {
+            featuredMediaLink.href = target;
+          } else {
+            featuredMediaLink.removeAttribute('href');
+          }
+
+          if (featuredMediaImage && image) {
+            featuredMediaImage.setAttribute('src', image);
+            featuredMediaImage.removeAttribute('srcset');
+            featuredMediaImage.setAttribute('alt', imageAlt);
+            featuredMediaPanel.hidden = false;
+          } else if (featuredMediaPanel) {
+            featuredMediaPanel.hidden = true;
           }
         }
       }
@@ -890,11 +934,12 @@
         });
       }
 
-      var hasLiveReviews = syncFromJudge();
+      var hasManualCards = !!cardsContainer.querySelector('[data-vd-testimonial-card]');
+      var hasLiveReviews = hasManualCards ? false : syncFromJudge();
 
       mountCurrentCards();
 
-      if (!hasLiveReviews && source) {
+      if (!hasManualCards && !hasLiveReviews && source) {
         var observer = new MutationObserver(function () {
           if (syncFromJudge()) {
             mountCurrentCards();
