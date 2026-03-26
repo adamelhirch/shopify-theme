@@ -1,0 +1,30 @@
+{
+  "sections": {
+    "main": {
+      "type": "vd-review-request",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "kicker": "Deposer un avis",
+        "heading": "Votre retour nourrit notre plateforme reviews proprietaire.",
+        "text": "<p>Cette page est la base de notre futur workflow post-achat. Elle pourra etre ouverte depuis un email, un QR code colis, ou un lien direct associe a un produit.</p>",
+        "placeholder_title": "Le produit relie apparaitra ici",
+        "placeholder_meta": "Ajoutez ?product=handle-produit a l URL pour precharger le bon produit.",
+        "endpoint": "/apps/vd-reviews/submit",
+        "rating_label": "Votre note",
+        "author_label": "Nom",
+        "email_label": "Email",
+        "order_label": "Numero de commande",
+        "context_label": "Contexte",
+        "title_label": "Titre de votre avis",
+        "quote_label": "Votre commentaire",
+        "verified_label": "Verification",
+        "verified_text": "Le badge Verifie sera attribue automatiquement apres verification commande / email / token.",
+        "button_label": "Envoyer mon avis",
+        "form_note": "Le formulaire storefront est pret a etre branche sur l app reviews."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

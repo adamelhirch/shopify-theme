@@ -1,0 +1,236 @@
+{{ 'vd-review-request.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'vd-review-request.js' | asset_url }}" defer="defer"></script>
+
+<section
+  class="vd-review-request color-{{ section.settings.color_scheme }}"
+  data-vd-review-request
+  data-vd-review-request-endpoint="{{ section.settings.endpoint | escape }}"
+>
+  <div class="page-width vd-review-request__shell">
+    <div class="vd-review-request__hero">
+      <div class="vd-review-request__intro">
+        {% if section.settings.kicker != blank %}
+          <span class="vd-review-request__kicker">{{ section.settings.kicker }}</span>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <h1 class="vd-review-request__title">{{ section.settings.heading }}</h1>
+        {% endif %}
+
+        {% if section.settings.text != blank %}
+          <div class="vd-review-request__text rte">{{ section.settings.text }}</div>
+        {% endif %}
+
+        <div class="vd-review-request__status">
+          <span class="vd-review-request__pill">Avis verifies priorises</span>
+          <span class="vd-review-request__pill">Workflow post-achat tokenise</span>
+          <span class="vd-review-request__pill">QR colis compatible</span>
+        </div>
+      </div>
+
+      <div class="vd-review-request__product">
+        <div class="vd-review-request__product-media" data-vd-review-request-product-media>
+          {% if section.settings.placeholder_image != blank %}
+            {{ section.settings.placeholder_image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '480,720,960,1200', alt: 'Produit a evaluer' }}
+          {% endif %}
+        </div>
+
+        <div class="vd-review-request__product-body">
+          <span class="vd-review-request__product-label">Produit relie</span>
+          <h2 class="vd-review-request__product-title" data-vd-review-request-product-title>{{ section.settings.placeholder_title }}</h2>
+          <p class="vd-review-request__product-meta" data-vd-review-request-product-meta>{{ section.settings.placeholder_meta }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="vd-review-request__form-card">
+      <form data-vd-review-request-form>
+        <div class="vd-review-request__form-grid">
+          <div class="vd-review-request__field vd-review-request__field--full">
+            <span class="vd-review-request__label">{{ section.settings.rating_label }}</span>
+            <div class="vd-review-request__rating">
+              {% for index in (1..5) %}
+                <button type="button" value="{{ index }}" data-vd-review-request-rating aria-label="{{ index }} etoiles">★</button>
+              {% endfor %}
+            </div>
+            <input type="hidden" name="rating" value="5" data-vd-review-request-rating-input>
+          </div>
+
+          <div class="vd-review-request__field">
+            <label for="vd-review-author-{{ section.id }}">{{ section.settings.author_label }}</label>
+            <input id="vd-review-author-{{ section.id }}" type="text" name="author" autocomplete="name" required>
+          </div>
+
+          <div class="vd-review-request__field">
+            <label for="vd-review-email-{{ section.id }}">{{ section.settings.email_label }}</label>
+            <input id="vd-review-email-{{ section.id }}" type="email" name="email" autocomplete="email" required>
+          </div>
+
+          <div class="vd-review-request__field">
+            <label for="vd-review-order-{{ section.id }}">{{ section.settings.order_label }}</label>
+            <input id="vd-review-order-{{ section.id }}" type="text" name="order_name" placeholder="#1458">
+          </div>
+
+          <div class="vd-review-request__field">
+            <label for="vd-review-context-{{ section.id }}">{{ section.settings.context_label }}</label>
+            <input id="vd-review-context-{{ section.id }}" type="text" name="context" placeholder="Chef patissier, amateur, commande cadeau...">
+          </div>
+
+          <div class="vd-review-request__field vd-review-request__field--full">
+            <label for="vd-review-title-{{ section.id }}">{{ section.settings.title_label }}</label>
+            <input id="vd-review-title-{{ section.id }}" type="text" name="title" maxlength="120">
+          </div>
+
+          <div class="vd-review-request__field vd-review-request__field--full">
+            <label for="vd-review-quote-{{ section.id }}">{{ section.settings.quote_label }}</label>
+            <textarea id="vd-review-quote-{{ section.id }}" name="quote" required></textarea>
+          </div>
+
+          <div class="vd-review-request__field vd-review-request__field--full">
+            <span class="vd-review-request__label">{{ section.settings.verified_label }}</span>
+            <div class="vd-review-request__checkbox">
+              <span class="vd-review-request__verify">
+                {% render 'vd-review-verified-badge', label: 'Verifie', class: 'vd-review-verified-badge' %}
+              </span>
+              <span class="vd-review-request__note">{{ section.settings.verified_text }}</span>
+            </div>
+          </div>
+        </div>
+
+        <input type="hidden" name="product_handle" value="" data-vd-review-request-product-handle>
+        <input type="hidden" name="token" value="" data-vd-review-request-token>
+
+        <div class="vd-review-request__actions">
+          <button class="vd-review-request__submit" type="submit" data-vd-review-request-submit>{{ section.settings.button_label }}</button>
+          <p class="vd-review-request__response" data-vd-review-request-response>{{ section.settings.form_note }}</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "VD Review Request",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Palette",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Sur-titre",
+      "default": "Deposer un avis"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Votre retour nous aide a construire une vraie maison d avis."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Chaque avis alimente notre plateforme reviews proprietaire. Les retours verifies peuvent ensuite etre relies aux produits, au workflow post-achat et aux QR codes.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "placeholder_image",
+      "label": "Image par defaut"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_title",
+      "label": "Titre produit par defaut",
+      "default": "Le produit relie apparaitra ici"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_meta",
+      "label": "Meta produit par defaut",
+      "default": "Le handle passe dans l URL sera utilise pour charger le bon produit."
+    },
+    {
+      "type": "text",
+      "id": "endpoint",
+      "label": "Endpoint app / app proxy",
+      "default": "/apps/vd-reviews/submit"
+    },
+    {
+      "type": "text",
+      "id": "rating_label",
+      "label": "Label note",
+      "default": "Votre note"
+    },
+    {
+      "type": "text",
+      "id": "author_label",
+      "label": "Label auteur",
+      "default": "Nom"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Label email",
+      "default": "Email"
+    },
+    {
+      "type": "text",
+      "id": "order_label",
+      "label": "Label commande",
+      "default": "Numero de commande"
+    },
+    {
+      "type": "text",
+      "id": "context_label",
+      "label": "Label contexte",
+      "default": "Contexte"
+    },
+    {
+      "type": "text",
+      "id": "title_label",
+      "label": "Label titre",
+      "default": "Titre de votre avis"
+    },
+    {
+      "type": "text",
+      "id": "quote_label",
+      "label": "Label commentaire",
+      "default": "Votre commentaire"
+    },
+    {
+      "type": "text",
+      "id": "verified_label",
+      "label": "Label verification",
+      "default": "Verification"
+    },
+    {
+      "type": "text",
+      "id": "verified_text",
+      "label": "Texte verification",
+      "default": "Le badge Verifie sera attribue automatiquement apres correspondance commande / email / token."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Label bouton",
+      "default": "Envoyer mon avis"
+    },
+    {
+      "type": "text",
+      "id": "form_note",
+      "label": "Note formulaire",
+      "default": "Le formulaire storefront est pret a etre branche sur l app reviews."
+    }
+  ],
+  "presets": [
+    {
+      "name": "VD Review Request"
+    }
+  ]
+}
+{% endschema %}

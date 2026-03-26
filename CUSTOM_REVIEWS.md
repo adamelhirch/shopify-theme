@@ -178,6 +178,19 @@ Chaque ligne contient:
 - l'URL produit
 - l'URL de la future page de depot d'avis
 
+### 6. Synthese admin type Judge.me
+
+Le script suivant agrege le snapshot d'avis et le catalogue review / QR dans un
+JSON exploitable par le mini backoffice maison:
+
+```bash
+./bin/generate-review-admin-data.rb
+```
+
+Il ecrit:
+
+- `data/reviews-admin-summary.json`
+
 ## Theme
 
 ### Section `VD Testimonials`
@@ -203,6 +216,15 @@ La fiche produit peut maintenant utiliser une section dediee:
 - hero review en tete
 - liste secondaire d'avis du meme produit
 - etat vide propre tant qu'aucun avis n'est relie
+
+### Section `VD Review Request`
+
+La page storefront de depot d'avis est prete:
+
+- template `page.review-request`
+- produit charge via `?product=handle`
+- future soumission vers `/apps/vd-reviews/submit`
+- base compatible email post-achat et QR codes
 
 ### Notes produit
 
@@ -238,8 +260,11 @@ Ce qui est deja en place:
 - badge note produit base sur `custom.vd_rating_average` et `custom.vd_rating_count`
 - section produit custom `VD Product Reviews`
 - section home testimonials capable de lire le systeme custom
+- page storefront `VD Review Request`
 - badge `Verifie` maison
 - import historique Judge.me vers `custom.vd_reviews_json`
+- backoffice statique type Judge.me dans `apps/reviews-admin/`
+- synthese admin exploitable dans `data/reviews-admin-summary.json`
 
 Ce qu'il reste a construire pour atteindre une vraie app reviews:
 

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VD Reviews Admin</title>
+    <link rel="stylesheet" href="./assets/admin.css">
+  </head>
+  <body>
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <div class="admin-brand">
+          <span class="admin-brand__mark"></span>
+          <div>
+            <div class="admin-brand__name">VD Reviews</div>
+            <span class="admin-brand__sub">Independent review platform</span>
+          </div>
+        </div>
+
+        <nav class="admin-nav">
+          <div class="admin-nav__group">
+            <p class="admin-nav__label">Vue d ensemble</p>
+            <ul class="admin-nav__list">
+              <li class="admin-nav__item"><a class="admin-nav__link is-active" href="./index.html"><span class="admin-nav__dot"></span>Dashboard</a></li>
+              <li class="admin-nav__item"><a class="admin-nav__link" href="./reviews.html"><span class="admin-nav__dot"></span>Commentaires</a></li>
+              <li class="admin-nav__item"><a class="admin-nav__link" href="./requests.html"><span class="admin-nav__dot"></span>Demandes d avis</a></li>
+              <li class="admin-nav__item"><a class="admin-nav__link" href="./widgets.html"><span class="admin-nav__dot"></span>Widgets</a></li>
+            </ul>
+          </div>
+        </nav>
+      </aside>
+
+      <main class="admin-main">
+        <header class="admin-topbar">
+          <div class="admin-topbar__title">
+            <h1>Bienvenue sur VD Reviews</h1>
+            <p>Base proprietaire des avis Vanille Desire, organisee pour remplacer Judge.me par une plateforme maison.</p>
+          </div>
+          <div class="admin-topbar__actions">
+            <a class="admin-button" href="./reviews.html">Publier et moderer</a>
+            <a class="admin-button" href="./requests.html">Demandes & QR</a>
+          </div>
+        </header>
+
+        <section class="admin-banner">
+          <div>
+            <h2>Comment avance la plateforme reviews ?</h2>
+            <p>Historique importe, notes produits actives, catalogue QR pret. La prochaine etape est le flux post-achat tokenise puis la moderation complete.</p>
+          </div>
+          <div class="admin-banner__metric">
+            <strong data-admin-store>Vanille Desire</strong>
+            <span>Snapshot genere <span data-admin-generated-at>...</span></span>
+          </div>
+        </section>
+
+        <section class="admin-grid admin-grid--stats" data-admin-overview></section>
+
+        <section class="admin-grid admin-grid--split">
+          <article class="admin-card">
+            <div class="admin-card__head">
+              <h2>Produits phares</h2>
+            </div>
+            <div class="admin-card__body" data-admin-top-products></div>
+          </article>
+
+          <article class="admin-card">
+            <div class="admin-card__head">
+              <h2>Activite recente</h2>
+            </div>
+            <div class="admin-card__body" data-admin-recent-reviews></div>
+          </article>
+        </section>
+
+        <section class="admin-grid admin-grid--split" style="margin-top: 1rem;">
+          <article class="admin-card">
+            <div class="admin-card__head">
+              <h2>Etat des modules</h2>
+            </div>
+            <div class="admin-card__body" data-admin-roadmap></div>
+          </article>
+
+          <article class="admin-card">
+            <div class="admin-card__head">
+              <h2>Fallback</h2>
+            </div>
+            <div class="admin-card__body">
+              <p class="admin-footer-note" hidden data-admin-fallback>Genere d abord `reviews-admin-summary.json` avec les scripts `bin/export-custom-reviews.rb`, `bin/build-review-request-links.rb` puis `bin/generate-review-admin-data.rb`.</p>
+              <p class="admin-footer-note">L objectif est d organiser notre backoffice comme un vrai produit reviews: import, moderation, demandes post-achat, QR, widgets storefront, analytics et score produit.</p>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+    <script src="./assets/admin.js"></script>
+  </body>
+</html>

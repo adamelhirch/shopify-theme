@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VD Reviews Admin · Demandes d'avis</title>
+    <link rel="stylesheet" href="./assets/admin.css">
+  </head>
+  <body>
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <div class="admin-brand">
+          <span class="admin-brand__mark"></span>
+          <div>
+            <div class="admin-brand__name">VD Reviews</div>
+            <span class="admin-brand__sub">Independent review platform</span>
+          </div>
+        </div>
+
+        <nav class="admin-nav">
+          <div class="admin-nav__group">
+            <p class="admin-nav__label">Vue d ensemble</p>
+            <ul class="admin-nav__list">
+              <li class="admin-nav__item"><a class="admin-nav__link" href="./index.html"><span class="admin-nav__dot"></span>Dashboard</a></li>
+              <li class="admin-nav__item"><a class="admin-nav__link" href="./reviews.html"><span class="admin-nav__dot"></span>Commentaires</a></li>
+              <li class="admin-nav__item"><a class="admin-nav__link is-active" href="./requests.html"><span class="admin-nav__dot"></span>Demandes d avis</a></li>
+              <li class="admin-nav__item"><a class="admin-nav__link" href="./widgets.html"><span class="admin-nav__dot"></span>Widgets</a></li>
+            </ul>
+          </div>
+        </nav>
+      </aside>
+
+      <main class="admin-main">
+        <header class="admin-topbar">
+          <div class="admin-topbar__title">
+            <h1>Demandes d'avis</h1>
+            <p>Base de travail pour les emails post-achat, les liens tokenises et les QR codes de colis.</p>
+          </div>
+          <div class="admin-topbar__actions">
+            <button type="button">Programmer les demandes</button>
+            <button type="button">Exporter le catalogue QR</button>
+          </div>
+        </header>
+
+        <section class="admin-card">
+          <div class="admin-card__head">
+            <h2>Catalogue review request</h2>
+          </div>
+          <div class="admin-card__body" data-admin-requests></div>
+        </section>
+      </main>
+    </div>
+    <script src="./assets/admin.js"></script>
+  </body>
+</html>
