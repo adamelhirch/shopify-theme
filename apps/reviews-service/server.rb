@@ -35,6 +35,9 @@ class ReviewsApiServlet < WEBrick::HTTPServlet::AbstractServlet
     else
       write_json(response, 404, { error: 'Not found' })
     end
+  rescue StandardError => error
+    log_error(error)
+    write_json(response, 500, { error: error.message })
   end
 
   def do_POST(request, response)
@@ -83,7 +86,15 @@ class ReviewsApiServlet < WEBrick::HTTPServlet::AbstractServlet
     response['Access-Control-Allow-Headers'] = 'Content-Type'
     response.body = JSON.generate(payload)
   end
+
+  def log_error(error)
+    $stdout.puts "[vd-reviews] #{error.class}: #{error.message}"
+    Array(error.backtrace).each { |line| $stdout.puts "  #{line}" }
+    $stdout.flush
+  end
 end
+
+$stdout.sync = true
 
 port = ENV.fetch('VD_REVIEWS_PORT', '4567').to_i
 bind_address = ENV.fetch('VD_REVIEWS_BIND', '127.0.0.1')
