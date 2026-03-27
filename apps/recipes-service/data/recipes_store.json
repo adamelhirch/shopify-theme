@@ -202,7 +202,41 @@
       ],
       "seo": {
         "title": "Beignets de banane a la vanille",
-        "description": "Recette de beignets de banane a la vanille Bourbon, simple, rapide et fluide a suivre."
+        "description": "Recette de beignets de banane a la vanille Bourbon, simple, rapide et fluide a suivre.",
+        "keywords": [
+          "beignets de banane",
+          "recette vanille bourbon",
+          "dessert banane vanille",
+          "recette gousse de vanille"
+        ],
+        "body_sections": [
+          {
+            "title": "Pourquoi cette recette fonctionne",
+            "body": "La pate reste volontairement simple pour laisser la banane et la vanille s'exprimer sans lourdeur. La friture courte garde une coque fine, tandis que la banane apporte le fondant."
+          },
+          {
+            "title": "Erreurs a eviter",
+            "body": "Une huile trop froide donne des beignets gras, et une pate trop epaisse masque le fruit. Travaillez en petites fournees et gardez une texture nappante."
+          },
+          {
+            "title": "Conservation et service",
+            "body": "Les beignets sont meilleurs a la minute. Si besoin, gardez-les quelques instants sur grille dans un four doux avant de servir avec sucre vanille, miel ou une creme tres legere."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on remplacer la gousse de vanille dans les beignets de banane ?",
+            "answer": "Oui. Un sucre vanille de bonne qualite ou un peu d'extrait naturel peut depanner, mais la gousse garde un parfum plus net et plus elegant."
+          },
+          {
+            "question": "Comment savoir si l'huile est a bonne temperature ?",
+            "answer": "Une petite goutte de pate doit remonter rapidement et frire sans brunir trop vite. Visez une huile autour de 170 a 175 degres."
+          },
+          {
+            "question": "Quelle banane choisir pour cette recette ?",
+            "answer": "Choisissez des bananes bien mures mais encore fermes. Elles apportent le moelleux sans se defaire completement dans la friture."
+          }
+        ]
       },
       "revisions": [
 
@@ -340,7 +374,41 @@
       ],
       "seo": {
         "title": "Accords sales a la vanille",
-        "description": "Guide libre pour travailler la vanille dans une cuisine salee."
+        "description": "Guide libre pour travailler la vanille dans une cuisine salee.",
+        "keywords": [
+          "vanille salee",
+          "accords vanille poisson",
+          "comment utiliser la vanille en cuisine salee",
+          "vanille et legumes"
+        ],
+        "body_sections": [
+          {
+            "title": "Ou la vanille fonctionne vraiment en sale",
+            "body": "La vanille donne les meilleurs resultats lorsqu'elle soutient un beurre, une sauce courte, un jus ou un produit a chair douce. Elle doit rester en arriere-plan, jamais sucrer la perception du plat."
+          },
+          {
+            "title": "Les meilleurs produits pour commencer",
+            "body": "Poissons blancs, coquillages, volailles douces, carottes, courges et panais sont de bons points d'entree. Ce sont des supports lisibles qui acceptent une infusion fine."
+          },
+          {
+            "title": "Le bon geste en cuisine",
+            "body": "Commencez toujours avec une petite quantite de vanille et goutez tres tot. Un support gras ou cremeux aide a diffuser l'aromatique de facon plus naturelle qu'une cuisson brute."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Avec quels plats sales associer la vanille ?",
+            "answer": "La vanille fonctionne surtout avec les sauces courtes, les beurres montes, les chairs blanches, certains coquillages et les legumes doux."
+          },
+          {
+            "question": "Pourquoi la vanille peut sembler trop dessert en sale ?",
+            "answer": "C'est souvent un probleme de dosage ou d'equilibre. Il faut conserver du sel, de l'acidite et une lecture nette du produit principal."
+          },
+          {
+            "question": "Faut-il utiliser gousse, extrait ou caviar en sale ?",
+            "answer": "La gousse est ideale pour une infusion fine, l'extrait pour ajuster tres legerement une sauce, et le caviar pour des usages plus directs ou precis."
+          }
+        ]
       },
       "revisions": [
 

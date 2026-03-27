@@ -44,6 +44,18 @@
     return Math.max(1, Math.round(amount));
   }
 
+  function durationToISO(value) {
+    var minutes = parseDurationMinutes(value);
+    if (!minutes) return '';
+    if (minutes % 60 === 0) return 'PT' + String(minutes / 60) + 'H';
+    if (minutes > 60) {
+      var hours = Math.floor(minutes / 60);
+      var leftoverMinutes = minutes % 60;
+      return 'PT' + String(hours) + 'H' + String(leftoverMinutes) + 'M';
+    }
+    return 'PT' + String(minutes) + 'M';
+  }
+
   function compactText(value, maxLength) {
     var text = String(value || '').trim();
     if (!text) return '';
@@ -92,25 +104,90 @@
   }
 
   function buildStructuredData(recipe) {
-    return {
-      '@context': 'https://schema.org',
+    var recipeImage = [];
+    var hero = recipe.hero || {};
+    if (hero.image_url) recipeImage.push(hero.image_url);
+    (recipe.story_media || []).forEach(function (item) {
+      if (item.image_url) recipeImage.push(item.image_url);
+    });
+
+    var recipeSchema = {
       '@type': 'Recipe',
       name: recipe.title,
       description: recipe.description || recipe.summary || '',
+      image: recipeImage,
       recipeYield: recipe.serves ? recipe.serves + ' portions' : '',
+      keywords: ((recipe.seo && recipe.seo.keywords) || recipe.search_terms || []).join(', '),
+      recipeCategory: recipe.category || '',
+      recipeCuisine: 'Madagascar',
+      prepTime: durationToISO(recipe.timing && recipe.timing.prep),
+      cookTime: durationToISO(recipe.timing && recipe.timing.cook),
+      totalTime: durationToISO(recipe.timing && recipe.timing.total),
       recipeIngredient: (recipe.ingredient_groups || []).reduce(function (accumulator, group) {
         (group.items || []).forEach(function (item) {
           accumulator.push([item.quantity, item.unit, item.name].join(' ').trim());
         });
         return accumulator;
       }, []),
-      recipeInstructions: (recipe.steps || []).map(function (step) {
-        return {
+      recipeInstructions: (recipe.steps || []).map(function (step, index) {
+        var stepSchema = {
           '@type': 'HowToStep',
+          position: index + 1,
           name: step.title,
           text: step.body
         };
-      })
+        if (step.duration) stepSchema.performTime = durationToISO(step.duration);
+        if (step.editor_media && step.editor_media[0] && step.editor_media[0].image_url) {
+          stepSchema.image = step.editor_media[0].image_url;
+        }
+        if (step.editor_media && step.editor_media[0] && step.editor_media[0].video_url) {
+          stepSchema.video = {
+            '@type': 'VideoObject',
+            contentUrl: step.editor_media[0].video_url,
+            name: step.title
+          };
+        }
+        return stepSchema;
+      }),
+      author: {
+        '@type': 'Organization',
+        name: 'Vanille Desire'
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: 'Vanille Desire'
+      }
+    };
+
+    if (hero.video_url) {
+      recipeSchema.video = {
+        '@type': 'VideoObject',
+        name: recipe.title,
+        description: recipe.summary || recipe.description || '',
+        contentUrl: hero.video_url
+      };
+    }
+
+    var graph = [recipeSchema];
+    if (recipe.seo && Array.isArray(recipe.seo.faq) && recipe.seo.faq.length) {
+      graph.push({
+        '@type': 'FAQPage',
+        mainEntity: recipe.seo.faq.map(function (item) {
+          return {
+            '@type': 'Question',
+            name: item.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: item.answer
+            }
+          };
+        })
+      });
+    }
+
+    return {
+      '@context': 'https://schema.org',
+      '@graph': graph
     };
   }
 
@@ -246,6 +323,22 @@
       .join('');
     var recipeSummary = escapeHtml(recipe.description || recipe.summary || '');
     var recipeSubtitle = escapeHtml(recipe.subtitle || recipe.summary || '');
+    var editorialPanel =
+      (recipe.seo && Array.isArray(recipe.seo.body_sections) && recipe.seo.body_sections.length
+        ? '<article class="vd-recipe-signature__editorial"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Conseils & contexte</span><h2>Ce qu il faut savoir avant de lancer la recette.</h2></div></div><div class="vd-recipe-signature__editorial-grid">' +
+            (recipe.seo.body_sections || []).map(function (sectionItem) {
+              return '<article class="vd-recipe-signature__editorial-card"><h3>' + escapeHtml(sectionItem.title) + '</h3><p>' + escapeHtml(sectionItem.body) + '</p></article>';
+            }).join('') +
+          '</div></article>'
+        : '');
+    var faqPanel =
+      (recipe.seo && Array.isArray(recipe.seo.faq) && recipe.seo.faq.length
+        ? '<article class="vd-recipe-signature__faq"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">FAQ recette</span><h2>Questions utiles pour capter la recherche et rassurer avant cuisson.</h2></div></div><div class="vd-recipe-signature__faq-list">' +
+            recipe.seo.faq.map(function (item) {
+              return '<details class="vd-recipe-signature__faq-item"><summary>' + escapeHtml(item.question) + '</summary><p>' + escapeHtml(item.answer) + '</p></details>';
+            }).join('') +
+          '</div></article>'
+        : '');
     var storyPanel =
       (recipe.story_media && recipe.story_media.length
         ? '<article class="vd-recipe-signature__story"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Visuels recette</span><h2>Une lecture visuelle pour suivre chaque geste.</h2></div></div><div class="vd-recipe-signature__story-grid">' + renderEditorialMedia(recipe.story_media, 'vd-recipe-signature__story-card') + '</div></article>'
@@ -302,7 +395,7 @@
             '<div class="vd-recipe-signature__preview">' +
               '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Ingredients</span><h2>Avant de cuisiner</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__preview-copy">' + previewIngredients + '</div></article>' +
               '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Etapes</span><h2>Lecture libre</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__preview-copy">' + previewSteps + '</div></article>' +
-            '</div>' + shopPanel +
+            '</div>' + editorialPanel + faqPanel + shopPanel +
           '</div>'
         : '<div class="vd-recipe-signature__fullscreen-spotlight">' +
             '<button type="button" class="vd-recipe-signature__fullscreen-button" data-vd-recipe-fullscreen>Plein ecran</button>' +
@@ -324,6 +417,7 @@
           '</div>' +
           '<article class="vd-recipe-signature__overview"><div class="vd-recipe-signature__overview-head"><span class="vd-recipe-signature__panel-kicker">Descriptif</span><h2>Ce que vous allez preparer.</h2></div><div class="vd-recipe-signature__overview-body"><p>' + recipeSummary + '</p></div></article>' +
           storyPanel +
+          editorialPanel +
           '<div class="vd-recipe-signature__layout">' +
             '<div class="vd-recipe-signature__main">' +
               '<article class="vd-recipe-signature__panel vd-recipe-signature__ingredients-panel" id="VDRecipeIngredients" data-vd-recipe-ingredients-panel><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Ingredients</span><h2>Tout le necessaire pour <span data-vd-recipe-serves-slot>' + escapeHtml(String(recipe.serves || 1)) + '</span> personnes.</h2></div></div><div class="vd-recipe-signature__ingredients-done" data-vd-recipe-ingredients-done hidden><strong>Ingredients prets.</strong><p>Tout est coche, on peut laisser plus de place a la preparation.</p><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-ingredients-show>Revoir les ingredients</button></div><div class="vd-recipe-signature__panel-body" data-vd-recipe-ingredients></div></article>' +
@@ -334,7 +428,7 @@
                 ? '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">A retenir</span><h2>Deux repères vraiment utiles.</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__tips-compact" data-vd-recipe-tips></div></article>'
                 : '') +
             '</aside>' +
-          '</div>' + shopPanel
+          '</div>' + faqPanel + shopPanel
       );
   }
 
