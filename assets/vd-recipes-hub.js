@@ -32,8 +32,7 @@
   }
 
   function recipeHref(recipe) {
-    if (recipe.page_url) return recipe.page_url;
-    return '/pages/' + recipe.slug;
+    return '/pages/recettes?recipe=' + encodeURIComponent(recipe.slug || '');
   }
 
   function metricValue(recipe) {
@@ -119,11 +118,23 @@
     var totalNode = section.querySelector('[data-vd-recipes-total]');
     var freeNode = section.querySelector('[data-vd-recipes-free]');
     var memberNode = section.querySelector('[data-vd-recipes-member]');
+    var hubScreen = section.querySelector('[data-vd-recipes-screen="hub"]');
+    var detailScreen = section.querySelector('[data-vd-recipes-screen="detail"]');
     var accessButtons = Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipes-access]'));
     var difficultyButtons = Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipes-difficulty]'));
     var state = { query: '', access: 'all', difficulty: 'all' };
+    var requestedRecipe = new URLSearchParams(window.location.search).get('recipe');
 
     if (!registryUrl || !grid || !input) return;
+
+    if (requestedRecipe) {
+      if (hubScreen) hubScreen.hidden = true;
+      if (detailScreen) detailScreen.hidden = false;
+      return;
+    }
+
+    if (hubScreen) hubScreen.hidden = false;
+    if (detailScreen) detailScreen.hidden = true;
 
     fetch(registryUrl, { credentials: 'same-origin' })
       .then(function (response) {

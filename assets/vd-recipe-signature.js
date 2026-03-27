@@ -114,6 +114,18 @@
     var shell = section.querySelector('[data-vd-recipe-shell]');
     var loginUrl = section.getAttribute('data-login-url') || '/account/login';
     var registerUrl = section.getAttribute('data-register-url') || '/account/register';
+    var currentReturnTo = encodeURIComponent(window.location.pathname + window.location.search);
+
+    function withCurrentReturnTo(url) {
+      var separator = url.indexOf('?') === -1 ? '?' : '&';
+      if (url.indexOf('return_to=') !== -1) {
+        return url.replace(/return_to=[^&]*/g, 'return_to=' + currentReturnTo);
+      }
+      return url + separator + 'return_to=' + currentReturnTo;
+    }
+
+    loginUrl = withCurrentReturnTo(loginUrl);
+    registerUrl = withCurrentReturnTo(registerUrl);
     var metrics = metricList(recipe)
       .map(function (metric) {
         return '<span class="vd-recipe-signature__meta-item">' + escapeHtml(metric) + '</span>';
@@ -549,11 +561,21 @@
     section.__vdRecipeReady = true;
 
     var registryUrl = section.getAttribute('data-registry-url');
-    var requestedSlug = section.getAttribute('data-recipe-slug') || section.getAttribute('data-page-handle');
+    var requestedSlug = section.getAttribute('data-recipe-slug') || '';
+    var pageHandle = section.getAttribute('data-page-handle');
+    var querySlug = new URLSearchParams(window.location.search).get('recipe');
     var customerAuthenticated = section.getAttribute('data-customer-authenticated') === 'true';
     var requireCustomerAccess = section.getAttribute('data-require-customer-access') === 'true';
     var media = section.querySelector('[data-vd-recipe-media]');
     var schemaNode = section.querySelector('[data-vd-recipe-schema]');
+
+    if ((!requestedSlug || requestedSlug === pageHandle) && querySlug) {
+      requestedSlug = querySlug;
+    }
+
+    if (!requestedSlug || requestedSlug === pageHandle) {
+      return;
+    }
 
     fetch(registryUrl, { credentials: 'same-origin' })
       .then(function (response) {
