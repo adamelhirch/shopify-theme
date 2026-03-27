@@ -246,6 +246,7 @@
             '<div class="vd-recipe-signature__utility-main">' +
               '<div class="vd-recipe-signature__progress"><span class="vd-recipe-signature__panel-kicker">Progression</span><div class="vd-recipe-signature__progress-bar"><span class="vd-recipe-signature__progress-fill" data-vd-recipe-progress-fill></span></div><div class="vd-recipe-signature__progress-text" data-vd-recipe-progress-text>0/' + escapeHtml(String((recipe.steps || []).length)) + ' etapes</div></div>' +
               '<div class="vd-recipe-signature__serves"><span class="vd-recipe-signature__panel-kicker">Portions</span><div class="vd-recipe-signature__serves-control"><button type="button" data-vd-recipe-minus aria-label="Diminuer">−</button><input type="number" min="1" value="' + escapeHtml(String(recipe.serves || 1)) + '" data-vd-recipe-serves><button type="button" data-vd-recipe-plus aria-label="Augmenter">+</button></div></div>' +
+              '<article class="vd-recipe-signature__session-card"><span class="vd-recipe-signature__panel-kicker">Session</span><strong data-vd-recipe-session-status>Nouvelle session</strong><p data-vd-recipe-session-title>' + escapeHtml((recipe.steps && recipe.steps[0] && recipe.steps[0].title) || 'Commencez la preparation.') + '</p><div class="vd-recipe-signature__session-meta" data-vd-recipe-session-meta>Etape 1 prete a lancer.</div><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-session-jump>Reprendre</button></article>' +
             '</div>' +
             '<div class="vd-recipe-signature__utility-actions">' +
               '<button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-focus>Mode focus</button>' +
@@ -413,6 +414,10 @@
     var stepRailTarget = section.querySelector('[data-vd-recipe-step-rail]');
     var stepsTarget = section.querySelector('[data-vd-recipe-steps]');
     var tipsTarget = section.querySelector('[data-vd-recipe-tips]');
+    var sessionStatus = section.querySelector('[data-vd-recipe-session-status]');
+    var sessionTitle = section.querySelector('[data-vd-recipe-session-title]');
+    var sessionMeta = section.querySelector('[data-vd-recipe-session-meta]');
+    var sessionJumpButton = section.querySelector('[data-vd-recipe-session-jump]');
     var focusButton = section.querySelector('[data-vd-recipe-focus]');
     var fullscreenButton = section.querySelector('[data-vd-recipe-fullscreen]');
     var toggleButton = section.querySelector('[data-vd-recipe-toggle]');
@@ -638,6 +643,7 @@
 
       if (progressFill) progressFill.style.width = percent + '%';
       if (progressText) progressText.textContent = completed + '/' + stepChecks.length + ' etapes';
+      updateSessionCard(completed, stepChecks.length);
     }
 
     function clearTimer() {
@@ -663,6 +669,45 @@
           button.textContent = 'Lancer ' + durationLabel;
         }
       });
+      updateSessionCard();
+    }
+
+    function updateSessionCard(completedCount, totalCount) {
+      if (!sessionStatus || !sessionTitle || !sessionMeta) return;
+
+      var steps = Array.isArray(recipe.steps) ? recipe.steps : [];
+      var activeStep = steps[state.activeStepIndex] || steps[0] || null;
+      var stepChecks = Array.prototype.slice.call(section.querySelectorAll('[data-item-type="step"][data-vd-recipe-check]'));
+      var completed = typeof completedCount === 'number'
+        ? completedCount
+        : stepChecks.filter(function (checkbox) { return checkbox.checked; }).length;
+      var total = typeof totalCount === 'number' ? totalCount : stepChecks.length;
+      var remaining = Math.max(0, total - completed);
+
+      if (!activeStep) {
+        sessionStatus.textContent = 'Recette';
+        sessionTitle.textContent = 'Aucune etape disponible';
+        sessionMeta.textContent = 'Le registre n expose pas encore de pas a pas pour cette fiche.';
+        return;
+      }
+
+      if (completed >= total && total > 0) {
+        sessionStatus.textContent = 'Recette terminee';
+        sessionTitle.textContent = 'Tout est coche, vous pouvez repasser au descriptif ou aux produits.';
+        sessionMeta.textContent = 'La session est complete.';
+      } else if (timerState.intervalId && timerState.stepId === activeStep.id) {
+        sessionStatus.textContent = 'Minuteur en cours';
+        sessionTitle.textContent = activeStep.title;
+        sessionMeta.textContent = 'Etape ' + (state.activeStepIndex + 1) + ' en cours · ' + Math.floor(timerState.remainingSeconds / 60) + ':' + String(timerState.remainingSeconds % 60).padStart(2, '0');
+      } else if (completed > 0 || state.activeStepIndex > 0) {
+        sessionStatus.textContent = 'Session en cours';
+        sessionTitle.textContent = activeStep.title;
+        sessionMeta.textContent = remaining + ' etape' + (remaining > 1 ? 's' : '') + ' restantes · etape ' + (state.activeStepIndex + 1);
+      } else {
+        sessionStatus.textContent = 'Nouvelle session';
+        sessionTitle.textContent = activeStep.title;
+        sessionMeta.textContent = 'Etape ' + (state.activeStepIndex + 1) + ' prete a lancer.';
+      }
     }
 
     function startTimer(stepId, durationLabel) {
@@ -702,6 +747,7 @@
         card.classList.toggle('is-active', cardIndex === state.activeStepIndex);
       });
       syncStepRail();
+      updateSessionCard();
       if (state.focusMode && shouldScroll && cards[state.activeStepIndex]) {
         cards[state.activeStepIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
@@ -832,6 +878,9 @@
     refreshProgress();
     refreshIngredientsPanel(false);
     setActiveStep(state.activeStepIndex, false);
+    section.classList.toggle('is-focus-mode', state.focusMode);
+    focusButton.textContent = state.focusMode ? 'Vue complete' : 'Mode focus';
+    updateTimerButtons();
 
     if (ingredientsShowButton) {
       ingredientsShowButton.addEventListener('click', function () {
@@ -854,6 +903,12 @@
       state.serves = Math.max(1, Number(quantityInput.value) || baseServes);
       syncServes();
     });
+
+    if (sessionJumpButton) {
+      sessionJumpButton.addEventListener('click', function () {
+        setActiveStep(state.activeStepIndex, true);
+      });
+    }
 
     focusButton.addEventListener('click', function () {
       state.focusMode = !state.focusMode;

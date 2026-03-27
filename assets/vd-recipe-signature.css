@@ -249,6 +249,37 @@
   flex-wrap: wrap;
 }
 
+.vd-recipe-signature__session-card {
+  flex: 1 1 28rem;
+  display: grid;
+  gap: 0.7rem;
+  align-content: start;
+  min-height: 100%;
+  padding: 1.2rem 1.3rem;
+  border: 1px solid rgba(var(--vd-text), 0.08);
+  border-radius: 2rem;
+  background: linear-gradient(135deg, rgba(96, 136, 95, 0.1), rgba(var(--vd-white), 0.7));
+}
+
+.vd-recipe-signature__session-card strong {
+  display: block;
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.25;
+}
+
+.vd-recipe-signature__session-card p,
+.vd-recipe-signature__session-meta {
+  margin: 0;
+  color: rgba(var(--vd-text), 0.72);
+  font-size: 1.36rem;
+  line-height: 1.6;
+}
+
+.vd-recipe-signature__session-card .vd-recipe-signature__utility-button {
+  justify-self: start;
+}
+
 .vd-recipe-signature__progress {
   flex: 1 1 24rem;
   display: grid;
