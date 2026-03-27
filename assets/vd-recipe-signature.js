@@ -30,6 +30,20 @@
     }
   }
 
+  function parseDurationMinutes(value) {
+    if (!value) return 0;
+    var text = String(value).trim().toLowerCase();
+    if (!text) return 0;
+    var match = text.match(/(\d+(?:[.,]\d+)?)/);
+    if (!match) return 0;
+    var amount = Number(match[1].replace(',', '.'));
+    if (!Number.isFinite(amount)) return 0;
+    if (text.indexOf('h') !== -1 || text.indexOf('heure') !== -1) {
+      return Math.max(1, Math.round(amount * 60));
+    }
+    return Math.max(1, Math.round(amount));
+  }
+
   function compactText(value, maxLength) {
     var text = String(value || '').trim();
     if (!text) return '';
@@ -245,7 +259,7 @@
           '<div class="vd-recipe-signature__layout">' +
             '<div class="vd-recipe-signature__main">' +
               '<article class="vd-recipe-signature__panel vd-recipe-signature__ingredients-panel" id="VDRecipeIngredients" data-vd-recipe-ingredients-panel><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Ingredients</span><h2>Tout le necessaire pour <span data-vd-recipe-serves-slot>' + escapeHtml(String(recipe.serves || 1)) + '</span> personnes.</h2></div></div><div class="vd-recipe-signature__ingredients-done" data-vd-recipe-ingredients-done hidden><strong>Ingredients prets.</strong><p>Tout est coche, on peut laisser plus de place a la preparation.</p><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-ingredients-show>Revoir les ingredients</button></div><div class="vd-recipe-signature__panel-body" data-vd-recipe-ingredients></div></article>' +
-              '<article class="vd-recipe-signature__panel" id="VDRecipePreparation"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Preparation</span><h2>Le pas a pas complet de la recette.</h2></div><div class="vd-recipe-signature__step-nav"><button type="button" data-vd-recipe-prev-step>Etape precedente</button><button type="button" data-vd-recipe-next-step>Etape suivante</button></div></div><div class="vd-recipe-signature__panel-body" data-vd-recipe-steps></div></article>' +
+              '<article class="vd-recipe-signature__panel" id="VDRecipePreparation"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Preparation</span><h2>Le pas a pas complet de la recette.</h2></div><div class="vd-recipe-signature__step-nav"><button type="button" data-vd-recipe-prev-step>Etape precedente</button><button type="button" data-vd-recipe-next-step>Etape suivante</button></div></div><div class="vd-recipe-signature__step-rail" data-vd-recipe-step-rail></div><div class="vd-recipe-signature__panel-body" data-vd-recipe-steps></div></article>' +
             '</div>' +
             '<aside class="vd-recipe-signature__aside">' +
               (recipe.tips && recipe.tips.length
@@ -396,6 +410,7 @@
     var ingredientsTarget = section.querySelector('[data-vd-recipe-ingredients]');
     var ingredientsDone = section.querySelector('[data-vd-recipe-ingredients-done]');
     var ingredientsShowButton = section.querySelector('[data-vd-recipe-ingredients-show]');
+    var stepRailTarget = section.querySelector('[data-vd-recipe-step-rail]');
     var stepsTarget = section.querySelector('[data-vd-recipe-steps]');
     var tipsTarget = section.querySelector('[data-vd-recipe-tips]');
     var focusButton = section.querySelector('[data-vd-recipe-focus]');
@@ -407,6 +422,11 @@
     var prevButton = section.querySelector('[data-vd-recipe-prev-step]');
     var nextButton = section.querySelector('[data-vd-recipe-next-step]');
     var cleanups = [];
+    var timerState = {
+      intervalId: null,
+      stepId: '',
+      remainingSeconds: 0
+    };
 
     if (!quantityInput || !ingredientsTarget || !stepsTarget) return;
 
@@ -460,11 +480,29 @@
                 '</div>' +
                 '<div class="vd-recipe-signature__step-actions">' +
                   '<label class="vd-recipe-signature__step-check"><input type="checkbox" data-vd-recipe-check data-item-type="step" data-item-id="' + escapeHtml(itemId) + '"' + (checked ? ' checked' : '') + '> Fait</label>' +
+                  (parseDurationMinutes(step.duration)
+                    ? '<button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-step-timer data-step-id="' + escapeHtml(step.id) + '" data-step-duration="' + escapeHtml(step.duration) + '">Lancer ' + escapeHtml(step.duration) + '</button>'
+                    : '') +
                   '<button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-step-select data-step-index="' + index + '">Centrer</button>' +
                 '</div>' +
               '</div>' +
               '<div class="vd-recipe-signature__step-content"><strong data-vd-recipe-step-title>' + escapeHtml(step.title) + '</strong><p>' + escapeHtml(step.body) + '</p></div>' +
             '</article>'
+          );
+        })
+        .join('');
+    }
+
+    function renderStepRail() {
+      if (!stepRailTarget) return;
+      stepRailTarget.innerHTML = (recipe.steps || [])
+        .map(function (step, index) {
+          return (
+            '<button type="button" class="vd-recipe-signature__step-pill' + (index === state.activeStepIndex ? ' is-active' : '') + '" data-vd-recipe-step-pill data-step-index="' + index + '">' +
+              '<span>Etape ' + (index + 1) + '</span>' +
+              '<strong>' + escapeHtml(step.title) + '</strong>' +
+              (step.duration ? '<small>' + escapeHtml(step.duration) + '</small>' : '') +
+            '</button>'
           );
         })
         .join('');
@@ -549,7 +587,7 @@
       );
     }
 
-    function refreshIngredientsPanel() {
+    function refreshIngredientsPanel(animate) {
       if (!ingredientsPanel || !ingredientsDone) return;
       var boxes = ingredientCheckboxes();
       var allChecked = boxes.length > 0 && boxes.every(function (checkbox) {
@@ -557,7 +595,7 @@
       });
       var alreadyCollapsed = ingredientsPanel.classList.contains('is-complete');
       if (alreadyCollapsed === allChecked) return;
-      setIngredientsCollapsed(allChecked, true);
+      setIngredientsCollapsed(allChecked, !!animate);
     }
 
     function syncServes() {
@@ -568,12 +606,27 @@
       });
       renderIngredients();
       bindDynamicEvents();
-      refreshIngredientsPanel();
+      refreshIngredientsPanel(false);
       saveState(storageKey, state);
     }
 
     function stepCards() {
       return Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipe-step-item]'));
+    }
+
+    function stepPills() {
+      return Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipe-step-pill]'));
+    }
+
+    function syncStepRail() {
+      var pills = stepPills();
+      pills.forEach(function (pill, pillIndex) {
+        pill.classList.toggle('is-active', pillIndex === state.activeStepIndex);
+      });
+      var activePill = pills[state.activeStepIndex];
+      if (activePill && typeof activePill.scrollIntoView === 'function') {
+        activePill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
     }
 
     function refreshProgress() {
@@ -587,6 +640,60 @@
       if (progressText) progressText.textContent = completed + '/' + stepChecks.length + ' etapes';
     }
 
+    function clearTimer() {
+      if (timerState.intervalId) {
+        window.clearInterval(timerState.intervalId);
+      }
+      timerState.intervalId = null;
+      timerState.stepId = '';
+      timerState.remainingSeconds = 0;
+    }
+
+    function updateTimerButtons() {
+      Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipe-step-timer]')).forEach(function (button) {
+        var stepId = button.getAttribute('data-step-id') || '';
+        var durationLabel = button.getAttribute('data-step-duration') || '';
+        var isRunning = timerState.intervalId && timerState.stepId === stepId;
+        button.classList.toggle('is-running', !!isRunning);
+        if (isRunning) {
+          var minutes = Math.floor(timerState.remainingSeconds / 60);
+          var seconds = timerState.remainingSeconds % 60;
+          button.textContent = 'En cours ' + minutes + ':' + String(seconds).padStart(2, '0');
+        } else {
+          button.textContent = 'Lancer ' + durationLabel;
+        }
+      });
+    }
+
+    function startTimer(stepId, durationLabel) {
+      var durationMinutes = parseDurationMinutes(durationLabel);
+      if (!durationMinutes) return;
+
+      if (timerState.intervalId && timerState.stepId === stepId) {
+        clearTimer();
+        updateTimerButtons();
+        showToast(section, 'Minuteur arrete');
+        return;
+      }
+
+      clearTimer();
+      timerState.stepId = stepId;
+      timerState.remainingSeconds = durationMinutes * 60;
+      updateTimerButtons();
+      showToast(section, 'Minuteur lance pour ' + durationLabel);
+
+      timerState.intervalId = window.setInterval(function () {
+        timerState.remainingSeconds -= 1;
+        if (timerState.remainingSeconds <= 0) {
+          clearTimer();
+          updateTimerButtons();
+          showToast(section, 'Etape terminee');
+          return;
+        }
+        updateTimerButtons();
+      }, 1000);
+    }
+
     function setActiveStep(index, shouldScroll) {
       var cards = stepCards();
       if (!cards.length) return;
@@ -594,6 +701,7 @@
       cards.forEach(function (card, cardIndex) {
         card.classList.toggle('is-active', cardIndex === state.activeStepIndex);
       });
+      syncStepRail();
       if (state.focusMode && shouldScroll && cards[state.activeStepIndex]) {
         cards[state.activeStepIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
@@ -604,7 +712,7 @@
       Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipe-check]')).forEach(function (checkbox) {
         checkbox.addEventListener('change', function () {
           state.checked[checkbox.getAttribute('data-item-id')] = checkbox.checked;
-          refreshIngredientsPanel();
+          refreshIngredientsPanel(true);
           refreshProgress();
           saveState(storageKey, state);
         });
@@ -613,6 +721,18 @@
       Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipe-step-select]')).forEach(function (button) {
         button.addEventListener('click', function () {
           setActiveStep(Number(button.getAttribute('data-step-index')) || 0, true);
+        });
+      });
+
+      Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipe-step-pill]')).forEach(function (button) {
+        button.addEventListener('click', function () {
+          setActiveStep(Number(button.getAttribute('data-step-index')) || 0, true);
+        });
+      });
+
+      Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipe-step-timer]')).forEach(function (button) {
+        button.addEventListener('click', function () {
+          startTimer(button.getAttribute('data-step-id') || '', button.getAttribute('data-step-duration') || '');
         });
       });
     }
@@ -649,6 +769,28 @@
       if (!window.gsap || !window.ScrollTrigger) return;
       var cards = stepCards();
       window.gsap.fromTo(
+        section.querySelectorAll('.vd-recipe-signature__hero-copy > *, .vd-recipe-signature__hero-aside > *'),
+        { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.72, stagger: 0.08, ease: 'power2.out' }
+      );
+
+      window.gsap.fromTo(
+        section.querySelectorAll('.vd-recipe-signature__fullscreen-spotlight, .vd-recipe-signature__overview, .vd-recipe-signature__shop'),
+        { opacity: 0, y: 26 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.08,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 72%'
+          }
+        }
+      );
+
+      window.gsap.fromTo(
         cards,
         { opacity: 0, y: 20 },
         {
@@ -683,11 +825,12 @@
       });
     }
 
+    renderStepRail();
     renderSteps();
     renderTips();
     syncServes();
     refreshProgress();
-    refreshIngredientsPanel();
+    refreshIngredientsPanel(false);
     setActiveStep(state.activeStepIndex, false);
 
     if (ingredientsShowButton) {
@@ -744,7 +887,7 @@
         checkbox.checked = nextState;
         state.checked[checkbox.getAttribute('data-item-id')] = nextState;
       });
-      refreshIngredientsPanel();
+      refreshIngredientsPanel(true);
       refreshProgress();
       saveState(storageKey, state);
     });
@@ -763,6 +906,7 @@
     downloadButton.addEventListener('click', downloadText);
 
     resetButton.addEventListener('click', function () {
+      clearTimer();
       state.serves = baseServes;
       state.checked = {};
       state.activeStepIndex = 0;
@@ -770,8 +914,9 @@
       section.classList.remove('is-focus-mode');
       focusButton.textContent = 'Mode focus';
       syncServes();
-      refreshIngredientsPanel();
+      refreshIngredientsPanel(false);
       refreshProgress();
+      updateTimerButtons();
       setActiveStep(0, false);
       showToast(section, 'Progression reinitialisee');
     });
@@ -788,6 +933,7 @@
 
     document.addEventListener('shopify:section:unload', function (event) {
       if (!section.contains(event.target)) return;
+      clearTimer();
       cleanups.forEach(function (cleanup) {
         cleanup();
       });
