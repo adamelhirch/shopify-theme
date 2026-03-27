@@ -6,11 +6,13 @@ Service local de reference pour piloter une base de recettes souveraine hors du 
 
 - registre prive des recettes et guides
 - soumissions externes
+- roles `admin`, `editor`, `partner`
 - moderation `draft`, `pending`, `approved`, `rejected`, `archived`
 - historique de revisions par recette
 - journal d'audit
 - historique des publications du registre public
 - export des seules recettes `approved` vers `assets/vd-recipes-registry.json`
+- schema SQL de migration vers PostgreSQL dans `apps/recipes-service/schema.sql`
 
 ## Lancer le service
 
@@ -27,9 +29,21 @@ export VD_RECIPES_PORT=4567
 export VD_RECIPES_ADMIN_TOKEN=change-me
 ```
 
+Les acteurs de demo sont definis dans `apps/recipes-service/data/actors.json`:
+
+- `change-me` -> `admin`
+- `editor-demo-token` -> `editor`
+- `partner-demo-token` -> `partner`
+
+Les tokens peuvent etre envoyes via:
+
+- `X-VD-Token`
+- `X-VD-Admin-Token`
+- `Authorization: Bearer <token>`
+
 ## Endpoints
 
-Public / partenaires:
+Public:
 
 - `GET /health`
 - `GET /dashboard`
@@ -37,17 +51,21 @@ Public / partenaires:
 - `GET /recipes?status=approved&q=vanille&access=member`
 - `GET /recipes/:slug`
 - `GET /recipes/:slug/history`
-- `POST /recipes`
-  Sans token admin, l'appel est traite comme une soumission externe.
 
-Admin:
+Authentifies:
+
+- `GET /me`
+- `POST /recipes`
+  - `admin` / `editor`: creation directe d'une recette interne
+  - `partner`: soumission externe passee en `pending`
+
+Admin / edition:
 
 - `GET /admin`
+- `GET /actors`
 - `GET /submissions`
 - `GET /publications`
 - `GET /audit`
-- `POST /recipes`
-  Avec token admin, creation directe d'une recette interne.
 - `PATCH /recipes/:slug`
 - `POST /recipes/:slug/update`
 - `POST /recipes/:slug/approve`
@@ -55,12 +73,14 @@ Admin:
 - `POST /recipes/:slug/archive`
 - `POST /exports/registry`
 
-Les routes admin attendent:
+Les routes protegees attendent:
 
 ```text
-X-VD-Admin-Token: votre-token
+X-VD-Token: votre-token
 X-VD-Reviewer: Nom du relecteur
 ```
+
+Le header `X-VD-Reviewer` reste optionnel; le service reprend sinon le nom de l'acteur authentifie.
 
 ## Interface admin locale
 
@@ -77,6 +97,7 @@ Cette page donne:
 - les recettes publiees
 - l'historique des publications
 - les derniers evenements d'audit
+- les acteurs autorises
 - le rappel des endpoints utiles
 
 ## Export vers le theme
@@ -89,17 +110,22 @@ Ou via API:
 
 ```bash
 curl -X POST \
-  -H "X-VD-Admin-Token: change-me" \
+  -H "X-VD-Token: change-me" \
   -H "X-VD-Reviewer: Studio" \
   http://127.0.0.1:4567/exports/registry
 ```
+
+Voir aussi:
+
+- `apps/recipes-service/data/actors.json`
+- `apps/recipes-service/schema.sql`
 
 ## Etape suivante recommandee
 
 Quand on voudra passer en backend complet de production:
 
 - remplacer le fichier JSON par PostgreSQL
-- brancher une authentification admin / partenaires
+- brancher une authentification robuste avec rotation de secrets et sessions
 - ajouter une vraie UI de moderation edition par edition
 - versionner les publications par environnement
 - connecter la publication a Shopify via app proxy, webhook ou pipeline CI

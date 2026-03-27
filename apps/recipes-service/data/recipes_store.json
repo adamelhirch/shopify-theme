@@ -426,6 +426,13 @@
       "id": "4e50ab3b981c2581",
       "event": "registry_exported",
       "at": "2026-03-27T13:32:27Z"
+    },
+    {
+      "actor": "Codex Admin",
+      "published_count": 2,
+      "id": "a9915b6b155217a2",
+      "event": "registry_exported",
+      "at": "2026-03-27T13:43:24Z"
     }
   ],
   "publications": [
@@ -440,6 +447,13 @@
       "id": "243adfe708603a1e",
       "published_at": "2026-03-27T13:32:27Z",
       "actor": "Codex",
+      "published_count": 2,
+      "output": "Exported 2 recipes to /Users/leothuel/Documents/VD Site/assets/vd-recipes-registry.json"
+    },
+    {
+      "id": "054b363afd15b587",
+      "published_at": "2026-03-27T13:43:24Z",
+      "actor": "Codex Admin",
       "published_count": 2,
       "output": "Exported 2 recipes to /Users/leothuel/Documents/VD Site/assets/vd-recipes-registry.json"
     }

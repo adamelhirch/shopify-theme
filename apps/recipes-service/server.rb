@@ -6,12 +6,14 @@ require 'json'
 require 'open3'
 require 'webrick'
 require 'English'
+require_relative 'lib/actor_registry'
 require_relative 'lib/recipe_store'
 
 ROOT = File.expand_path(__dir__)
 STORE = RecipeStore.new(File.join(ROOT, 'data', 'recipes_store.json'))
 PORT = Integer(ENV.fetch('VD_RECIPES_PORT', '4567'))
 ADMIN_TOKEN = ENV.fetch('VD_RECIPES_ADMIN_TOKEN', 'change-me')
+ACTORS = ActorRegistry.new(File.join(ROOT, 'data', 'actors.json'), fallback_admin_token: ADMIN_TOKEN)
 EXPORT_SCRIPT = File.expand_path('../../bin/export-recipes-store.rb', __dir__)
 
 def json_response(response, status, payload)
@@ -34,16 +36,44 @@ rescue JSON::ParserError
   raise ArgumentError, 'invalid json body'
 end
 
-def admin_request?(request)
-  request['X-VD-Admin-Token'] == ADMIN_TOKEN
+def request_token(request)
+  bearer = request['Authorization'].to_s[/\ABearer\s+(.+)\z/i, 1]
+  bearer || request['X-VD-Token'] || request['X-VD-Admin-Token']
 end
 
-def reviewer_name(request)
-  request['X-VD-Reviewer'] || 'admin'
+def current_actor(request)
+  token = request_token(request)
+  return nil if token.to_s.strip.empty?
+
+  ACTORS.authenticate(token)
+end
+
+def actor_name(request, actor = nil)
+  actor ||= current_actor(request)
+  request['X-VD-Reviewer'] || actor&.dig('name') || 'system'
 end
 
 def unauthorized!(response)
   json_response(response, 401, { error: 'unauthorized' })
+end
+
+def forbidden!(response, permission)
+  json_response(response, 403, { error: 'forbidden', permission: permission })
+end
+
+def require_permission!(request, response, permission)
+  actor = current_actor(request)
+  unless actor
+    unauthorized!(response)
+    return nil
+  end
+
+  unless ACTORS.allowed?(actor, permission)
+    forbidden!(response, permission)
+    return nil
+  end
+
+  actor
 end
 
 def run_export(actor)
@@ -65,12 +95,14 @@ def html_escape(value)
   CGI.escapeHTML(value.to_s)
 end
 
-def admin_dashboard
+def admin_dashboard(actor:)
   summary = STORE.dashboard_summary
+  actor_summary = ACTORS.summary
   pending = STORE.pending_submissions
   approved = STORE.by_status('approved')
   publications = STORE.publication_history(10)
   audit_log = STORE.audit_log(12)
+  actors = ACTORS.all
 
   <<~HTML
     <!doctype html>
@@ -185,6 +217,7 @@ def admin_dashboard
           <section class="hero">
             <h1>Recipes Service Admin</h1>
             <p>Base locale de moderation, publication et export pour le registre recette Vanille Desire.</p>
+            <p class="muted">Session: #{html_escape(actor['name'])} · role #{html_escape(actor['role'])}</p>
             <div class="summary">
               <div class="stat"><span class="muted">Total</span><strong>#{summary[:total]}</strong></div>
               <div class="stat"><span class="muted">Approuvees</span><strong>#{summary[:approved]}</strong></div>
@@ -251,12 +284,35 @@ def admin_dashboard
           </div>
 
           <section class="panel" style="margin-top:20px;">
+            <h2>Acteurs autorises</h2>
+            <table>
+              <thead>
+                <tr><th>Nom</th><th>Role</th><th>Organisation</th><th>Etat</th></tr>
+              </thead>
+              <tbody>
+                #{actors.map { |entry|
+                  "<tr><td>#{html_escape(entry['name'])}</td><td>#{html_escape(entry['role'])}</td><td>#{html_escape(entry['organization'])}</td><td>#{html_escape(entry['active'] ? 'active' : 'inactive')}</td></tr>"
+                }.join.presence || '<tr><td colspan="4">Aucun acteur configure.</td></tr>'}
+              </tbody>
+            </table>
+            <div class="summary" style="margin-top:20px;">
+              <div class="stat"><span class="muted">Total acteurs</span><strong>#{actor_summary[:total]}</strong></div>
+              <div class="stat"><span class="muted">Actifs</span><strong>#{actor_summary[:active]}</strong></div>
+              <div class="stat"><span class="muted">Admins</span><strong>#{actor_summary[:admins]}</strong></div>
+              <div class="stat"><span class="muted">Editors</span><strong>#{actor_summary[:editors]}</strong></div>
+              <div class="stat"><span class="muted">Partners</span><strong>#{actor_summary[:partners]}</strong></div>
+              <div class="stat"><span class="muted">Schema SQL</span><strong>v1</strong></div>
+            </div>
+          </section>
+
+          <section class="panel" style="margin-top:20px;">
             <h2>API utile</h2>
             <div class="stack">
+              <article class="card"><strong>Identity</strong><p><code>GET /me</code> · <code>GET /actors</code></p></article>
               <article class="card"><strong>Dashboard</strong><p><code>GET /dashboard</code></p></article>
               <article class="card"><strong>Recherche / filtres</strong><p><code>GET /recipes?status=pending&amp;q=vanille&amp;access=member</code></p></article>
               <article class="card"><strong>Historique d'une recette</strong><p><code>GET /recipes/:slug/history</code></p></article>
-              <article class="card"><strong>Export public</strong><p><code>POST /exports/registry</code> avec header <code>X-VD-Admin-Token</code></p></article>
+              <article class="card"><strong>Export public</strong><p><code>POST /exports/registry</code> avec header <code>X-VD-Token</code> ou <code>Authorization: Bearer ...</code></p></article>
             </div>
           </section>
         </div>
@@ -286,8 +342,44 @@ server.mount_proc '/dashboard' do |_request, response|
   json_response(response, 200, STORE.dashboard_summary)
 end
 
-server.mount_proc '/admin' do |_request, response|
-  html_response(response, 200, admin_dashboard)
+server.mount_proc '/me' do |request, response|
+  if request.request_method != 'GET'
+    json_response(response, 405, { error: 'method_not_allowed' })
+    next
+  end
+
+  actor = current_actor(request)
+  unless actor
+    unauthorized!(response)
+    next
+  end
+
+  json_response(response, 200, {
+    actor: actor.reject { |key, _value| key == 'token' },
+    permissions: ACTORS.permissions_for(actor)
+  })
+end
+
+server.mount_proc '/actors' do |request, response|
+  if request.request_method != 'GET'
+    json_response(response, 405, { error: 'method_not_allowed' })
+    next
+  end
+
+  actor = require_permission!(request, response, 'actors:read')
+  next unless actor
+
+  json_response(response, 200, {
+    actors: ACTORS.all.map { |entry| entry.reject { |key, _value| key == 'token' } },
+    summary: ACTORS.summary
+  })
+end
+
+server.mount_proc '/admin' do |request, response|
+  actor = require_permission!(request, response, 'admin')
+  next unless actor
+
+  html_response(response, 200, admin_dashboard(actor: actor))
 end
 
 server.mount_proc '/recipes' do |request, response|
@@ -301,13 +393,26 @@ server.mount_proc '/recipes' do |request, response|
     )
     json_response(response, 200, { recipes: recipes })
   when 'POST'
-    actor = reviewer_name(request)
-    payload = parse_body(request)
+    actor = current_actor(request)
+    unless actor
+      unauthorized!(response)
+      next
+    end
 
-    if admin_request?(request)
-      json_response(response, 201, STORE.create_recipe(payload, actor: actor))
+    payload = parse_body(request)
+    reviewer = actor_name(request, actor)
+
+    if ACTORS.allowed?(actor, 'recipes:write')
+      json_response(response, 201, STORE.create_recipe(payload, actor: reviewer))
+    elsif ACTORS.allowed?(actor, 'recipes:submit')
+      payload['submitted_by'] ||= {
+        'name' => actor['name'],
+        'type' => 'partner',
+        'organization' => actor['organization']
+      }
+      json_response(response, 201, STORE.create_submission(payload, actor: reviewer))
     else
-      json_response(response, 201, STORE.create_submission(payload, actor: actor))
+      forbidden!(response, 'recipes:write')
     end
   else
     json_response(response, 405, { error: 'method_not_allowed' })
@@ -322,10 +427,8 @@ server.mount_proc '/submissions' do |request, response|
     next
   end
 
-  unless admin_request?(request)
-    unauthorized!(response)
-    next
-  end
+  actor = require_permission!(request, response, 'submissions:read')
+  next unless actor
 
   json_response(response, 200, { submissions: STORE.pending_submissions })
 end
@@ -336,10 +439,8 @@ server.mount_proc '/publications' do |request, response|
     next
   end
 
-  unless admin_request?(request)
-    unauthorized!(response)
-    next
-  end
+  actor = require_permission!(request, response, 'publications:read')
+  next unless actor
 
   json_response(response, 200, { publications: STORE.publication_history })
 end
@@ -350,10 +451,8 @@ server.mount_proc '/audit' do |request, response|
     next
   end
 
-  unless admin_request?(request)
-    unauthorized!(response)
-    next
-  end
+  actor = require_permission!(request, response, 'audit:read')
+  next unless actor
 
   json_response(response, 200, { audit_log: STORE.audit_log })
 end
@@ -364,15 +463,51 @@ server.mount_proc '/exports/registry' do |request, response|
     next
   end
 
-  unless admin_request?(request)
-    unauthorized!(response)
-    next
-  end
+  actor = require_permission!(request, response, 'recipes:export')
+  next unless actor
 
-  json_response(response, 200, run_export(reviewer_name(request)))
+  json_response(response, 200, run_export(actor_name(request, actor)))
 end
 
 server.mount_proc '/recipes/' do |request, response|
+  if request.path == '/recipes'
+    case request.request_method
+    when 'GET'
+      recipes = STORE.all(
+        status: request.query['status'],
+        access: request.query['access'],
+        query: request.query['q'],
+        submitted_by_type: request.query['submitted_by_type']
+      )
+      json_response(response, 200, { recipes: recipes })
+    when 'POST'
+      actor = current_actor(request)
+      unless actor
+        unauthorized!(response)
+        next
+      end
+
+      payload = parse_body(request)
+      reviewer = actor_name(request, actor)
+
+      if ACTORS.allowed?(actor, 'recipes:write')
+        json_response(response, 201, STORE.create_recipe(payload, actor: reviewer))
+      elsif ACTORS.allowed?(actor, 'recipes:submit')
+        payload['submitted_by'] ||= {
+          'name' => actor['name'],
+          'type' => 'partner',
+          'organization' => actor['organization']
+        }
+        json_response(response, 201, STORE.create_submission(payload, actor: reviewer))
+      else
+        forbidden!(response, 'recipes:write')
+      end
+    else
+      json_response(response, 405, { error: 'method_not_allowed' })
+    end
+    next
+  end
+
   slug = request.path.sub(%r{\A/recipes/}, '')
 
   if request.request_method == 'GET' && request.path.end_with?('/history')
@@ -391,26 +526,34 @@ server.mount_proc '/recipes/' do |request, response|
     next
   end
 
-  unless admin_request?(request)
-    unauthorized!(response)
-    next
-  end
-
-  actor = reviewer_name(request)
-  payload = parse_body(request)
-
   if request.request_method == 'PATCH' || (request.request_method == 'POST' && request.path.end_with?('/update'))
+    actor = require_permission!(request, response, 'recipes:write')
+    next unless actor
+
+    payload = parse_body(request)
     target_slug = slug.sub(%r{/update\z}, '')
-    json_response(response, 200, STORE.update_recipe(target_slug, payload, actor: actor))
+    json_response(response, 200, STORE.update_recipe(target_slug, payload, actor: actor_name(request, actor)))
   elsif request.request_method == 'POST' && request.path.end_with?('/approve')
+    actor = require_permission!(request, response, 'recipes:approve')
+    next unless actor
+
+    payload = parse_body(request)
     target_slug = slug.sub(%r{/approve\z}, '')
-    json_response(response, 200, STORE.approve(target_slug, actor, note: payload['note']))
+    json_response(response, 200, STORE.approve(target_slug, actor_name(request, actor), note: payload['note']))
   elsif request.request_method == 'POST' && request.path.end_with?('/reject')
+    actor = require_permission!(request, response, 'recipes:reject')
+    next unless actor
+
+    payload = parse_body(request)
     target_slug = slug.sub(%r{/reject\z}, '')
-    json_response(response, 200, STORE.reject(target_slug, actor, note: payload['note']))
+    json_response(response, 200, STORE.reject(target_slug, actor_name(request, actor), note: payload['note']))
   elsif request.request_method == 'POST' && request.path.end_with?('/archive')
+    actor = require_permission!(request, response, 'recipes:archive')
+    next unless actor
+
+    payload = parse_body(request)
     target_slug = slug.sub(%r{/archive\z}, '')
-    json_response(response, 200, STORE.archive(target_slug, actor, note: payload['note']))
+    json_response(response, 200, STORE.archive(target_slug, actor_name(request, actor), note: payload['note']))
   else
     json_response(response, 405, { error: 'method_not_allowed' })
   end

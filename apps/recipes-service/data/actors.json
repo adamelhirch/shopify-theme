@@ -1,0 +1,31 @@
+{
+  "actors": [
+    {
+      "id": "admin-codex",
+      "name": "Codex Admin",
+      "email": "admin@vanilledesire.local",
+      "role": "admin",
+      "token": "change-me",
+      "active": true,
+      "organization": "Vanille Desire"
+    },
+    {
+      "id": "editor-studio",
+      "name": "Studio Editorial",
+      "email": "editor@vanilledesire.local",
+      "role": "editor",
+      "token": "editor-demo-token",
+      "active": true,
+      "organization": "Vanille Desire"
+    },
+    {
+      "id": "partner-atelier",
+      "name": "Maison Atelier Externe",
+      "email": "atelier@partners.local",
+      "role": "partner",
+      "token": "partner-demo-token",
+      "active": true,
+      "organization": "Maison Atelier Externe"
+    }
+  ]
+}
