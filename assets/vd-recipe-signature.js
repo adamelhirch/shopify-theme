@@ -20,6 +20,25 @@
     return String(rounded).replace('.', ',');
   }
 
+  function formatMoney(cents) {
+    var currency = (window.Shopify && window.Shopify.currency && window.Shopify.currency.active) || 'EUR';
+    var amount = Number(cents || 0) / 100;
+    try {
+      return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: currency }).format(amount);
+    } catch (error) {
+      return amount.toFixed(2) + ' ' + currency;
+    }
+  }
+
+  function compactText(value, maxLength) {
+    var text = String(value || '').trim();
+    if (!text) return '';
+    var sentenceMatch = text.match(/^[\s\S]*?[.!?](?:\s|$)/);
+    var sentence = (sentenceMatch && sentenceMatch[0]) || text;
+    if (sentence.length <= maxLength) return sentence;
+    return sentence.slice(0, Math.max(0, maxLength - 1)).trim() + '…';
+  }
+
   function showToast(section, message) {
     var toast = section.querySelector('[data-vd-recipe-toast]');
     if (!toast) return;
@@ -154,10 +173,18 @@
     var recipeSubtitle = escapeHtml(recipe.subtitle || recipe.summary || '');
     var shopPanel =
       ((productUrl || collectionUrl)
-        ? '<article class="vd-recipe-signature__shop"><div class="vd-recipe-signature__shop-copy"><span class="vd-recipe-signature__panel-kicker">Nos produits</span><h2>Tout retrouver au catalogue pour faire la recette.</h2><p>' + escapeHtml((recipe.product && recipe.product.note) || 'Retrouvez la vanille et les references conseillees pour realiser cette recette avec le bon produit.') + '</p></div><div class="vd-recipe-signature__shop-actions">' +
-            (productUrl ? '<a href="' + escapeHtml(productUrl) + '" class="button button--primary">' + escapeHtml((recipe.product && recipe.product.primary_label) || 'Voir le produit') + '</a>' : '') +
-            (collectionUrl ? '<a href="' + escapeHtml(collectionUrl) + '" class="button button--secondary">' + escapeHtml((recipe.product && recipe.product.secondary_label) || 'Voir la collection') + '</a>' : '') +
-          '</div></article>'
+        ? '<article class="vd-recipe-signature__shop" data-vd-recipe-shop data-product-handle="' + escapeHtml((recipe.product && recipe.product.handle) || '') + '" data-collection-handle="' + escapeHtml((recipe.product && recipe.product.collection_handle) || '') + '">' +
+            '<div class="vd-recipe-signature__shop-copy"><span class="vd-recipe-signature__panel-kicker">Nos produits</span><h2>Les produits du catalogue pour realiser la recette.</h2><p>' + escapeHtml((recipe.product && recipe.product.note) || 'Retrouvez la vanille et les references conseillees pour realiser cette recette avec le bon produit.') + '</p></div>' +
+            '<div class="vd-recipe-signature__shop-carousel">' +
+              '<button type="button" class="vd-recipe-signature__shop-nav" data-vd-recipe-shop-prev aria-label="Produit precedent">Prec.</button>' +
+              '<div class="vd-recipe-signature__shop-window">' +
+                '<div class="vd-recipe-signature__shop-track" data-vd-recipe-shop-track>' +
+                  '<article class="vd-recipe-signature__shop-loading">Chargement du catalogue...</article>' +
+                '</div>' +
+              '</div>' +
+              '<button type="button" class="vd-recipe-signature__shop-nav" data-vd-recipe-shop-next aria-label="Produit suivant">Suiv.</button>' +
+            '</div>' +
+          '</article>'
         : '');
 
     shell.innerHTML =
@@ -175,8 +202,7 @@
           '<div class="vd-recipe-signature__hero-actions">' +
             (isLocked
               ? '<a href="' + escapeHtml(loginUrl) + '" class="button button--primary">Se connecter</a><a href="' + escapeHtml(registerUrl) + '" class="button button--secondary">Creer un compte</a>'
-              : (productUrl ? '<a href="' + escapeHtml(productUrl) + '" class="button button--primary">' + escapeHtml((recipe.product && recipe.product.primary_label) || 'Voir le produit') + '</a>' : '') +
-                (collectionUrl ? '<a href="' + escapeHtml(collectionUrl) + '" class="button button--secondary">' + escapeHtml((recipe.product && recipe.product.secondary_label) || 'Voir la collection') + '</a>' : '')
+              : '<a href="#VDRecipeIngredients" class="button button--primary">Voir les ingredients</a><a href="#VDRecipePreparation" class="button button--secondary">Voir la preparation</a>'
             ) +
           '</div>' +
         '</aside>' +
@@ -198,14 +224,17 @@
               '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Etapes</span><h2>Lecture libre</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__preview-copy">' + previewSteps + '</div></article>' +
             '</div>' + shopPanel +
           '</div>'
-        : '<div class="vd-recipe-signature__utility">' +
+        : '<div class="vd-recipe-signature__fullscreen-spotlight">' +
+            '<button type="button" class="vd-recipe-signature__fullscreen-button" data-vd-recipe-fullscreen>Plein ecran</button>' +
+            '<p>Mode immersion pour cuisiner avec une lecture plus nette et plus ample.</p>' +
+          '</div>' +
+          '<div class="vd-recipe-signature__utility">' +
             '<div class="vd-recipe-signature__utility-main">' +
               '<div class="vd-recipe-signature__progress"><span class="vd-recipe-signature__panel-kicker">Progression</span><div class="vd-recipe-signature__progress-bar"><span class="vd-recipe-signature__progress-fill" data-vd-recipe-progress-fill></span></div><div class="vd-recipe-signature__progress-text" data-vd-recipe-progress-text>0/' + escapeHtml(String((recipe.steps || []).length)) + ' etapes</div></div>' +
               '<div class="vd-recipe-signature__serves"><span class="vd-recipe-signature__panel-kicker">Portions</span><div class="vd-recipe-signature__serves-control"><button type="button" data-vd-recipe-minus aria-label="Diminuer">−</button><input type="number" min="1" value="' + escapeHtml(String(recipe.serves || 1)) + '" data-vd-recipe-serves><button type="button" data-vd-recipe-plus aria-label="Augmenter">+</button></div></div>' +
             '</div>' +
             '<div class="vd-recipe-signature__utility-actions">' +
               '<button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-focus>Mode focus</button>' +
-              '<button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-fullscreen>Plein ecran</button>' +
               '<button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-toggle>Tout cocher</button>' +
               '<button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-copy>Copier</button>' +
               '<button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-download>Telecharger</button>' +
@@ -215,16 +244,142 @@
           '<article class="vd-recipe-signature__overview"><div class="vd-recipe-signature__overview-head"><span class="vd-recipe-signature__panel-kicker">Descriptif</span><h2>Ce que vous allez preparer.</h2></div><div class="vd-recipe-signature__overview-body"><p>' + recipeSummary + '</p></div></article>' +
           '<div class="vd-recipe-signature__layout">' +
             '<div class="vd-recipe-signature__main">' +
-              '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Ingredients</span><h2>Tout le necessaire pour <span data-vd-recipe-serves-slot>' + escapeHtml(String(recipe.serves || 1)) + '</span> personnes.</h2></div></div><div class="vd-recipe-signature__panel-body" data-vd-recipe-ingredients></div></article>' +
-              '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Preparation</span><h2>Le pas a pas complet de la recette.</h2></div><div class="vd-recipe-signature__step-nav"><button type="button" data-vd-recipe-prev-step>Etape precedente</button><button type="button" data-vd-recipe-next-step>Etape suivante</button></div></div><div class="vd-recipe-signature__panel-body" data-vd-recipe-steps></div></article>' +
+              '<article class="vd-recipe-signature__panel vd-recipe-signature__ingredients-panel" id="VDRecipeIngredients" data-vd-recipe-ingredients-panel><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Ingredients</span><h2>Tout le necessaire pour <span data-vd-recipe-serves-slot>' + escapeHtml(String(recipe.serves || 1)) + '</span> personnes.</h2></div></div><div class="vd-recipe-signature__ingredients-done" data-vd-recipe-ingredients-done hidden><strong>Ingredients prets.</strong><p>Tout est coche, on peut laisser plus de place a la preparation.</p><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-ingredients-show>Revoir les ingredients</button></div><div class="vd-recipe-signature__panel-body" data-vd-recipe-ingredients></div></article>' +
+              '<article class="vd-recipe-signature__panel" id="VDRecipePreparation"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Preparation</span><h2>Le pas a pas complet de la recette.</h2></div><div class="vd-recipe-signature__step-nav"><button type="button" data-vd-recipe-prev-step>Etape precedente</button><button type="button" data-vd-recipe-next-step>Etape suivante</button></div></div><div class="vd-recipe-signature__panel-body" data-vd-recipe-steps></div></article>' +
             '</div>' +
             '<aside class="vd-recipe-signature__aside">' +
               (recipe.tips && recipe.tips.length
-                ? '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Astuces</span><h2>Repères utiles en cuisine.</h2></div></div><div class="vd-recipe-signature__panel-body" data-vd-recipe-tips></div></article>'
+                ? '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">A retenir</span><h2>Deux repères vraiment utiles.</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__tips-compact" data-vd-recipe-tips></div></article>'
                 : '') +
             '</aside>' +
           '</div>' + shopPanel
       );
+  }
+
+  function loadRecipeProducts(recipe) {
+    var requests = [];
+    var seen = {};
+
+    function normalizeProduct(product) {
+      if (!product || !product.handle || seen[product.handle]) return null;
+      seen[product.handle] = true;
+      var variants = Array.isArray(product.variants) ? product.variants : [];
+      var firstVariant = variants[0] || {};
+      var image = '';
+      if (product.featured_image && typeof product.featured_image === 'string') image = product.featured_image;
+      if (!image && product.featured_image && product.featured_image.src) image = product.featured_image.src;
+      if (!image && Array.isArray(product.images) && product.images[0]) {
+        image = typeof product.images[0] === 'string' ? product.images[0] : product.images[0].src || '';
+      }
+      return {
+        title: product.title || '',
+        handle: product.handle,
+        url: product.url || ('/products/' + product.handle),
+        image: image,
+        price: formatMoney(firstVariant.price || product.price || 0),
+        vendor: product.vendor || '',
+        available: product.available !== false
+      };
+    }
+
+    if (recipe.product && recipe.product.handle) {
+      requests.push(
+        fetch('/products/' + encodeURIComponent(recipe.product.handle) + '.js', { credentials: 'same-origin' })
+          .then(function (response) {
+            if (!response.ok) throw new Error('product');
+            return response.json();
+          })
+          .then(function (product) {
+            return [normalizeProduct(product)].filter(Boolean);
+          })
+          .catch(function () {
+            return [];
+          })
+      );
+    }
+
+    if (recipe.product && recipe.product.collection_handle) {
+      requests.push(
+        fetch('/collections/' + encodeURIComponent(recipe.product.collection_handle) + '/products.json?limit=8', { credentials: 'same-origin' })
+          .then(function (response) {
+            if (!response.ok) throw new Error('collection');
+            return response.json();
+          })
+          .then(function (payload) {
+            return (payload.products || []).map(normalizeProduct).filter(Boolean);
+          })
+          .catch(function () {
+            return [];
+          })
+      );
+    }
+
+    if (!requests.length) return Promise.resolve([]);
+
+    return Promise.all(requests).then(function (groups) {
+      return groups.reduce(function (accumulator, group) {
+        return accumulator.concat(group);
+      }, []);
+    });
+  }
+
+  function hydrateShop(section, recipe) {
+    var shop = section.querySelector('[data-vd-recipe-shop]');
+    if (!shop) return;
+    var track = shop.querySelector('[data-vd-recipe-shop-track]');
+    var prevButton = shop.querySelector('[data-vd-recipe-shop-prev]');
+    var nextButton = shop.querySelector('[data-vd-recipe-shop-next]');
+    if (!track) return;
+
+    function updateNav() {
+      if (!prevButton || !nextButton) return;
+      var maxScroll = Math.max(0, track.scrollWidth - track.clientWidth - 4);
+      prevButton.disabled = track.scrollLeft <= 4;
+      nextButton.disabled = track.scrollLeft >= maxScroll;
+    }
+
+    function renderProducts(products) {
+      if (!products.length) {
+        track.innerHTML = '<article class="vd-recipe-signature__shop-loading">Les produits recommandes arrivent bientot.</article>';
+        if (prevButton) prevButton.hidden = true;
+        if (nextButton) nextButton.hidden = true;
+        return;
+      }
+
+      track.innerHTML = products
+        .map(function (product) {
+          return (
+            '<article class="vd-recipe-signature__product-card">' +
+              '<a class="vd-recipe-signature__product-link" href="' + escapeHtml(product.url) + '">' +
+                (product.image ? '<div class="vd-recipe-signature__product-media"><img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.title) + '"></div>' : '') +
+                '<div class="vd-recipe-signature__product-copy">' +
+                  (product.vendor ? '<span class="vd-recipe-signature__panel-kicker">' + escapeHtml(product.vendor) + '</span>' : '') +
+                  '<h3>' + escapeHtml(product.title) + '</h3>' +
+                  '<div class="vd-recipe-signature__product-meta"><strong>' + escapeHtml(product.price) + '</strong><span>' + escapeHtml(product.available ? 'Disponible' : 'Rupture') + '</span></div>' +
+                '</div>' +
+              '</a>' +
+            '</article>'
+          );
+        })
+        .join('');
+
+      updateNav();
+      track.addEventListener('scroll', updateNav);
+      if (prevButton) {
+        prevButton.hidden = products.length < 2;
+        prevButton.addEventListener('click', function () {
+          track.scrollBy({ left: -Math.max(280, track.clientWidth * 0.82), behavior: 'smooth' });
+        });
+      }
+      if (nextButton) {
+        nextButton.hidden = products.length < 2;
+        nextButton.addEventListener('click', function () {
+          track.scrollBy({ left: Math.max(280, track.clientWidth * 0.82), behavior: 'smooth' });
+        });
+      }
+    }
+
+    loadRecipeProducts(recipe).then(renderProducts);
   }
 
   function bindRecipe(section, recipe) {
@@ -236,7 +391,10 @@
     var plusButton = section.querySelector('[data-vd-recipe-plus]');
     var progressFill = section.querySelector('[data-vd-recipe-progress-fill]');
     var progressText = section.querySelector('[data-vd-recipe-progress-text]');
+    var ingredientsPanel = section.querySelector('[data-vd-recipe-ingredients-panel]');
     var ingredientsTarget = section.querySelector('[data-vd-recipe-ingredients]');
+    var ingredientsDone = section.querySelector('[data-vd-recipe-ingredients-done]');
+    var ingredientsShowButton = section.querySelector('[data-vd-recipe-ingredients-show]');
     var stepsTarget = section.querySelector('[data-vd-recipe-steps]');
     var tipsTarget = section.querySelector('[data-vd-recipe-tips]');
     var focusButton = section.querySelector('[data-vd-recipe-focus]');
@@ -314,15 +472,32 @@
     function renderTips() {
       if (!tipsTarget) return;
       tipsTarget.innerHTML = (recipe.tips || [])
+        .slice(0, 2)
         .map(function (tip, index) {
           return (
-            '<details class="vd-recipe-signature__tip"' + (index === 0 ? ' open' : '') + '>' +
-              '<summary>' + escapeHtml(tip.title) + '</summary>' +
-              '<div class="vd-recipe-signature__tip-content">' + escapeHtml(tip.body) + '</div>' +
-            '</details>'
+            '<article class="vd-recipe-signature__tip-card">' +
+              '<strong>' + escapeHtml(tip.title) + '</strong>' +
+              '<p class="vd-recipe-signature__tip-content">' + escapeHtml(compactText(tip.body, index === 0 ? 150 : 110)) + '</p>' +
+            '</article>'
           );
         })
         .join('');
+    }
+
+    function ingredientCheckboxes() {
+      return Array.prototype.slice.call(section.querySelectorAll('[data-item-type="ingredient"][data-vd-recipe-check]'));
+    }
+
+    function refreshIngredientsPanel() {
+      if (!ingredientsPanel || !ingredientsDone) return;
+      var boxes = ingredientCheckboxes();
+      var allChecked = boxes.length > 0 && boxes.every(function (checkbox) {
+        return checkbox.checked;
+      });
+
+      ingredientsPanel.classList.toggle('is-complete', allChecked);
+      ingredientsDone.hidden = !allChecked;
+      if (ingredientsTarget) ingredientsTarget.hidden = allChecked;
     }
 
     function syncServes() {
@@ -333,6 +508,7 @@
       });
       renderIngredients();
       bindDynamicEvents();
+      refreshIngredientsPanel();
       saveState(storageKey, state);
     }
 
@@ -368,6 +544,7 @@
       Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipe-check]')).forEach(function (checkbox) {
         checkbox.addEventListener('change', function () {
           state.checked[checkbox.getAttribute('data-item-id')] = checkbox.checked;
+          refreshIngredientsPanel();
           refreshProgress();
           saveState(storageKey, state);
         });
@@ -450,7 +627,17 @@
     renderTips();
     syncServes();
     refreshProgress();
+    refreshIngredientsPanel();
     setActiveStep(state.activeStepIndex, false);
+
+    if (ingredientsShowButton) {
+      ingredientsShowButton.addEventListener('click', function () {
+        if (ingredientsTarget) ingredientsTarget.hidden = false;
+        if (ingredientsDone) ingredientsDone.hidden = true;
+        if (ingredientsPanel) ingredientsPanel.classList.remove('is-complete');
+        if (ingredientsPanel) ingredientsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
 
     minusButton.addEventListener('click', function () {
       state.serves = Math.max(1, state.serves - 1);
@@ -499,6 +686,7 @@
         checkbox.checked = nextState;
         state.checked[checkbox.getAttribute('data-item-id')] = nextState;
       });
+      refreshIngredientsPanel();
       refreshProgress();
       saveState(storageKey, state);
     });
@@ -524,6 +712,7 @@
       section.classList.remove('is-focus-mode');
       focusButton.textContent = 'Mode focus';
       syncServes();
+      refreshIngredientsPanel();
       refreshProgress();
       setActiveStep(0, false);
       showToast(section, 'Progression reinitialisee');
@@ -600,6 +789,8 @@
         if (schemaNode) {
           schemaNode.textContent = JSON.stringify(buildStructuredData(recipe));
         }
+
+        hydrateShop(section, recipe);
 
         if (!isLocked) {
           bindRecipe(section, recipe);
