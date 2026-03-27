@@ -99,36 +99,54 @@
         "step_1": {
           "type": "step",
           "settings": {
+            "title": "Battre la base sucree",
+            "duration": "4 min",
+            "highlight": "Base",
             "text": "Fouetter les oeufs et le sucre. Ajouter les graines de vanille ou le sucre vanille, puis melanger jusqu'a obtenir une base homogene."
           }
         },
         "step_2": {
           "type": "step",
           "settings": {
+            "title": "Obtenir une pate nappante",
+            "duration": "8 min",
+            "highlight": "Texture",
             "text": "Incorporer la farine et la levure, puis verser le lait progressivement jusqu'a obtenir une pate lisse, souple et nappante. Laisser reposer 20 a 30 minutes."
           }
         },
         "step_3": {
           "type": "step",
           "settings": {
+            "title": "Preparer la friture",
+            "duration": "6 min",
+            "highlight": "170-175 C",
             "text": "Eplucher les bananes, couper en rondelles ou en batonnets, puis chauffer l'huile a environ 170 a 175 degres."
           }
         },
         "step_4": {
           "type": "step",
           "settings": {
+            "title": "Enrober et plonger",
+            "duration": "5 min",
+            "highlight": "Petites fournees",
             "text": "Tremper les morceaux de banane dans la pate et les frire par petites quantites pour garder une belle temperature d'huile."
           }
         },
         "step_5": {
           "type": "step",
           "settings": {
+            "title": "Colorer puis egoutter",
+            "duration": "6 min",
+            "highlight": "Dore",
             "text": "Cuire 2 a 3 minutes par face jusqu'a obtenir une couleur doree, puis egoutter sur papier absorbant."
           }
         },
         "step_6": {
           "type": "step",
           "settings": {
+            "title": "Finir et servir",
+            "duration": "3 min",
+            "highlight": "Service",
             "text": "Servir chaud, nature ou avec un filet de miel, et finir si besoin avec un voile de sucre vanille."
           }
         },
@@ -182,6 +200,11 @@
         "cook_time": "10 min",
         "difficulty": "Facile",
         "download_filename": "beignets-banane-vanille",
+        "hero_video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "require_customer_access": true,
+        "gate_eyebrow": "Mode recette membre",
+        "gate_heading": "Connectez-vous pour cuisiner avec une interface pas a pas plus haut de gamme.",
+        "gate_text": "<p>La page reste visible pour la decouverte et le SEO, mais l'experience complete s'ouvre une fois connecte: progression sauvegardee, portions dynamiques, mode focus et gestes relies au bon produit.</p>",
         "sidebar_text": "<p>La recette ne doit pas vivre seule. Elle doit donner envie de cuisiner puis de revenir vers le bon format de vanille.</p>",
         "featured_product": "vanille-bourbon-madagascar-3-gousses",
         "related_collection": "vanille-bourbon",

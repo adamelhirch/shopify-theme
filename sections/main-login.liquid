@@ -33,7 +33,7 @@
       </div>
       <div class="vd-customer-shell__links">
         <a href="{{ routes.all_products_collection_url }}" class="button button--secondary">Voir le catalogue</a>
-        <a href="{{ routes.account_register_url }}" class="vd-customer-shell__text-link">
+        <a href="{{ routes.account_register_url }}" class="vd-customer-shell__text-link" data-account-return-link>
           {{ 'customer.login_page.create_account' | t }}
         </a>
       </div>
@@ -42,6 +42,7 @@
     <div class="vd-customer-auth-grid">
       <div class="vd-customer-card vd-customer-card--primary">
         {%- form 'customer_login', novalidate: 'novalidate' -%}
+          <input type="hidden" name="return_to" value="" data-account-return-input>
           <div class="vd-customer-card__head">
             <p class="vd-customer-card__kicker">Connexion</p>
             <h2>{{ 'customer.login_page.title' | t }}</h2>
@@ -134,6 +135,7 @@
           <p>{{ 'customer.recover_password.subtext' | t }}</p>
         </div>
         {%- form 'recover_customer_password' -%}
+          <input type="hidden" name="return_to" value="" data-account-return-input>
           {%- if form.posted_successfully? -%}
             <h3 class="form__message" tabindex="-1" autofocus>
               <span class="svg-wrapper">
@@ -183,6 +185,25 @@
     </div>
   </div>
 </div>
+
+<script>
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var returnTo = params.get('return_to');
+
+    if (!returnTo) return;
+
+    document.querySelectorAll('[data-account-return-input]').forEach(function (input) {
+      input.value = returnTo;
+    });
+
+    document.querySelectorAll('[data-account-return-link]').forEach(function (link) {
+      var url = new URL(link.href, window.location.origin);
+      url.searchParams.set('return_to', returnTo);
+      link.href = url.pathname + url.search;
+    });
+  })();
+</script>
 
 {% schema %}
 {

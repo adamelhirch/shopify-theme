@@ -1,3 +1,8 @@
+{% if page.handle == 'recettes' %}
+  {{ 'vd-recipes-hub.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'vd-recipes-hub.js' | asset_url }}" defer="defer"></script>
+{% endif %}
+
 {% style %}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -28,6 +33,9 @@
   assign primary_label = 'Voir le catalogue'
   assign secondary_link = '/pages/contact'
   assign secondary_label = 'Nous contacter'
+  assign recipe_count = 0
+  assign free_recipe_count = 0
+  assign member_recipe_count = 0
 
   if page.handle == 'qui-sommes-nous'
     assign is_about_page = true
@@ -84,13 +92,31 @@
     assign primary_label = 'Voir les huiles'
   endif
 
-  assign recipe_handles = 'caviar-vanille-bourbon-madagascar-20g,extrait-vanille-bourbon-madagascar-20ml,vanille-bourbon-madagascar-3-gousses' | split: ','
+  for block in section.blocks
+    if block.type != 'recipe_card'
+      continue
+    endif
+
+    assign recipe_count = recipe_count | plus: 1
+
+    if block.settings.access == 'free'
+      assign free_recipe_count = free_recipe_count | plus: 1
+    else
+      assign member_recipe_count = member_recipe_count | plus: 1
+    endif
+  endfor
+
+  if recipe_count == 0
+    assign recipe_count = 3
+    assign free_recipe_count = 2
+    assign member_recipe_count = 1
+  endif
 -%}
 
 {% if is_about_page or is_recipes_page or is_generic_page %}
   <section class="section-{{ section.id }}-padding vd-page-flow color-{{ section.settings.color_scheme }}">
-    <div class="page-width">
-      {% if is_about_page %}
+    {% if is_about_page %}
+      <div class="page-width">
         <div class="vd-page-flow__hero">
           <div class="vd-page-flow__hero-copy">
             <span class="vd-section-kicker">Maison</span>
@@ -166,111 +192,383 @@
             {{ page.content }}
           </div>
         {% endif %}
-      {% endif %}
+      </div>
+    {% endif %}
 
-      {% if is_recipes_page %}
-        <div class="vd-page-flow__hero">
-          <div class="vd-page-flow__hero-copy">
-            <span class="vd-section-kicker">Cuisine & usages</span>
-            <h1 class="vd-page-flow__title">{{ page.title }}</h1>
-            <div class="vd-page-flow__text">
+    {% if is_recipes_page %}
+      <div
+        class="vd-recipes-hub"
+        data-vd-recipes-hub
+        data-section-id="{{ section.id }}"
+      >
+        <div class="vd-recipes-hub__media" aria-hidden="true">
+          {% if section.settings.recipes_background_video != blank %}
+            {{
+              section.settings.recipes_background_video
+              | video_tag:
+                class: 'vd-recipes-hub__video',
+                autoplay: true,
+                loop: true,
+                muted: true,
+                controls: false,
+                playsinline: true,
+                preload: 'metadata',
+                image_size: '2000x'
+            }}
+          {% elsif section.settings.recipes_video_url != blank %}
+            <video class="vd-recipes-hub__video" autoplay loop muted playsinline preload="metadata">
+              <source src="{{ section.settings.recipes_video_url }}" type="video/mp4">
+            </video>
+          {% elsif section.settings.recipes_background_image != blank %}
+            {{
+              section.settings.recipes_background_image
+              | image_url: width: 2400
+              | image_tag:
+                class: 'vd-recipes-hub__poster',
+                widths: '750, 1200, 1600, 2000, 2400',
+                sizes: '100vw',
+                loading: 'eager'
+            }}
+          {% endif %}
+        </div>
+        <div class="vd-recipes-hub__veil"></div>
+        <div class="vd-recipes-hub__glow"></div>
+
+        <div class="page-width">
+          <div class="vd-recipes-hub__hero">
+            <div class="vd-recipes-hub__copy">
+              <span class="vd-recipes-hub__eyebrow">
+                {{ section.settings.recipes_eyebrow | default: 'Cuisine & usages' }}
+              </span>
+              <h1 class="vd-recipes-hub__title">
+                {{ section.settings.recipes_heading | default: page.title }}
+              </h1>
+              <div class="vd-recipes-hub__text rte">
+                {{ section.settings.recipes_intro | default: page.content }}
+              </div>
+
+              <div class="vd-recipes-hub__search-shell">
+                <label class="vd-recipes-hub__search" for="VDRecipesSearch-{{ section.id }}">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13Zm9 15.5-4.1-4.1"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                  </svg>
+                  <input
+                    id="VDRecipesSearch-{{ section.id }}"
+                    type="search"
+                    placeholder="{{ section.settings.search_placeholder | default: 'Rechercher une recette, un usage, une texture' }}"
+                    autocomplete="off"
+                    data-vd-recipes-search-input
+                  >
+                  <button
+                    type="button"
+                    class="vd-recipes-hub__clear"
+                    data-vd-recipes-search-clear
+                    hidden
+                  >
+                    Effacer
+                  </button>
+                </label>
+
+                <div class="vd-recipes-hub__microcopy">
+                  <span>Recherche instantanee</span>
+                  <span>SEO + decouverte</span>
+                  <span>Experience membre ensuite</span>
+                </div>
+              </div>
+            </div>
+
+            <aside class="vd-recipes-hub__hero-card">
+              <span>Le bon equilibre</span>
+              <h2>Des recettes visibles pour convaincre, puis une experience connectee pour cuisiner vraiment.</h2>
               <p>
-                Cette page doit devenir une porte d'entree simple: quoi utiliser, pour quel resultat, avec quel niveau
-                d'intensite.
+                Le hub attire par la recherche et la lecture libre. Les recettes premium basculent ensuite dans un mode
+                compagnon plus riche, utile et memorable.
               </p>
+              <div class="vd-recipes-hub__metrics" role="list">
+                <div class="vd-recipes-hub__metric" role="listitem">
+                  <span>Catalogue</span>
+                  <strong>{{ recipe_count }}</strong>
+                </div>
+                <div class="vd-recipes-hub__metric" role="listitem">
+                  <span>Gratuit</span>
+                  <strong>{{ free_recipe_count }}</strong>
+                </div>
+                <div class="vd-recipes-hub__metric" role="listitem">
+                  <span>Membre</span>
+                  <strong>{{ member_recipe_count }}</strong>
+                </div>
+              </div>
+            </aside>
+          </div>
+
+          <div class="vd-recipes-hub__toolbar" aria-label="Filtres recettes">
+            <div class="vd-recipes-hub__toolbar-head">
+              <span class="vd-recipes-hub__result-count" data-vd-recipes-count>
+                {{ recipe_count }} recette{% if recipe_count > 1 %}s{% endif %}
+              </span>
+              <span class="vd-recipes-hub__result-count">Madagascar en fond, lecture rapide devant</span>
             </div>
-            <div class="vd-page-flow__actions">
-              <a class="vd-arrow-cta" href="/collections/vanille-bourbon">
-                <span class="vd-arrow-cta__label">Commencer par la vanille</span>
-                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                </svg>
-              </a>
-              <a class="vd-arrow-cta" href="/blogs/le-wiki">
-                <span class="vd-arrow-cta__label">Lire le Wiki</span>
-                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                </svg>
-              </a>
+
+            <div class="vd-recipes-hub__filters" role="toolbar" aria-label="Filtrer par acces">
+              <button type="button" class="vd-recipes-hub__filter is-active" data-vd-recipes-access data-value="all">Tout voir</button>
+              <button type="button" class="vd-recipes-hub__filter" data-vd-recipes-access data-value="free">Recettes gratuites</button>
+              <button type="button" class="vd-recipes-hub__filter" data-vd-recipes-access data-value="member">Mode membre</button>
+            </div>
+
+            <div class="vd-recipes-hub__filters" role="toolbar" aria-label="Filtrer par difficulte">
+              <button type="button" class="vd-recipes-hub__filter is-active" data-vd-recipes-difficulty data-value="all">Toutes difficultees</button>
+              <button type="button" class="vd-recipes-hub__filter" data-vd-recipes-difficulty data-value="facile">Facile</button>
+              <button type="button" class="vd-recipes-hub__filter" data-vd-recipes-difficulty data-value="intermediaire">Intermediaire</button>
+              <button type="button" class="vd-recipes-hub__filter" data-vd-recipes-difficulty data-value="signature">Signature</button>
             </div>
           </div>
 
-          <div class="vd-page-flow__hero-card">
-            <span class="vd-page-flow__card-kicker">Mode d'emploi</span>
-            <h2>Des recettes courtes, visuelles et directement shoppables.</h2>
-            <p>
-              Vous ajouterez ensuite les videos 4K et les recettes finales, mais la structure est deja en place pour
-              rendre la page exploitable.
-            </p>
-          </div>
-        </div>
+          <div class="vd-recipes-hub__grid" role="list">
+            {% if recipe_count > 0 %}
+              {% for block in section.blocks %}
+                {% if block.type != 'recipe_card' %}
+                  {% continue %}
+                {% endif %}
 
-        <div class="vd-page-flow__recipe-grid" role="list">
-          <article class="vd-page-flow__recipe-card" role="listitem">
-            <span>Desserts</span>
-            <h2>Creme, ganache, entremets, glace</h2>
-            <p>Focus sur l'infusion lente, la rondeur et la profondeur aromatique.</p>
-          </article>
-          <article class="vd-page-flow__recipe-card" role="listitem">
-            <span>Boissons</span>
-            <h2>Rhum arrange, latte, sirops maison</h2>
-            <p>Des formats pratiques pour travailler vite sans sacrifier l'intensite.</p>
-          </article>
-          <article class="vd-page-flow__recipe-card" role="listitem">
-            <span>Accords sales</span>
-            <h2>Poissons, sauces beurre, legumes rotis</h2>
-            <p>Une lecture plus mature de la vanille, loin du seul usage sucre.</p>
-          </article>
-        </div>
-
-        <div class="vd-page-flow__products">
-          <div class="vd-page-flow__products-head">
-            <span class="vd-section-kicker">Commencer avec</span>
-            <h2>Trois formats simples pour entrer dans l'univers.</h2>
-          </div>
-
-          <div class="vd-page-flow__product-grid" role="list">
-            {% for product_handle in recipe_handles %}
-              {% assign product = all_products[product_handle] %}
-              {% if product != blank %}
                 {%- liquid
-                  assign card_image = product.featured_media.preview_image | default: product.featured_image
-                  assign card_subtitle = product.metafields.descriptors.subtitle.value | default: product.vendor
+                  assign searchable_copy = block.settings.title
+                  assign searchable_copy = searchable_copy | append: ' ' | append: block.settings.summary
+                  assign searchable_copy = searchable_copy | append: ' ' | append: block.settings.tags
                 -%}
-                <a class="vd-page-flow__product-card" href="{{ product.url }}" role="listitem">
-                  <div class="vd-page-flow__product-media">
-                    {% if card_image != blank %}
+
+                <article
+                  class="vd-recipes-hub__card"
+                  role="listitem"
+                  data-vd-recipe-card
+                  data-access="{{ block.settings.access | default: 'free' }}"
+                  data-difficulty="{{ block.settings.difficulty | handle }}"
+                  data-search="{{ searchable_copy | strip_html | escape }}"
+                  {{ block.shopify_attributes }}
+                >
+                  <div class="vd-recipes-hub__card-media">
+                    <div class="vd-recipes-hub__card-badges">
+                      {% if block.settings.collection_label != blank %}
+                        <span class="vd-recipes-hub__badge">{{ block.settings.collection_label }}</span>
+                      {% endif %}
+                      <span class="vd-recipes-hub__badge vd-recipes-hub__badge--accent">
+                        {% if block.settings.access == 'member' %}Mode membre{% else %}Gratuit{% endif %}
+                      </span>
+                    </div>
+
+                    {% if block.settings.image != blank %}
                       {{
-                        card_image
+                        block.settings.image
                         | image_url: width: 1200
                         | image_tag:
-                          class: 'vd-page-flow__product-image',
                           widths: '360, 540, 720, 960, 1200',
-                          sizes: '(min-width: 990px) 24vw, 92vw',
+                          sizes: '(min-width: 990px) 30vw, 92vw',
                           loading: 'lazy',
-                          alt: card_image.alt | default: product.title | escape
+                          alt: block.settings.title | escape
                       }}
                     {% endif %}
                   </div>
-                  <div class="vd-page-flow__product-body">
-                    <span>{{ card_subtitle }}</span>
-                    <h3>{{ product.title }}</h3>
-                    <strong>{{ product.price | money_without_trailing_zeros }}</strong>
+
+                  <div class="vd-recipes-hub__card-body">
+                    <div class="vd-recipes-hub__card-meta">
+                      {% if block.settings.time != blank %}
+                        <span>{{ block.settings.time }}</span>
+                      {% endif %}
+                      {% if block.settings.difficulty != blank %}
+                        <span>{{ block.settings.difficulty }}</span>
+                      {% endif %}
+                      {% if block.settings.serves != blank %}
+                        <span>{{ block.settings.serves }}</span>
+                      {% endif %}
+                    </div>
+
+                    <div>
+                      <h2>{{ block.settings.title }}</h2>
+                      {% if block.settings.summary != blank %}
+                        <p>{{ block.settings.summary }}</p>
+                      {% endif %}
+                    </div>
+
+                    {% if block.settings.tags != blank %}
+                      <div class="vd-recipes-hub__card-tags">{{ block.settings.tags }}</div>
+                    {% endif %}
                   </div>
-                </a>
-              {% endif %}
-            {% endfor %}
+
+                  <div class="vd-recipes-hub__card-footer">
+                    <span class="vd-recipes-hub__card-state">
+                      {% if block.settings.access == 'member' %}
+                        Immersion complete apres connexion
+                      {% else %}
+                        Lecture ouverte pour la decouverte
+                      {% endif %}
+                    </span>
+                    {% if block.settings.link != blank %}
+                      <a href="{{ block.settings.link }}" class="vd-arrow-cta">
+                        <span class="vd-arrow-cta__label">{{ block.settings.link_label | default: 'Voir la recette' }}</span>
+                        <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                          <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                        </svg>
+                      </a>
+                    {% endif %}
+                  </div>
+                </article>
+              {% endfor %}
+            {% else %}
+              <article class="vd-recipes-hub__card" role="listitem" data-vd-recipe-card data-access="member" data-difficulty="facile" data-search="beignets banane vanille friture dessert facile">
+                <div class="vd-recipes-hub__card-media">
+                  <div class="vd-recipes-hub__card-badges">
+                    <span class="vd-recipes-hub__badge">Dessert</span>
+                    <span class="vd-recipes-hub__badge vd-recipes-hub__badge--accent">Mode membre</span>
+                  </div>
+                </div>
+                <div class="vd-recipes-hub__card-body">
+                  <div class="vd-recipes-hub__card-meta">
+                    <span>35 min</span>
+                    <span>Facile</span>
+                    <span>10 portions</span>
+                  </div>
+                  <div>
+                    <h2>Beignets de banane a la vanille</h2>
+                    <p>Une recette signature deja prete pour un mode cuisson pas a pas plus immersif.</p>
+                  </div>
+                  <div class="vd-recipes-hub__card-tags">banane, friture, dessert, vanille bourbon</div>
+                </div>
+                <div class="vd-recipes-hub__card-footer">
+                  <span class="vd-recipes-hub__card-state">Immersion complete apres connexion</span>
+                  <a href="/pages/beignet-banane" class="vd-arrow-cta">
+                    <span class="vd-arrow-cta__label">Voir la recette</span>
+                    <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                      <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                    </svg>
+                  </a>
+                </div>
+              </article>
+
+              <article class="vd-recipes-hub__card" role="listitem" data-vd-recipe-card data-access="free" data-difficulty="intermediaire" data-search="accords sale vanille poisson legumes sauces guide">
+                <div class="vd-recipes-hub__card-media">
+                  <div class="vd-recipes-hub__card-badges">
+                    <span class="vd-recipes-hub__badge">Accords</span>
+                    <span class="vd-recipes-hub__badge vd-recipes-hub__badge--accent">Gratuit</span>
+                  </div>
+                </div>
+                <div class="vd-recipes-hub__card-body">
+                  <div class="vd-recipes-hub__card-meta">
+                    <span>Guide</span>
+                    <span>Intermediaire</span>
+                    <span>Lecture libre</span>
+                  </div>
+                  <div>
+                    <h2>Recettes & accords</h2>
+                    <p>Une porte d'entree SEO pour comprendre quoi faire, avec quel produit et pour quel resultat.</p>
+                  </div>
+                  <div class="vd-recipes-hub__card-tags">guide, accords, sale, wiki, dosage</div>
+                </div>
+                <div class="vd-recipes-hub__card-footer">
+                  <span class="vd-recipes-hub__card-state">Lecture ouverte pour la decouverte</span>
+                  <a href="/pages/recettes-accords" class="vd-arrow-cta">
+                    <span class="vd-arrow-cta__label">Explorer</span>
+                    <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                      <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                    </svg>
+                  </a>
+                </div>
+              </article>
+
+              <article class="vd-recipes-hub__card" role="listitem" data-vd-recipe-card data-access="free" data-difficulty="facile" data-search="sels aromatises usage cuisine assaisonnement facile">
+                <div class="vd-recipes-hub__card-media">
+                  <div class="vd-recipes-hub__card-badges">
+                    <span class="vd-recipes-hub__badge">Usage quotidien</span>
+                    <span class="vd-recipes-hub__badge vd-recipes-hub__badge--accent">Gratuit</span>
+                  </div>
+                </div>
+                <div class="vd-recipes-hub__card-body">
+                  <div class="vd-recipes-hub__card-meta">
+                    <span>Lecture rapide</span>
+                    <span>Facile</span>
+                    <span>Assaisonnement</span>
+                  </div>
+                  <div>
+                    <h2>Sels aromatises</h2>
+                    <p>Une entree simple pour faire sentir que les recettes servent aussi a vendre des usages, pas seulement des fiches.</p>
+                  </div>
+                  <div class="vd-recipes-hub__card-tags">usage, epices, quotidien, idee simple</div>
+                </div>
+                <div class="vd-recipes-hub__card-footer">
+                  <span class="vd-recipes-hub__card-state">Lecture ouverte pour la decouverte</span>
+                  <a href="/pages/sels-aromatises" class="vd-arrow-cta">
+                    <span class="vd-arrow-cta__label">Voir l'idee</span>
+                    <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                      <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                    </svg>
+                  </a>
+                </div>
+              </article>
+            {% endif %}
           </div>
+
+          <div class="vd-recipes-hub__empty" data-vd-recipes-empty>
+            Aucun resultat pour cette recherche. Essayez un ingredient, un usage ou un niveau de difficulte.
+          </div>
+
+          <div class="vd-recipes-hub__insights" role="list">
+            <article class="vd-recipes-hub__insight" role="listitem">
+              <span>SEO utile</span>
+              <h3>Le trafic entre par des usages concrets, pas par une vitrine abstraite.</h3>
+              <p>Chaque carte porte un angle de recherche clair pour capter des intentions cuisine, dessert, dosage ou accord.</p>
+            </article>
+            <article class="vd-recipes-hub__insight" role="listitem">
+              <span>Conversion douce</span>
+              <h3>Le gratuit attire, puis l'experience membre transforme la consultation en relation.</h3>
+              <p>On donne assez pour donner envie, puis on reserve le mode cuisson app-like aux visiteurs identifies.</p>
+            </article>
+            <article class="vd-recipes-hub__insight" role="listitem">
+              <span>Passerelles</span>
+              <h3>Chaque recette doit ramener vers un produit, une collection ou une suite editoriale.</h3>
+              <p>Le hub reste connecte au catalogue, au wiki et aux formats de vanille utiles pour l'usage montre.</p>
+            </article>
+          </div>
+
+          {% if page.content != blank %}
+            <div class="vd-page-flow__prose rte">
+              {{ page.content }}
+            </div>
+          {% endif %}
+
+          {% if recipe_count > 0 %}
+            <script type="application/ld+json">
+              {
+                "@context": "https://schema.org",
+                "@type": "ItemList",
+                "name": {{ page.title | json }},
+                "itemListElement": [
+                  {%- assign recipe_position = 0 -%}
+                  {%- for block in section.blocks -%}
+                    {%- if block.type != 'recipe_card' or block.settings.link == blank -%}
+                      {%- continue -%}
+                    {%- endif -%}
+                    {%- assign recipe_position = recipe_position | plus: 1 -%}
+                    {
+                      "@type": "ListItem",
+                      "position": {{ recipe_position }},
+                      "url": {{ block.settings.link | json }},
+                      "name": {{ block.settings.title | json }}
+                    }{% unless forloop.last %},{% endunless %}
+                  {%- endfor -%}
+                ]
+              }
+            </script>
+          {% endif %}
         </div>
+      </div>
+    {% endif %}
 
-        {% if page.content != blank %}
-          <div class="vd-page-flow__prose rte">
-            {{ page.content }}
-          </div>
-        {% endif %}
-      {% endif %}
-
-      {% if is_generic_page %}
+    {% if is_generic_page %}
+      <div class="page-width">
         <div class="vd-page-flow__hero">
           <div class="vd-page-flow__hero-copy">
             <span class="vd-section-kicker">{{ page_kicker }}</span>
@@ -343,8 +641,8 @@
             {{ page.content }}
           </div>
         {% endif %}
-      {% endif %}
-    </div>
+      </div>
+    {% endif %}
   </section>
 {% endif %}
 
@@ -359,6 +657,49 @@
       "id": "color_scheme",
       "label": "Palette",
       "default": "scheme-3"
+    },
+    {
+      "type": "header",
+      "content": "Recettes"
+    },
+    {
+      "type": "text",
+      "id": "recipes_eyebrow",
+      "label": "Sur-titre recettes",
+      "default": "Cuisine & usages"
+    },
+    {
+      "type": "textarea",
+      "id": "recipes_heading",
+      "label": "Titre recettes",
+      "default": "Des recettes pensees comme une application de cuisine premium."
+    },
+    {
+      "type": "richtext",
+      "id": "recipes_intro",
+      "label": "Introduction recettes",
+      "default": "<p>Le hub doit rester tres lisible, tres indexable, et faire sentir une vraie direction luxe sans replonger dans l'anthracite uniforme. Le gratuit attire. Le compte client debloque la profondeur.</p>"
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Placeholder recherche",
+      "default": "Rechercher une recette, un usage, une texture"
+    },
+    {
+      "type": "text",
+      "id": "recipes_video_url",
+      "label": "URL video MP4 de fond recettes"
+    },
+    {
+      "type": "video",
+      "id": "recipes_background_video",
+      "label": "Video Shopify de fond recettes"
+    },
+    {
+      "type": "image_picker",
+      "id": "recipes_background_image",
+      "label": "Image de fond recettes"
     },
     {
       "type": "range",
@@ -379,6 +720,89 @@
       "unit": "px",
       "label": "Marge basse",
       "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "recipe_card",
+      "name": "Carte recette",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "text",
+          "id": "collection_label",
+          "label": "Categorie",
+          "default": "Dessert"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Beignets de banane a la vanille"
+        },
+        {
+          "type": "textarea",
+          "id": "summary",
+          "label": "Resume",
+          "default": "Une recette signature avec un angle clair, un temps lisible et une vraie utilite produit."
+        },
+        {
+          "type": "select",
+          "id": "access",
+          "label": "Acces",
+          "default": "member",
+          "options": [
+            {
+              "value": "free",
+              "label": "Gratuit"
+            },
+            {
+              "value": "member",
+              "label": "Mode membre"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "difficulty",
+          "label": "Difficulte",
+          "default": "Facile"
+        },
+        {
+          "type": "text",
+          "id": "time",
+          "label": "Temps",
+          "default": "35 min"
+        },
+        {
+          "type": "text",
+          "id": "serves",
+          "label": "Portions",
+          "default": "10 portions"
+        },
+        {
+          "type": "text",
+          "id": "tags",
+          "label": "Mots-clés recherche",
+          "default": "banane, dessert, vanille bourbon, friture"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Lien"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Libelle CTA",
+          "default": "Voir la recette"
+        }
+      ]
     }
   ],
   "presets": [
