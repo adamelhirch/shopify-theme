@@ -192,9 +192,6 @@
       </div>
 
       <div data-vd-recipes-screen="detail" hidden>
-        <div class="vd-recipes-hub__detail-back-wrap">
-          <a href="{{ page.url | default: request.path }}" class="vd-recipes-hub__detail-back">Retour aux recettes</a>
-        </div>
         <section
           class="vd-recipe-signature color-{{ section.settings.color_scheme }}"
           data-vd-recipe
@@ -206,6 +203,11 @@
           data-login-url="{{ login_target }}"
           data-register-url="{{ register_target }}"
         >
+          <div class="page-width vd-recipe-signature__back-shell">
+            <div class="vd-recipe-signature__back-wrap">
+              <a href="{{ page.url | default: request.path }}" class="vd-recipe-signature__back-link">Retour aux recettes</a>
+            </div>
+          </div>
           <div class="vd-recipe-signature__media" data-vd-recipe-media aria-hidden="true"></div>
           <div class="vd-recipe-signature__veil"></div>
           <div class="vd-recipe-signature__glow"></div>
@@ -254,11 +256,6 @@
   </section>
 {% elsif is_recipe_page %}
   <section class="section-{{ section.id }}-padding vd-recipes-hub color-{{ section.settings.color_scheme }}">
-    <div class="page-width">
-      <div class="vd-recipes-hub__detail-back-wrap">
-        <a href="/pages/recettes" class="vd-recipes-hub__detail-back" data-vd-preview-link>Retour aux recettes</a>
-      </div>
-    </div>
     <section
       class="vd-recipe-signature color-{{ section.settings.color_scheme }}"
       data-vd-recipe
@@ -270,6 +267,11 @@
       data-login-url="{{ login_target }}"
       data-register-url="{{ register_target }}"
     >
+      <div class="page-width vd-recipe-signature__back-shell">
+        <div class="vd-recipe-signature__back-wrap">
+          <a href="/pages/recettes" class="vd-recipe-signature__back-link" data-vd-preview-link>Retour aux recettes</a>
+        </div>
+      </div>
       <div class="vd-recipe-signature__media" data-vd-recipe-media aria-hidden="true"></div>
       <div class="vd-recipe-signature__veil"></div>
       <div class="vd-recipe-signature__glow"></div>
