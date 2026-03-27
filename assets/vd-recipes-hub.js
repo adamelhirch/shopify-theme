@@ -32,7 +32,7 @@
   }
 
   function recipeHref(recipe) {
-    return '/pages/recettes?recipe=' + encodeURIComponent(recipe.slug || '');
+    return recipe.page_url || ('/pages/recettes?recipe=' + encodeURIComponent(recipe.slug || ''));
   }
 
   function metricValue(recipe) {

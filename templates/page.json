@@ -7,6 +7,7 @@
         "recipes_heading": "Recettes & accords",
         "recipes_intro": "<p>Recherchez une recette, un accord ou un ingredient, puis entrez dans une navigation pensee pour cuisiner vite et bien.</p>",
         "search_placeholder": "Rechercher une recette, un ingredient ou un accord",
+        "recipe_page_handles": "beignet-banane,recettes-accords",
         "recipes_video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
         "color_scheme": "scheme-3",
         "padding_top": 16,

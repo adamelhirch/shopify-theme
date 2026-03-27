@@ -1,7 +1,20 @@
-{% if page.handle == 'recettes' %}
+{%- liquid
+  assign recipe_handles_source = section.settings.recipe_page_handles | default: 'beignet-banane,recettes-accords'
+  assign recipe_handles_normalized = recipe_handles_source | downcase | replace: ' ', ''
+  assign recipe_handle_token = ',' | append: page.handle | append: ','
+  assign recipe_handles_csv = ',' | append: recipe_handles_normalized | append: ','
+  assign is_recipe_page = false
+  if recipe_handles_csv contains recipe_handle_token
+    assign is_recipe_page = true
+  endif
+-%}
+
+{% if page.handle == 'recettes' or is_recipe_page %}
   {{ 'vd-recipes-hub.css' | asset_url | stylesheet_tag }}
   {{ 'vd-recipe-signature.css' | asset_url | stylesheet_tag }}
-  <script src="{{ 'vd-recipes-hub.js' | asset_url }}" defer="defer"></script>
+  {% if page.handle == 'recettes' %}
+    <script src="{{ 'vd-recipes-hub.js' | asset_url }}" defer="defer"></script>
+  {% endif %}
   <script src="{{ 'vd-recipe-signature.js' | asset_url }}" defer="defer"></script>
 {% endif %}
 
@@ -239,6 +252,67 @@
 
     </div>
   </section>
+{% elsif is_recipe_page %}
+  <section class="section-{{ section.id }}-padding vd-recipes-hub color-{{ section.settings.color_scheme }}">
+    <div class="page-width">
+      <div class="vd-recipes-hub__detail-back-wrap">
+        <a href="/pages/recettes" class="vd-recipes-hub__detail-back">Retour aux recettes</a>
+      </div>
+    </div>
+    <section
+      class="vd-recipe-signature color-{{ section.settings.color_scheme }}"
+      data-vd-recipe
+      data-registry-url="{{ 'vd-recipes-registry.json' | asset_url }}"
+      data-recipe-slug="{{ page.handle }}"
+      data-page-handle="{{ page.handle }}"
+      data-require-customer-access="true"
+      data-customer-authenticated="{% if customer %}true{% else %}false{% endif %}"
+      data-login-url="{{ login_target }}"
+      data-register-url="{{ register_target }}"
+    >
+      <div class="vd-recipe-signature__media" data-vd-recipe-media aria-hidden="true"></div>
+      <div class="vd-recipe-signature__veil"></div>
+      <div class="vd-recipe-signature__glow"></div>
+      <div class="page-width">
+        <div class="vd-recipe-signature__shell" data-vd-recipe-shell>
+          <div class="vd-recipe-signature__loading">
+            <span class="vd-recipe-signature__loading-label">Chargement</span>
+            <h1>Preparation de la recette...</h1>
+          </div>
+        </div>
+      </div>
+      <div class="vd-recipe-signature__toast" data-vd-recipe-toast role="status" aria-live="polite"></div>
+      <script type="application/json" data-vd-recipe-editor-media>
+        [
+          {%- assign media_delimiter = '' -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'recipe_media' -%}
+              {{ media_delimiter }}
+              {%- assign block_video_url = '' -%}
+              {%- if block.settings.video != blank -%}
+                {%- for source in block.settings.video.sources -%}
+                  {%- if source.mime_type == 'video/mp4' -%}
+                    {%- assign block_video_url = source.url -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
+              {
+                "recipe_slug": {{ block.settings.recipe_slug | strip | json }},
+                "placement": {{ block.settings.placement | json }},
+                "step_number": {{ block.settings.step_number | json }},
+                "image_url": {{ block.settings.image | image_url: width: 1800 | json }},
+                "image_alt": {{ block.settings.image.alt | default: block.settings.caption | json }},
+                "video_url": {{ block.settings.video_url | default: block_video_url | json }},
+                "caption": {{ block.settings.caption | json }}
+              }{%- assign media_delimiter = ',' -%}
+            {%- endif -%}
+          {%- endfor -%}
+        ]
+      </script>
+      <script type="application/ld+json" data-vd-recipe-schema></script>
+    </section>
+  </section>
 {% else %}
   <section class="section-{{ section.id }}-padding vd-page-flow color-{{ section.settings.color_scheme }}">
     <div class="page-width rte">
@@ -287,6 +361,13 @@
       "id": "search_placeholder",
       "label": "Placeholder recherche",
       "default": "Rechercher une recette, un ingredient ou un accord"
+    },
+    {
+      "type": "text",
+      "id": "recipe_page_handles",
+      "label": "Handles pages recette dediees",
+      "default": "beignet-banane,recettes-accords",
+      "info": "Toute page Shopify vide dont le handle apparait ici affichera automatiquement la fiche recette correspondante."
     },
     {
       "type": "text",
