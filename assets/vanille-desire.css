@@ -7044,7 +7044,7 @@ body:has(.section-vd-hero) .header-wrapper {
 .vd-header-primary-menu__panel,
 .vd-header-secondary-menu__panel {
   position: fixed;
-  top: calc(var(--vd-header-shell-height) + 1.6rem);
+  top: calc(var(--vd-header-shell-height) + 0.45rem);
   padding: 2.4rem 2.6rem;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 2.4rem;
@@ -7055,6 +7055,15 @@ body:has(.section-vd-hero) .header-wrapper {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.12),
     0 1.8rem 4.4rem rgba(0, 0, 0, 0.08);
+}
+
+.vd-header-secondary-menu__panel::before {
+  content: "";
+  position: absolute;
+  top: -1.4rem;
+  left: 0;
+  right: 0;
+  height: 1.6rem;
 }
 
 .vd-header-primary-menu__panel {
@@ -7440,7 +7449,7 @@ body:has(.section-vd-hero) .header-wrapper {
   min-width: 0 !important;
   padding: 2.4rem 2.6rem !important;
   z-index: 24 !important;
-  top: calc(var(--vd-header-shell-height) + 1.6rem) !important;
+  top: calc(var(--vd-header-shell-height) + 0.45rem) !important;
 }
 
 .vd-header-primary-menu__panel {
