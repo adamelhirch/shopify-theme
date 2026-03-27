@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-27T13:43:24Z",
+  "generated_at": "2026-03-27T13:49:47Z",
   "recipes": [
     {
       "slug": "beignet-banane",
@@ -194,7 +194,8 @@
       "seo": {
         "title": "Beignets de banane a la vanille",
         "description": "Recette de beignets de banane a la vanille Bourbon, simple, rapide et fluide a suivre."
-      }
+      },
+      "id": "8dd6c8e7-38e6-4d67-a7a8-ab05eba985ca"
     },
     {
       "slug": "accords-vanille-salee",
@@ -317,7 +318,8 @@
       "seo": {
         "title": "Accords sales a la vanille",
         "description": "Guide libre pour travailler la vanille dans une cuisine salee."
-      }
+      },
+      "id": "baff78b3-9c4d-4682-8ed9-9f1ef618e5d9"
     }
   ]
 }

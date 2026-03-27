@@ -3,13 +3,12 @@
 
 require 'json'
 require 'time'
+require_relative '../apps/recipes-service/lib/store_factory'
 
 root = File.expand_path('..', __dir__)
-store_path = File.join(root, 'apps', 'recipes-service', 'data', 'recipes_store.json')
 output_path = File.join(root, 'assets', 'vd-recipes-registry.json')
-
-store = JSON.parse(File.read(store_path))
-recipes = store.fetch('recipes', []).select { |recipe| recipe['status'] == 'approved' }.map do |recipe|
+store = StoreFactory.build(root: File.join(root, 'apps', 'recipes-service'))
+recipes = store.published.map do |recipe|
   recipe.reject do |key, _value|
     %w[revisions moderation_notes validated_by validated_at created_at updated_at].include?(key)
   end

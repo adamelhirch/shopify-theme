@@ -13,6 +13,7 @@ Service local de reference pour piloter une base de recettes souveraine hors du 
 - historique des publications du registre public
 - export des seules recettes `approved` vers `assets/vd-recipes-registry.json`
 - schema SQL de migration vers PostgreSQL dans `apps/recipes-service/schema.sql`
+- backend local SQLite disponible pour sortir du JSON sans dependance externe
 
 ## Lancer le service
 
@@ -27,6 +28,28 @@ Variables utiles:
 ```bash
 export VD_RECIPES_PORT=4567
 export VD_RECIPES_ADMIN_TOKEN=change-me
+export VD_RECIPES_STORE=json
+```
+
+Backends disponibles:
+
+- `VD_RECIPES_STORE=json` pour le store fichier actuel
+- `VD_RECIPES_STORE=sqlite` pour la base SQLite locale
+- `VD_RECIPES_SQLITE_PATH=/chemin/recipes.sqlite3` pour choisir le fichier SQLite
+
+Pour generer une base SQLite a partir du JSON actuel:
+
+```bash
+VD_RECIPES_SQLITE_PATH=apps/recipes-service/data/recipes.sqlite3 \
+ruby bin/import-recipes-to-sqlite.rb
+```
+
+Puis lancer le service dessus:
+
+```bash
+VD_RECIPES_STORE=sqlite \
+VD_RECIPES_SQLITE_PATH=apps/recipes-service/data/recipes.sqlite3 \
+ruby apps/recipes-service/server.rb
 ```
 
 Les acteurs de demo sont definis dans `apps/recipes-service/data/actors.json`:
@@ -119,12 +142,15 @@ Voir aussi:
 
 - `apps/recipes-service/data/actors.json`
 - `apps/recipes-service/schema.sql`
+- `apps/recipes-service/schema.sqlite.sql`
+- `bin/import-recipes-to-sqlite.rb`
 
 ## Etape suivante recommandee
 
 Quand on voudra passer en backend complet de production:
 
 - remplacer le fichier JSON par PostgreSQL
+- brancher un adapter PostgreSQL natif avec `pg` sur la meme interface de store
 - brancher une authentification robuste avec rotation de secrets et sessions
 - ajouter une vraie UI de moderation edition par edition
 - versionner les publications par environnement

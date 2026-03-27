@@ -7,10 +7,10 @@ require 'open3'
 require 'webrick'
 require 'English'
 require_relative 'lib/actor_registry'
-require_relative 'lib/recipe_store'
+require_relative 'lib/store_factory'
 
 ROOT = File.expand_path(__dir__)
-STORE = RecipeStore.new(File.join(ROOT, 'data', 'recipes_store.json'))
+STORE = StoreFactory.build(root: ROOT)
 PORT = Integer(ENV.fetch('VD_RECIPES_PORT', '4567'))
 ADMIN_TOKEN = ENV.fetch('VD_RECIPES_ADMIN_TOKEN', 'change-me')
 ACTORS = ActorRegistry.new(File.join(ROOT, 'data', 'actors.json'), fallback_admin_token: ADMIN_TOKEN)
@@ -335,7 +335,12 @@ server = WEBrick::HTTPServer.new(
 )
 
 server.mount_proc '/health' do |_request, response|
-  json_response(response, 200, { ok: true, service: 'recipes-service', version: 2 })
+  json_response(response, 200, {
+    ok: true,
+    service: 'recipes-service',
+    version: 3,
+    backend: STORE.respond_to?(:backend) ? STORE.backend : 'json'
+  })
 end
 
 server.mount_proc '/dashboard' do |_request, response|

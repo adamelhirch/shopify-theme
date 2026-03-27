@@ -12,6 +12,10 @@ class RecipeStore
     @path = path
   end
 
+  def backend
+    'json'
+  end
+
   def all(filters = {})
     recipes = load_store.fetch('recipes', [])
 
@@ -83,7 +87,9 @@ class RecipeStore
       archived: recipes.count { |recipe| recipe['status'] == 'archived' },
       member: recipes.count { |recipe| recipe['access'] == 'member' },
       free: recipes.count { |recipe| recipe['access'] == 'free' },
-      last_publication: load_store.fetch('publications', []).last
+      last_publication: load_store.fetch('publications', []).last,
+      backend: backend,
+      database_path: path
     }
   end
 
