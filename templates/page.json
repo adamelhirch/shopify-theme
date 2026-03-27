@@ -1,67 +1,12 @@
 {
   "sections": {
-    "vd_page_flow_q2V8pL": {
+    "recipes_hub": {
       "type": "vd-page-flow",
-      "blocks": {
-        "recipe_card_beignets": {
-          "type": "recipe_card",
-          "settings": {
-            "collection_label": "Dessert signature",
-            "title": "Beignets de banane a la vanille",
-            "summary": "Une recette courte a fort pouvoir desir, pensee pour basculer ensuite dans un mode cuisson membre plus immersif.",
-            "access": "member",
-            "difficulty": "Facile",
-            "time": "35 min",
-            "serves": "10 portions",
-            "tags": "banane, dessert, vanille bourbon, friture, croustillant",
-            "image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
-            "link": "shopify://pages/beignet-banane",
-            "link_label": "Voir la recette"
-          }
-        },
-        "recipe_card_accords": {
-          "type": "recipe_card",
-          "settings": {
-            "collection_label": "Guide libre",
-            "title": "Recettes & accords",
-            "summary": "Une entree SEO plus ouverte pour faire decouvrir quoi faire, avec quel format de vanille, et dans quel registre gustatif.",
-            "access": "free",
-            "difficulty": "Intermediaire",
-            "time": "Lecture libre",
-            "serves": "Guide",
-            "tags": "accords, sale, dessert, dosage, guide, vanille",
-            "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg",
-            "link": "shopify://pages/recettes-accords",
-            "link_label": "Explorer"
-          }
-        },
-        "recipe_card_sels": {
-          "type": "recipe_card",
-          "settings": {
-            "collection_label": "Usage quotidien",
-            "title": "Sels aromatises",
-            "summary": "Une lecture simple pour attirer une recherche plus large, puis reconnecter l'idee au produit et au catalogue.",
-            "access": "free",
-            "difficulty": "Facile",
-            "time": "Lecture rapide",
-            "serves": "Usage",
-            "tags": "sel aromatise, usage, cuisine, assaisonnement, idee simple",
-            "image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
-            "link": "shopify://pages/sels-aromatises",
-            "link_label": "Voir l'idee"
-          }
-        }
-      },
-      "block_order": [
-        "recipe_card_beignets",
-        "recipe_card_accords",
-        "recipe_card_sels"
-      ],
       "settings": {
-        "recipes_eyebrow": "Cuisine & usages",
-        "recipes_heading": "Trouver une recette comme dans une application de cuisine haut de gamme.",
-        "recipes_intro": "<p>Le hub attire par des recettes et usages gratuits, indexables et recherchables. La consultation la plus riche bascule ensuite dans un mode membre fluide, utile et plus memorisable.</p>",
-        "search_placeholder": "Rechercher une recette, une texture, un accord, un ingredient",
+        "recipes_eyebrow": "Carnet de recettes",
+        "recipes_heading": "Recettes & accords",
+        "recipes_intro": "<p>Recherchez une recette, un accord ou un ingredient, puis entrez dans une navigation pensee pour cuisiner vite et bien.</p>",
+        "search_placeholder": "Rechercher une recette, un ingredient ou un accord",
         "recipes_video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
         "color_scheme": "scheme-3",
         "padding_top": 16,
@@ -77,7 +22,7 @@
     }
   },
   "order": [
-    "vd_page_flow_q2V8pL",
+    "recipes_hub",
     "main"
   ]
 }

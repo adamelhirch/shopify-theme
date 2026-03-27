@@ -1,0 +1,270 @@
+{
+  "recipes": [
+    {
+      "slug": "beignet-banane",
+      "status": "approved",
+      "access": "member",
+      "submitted_by": {
+        "name": "Vanille Desire Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-27T12:00:00Z",
+      "validated_at": "2026-03-27T12:30:00Z",
+      "validated_by": "VD Editorial",
+      "title": "Beignets de banane a la vanille",
+      "page_url": "/pages/beignet-banane",
+      "eyebrow": "Recette signature",
+      "subtitle": "Friture nette, coeur fondant, vanille lisible sans surcharge.",
+      "summary": "Une recette courte et gourmande, pensee pour une execution tres fluide en cuisine.",
+      "description": "Une base maison precise pour obtenir des beignets de banane croustillants a l'exterieur, moelleux au centre, avec une vanille bien tenue.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "25 min",
+        "cook": "10 min",
+        "rest": "20 min",
+        "total": "55 min"
+      },
+      "serves": 10,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "https://cdn.shopify.com/s/files/1/0000/0000/files/vanille_bourbon_accueil.jpg",
+        "ambient_label": "Madagascar"
+      },
+      "search_terms": [
+        "banane",
+        "beignet",
+        "dessert",
+        "vanille",
+        "friture",
+        "croustillant",
+        "gourmand"
+      ],
+      "product": {
+        "handle": "vanille-bourbon-madagascar-3-gousses",
+        "collection_handle": "vanille-bourbon",
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la collection",
+        "note": "La recette reste reliee au bon format de vanille pour une conversion naturelle."
+      },
+      "ingredient_groups": [
+        {
+          "title": "Base",
+          "items": [
+            { "id": "oeufs", "quantity": "3", "unit": "oeufs", "name": "oeufs", "note": "", "scalable": true, "badge": "" },
+            { "id": "farine", "quantity": "400", "unit": "g", "name": "farine T55", "note": "", "scalable": true, "badge": "" },
+            { "id": "sucre", "quantity": "100", "unit": "g", "name": "sucre", "note": "", "scalable": true, "badge": "" },
+            { "id": "levure", "quantity": "1", "unit": "sachet", "name": "levure chimique", "note": "Environ 11 g.", "scalable": true, "badge": "" },
+            { "id": "lait", "quantity": "35", "unit": "cl", "name": "lait", "note": "", "scalable": true, "badge": "" }
+          ]
+        },
+        {
+          "title": "Parfum et finition",
+          "items": [
+            { "id": "vanille", "quantity": "2", "unit": "gousses", "name": "vanille Bourbon", "note": "Fendues et grattees, ou 1 c. a cafe de sucre vanille.", "scalable": true, "badge": "VD" },
+            { "id": "bananes", "quantity": "7", "unit": "bananes", "name": "bien mures", "note": "Compter 6 a 8 selon la taille.", "scalable": true, "badge": "" },
+            { "id": "huile", "quantity": "", "unit": "", "name": "huile pour friture", "note": "Arachide ou tournesol raffine.", "scalable": false, "badge": "Selon la casserole" }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "base-sucree",
+          "title": "Battre la base sucree",
+          "body": "Fouetter les oeufs et le sucre. Ajouter les graines de vanille ou le sucre vanille, puis melanger jusqu'a obtenir une base homogene.",
+          "duration": "4 min",
+          "highlight": "Base"
+        },
+        {
+          "id": "pate",
+          "title": "Obtenir une pate nappante",
+          "body": "Incorporer la farine et la levure, puis verser le lait progressivement jusqu'a obtenir une pate lisse, souple et nappante. Laisser reposer 20 a 30 minutes.",
+          "duration": "8 min",
+          "highlight": "Texture"
+        },
+        {
+          "id": "friture",
+          "title": "Preparer la friture",
+          "body": "Eplucher les bananes, couper en rondelles ou en batonnets, puis chauffer l'huile a environ 170 a 175 degres.",
+          "duration": "6 min",
+          "highlight": "170-175 C"
+        },
+        {
+          "id": "plonger",
+          "title": "Enrober et plonger",
+          "body": "Tremper les morceaux de banane dans la pate et les frire par petites quantites pour garder une belle temperature d'huile.",
+          "duration": "5 min",
+          "highlight": "Petites fournees"
+        },
+        {
+          "id": "dorer",
+          "title": "Colorer puis egoutter",
+          "body": "Cuire 2 a 3 minutes par face jusqu'a obtenir une couleur doree, puis egoutter sur papier absorbant.",
+          "duration": "6 min",
+          "highlight": "Dore"
+        },
+        {
+          "id": "servir",
+          "title": "Finir et servir",
+          "body": "Servir chaud, nature ou avec un filet de miel, et finir si besoin avec un voile de sucre vanille.",
+          "duration": "3 min",
+          "highlight": "Service"
+        }
+      ],
+      "tips": [
+        { "title": "Pate & texture", "body": "La pate doit rester nappante. Si elle est trop epaisse, detendez-la avec un peu de lait. Si elle file trop, ajoutez un soupcon de farine." },
+        { "title": "Temperature de friture", "body": "Une goutte de pate doit frire tout de suite sans brunir trop vite. Travaillez en petites fournees pour eviter la chute de temperature." },
+        { "title": "Dressage", "body": "Servez au moment ou les beignets sont encore tres legers, avec un voile de sucre ou une pointe de miel." }
+      ],
+      "seo": {
+        "title": "Beignets de banane a la vanille",
+        "description": "Recette de beignets de banane a la vanille Bourbon, simple, rapide et fluide a suivre."
+      }
+    },
+    {
+      "slug": "accords-vanille-salee",
+      "status": "approved",
+      "access": "free",
+      "submitted_by": {
+        "name": "Vanille Desire Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-27T12:10:00Z",
+      "validated_at": "2026-03-27T12:20:00Z",
+      "validated_by": "VD Editorial",
+      "title": "Accords sales a la vanille",
+      "page_url": "/pages/recettes-accords",
+      "eyebrow": "Guide libre",
+      "subtitle": "Poisson, beurre, legumes et sauces ou la vanille joue en fond.",
+      "summary": "Une lecture libre et structurante pour travailler la vanille dans des assiettes salees sans effet gadget.",
+      "description": "Trois familles d'accords pour comprendre comment introduire la vanille dans une cuisine salee contemporaine avec justesse.",
+      "category": "Guides",
+      "difficulty": {
+        "value": "intermediaire",
+        "label": "Intermediaire"
+      },
+      "timing": {
+        "prep": "Lecture",
+        "cook": "",
+        "rest": "",
+        "total": "6 min"
+      },
+      "serves": 1,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Accords"
+      },
+      "search_terms": [
+        "vanille salee",
+        "accords",
+        "poisson",
+        "legumes",
+        "beurre",
+        "sauce"
+      ],
+      "product": {
+        "handle": "vanille-bourbon-madagascar-3-gousses",
+        "collection_handle": "vanille-bourbon",
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la collection",
+        "note": "Guide libre pour l'entree SEO et la decouverte."
+      },
+      "ingredient_groups": [
+        {
+          "title": "Supports qui repondent bien",
+          "items": [
+            { "id": "beurre", "quantity": "30", "unit": "g", "name": "beurre doux", "note": "Pour sauces courtes, glaçages et emulsions.", "scalable": true, "badge": "Base" },
+            { "id": "poisson-blanc", "quantity": "2", "unit": "filets", "name": "poisson blanc", "note": "Cabillaud, maigre ou saint-pierre.", "scalable": true, "badge": "Mer" },
+            { "id": "carotte", "quantity": "4", "unit": "", "name": "carottes ou legumes racines", "note": "Une cuisson douce supporte bien la vanille.", "scalable": true, "badge": "Legumes" }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "beurre-blanc",
+          "title": "Commencer par le beurre et les sauces courtes",
+          "body": "Infuser un petit morceau de gousse dans un beurre monte, une creme reduite ou un jus court. La vanille doit rester en fond et ne jamais dominer le sel ni l'acidite.",
+          "duration": "2 min",
+          "highlight": "Fond"
+        },
+        {
+          "id": "chair-blanche",
+          "title": "Associer aux chairs blanches et poissons nets",
+          "body": "La vanille fonctionne mieux avec des chairs douces, un poisson blanc, des coquillages ou une volaille peu marquee. Restez sur des cuissons simples et des assaisonnements propres.",
+          "duration": "2 min",
+          "highlight": "Equilibre"
+        },
+        {
+          "id": "legumes",
+          "title": "Finir avec les legumes doux et racines",
+          "body": "Carotte, patate douce, courge ou panais acceptent une infusion courte. Travaillez plutot sur le beurre, le lait ou le jus de cuisson que sur la pulpe brute.",
+          "duration": "2 min",
+          "highlight": "Cuisson douce"
+        }
+      ],
+      "tips": [
+        { "title": "Dosage", "body": "Commencez toujours en dessous de votre intuition. En sale, la vanille doit signer l'assiette, pas la parfumer de facon frontale." },
+        { "title": "Support gras", "body": "Le gras court, le beurre et certaines sauces cremees sont les meilleurs vehicules pour diffuser la vanille sans lourdeur." },
+        { "title": "Acidite", "body": "Gardez une pointe d'acidite ou de sel franc pour eviter toute sensation trop dessert dans l'assiette." }
+      ],
+      "seo": {
+        "title": "Accords sales a la vanille",
+        "description": "Guide libre pour travailler la vanille dans une cuisine salee."
+      }
+    },
+    {
+      "slug": "riz-lait-tonka-vanille",
+      "status": "pending",
+      "access": "member",
+      "submitted_by": {
+        "name": "Maison Atelier Externe",
+        "type": "partner"
+      },
+      "submitted_at": "2026-03-27T13:00:00Z",
+      "validated_at": null,
+      "validated_by": null,
+      "title": "Riz au lait tonka vanille",
+      "page_url": "",
+      "eyebrow": "Soumission externe",
+      "subtitle": "Recette en attente de validation editoriale.",
+      "summary": "Cette recette ne sera exportee vers le theme qu'apres validation.",
+      "description": "Prototype de soumission externe pour le flux de moderation.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "15 min",
+        "cook": "35 min",
+        "rest": "",
+        "total": "50 min"
+      },
+      "serves": 6,
+      "hero": {
+        "video_url": "",
+        "image_url": "",
+        "ambient_label": "Soumission"
+      },
+      "search_terms": ["riz", "lait", "tonka", "vanille"],
+      "product": {
+        "handle": "caviar-vanille-bourbon-madagascar-20g",
+        "collection_handle": "vanille-bourbon",
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la collection",
+        "note": ""
+      },
+      "ingredient_groups": [],
+      "steps": [],
+      "tips": [],
+      "seo": {
+        "title": "Riz au lait tonka vanille",
+        "description": "Soumission en attente."
+      }
+    }
+  ]
+}

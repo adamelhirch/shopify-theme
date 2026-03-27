@@ -5,58 +5,19 @@
       "disabled": true,
       "settings": {}
     },
-    "wiki_content_recettes_M8f2qN": {
-      "type": "wiki-content",
-      "blocks": {
-        "topic_1": {
-          "type": "item",
-          "settings": {
-            "kicker": "Base",
-            "title": "Recettes, accords, dosage",
-            "text": "<p>Cette page doit ensuite accueillir vos recettes fortes et vos videos, mais elle doit deja poser trois lectures simples: quoi faire, avec quel produit, pour quel resultat.</p>",
-            "link_label": "Voir la vanille",
-            "link": "shopify://collections/vanille-bourbon"
-          }
-        },
-        "topic_2": {
-          "type": "item",
-          "settings": {
-            "kicker": "Parcours",
-            "title": "Faire entrer le client par niveau de difficulte",
-            "text": "<p>Entree facile, usage quotidien, gestes plus experts: la page doit aider a naviguer selon la maturite, pas noyer tout le monde dans le meme mur de contenu.</p>",
-            "link_label": "Retour aux recettes",
-            "link": "shopify://pages/recettes"
-          }
-        },
-        "topic_3": {
-          "type": "item",
-          "settings": {
-            "kicker": "Passerelle",
-            "title": "Toujours reconnecter le contenu au produit",
-            "text": "<p>Le wiki n'est pas un bloc a part. Chaque partie doit permettre de revenir vers un format, une collection ou un point de contact pertinent.</p>",
-            "link_label": "Voir le catalogue",
-            "link": "shopify://collections/all"
-          }
-        }
-      },
-      "block_order": [
-        "topic_1",
-        "topic_2",
-        "topic_3"
-      ],
+    "recipe": {
+      "type": "vd-recipe-signature",
       "settings": {
-        "eyebrow": "Le Wiki",
-        "heading": "Recettes & accords",
-        "text": "<p>Une base sobre pour reconstruire la partie wiki recettes sans les effets trop demonstratifs et sans les gros blocs lourds a maintenir.</p>",
-        "summary": "Le role de cette page est de cadrer, prioriser et renvoyer vers les bons produits. Vous pourrez ensuite densifier le contenu couche par couche.",
+        "recipe_slug": "accords-vanille-salee",
+        "require_customer_access": true,
         "color_scheme": "scheme-3",
-        "padding_top": 20,
-        "padding_bottom": 56
+        "padding_top": 28,
+        "padding_bottom": 40
       }
     }
   },
   "order": [
     "main",
-    "wiki_content_recettes_M8f2qN"
+    "recipe"
   ]
 }
