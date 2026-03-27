@@ -50,6 +50,10 @@
       "product": {
         "handle": "vanille-bourbon-madagascar-3-gousses",
         "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "vanille-bourbon-madagascar-3-gousses",
+          "sucre-vanille-bourbon-madagascar-60g"
+        ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la collection",
         "note": "La recette reste reliee au bon format de vanille pour une conversion naturelle."
@@ -254,6 +258,11 @@
       "product": {
         "handle": "vanille-bourbon-madagascar-3-gousses",
         "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "vanille-bourbon-madagascar-3-gousses",
+          "caviar-vanille-bourbon-madagascar-20g",
+          "extrait-vanille-bourbon-madagascar-20ml"
+        ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la collection",
         "note": "Guide libre pour l'entree SEO et la decouverte."

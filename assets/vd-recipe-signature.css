@@ -387,6 +387,10 @@
   margin-bottom: 0;
 }
 
+.vd-recipe-signature__ingredients-panel.is-complete [data-vd-recipe-ingredients] {
+  display: none;
+}
+
 .vd-recipe-signature__ingredients-done {
   display: flex;
   align-items: center;
@@ -524,6 +528,13 @@
 .vd-recipe-signature__shop-window {
   min-width: 0;
   flex: 1 1 auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.vd-recipe-signature__shop-window::-webkit-scrollbar {
+  display: none;
 }
 
 .vd-recipe-signature__shop-track {
@@ -531,10 +542,8 @@
   grid-auto-flow: column;
   grid-auto-columns: minmax(22rem, 28rem);
   gap: 1rem;
-  overflow-x: auto;
+  min-width: max-content;
   padding-bottom: 0.4rem;
-  scroll-snap-type: x proximity;
-  scrollbar-width: thin;
 }
 
 .vd-recipe-signature__shop-loading,
@@ -648,6 +657,10 @@
 
 .vd-recipe-signature.is-fullscreen {
   min-height: 100vh;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 .vd-recipe-signature.is-fullscreen .vd-recipe-signature__utility {

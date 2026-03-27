@@ -282,9 +282,17 @@
       };
     }
 
-    if (recipe.product && recipe.product.handle) {
+    var requiredHandles = [];
+    if (recipe.product && Array.isArray(recipe.product.required_handles)) {
+      requiredHandles = recipe.product.required_handles.filter(Boolean);
+    }
+    if (!requiredHandles.length && recipe.product && recipe.product.handle) {
+      requiredHandles = [recipe.product.handle];
+    }
+
+    requiredHandles.forEach(function (handle) {
       requests.push(
-        fetch('/products/' + encodeURIComponent(recipe.product.handle) + '.js', { credentials: 'same-origin' })
+        fetch('/products/' + encodeURIComponent(handle) + '.js', { credentials: 'same-origin' })
           .then(function (response) {
             if (!response.ok) throw new Error('product');
             return response.json();
@@ -296,23 +304,7 @@
             return [];
           })
       );
-    }
-
-    if (recipe.product && recipe.product.collection_handle) {
-      requests.push(
-        fetch('/collections/' + encodeURIComponent(recipe.product.collection_handle) + '/products.json?limit=8', { credentials: 'same-origin' })
-          .then(function (response) {
-            if (!response.ok) throw new Error('collection');
-            return response.json();
-          })
-          .then(function (payload) {
-            return (payload.products || []).map(normalizeProduct).filter(Boolean);
-          })
-          .catch(function () {
-            return [];
-          })
-      );
-    }
+    });
 
     if (!requests.length) return Promise.resolve([]);
 
@@ -326,16 +318,17 @@
   function hydrateShop(section, recipe) {
     var shop = section.querySelector('[data-vd-recipe-shop]');
     if (!shop) return;
+    var viewport = shop.querySelector('.vd-recipe-signature__shop-window');
     var track = shop.querySelector('[data-vd-recipe-shop-track]');
     var prevButton = shop.querySelector('[data-vd-recipe-shop-prev]');
     var nextButton = shop.querySelector('[data-vd-recipe-shop-next]');
-    if (!track) return;
+    if (!track || !viewport) return;
 
     function updateNav() {
       if (!prevButton || !nextButton) return;
-      var maxScroll = Math.max(0, track.scrollWidth - track.clientWidth - 4);
-      prevButton.disabled = track.scrollLeft <= 4;
-      nextButton.disabled = track.scrollLeft >= maxScroll;
+      var maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth - 4);
+      prevButton.disabled = viewport.scrollLeft <= 4;
+      nextButton.disabled = viewport.scrollLeft >= maxScroll;
     }
 
     function renderProducts(products) {
@@ -364,18 +357,26 @@
         .join('');
 
       updateNav();
-      track.addEventListener('scroll', updateNav);
+      viewport.addEventListener('scroll', updateNav);
       if (prevButton) {
         prevButton.hidden = products.length < 2;
         prevButton.addEventListener('click', function () {
-          track.scrollBy({ left: -Math.max(280, track.clientWidth * 0.82), behavior: 'smooth' });
+          viewport.scrollBy({ left: -Math.max(280, viewport.clientWidth * 0.82), behavior: 'smooth' });
         });
       }
       if (nextButton) {
         nextButton.hidden = products.length < 2;
         nextButton.addEventListener('click', function () {
-          track.scrollBy({ left: Math.max(280, track.clientWidth * 0.82), behavior: 'smooth' });
+          viewport.scrollBy({ left: Math.max(280, viewport.clientWidth * 0.82), behavior: 'smooth' });
         });
+      }
+
+      if (window.gsap) {
+        window.gsap.fromTo(
+          track.querySelectorAll('.vd-recipe-signature__product-card'),
+          { opacity: 0, y: 22 },
+          { opacity: 1, y: 0, duration: 0.48, stagger: 0.06, ease: 'power2.out' }
+        );
       }
     }
 
@@ -488,16 +489,75 @@
       return Array.prototype.slice.call(section.querySelectorAll('[data-item-type="ingredient"][data-vd-recipe-check]'));
     }
 
+    function setIngredientsCollapsed(collapsed, animate) {
+      if (!ingredientsPanel || !ingredientsDone || !ingredientsTarget) return;
+
+      ingredientsPanel.classList.toggle('is-complete', collapsed);
+
+      if (!animate || !window.gsap) {
+        ingredientsDone.hidden = !collapsed;
+        ingredientsTarget.hidden = collapsed;
+        return;
+      }
+
+      window.gsap.killTweensOf([ingredientsDone, ingredientsTarget]);
+
+      if (collapsed) {
+        ingredientsDone.hidden = false;
+        window.gsap.set(ingredientsTarget, { height: ingredientsTarget.offsetHeight, overflow: 'hidden' });
+        window.gsap.to(ingredientsTarget, {
+          height: 0,
+          opacity: 0,
+          duration: 0.42,
+          ease: 'power2.inOut',
+          onComplete: function () {
+            ingredientsTarget.hidden = true;
+            window.gsap.set(ingredientsTarget, { clearProps: 'height,opacity,overflow' });
+          }
+        });
+        window.gsap.fromTo(
+          ingredientsDone,
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.34, ease: 'power2.out', clearProps: 'opacity,transform' }
+        );
+        return;
+      }
+
+      ingredientsTarget.hidden = false;
+      window.gsap.to(ingredientsDone, {
+        opacity: 0,
+        y: -10,
+        duration: 0.22,
+        ease: 'power1.out',
+        onComplete: function () {
+          ingredientsDone.hidden = true;
+          window.gsap.set(ingredientsDone, { clearProps: 'opacity,transform' });
+        }
+      });
+      window.gsap.fromTo(
+        ingredientsTarget,
+        { height: 0, opacity: 0, overflow: 'hidden' },
+        {
+          height: 'auto',
+          opacity: 1,
+          duration: 0.42,
+          ease: 'power2.out',
+          onComplete: function () {
+            window.gsap.set(ingredientsTarget, { clearProps: 'height,opacity,overflow' });
+          }
+        }
+      );
+    }
+
     function refreshIngredientsPanel() {
       if (!ingredientsPanel || !ingredientsDone) return;
       var boxes = ingredientCheckboxes();
       var allChecked = boxes.length > 0 && boxes.every(function (checkbox) {
         return checkbox.checked;
       });
-
-      ingredientsPanel.classList.toggle('is-complete', allChecked);
-      ingredientsDone.hidden = !allChecked;
-      if (ingredientsTarget) ingredientsTarget.hidden = allChecked;
+      var alreadyCollapsed = ingredientsPanel.classList.contains('is-complete');
+      if (alreadyCollapsed === allChecked) return;
+      setIngredientsCollapsed(allChecked, true);
     }
 
     function syncServes() {
@@ -632,9 +692,7 @@
 
     if (ingredientsShowButton) {
       ingredientsShowButton.addEventListener('click', function () {
-        if (ingredientsTarget) ingredientsTarget.hidden = false;
-        if (ingredientsDone) ingredientsDone.hidden = true;
-        if (ingredientsPanel) ingredientsPanel.classList.remove('is-complete');
+        setIngredientsCollapsed(false, true);
         if (ingredientsPanel) ingredientsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     }
