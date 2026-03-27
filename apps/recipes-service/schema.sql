@@ -42,6 +42,7 @@ create table recipes (
   validated_by_actor_id text references actors(id),
   validated_by_name text,
   validated_at timestamptz,
+  payload jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -53,6 +54,7 @@ create table recipe_revisions (
   actor_name text,
   event text not null,
   snapshot jsonb not null,
+  payload jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now()
 );
 
@@ -72,6 +74,7 @@ create table publications (
   actor_name text,
   published_count integer not null default 0,
   output text,
+  payload jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now()
 );
 
