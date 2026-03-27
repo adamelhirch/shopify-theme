@@ -1184,10 +1184,22 @@
     return normalized.replace(/\/+$/, '') || '/';
   }
 
+  function getPreviewThemeId() {
+    var fromQuery = new URLSearchParams(window.location.search).get('preview_theme_id');
+    if (fromQuery) return fromQuery;
+
+    var shopifyTheme = window.Shopify && window.Shopify.theme;
+    if (shopifyTheme && shopifyTheme.role === 'unpublished' && shopifyTheme.id) {
+      return String(shopifyTheme.id);
+    }
+
+    return '';
+  }
+
   function appendPreviewThemeId(url) {
     if (!url) return url;
 
-    var previewThemeId = new URLSearchParams(window.location.search).get('preview_theme_id');
+    var previewThemeId = getPreviewThemeId();
     if (!previewThemeId) return url;
 
     try {
@@ -1249,7 +1261,11 @@
       requestedSlug = querySlug;
     }
 
-    if (!requestedSlug || requestedSlug === pageHandle) {
+    if (requestedSlug === pageHandle) {
+      requestedSlug = '';
+    }
+
+    if (!requestedSlug && !pageHandle) {
       return;
     }
 
