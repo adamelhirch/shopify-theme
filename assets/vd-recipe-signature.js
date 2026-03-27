@@ -143,6 +143,67 @@
     media.innerHTML = '';
   }
 
+  function parseEditorMedia(section, recipeSlug) {
+    var node = section.querySelector('[data-vd-recipe-editor-media]');
+    if (!node) return [];
+
+    try {
+      var payload = JSON.parse(node.textContent || '[]');
+      if (!Array.isArray(payload)) return [];
+      return payload.filter(function (item) {
+        return item && item.recipe_slug === recipeSlug;
+      });
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function applyEditorMedia(recipe, editorMedia) {
+    if (!editorMedia.length) return recipe;
+
+    var recipeClone = Object.assign({}, recipe);
+    var heroMedia = editorMedia.find(function (item) {
+      return item.placement === 'hero' && (item.video_url || item.image_url);
+    });
+
+    recipeClone.hero = Object.assign({}, recipe.hero || {});
+    if (heroMedia) {
+      if (heroMedia.video_url) recipeClone.hero.video_url = heroMedia.video_url;
+      if (heroMedia.image_url) recipeClone.hero.image_url = heroMedia.image_url;
+    }
+
+    recipeClone.story_media = editorMedia.filter(function (item) {
+      return item.placement === 'gallery' && (item.video_url || item.image_url);
+    });
+
+    recipeClone.steps = (recipe.steps || []).map(function (step, index) {
+      return Object.assign({}, step, {
+        editor_media: editorMedia.filter(function (item) {
+          return item.placement === 'step' && Number(item.step_number) === index + 1 && (item.video_url || item.image_url);
+        })
+      });
+    });
+
+    return recipeClone;
+  }
+
+  function renderEditorialMedia(items, className) {
+    return (items || [])
+      .map(function (item) {
+        var mediaNode = item.video_url
+          ? '<video class="' + className + '__asset" playsinline muted loop controls preload="metadata"><source src="' + escapeHtml(item.video_url) + '" type="video/mp4"></video>'
+          : '<img class="' + className + '__asset" src="' + escapeHtml(item.image_url) + '" alt="' + escapeHtml(item.image_alt || item.caption || '') + '">';
+
+        return (
+          '<figure class="' + className + '__item">' +
+            '<div class="' + className + '__media">' + mediaNode + '</div>' +
+            (item.caption ? '<figcaption class="' + className + '__caption">' + escapeHtml(item.caption) + '</figcaption>' : '') +
+          '</figure>'
+        );
+      })
+      .join('');
+  }
+
   function renderRecipeShell(section, recipe, isLocked) {
     var shell = section.querySelector('[data-vd-recipe-shell]');
     var loginUrl = section.getAttribute('data-login-url') || '/account/login';
@@ -185,6 +246,10 @@
       .join('');
     var recipeSummary = escapeHtml(recipe.description || recipe.summary || '');
     var recipeSubtitle = escapeHtml(recipe.subtitle || recipe.summary || '');
+    var storyPanel =
+      (recipe.story_media && recipe.story_media.length
+        ? '<article class="vd-recipe-signature__story"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Visuels recette</span><h2>Une lecture visuelle pour suivre chaque geste.</h2></div></div><div class="vd-recipe-signature__story-grid">' + renderEditorialMedia(recipe.story_media, 'vd-recipe-signature__story-card') + '</div></article>'
+        : '');
     var shopPanel =
       ((productUrl || collectionUrl)
         ? '<article class="vd-recipe-signature__shop" data-vd-recipe-shop data-product-handle="' + escapeHtml((recipe.product && recipe.product.handle) || '') + '" data-collection-handle="' + escapeHtml((recipe.product && recipe.product.collection_handle) || '') + '">' +
@@ -215,8 +280,8 @@
           '<p>' + escapeHtml(isLocked ? 'Connectez-vous pour lancer le pas-a-pas, memoriser la progression et passer en plein ecran.' : 'Passez en focus, suivez etape par etape et gardez la progression en memoire locale.') + '</p>' +
           '<div class="vd-recipe-signature__hero-actions">' +
             (isLocked
-              ? '<a href="' + escapeHtml(loginUrl) + '" class="button button--primary">Se connecter</a><a href="' + escapeHtml(registerUrl) + '" class="button button--secondary">Creer un compte</a>'
-              : '<a href="#VDRecipeIngredients" class="button button--primary">Voir les ingredients</a><a href="#VDRecipePreparation" class="button button--secondary">Voir la preparation</a>'
+              ? '<a href="' + escapeHtml(loginUrl) + '" class="vd-recipe-signature__hero-link is-primary">Se connecter</a><a href="' + escapeHtml(registerUrl) + '" class="vd-recipe-signature__hero-link is-secondary">Creer un compte</a>'
+              : '<a href="#VDRecipeIngredients" class="vd-recipe-signature__hero-link is-primary">Voir les ingredients</a><a href="#VDRecipePreparation" class="vd-recipe-signature__hero-link is-secondary">Voir la preparation</a>'
             ) +
           '</div>' +
         '</aside>' +
@@ -229,10 +294,11 @@
               '<h2>Le mode complet se debloque apres connexion.</h2>' +
               '<p>La recette premium conserve une entree publique, puis ouvre la navigation immersive une fois le compte client connecte.</p>' +
               '<div class="vd-recipe-signature__gate-actions">' +
-                '<a href="' + escapeHtml(loginUrl) + '" class="button button--primary">Se connecter</a>' +
-                '<a href="' + escapeHtml(registerUrl) + '" class="button button--secondary">Creer un compte</a>' +
+                '<a href="' + escapeHtml(loginUrl) + '" class="vd-recipe-signature__hero-link is-primary">Se connecter</a>' +
+                '<a href="' + escapeHtml(registerUrl) + '" class="vd-recipe-signature__hero-link is-secondary">Creer un compte</a>' +
               '</div>' +
             '</div>' +
+            storyPanel +
             '<div class="vd-recipe-signature__preview">' +
               '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Ingredients</span><h2>Avant de cuisiner</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__preview-copy">' + previewIngredients + '</div></article>' +
               '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Etapes</span><h2>Lecture libre</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__preview-copy">' + previewSteps + '</div></article>' +
@@ -257,6 +323,7 @@
             '</div>' +
           '</div>' +
           '<article class="vd-recipe-signature__overview"><div class="vd-recipe-signature__overview-head"><span class="vd-recipe-signature__panel-kicker">Descriptif</span><h2>Ce que vous allez preparer.</h2></div><div class="vd-recipe-signature__overview-body"><p>' + recipeSummary + '</p></div></article>' +
+          storyPanel +
           '<div class="vd-recipe-signature__layout">' +
             '<div class="vd-recipe-signature__main">' +
               '<article class="vd-recipe-signature__panel vd-recipe-signature__ingredients-panel" id="VDRecipeIngredients" data-vd-recipe-ingredients-panel><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Ingredients</span><h2>Tout le necessaire pour <span data-vd-recipe-serves-slot>' + escapeHtml(String(recipe.serves || 1)) + '</span> personnes.</h2></div></div><div class="vd-recipe-signature__ingredients-done" data-vd-recipe-ingredients-done hidden><strong>Ingredients prets.</strong><p>Tout est coche, on peut laisser plus de place a la preparation.</p><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-ingredients-show>Revoir les ingredients</button></div><div class="vd-recipe-signature__panel-body" data-vd-recipe-ingredients></div></article>' +
@@ -492,6 +559,9 @@
                 '</div>' +
               '</div>' +
               '<div class="vd-recipe-signature__step-content"><strong data-vd-recipe-step-title>' + escapeHtml(step.title) + '</strong><p>' + escapeHtml(step.body) + '</p></div>' +
+              ((step.editor_media && step.editor_media.length)
+                ? '<div class="vd-recipe-signature__step-gallery">' + renderEditorialMedia(step.editor_media, 'vd-recipe-signature__step-media') + '</div>'
+                : '') +
             '</article>'
           );
         })
@@ -1040,6 +1110,8 @@
           renderError(section, 'Cette recette est introuvable dans le registre.');
           return;
         }
+
+        recipe = applyEditorMedia(recipe, parseEditorMedia(section, requestedSlug));
 
         var isLocked = requireCustomerAccess && recipe.access === 'member' && !customerAuthenticated;
         renderMedia(media, recipe);

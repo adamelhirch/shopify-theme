@@ -54,6 +54,34 @@
   </div>
 
   <div class="vd-recipe-signature__toast" data-vd-recipe-toast role="status" aria-live="polite"></div>
+  <script type="application/json" data-vd-recipe-editor-media>
+    [
+      {%- assign media_delimiter = '' -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'recipe_media' -%}
+          {{ media_delimiter }}
+          {%- assign block_video_url = '' -%}
+          {%- if block.settings.video != blank -%}
+            {%- for source in block.settings.video.sources -%}
+              {%- if source.mime_type == 'video/mp4' -%}
+                {%- assign block_video_url = source.url -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+          {
+            "recipe_slug": {{ block.settings.recipe_slug | strip | json }},
+            "placement": {{ block.settings.placement | json }},
+            "step_number": {{ block.settings.step_number | json }},
+            "image_url": {{ block.settings.image | image_url: width: 1800 | json }},
+            "image_alt": {{ block.settings.image.alt | default: block.settings.caption | json }},
+            "video_url": {{ block.settings.video_url | default: block_video_url | json }},
+            "caption": {{ block.settings.caption | json }}
+          }{%- assign media_delimiter = ',' -%}
+        {%- endif -%}
+      {%- endfor -%}
+    ]
+  </script>
   <script type="application/ld+json" data-vd-recipe-schema></script>
 </section>
 
@@ -100,6 +128,61 @@
       "unit": "px",
       "label": "Marge basse",
       "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "recipe_media",
+      "name": "Media recette",
+      "settings": [
+        {
+          "type": "text",
+          "id": "recipe_slug",
+          "label": "Slug recette",
+          "info": "Exemple : beignet-banane"
+        },
+        {
+          "type": "select",
+          "id": "placement",
+          "label": "Placement",
+          "default": "gallery",
+          "options": [
+            { "value": "hero", "label": "Hero / fond principal" },
+            { "value": "gallery", "label": "Galerie recette" },
+            { "value": "step", "label": "Etape" }
+          ]
+        },
+        {
+          "type": "range",
+          "id": "step_number",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "label": "Numero d'etape",
+          "default": 1
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video Shopify"
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "URL video MP4 externe",
+          "info": "Utilisee si aucune video Shopify n'est selectionnee"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Legende"
+        }
+      ]
     }
   ],
   "presets": [
