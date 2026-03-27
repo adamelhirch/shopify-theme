@@ -4,6 +4,7 @@
 require 'cgi'
 require 'json'
 require 'open3'
+require 'uri'
 require 'webrick'
 require 'English'
 require_relative 'lib/actor_registry'
@@ -38,7 +39,7 @@ end
 
 def request_token(request)
   bearer = request['Authorization'].to_s[/\ABearer\s+(.+)\z/i, 1]
-  bearer || request['X-VD-Token'] || request['X-VD-Admin-Token']
+  bearer || request['X-VD-Token'] || request['X-VD-Admin-Token'] || request.query['token']
 end
 
 def current_actor(request)
@@ -95,7 +96,104 @@ def html_escape(value)
   CGI.escapeHTML(value.to_s)
 end
 
-def admin_dashboard(actor:)
+def html_redirect(response, location)
+  response.status = 303
+  response['Location'] = location
+  response.body = ''
+end
+
+def admin_flash(level, message)
+  { 'level' => level, 'message' => message }
+end
+
+def admin_filters(request)
+  {
+    recipe: request.query['recipe'],
+    status: request.query['status'],
+    access: request.query['access'],
+    query: request.query['q'],
+    flash: request.query['flash'],
+    level: request.query['level']
+  }
+end
+
+def admin_url(token:, recipe: nil, status: nil, access: nil, query: nil, flash: nil, level: nil)
+  params = {
+    token: token,
+    recipe: recipe,
+    status: status,
+    access: access,
+    q: query,
+    flash: flash,
+    level: level
+  }.reject { |_key, value| value.to_s.strip.empty? }
+
+  "/admin?#{URI.encode_www_form(params)}"
+end
+
+def pretty_json(value)
+  JSON.pretty_generate(value || [])
+end
+
+def parse_json_field(value, fallback)
+  stripped = value.to_s.strip
+  return fallback if stripped.empty?
+
+  JSON.parse(stripped)
+rescue JSON::ParserError
+  raise ArgumentError, 'invalid json field in admin form'
+end
+
+def csv_terms(value)
+  value.to_s.split(/[\n,]/).map(&:strip).reject(&:empty?)
+end
+
+def admin_recipe_payload(request)
+  query = request.query
+  {
+    'slug' => query['slug'],
+    'title' => query['title'],
+    'status' => query['status'],
+    'access' => query['access'],
+    'page_url' => query['page_url'],
+    'eyebrow' => query['eyebrow'],
+    'subtitle' => query['subtitle'],
+    'summary' => query['summary'],
+    'description' => query['description'],
+    'category' => query['category'],
+    'serves' => query['serves'].to_s.strip.empty? ? nil : query['serves'].to_i,
+    'difficulty' => {
+      'value' => query['difficulty_value'],
+      'label' => query['difficulty_label']
+    },
+    'timing' => {
+      'prep' => query['timing_prep'],
+      'cook' => query['timing_cook'],
+      'rest' => query['timing_rest'],
+      'total' => query['timing_total']
+    },
+    'hero' => {
+      'video_url' => query['hero_video_url'],
+      'image_url' => query['hero_image_url'],
+      'ambient_label' => query['hero_ambient_label']
+    },
+    'seo' => {
+      'title' => query['seo_title'],
+      'description' => query['seo_description']
+    },
+    'submitted_by' => {
+      'name' => query['submitted_by_name'],
+      'type' => query['submitted_by_type']
+    },
+    'search_terms' => csv_terms(query['search_terms']),
+    'ingredient_groups' => parse_json_field(query['ingredient_groups_json'], []),
+    'steps' => parse_json_field(query['steps_json'], []),
+    'tips' => parse_json_field(query['tips_json'], []),
+    'product' => parse_json_field(query['product_json'], {})
+  }.reject { |_key, value| value.nil? }
+end
+
+def admin_dashboard(actor:, token:, recipes:, selected_recipe:, filters:, flash:)
   summary = STORE.dashboard_summary
   actor_summary = ACTORS.summary
   pending = STORE.pending_submissions
@@ -103,6 +201,13 @@ def admin_dashboard(actor:)
   publications = STORE.publication_history(10)
   audit_log = STORE.audit_log(12)
   actors = ACTORS.all
+  recipe = selected_recipe || {}
+  search_terms = Array(recipe['search_terms']).join(', ')
+  ingredient_groups_json = pretty_json(recipe['ingredient_groups'] || [])
+  steps_json = pretty_json(recipe['steps'] || [])
+  tips_json = pretty_json(recipe['tips'] || [])
+  product_json = pretty_json(recipe['product'] || {})
+  history_count = recipe.fetch('revisions', []).length
 
   <<~HTML
     <!doctype html>
@@ -184,6 +289,82 @@ def admin_dashboard(actor:)
           }
           .panel { padding: 22px; }
           .stack { display: grid; gap: 14px; }
+          .toolbar,
+          .filters,
+          .editor-grid {
+            display: grid;
+            gap: 12px;
+          }
+          .toolbar { grid-template-columns: repeat(4, minmax(0,1fr)); }
+          .filters { grid-template-columns: repeat(5, minmax(0,1fr)); }
+          .editor-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+          .editor-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+          }
+          label {
+            display: grid;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--muted);
+          }
+          input, select, textarea, button {
+            width: 100%;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            background: rgba(255,255,255,0.92);
+            color: var(--text);
+            padding: 12px 14px;
+            font: inherit;
+          }
+          textarea { min-height: 140px; resize: vertical; }
+          button {
+            width: auto;
+            cursor: pointer;
+            background: #161616;
+            color: #fff;
+          }
+          .button-light {
+            background: rgba(255,255,255,0.9);
+            color: var(--text);
+          }
+          .flash {
+            padding: 14px 16px;
+            border-radius: 18px;
+            border: 1px solid var(--line);
+            margin-bottom: 16px;
+            background: rgba(106,134,99,0.14);
+          }
+          .flash.error {
+            background: rgba(128, 35, 35, 0.1);
+          }
+          .recipe-list {
+            display: grid;
+            gap: 12px;
+            max-height: 720px;
+            overflow: auto;
+          }
+          .recipe-list article {
+            padding: 16px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: rgba(255,255,255,0.64);
+          }
+          .recipe-list a {
+            color: inherit;
+            text-decoration: none;
+          }
+          .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(0,0,0,0.06);
+            font-size: 12px;
+          }
           table {
             width: 100%;
             border-collapse: collapse;
@@ -209,6 +390,9 @@ def admin_dashboard(actor:)
           @media (max-width: 960px) {
             .summary,
             .grid { grid-template-columns: 1fr; }
+            .toolbar,
+            .filters,
+            .editor-grid { grid-template-columns: 1fr; }
           }
         </style>
       </head>
@@ -224,11 +408,210 @@ def admin_dashboard(actor:)
               <div class="stat"><span class="muted">Pending</span><strong>#{summary[:pending]}</strong></div>
               <div class="stat"><span class="muted">Rejetees</span><strong>#{summary[:rejected]}</strong></div>
               <div class="stat"><span class="muted">Archivees</span><strong>#{summary[:archived]}</strong></div>
-              <div class="stat"><span class="muted">Compte client</span><strong>#{summary[:member]}</strong></div>
+              <div class="stat"><span class="muted">Backend</span><strong>#{html_escape(summary[:backend])}</strong></div>
+            </div>
+          </section>
+
+          #{flash ? "<div class=\"flash #{html_escape(flash['level'])}\">#{html_escape(flash['message'])}</div>" : ''}
+
+          <section class="panel" style="margin-bottom:20px;">
+            <h2>Console editoriale</h2>
+            <p class="muted">Recherche, edition directe, moderation et publication depuis une seule interface locale.</p>
+            <form method="get" action="/admin">
+              <input type="hidden" name="token" value="#{html_escape(token)}">
+              <div class="filters">
+                <label>Recherche
+                  <input type="text" name="q" value="#{html_escape(filters[:query])}" placeholder="slug, titre, vanille...">
+                </label>
+                <label>Status
+                  <select name="status">
+                    <option value="">Tous</option>
+                    #{%w[draft pending approved rejected archived].map { |status|
+                      selected = filters[:status].to_s == status ? 'selected' : ''
+                      "<option value=\"#{status}\" #{selected}>#{status}</option>"
+                    }.join}
+                  </select>
+                </label>
+                <label>Access
+                  <select name="access">
+                    <option value="">Tous</option>
+                    #{%w[free member].map { |access|
+                      selected = filters[:access].to_s == access ? 'selected' : ''
+                      "<option value=\"#{access}\" #{selected}>#{access}</option>"
+                    }.join}
+                  </select>
+                </label>
+                <label>Recette
+                  <input type="text" name="recipe" value="#{html_escape(filters[:recipe])}" placeholder="slug cible">
+                </label>
+                <label>&nbsp;
+                  <button type="submit">Filtrer</button>
+                </label>
+              </div>
+            </form>
+            <div class="toolbar" style="margin-top:16px;">
+              <form method="post" action="/admin">
+                <input type="hidden" name="token" value="#{html_escape(token)}">
+                <input type="hidden" name="action" value="export_registry">
+                <input type="hidden" name="recipe" value="#{html_escape(filters[:recipe])}">
+                <button type="submit">Exporter le registre</button>
+              </form>
+              <a class="button-light" style="display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,0.92);color:var(--text);" href="#{html_escape(admin_url(token: token, query: filters[:query], status: filters[:status], access: filters[:access]))}">Nouvelle recette</a>
+              <a class="button-light" style="display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,0.92);color:var(--text);" href="/admin?token=#{html_escape(token)}">Recharger</a>
+              <div class="card"><strong>Selection</strong><p>#{html_escape(recipe['title'] || 'Aucune recette selectionnee')}</p></div>
             </div>
           </section>
 
           <div class="grid">
+            <section class="panel">
+              <h2>Catalogue filtrable</h2>
+              <div class="recipe-list">
+                #{recipes.map { |entry|
+                  link = admin_url(token: token, recipe: entry['slug'], status: filters[:status], access: filters[:access], query: filters[:query])
+                  "<article><a href=\"#{html_escape(link)}\"><h3>#{html_escape(entry['title'])}</h3><p><code>#{html_escape(entry['slug'])}</code></p><p><span class=\"pill\">#{html_escape(entry['status'])}</span> <span class=\"pill\">#{html_escape(entry['access'])}</span></p><p>#{html_escape(entry['summary'])}</p></a></article>"
+                }.join.presence || '<article><p>Aucune recette pour ce filtre.</p></article>'}
+              </div>
+            </section>
+
+            <section class="panel">
+              <h2>Edition recette</h2>
+              <p class="muted">Modification structuree avec champs utiles et blocs JSON pour ingredients, etapes et tips.</p>
+              <form method="post" action="/admin">
+                <input type="hidden" name="token" value="#{html_escape(token)}">
+                <input type="hidden" name="action" value="#{recipe['slug'] ? 'save_recipe' : 'create_recipe'}">
+                <div class="editor-grid">
+                  <label>Slug
+                    <input type="text" name="slug" value="#{html_escape(recipe['slug'])}" #{recipe['slug'] ? 'readonly' : ''}>
+                  </label>
+                  <label>Titre
+                    <input type="text" name="title" value="#{html_escape(recipe['title'])}">
+                  </label>
+                  <label>Status
+                    <select name="status">
+                      #{%w[draft pending approved rejected archived].map { |status|
+                        selected = recipe['status'].to_s == status ? 'selected' : ''
+                        "<option value=\"#{status}\" #{selected}>#{status}</option>"
+                      }.join}
+                    </select>
+                  </label>
+                  <label>Access
+                    <select name="access">
+                      #{%w[free member].map { |access|
+                        selected = recipe['access'].to_s == access ? 'selected' : ''
+                        "<option value=\"#{access}\" #{selected}>#{access}</option>"
+                      }.join}
+                    </select>
+                  </label>
+                  <label>Eyebrow
+                    <input type="text" name="eyebrow" value="#{html_escape(recipe['eyebrow'])}">
+                  </label>
+                  <label>Category
+                    <input type="text" name="category" value="#{html_escape(recipe['category'])}">
+                  </label>
+                  <label>Subtitle
+                    <textarea name="subtitle">#{html_escape(recipe['subtitle'])}</textarea>
+                  </label>
+                  <label>Summary
+                    <textarea name="summary">#{html_escape(recipe['summary'])}</textarea>
+                  </label>
+                  <label>Description
+                    <textarea name="description">#{html_escape(recipe['description'])}</textarea>
+                  </label>
+                  <label>Search terms
+                    <textarea name="search_terms">#{html_escape(search_terms)}</textarea>
+                  </label>
+                  <label>Page URL
+                    <input type="text" name="page_url" value="#{html_escape(recipe['page_url'])}">
+                  </label>
+                  <label>Serves
+                    <input type="number" name="serves" value="#{html_escape(recipe['serves'])}">
+                  </label>
+                  <label>Difficulte value
+                    <input type="text" name="difficulty_value" value="#{html_escape(recipe.dig('difficulty', 'value'))}">
+                  </label>
+                  <label>Difficulte label
+                    <input type="text" name="difficulty_label" value="#{html_escape(recipe.dig('difficulty', 'label'))}">
+                  </label>
+                  <label>Timing prep
+                    <input type="text" name="timing_prep" value="#{html_escape(recipe.dig('timing', 'prep'))}">
+                  </label>
+                  <label>Timing cook
+                    <input type="text" name="timing_cook" value="#{html_escape(recipe.dig('timing', 'cook'))}">
+                  </label>
+                  <label>Timing rest
+                    <input type="text" name="timing_rest" value="#{html_escape(recipe.dig('timing', 'rest'))}">
+                  </label>
+                  <label>Timing total
+                    <input type="text" name="timing_total" value="#{html_escape(recipe.dig('timing', 'total'))}">
+                  </label>
+                  <label>Hero video
+                    <input type="text" name="hero_video_url" value="#{html_escape(recipe.dig('hero', 'video_url'))}">
+                  </label>
+                  <label>Hero image
+                    <input type="text" name="hero_image_url" value="#{html_escape(recipe.dig('hero', 'image_url'))}">
+                  </label>
+                  <label>Hero ambiance
+                    <input type="text" name="hero_ambient_label" value="#{html_escape(recipe.dig('hero', 'ambient_label'))}">
+                  </label>
+                  <label>SEO title
+                    <input type="text" name="seo_title" value="#{html_escape(recipe.dig('seo', 'title'))}">
+                  </label>
+                  <label>SEO description
+                    <textarea name="seo_description">#{html_escape(recipe.dig('seo', 'description'))}</textarea>
+                  </label>
+                  <label>Soumis par
+                    <input type="text" name="submitted_by_name" value="#{html_escape(recipe.dig('submitted_by', 'name'))}">
+                  </label>
+                  <label>Type auteur
+                    <input type="text" name="submitted_by_type" value="#{html_escape(recipe.dig('submitted_by', 'type'))}">
+                  </label>
+                  <label>Product JSON
+                    <textarea name="product_json">#{html_escape(product_json)}</textarea>
+                  </label>
+                  <label>Ingredients JSON
+                    <textarea name="ingredient_groups_json">#{html_escape(ingredient_groups_json)}</textarea>
+                  </label>
+                  <label>Steps JSON
+                    <textarea name="steps_json">#{html_escape(steps_json)}</textarea>
+                  </label>
+                  <label>Tips JSON
+                    <textarea name="tips_json">#{html_escape(tips_json)}</textarea>
+                  </label>
+                </div>
+                <div class="editor-actions">
+                  <button type="submit">#{recipe['slug'] ? 'Enregistrer' : 'Creer la recette'}</button>
+                  #{recipe['slug'] ? "<span class=\"pill\">#{html_escape(recipe['status'])}</span><span class=\"pill\">#{history_count} revisions</span>" : ''}
+                </div>
+              </form>
+              #{recipe['slug'] ? <<~ACTIONS : ''}
+                <div class="editor-actions">
+                  <form method="post" action="/admin">
+                    <input type="hidden" name="token" value="#{html_escape(token)}">
+                    <input type="hidden" name="action" value="approve_recipe">
+                    <input type="hidden" name="slug" value="#{html_escape(recipe['slug'])}">
+                    <input type="hidden" name="recipe" value="#{html_escape(recipe['slug'])}">
+                    <button type="submit">Approuver</button>
+                  </form>
+                  <form method="post" action="/admin">
+                    <input type="hidden" name="token" value="#{html_escape(token)}">
+                    <input type="hidden" name="action" value="reject_recipe">
+                    <input type="hidden" name="slug" value="#{html_escape(recipe['slug'])}">
+                    <input type="hidden" name="recipe" value="#{html_escape(recipe['slug'])}">
+                    <button class="button-light" type="submit">Rejeter</button>
+                  </form>
+                  <form method="post" action="/admin">
+                    <input type="hidden" name="token" value="#{html_escape(token)}">
+                    <input type="hidden" name="action" value="archive_recipe">
+                    <input type="hidden" name="slug" value="#{html_escape(recipe['slug'])}">
+                    <input type="hidden" name="recipe" value="#{html_escape(recipe['slug'])}">
+                    <button class="button-light" type="submit">Archiver</button>
+                  </form>
+                </div>
+              ACTIONS
+            </section>
+          </div>
+
+          <div class="grid" style="margin-top:20px;">
             <section class="panel">
               <h2>Soumissions en attente</h2>
               <table>
@@ -236,8 +619,8 @@ def admin_dashboard(actor:)
                   <tr><th>Slug</th><th>Titre</th><th>Source</th><th>Deposee</th></tr>
                 </thead>
                 <tbody>
-                  #{pending.map { |recipe|
-                    "<tr><td><code>#{html_escape(recipe['slug'])}</code></td><td>#{html_escape(recipe['title'])}</td><td>#{html_escape(recipe.dig('submitted_by', 'name'))}</td><td>#{html_escape(recipe['submitted_at'])}</td></tr>"
+                  #{pending.map { |entry|
+                    "<tr><td><code>#{html_escape(entry['slug'])}</code></td><td>#{html_escape(entry['title'])}</td><td>#{html_escape(entry.dig('submitted_by', 'name'))}</td><td>#{html_escape(entry['submitted_at'])}</td></tr>"
                   }.join.presence || '<tr><td colspan="4">Aucune soumission en attente.</td></tr>'}
                 </tbody>
               </table>
@@ -246,9 +629,9 @@ def admin_dashboard(actor:)
             <section class="panel">
               <h2>Recettes publiees</h2>
               <div class="stack">
-                #{approved.map { |recipe|
-                  "<article class=\"card\"><h3>#{html_escape(recipe['title'])}</h3><p><code>#{html_escape(recipe['slug'])}</code> · #{html_escape(recipe['access'])} · #{html_escape(recipe['updated_at'])}</p></article>"
-                }.join}
+                #{approved.map { |entry|
+                  "<article class=\"card\"><h3>#{html_escape(entry['title'])}</h3><p><code>#{html_escape(entry['slug'])}</code> · #{html_escape(entry['access'])} · #{html_escape(entry['updated_at'])}</p></article>"
+                }.join.presence || '<article class="card"><p>Aucune recette publiee.</p></article>'}
               </div>
             </section>
           </div>
@@ -310,7 +693,7 @@ def admin_dashboard(actor:)
             <div class="stack">
               <article class="card"><strong>Identity</strong><p><code>GET /me</code> · <code>GET /actors</code></p></article>
               <article class="card"><strong>Dashboard</strong><p><code>GET /dashboard</code></p></article>
-              <article class="card"><strong>Recherche / filtres</strong><p><code>GET /recipes?status=pending&amp;q=vanille&amp;access=member</code></p></article>
+              <article class="card"><strong>Recherche / filtres</strong><p><code>GET /recipes?status=pending&amp;q=vanille&amp;access=member</code> · <code>GET /admin?token=...</code></p></article>
               <article class="card"><strong>Historique d'une recette</strong><p><code>GET /recipes/:slug/history</code></p></article>
               <article class="card"><strong>Export public</strong><p><code>POST /exports/registry</code> avec header <code>X-VD-Token</code> ou <code>Authorization: Bearer ...</code></p></article>
             </div>
@@ -384,7 +767,92 @@ server.mount_proc '/admin' do |request, response|
   actor = require_permission!(request, response, 'admin')
   next unless actor
 
-  html_response(response, 200, admin_dashboard(actor: actor))
+  token = request_token(request)
+  filters = admin_filters(request)
+
+  if request.request_method == 'POST'
+    action = request.query['action']
+    selected_slug = request.query['recipe'] || request.query['slug']
+    reviewer = actor_name(request, actor)
+
+    case action
+    when 'create_recipe'
+      payload = admin_recipe_payload(request)
+      created = STORE.create_recipe(payload, actor: reviewer)
+      selected_slug = created['slug']
+      flash = admin_flash('success', "Recette creee: #{created['title']}")
+    when 'save_recipe'
+      payload = admin_recipe_payload(request)
+      updated = STORE.update_recipe(request.query['slug'], payload, actor: reviewer)
+      selected_slug = updated['slug']
+      flash = admin_flash('success', "Recette mise a jour: #{updated['title']}")
+    when 'approve_recipe'
+      STORE.approve(request.query['slug'], reviewer, note: request.query['moderation_note'])
+      selected_slug = request.query['slug']
+      flash = admin_flash('success', "Recette approuvee: #{selected_slug}")
+    when 'reject_recipe'
+      STORE.reject(request.query['slug'], reviewer, note: request.query['moderation_note'])
+      selected_slug = request.query['slug']
+      flash = admin_flash('success', "Recette rejetee: #{selected_slug}")
+    when 'archive_recipe'
+      STORE.archive(request.query['slug'], reviewer, note: request.query['moderation_note'])
+      selected_slug = request.query['slug']
+      flash = admin_flash('success', "Recette archivee: #{selected_slug}")
+    when 'export_registry'
+      publication = run_export(reviewer)
+      flash = admin_flash('success', publication[:ok] ? 'Registre public exporte.' : 'Export termine avec erreurs.')
+    else
+      flash = admin_flash('error', 'Action admin inconnue.')
+    end
+
+    html_redirect(
+      response,
+      admin_url(
+        token: token,
+        recipe: selected_slug,
+        status: filters[:status],
+        access: filters[:access],
+        query: filters[:query],
+        flash: flash['message'],
+        level: flash['level']
+      )
+    )
+    next
+  end
+
+  recipes = STORE.all(
+    status: filters[:status],
+    access: filters[:access],
+    query: filters[:query]
+  )
+  selected_recipe = filters[:recipe].to_s.strip.empty? ? nil : STORE.find(filters[:recipe])
+  flash = filters[:flash].to_s.strip.empty? ? nil : admin_flash(filters[:level] || 'success', filters[:flash])
+
+  html_response(
+    response,
+    200,
+    admin_dashboard(
+      actor: actor,
+      token: token,
+      recipes: recipes,
+      selected_recipe: selected_recipe,
+      filters: filters,
+      flash: flash
+    )
+  )
+rescue ArgumentError, KeyError => e
+  html_redirect(
+    response,
+    admin_url(
+      token: token || request.query['token'],
+      recipe: request.query['recipe'] || request.query['slug'],
+      status: filters&.dig(:status),
+      access: filters&.dig(:access),
+      query: filters&.dig(:query),
+      flash: e.message,
+      level: 'error'
+    )
+  )
 end
 
 server.mount_proc '/recipes' do |request, response|

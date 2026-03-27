@@ -15,7 +15,7 @@ store = PostgresRecipeStore.new(database_url: database_url, schema_path: schema_
 
 payload.fetch('recipes', []).each do |recipe|
   copy = JSON.parse(JSON.generate(recipe))
-  copy['id'] ||= SecureRandom.uuid
+  copy['id'] = store.send(:normalized_uuid, copy['id'])
   copy['revisions'] ||= []
   copy['moderation_notes'] ||= []
   store.send(:persist_recipe!, copy)
@@ -26,7 +26,7 @@ payload.fetch('audit_log', []).each do |entry|
   store.send(:connection).exec_params(
     'insert into audit_log (id, actor_name, recipe_id, recipe_slug, event, payload, created_at) values ($1::uuid, $2, $3::uuid, $4, $5, $6::jsonb, $7::timestamptz) on conflict do nothing',
     [
-      entry['id'] || SecureRandom.uuid,
+      store.send(:normalized_uuid, entry['id']),
       entry['actor'],
       recipe_id,
       entry['slug'],
@@ -41,7 +41,7 @@ payload.fetch('publications', []).each do |entry|
   store.send(:connection).exec_params(
     'insert into publications (id, actor_name, published_count, output, created_at, payload) values ($1::uuid, $2, $3, $4, $5::timestamptz, $6::jsonb) on conflict do nothing',
     [
-      entry['id'] || SecureRandom.uuid,
+      store.send(:normalized_uuid, entry['id']),
       entry['actor'],
       entry['published_count'] || 0,
       entry['output'],

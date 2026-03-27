@@ -70,6 +70,12 @@ VD_RECIPES_DATABASE_URL=postgres://localhost/vd_recipes \
 ruby apps/recipes-service/server.rb
 ```
 
+Bootstrap local rapide sur macOS/Homebrew:
+
+```bash
+bash bin/setup-recipes-postgres-local.sh
+```
+
 Les acteurs de demo sont definis dans `apps/recipes-service/data/actors.json`:
 
 - `change-me` -> `admin`
@@ -163,6 +169,7 @@ Voir aussi:
 - `apps/recipes-service/schema.sqlite.sql`
 - `bin/import-recipes-to-sqlite.rb`
 - `bin/import-recipes-to-postgres.rb`
+- `bin/setup-recipes-postgres-local.sh`
 
 ## Etape suivante recommandee
 

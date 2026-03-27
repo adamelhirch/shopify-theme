@@ -155,7 +155,7 @@ class PostgresRecipeStore
 
   def record_publication(actor:, output:, published_count:)
     entry = {
-      'id' => SecureRandom.uuid,
+      'id' => normalized_uuid(nil),
       'published_at' => now_iso,
       'actor' => actor,
       'published_count' => published_count,
@@ -235,7 +235,7 @@ class PostgresRecipeStore
   end
 
   def persist_recipe!(recipe)
-    recipe_id = recipe['id'] || safe_recipe_id(recipe['slug']) || SecureRandom.uuid
+    recipe_id = normalized_uuid(recipe['id'] || safe_recipe_id(recipe['slug']))
     recipe['id'] = recipe_id
 
     connection.exec('begin')
@@ -281,7 +281,7 @@ class PostgresRecipeStore
       connection.exec_params(
         'insert into recipe_revisions (id, recipe_id, actor_name, event, snapshot, payload, created_at) values ($1::uuid, $2::uuid, $3, $4, $5::jsonb, $6::jsonb, $7::timestamptz)',
         [
-          revision['id'] || SecureRandom.uuid,
+          normalized_uuid(revision['id']),
           recipe_id,
           revision['actor'],
           revision['event'],
@@ -303,6 +303,13 @@ class PostgresRecipeStore
     nil
   end
 
+  def normalized_uuid(value)
+    candidate = value.to_s
+    return candidate if candidate.match?(/\A[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\z/i)
+
+    SecureRandom.uuid
+  end
+
   def append_revision!(recipe, actor:, event:)
     recipe['revisions'] ||= []
     recipe['revisions'] << {
@@ -316,7 +323,7 @@ class PostgresRecipeStore
 
   def append_audit!(event, payload = {})
     entry = payload.merge(
-      'id' => SecureRandom.uuid,
+      'id' => normalized_uuid(payload['id']),
       'event' => event,
       'at' => now_iso
     )
