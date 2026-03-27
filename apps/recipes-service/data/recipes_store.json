@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "schema_version": 2,
+    "service": "recipes-service"
+  },
   "recipes": [
     {
       "slug": "beignet-banane",
@@ -54,19 +58,83 @@
         {
           "title": "Base",
           "items": [
-            { "id": "oeufs", "quantity": "3", "unit": "oeufs", "name": "oeufs", "note": "", "scalable": true, "badge": "" },
-            { "id": "farine", "quantity": "400", "unit": "g", "name": "farine T55", "note": "", "scalable": true, "badge": "" },
-            { "id": "sucre", "quantity": "100", "unit": "g", "name": "sucre", "note": "", "scalable": true, "badge": "" },
-            { "id": "levure", "quantity": "1", "unit": "sachet", "name": "levure chimique", "note": "Environ 11 g.", "scalable": true, "badge": "" },
-            { "id": "lait", "quantity": "35", "unit": "cl", "name": "lait", "note": "", "scalable": true, "badge": "" }
+            {
+              "id": "oeufs",
+              "quantity": "3",
+              "unit": "oeufs",
+              "name": "oeufs",
+              "note": "",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "farine",
+              "quantity": "400",
+              "unit": "g",
+              "name": "farine T55",
+              "note": "",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "sucre",
+              "quantity": "100",
+              "unit": "g",
+              "name": "sucre",
+              "note": "",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "levure",
+              "quantity": "1",
+              "unit": "sachet",
+              "name": "levure chimique",
+              "note": "Environ 11 g.",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "lait",
+              "quantity": "35",
+              "unit": "cl",
+              "name": "lait",
+              "note": "",
+              "scalable": true,
+              "badge": ""
+            }
           ]
         },
         {
           "title": "Parfum et finition",
           "items": [
-            { "id": "vanille", "quantity": "2", "unit": "gousses", "name": "vanille Bourbon", "note": "Fendues et grattees, ou 1 c. a cafe de sucre vanille.", "scalable": true, "badge": "VD" },
-            { "id": "bananes", "quantity": "7", "unit": "bananes", "name": "bien mures", "note": "Compter 6 a 8 selon la taille.", "scalable": true, "badge": "" },
-            { "id": "huile", "quantity": "", "unit": "", "name": "huile pour friture", "note": "Arachide ou tournesol raffine.", "scalable": false, "badge": "Selon la casserole" }
+            {
+              "id": "vanille",
+              "quantity": "2",
+              "unit": "gousses",
+              "name": "vanille Bourbon",
+              "note": "Fendues et grattees, ou 1 c. a cafe de sucre vanille.",
+              "scalable": true,
+              "badge": "VD"
+            },
+            {
+              "id": "bananes",
+              "quantity": "7",
+              "unit": "bananes",
+              "name": "bien mures",
+              "note": "Compter 6 a 8 selon la taille.",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "huile",
+              "quantity": "",
+              "unit": "",
+              "name": "huile pour friture",
+              "note": "Arachide ou tournesol raffine.",
+              "scalable": false,
+              "badge": "Selon la casserole"
+            }
           ]
         }
       ],
@@ -115,14 +183,31 @@
         }
       ],
       "tips": [
-        { "title": "Pate & texture", "body": "La pate doit rester nappante. Si elle est trop epaisse, detendez-la avec un peu de lait. Si elle file trop, ajoutez un soupcon de farine." },
-        { "title": "Temperature de friture", "body": "Une goutte de pate doit frire tout de suite sans brunir trop vite. Travaillez en petites fournees pour eviter la chute de temperature." },
-        { "title": "Dressage", "body": "Servez au moment ou les beignets sont encore tres legers, avec un voile de sucre ou une pointe de miel." }
+        {
+          "title": "Pate & texture",
+          "body": "La pate doit rester nappante. Si elle est trop epaisse, detendez-la avec un peu de lait. Si elle file trop, ajoutez un soupcon de farine."
+        },
+        {
+          "title": "Temperature de friture",
+          "body": "Une goutte de pate doit frire tout de suite sans brunir trop vite. Travaillez en petites fournees pour eviter la chute de temperature."
+        },
+        {
+          "title": "Dressage",
+          "body": "Servez au moment ou les beignets sont encore tres legers, avec un voile de sucre ou une pointe de miel."
+        }
       ],
       "seo": {
         "title": "Beignets de banane a la vanille",
         "description": "Recette de beignets de banane a la vanille Bourbon, simple, rapide et fluide a suivre."
-      }
+      },
+      "revisions": [
+
+      ],
+      "moderation_notes": [
+
+      ],
+      "created_at": "2026-03-27T12:00:00Z",
+      "updated_at": "2026-03-27T12:30:00Z"
     },
     {
       "slug": "accords-vanille-salee",
@@ -177,9 +262,33 @@
         {
           "title": "Supports qui repondent bien",
           "items": [
-            { "id": "beurre", "quantity": "30", "unit": "g", "name": "beurre doux", "note": "Pour sauces courtes, glaçages et emulsions.", "scalable": true, "badge": "Base" },
-            { "id": "poisson-blanc", "quantity": "2", "unit": "filets", "name": "poisson blanc", "note": "Cabillaud, maigre ou saint-pierre.", "scalable": true, "badge": "Mer" },
-            { "id": "carotte", "quantity": "4", "unit": "", "name": "carottes ou legumes racines", "note": "Une cuisson douce supporte bien la vanille.", "scalable": true, "badge": "Legumes" }
+            {
+              "id": "beurre",
+              "quantity": "30",
+              "unit": "g",
+              "name": "beurre doux",
+              "note": "Pour sauces courtes, glaçages et emulsions.",
+              "scalable": true,
+              "badge": "Base"
+            },
+            {
+              "id": "poisson-blanc",
+              "quantity": "2",
+              "unit": "filets",
+              "name": "poisson blanc",
+              "note": "Cabillaud, maigre ou saint-pierre.",
+              "scalable": true,
+              "badge": "Mer"
+            },
+            {
+              "id": "carotte",
+              "quantity": "4",
+              "unit": "",
+              "name": "carottes ou legumes racines",
+              "note": "Une cuisson douce supporte bien la vanille.",
+              "scalable": true,
+              "badge": "Legumes"
+            }
           ]
         }
       ],
@@ -207,14 +316,31 @@
         }
       ],
       "tips": [
-        { "title": "Dosage", "body": "Commencez toujours en dessous de votre intuition. En sale, la vanille doit signer l'assiette, pas la parfumer de facon frontale." },
-        { "title": "Support gras", "body": "Le gras court, le beurre et certaines sauces cremees sont les meilleurs vehicules pour diffuser la vanille sans lourdeur." },
-        { "title": "Acidite", "body": "Gardez une pointe d'acidite ou de sel franc pour eviter toute sensation trop dessert dans l'assiette." }
+        {
+          "title": "Dosage",
+          "body": "Commencez toujours en dessous de votre intuition. En sale, la vanille doit signer l'assiette, pas la parfumer de facon frontale."
+        },
+        {
+          "title": "Support gras",
+          "body": "Le gras court, le beurre et certaines sauces cremees sont les meilleurs vehicules pour diffuser la vanille sans lourdeur."
+        },
+        {
+          "title": "Acidite",
+          "body": "Gardez une pointe d'acidite ou de sel franc pour eviter toute sensation trop dessert dans l'assiette."
+        }
       ],
       "seo": {
         "title": "Accords sales a la vanille",
         "description": "Guide libre pour travailler la vanille dans une cuisine salee."
-      }
+      },
+      "revisions": [
+
+      ],
+      "moderation_notes": [
+
+      ],
+      "created_at": "2026-03-27T12:10:00Z",
+      "updated_at": "2026-03-27T12:20:00Z"
     },
     {
       "slug": "riz-lait-tonka-vanille",
@@ -250,7 +376,12 @@
         "image_url": "",
         "ambient_label": "Soumission"
       },
-      "search_terms": ["riz", "lait", "tonka", "vanille"],
+      "search_terms": [
+        "riz",
+        "lait",
+        "tonka",
+        "vanille"
+      ],
       "product": {
         "handle": "caviar-vanille-bourbon-madagascar-20g",
         "collection_handle": "vanille-bourbon",
@@ -258,13 +389,59 @@
         "secondary_label": "Voir la collection",
         "note": ""
       },
-      "ingredient_groups": [],
-      "steps": [],
-      "tips": [],
+      "ingredient_groups": [
+
+      ],
+      "steps": [
+
+      ],
+      "tips": [
+
+      ],
       "seo": {
         "title": "Riz au lait tonka vanille",
         "description": "Soumission en attente."
-      }
+      },
+      "revisions": [
+
+      ],
+      "moderation_notes": [
+
+      ],
+      "created_at": "2026-03-27T13:00:00Z",
+      "updated_at": "2026-03-27T13:00:00Z"
+    }
+  ],
+  "audit_log": [
+    {
+      "actor": "Codex",
+      "published_count": 2,
+      "id": "08114d6ba92c4de5",
+      "event": "registry_exported",
+      "at": "2026-03-27T13:31:48Z"
+    },
+    {
+      "actor": "Codex",
+      "published_count": 2,
+      "id": "4e50ab3b981c2581",
+      "event": "registry_exported",
+      "at": "2026-03-27T13:32:27Z"
+    }
+  ],
+  "publications": [
+    {
+      "id": "e084b7d4949401a9",
+      "published_at": "2026-03-27T13:31:48Z",
+      "actor": "Codex",
+      "published_count": 2,
+      "output": "ruby: No such file or directory -- /Users/leothuel/Documents/VD (LoadError)"
+    },
+    {
+      "id": "243adfe708603a1e",
+      "published_at": "2026-03-27T13:32:27Z",
+      "actor": "Codex",
+      "published_count": 2,
+      "output": "Exported 2 recipes to /Users/leothuel/Documents/VD Site/assets/vd-recipes-registry.json"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-27T13:19:13Z",
+  "generated_at": "2026-03-27T13:33:14Z",
   "recipes": [
     {
       "slug": "beignet-banane",
@@ -10,8 +10,6 @@
         "type": "internal"
       },
       "submitted_at": "2026-03-27T12:00:00Z",
-      "validated_at": "2026-03-27T12:30:00Z",
-      "validated_by": "VD Editorial",
       "title": "Beignets de banane a la vanille",
       "page_url": "/pages/recettes?recipe=beignet-banane",
       "eyebrow": "Recette signature",
@@ -207,8 +205,6 @@
         "type": "internal"
       },
       "submitted_at": "2026-03-27T12:10:00Z",
-      "validated_at": "2026-03-27T12:20:00Z",
-      "validated_by": "VD Editorial",
       "title": "Accords sales a la vanille",
       "page_url": "/pages/recettes?recipe=accords-vanille-salee",
       "eyebrow": "Guide libre",

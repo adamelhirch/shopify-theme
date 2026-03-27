@@ -9,7 +9,11 @@ store_path = File.join(root, 'apps', 'recipes-service', 'data', 'recipes_store.j
 output_path = File.join(root, 'assets', 'vd-recipes-registry.json')
 
 store = JSON.parse(File.read(store_path))
-recipes = store.fetch('recipes', []).select { |recipe| recipe['status'] == 'approved' }
+recipes = store.fetch('recipes', []).select { |recipe| recipe['status'] == 'approved' }.map do |recipe|
+  recipe.reject do |key, _value|
+    %w[revisions moderation_notes validated_by validated_at created_at updated_at].include?(key)
+  end
+end
 
 public_payload = {
   generated_at: Time.now.utc.iso8601,
