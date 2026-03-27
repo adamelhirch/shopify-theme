@@ -16,6 +16,10 @@ class RecipeStore
     all.select { |recipe| recipe['status'] == 'approved' }
   end
 
+  def by_status(status)
+    all.select { |recipe| recipe['status'] == status }
+  end
+
   def find(slug)
     all.find { |recipe| recipe['slug'] == slug }
   end
@@ -46,6 +50,10 @@ class RecipeStore
 
   def reject(slug, reviewer)
     update_status(slug, 'rejected', reviewer)
+  end
+
+  def archive(slug, reviewer)
+    update_status(slug, 'archived', reviewer)
   end
 
   private

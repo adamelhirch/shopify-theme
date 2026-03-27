@@ -17,11 +17,20 @@
   }
 {% endstyle %}
 
+{%- liquid
+  assign encoded_return_to = request.path | url_encode
+  assign login_target = routes.account_login_url | append: '?return_to=' | append: encoded_return_to
+  assign register_target = routes.account_register_url | append: '?return_to=' | append: encoded_return_to
+-%}
+
 {% if page.handle == 'recettes' %}
   <section
     class="section-{{ section.id }}-padding vd-recipes-hub color-{{ section.settings.color_scheme }}"
     data-vd-recipes-hub
     data-registry-url="{{ 'vd-recipes-registry.json' | asset_url }}"
+    data-customer-authenticated="{% if customer %}true{% else %}false{% endif %}"
+    data-login-url="{{ login_target }}"
+    data-register-url="{{ register_target }}"
   >
     <div class="vd-recipes-hub__media" aria-hidden="true">
       {% if section.settings.recipes_background_video != blank %}
@@ -142,6 +151,16 @@
 
       <div class="vd-recipes-hub__empty" data-vd-recipes-empty hidden>
         Aucun resultat pour cette recherche.
+      </div>
+
+      <div class="vd-recipes-hub__viewer" data-vd-recipes-viewer hidden>
+        <div class="vd-recipes-hub__viewer-backdrop" data-vd-recipes-viewer-close></div>
+        <div class="vd-recipes-hub__viewer-panel" data-vd-recipes-viewer-panel>
+          <button type="button" class="vd-recipes-hub__viewer-close" data-vd-recipes-viewer-close aria-label="Fermer la recette">
+            Fermer
+          </button>
+          <div data-vd-recipes-viewer-content></div>
+        </div>
       </div>
 
       <div class="vd-recipes-hub__publication">
