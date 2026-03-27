@@ -44,70 +44,6 @@
     return parts.join(' • ');
   }
 
-  function renderViewerContent(recipe, isLocked, urls) {
-    var ingredients = (recipe.ingredient_groups || [])
-      .map(function (group) {
-        return (
-          '<div class="vd-recipes-hub__viewer-group">' +
-            '<h3>' + escapeHtml(group.title || '') + '</h3>' +
-            (group.items || [])
-              .map(function (item) {
-                return (
-                  '<div class="vd-recipes-hub__viewer-row">' +
-                    '<strong>' + escapeHtml([item.quantity, item.unit, item.name].join(' ').trim()) + '</strong>' +
-                    (item.note ? '<p>' + escapeHtml(item.note) + '</p>' : '') +
-                  '</div>'
-                );
-              })
-              .join('') +
-          '</div>'
-        );
-      })
-      .join('');
-
-    var steps = (recipe.steps || [])
-      .map(function (step, index) {
-        return (
-          '<article class="vd-recipes-hub__viewer-step">' +
-            '<div class="vd-recipes-hub__viewer-step-meta">' +
-              '<span>Etape ' + (index + 1) + '</span>' +
-              (step.duration ? '<span>' + escapeHtml(step.duration) + '</span>' : '') +
-              (step.highlight ? '<span>' + escapeHtml(step.highlight) + '</span>' : '') +
-            '</div>' +
-            '<h3>' + escapeHtml(step.title) + '</h3>' +
-            '<p>' + escapeHtml(step.body) + '</p>' +
-          '</article>'
-        );
-      })
-      .join('');
-
-    var tips = (recipe.tips || [])
-      .map(function (tip) {
-        return '<article class="vd-recipes-hub__viewer-tip"><h3>' + escapeHtml(tip.title) + '</h3><p>' + escapeHtml(tip.body) + '</p></article>';
-      })
-      .join('');
-
-    return (
-      '<div class="vd-recipes-hub__viewer-hero">' +
-        '<div>' +
-          '<span class="vd-recipes-hub__panel-label">' + escapeHtml(recipe.eyebrow || recipe.category || 'Recette') + '</span>' +
-          '<h2>' + escapeHtml(recipe.title) + '</h2>' +
-          '<p>' + escapeHtml(recipe.description || recipe.summary || '') + '</p>' +
-          '<div class="vd-recipes-hub__viewer-metrics">' +
-            '<span>' + escapeHtml(metricValue(recipe)) + '</span>' +
-            '<span>' + escapeHtml(recipe.access === 'member' ? 'Compte client' : 'Acces libre') + '</span>' +
-          '</div>' +
-        '</div>' +
-        '<div class="vd-recipes-hub__viewer-media"' + (recipe.hero && recipe.hero.image_url ? ' style="background-image:url(\'' + escapeHtml(recipe.hero.image_url) + '\')"' : '') + '></div>' +
-      '</div>' +
-      (isLocked
-        ? '<div class="vd-recipes-hub__viewer-gate"><h3>Connexion requise</h3><p>Cette recette ouvre le pas-a-pas complet, la progression memorisee et le mode immersion apres connexion.</p><div class="vd-recipes-hub__viewer-actions"><a class="button button--primary" href="' + escapeHtml(urls.login) + '">Se connecter</a><a class="button button--secondary" href="' + escapeHtml(urls.register) + '">Creer un compte</a></div></div>'
-        : '<div class="vd-recipes-hub__viewer-layout"><div class="vd-recipes-hub__viewer-section"><span class="vd-recipes-hub__panel-label">Ingredients</span>' + ingredients + '</div><div class="vd-recipes-hub__viewer-section"><span class="vd-recipes-hub__panel-label">Preparation</span>' + steps + '</div></div>' +
-          (tips ? '<div class="vd-recipes-hub__viewer-section"><span class="vd-recipes-hub__panel-label">Astuces</span><div class="vd-recipes-hub__viewer-tips">' + tips + '</div></div>' : '')
-      )
-    );
-  }
-
   function buildCard(recipe) {
     var cover = recipe.hero && recipe.hero.image_url;
     var accessLabel = recipe.access === 'member' ? 'Compte client' : 'Acces libre';
@@ -180,43 +116,14 @@
     var input = section.querySelector('[data-vd-recipes-search-input]');
     var clearButton = section.querySelector('[data-vd-recipes-search-clear]');
     var grid = section.querySelector('[data-vd-recipes-grid]');
-    var viewer = section.querySelector('[data-vd-recipes-viewer]');
-    var viewerContent = section.querySelector('[data-vd-recipes-viewer-content]');
     var totalNode = section.querySelector('[data-vd-recipes-total]');
     var freeNode = section.querySelector('[data-vd-recipes-free]');
     var memberNode = section.querySelector('[data-vd-recipes-member]');
-    var closeButtons = Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipes-viewer-close]'));
-    var customerAuthenticated = section.getAttribute('data-customer-authenticated') === 'true';
-    var loginUrl = section.getAttribute('data-login-url') || '/account/login';
-    var registerUrl = section.getAttribute('data-register-url') || '/account/register';
     var accessButtons = Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipes-access]'));
     var difficultyButtons = Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipes-difficulty]'));
     var state = { query: '', access: 'all', difficulty: 'all' };
 
     if (!registryUrl || !grid || !input) return;
-
-    function closeViewer(shouldReplaceState) {
-      if (!viewer) return;
-      viewer.hidden = true;
-      document.documentElement.classList.remove('vd-recipes-viewer-open');
-      if (shouldReplaceState) {
-        window.history.replaceState({}, '', window.location.pathname);
-      }
-    }
-
-    function openViewer(recipe, shouldPushState) {
-      if (!viewer || !viewerContent) return;
-      var isLocked = recipe.access === 'member' && !customerAuthenticated;
-      viewerContent.innerHTML = renderViewerContent(recipe, isLocked, {
-        login: loginUrl,
-        register: registerUrl
-      });
-      viewer.hidden = false;
-      document.documentElement.classList.add('vd-recipes-viewer-open');
-      if (shouldPushState) {
-        window.history.pushState({}, '', recipeHref(recipe));
-      }
-    }
 
     fetch(registryUrl, { credentials: 'same-origin' })
       .then(function (response) {
@@ -228,8 +135,6 @@
         var approved = recipes.filter(function (recipe) {
           return recipe.status === 'approved';
         });
-        var params = new URLSearchParams(window.location.search);
-        var requestedRecipe = params.get('recipe');
 
         grid.innerHTML = approved.map(buildCard).join('');
 
@@ -250,28 +155,6 @@
         }
 
         applyFilters(section, state);
-
-        grid.addEventListener('click', function (event) {
-          var link = event.target.closest('.vd-recipes-hub__card-link');
-          if (!link) return;
-          var href = link.getAttribute('href') || '';
-          var slugMatch = href.match(/recipe=([^&]+)/);
-          if (!slugMatch) return;
-          var slug = decodeURIComponent(slugMatch[1]);
-          var recipe = approved.find(function (entry) {
-            return entry.slug === slug;
-          });
-          if (!recipe) return;
-          event.preventDefault();
-          openViewer(recipe, true);
-        });
-
-        if (requestedRecipe) {
-          var entry = approved.find(function (recipe) {
-            return recipe.slug === requestedRecipe;
-          });
-          if (entry) openViewer(entry, false);
-        }
 
         if (window.gsap && window.ScrollTrigger) {
           var cards = section.querySelectorAll('[data-vd-recipe-card]');
@@ -296,25 +179,6 @@
         grid.innerHTML =
           '<article class="vd-recipes-hub__empty-card"><h2>Le registre des recettes est indisponible.</h2><p>Rechargez la page dans un instant.</p></article>';
       });
-
-    closeButtons.forEach(function (button) {
-      button.addEventListener('click', function () {
-        closeViewer(true);
-      });
-    });
-
-    window.addEventListener('popstate', function () {
-      var params = new URLSearchParams(window.location.search);
-      if (!params.get('recipe')) {
-        closeViewer(false);
-      }
-    });
-
-    document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape' && viewer && !viewer.hidden) {
-        closeViewer(true);
-      }
-    });
 
     input.addEventListener('input', function () {
       state.query = normalize(input.value);
