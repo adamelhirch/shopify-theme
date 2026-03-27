@@ -57,7 +57,9 @@
 .vd-recipe-signature__hero-aside,
 .vd-recipe-signature__utility,
 .vd-recipe-signature__panel,
-.vd-recipe-signature__gate-card {
+.vd-recipe-signature__gate-card,
+.vd-recipe-signature__overview,
+.vd-recipe-signature__shop {
   border: 1px solid var(--vd-recipe-line);
   background:
     linear-gradient(180deg, rgba(var(--vd-white), 0.44), rgba(var(--vd-white), 0.2)),
@@ -70,6 +72,15 @@
   margin: clamp(10rem, 16vh, 16rem) 0 4rem;
   padding: 3rem;
   border-radius: 2.8rem;
+}
+
+.vd-recipe-signature__overview,
+.vd-recipe-signature__shop {
+  display: grid;
+  gap: 1.6rem;
+  margin-bottom: 2rem;
+  padding: 2.4rem;
+  border-radius: 2.6rem;
 }
 
 .vd-recipe-signature__loading-label,
@@ -178,6 +189,7 @@
 .vd-recipe-signature__hero-actions,
 .vd-recipe-signature__gate-actions,
 .vd-recipe-signature__aside-actions,
+.vd-recipe-signature__shop-actions,
 .vd-recipe-signature__utility-actions,
 .vd-recipe-signature__step-actions {
   display: flex;
@@ -286,6 +298,37 @@
   display: grid;
   grid-template-columns: minmax(0, 1.04fr) minmax(30rem, 0.64fr);
   gap: clamp(2rem, 4vw, 4rem);
+}
+
+.vd-recipe-signature__overview-head,
+.vd-recipe-signature__shop-copy {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.vd-recipe-signature__overview-head h2,
+.vd-recipe-signature__shop-copy h2 {
+  margin: 0;
+  font-size: clamp(2.6rem, 3.6vw, 4rem);
+  line-height: 1;
+}
+
+.vd-recipe-signature__overview-body {
+  display: grid;
+  gap: 1rem;
+}
+
+.vd-recipe-signature__overview-body p,
+.vd-recipe-signature__shop-copy p {
+  margin: 0;
+  color: rgba(var(--vd-text), 0.72);
+  font-size: 1.54rem;
+  line-height: 1.78;
+}
+
+.vd-recipe-signature__shop {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
 }
 
 .vd-recipe-signature__main,
@@ -430,6 +473,11 @@
   .vd-recipe-signature__layout,
   .vd-recipe-signature__preview {
     grid-template-columns: 1fr;
+  }
+
+  .vd-recipe-signature__shop {
+    grid-template-columns: 1fr;
+    align-items: start;
   }
 }
 

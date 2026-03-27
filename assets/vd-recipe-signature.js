@@ -138,18 +138,27 @@
         return '<p>Etape ' + (index + 1) + ' · ' + escapeHtml(step.title) + '</p>';
       })
       .join('');
+    var recipeSummary = escapeHtml(recipe.description || recipe.summary || '');
+    var recipeSubtitle = escapeHtml(recipe.subtitle || recipe.summary || '');
+    var shopPanel =
+      ((productUrl || collectionUrl)
+        ? '<article class="vd-recipe-signature__shop"><div class="vd-recipe-signature__shop-copy"><span class="vd-recipe-signature__panel-kicker">Nos produits</span><h2>Tout retrouver au catalogue pour faire la recette.</h2><p>' + escapeHtml((recipe.product && recipe.product.note) || 'Retrouvez la vanille et les references conseillees pour realiser cette recette avec le bon produit.') + '</p></div><div class="vd-recipe-signature__shop-actions">' +
+            (productUrl ? '<a href="' + escapeHtml(productUrl) + '" class="button button--primary">' + escapeHtml((recipe.product && recipe.product.primary_label) || 'Voir le produit') + '</a>' : '') +
+            (collectionUrl ? '<a href="' + escapeHtml(collectionUrl) + '" class="button button--secondary">' + escapeHtml((recipe.product && recipe.product.secondary_label) || 'Voir la collection') + '</a>' : '') +
+          '</div></article>'
+        : '');
 
     shell.innerHTML =
       '<div class="vd-recipe-signature__hero">' +
         '<div class="vd-recipe-signature__hero-copy">' +
           '<span class="vd-recipe-signature__eyebrow" data-vd-recipe-title-eyebrow>' + escapeHtml(recipe.eyebrow || 'Recette') + '</span>' +
           '<h1 class="vd-recipe-signature__heading" data-vd-recipe-title>' + escapeHtml(recipe.title) + '</h1>' +
-          '<p class="vd-recipe-signature__intro" data-vd-recipe-intro>' + escapeHtml(recipe.description || recipe.summary || '') + '</p>' +
+          '<p class="vd-recipe-signature__intro" data-vd-recipe-intro>' + recipeSummary + '</p>' +
           '<div class="vd-recipe-signature__meta">' + metrics + '</div>' +
         '</div>' +
         '<aside class="vd-recipe-signature__hero-aside">' +
           '<span class="vd-recipe-signature__panel-kicker">' + escapeHtml(isLocked ? 'Compte client' : 'Mode navigation') + '</span>' +
-          '<h2>' + escapeHtml(recipe.subtitle || recipe.summary || '') + '</h2>' +
+          '<h2>' + recipeSubtitle + '</h2>' +
           '<p>' + escapeHtml(isLocked ? 'Connectez-vous pour lancer le pas-a-pas, memoriser la progression et passer en plein ecran.' : 'Passez en focus, suivez etape par etape et gardez la progression en memoire locale.') + '</p>' +
           '<div class="vd-recipe-signature__hero-actions">' +
             (isLocked
@@ -162,6 +171,7 @@
       '</div>' +
       (isLocked
         ? '<div class="vd-recipe-signature__gate">' +
+            '<article class="vd-recipe-signature__overview"><div class="vd-recipe-signature__overview-head"><span class="vd-recipe-signature__panel-kicker">Descriptif</span><h2>La recette en un coup d oeil.</h2></div><div class="vd-recipe-signature__overview-body"><p>' + recipeSummary + '</p></div></article>' +
             '<div class="vd-recipe-signature__gate-card">' +
               '<span class="vd-recipe-signature__panel-kicker">Apercu</span>' +
               '<h2>Le mode complet se debloque apres connexion.</h2>' +
@@ -174,7 +184,7 @@
             '<div class="vd-recipe-signature__preview">' +
               '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Ingredients</span><h2>Avant de cuisiner</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__preview-copy">' + previewIngredients + '</div></article>' +
               '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Etapes</span><h2>Lecture libre</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__preview-copy">' + previewSteps + '</div></article>' +
-            '</div>' +
+            '</div>' + shopPanel +
           '</div>'
         : '<div class="vd-recipe-signature__utility">' +
             '<div class="vd-recipe-signature__utility-main">' +
@@ -190,23 +200,18 @@
               '<button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-reset>Reinitialiser</button>' +
             '</div>' +
           '</div>' +
+          '<article class="vd-recipe-signature__overview"><div class="vd-recipe-signature__overview-head"><span class="vd-recipe-signature__panel-kicker">Descriptif</span><h2>Ce que vous allez preparer.</h2></div><div class="vd-recipe-signature__overview-body"><p>' + recipeSummary + '</p></div></article>' +
           '<div class="vd-recipe-signature__layout">' +
             '<div class="vd-recipe-signature__main">' +
-              '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Ingredients</span><h2>Tout est ajuste pour <span data-vd-recipe-serves-slot>' + escapeHtml(String(recipe.serves || 1)) + '</span> personnes.</h2></div></div><div class="vd-recipe-signature__panel-body" data-vd-recipe-ingredients></div></article>' +
-              '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Navigation</span><h2>Une etape active, puis on avance.</h2></div><div class="vd-recipe-signature__step-nav"><button type="button" data-vd-recipe-prev-step>Etape precedente</button><button type="button" data-vd-recipe-next-step>Etape suivante</button></div></div><div class="vd-recipe-signature__panel-body" data-vd-recipe-steps></div></article>' +
+              '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Ingredients</span><h2>Tout le necessaire pour <span data-vd-recipe-serves-slot>' + escapeHtml(String(recipe.serves || 1)) + '</span> personnes.</h2></div></div><div class="vd-recipe-signature__panel-body" data-vd-recipe-ingredients></div></article>' +
+              '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Preparation</span><h2>Le pas a pas complet de la recette.</h2></div><div class="vd-recipe-signature__step-nav"><button type="button" data-vd-recipe-prev-step>Etape precedente</button><button type="button" data-vd-recipe-next-step>Etape suivante</button></div></div><div class="vd-recipe-signature__panel-body" data-vd-recipe-steps></div></article>' +
             '</div>' +
             '<aside class="vd-recipe-signature__aside">' +
               (recipe.tips && recipe.tips.length
                 ? '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Astuces</span><h2>Repères utiles en cuisine.</h2></div></div><div class="vd-recipe-signature__panel-body" data-vd-recipe-tips></div></article>'
                 : '') +
-              ((productUrl || collectionUrl)
-                ? '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Produit</span><h2>Continuer vers le catalogue.</h2></div></div><div class="vd-recipe-signature__panel-body"><p class="vd-recipe-signature__aside-copy">' + escapeHtml((recipe.product && recipe.product.note) || '') + '</p><div class="vd-recipe-signature__aside-actions">' +
-                    (productUrl ? '<a href="' + escapeHtml(productUrl) + '" class="button button--primary">' + escapeHtml((recipe.product && recipe.product.primary_label) || 'Voir le produit') + '</a>' : '') +
-                    (collectionUrl ? '<a href="' + escapeHtml(collectionUrl) + '" class="button button--secondary">' + escapeHtml((recipe.product && recipe.product.secondary_label) || 'Voir la collection') + '</a>' : '') +
-                  '</div></div></article>'
-                : '') +
             '</aside>' +
-          '</div>'
+          '</div>' + shopPanel
       );
   }
 
