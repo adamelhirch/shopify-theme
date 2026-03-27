@@ -1168,9 +1168,73 @@
       '</h1></div>';
   }
 
+  function normalizePath(value) {
+    if (!value) return '';
+
+    var normalized = String(value).trim();
+    if (!normalized) return '';
+
+    try {
+      normalized = new URL(normalized, window.location.origin).pathname;
+    } catch (error) {
+      normalized = normalized.split('?')[0].split('#')[0];
+    }
+
+    if (!normalized) return '';
+    return normalized.replace(/\/+$/, '') || '/';
+  }
+
+  function appendPreviewThemeId(url) {
+    if (!url) return url;
+
+    var previewThemeId = new URLSearchParams(window.location.search).get('preview_theme_id');
+    if (!previewThemeId) return url;
+
+    try {
+      var resolvedUrl = new URL(url, window.location.origin);
+      if (!resolvedUrl.searchParams.get('preview_theme_id')) {
+        resolvedUrl.searchParams.set('preview_theme_id', previewThemeId);
+      }
+
+      return resolvedUrl.origin === window.location.origin
+        ? resolvedUrl.pathname + resolvedUrl.search + resolvedUrl.hash
+        : resolvedUrl.toString();
+    } catch (error) {
+      return url;
+    }
+  }
+
+  function preservePreviewLinks(scope) {
+    Array.prototype.forEach.call((scope || document).querySelectorAll('[data-vd-preview-link]'), function (link) {
+      var href = link.getAttribute('href');
+      if (!href) return;
+      link.setAttribute('href', appendPreviewThemeId(href));
+    });
+  }
+
+  function resolveRequestedRecipe(recipes, requestedSlug) {
+    if (!Array.isArray(recipes) || !recipes.length) return null;
+
+    if (requestedSlug) {
+      var bySlug = recipes.find(function (entry) {
+        return entry.slug === requestedSlug;
+      });
+
+      if (bySlug) return bySlug;
+    }
+
+    var currentPath = normalizePath(window.location.pathname);
+    if (!currentPath) return null;
+
+    return recipes.find(function (entry) {
+      return normalizePath(entry && entry.page_url) === currentPath;
+    }) || null;
+  }
+
   function initRecipe(section) {
     if (!section || section.__vdRecipeReady) return;
     section.__vdRecipeReady = true;
+    preservePreviewLinks(document);
 
     var registryUrl = section.getAttribute('data-registry-url');
     var requestedSlug = section.getAttribute('data-recipe-slug') || '';
@@ -1196,9 +1260,7 @@
       })
       .then(function (payload) {
         var recipes = Array.isArray(payload.recipes) ? payload.recipes : [];
-        var recipe = recipes.find(function (entry) {
-          return entry.slug === requestedSlug;
-        });
+        var recipe = resolveRequestedRecipe(recipes, requestedSlug);
 
         if (!recipe) {
           renderError(section, 'Cette recette est introuvable dans le registre.');

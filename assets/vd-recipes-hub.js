@@ -16,6 +16,26 @@
       .trim();
   }
 
+  function appendPreviewThemeId(url) {
+    if (!url) return url;
+
+    var previewThemeId = new URLSearchParams(window.location.search).get('preview_theme_id');
+    if (!previewThemeId) return url;
+
+    try {
+      var resolvedUrl = new URL(url, window.location.origin);
+      if (!resolvedUrl.searchParams.get('preview_theme_id')) {
+        resolvedUrl.searchParams.set('preview_theme_id', previewThemeId);
+      }
+
+      return resolvedUrl.origin === window.location.origin
+        ? resolvedUrl.pathname + resolvedUrl.search + resolvedUrl.hash
+        : resolvedUrl.toString();
+    } catch (error) {
+      return url;
+    }
+  }
+
   function recipeSearchText(recipe) {
     return normalize(
       [
@@ -32,7 +52,8 @@
   }
 
   function recipeHref(recipe) {
-    return recipe.page_url || ('/pages/recettes?recipe=' + encodeURIComponent(recipe.slug || ''));
+    var baseUrl = recipe.page_url || ('/pages/recettes?recipe=' + encodeURIComponent(recipe.slug || ''));
+    return appendPreviewThemeId(baseUrl);
   }
 
   function metricValue(recipe) {
