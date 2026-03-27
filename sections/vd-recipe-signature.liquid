@@ -17,8 +17,16 @@
 
 {%- liquid
   assign encoded_return_to = request.path | url_encode
-  assign login_target = routes.account_login_url | append: '?return_to=' | append: encoded_return_to
-  assign register_target = routes.account_register_url | append: '?return_to=' | append: encoded_return_to
+  assign login_joiner = '?'
+  assign register_joiner = '?'
+  if routes.account_login_url contains '?'
+    assign login_joiner = '&'
+  endif
+  if routes.account_register_url contains '?'
+    assign register_joiner = '&'
+  endif
+  assign login_target = routes.account_login_url | append: login_joiner | append: 'return_to=' | append: encoded_return_to
+  assign register_target = routes.account_register_url | append: register_joiner | append: 'return_to=' | append: encoded_return_to
 -%}
 
 <section
