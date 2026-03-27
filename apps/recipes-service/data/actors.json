@@ -5,7 +5,7 @@
       "name": "Codex Admin",
       "email": "admin@vanilledesire.local",
       "role": "admin",
-      "token": "change-me",
+      "token_digest": "e2186dbdb1bb4193608605e84f33208765b5693b55edd4f730a719a100eeea6f",
       "active": true,
       "organization": "Vanille Desire"
     },
@@ -14,7 +14,7 @@
       "name": "Studio Editorial",
       "email": "editor@vanilledesire.local",
       "role": "editor",
-      "token": "editor-demo-token",
+      "token_digest": "cd379a6967dd5b2a8fbbc9f828158af1e80e2877a2e1a454e5e7b31aa8c0d322",
       "active": true,
       "organization": "Vanille Desire"
     },
@@ -23,7 +23,7 @@
       "name": "Maison Atelier Externe",
       "email": "atelier@partners.local",
       "role": "partner",
-      "token": "partner-demo-token",
+      "token_digest": "b4048e257d1c053ff4af3efbc1283461a45fb5317c08a35bcce95d666ca59dbd",
       "active": true,
       "organization": "Maison Atelier Externe"
     }

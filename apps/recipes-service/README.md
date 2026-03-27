@@ -82,6 +82,8 @@ Les acteurs de demo sont definis dans `apps/recipes-service/data/actors.json`:
 - `editor-demo-token` -> `editor`
 - `partner-demo-token` -> `partner`
 
+Les tokens ne sont plus stockes en clair dans le fichier; seules leurs empreintes `SHA256` sont versionnees.
+
 Les tokens peuvent etre envoyes via:
 
 - `X-VD-Token`
@@ -134,7 +136,7 @@ Le header `X-VD-Reviewer` reste optionnel; le service reprend sinon le nom de l'
 Le service expose un mini back-office HTML sur:
 
 ```text
-http://127.0.0.1:4567/admin
+http://127.0.0.1:4567/admin/login
 ```
 
 Cette page donne:
@@ -146,6 +148,8 @@ Cette page donne:
 - les derniers evenements d'audit
 - les acteurs autorises
 - le rappel des endpoints utiles
+
+Le login du back-office cree une session locale signee en cookie HTTP-only. Les tokens en query string ne sont plus necessaires pour l'interface HTML.
 
 ## Export vers le theme
 

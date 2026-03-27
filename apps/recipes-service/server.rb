@@ -3,6 +3,7 @@
 
 require 'cgi'
 require 'json'
+require 'openssl'
 require 'open3'
 require 'uri'
 require 'webrick'
@@ -16,6 +17,9 @@ PORT = Integer(ENV.fetch('VD_RECIPES_PORT', '4567'))
 ADMIN_TOKEN = ENV.fetch('VD_RECIPES_ADMIN_TOKEN', 'change-me')
 ACTORS = ActorRegistry.new(File.join(ROOT, 'data', 'actors.json'), fallback_admin_token: ADMIN_TOKEN)
 EXPORT_SCRIPT = File.expand_path('../../bin/export-recipes-store.rb', __dir__)
+SESSION_COOKIE = 'vd_recipes_admin_session'
+SESSION_SECRET = ENV.fetch('VD_RECIPES_SESSION_SECRET', 'vd-recipes-local-session-secret')
+SESSION_TTL = Integer(ENV.fetch('VD_RECIPES_SESSION_TTL', '43200'))
 
 def json_response(response, status, payload)
   response.status = status
@@ -42,7 +46,64 @@ def request_token(request)
   bearer || request['X-VD-Token'] || request['X-VD-Admin-Token'] || request.query['token']
 end
 
+def parse_cookies(request)
+  request.header.fetch('cookie', []).flat_map { |value| value.split(/;\s*/) }.each_with_object({}) do |pair, cookies|
+    key, value = pair.split('=', 2)
+    cookies[key] = value if key && value
+  end
+end
+
+def sign_session_payload(payload)
+  OpenSSL::HMAC.hexdigest('SHA256', SESSION_SECRET, payload)
+end
+
+def secure_compare(a, b)
+  return false if a.to_s.empty? || b.to_s.empty? || a.bytesize != b.bytesize
+
+  left = a.unpack("C#{a.bytesize}")
+  result = 0
+  b.each_byte { |byte| result |= byte ^ left.shift }
+  result.zero?
+end
+
+def build_session_cookie(actor)
+  expires_at = Time.now.to_i + SESSION_TTL
+  payload = "#{actor['id']}|#{expires_at}"
+  signature = sign_session_payload(payload)
+  "#{payload}|#{signature}"
+end
+
+def current_admin_session_actor(request)
+  raw = parse_cookies(request)[SESSION_COOKIE]
+  return nil if raw.to_s.empty?
+
+  actor_id, expires_at, signature = raw.split('|', 3)
+  return nil if actor_id.to_s.empty? || expires_at.to_s.empty? || signature.to_s.empty?
+
+  payload = "#{actor_id}|#{expires_at}"
+  return nil unless secure_compare(signature, sign_session_payload(payload))
+  return nil if Time.now.to_i >= expires_at.to_i
+
+  actor = ACTORS.find(actor_id)
+  return nil unless actor && actor['active']
+  return nil unless ACTORS.allowed?(actor, 'admin')
+
+  actor
+end
+
+def set_admin_session(response, actor)
+  cookie = "#{SESSION_COOKIE}=#{build_session_cookie(actor)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=#{SESSION_TTL}"
+  response.cookies << WEBrick::Cookie.parse_set_cookie(cookie)
+end
+
+def clear_admin_session(response)
+  response.cookies << WEBrick::Cookie.parse_set_cookie("#{SESSION_COOKIE}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0")
+end
+
 def current_actor(request)
+  admin_session_actor = current_admin_session_actor(request)
+  return admin_session_actor if admin_session_actor
+
   token = request_token(request)
   return nil if token.to_s.strip.empty?
 
@@ -96,6 +157,10 @@ def html_escape(value)
   CGI.escapeHTML(value.to_s)
 end
 
+def public_actor(actor)
+  actor.reject { |key, _value| %w[token token_digest].include?(key) }
+end
+
 def html_redirect(response, location)
   response.status = 303
   response['Location'] = location
@@ -117,9 +182,8 @@ def admin_filters(request)
   }
 end
 
-def admin_url(token:, recipe: nil, status: nil, access: nil, query: nil, flash: nil, level: nil)
+def admin_url(recipe: nil, status: nil, access: nil, query: nil, flash: nil, level: nil)
   params = {
-    token: token,
     recipe: recipe,
     status: status,
     access: access,
@@ -129,6 +193,67 @@ def admin_url(token:, recipe: nil, status: nil, access: nil, query: nil, flash: 
   }.reject { |_key, value| value.to_s.strip.empty? }
 
   "/admin?#{URI.encode_www_form(params)}"
+end
+
+def admin_login_page(flash: nil)
+  <<~HTML
+    <!doctype html>
+    <html lang="fr">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Recipes Service Login</title>
+        <style>
+          body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background: radial-gradient(circle at top, rgba(255,255,255,0.75), transparent 30%), linear-gradient(180deg, #f6f1ea, #ece3d7);
+            font-family: ui-sans-serif, system-ui, sans-serif;
+            color: #161616;
+          }
+          .card {
+            width: min(520px, calc(100vw - 32px));
+            padding: 28px;
+            border: 1px solid rgba(16,16,16,0.08);
+            border-radius: 28px;
+            background: rgba(255,255,255,0.84);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.08);
+            backdrop-filter: blur(12px);
+          }
+          label { display: grid; gap: 8px; color: rgba(22,22,22,0.66); }
+          input, button {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(16,16,16,0.1);
+            font: inherit;
+          }
+          button { background: #161616; color: #fff; cursor: pointer; }
+          .flash {
+            margin-bottom: 16px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: rgba(128,35,35,0.09);
+          }
+        </style>
+      </head>
+      <body>
+        <section class="card">
+          <h1>Connexion editoriale</h1>
+          <p>Ouvrez la console recette avec un token autorise. Une session locale signee sera ensuite conservee en cookie.</p>
+          #{flash ? "<div class=\"flash\">#{html_escape(flash)}</div>" : ''}
+          <form method="post" action="/admin/login">
+            <label>Token
+              <input type="password" name="token" placeholder="Token admin ou editor">
+            </label>
+            <button type="submit">Entrer dans la console</button>
+          </form>
+        </section>
+      </body>
+    </html>
+  HTML
 end
 
 def pretty_json(value)
@@ -193,7 +318,7 @@ def admin_recipe_payload(request)
   }.reject { |_key, value| value.nil? }
 end
 
-def admin_dashboard(actor:, token:, recipes:, selected_recipe:, filters:, flash:)
+def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   summary = STORE.dashboard_summary
   actor_summary = ACTORS.summary
   pending = STORE.pending_submissions
@@ -418,7 +543,6 @@ def admin_dashboard(actor:, token:, recipes:, selected_recipe:, filters:, flash:
             <h2>Console editoriale</h2>
             <p class="muted">Recherche, edition directe, moderation et publication depuis une seule interface locale.</p>
             <form method="get" action="/admin">
-              <input type="hidden" name="token" value="#{html_escape(token)}">
               <div class="filters">
                 <label>Recherche
                   <input type="text" name="q" value="#{html_escape(filters[:query])}" placeholder="slug, titre, vanille...">
@@ -451,13 +575,15 @@ def admin_dashboard(actor:, token:, recipes:, selected_recipe:, filters:, flash:
             </form>
             <div class="toolbar" style="margin-top:16px;">
               <form method="post" action="/admin">
-                <input type="hidden" name="token" value="#{html_escape(token)}">
                 <input type="hidden" name="action" value="export_registry">
                 <input type="hidden" name="recipe" value="#{html_escape(filters[:recipe])}">
                 <button type="submit">Exporter le registre</button>
               </form>
-              <a class="button-light" style="display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,0.92);color:var(--text);" href="#{html_escape(admin_url(token: token, query: filters[:query], status: filters[:status], access: filters[:access]))}">Nouvelle recette</a>
-              <a class="button-light" style="display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,0.92);color:var(--text);" href="/admin?token=#{html_escape(token)}">Recharger</a>
+              <a class="button-light" style="display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,0.92);color:var(--text);" href="#{html_escape(admin_url(query: filters[:query], status: filters[:status], access: filters[:access]))}">Nouvelle recette</a>
+              <a class="button-light" style="display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,0.92);color:var(--text);" href="/admin">Recharger</a>
+              <form method="post" action="/admin/logout">
+                <button class="button-light" type="submit">Deconnexion</button>
+              </form>
               <div class="card"><strong>Selection</strong><p>#{html_escape(recipe['title'] || 'Aucune recette selectionnee')}</p></div>
             </div>
           </section>
@@ -467,7 +593,7 @@ def admin_dashboard(actor:, token:, recipes:, selected_recipe:, filters:, flash:
               <h2>Catalogue filtrable</h2>
               <div class="recipe-list">
                 #{recipes.map { |entry|
-                  link = admin_url(token: token, recipe: entry['slug'], status: filters[:status], access: filters[:access], query: filters[:query])
+                  link = admin_url(recipe: entry['slug'], status: filters[:status], access: filters[:access], query: filters[:query])
                   "<article><a href=\"#{html_escape(link)}\"><h3>#{html_escape(entry['title'])}</h3><p><code>#{html_escape(entry['slug'])}</code></p><p><span class=\"pill\">#{html_escape(entry['status'])}</span> <span class=\"pill\">#{html_escape(entry['access'])}</span></p><p>#{html_escape(entry['summary'])}</p></a></article>"
                 }.join.presence || '<article><p>Aucune recette pour ce filtre.</p></article>'}
               </div>
@@ -477,7 +603,6 @@ def admin_dashboard(actor:, token:, recipes:, selected_recipe:, filters:, flash:
               <h2>Edition recette</h2>
               <p class="muted">Modification structuree avec champs utiles et blocs JSON pour ingredients, etapes et tips.</p>
               <form method="post" action="/admin">
-                <input type="hidden" name="token" value="#{html_escape(token)}">
                 <input type="hidden" name="action" value="#{recipe['slug'] ? 'save_recipe' : 'create_recipe'}">
                 <div class="editor-grid">
                   <label>Slug
@@ -586,21 +711,18 @@ def admin_dashboard(actor:, token:, recipes:, selected_recipe:, filters:, flash:
               #{recipe['slug'] ? <<~ACTIONS : ''}
                 <div class="editor-actions">
                   <form method="post" action="/admin">
-                    <input type="hidden" name="token" value="#{html_escape(token)}">
                     <input type="hidden" name="action" value="approve_recipe">
                     <input type="hidden" name="slug" value="#{html_escape(recipe['slug'])}">
                     <input type="hidden" name="recipe" value="#{html_escape(recipe['slug'])}">
                     <button type="submit">Approuver</button>
                   </form>
                   <form method="post" action="/admin">
-                    <input type="hidden" name="token" value="#{html_escape(token)}">
                     <input type="hidden" name="action" value="reject_recipe">
                     <input type="hidden" name="slug" value="#{html_escape(recipe['slug'])}">
                     <input type="hidden" name="recipe" value="#{html_escape(recipe['slug'])}">
                     <button class="button-light" type="submit">Rejeter</button>
                   </form>
                   <form method="post" action="/admin">
-                    <input type="hidden" name="token" value="#{html_escape(token)}">
                     <input type="hidden" name="action" value="archive_recipe">
                     <input type="hidden" name="slug" value="#{html_escape(recipe['slug'])}">
                     <input type="hidden" name="recipe" value="#{html_escape(recipe['slug'])}">
@@ -693,7 +815,7 @@ def admin_dashboard(actor:, token:, recipes:, selected_recipe:, filters:, flash:
             <div class="stack">
               <article class="card"><strong>Identity</strong><p><code>GET /me</code> · <code>GET /actors</code></p></article>
               <article class="card"><strong>Dashboard</strong><p><code>GET /dashboard</code></p></article>
-              <article class="card"><strong>Recherche / filtres</strong><p><code>GET /recipes?status=pending&amp;q=vanille&amp;access=member</code> · <code>GET /admin?token=...</code></p></article>
+              <article class="card"><strong>Recherche / filtres</strong><p><code>GET /recipes?status=pending&amp;q=vanille&amp;access=member</code> · <code>GET /admin/login</code></p></article>
               <article class="card"><strong>Historique d'une recette</strong><p><code>GET /recipes/:slug/history</code></p></article>
               <article class="card"><strong>Export public</strong><p><code>POST /exports/registry</code> avec header <code>X-VD-Token</code> ou <code>Authorization: Bearer ...</code></p></article>
             </div>
@@ -743,7 +865,7 @@ server.mount_proc '/me' do |request, response|
   end
 
   json_response(response, 200, {
-    actor: actor.reject { |key, _value| key == 'token' },
+    actor: public_actor(actor),
     permissions: ACTORS.permissions_for(actor)
   })
 end
@@ -758,16 +880,46 @@ server.mount_proc '/actors' do |request, response|
   next unless actor
 
   json_response(response, 200, {
-    actors: ACTORS.all.map { |entry| entry.reject { |key, _value| key == 'token' } },
+    actors: ACTORS.all.map { |entry| public_actor(entry) },
     summary: ACTORS.summary
   })
 end
 
-server.mount_proc '/admin' do |request, response|
-  actor = require_permission!(request, response, 'admin')
-  next unless actor
+server.mount_proc '/admin/login' do |request, response|
+  case request.request_method
+  when 'GET'
+    html_response(response, 200, admin_login_page(flash: request.query['flash']))
+  when 'POST'
+    actor = ACTORS.authenticate(request.query['token'])
+    unless actor && ACTORS.allowed?(actor, 'admin')
+      html_response(response, 401, admin_login_page(flash: 'Token invalide ou droits insuffisants.'))
+      next
+    end
 
-  token = request_token(request)
+    set_admin_session(response, actor)
+    html_redirect(response, '/admin')
+  else
+    json_response(response, 405, { error: 'method_not_allowed' })
+  end
+end
+
+server.mount_proc '/admin/logout' do |request, response|
+  if request.request_method != 'POST'
+    json_response(response, 405, { error: 'method_not_allowed' })
+    next
+  end
+
+  clear_admin_session(response)
+  html_redirect(response, '/admin/login')
+end
+
+server.mount_proc '/admin' do |request, response|
+  actor = current_admin_session_actor(request)
+  unless actor && ACTORS.allowed?(actor, 'admin')
+    html_redirect(response, '/admin/login')
+    next
+  end
+
   filters = admin_filters(request)
 
   if request.request_method == 'POST'
@@ -808,7 +960,6 @@ server.mount_proc '/admin' do |request, response|
     html_redirect(
       response,
       admin_url(
-        token: token,
         recipe: selected_slug,
         status: filters[:status],
         access: filters[:access],
@@ -833,7 +984,6 @@ server.mount_proc '/admin' do |request, response|
     200,
     admin_dashboard(
       actor: actor,
-      token: token,
       recipes: recipes,
       selected_recipe: selected_recipe,
       filters: filters,
@@ -844,7 +994,6 @@ rescue ArgumentError, KeyError => e
   html_redirect(
     response,
     admin_url(
-      token: token || request.query['token'],
       recipe: request.query['recipe'] || request.query['slug'],
       status: filters&.dig(:status),
       access: filters&.dig(:access),

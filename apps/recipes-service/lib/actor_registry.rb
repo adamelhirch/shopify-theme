@@ -1,4 +1,5 @@
 require 'json'
+require 'openssl'
 
 class ActorRegistry
   ROLE_PERMISSIONS = {
@@ -16,9 +17,13 @@ class ActorRegistry
     load_registry.fetch('actors', [])
   end
 
+  def find(id)
+    all.find { |entry| entry['id'] == id }
+  end
+
   def authenticate(token)
     actor = all.find do |entry|
-      entry['active'] && secure_compare(entry['token'].to_s, token.to_s)
+      entry['active'] && token_match?(entry, token)
     end
 
     return actor if actor
@@ -63,6 +68,21 @@ class ActorRegistry
       'active' => true,
       'organization' => 'Vanille Desire'
     }
+  end
+
+  def token_match?(entry, token)
+    return false if token.to_s.strip.empty?
+
+    digest = entry['token_digest'].to_s
+    if !digest.empty?
+      return secure_compare(digest, digest_token(token))
+    end
+
+    secure_compare(entry['token'].to_s, token.to_s)
+  end
+
+  def digest_token(token)
+    OpenSSL::Digest::SHA256.hexdigest(token.to_s)
   end
 
   def secure_compare(a, b)
