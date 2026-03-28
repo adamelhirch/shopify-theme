@@ -305,6 +305,8 @@ class SqlRecipeStore
     result['collections'] ||= []
     result['product'] ||= {}
     result['products'] ||= []
+    result['sources'] ||= []
+    result['story_media'] ||= []
     result['difficulty'] ||= { 'value' => 'facile', 'label' => 'Facile' }
     result['timing'] ||= {}
     result['hero'] ||= {}
@@ -312,6 +314,10 @@ class SqlRecipeStore
     result['seo']['keywords'] ||= []
     result['seo']['body_sections'] ||= []
     result['seo']['faq'] ||= []
+    result['steps'] = Array(result['steps']).map do |step|
+      step['media'] ||= []
+      step
+    end
     result
   end
 

@@ -191,13 +191,14 @@
           text: step.body
         };
         if (step.duration) stepSchema.performTime = durationToISO(step.duration);
-        if (step.editor_media && step.editor_media[0] && step.editor_media[0].image_url) {
-          stepSchema.image = step.editor_media[0].image_url;
+        var stepMedia = (step.media && step.media[0]) || (step.editor_media && step.editor_media[0]);
+        if (stepMedia && stepMedia.image_url) {
+          stepSchema.image = stepMedia.image_url;
         }
-        if (step.editor_media && step.editor_media[0] && step.editor_media[0].video_url) {
+        if (stepMedia && stepMedia.video_url) {
           stepSchema.video = {
             '@type': 'VideoObject',
-            contentUrl: step.editor_media[0].video_url,
+            contentUrl: stepMedia.video_url,
             name: step.title
           };
         }
@@ -369,15 +370,21 @@
       if (heroMedia.image_url) recipeClone.hero.image_url = heroMedia.image_url;
     }
 
-    recipeClone.story_media = editorMedia.filter(function (item) {
+    var galleryMedia = editorMedia.filter(function (item) {
       return item.placement === 'gallery' && (item.video_url || item.image_url);
     });
+    recipeClone.story_media = (recipe.story_media || []).slice();
+    if (galleryMedia.length) {
+      recipeClone.story_media = recipeClone.story_media.concat(galleryMedia);
+    }
 
     recipeClone.steps = (recipe.steps || []).map(function (step, index) {
+      var editorStepMedia = editorMedia.filter(function (item) {
+        return item.placement === 'step' && Number(item.step_number) === index + 1 && (item.video_url || item.image_url);
+      });
       return Object.assign({}, step, {
-        editor_media: editorMedia.filter(function (item) {
-          return item.placement === 'step' && Number(item.step_number) === index + 1 && (item.video_url || item.image_url);
-        })
+        media: (step.media || []).concat(editorStepMedia),
+        editor_media: editorStepMedia
       });
     });
 
@@ -778,8 +785,8 @@
                 '</div>' +
               '</div>' +
               '<div class="vd-recipe-signature__step-content"><strong data-vd-recipe-step-title>' + escapeHtml(step.title) + '</strong><p>' + escapeHtml(step.body) + '</p></div>' +
-              ((step.editor_media && step.editor_media.length)
-                ? '<div class="vd-recipe-signature__step-gallery">' + renderEditorialMedia(step.editor_media, 'vd-recipe-signature__step-media') + '</div>'
+              ((step.media && step.media.length)
+                ? '<div class="vd-recipe-signature__step-gallery">' + renderEditorialMedia(step.media, 'vd-recipe-signature__step-media') + '</div>'
                 : '') +
             '</article>'
           );

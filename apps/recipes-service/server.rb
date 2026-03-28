@@ -10,6 +10,7 @@ require 'uri'
 require 'webrick'
 require 'English'
 require_relative 'lib/actor_registry'
+require_relative 'lib/shopify_customer_recipe_shelf'
 require_relative 'lib/shopify_page_publisher'
 require_relative 'lib/shopify_preview_manager'
 require_relative 'lib/studio_content_registry'
@@ -24,6 +25,7 @@ ADMIN_TOKEN = ENV.fetch('VD_RECIPES_ADMIN_TOKEN', 'change-me')
 ACTORS = ActorRegistry.new(File.join(ROOT, 'data', 'actors.json'), fallback_admin_token: ADMIN_TOKEN)
 EXPORT_SCRIPT = File.expand_path('../../bin/export-recipes-store.rb', __dir__)
 SHOPIFY_PUBLISHER = ShopifyPagePublisher.build_from_env
+SHOPIFY_CUSTOMER_SHELF = ShopifyCustomerRecipeShelf.build_from_env
 STUDIO_SETTINGS = StudioSettings.new(File.join(ROOT, 'data', 'studio_settings.json'))
 STUDIO_CONTENT = StudioContentRegistry.new(File.join(ROOT, 'data', 'studio_content.json'))
 PREVIEW_MANAGER = ShopifyPreviewManager.build_from_env(settings: STUDIO_SETTINGS)
@@ -192,6 +194,15 @@ def publish_to_shopify(recipe, actor:, export_registry: false)
     shopify: result,
     export: export_result
   }
+end
+
+def sync_customer_recipe_shelf(email:, favorites:, history:, actor:)
+  SHOPIFY_CUSTOMER_SHELF.sync(
+    email: email,
+    favorites: favorites,
+    history: history,
+    actor: actor
+  )
 end
 
 def html_escape(value)
@@ -860,6 +871,31 @@ def product_handles_for_form(products)
   Array(products).map { |product| product['handle'].to_s.strip }.reject(&:empty?).join("\n")
 end
 
+def story_media_for_form(media_items)
+  Array(media_items).map do |item|
+    [
+      item['video_url'].to_s.strip.empty? ? 'image' : 'video',
+      item['video_url'].to_s.strip.empty? ? item['image_url'] : item['video_url'],
+      item['caption'],
+      item['image_alt']
+    ].map(&:to_s).join(' | ').gsub(/\s+\|\s+\|\s*/, ' | ').sub(/\s+\|\s*\z/, '')
+  end.join("\n")
+end
+
+def step_media_for_form(steps)
+  Array(steps).each_with_index.flat_map do |step, index|
+    Array(step['media']).map do |item|
+      [
+        index + 1,
+        item['video_url'].to_s.strip.empty? ? 'image' : 'video',
+        item['video_url'].to_s.strip.empty? ? item['image_url'] : item['video_url'],
+        item['caption'],
+        item['image_alt']
+      ].map(&:to_s).join(' | ').gsub(/\s+\|\s+\|\s*/, ' | ').sub(/\s+\|\s*\z/, '')
+    end
+  end.join("\n")
+end
+
 def primary_product_handle(recipe)
   primary = recipe.dig('product', 'handle').to_s.presence
   return primary if primary
@@ -912,6 +948,56 @@ def parse_body_sections_lines(lines)
 
     { 'title' => title, 'body' => body.to_s }
   end.compact
+end
+
+def parse_story_media_lines(lines)
+  lines.map do |line|
+    stripped = line.sub(/\A[-*]\s*/, '').strip
+    next if stripped.empty?
+
+    kind, url, caption, image_alt = stripped.split('|', 4).map { |entry| entry.to_s.strip }
+    normalized_kind = kind.to_s.downcase
+    normalized_kind = 'video' if normalized_kind.include?('video')
+    normalized_kind = 'image' unless %w[image video].include?(normalized_kind)
+    next if url.to_s.empty?
+
+    {
+      'image_url' => normalized_kind == 'image' ? url : nil,
+      'video_url' => normalized_kind == 'video' ? url : nil,
+      'caption' => caption,
+      'image_alt' => image_alt
+    }.reject { |_key, value| value.to_s.strip.empty? }
+  end.compact
+end
+
+def parse_step_media_lines(lines)
+  lines.each_with_object({}) do |line, media_map|
+    stripped = line.sub(/\A[-*]\s*/, '').strip
+    next if stripped.empty?
+
+    step_ref, kind, url, caption, image_alt = stripped.split('|', 5).map { |entry| entry.to_s.strip }
+    step_index = step_ref.to_i
+    next if step_index <= 0 || url.to_s.empty?
+
+    normalized_kind = kind.to_s.downcase
+    normalized_kind = 'video' if normalized_kind.include?('video')
+    normalized_kind = 'image' unless %w[image video].include?(normalized_kind)
+    media_map[step_index - 1] ||= []
+    media_map[step_index - 1] << {
+      'image_url' => normalized_kind == 'image' ? url : nil,
+      'video_url' => normalized_kind == 'video' ? url : nil,
+      'caption' => caption,
+      'image_alt' => image_alt
+    }.reject { |_key, value| value.to_s.strip.empty? }
+  end
+end
+
+def merge_step_media(steps, media_map)
+  Array(steps).each_with_index.map do |step, index|
+    merged = deep_clone(step || {})
+    merged['media'] = Array(media_map[index] || merged['media']).reject(&:empty?)
+    merged
+  end
 end
 
 def parsed_or_json_textarea(simple_value, json_value, parser:, fallback:)
@@ -996,6 +1082,8 @@ end
 
 def admin_recipe_payload(request)
   query = request.query
+  steps = parsed_or_json_textarea(query['steps_text'], query['steps_json'], parser: method(:parse_steps_lines), fallback: [])
+  step_media_map = parsed_or_json_textarea(query['step_media_text'], query['step_media_json'], parser: method(:parse_step_media_lines), fallback: {})
   payload = {
     'slug' => query['slug'],
     'title' => query['title'],
@@ -1031,8 +1119,9 @@ def admin_recipe_payload(request)
     'tags' => csv_terms(query['tags']),
     'collections' => csv_terms(query['collections']),
     'ingredient_groups' => parsed_or_json_textarea(query['ingredient_groups_text'], query['ingredient_groups_json'], parser: method(:parse_import_ingredient_groups), fallback: []),
-    'steps' => parsed_or_json_textarea(query['steps_text'], query['steps_json'], parser: method(:parse_steps_lines), fallback: []),
+    'steps' => merge_step_media(steps, step_media_map),
     'tips' => parsed_or_json_textarea(query['tips_text'], query['tips_json'], parser: method(:parse_import_tips), fallback: []),
+    'story_media' => parsed_or_json_textarea(query['story_media_text'], query['story_media_json'], parser: method(:parse_story_media_lines), fallback: []),
     'product' => begin
       primary_handle = query['primary_product_handle'].to_s.strip
       collection_handle = query['product_collection_handle'].to_s.strip
@@ -1080,6 +1169,8 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   ingredient_groups_json = pretty_json(recipe['ingredient_groups'] || [])
   steps_json = pretty_json(recipe['steps'] || [])
   tips_json = pretty_json(recipe['tips'] || [])
+  story_media_json = pretty_json(recipe['story_media'] || [])
+  step_media_json = pretty_json(Array(recipe['steps']).map { |step| step['media'] || [] })
   product_json = pretty_json(recipe['product'] || {})
   products_json = pretty_json(recipe['products'] || [])
   sources_json = pretty_json(recipe['sources'] || [])
@@ -1094,6 +1185,8 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   ingredient_groups_text = ingredient_groups_for_form(recipe['ingredient_groups'] || [])
   steps_text = steps_for_form(recipe['steps'] || [])
   tips_text = tips_for_form(recipe['tips'] || [])
+  story_media_text = story_media_for_form(recipe['story_media'] || [])
+  step_media_text = step_media_for_form(recipe['steps'] || [])
   faq_text = faq_for_form(recipe.dig('seo', 'faq') || [])
   body_sections_text = body_sections_for_form(recipe.dig('seo', 'body_sections') || [])
   product_handles_text = product_handles_for_form(recipe['products'] || [])
@@ -1102,6 +1195,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   shopify_page = recipe['shopify_page'] || {}
   shopify_errors = SHOPIFY_PUBLISHER.configuration_errors
   shopify_ready = shopify_errors.empty?
+  customer_shelf_ready = SHOPIFY_CUSTOMER_SHELF.configuration_errors.empty?
   editorial_checks = [
     ['Identite', recipe['title'].to_s.strip != '' && recipe['slug'].to_s.strip != ''],
     ['Hero', recipe.dig('hero', 'video_url').to_s.strip != '' || recipe.dig('hero', 'image_url').to_s.strip != ''],
@@ -1536,6 +1630,51 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             </div>
           </section>
 
+          <section class="panel" style="margin-bottom:20px;">
+            <h2>Carnet client Shopify</h2>
+            <p class="muted">Met a jour les favoris et l historique directement dans le compte client Shopify. Le carnet devient une vraie couche persistance de marque et la page compte peut l afficher sans bricolage front.</p>
+            <div class="quickstart" style="grid-template-columns: 1.2fr 0.8fr 0.8fr 0.8fr; margin-top: 16px;">
+              <article class="card toolbar-card">
+                <strong>Etat Shopify customer shelf</strong>
+                <p>#{customer_shelf_ready ? "Pret · <code>#{html_escape(SHOPIFY_CUSTOMER_SHELF.shop_domain)}</code>" : 'Configuration incomplete'}</p>
+                <div class="helper">#{customer_shelf_ready ? 'Namespace: vd · keys recipe_favorites et recipe_history.' : html_escape(SHOPIFY_CUSTOMER_SHELF.configuration_errors.join(' · '))}</div>
+              </article>
+              <article class="card toolbar-card">
+                <strong>Favoris reels</strong>
+                <p>Le compte client peut maintenant porter un vrai carnet persistant au niveau Shopify.</p>
+              </article>
+              <article class="card toolbar-card">
+                <strong>Historique de reprise</strong>
+                <p>Le compte garde aussi la reprise des recettes pour retrouver un parcours utile.</p>
+              </article>
+              <article class="card toolbar-card">
+                <strong>Lecture cote compte</strong>
+                <p>La page <code>/account</code> lit ces metachamps et recompose les cartes recette a partir du registre public.</p>
+              </article>
+            </div>
+            <form method="post" action="/admin" style="margin-top:16px;">
+              <input type="hidden" name="action" value="sync_customer_recipe_shelf">
+              <div class="editor-grid">
+                <label>Email client
+                  <input type="email" name="customer_email" value="" placeholder="client@exemple.com">
+                </label>
+                <div class="card">
+                  <strong>Sync ultra simple</strong>
+                  <p class="muted">Entrez seulement les slugs voulus. Le studio retrouve le client par email et pousse les metachamps reels dans Shopify.</p>
+                </div>
+                <label class="full">Favoris persistants
+                  <textarea name="customer_favorites_text" placeholder="beignet-banane&#10;riz-lait-tonka-vanille&#10;pancakes-vanille-sucre"></textarea>
+                </label>
+                <label class="full">Historique persistant
+                  <textarea name="customer_history_text" placeholder="pancakes-vanille-sucre&#10;gateau-pomme-vanille-cannelle&#10;creme-brulee-vanille-bourbon"></textarea>
+                </label>
+              </div>
+              <div class="editor-actions">
+                <button class="button-accent" type="submit" #{customer_shelf_ready ? '' : 'disabled'}>Synchroniser le carnet client</button>
+              </div>
+            </form>
+          </section>
+
           <div class="grid">
             <section class="panel">
               <h2>Catalogue filtrable</h2>
@@ -1645,6 +1784,13 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                   <label>Hero ambiance
                     <input type="text" name="hero_ambient_label" value="#{html_escape(recipe.dig('hero', 'ambient_label'))}">
                   </label>
+                  <label class="full">Galerie recette
+                    <textarea name="story_media_text" placeholder="image | https://cdn.shopify.com/.../hero-recette.jpg | Hero recette large | Hero recette&#10;video | https://cdn.shopify.com/.../geste.mp4 | Geste cle de la recette">#{html_escape(story_media_text)}</textarea>
+                  </label>
+                  <label class="full">Medias par etape
+                    <textarea name="step_media_text" placeholder="1 | image | https://cdn.shopify.com/.../step-1.jpg | Mise en place&#10;2 | video | https://cdn.shopify.com/.../step-2.mp4 | Texture a viser">#{html_escape(step_media_text)}</textarea>
+                  </label>
+                  <div class="full helper">Ces medias alimentent directement la recette depuis le back-office. Les blocs <code>Media recette</code> dans l editeur Shopify peuvent ensuite surcharger hero, galerie et etapes sans casser la base.</div>
                   <div class="section-title">2. SEO & recherche</div>
                   <label>SEO title
                     <input type="text" name="seo_title" value="#{html_escape(recipe.dig('seo', 'title'))}" data-role="seo-title">
@@ -1702,6 +1848,12 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                         </label>
                         <label>Products JSON
                           <textarea name="products_json">#{html_escape(products_json)}</textarea>
+                        </label>
+                        <label>Story media JSON
+                          <textarea name="story_media_json">#{html_escape(story_media_json)}</textarea>
+                        </label>
+                        <label>Step media JSON
+                          <textarea name="step_media_json">#{html_escape(step_media_json)}</textarea>
                         </label>
                         <label>Sources JSON
                           <textarea name="sources_json">#{html_escape(sources_json)}</textarea>
@@ -2207,6 +2359,17 @@ server.mount_proc '/admin' do |request, response|
       publication = publish_to_shopify(recipe, actor: reviewer)
       selected_slug = publication[:recipe]['slug']
       flash = admin_flash('success', "#{publication[:recipe]['title']} publie sur Shopify (#{publication[:shopify][:action]} #{publication[:shopify][:page_url]}).")
+    when 'sync_customer_recipe_shelf'
+      actor = require_permission!(request, response, 'customers:write')
+      next unless actor
+
+      shelf = sync_customer_recipe_shelf(
+        email: request.query['customer_email'],
+        favorites: csv_terms(request.query['customer_favorites_text']),
+        history: csv_terms(request.query['customer_history_text']),
+        actor: reviewer
+      )
+      flash = admin_flash('success', "Carnet Shopify synchronise pour #{shelf.dig(:customer, :email)}.")
     when 'sync_preview_theme'
       sync = PREVIEW_MANAGER.sync_latest_preview(repo_root: REPO_ROOT)
       raise ArgumentError, sync[:error] || sync[:output].to_s unless sync[:ok]
@@ -2264,6 +2427,31 @@ rescue ArgumentError, KeyError => e
       level: 'error'
     )
   )
+end
+
+server.mount_proc '/customers' do |request, response|
+  if request.request_method != 'POST'
+    json_response(response, 405, { error: 'method_not_allowed' })
+    next
+  end
+
+  actor = require_permission!(request, response, 'customers:write')
+  next unless actor
+
+  payload = parse_body(request)
+  unless (payload['action'] || request.query['action']).to_s == 'recipe_shelf'
+    json_response(response, 404, { error: 'not_found' })
+    next
+  end
+  result = sync_customer_recipe_shelf(
+    email: payload['email'],
+    favorites: payload['favorites'],
+    history: payload['history'],
+    actor: actor_name(request, actor)
+  )
+  json_response(response, 200, result)
+rescue ArgumentError, KeyError => e
+  json_response(response, 422, { error: e.message })
 end
 
 server.mount_proc '/recipes' do |request, response|
