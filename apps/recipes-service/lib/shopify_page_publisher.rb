@@ -1,0 +1,263 @@
+require 'cgi'
+require 'json'
+require 'net/http'
+require 'uri'
+
+class ShopifyPagePublisher
+  DEFAULT_API_VERSION = '2025-10'.freeze
+
+  PAGE_LOOKUP_QUERY = <<~GRAPHQL.freeze
+    query PageByHandle($query: String!) {
+      pages(first: 1, query: $query) {
+        nodes {
+          id
+          handle
+          title
+          onlineStoreUrl
+          recipeSlug: metafield(namespace: "vd", key: "recipe_slug") {
+            id
+            value
+          }
+          seoTitle: metafield(namespace: "global", key: "title_tag") {
+            id
+            value
+          }
+          seoDescription: metafield(namespace: "global", key: "description_tag") {
+            id
+            value
+          }
+        }
+      }
+    }
+  GRAPHQL
+
+  PAGE_CREATE_MUTATION = <<~GRAPHQL.freeze
+    mutation PageCreate($page: PageCreateInput!) {
+      pageCreate(page: $page) {
+        page {
+          id
+          handle
+          title
+          onlineStoreUrl
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  GRAPHQL
+
+  PAGE_UPDATE_MUTATION = <<~GRAPHQL.freeze
+    mutation PageUpdate($page: PageUpdateInput!) {
+      pageUpdate(page: $page) {
+        page {
+          id
+          handle
+          title
+          onlineStoreUrl
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  GRAPHQL
+
+  def self.build_from_env
+    new(
+      shop_domain: ENV['VD_RECIPES_SHOPIFY_STORE'] || ENV['SHOPIFY_STORE'] || '',
+      access_token: ENV['VD_RECIPES_SHOPIFY_ADMIN_TOKEN'] || ENV['SHOPIFY_ADMIN_ACCESS_TOKEN'] || '',
+      api_version: ENV['VD_RECIPES_SHOPIFY_API_VERSION'] || ENV['SHOPIFY_API_VERSION'] || DEFAULT_API_VERSION
+    )
+  end
+
+  attr_reader :shop_domain, :api_version
+
+  def initialize(shop_domain:, access_token:, api_version: DEFAULT_API_VERSION)
+    @shop_domain = shop_domain.to_s.strip
+    @access_token = access_token.to_s.strip
+    @api_version = api_version.to_s.strip.empty? ? DEFAULT_API_VERSION : api_version.to_s.strip
+  end
+
+  def configured?
+    configuration_errors.empty?
+  end
+
+  def configuration_errors
+    errors = []
+    errors << 'VD_RECIPES_SHOPIFY_STORE ou SHOPIFY_STORE manquant' if shop_domain.empty?
+    errors << 'VD_RECIPES_SHOPIFY_ADMIN_TOKEN ou SHOPIFY_ADMIN_ACCESS_TOKEN manquant' if @access_token.empty?
+    errors
+  end
+
+  def publish(recipe)
+    raise ArgumentError, configuration_errors.join(', ') unless configured?
+    raise ArgumentError, 'slug recette manquant' if recipe['slug'].to_s.strip.empty?
+    raise ArgumentError, 'titre recette manquant' if recipe['title'].to_s.strip.empty?
+
+    handle = recipe['page_url'].to_s[%r{/pages/([^/?#]+)}, 1].to_s.strip
+    handle = recipe['slug'].to_s.strip if handle.empty?
+    existing = find_page_by_handle(handle)
+    input = build_page_input(recipe, handle, existing)
+
+    payload =
+      if existing
+        graphql(PAGE_UPDATE_MUTATION, { page: input.merge(id: existing.fetch('id')) }).fetch('pageUpdate')
+      else
+        graphql(PAGE_CREATE_MUTATION, { page: input }).fetch('pageCreate')
+      end
+
+    user_errors = Array(payload['userErrors']).map { |entry| entry['message'] }.reject(&:to_s.empty?)
+    raise ArgumentError, user_errors.join(', ') unless user_errors.empty?
+
+    page = payload['page'] || {}
+    {
+      ok: true,
+      action: existing ? 'updated' : 'created',
+      page_id: page['id'],
+      handle: page['handle'] || handle,
+      page_url: "/pages/#{page['handle'] || handle}",
+      online_store_url: page['onlineStoreUrl'],
+      shop_domain: shop_domain,
+      api_version: api_version
+    }
+  end
+
+  private
+
+  def find_page_by_handle(handle)
+    payload = graphql(PAGE_LOOKUP_QUERY, { query: "handle:#{handle}" })
+    Array(payload.dig('pages', 'nodes')).first
+  end
+
+  def build_page_input(recipe, handle, existing)
+    seo = recipe['seo'] || {}
+
+    {
+      title: recipe['title'],
+      handle: handle,
+      body: build_page_body_html(recipe),
+      isPublished: true,
+      metafields: compact_metafields([
+        {
+          id: existing.dig('recipeSlug', 'id'),
+          namespace: 'vd',
+          key: 'recipe_slug',
+          type: 'single_line_text_field',
+          value: recipe['slug'].to_s
+        },
+        {
+          id: existing.dig('seoTitle', 'id'),
+          namespace: 'global',
+          key: 'title_tag',
+          type: 'single_line_text_field',
+          value: seo['title'].to_s
+        },
+        {
+          id: existing.dig('seoDescription', 'id'),
+          namespace: 'global',
+          key: 'description_tag',
+          type: 'single_line_text_field',
+          value: seo['description'].to_s
+        }
+      ])
+    }
+  end
+
+  def compact_metafields(entries)
+    entries.filter_map do |entry|
+      value = entry[:value].to_s.strip
+      next if value.empty?
+
+      {
+        id: entry[:id],
+        namespace: entry[:namespace],
+        key: entry[:key],
+        type: entry[:type],
+        value: value
+      }.reject { |_key, candidate| candidate.to_s.strip.empty? }
+    end
+  end
+
+  def build_page_body_html(recipe)
+    sections = []
+    sections << "<p>#{paragraphize(recipe['summary'])}</p>" unless recipe['summary'].to_s.strip.empty?
+    sections << "<p>#{paragraphize(recipe['description'])}</p>" unless recipe['description'].to_s.strip.empty?
+
+    ingredient_groups = Array(recipe['ingredient_groups'])
+    unless ingredient_groups.empty?
+      sections << '<h2>Ingredients</h2>'
+      ingredient_groups.each do |group|
+        sections << "<h3>#{escape(group['title'])}</h3>" unless group['title'].to_s.strip.empty?
+        items = Array(group['items']).map do |item|
+          quantity = [item['quantity'], item['unit']].map(&:to_s).reject(&:empty?).join(' ')
+          note = item['note'].to_s.strip
+          line = [quantity, item['name']].reject(&:to_s.empty?).join(' ').strip
+          line = "#{line} — #{note}" unless note.empty?
+          "<li>#{escape(line)}</li>"
+        end
+        sections << "<ul>#{items.join}</ul>" unless items.empty?
+      end
+    end
+
+    steps = Array(recipe['steps'])
+    unless steps.empty?
+      sections << '<h2>Preparation</h2>'
+      items = steps.map do |step|
+        duration = step['duration'].to_s.strip
+        heading = escape(step['title'])
+        heading = "#{heading} (#{escape(duration)})" unless duration.empty?
+        "<li><strong>#{heading}</strong><br>#{paragraphize(step['body'])}</li>"
+      end
+      sections << "<ol>#{items.join}</ol>"
+    end
+
+    tips = Array(recipe['tips']).filter_map do |tip|
+      next if tip['body'].to_s.strip.empty?
+
+      title = tip['title'].to_s.strip
+      line = title.empty? ? tip['body'].to_s : "#{title} : #{tip['body']}"
+      "<li>#{escape(line)}</li>"
+    end
+    sections << "<h2>Astuces</h2><ul>#{tips.join}</ul>" unless tips.empty?
+
+    faqs = Array(recipe.dig('seo', 'faq')).filter_map do |entry|
+      question = entry['question'].to_s.strip
+      answer = entry['answer'].to_s.strip
+      next if question.empty? || answer.empty?
+
+      "<dt>#{escape(question)}</dt><dd>#{paragraphize(answer)}</dd>"
+    end
+    sections << "<h2>FAQ</h2><dl>#{faqs.join}</dl>" unless faqs.empty?
+
+    sections.join
+  end
+
+  def paragraphize(value)
+    escape(value).gsub(/\r?\n+/, '<br>')
+  end
+
+  def escape(value)
+    CGI.escapeHTML(value.to_s)
+  end
+
+  def graphql(query, variables = {})
+    uri = URI("https://#{shop_domain}/admin/api/#{api_version}/graphql.json")
+    request = Net::HTTP::Post.new(uri)
+    request['Content-Type'] = 'application/json'
+    request['X-Shopify-Access-Token'] = @access_token
+    request.body = JSON.generate(query: query, variables: variables)
+
+    response = Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
+      http.request(request)
+    end
+
+    payload = JSON.parse(response.body)
+    raise ArgumentError, payload['errors'].map { |entry| entry['message'] }.join(', ') if payload['errors']
+    raise ArgumentError, "Shopify API error HTTP #{response.code}" unless response.is_a?(Net::HTTPSuccess)
+
+    payload.fetch('data')
+  end
+end

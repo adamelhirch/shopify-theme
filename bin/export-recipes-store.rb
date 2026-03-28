@@ -10,7 +10,7 @@ output_path = File.join(root, 'assets', 'vd-recipes-registry.json')
 store = StoreFactory.build(root: File.join(root, 'apps', 'recipes-service'))
 recipes = store.published.map do |recipe|
   recipe.reject do |key, _value|
-    %w[id revisions moderation_notes validated_by validated_at created_at updated_at].include?(key)
+    %w[id revisions moderation_notes validated_by validated_at created_at updated_at shopify_page].include?(key)
   end
 end
 

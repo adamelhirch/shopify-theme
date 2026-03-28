@@ -30,6 +30,9 @@ Variables utiles:
 export VD_RECIPES_PORT=4567
 export VD_RECIPES_ADMIN_TOKEN=change-me
 export VD_RECIPES_STORE=json
+export VD_RECIPES_SHOPIFY_STORE=4bru0c-p4.myshopify.com
+export VD_RECIPES_SHOPIFY_ADMIN_TOKEN=shpat_xxx
+export VD_RECIPES_SHOPIFY_API_VERSION=2025-10
 ```
 
 Backends disponibles:
@@ -120,6 +123,7 @@ Admin / edition:
 - `POST /recipes/:slug/approve`
 - `POST /recipes/:slug/reject`
 - `POST /recipes/:slug/archive`
+- `POST /recipes/:slug/publish-shopify`
 - `POST /exports/registry`
 
 Les routes protegees attendent:
@@ -149,6 +153,7 @@ Cette page donne:
 - l'autoremplissage du slug, de l'URL et des metadonnees SEO de base
 - l'edition des tags, collections, FAQ SEO, sections editoriales et produits lies
 - un raccourci `Enregistrer + exporter` pour republier le registre public
+- la publication Shopify automatisee pour creer ou mettre a jour la page dediee
 - les soumissions en attente
 - les recettes publiees
 - l'historique des publications
@@ -204,6 +209,24 @@ curl -X POST \
   -H "X-VD-Reviewer: Studio" \
   http://127.0.0.1:4567/exports/registry
 ```
+
+Publication Shopify d'une page recette dediee:
+
+```bash
+curl -X POST \
+  -H "X-VD-Token: change-me" \
+  -H "Content-Type: application/json" \
+  -d '{"export_registry":true}' \
+  http://127.0.0.1:4567/recipes/beignet-banane/publish-shopify
+```
+
+Le publisher Shopify:
+
+- cree la page si elle n'existe pas encore
+- met a jour la page si le handle existe deja
+- synchronise le body HTML, le handle et les metas SEO `global.title_tag` / `global.description_tag`
+- attache le metafield `vd.recipe_slug` pour que le theme reconnaisse automatiquement la page comme fiche recette
+- met a jour `page_url` et l'etat de publication dans le store local
 
 Voir aussi:
 

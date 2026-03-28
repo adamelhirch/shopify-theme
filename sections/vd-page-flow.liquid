@@ -1,10 +1,12 @@
 {%- liquid
+  assign recipe_metafield = page.metafields.vd.recipe_slug
+  assign recipe_metafield_value = recipe_metafield.value | default: recipe_metafield
   assign recipe_handles_source = section.settings.recipe_page_handles | default: 'beignet-banane,recettes-accords'
   assign recipe_handles_normalized = recipe_handles_source | downcase | replace: ' ', ''
   assign recipe_handle_token = ',' | append: page.handle | append: ','
   assign recipe_handles_csv = ',' | append: recipe_handles_normalized | append: ','
   assign is_recipe_page = false
-  if recipe_handles_csv contains recipe_handle_token
+  if recipe_metafield_value != blank or recipe_handles_csv contains recipe_handle_token
     assign is_recipe_page = true
   endif
 -%}
@@ -260,7 +262,7 @@
       class="vd-recipe-signature color-{{ section.settings.color_scheme }}"
       data-vd-recipe
       data-registry-url="{{ 'vd-recipes-registry.json' | asset_url }}"
-      data-recipe-slug="{{ page.handle }}"
+      data-recipe-slug="{{ recipe_metafield_value | default: page.handle }}"
       data-page-handle="{{ page.handle }}"
       data-require-customer-access="true"
       data-customer-authenticated="{% if customer %}true{% else %}false{% endif %}"

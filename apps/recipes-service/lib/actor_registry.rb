@@ -3,8 +3,8 @@ require 'openssl'
 
 class ActorRegistry
   ROLE_PERMISSIONS = {
-    'admin' => %w[dashboard admin recipes:read recipes:write submissions:read publications:read audit:read recipes:approve recipes:reject recipes:archive recipes:export actors:read],
-    'editor' => %w[dashboard admin recipes:read recipes:write submissions:read publications:read recipes:approve recipes:reject recipes:archive recipes:export],
+    'admin' => %w[dashboard admin recipes:read recipes:write submissions:read publications:read audit:read recipes:approve recipes:reject recipes:archive recipes:export recipes:publish actors:read],
+    'editor' => %w[dashboard admin recipes:read recipes:write submissions:read publications:read recipes:approve recipes:reject recipes:archive recipes:export recipes:publish],
     'partner' => %w[dashboard recipes:read recipes:submit]
   }.freeze
 

@@ -5,10 +5,12 @@ require 'cgi'
 require 'json'
 require 'openssl'
 require 'open3'
+require 'time'
 require 'uri'
 require 'webrick'
 require 'English'
 require_relative 'lib/actor_registry'
+require_relative 'lib/shopify_page_publisher'
 require_relative 'lib/store_factory'
 
 ROOT = File.expand_path(__dir__)
@@ -17,6 +19,7 @@ PORT = Integer(ENV.fetch('VD_RECIPES_PORT', '4567'))
 ADMIN_TOKEN = ENV.fetch('VD_RECIPES_ADMIN_TOKEN', 'change-me')
 ACTORS = ActorRegistry.new(File.join(ROOT, 'data', 'actors.json'), fallback_admin_token: ADMIN_TOKEN)
 EXPORT_SCRIPT = File.expand_path('../../bin/export-recipes-store.rb', __dir__)
+SHOPIFY_PUBLISHER = ShopifyPagePublisher.build_from_env
 SESSION_COOKIE = 'vd_recipes_admin_session'
 SESSION_SECRET = ENV.fetch('VD_RECIPES_SESSION_SECRET', 'vd-recipes-local-session-secret')
 SESSION_TTL = Integer(ENV.fetch('VD_RECIPES_SESSION_TTL', '43200'))
@@ -150,6 +153,37 @@ def run_export(actor)
     ok: status.success?,
     output: output.strip,
     publication: publication
+  }
+end
+
+def publish_to_shopify(recipe, actor:, export_registry: false)
+  result = SHOPIFY_PUBLISHER.publish(recipe)
+  publication_state = {
+    'id' => result[:page_id],
+    'handle' => result[:handle],
+    'page_url' => result[:page_url],
+    'online_store_url' => result[:online_store_url],
+    'shop_domain' => result[:shop_domain],
+    'api_version' => result[:api_version],
+    'last_action' => result[:action],
+    'last_published_at' => Time.now.utc.iso8601
+  }
+
+  updated = STORE.update_recipe(
+    recipe['slug'],
+    recipe.merge(
+      'page_url' => result[:page_url],
+      'shopify_page' => publication_state
+    ),
+    actor: actor
+  )
+
+  export_result = export_registry ? run_export(actor) : nil
+
+  {
+    recipe: updated,
+    shopify: result,
+    export: export_result
   }
 end
 
@@ -822,6 +856,9 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   seo_body_sections_json = pretty_json(recipe.dig('seo', 'body_sections') || [])
   seo_faq_json = pretty_json(recipe.dig('seo', 'faq') || [])
   history_count = recipe.fetch('revisions', []).length
+  shopify_page = recipe['shopify_page'] || {}
+  shopify_errors = SHOPIFY_PUBLISHER.configuration_errors
+  shopify_ready = shopify_errors.empty?
   template_options = RECIPE_TEMPLATES.map do |key, template|
     "<option value=\"#{html_escape(key)}\">#{html_escape(template['label'])}</option>"
   end.join
@@ -1302,6 +1339,8 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                 <div class="editor-actions">
                   <button type="submit">#{recipe['slug'] ? 'Enregistrer' : 'Creer la recette'}</button>
                   #{recipe['slug'] ? '<button class="button-light" type="submit" onclick="this.form.querySelector(\'[name=action]\').value=\'save_and_export\'">Enregistrer + exporter</button>' : '<button class="button-light" type="submit" onclick="this.form.querySelector(\'[name=action]\').value=\'save_and_export\'">Creer + exporter</button>'}
+                  #{recipe['slug'] ? '<button class="button-accent" type="submit" onclick="this.form.querySelector(\'[name=action]\').value=\'save_and_publish_shopify\'">Enregistrer + publier Shopify</button>' : '<button class="button-accent" type="submit" onclick="this.form.querySelector(\'[name=action]\').value=\'save_and_publish_shopify\'">Creer + publier Shopify</button>'}
+                  #{recipe['slug'] ? '<button class="button-light" type="submit" onclick="this.form.querySelector(\'[name=action]\').value=\'save_publish_export\'">Enregistrer + publier + exporter</button>' : '<button class="button-light" type="submit" onclick="this.form.querySelector(\'[name=action]\').value=\'save_publish_export\'">Creer + publier + exporter</button>'}
                   #{recipe['slug'] ? "<span class=\"pill\">#{html_escape(recipe['status'])}</span><span class=\"pill\">#{history_count} revisions</span>" : ''}
                 </div>
               </form>
@@ -1324,6 +1363,12 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                     <input type="hidden" name="slug" value="#{html_escape(recipe['slug'])}">
                     <input type="hidden" name="recipe" value="#{html_escape(recipe['slug'])}">
                     <button class="button-light" type="submit">Archiver</button>
+                  </form>
+                  <form method="post" action="/admin">
+                    <input type="hidden" name="action" value="publish_shopify">
+                    <input type="hidden" name="slug" value="#{html_escape(recipe['slug'])}">
+                    <input type="hidden" name="recipe" value="#{html_escape(recipe['slug'])}">
+                    <button class="button-accent" type="submit">Publier sur Shopify</button>
                   </form>
                 </div>
               ACTIONS
@@ -1386,6 +1431,22 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
           </div>
 
           <section class="panel" style="margin-top:20px;">
+            <h2>Publication Shopify</h2>
+            <div class="stack">
+              <article class="card">
+                <strong>Etat de la connexion</strong>
+                <p>#{shopify_ready ? "Configuree pour #{html_escape(SHOPIFY_PUBLISHER.shop_domain)} (API #{html_escape(SHOPIFY_PUBLISHER.api_version)})" : html_escape(shopify_errors.join(' · '))}</p>
+              </article>
+              #{recipe['slug'] ? <<~SHOPIFY : '<article class="card"><p>Creez d abord la recette pour publier sa page Shopify dediee.</p></article>'}
+                <article class="card">
+                  <strong>Derniere page synchronisee</strong>
+                  <p>#{shopify_page['page_url'].to_s.empty? ? 'Aucune publication Shopify enregistree pour cette recette.' : "<code>#{html_escape(shopify_page['page_url'])}</code> · #{html_escape(shopify_page['last_action'])} · #{html_escape(shopify_page['last_published_at'])}"}</p>
+                </article>
+              SHOPIFY
+            </div>
+          </section>
+
+          <section class="panel" style="margin-top:20px;">
             <h2>Acteurs autorises</h2>
             <table>
               <thead>
@@ -1414,6 +1475,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
               <article class="card"><strong>Dashboard</strong><p><code>GET /dashboard</code></p></article>
               <article class="card"><strong>Recherche / filtres</strong><p><code>GET /recipes?status=pending&amp;q=vanille&amp;access=member</code> · <code>GET /admin/login</code></p></article>
               <article class="card"><strong>Historique d'une recette</strong><p><code>GET /recipes/:slug/history</code></p></article>
+              <article class="card"><strong>Publication Shopify</strong><p><code>POST /recipes/:slug/publish-shopify</code> avec header <code>X-VD-Token</code></p></article>
               <article class="card"><strong>Export public</strong><p><code>POST /exports/registry</code> avec header <code>X-VD-Token</code> ou <code>Authorization: Bearer ...</code></p></article>
             </div>
           </section>
@@ -1660,6 +1722,28 @@ server.mount_proc '/admin' do |request, response|
       end
       publication = run_export(reviewer)
       flash = admin_flash('success', "#{record['title']} enregistre et registre exporte#{publication[:ok] ? '' : ' avec erreurs'}")
+    when 'save_and_publish_shopify'
+      if request.query['slug'].to_s.strip.empty?
+        payload = admin_recipe_payload(request)
+        record = STORE.create_recipe(payload, actor: reviewer)
+      else
+        payload = admin_recipe_payload(request)
+        record = STORE.update_recipe(request.query['slug'], payload, actor: reviewer)
+      end
+      publication = publish_to_shopify(record, actor: reviewer)
+      selected_slug = publication[:recipe]['slug']
+      flash = admin_flash('success', "#{publication[:recipe]['title']} publie sur Shopify (#{publication[:shopify][:action]} #{publication[:shopify][:page_url]}).")
+    when 'save_publish_export'
+      if request.query['slug'].to_s.strip.empty?
+        payload = admin_recipe_payload(request)
+        record = STORE.create_recipe(payload, actor: reviewer)
+      else
+        payload = admin_recipe_payload(request)
+        record = STORE.update_recipe(request.query['slug'], payload, actor: reviewer)
+      end
+      publication = publish_to_shopify(record, actor: reviewer, export_registry: true)
+      selected_slug = publication[:recipe]['slug']
+      flash = admin_flash('success', "#{publication[:recipe]['title']} publie sur Shopify puis exporte vers le registre public.")
     when 'approve_recipe'
       STORE.approve(request.query['slug'], reviewer, note: request.query['moderation_note'])
       selected_slug = request.query['slug']
@@ -1672,6 +1756,13 @@ server.mount_proc '/admin' do |request, response|
       STORE.archive(request.query['slug'], reviewer, note: request.query['moderation_note'])
       selected_slug = request.query['slug']
       flash = admin_flash('success', "Recette archivee: #{selected_slug}")
+    when 'publish_shopify'
+      recipe = STORE.find(request.query['slug'])
+      raise KeyError, 'recipe not found' unless recipe
+
+      publication = publish_to_shopify(recipe, actor: reviewer)
+      selected_slug = publication[:recipe]['slug']
+      flash = admin_flash('success', "#{publication[:recipe]['title']} publie sur Shopify (#{publication[:shopify][:action]} #{publication[:shopify][:page_url]}).")
     when 'export_registry'
       publication = run_export(reviewer)
       flash = admin_flash('success', publication[:ok] ? 'Registre public exporte.' : 'Export termine avec erreurs.')
@@ -1898,6 +1989,24 @@ server.mount_proc '/recipes/' do |request, response|
     payload = parse_body(request)
     target_slug = slug.sub(%r{/archive\z}, '')
     json_response(response, 200, STORE.archive(target_slug, actor_name(request, actor), note: payload['note']))
+  elsif request.request_method == 'POST' && request.path.end_with?('/publish-shopify')
+    actor = require_permission!(request, response, 'recipes:publish')
+    next unless actor
+
+    payload = parse_body(request)
+    target_slug = slug.sub(%r{/publish-shopify\z}, '')
+    recipe = STORE.find(target_slug)
+    raise KeyError, 'recipe not found' unless recipe
+
+    json_response(
+      response,
+      200,
+      publish_to_shopify(
+        recipe,
+        actor: actor_name(request, actor),
+        export_registry: !!payload['export_registry']
+      )
+    )
   else
     json_response(response, 405, { error: 'method_not_allowed' })
   end
