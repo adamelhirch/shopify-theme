@@ -392,6 +392,362 @@ def duplicate_recipe_payload(recipe)
   clone
 end
 
+def split_import_sections(text)
+  current = 'root'
+  sections = Hash.new { |hash, key| hash[key] = [] }
+  key_map = {
+    'titre' => 'title',
+    'title' => 'title',
+    'sous-titre' => 'subtitle',
+    'sous titre' => 'subtitle',
+    'subtitle' => 'subtitle',
+    'resume' => 'summary',
+    'summary' => 'summary',
+    'description' => 'description',
+    'categorie' => 'category',
+    'category' => 'category',
+    'acces' => 'access',
+    'access' => 'access',
+    'difficulte' => 'difficulty',
+    'difficulty' => 'difficulty',
+    'temps' => 'timing',
+    'timing' => 'timing',
+    'timings' => 'timing',
+    'portions' => 'serves',
+    'serves' => 'serves',
+    'tags' => 'tags',
+    'collections' => 'collections',
+    'collection' => 'collections',
+    'produits' => 'products',
+    'produit' => 'products',
+    'products' => 'products',
+    'product' => 'products',
+    'ingredients' => 'ingredients',
+    'ingredient' => 'ingredients',
+    'etapes' => 'steps',
+    'etape' => 'steps',
+    'steps' => 'steps',
+    'step' => 'steps',
+    'preparation' => 'steps',
+    'astuces' => 'tips',
+    'astuce' => 'tips',
+    'tips' => 'tips',
+    'tip' => 'tips',
+    'seo' => 'seo',
+    'keywords' => 'seo',
+    'mots-cles' => 'seo',
+    'mots cles' => 'seo',
+    'faq' => 'faq'
+  }
+
+  normalized_text = text.to_s.encode('UTF-8', invalid: :replace, undef: :replace, replace: '')
+  normalized_text = normalized_text.gsub(/\s+(?=(Titre|Title|Sous-titre|Sous titre|Subtitle|Summary|Resume|Description|Access|Acces|Category|Categorie|Serves|Portions|Timing|Temps|Difficulty|Difficulte|Tags|Collections?|Produits?|Products?|Ingredients?|Etapes?|Steps?|Preparation|Tips?|Astuces?|FAQ)\s*:)/i, "\n")
+
+  normalized_text.each_line do |raw_line|
+    line = raw_line.strip
+    next if line.empty?
+
+    heading = line.sub(/\A#+\s*/, '')
+    case heading.downcase
+    when /\Atitre\s*:?\z/, /\Atitle\s*:?\z/
+      current = 'title'
+      next
+    when /\Asous[- ]titre\s*:?\z/, /\Asubtitle\s*:?\z/
+      current = 'subtitle'
+      next
+    when /\Aresume\s*:?\z/, /\Asummary\s*:?\z/
+      current = 'summary'
+      next
+    when /\Adescription\s*:?\z/
+      current = 'description'
+      next
+    when /\Acategory\s*:?\z/, /\Acategorie\s*:?\z/
+      current = 'category'
+      next
+    when /\Aacces\s*:?\z/, /\Aaccess\s*:?\z/
+      current = 'access'
+      next
+    when /\Adifficulte\s*:?\z/, /\Adifficulty\s*:?\z/
+      current = 'difficulty'
+      next
+    when /\Atemps\s*:?\z/, /\Atimings?\s*:?\z/
+      current = 'timing'
+      next
+    when /\Aportions\s*:?\z/, /\Aserves\s*:?\z/
+      current = 'serves'
+      next
+    when /\Atags\s*:?\z/
+      current = 'tags'
+      next
+    when /\Acollections?\s*:?\z/
+      current = 'collections'
+      next
+    when /\Aproduits?\s*:?\z/, /\Aproducts?\s*:?\z/
+      current = 'products'
+      next
+    when /\Aingredients?\s*:?\z/
+      current = 'ingredients'
+      next
+    when /\Aetapes?\s*:?\z/, /\Asteps?\s*:?\z/, /\Apreparation\s*:?\z/
+      current = 'steps'
+      next
+    when /\Aastuces?\s*:?\z/, /\Atips?\s*:?\z/
+      current = 'tips'
+      next
+    when /\Aseo\s*:?\z/, /\Amots[- ]cles?\s*:?\z/, /\Akeywords?\s*:?\z/
+      current = 'seo'
+      next
+    when /\Afaq\s*:?\z/
+      current = 'faq'
+      next
+    end
+
+    if line.include?(':')
+      key, remainder = line.split(':', 2)
+      normalized_key = key.to_s.downcase.strip
+      mapped = key_map[normalized_key]
+      if mapped
+        current = mapped
+        sections[current] << remainder.to_s.strip unless remainder.to_s.strip.empty?
+        next
+      end
+    end
+
+    sections[current] << line
+  end
+
+  sections
+end
+
+def parse_import_list(lines)
+  lines.flat_map { |line| line.split(/[,|]/) }.map(&:strip).reject(&:empty?)
+end
+
+def parse_import_timing(lines)
+  timing = {}
+  lines.each do |line|
+    line.scan(/(prep|preparation|cook|cuisson|rest|repos|total)\s*[:=-]\s*([^,;]+)/i).each do |label, value|
+      normalized = case label.downcase
+                   when 'prep', 'preparation' then 'prep'
+                   when 'cook', 'cuisson' then 'cook'
+                   when 'rest', 'repos' then 'rest'
+                   else 'total'
+                   end
+      timing[normalized] = value.to_s.strip
+    end
+  end
+  timing
+end
+
+def parse_import_ingredient_groups(lines)
+  groups = []
+  current = nil
+
+  lines.each do |line|
+    stripped = line.sub(/\A[-*]\s*/, '').strip
+    next if stripped.empty?
+
+    if stripped.end_with?(':') && !stripped.match?(/\d/)
+      current = { 'title' => stripped.delete_suffix(':').strip, 'items' => [] }
+      groups << current
+      next
+    end
+
+    current ||= begin
+      group = { 'title' => 'Ingredients', 'items' => [] }
+      groups << group
+      group
+    end
+
+    item_line = stripped.sub(/\A\d+[.)]\s*/, '')
+    quantity = ''
+    unit = ''
+    name = item_line
+
+    if item_line =~ /\A(\d+(?:[.,]\d+)?(?:\/\d+)?)\s*([[:alpha:]%]+)?\s+(.*)\z/
+      quantity = Regexp.last_match(1).tr(',', '.')
+      unit = Regexp.last_match(2).to_s.strip
+      name = Regexp.last_match(3).strip
+    end
+
+    name = name.sub(/\Ade\s+/i, '')
+
+    note = ''
+    if name.include?(' - ')
+      name, note = name.split(' - ', 2)
+    elsif name.include?(' — ')
+      name, note = name.split(' — ', 2)
+    end
+
+    current['items'] << {
+      'id' => slugify("#{current['title']}-#{name}"),
+      'quantity' => quantity,
+      'unit' => unit,
+      'name' => name.strip,
+      'note' => note.to_s.strip
+    }.reject { |_key, value| value.to_s.empty? }
+  end
+
+  groups
+end
+
+def parse_import_steps(lines)
+  steps = []
+
+  lines.each_with_index do |line, index|
+    stripped = line.sub(/\A[-*]\s*/, '').strip
+    next if stripped.empty?
+
+    stripped = stripped.sub(/\Aetape\s*\d+\s*[:.-]?\s*/i, '')
+    stripped = stripped.sub(/\Astep\s*\d+\s*[:.-]?\s*/i, '')
+    stripped = stripped.sub(/\A\d+[.)]\s*/, '')
+
+    duration = stripped[/\(([^)]+min[^)]*)\)/i, 1]
+    stripped = stripped.gsub(/\(([^)]+min[^)]*)\)/i, '').strip
+
+    title, body = stripped.split(/\s+-\s+|\s+:\s+/, 2)
+    title = title.to_s.strip
+    body = body.to_s.strip
+
+    if body.empty?
+      sentences = stripped.split(/(?<=[.!?])\s+/)
+      title = sentences.shift.to_s.strip
+      body = sentences.join(' ').strip
+    end
+
+    title = "Etape #{index + 1}" if title.empty?
+    body = stripped if body.empty?
+
+    steps << {
+      'id' => slugify("step-#{index + 1}-#{title}"),
+      'title' => title,
+      'duration' => duration.to_s.strip,
+      'highlight' => index.zero? ? 'Base' : '',
+      'body' => body
+    }.reject { |_key, value| value.to_s.empty? }
+  end
+
+  steps
+end
+
+def parse_import_tips(lines)
+  lines.map do |line|
+    stripped = line.sub(/\A[-*]\s*/, '').strip
+    next if stripped.empty?
+
+    title, body = stripped.split(/\s*:\s*/, 2)
+    if body.to_s.strip.empty?
+      title = 'Repere'
+      body = stripped
+    end
+
+    {
+      'title' => title.to_s.strip,
+      'body' => body.to_s.strip
+    }
+  end.compact
+end
+
+def parse_import_faq(lines)
+  faqs = []
+  current = nil
+
+  lines.each do |line|
+    stripped = line.sub(/\A[-*]\s*/, '').strip
+    next if stripped.empty?
+
+    if stripped.start_with?('Q:')
+      current = { 'question' => stripped.sub(/\AQ:\s*/, '').strip, 'answer' => '' }
+      faqs << current
+    elsif stripped.start_with?('R:') || stripped.start_with?('A:')
+      current ||= { 'question' => '', 'answer' => '' }
+      current['answer'] = stripped.sub(/\A[RA]:\s*/, '').strip
+      faqs << current unless faqs.include?(current)
+    elsif current && current['answer'].to_s.empty?
+      current['answer'] = stripped
+    else
+      question, answer = stripped.split(/\s+\?\s+/, 2)
+      next unless answer
+
+      faqs << { 'question' => "#{question.strip} ?", 'answer' => answer.strip }
+    end
+  end
+
+  faqs.reject { |entry| entry['question'].to_s.empty? || entry['answer'].to_s.empty? }
+end
+
+def imported_recipe_payload(template_key:, import_text:, actor_name:)
+  template = recipe_template_payload(template_key)
+  sections = split_import_sections(import_text)
+  title = sections['title'].join(' ').strip
+  subtitle = sections['subtitle'].join(' ').strip
+  summary = sections['summary'].join(' ').strip
+  description = sections['description'].join("\n").strip
+  category = sections['category'].join(' ').strip
+  difficulty_value = sections['difficulty'].join(' ').strip
+  access_value = sections['access'].join(' ').strip
+
+  payload = deep_clone(template)
+  payload['title'] = title unless title.empty?
+  payload['subtitle'] = subtitle unless subtitle.empty?
+  payload['summary'] = summary unless summary.empty?
+  payload['description'] = description unless description.empty?
+  payload['category'] = category unless category.empty?
+  payload['search_terms'] = parse_import_list(sections['seo'] + sections['tags'])
+  payload['tags'] = (Array(payload['tags']) + parse_import_list(sections['tags'])).uniq
+  payload['collections'] = (Array(payload['collections']) + parse_import_list(sections['collections'])).uniq
+  payload['products'] = parse_import_list(sections['products']).map { |handle| { 'handle' => handle } }
+  payload['ingredient_groups'] = parse_import_ingredient_groups(sections['ingredients'])
+  payload['steps'] = parse_import_steps(sections['steps'])
+  payload['tips'] = parse_import_tips(sections['tips'])
+  payload['serves'] = sections['serves'].join(' ')[/\d+/, 0].to_i if sections['serves'].any?
+  payload['timing'] = payload.fetch('timing', {}).merge(parse_import_timing(sections['timing']))
+  payload['submitted_by'] = { 'name' => actor_name, 'type' => 'internal' }
+
+  unless access_value.empty?
+    payload['access'] =
+      if access_value.downcase.include?('member') || access_value.downcase.include?('client') || access_value.downcase.include?('premium')
+        'member'
+      else
+        'free'
+      end
+  end
+
+  unless difficulty_value.empty?
+    normalized = difficulty_value.downcase
+    payload['difficulty'] = {
+      'value' => normalized.include?('inter') ? 'intermediaire' : normalized.include?('sign') ? 'signature' : 'facile',
+      'label' => difficulty_value
+    }
+  end
+
+  seo = payload['seo'] ||= {}
+  seo['keywords'] = (Array(seo['keywords']) + parse_import_list(sections['seo'])).uniq
+  seo['faq'] = parse_import_faq(sections['faq']) if sections['faq'].any?
+  seo['body_sections'] = [
+    { 'title' => 'Pourquoi cette recette fonctionne', 'body' => summary },
+    { 'title' => 'Erreurs a eviter', 'body' => '' },
+    { 'title' => 'Conservation et service', 'body' => '' }
+  ] if Array(seo['body_sections']).empty? && !summary.empty?
+
+  payload = smart_recipe_defaults(payload)
+  payload['page_url'] = ''
+
+  if payload['product'].to_h.empty? && payload['products'].is_a?(Array) && payload['products'].first
+    first_handle = payload['products'].first['handle']
+    payload['product'] = {
+      'handle' => first_handle,
+      'collection_handle' => '',
+      'required_handles' => payload['products'].map { |entry| entry['handle'] }.compact,
+      'primary_label' => 'Voir le produit',
+      'secondary_label' => 'Voir la selection',
+      'note' => 'Produits importes depuis le brief recette.'
+    }
+  end
+
+  payload
+end
+
 def admin_recipe_payload(request)
   query = request.query
   payload = {
@@ -553,6 +909,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
           .stack { display: grid; gap: 14px; }
           .toolbar,
           .quickstart,
+          .import-grid,
           .filters,
           .editor-grid {
             display: grid;
@@ -560,6 +917,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
           }
           .toolbar { grid-template-columns: repeat(4, minmax(0,1fr)); }
           .quickstart { grid-template-columns: 1.15fr 1.15fr 0.7fr 0.7fr; }
+          .import-grid { grid-template-columns: 1.1fr 0.9fr; }
           .filters { grid-template-columns: repeat(5, minmax(0,1fr)); }
           .editor-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
           .editor-grid .full { grid-column: 1 / -1; }
@@ -676,6 +1034,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             .grid { grid-template-columns: 1fr; }
             .toolbar,
             .quickstart,
+            .import-grid,
             .filters,
             .editor-grid { grid-template-columns: 1fr; }
           }
@@ -777,6 +1136,32 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                 <strong>Cadence editoriale</strong>
                 <p class="muted">Templates, tags et SEO auto reduisent fortement le temps de publication.</p>
                 <div class="helper">Selectionnez une recette pour la moderer, la dupliquer ou la faire evoluer en quelques minutes.</div>
+              </div>
+            </div>
+            <div class="import-grid" style="margin-top:16px;">
+              <form class="card toolbar-card" method="post" action="/admin">
+                <input type="hidden" name="action" value="import_recipe">
+                <label>Importer depuis un brief
+                  <select name="template">
+                    #{template_options}
+                  </select>
+                </label>
+                <label>Texte recette / Markdown
+                  <textarea name="import_text" style="min-height:260px;" placeholder="Titre: Mousse vanille express&#10;Access: free&#10;Category: Desserts&#10;Serves: 4&#10;Timing: prep: 15 min, cook: 0 min, total: 15 min&#10;Tags: mousse, vanille, dessert&#10;Products: vanille-bourbon-madagascar-3-gousses, caviar-vanille-bourbon-madagascar-20g&#10;&#10;Summary: Une mousse rapide et nette pour entrer dans le repertoire.&#10;Description: Une base fouettee courte, tres lisible, avec une vraie finition vanille.&#10;&#10;Ingredients:&#10;- 30 cl creme liquide&#10;- 80 g chocolat blanc&#10;- 1 gousse de vanille Bourbon&#10;&#10;Steps:&#10;1. Chauffer la creme - infuser la vanille dans la creme chaude.&#10;2. Emulsionner - verser sur le chocolat et lisser.&#10;3. Refroidir et monter - laisser prendre puis fouetter legerement.&#10;&#10;Tips:&#10;- Texture: arretez-vous avant une chantilly trop ferme.&#10;- Service: terminez avec un peu de caviar.&#10;&#10;FAQ:&#10;Q: Peut-on la faire la veille ?&#10;A: Oui, elle tient tres bien une nuit au froid."></textarea>
+                </label>
+                <button class="button-accent" type="submit">Importer en brouillon</button>
+              </form>
+              <div class="card toolbar-card">
+                <strong>Format accepte</strong>
+                <div class="helper">
+                  Utilisez des lignes simples avec sections: <code>Titre</code>, <code>Summary</code>, <code>Description</code>, <code>Access</code>, <code>Category</code>, <code>Serves</code>, <code>Timing</code>, <code>Tags</code>, <code>Collections</code>, <code>Products</code>, <code>Ingredients</code>, <code>Steps</code>, <code>Tips</code>, <code>FAQ</code>.
+                </div>
+                <div class="helper">
+                  Le parser fabrique automatiquement le slug, le SEO de base, les groupes d ingredients, les etapes et le lien produit principal quand des handles Shopify sont fournis.
+                </div>
+                <div class="helper">
+                  Les nouvelles recettes importees restent sur le fallback du hub tant qu une page Shopify dediee n est pas creee.
+                </div>
               </div>
             </div>
           </section>
@@ -1223,9 +1608,19 @@ server.mount_proc '/admin' do |request, response|
       payload = recipe_template_payload(request.query['template'])
       payload['title'] = request.query['title'].to_s.strip unless request.query['title'].to_s.strip.empty?
       payload = smart_recipe_defaults(payload)
+      payload['page_url'] = ''
       created = STORE.create_recipe(payload, actor: reviewer)
       selected_slug = created['slug']
       flash = admin_flash('success', "Template deploye: #{created['title']}")
+    when 'import_recipe'
+      payload = imported_recipe_payload(
+        template_key: request.query['template'],
+        import_text: request.query['import_text'],
+        actor_name: reviewer
+      )
+      created = STORE.create_recipe(payload, actor: reviewer)
+      selected_slug = created['slug']
+      flash = admin_flash('success', "Recette importee: #{created['title']}")
     when 'duplicate_recipe'
       source_slug = [request.query['recipe'], request.query['slug']].map { |value| value.to_s.strip }.find { |value| !value.empty? }
       source = STORE.find(source_slug)

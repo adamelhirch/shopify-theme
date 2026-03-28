@@ -145,6 +145,7 @@ Cette page donne:
 - un poste de publication recette avec creation rapide
 - des templates `recette premium`, `recette libre`, `guide`, `accord`
 - la duplication d'une recette existante en brouillon
+- un import rapide depuis texte structure ou Markdown leger
 - l'autoremplissage du slug, de l'URL et des metadonnees SEO de base
 - l'edition des tags, collections, FAQ SEO, sections editoriales et produits lies
 - un raccourci `Enregistrer + exporter` pour republier le registre public
@@ -156,6 +157,38 @@ Cette page donne:
 - le rappel des endpoints utiles
 
 Le login du back-office cree une session locale signee en cookie HTTP-only. Les tokens en query string ne sont plus necessaires pour l'interface HTML.
+
+Exemple de brief importable:
+
+```text
+Titre: Mousse vanille express
+Access: free
+Category: Desserts
+Serves: 4
+Timing: prep: 15 min, total: 15 min
+Tags: mousse, vanille, dessert
+Products: vanille-bourbon-madagascar-3-gousses, caviar-vanille-bourbon-madagascar-20g
+
+Summary: Une mousse rapide et nette pour entrer dans le repertoire.
+Description: Une base fouettee courte, tres lisible, avec une vraie finition vanille.
+
+Ingredients:
+- 30 cl creme liquide
+- 80 g chocolat blanc
+- 1 gousse de vanille Bourbon
+
+Steps:
+1. Chauffer la creme - infuser la vanille dans la creme chaude.
+2. Emulsionner - verser sur le chocolat et lisser.
+3. Refroidir et monter - laisser prendre puis fouetter legerement.
+
+Tips:
+- Texture: arretez-vous avant une chantilly trop ferme.
+
+FAQ:
+Q: Peut-on la faire la veille ?
+A: Oui, elle tient tres bien une nuit au froid.
+```
 
 ## Export vers le theme
 
