@@ -1048,6 +1048,61 @@ def media_preview_markup(kind:, url:, title:, caption: '', alt: '', step_label: 
   HTML
 end
 
+def media_library_entries(recipes, current_slug: nil)
+  Array(recipes).each_with_object([]) do |entry, items|
+    next unless entry.is_a?(Hash)
+
+    recipe_slug = entry['slug'].to_s
+    recipe_title = entry['title'].to_s
+
+    hero = entry['hero'] || {}
+    if hero['image_url'].to_s.strip != '' || hero['video_url'].to_s.strip != ''
+      items << {
+        'kind' => hero['video_url'].to_s.strip.empty? ? 'image' : 'video',
+        'url' => hero['video_url'].to_s.strip.empty? ? hero['image_url'].to_s : hero['video_url'].to_s,
+        'caption' => hero['ambient_label'].to_s,
+        'alt' => hero['image_alt'].to_s,
+        'recipe_slug' => recipe_slug,
+        'recipe_title' => recipe_title,
+        'placement' => 'hero',
+        'label' => 'Hero'
+      }
+    end
+
+    Array(entry['story_media']).each_with_index do |item, index|
+      next if item['image_url'].to_s.strip.empty? && item['video_url'].to_s.strip.empty?
+
+      items << {
+        'kind' => item['video_url'].to_s.strip.empty? ? 'image' : 'video',
+        'url' => item['video_url'].to_s.strip.empty? ? item['image_url'].to_s : item['video_url'].to_s,
+        'caption' => item['caption'].to_s,
+        'alt' => item['image_alt'].to_s,
+        'recipe_slug' => recipe_slug,
+        'recipe_title' => recipe_title,
+        'placement' => 'gallery',
+        'label' => "Galerie #{index + 1}"
+      }
+    end
+
+    Array(entry['steps']).each_with_index do |step, index|
+      media = Array(step['media']).first || {}
+      next if media['image_url'].to_s.strip.empty? && media['video_url'].to_s.strip.empty?
+
+      items << {
+        'kind' => media['video_url'].to_s.strip.empty? ? 'image' : 'video',
+        'url' => media['video_url'].to_s.strip.empty? ? media['image_url'].to_s : media['video_url'].to_s,
+        'caption' => media['caption'].to_s,
+        'alt' => media['image_alt'].to_s,
+        'recipe_slug' => recipe_slug,
+        'recipe_title' => recipe_title,
+        'placement' => 'step',
+        'label' => step['title'].to_s.strip.empty? ? "Étape #{index + 1}" : step['title'].to_s
+      }
+    end
+  end.sort_by { |item| [item['recipe_slug'] == current_slug ? 1 : 0, item['recipe_title'].to_s, item['placement'].to_s, item['label'].to_s] }
+    .first(60)
+end
+
 def parse_step_media_slots(query, steps)
   Array(steps).each_with_index.each_with_object({}) do |(step, index), media_map|
     url = query["step_media_#{index + 1}_url"].to_s.strip
@@ -1390,6 +1445,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   preview_metadata = PREVIEW_MANAGER.metadata
   preview_target = preview_metadata[:preview_target] || {}
   preview_ready = preview_target[:ok]
+  media_library = media_library_entries(recipes, current_slug: recipe['slug'])
   template_options = RECIPE_TEMPLATES.map do |key, template|
     "<option value=\"#{html_escape(key)}\">#{html_escape(template['label'])}</option>"
   end.join
@@ -1686,6 +1742,10 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             border-radius: 18px;
             background: rgba(255,255,255,0.72);
           }
+          .media-slot.is-active-target {
+            border-color: rgba(106,134,99,0.58);
+            box-shadow: 0 0 0 3px rgba(106,134,99,0.14);
+          }
           .media-slot__preview {
             display: grid;
             gap: 10px;
@@ -1772,6 +1832,52 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             background: rgba(128,35,35,0.08);
             color: #7c1f1f;
           }
+          .media-library {
+            display: grid;
+            gap: 14px;
+            margin-top: 16px;
+            padding: 16px;
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            background: rgba(255,255,255,0.56);
+          }
+          .media-library__head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+          }
+          .media-library__head strong {
+            font-size: 15px;
+          }
+          .media-library__status {
+            font-size: 12px;
+            color: var(--muted);
+          }
+          .media-library__grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+          }
+          .media-library__card {
+            display: grid;
+            gap: 10px;
+            padding: 12px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: rgba(255,255,255,0.8);
+          }
+          .media-library__meta {
+            display: grid;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--muted);
+          }
+          .media-library__meta strong {
+            color: var(--text);
+            font-size: 15px;
+          }
           @media (max-width: 960px) {
             .summary,
             .grid { grid-template-columns: 1fr; }
@@ -1785,7 +1891,8 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             .media-studio__hero-grid,
             .media-studio__gallery-grid,
             .media-studio__steps-grid,
-            .media-slot__inputs--compact { grid-template-columns: 1fr; }
+            .media-slot__inputs--compact,
+            .media-library__grid { grid-template-columns: 1fr; }
           }
         </style>
       </head>
@@ -2231,6 +2338,37 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                     <textarea name="step_media_text" placeholder="1 | image | https://cdn.shopify.com/.../step-1.jpg | Mise en place&#10;2 | video | https://cdn.shopify.com/.../step-2.mp4 | Texture a viser">#{html_escape(step_media_text)}</textarea>
                   </label>
                   <div class="full helper">Ces médias alimentent directement la recette depuis le back-office. Les blocs <code>Media recette</code> dans l’éditeur Shopify peuvent ensuite surcharger hero, galerie et étapes sans casser la base.</div>
+                  <div class="full media-library">
+                    <div class="media-library__head">
+                      <div>
+                        <strong>Bibliothèque média</strong>
+                        <div class="helper">Réutilisez un hero, une galerie ou un média d’étape déjà posé dans une autre recette.</div>
+                      </div>
+                      <div class="media-library__status" data-media-library-status>Aucun slot ciblé. Cliquez sur “Utiliser ici” dans un slot média.</div>
+                    </div>
+                    <div class="media-library__grid">
+                      #{media_library.map { |item|
+                        <<~HTML
+                          <article class="media-library__card" data-media-library-item data-kind="#{html_escape(item['kind'])}" data-url="#{html_escape(item['url'])}" data-caption="#{html_escape(item['caption'])}" data-alt="#{html_escape(item['alt'])}">
+                            #{media_preview_markup(
+                              kind: item['kind'],
+                              url: item['url'],
+                              title: item['recipe_title'],
+                              caption: item['caption'],
+                              alt: item['alt'],
+                              step_label: item['label']
+                            )}
+                            <div class="media-library__meta">
+                              <strong>#{html_escape(item['recipe_title'])}</strong>
+                              <span>#{html_escape(item['label'])} · #{html_escape(item['placement'])}</span>
+                              <span><code>#{html_escape(item['recipe_slug'])}</code></span>
+                            </div>
+                            <button class="media-slot__tool" type="button" data-media-library-apply>Envoyer vers le slot ciblé</button>
+                          </article>
+                        HTML
+                      }.join.presence || '<article class="card"><p>Aucun média réutilisable trouvé dans le registre pour le moment.</p></article>'}
+                    </div>
+                  </div>
                   <div class="section-title">2. SEO & recherche</div>
                   <label>SEO title
                     <input type="text" name="seo_title" value="#{html_escape(recipe.dig('seo', 'title'))}" data-role="seo-title">
@@ -2541,6 +2679,9 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             }
 
             const mediaSlots = Array.from(document.querySelectorAll('[data-media-slot]'));
+            const libraryStatus = document.querySelector('[data-media-library-status]');
+            const libraryItems = Array.from(document.querySelectorAll('[data-media-library-item]'));
+            let activeMediaSlot = null;
 
             const mediaFieldNames = function(slot) {
               return Array.from(slot.querySelectorAll('[data-media-field]')).map(function(field) {
@@ -2563,6 +2704,25 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
               });
             };
 
+            const slotLabel = function(slot) {
+              const group = slot.getAttribute('data-media-group');
+              const index = slot.getAttribute('data-media-index');
+              if (group === 'hero') return 'hero recette';
+              if (group === 'gallery') return 'galerie ' + index;
+              if (group === 'steps') return 'étape ' + index;
+              return 'slot média';
+            };
+
+            const setActiveMediaSlot = function(slot) {
+              activeMediaSlot = slot;
+              mediaSlots.forEach(function(entry) {
+                entry.classList.toggle('is-active-target', entry === slot);
+              });
+              if (libraryStatus) {
+                libraryStatus.textContent = slot ? 'Slot ciblé : ' + slotLabel(slot) + '.' : 'Aucun slot ciblé. Cliquez sur “Utiliser ici” dans un slot média.';
+              }
+            };
+
             const clearSlot = function(slot) {
               const snapshot = readSlot(slot);
               Object.keys(snapshot).forEach(function(name) {
@@ -2580,6 +2740,17 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
 
             mediaSlots.forEach(function(slot) {
               const group = slot.getAttribute('data-media-group');
+              const toolbar = slot.querySelector('.media-slot__toolbar');
+              if (toolbar) {
+                const targetButton = document.createElement('button');
+                targetButton.type = 'button';
+                targetButton.className = 'media-slot__tool';
+                targetButton.textContent = 'Utiliser ici';
+                targetButton.addEventListener('click', function() {
+                  setActiveMediaSlot(slot);
+                });
+                toolbar.insertBefore(targetButton, toolbar.firstChild);
+              }
 
               const clearButton = slot.querySelector('[data-media-clear]');
               if (clearButton) {
@@ -2626,6 +2797,36 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                 });
               }
             });
+
+            libraryItems.forEach(function(item) {
+              const applyButton = item.querySelector('[data-media-library-apply]');
+              if (!applyButton) return;
+
+              applyButton.addEventListener('click', function() {
+                if (!activeMediaSlot) {
+                  if (libraryStatus) libraryStatus.textContent = 'Choisissez d’abord un slot cible avec “Utiliser ici”.';
+                  return;
+                }
+
+                const kind = item.getAttribute('data-kind') || 'image';
+                const url = item.getAttribute('data-url') || '';
+                const caption = item.getAttribute('data-caption') || '';
+                const alt = item.getAttribute('data-alt') || '';
+                const payload = readSlot(activeMediaSlot);
+
+                if (payload.kind !== undefined) payload.kind = kind;
+                if (payload.url !== undefined) payload.url = url;
+                if (payload['url-image'] !== undefined) payload['url-image'] = kind === 'image' ? url : '';
+                if (payload['url-video'] !== undefined) payload['url-video'] = kind === 'video' ? url : '';
+                if (payload.caption !== undefined) payload.caption = caption;
+                if (payload.alt !== undefined) payload.alt = alt;
+
+                writeSlot(activeMediaSlot, payload);
+                if (libraryStatus) libraryStatus.textContent = 'Média injecté dans ' + slotLabel(activeMediaSlot) + '.';
+              });
+            });
+
+            if (mediaSlots.length) setActiveMediaSlot(mediaSlots[0]);
           })();
         </script>
       </body>
