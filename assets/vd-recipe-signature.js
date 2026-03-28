@@ -168,6 +168,12 @@
       };
     }
 
+    if (Array.isArray(recipe.sources) && recipe.sources.length) {
+      recipeSchema.citation = recipe.sources.map(function (source) {
+        return source.url || source.title;
+      }).filter(Boolean);
+    }
+
     var graph = [recipeSchema];
     if (recipe.seo && Array.isArray(recipe.seo.faq) && recipe.seo.faq.length) {
       graph.push({
@@ -199,6 +205,23 @@
     if (recipe.difficulty && recipe.difficulty.label) metrics.push(recipe.difficulty.label);
     if (recipe.serves) metrics.push(recipe.serves + ' pers.');
     return metrics;
+  }
+
+  function renderSources(recipe) {
+    if (!Array.isArray(recipe.sources) || !recipe.sources.length) return '';
+
+    return '<article class="vd-recipe-signature__sources"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Sources & credits</span><h2>Base adaptee depuis des recettes ouvertes et references libres.</h2></div></div><div class="vd-recipe-signature__sources-list">' +
+      recipe.sources.map(function (source) {
+        var title = escapeHtml(source.title || source.url || 'Source');
+        var meta = [source.license, source.note].filter(Boolean).map(escapeHtml).join(' · ');
+        var link = source.url
+          ? '<a href="' + escapeHtml(source.url) + '" target="_blank" rel="noreferrer">' + title + '</a>'
+          : '<span>' + title + '</span>';
+        return '<article class="vd-recipe-signature__source-item"><strong>' + link + '</strong>' +
+          (meta ? '<p>' + meta + '</p>' : '') +
+        '</article>';
+      }).join('') +
+    '</div></article>';
   }
 
   function renderMedia(media, recipe) {
@@ -343,6 +366,7 @@
       (recipe.story_media && recipe.story_media.length
         ? '<article class="vd-recipe-signature__story"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Visuels recette</span><h2>Une lecture visuelle pour suivre chaque geste.</h2></div></div><div class="vd-recipe-signature__story-grid">' + renderEditorialMedia(recipe.story_media, 'vd-recipe-signature__story-card') + '</div></article>'
         : '');
+    var sourcePanel = renderSources(recipe);
     var shopPanel =
       ((productUrl || collectionUrl)
         ? '<article class="vd-recipe-signature__shop" data-vd-recipe-shop data-product-handle="' + escapeHtml((recipe.product && recipe.product.handle) || '') + '" data-collection-handle="' + escapeHtml((recipe.product && recipe.product.collection_handle) || '') + '">' +
@@ -395,7 +419,7 @@
             '<div class="vd-recipe-signature__preview">' +
               '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Ingredients</span><h2>Avant de cuisiner</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__preview-copy">' + previewIngredients + '</div></article>' +
               '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Etapes</span><h2>Lecture libre</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__preview-copy">' + previewSteps + '</div></article>' +
-            '</div>' + editorialPanel + faqPanel + shopPanel +
+            '</div>' + editorialPanel + faqPanel + sourcePanel + shopPanel +
           '</div>'
         : '<div class="vd-recipe-signature__fullscreen-spotlight">' +
             '<button type="button" class="vd-recipe-signature__fullscreen-button" data-vd-recipe-fullscreen>Plein ecran</button>' +
@@ -428,7 +452,7 @@
                 ? '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">A retenir</span><h2>Deux repères vraiment utiles.</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__tips-compact" data-vd-recipe-tips></div></article>'
                 : '') +
             '</aside>' +
-          '</div>' + faqPanel + shopPanel
+          '</div>' + faqPanel + sourcePanel + shopPanel
       );
   }
 

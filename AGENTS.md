@@ -28,3 +28,8 @@ For any new task in this repository, the default workflow is:
 - Use one branch per task or feature.
 - If the worktree is already dirty with unrelated changes, stop and coordinate before pulling or branching.
 - Treat `QA Shared v1` as restore-only unless the user explicitly asks for a restoration.
+
+## Recipe backoffice note
+
+- For recipe creation, moderation, sourcing, and Shopify publication, prefer the local desktop cockpit [VD Backoffice.app](/Users/leothuel/Desktop/VD%20Backoffice.app) and the local service in `apps/recipes-service/`.
+- Before adding or editing recipes directly in theme files, verify whether the change belongs in the recipes backoffice or registry first.

@@ -151,6 +151,18 @@ Cette page donne:
 - la duplication d'une recette existante en brouillon
 - un import rapide depuis texte structure ou Markdown leger
 - l'autoremplissage du slug, de l'URL et des metadonnees SEO de base
+- une edition simplifiee en champs texte:
+  - ingredients
+  - etapes
+  - astuces
+  - FAQ
+  - sections SEO
+  - produits lies
+  - sources et credits
+- des champs simples pour:
+  - produit principal
+  - collection produit
+  - note produit
 - l'edition des tags, collections, FAQ SEO, sections editoriales et produits lies
 - un raccourci `Enregistrer + exporter` pour republier le registre public
 - la publication Shopify automatisee pour creer ou mettre a jour la page dediee
@@ -190,10 +202,23 @@ Steps:
 Tips:
 - Texture: arretez-vous avant une chantilly trop ferme.
 
+Sources:
+- Wikibooks Cookbook:Mousse au Chocolat | https://en.wikibooks.org/wiki/Cookbook:Chocolate_Mousse | CC BY-SA 4.0 | Base adaptee et reequilibree pour Vanille Desire
+
 FAQ:
 Q: Peut-on la faire la veille ?
 A: Oui, elle tient tres bien une nuit au froid.
 ```
+
+Mode d'edition recommande dans le back-office:
+
+- remplir d'abord le bloc simple
+- ne toucher au `Mode avance JSON` que pour des cas rares
+- garder au moins une source quand une recette vient d'une base ouverte
+- lier 1 produit principal puis 2 a 4 produits necessaires maximum
+- ajouter ensuite les medias dans Shopify via les blocs `Media recette`
+
+Le registre embarque deja une base editoriale de 15 recettes, dont plusieurs fiches adaptees depuis Wikibooks avec attribution en front.
 
 ## Export vers le theme
 

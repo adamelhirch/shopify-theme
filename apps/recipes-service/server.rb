@@ -517,6 +517,8 @@ def split_import_sections(text)
     'produit' => 'products',
     'products' => 'products',
     'product' => 'products',
+    'sources' => 'sources',
+    'source' => 'sources',
     'ingredients' => 'ingredients',
     'ingredient' => 'ingredients',
     'etapes' => 'steps',
@@ -579,6 +581,9 @@ def split_import_sections(text)
       next
     when /\Aproduits?\s*:?\z/, /\Aproducts?\s*:?\z/
       current = 'products'
+      next
+    when /\Asources?\s*:?\z/, /\Asource\s*:?\z/
+      current = 'sources'
       next
     when /\Aingredients?\s*:?\z/
       current = 'ingredients'
@@ -771,6 +776,151 @@ def parse_import_faq(lines)
   faqs.reject { |entry| entry['question'].to_s.empty? || entry['answer'].to_s.empty? }
 end
 
+def parse_source_lines(lines)
+  lines.map do |line|
+    stripped = line.sub(/\A[-*]\s*/, '').strip
+    next if stripped.empty?
+
+    title, url, license, note = stripped.split('|', 4).map { |entry| entry.to_s.strip }
+    if url.to_s.empty? && stripped =~ %r{https?://}
+      title = title.to_s.empty? ? stripped[%r{https?://[^ ]+}, 0].to_s : title
+      url = stripped[%r{https?://[^ ]+}, 0].to_s
+    end
+
+    next if title.to_s.empty? && url.to_s.empty?
+
+    {
+      'title' => title,
+      'url' => url,
+      'license' => license,
+      'note' => note
+    }.reject { |_key, value| value.to_s.strip.empty? }
+  end.compact
+end
+
+def source_lines_for_form(sources)
+  Array(sources).map do |source|
+    [
+      source['title'],
+      source['url'],
+      source['license'],
+      source['note']
+    ].map(&:to_s).join(' | ').gsub(/\s+\|\s+\|\s*/, ' | ').sub(/\s+\|\s*\z/, '')
+  end.join("\n")
+end
+
+def ingredient_groups_for_form(groups)
+  Array(groups).flat_map do |group|
+    lines = []
+    title = group['title'].to_s.strip
+    lines << "#{title}:" unless title.empty?
+    Array(group['items']).each do |item|
+      quantity = [item['quantity'], item['unit']].map(&:to_s).reject(&:empty?).join(' ')
+      line = [quantity, item['name']].reject { |value| value.to_s.empty? }.join(' ').strip
+      line = "#{line} - #{item['note']}" unless item['note'].to_s.strip.empty?
+      lines << "- #{line}".strip
+    end
+    lines << ''
+    lines
+  end.join("\n").strip
+end
+
+def steps_for_form(steps)
+  Array(steps).each_with_index.map do |step, index|
+    [
+      "#{index + 1}. #{step['title']}",
+      step['duration'].to_s.strip.empty? ? nil : "Duree: #{step['duration']}",
+      step['highlight'].to_s.strip.empty? ? nil : "Repere: #{step['highlight']}",
+      step['body']
+    ].compact.join(' | ')
+  end.join("\n")
+end
+
+def tips_for_form(tips)
+  Array(tips).map do |tip|
+    title = tip['title'].to_s.strip
+    body = tip['body'].to_s.strip
+    title.empty? ? body : "#{title}: #{body}"
+  end.join("\n")
+end
+
+def faq_for_form(faqs)
+  Array(faqs).map do |faq|
+    "#{faq['question']} | #{faq['answer']}"
+  end.join("\n")
+end
+
+def body_sections_for_form(sections)
+  Array(sections).map do |section|
+    "#{section['title']} | #{section['body']}"
+  end.join("\n")
+end
+
+def product_handles_for_form(products)
+  Array(products).map { |product| product['handle'].to_s.strip }.reject(&:empty?).join("\n")
+end
+
+def primary_product_handle(recipe)
+  primary = recipe.dig('product', 'handle').to_s.presence
+  return primary if primary
+
+  Array(recipe['products']).map { |item| item['handle'].to_s.strip }.find { |value| !value.empty? }.to_s
+end
+
+def parse_steps_lines(lines)
+  lines.each_with_index.map do |line, index|
+    stripped = line.sub(/\A\d+[.)]\s*/, '').strip
+    next if stripped.empty?
+
+    title, duration, highlight, body = stripped.split('|', 4).map { |entry| entry.to_s.strip }
+    title = title.sub(/\ADuree:\s*/i, '').strip if title =~ /\ADuree:/i
+    duration = duration.to_s.sub(/\ADuree:\s*/i, '').strip
+    highlight = highlight.to_s.sub(/\ARepere:\s*/i, '').strip
+    body = body.to_s.strip
+
+    if body.empty? && title.include?(' | ')
+      title, body = title.split(/\s+\|\s+/, 2)
+    end
+
+    {
+      'id' => slugify("step-#{index + 1}-#{title}"),
+      'title' => title.empty? ? "Etape #{index + 1}" : title,
+      'duration' => duration,
+      'highlight' => highlight,
+      'body' => body.empty? ? title : body
+    }.reject { |_key, value| value.to_s.strip.empty? }
+  end.compact
+end
+
+def parse_faq_lines(lines)
+  lines.map do |line|
+    stripped = line.sub(/\A[-*]\s*/, '').strip
+    next if stripped.empty?
+    question, answer = stripped.split('|', 2).map { |entry| entry.to_s.strip }
+    next if question.to_s.empty? || answer.to_s.empty?
+
+    { 'question' => question, 'answer' => answer }
+  end.compact
+end
+
+def parse_body_sections_lines(lines)
+  lines.map do |line|
+    stripped = line.sub(/\A[-*]\s*/, '').strip
+    next if stripped.empty?
+    title, body = stripped.split('|', 2).map { |entry| entry.to_s.strip }
+    next if title.to_s.empty?
+
+    { 'title' => title, 'body' => body.to_s }
+  end.compact
+end
+
+def parsed_or_json_textarea(simple_value, json_value, parser:, fallback:)
+  simple_lines = simple_value.to_s.split(/\r?\n/).map(&:strip).reject(&:empty?)
+  return parser.call(simple_lines) unless simple_lines.empty?
+
+  parse_json_field(json_value, fallback)
+end
+
 def imported_recipe_payload(template_key:, import_text:, actor_name:)
   template = recipe_template_payload(template_key)
   sections = split_import_sections(import_text)
@@ -792,6 +942,7 @@ def imported_recipe_payload(template_key:, import_text:, actor_name:)
   payload['tags'] = (Array(payload['tags']) + parse_import_list(sections['tags'])).uniq
   payload['collections'] = (Array(payload['collections']) + parse_import_list(sections['collections'])).uniq
   payload['products'] = parse_import_list(sections['products']).map { |handle| { 'handle' => handle } }
+  payload['sources'] = parse_source_lines(sections['sources'])
   payload['ingredient_groups'] = parse_import_ingredient_groups(sections['ingredients'])
   payload['steps'] = parse_import_steps(sections['steps'])
   payload['tips'] = parse_import_tips(sections['tips'])
@@ -879,17 +1030,37 @@ def admin_recipe_payload(request)
     'search_terms' => csv_terms(query['search_terms']),
     'tags' => csv_terms(query['tags']),
     'collections' => csv_terms(query['collections']),
-    'ingredient_groups' => parse_json_field(query['ingredient_groups_json'], []),
-    'steps' => parse_json_field(query['steps_json'], []),
-    'tips' => parse_json_field(query['tips_json'], []),
-    'product' => parse_json_field(query['product_json'], {}),
-    'products' => parse_json_field(query['products_json'], []),
+    'ingredient_groups' => parsed_or_json_textarea(query['ingredient_groups_text'], query['ingredient_groups_json'], parser: method(:parse_import_ingredient_groups), fallback: []),
+    'steps' => parsed_or_json_textarea(query['steps_text'], query['steps_json'], parser: method(:parse_steps_lines), fallback: []),
+    'tips' => parsed_or_json_textarea(query['tips_text'], query['tips_json'], parser: method(:parse_import_tips), fallback: []),
+    'product' => begin
+      primary_handle = query['primary_product_handle'].to_s.strip
+      collection_handle = query['product_collection_handle'].to_s.strip
+      note = query['product_note'].to_s.strip
+      if primary_handle.empty? && collection_handle.empty? && note.empty?
+        parse_json_field(query['product_json'], {})
+      else
+        {
+          'handle' => primary_handle,
+          'collection_handle' => collection_handle,
+          'required_handles' => csv_terms(query['product_handles']),
+          'primary_label' => 'Voir le produit',
+          'secondary_label' => 'Voir la selection',
+          'note' => note
+        }.reject { |_key, value| value.respond_to?(:empty?) ? value.empty? : value.nil? }
+      end
+    end,
+    'products' => (
+      handles = csv_terms(query['product_handles']).map { |handle| { 'handle' => handle } }
+      handles.empty? ? parse_json_field(query['products_json'], []) : handles
+    ),
+    'sources' => parsed_or_json_textarea(query['sources_text'], query['sources_json'], parser: method(:parse_source_lines), fallback: []),
     'seo' => {
       'title' => query['seo_title'],
       'description' => query['seo_description'],
       'keywords' => csv_terms(query['seo_keywords']),
-      'body_sections' => parse_json_field(query['seo_body_sections_json'], []),
-      'faq' => parse_json_field(query['seo_faq_json'], [])
+      'body_sections' => parsed_or_json_textarea(query['seo_body_sections_text'], query['seo_body_sections_json'], parser: method(:parse_body_sections_lines), fallback: []),
+      'faq' => parsed_or_json_textarea(query['seo_faq_text'], query['seo_faq_json'], parser: method(:parse_faq_lines), fallback: [])
     }
   }.reject { |_key, value| value.nil? }
 
@@ -911,11 +1082,22 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   tips_json = pretty_json(recipe['tips'] || [])
   product_json = pretty_json(recipe['product'] || {})
   products_json = pretty_json(recipe['products'] || [])
+  sources_json = pretty_json(recipe['sources'] || [])
+  primary_product = primary_product_handle(recipe)
+  product_collection_handle = recipe.dig('product', 'collection_handle').to_s
+  product_note = recipe.dig('product', 'note').to_s
   tags = Array(recipe['tags']).join(', ')
   collections = Array(recipe['collections']).join(', ')
   seo_keywords = Array(recipe.dig('seo', 'keywords')).join(', ')
   seo_body_sections_json = pretty_json(recipe.dig('seo', 'body_sections') || [])
   seo_faq_json = pretty_json(recipe.dig('seo', 'faq') || [])
+  ingredient_groups_text = ingredient_groups_for_form(recipe['ingredient_groups'] || [])
+  steps_text = steps_for_form(recipe['steps'] || [])
+  tips_text = tips_for_form(recipe['tips'] || [])
+  faq_text = faq_for_form(recipe.dig('seo', 'faq') || [])
+  body_sections_text = body_sections_for_form(recipe.dig('seo', 'body_sections') || [])
+  product_handles_text = product_handles_for_form(recipe['products'] || [])
+  sources_text = source_lines_for_form(recipe['sources'] || [])
   history_count = recipe.fetch('revisions', []).length
   shopify_page = recipe['shopify_page'] || {}
   shopify_errors = SHOPIFY_PUBLISHER.configuration_errors
@@ -1027,6 +1209,17 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             flex-wrap: wrap;
             gap: 10px;
             margin-top: 16px;
+          }
+          details.advanced {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: rgba(255,255,255,0.58);
+          }
+          details.advanced summary {
+            cursor: pointer;
+            font-weight: 600;
           }
           label {
             display: grid;
@@ -1284,10 +1477,10 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
               <div class="card toolbar-card">
                 <strong>Format accepte</strong>
                 <div class="helper">
-                  Utilisez des lignes simples avec sections: <code>Titre</code>, <code>Summary</code>, <code>Description</code>, <code>Access</code>, <code>Category</code>, <code>Serves</code>, <code>Timing</code>, <code>Tags</code>, <code>Collections</code>, <code>Products</code>, <code>Ingredients</code>, <code>Steps</code>, <code>Tips</code>, <code>FAQ</code>.
+                  Utilisez des lignes simples avec sections: <code>Titre</code>, <code>Summary</code>, <code>Description</code>, <code>Access</code>, <code>Category</code>, <code>Serves</code>, <code>Timing</code>, <code>Tags</code>, <code>Collections</code>, <code>Products</code>, <code>Sources</code>, <code>Ingredients</code>, <code>Steps</code>, <code>Tips</code>, <code>FAQ</code>.
                 </div>
                 <div class="helper">
-                  Le parser fabrique automatiquement le slug, le SEO de base, les groupes d ingredients, les etapes et le lien produit principal quand des handles Shopify sont fournis.
+                  Le parser fabrique automatiquement le slug, le SEO de base, les groupes d ingredients, les etapes, les credits de source et le lien produit principal quand des handles Shopify sont fournis.
                 </div>
                 <div class="helper">
                   Les nouvelles recettes importees restent sur le fallback du hub tant qu une page Shopify dediee n est pas creee.
@@ -1384,7 +1577,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                     <input type="text" name="timing_total" value="#{html_escape(recipe.dig('timing', 'total'))}">
                   </label>
                   <label>Hero video
-                    <input type="text" name="hero_video_url" value="#{html_escape(recipe.dig('hero', 'video_url'))}">
+                    <input type="text" name="hero_video_url" value="#{html_escape(recipe.dig('hero', 'video_url'))}" placeholder="MP4 libre de droit ou video Shopify via l'editeur theme">
                   </label>
                   <label>Hero image
                     <input type="text" name="hero_image_url" value="#{html_escape(recipe.dig('hero', 'image_url'))}">
@@ -1407,27 +1600,67 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                   <label>Type auteur
                     <input type="text" name="submitted_by_type" value="#{html_escape(recipe.dig('submitted_by', 'type'))}">
                   </label>
-                  <label class="full">Product JSON
-                    <textarea name="product_json">#{html_escape(product_json)}</textarea>
+                  <label class="full">Ingredients simplifies
+                    <textarea name="ingredient_groups_text" placeholder="Base:&#10;- 3 oeufs&#10;- 120 g sucre&#10;&#10;Finition:&#10;- 1 gousse de vanille">#{html_escape(ingredient_groups_text)}</textarea>
                   </label>
-                  <label class="full">Products JSON
-                    <textarea name="products_json">#{html_escape(products_json)}</textarea>
+                  <label class="full">Etapes simplifiees
+                    <textarea name="steps_text" placeholder="1. Melanger la base | 4 min | Base | Fouetter les oeufs avec le sucre jusqu'a texture lisse.&#10;2. Ajouter la farine | 3 min | Texture | Incorporer sans trop travailler la pate.">#{html_escape(steps_text)}</textarea>
                   </label>
-                  <label class="full">SEO body sections JSON
-                    <textarea name="seo_body_sections_json">#{html_escape(seo_body_sections_json)}</textarea>
+                  <label class="full">Astuces simplifiees
+                    <textarea name="tips_text" placeholder="Texture: Arreter des que la creme nappe la spatule.&#10;Service: Finir avec un peu de caviar de vanille.">#{html_escape(tips_text)}</textarea>
                   </label>
-                  <label class="full">SEO FAQ JSON
-                    <textarea name="seo_faq_json">#{html_escape(seo_faq_json)}</textarea>
+                  <label class="full">Produits lies
+                    <textarea name="product_handles" placeholder="vanille-bourbon-madagascar-3-gousses&#10;caviar-vanille-bourbon-madagascar-20g">#{html_escape(product_handles_text)}</textarea>
                   </label>
-                  <label class="full">Ingredients JSON
-                    <textarea name="ingredient_groups_json">#{html_escape(ingredient_groups_json)}</textarea>
+                  <label>Produit principal
+                    <input type="text" name="primary_product_handle" value="#{html_escape(primary_product)}" placeholder="vanille-bourbon-madagascar-3-gousses">
                   </label>
-                  <label class="full">Steps JSON
-                    <textarea name="steps_json">#{html_escape(steps_json)}</textarea>
+                  <label>Collection catalogue
+                    <input type="text" name="product_collection_handle" value="#{html_escape(product_collection_handle)}" placeholder="epices-de-madagascar">
                   </label>
-                  <label class="full">Tips JSON
-                    <textarea name="tips_json">#{html_escape(tips_json)}</textarea>
+                  <label class="full">Note catalogue
+                    <textarea name="product_note" placeholder="Produits recommandes pour faire la recette avec le bon profil vanille.">#{html_escape(product_note)}</textarea>
                   </label>
+                  <label class="full">Sections SEO simplifiees
+                    <textarea name="seo_body_sections_text" placeholder="Pourquoi cette recette fonctionne | La base reste tres lisible et la vanille tient bien.&#10;Erreurs a eviter | Ne pas surcuire la creme.">#{html_escape(body_sections_text)}</textarea>
+                  </label>
+                  <label class="full">FAQ simplifiee
+                    <textarea name="seo_faq_text" placeholder="Peut-on la preparer la veille ? | Oui, elle se tient tres bien au froid.">#{html_escape(faq_text)}</textarea>
+                  </label>
+                  <label class="full">Sources & credits
+                    <textarea name="sources_text" placeholder="Wikibooks Cookbook:Crème Brûlée I | https://en.wikibooks.org/wiki/Cookbook:Cr%C3%A8me_Br%C3%BBl%C3%A9e_I | CC BY-SA 4.0 | Recette adaptee pour Vanille Desire">#{html_escape(sources_text)}</textarea>
+                  </label>
+                  <div class="full">
+                    <details class="advanced">
+                      <summary>Mode avance JSON</summary>
+                      <div class="stack" style="margin-top:14px;">
+                        <label>Product JSON
+                          <textarea name="product_json">#{html_escape(product_json)}</textarea>
+                        </label>
+                        <label>Products JSON
+                          <textarea name="products_json">#{html_escape(products_json)}</textarea>
+                        </label>
+                        <label>Sources JSON
+                          <textarea name="sources_json">#{html_escape(sources_json)}</textarea>
+                        </label>
+                        <label>SEO body sections JSON
+                          <textarea name="seo_body_sections_json">#{html_escape(seo_body_sections_json)}</textarea>
+                        </label>
+                        <label>SEO FAQ JSON
+                          <textarea name="seo_faq_json">#{html_escape(seo_faq_json)}</textarea>
+                        </label>
+                        <label>Ingredients JSON
+                          <textarea name="ingredient_groups_json">#{html_escape(ingredient_groups_json)}</textarea>
+                        </label>
+                        <label>Steps JSON
+                          <textarea name="steps_json">#{html_escape(steps_json)}</textarea>
+                        </label>
+                        <label>Tips JSON
+                          <textarea name="tips_json">#{html_escape(tips_json)}</textarea>
+                        </label>
+                      </div>
+                    </details>
+                  </div>
                 </div>
                 <div class="editor-actions">
                   <button type="submit">#{recipe['slug'] ? 'Enregistrer' : 'Creer la recette'}</button>

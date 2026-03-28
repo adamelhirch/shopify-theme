@@ -288,12 +288,41 @@
   background-position: center;
 }
 
+.vd-recipes-hub__card-media.is-placeholder {
+  display: grid;
+  align-items: end;
+  padding: 1.6rem;
+}
+
 .vd-recipes-hub__card-overlay {
   position: absolute;
   inset: 0;
   background:
     linear-gradient(180deg, rgba(17, 17, 17, 0.04), rgba(17, 17, 17, 0.26)),
     radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.38), transparent 24%);
+}
+
+.vd-recipes-hub__card-placeholder {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.8rem;
+  max-width: 75%;
+}
+
+.vd-recipes-hub__card-placeholder span {
+  color: rgba(var(--vd-white), 0.76);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.vd-recipes-hub__card-placeholder strong {
+  color: rgb(var(--vd-white));
+  font-size: clamp(2.2rem, 2.8vw, 3.4rem);
+  line-height: 0.98;
+  text-wrap: balance;
 }
 
 .vd-recipes-hub__card-badges {

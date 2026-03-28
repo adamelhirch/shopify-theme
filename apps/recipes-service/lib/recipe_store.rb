@@ -246,6 +246,7 @@ class RecipeStore
     result['collections'] ||= []
     result['product'] ||= {}
     result['products'] ||= []
+    result['sources'] ||= []
     result['difficulty'] ||= { 'value' => 'facile', 'label' => 'Facile' }
     result['timing'] ||= {}
     result['hero'] ||= {}
@@ -284,6 +285,7 @@ class RecipeStore
       recipe['tags'] ||= []
       recipe['collections'] ||= []
       recipe['products'] ||= []
+      recipe['sources'] ||= []
       recipe['seo'] ||= {}
       recipe['seo']['keywords'] ||= []
       recipe['seo']['body_sections'] ||= []

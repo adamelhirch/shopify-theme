@@ -102,12 +102,17 @@
     var accessLabel = recipe.access === 'member' ? 'Compte client' : 'Acces libre';
     var badge = recipe.category || 'Recette';
     var search = recipeSearchText(recipe);
+    var mediaClass = 'vd-recipes-hub__card-media' + (cover ? '' : ' is-placeholder');
+    var placeholder = cover
+      ? ''
+      : '<div class="vd-recipes-hub__card-placeholder"><span>Visuel recette a poser</span><strong>' + escapeHtml(recipe.title) + '</strong></div>';
 
     return (
       '<article class="vd-recipes-hub__card" data-vd-recipe-card data-search="' + escapeHtml(search) + '" data-access="' + escapeHtml(recipe.access || 'free') + '" data-difficulty="' + escapeHtml((recipe.difficulty && recipe.difficulty.value) || 'all') + '">' +
         '<a class="vd-recipes-hub__card-link" href="' + escapeHtml(recipeHref(recipe)) + '">' +
-          '<div class="vd-recipes-hub__card-media"' + (cover ? ' style="background-image:url(\'' + escapeHtml(cover) + '\')"' : '') + '>' +
+          '<div class="' + mediaClass + '"' + (cover ? ' style="background-image:url(\'' + escapeHtml(cover) + '\')"' : '') + '>' +
             '<div class="vd-recipes-hub__card-overlay"></div>' +
+            placeholder +
             '<div class="vd-recipes-hub__card-badges">' +
               '<span class="vd-recipes-hub__badge">' + escapeHtml(badge) + '</span>' +
               '<span class="vd-recipes-hub__badge vd-recipes-hub__badge--accent">' + escapeHtml(accessLabel) + '</span>' +
