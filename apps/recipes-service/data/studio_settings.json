@@ -1,0 +1,40 @@
+{
+  "shopify": {
+    "store_domain": "4bru0c-p4.myshopify.com",
+    "api_version": "2025-10",
+    "preview_theme_prefix": "QA Shared v",
+    "preview_exclude_names": [
+      "QA Shared v1"
+    ],
+    "preview_role_allowlist": [
+      "unpublished",
+      "development"
+    ],
+    "sync_args": [
+      "--nodelete"
+    ]
+  },
+  "modules": {
+    "recipes": {
+      "title": "Recettes",
+      "summary": "Creation, import, moderation, publication Shopify et export du registre public.",
+      "status": "active",
+      "enabled": true,
+      "local_path": "/admin/login"
+    },
+    "wiki": {
+      "title": "Wiki",
+      "summary": "Base prete pour un futur poste editorial avec publication et navigation souveraines.",
+      "status": "planned",
+      "enabled": true,
+      "local_path": null
+    },
+    "pages": {
+      "title": "Pages",
+      "summary": "Module prevu pour les pages editoriales et experiences hors simple preview Shopify.",
+      "status": "planned",
+      "enabled": true,
+      "local_path": null
+    }
+  }
+}

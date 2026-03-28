@@ -11,15 +11,20 @@ require 'webrick'
 require 'English'
 require_relative 'lib/actor_registry'
 require_relative 'lib/shopify_page_publisher'
+require_relative 'lib/shopify_preview_manager'
+require_relative 'lib/studio_settings'
 require_relative 'lib/store_factory'
 
 ROOT = File.expand_path(__dir__)
+REPO_ROOT = File.expand_path('..', ROOT)
 STORE = StoreFactory.build(root: ROOT)
 PORT = Integer(ENV.fetch('VD_RECIPES_PORT', '4567'))
 ADMIN_TOKEN = ENV.fetch('VD_RECIPES_ADMIN_TOKEN', 'change-me')
 ACTORS = ActorRegistry.new(File.join(ROOT, 'data', 'actors.json'), fallback_admin_token: ADMIN_TOKEN)
 EXPORT_SCRIPT = File.expand_path('../../bin/export-recipes-store.rb', __dir__)
 SHOPIFY_PUBLISHER = ShopifyPagePublisher.build_from_env
+STUDIO_SETTINGS = StudioSettings.new(File.join(ROOT, 'data', 'studio_settings.json'))
+PREVIEW_MANAGER = ShopifyPreviewManager.build_from_env(settings: STUDIO_SETTINGS)
 SESSION_COOKIE = 'vd_recipes_admin_session'
 SESSION_SECRET = ENV.fetch('VD_RECIPES_SESSION_SECRET', 'vd-recipes-local-session-secret')
 SESSION_TTL = Integer(ENV.fetch('VD_RECIPES_SESSION_TTL', '43200'))
@@ -227,6 +232,19 @@ def admin_url(recipe: nil, status: nil, access: nil, query: nil, flash: nil, lev
   }.reject { |_key, value| value.to_s.strip.empty? }
 
   "/admin?#{URI.encode_www_form(params)}"
+end
+
+def studio_meta_payload
+  {
+    ok: true,
+    service: 'recipes-service',
+    version: 4,
+    backend: STORE.respond_to?(:backend) ? STORE.backend : 'json',
+    modules: STUDIO_SETTINGS.module_list,
+    shopify: PREVIEW_MANAGER.metadata,
+    repository_root: REPO_ROOT,
+    settings_path: STUDIO_SETTINGS.path
+  }
 end
 
 def admin_login_page(flash: nil)
@@ -859,6 +877,9 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   shopify_page = recipe['shopify_page'] || {}
   shopify_errors = SHOPIFY_PUBLISHER.configuration_errors
   shopify_ready = shopify_errors.empty?
+  preview_metadata = PREVIEW_MANAGER.metadata
+  preview_target = preview_metadata[:preview_target] || {}
+  preview_ready = preview_target[:ok]
   template_options = RECIPE_TEMPLATES.map do |key, template|
     "<option value=\"#{html_escape(key)}\">#{html_escape(template['label'])}</option>"
   end.join
@@ -1094,6 +1115,35 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
           </section>
 
           #{flash ? "<div class=\"flash #{html_escape(flash['level'])}\">#{html_escape(flash['message'])}</div>" : ''}
+
+          <section class="panel" style="margin-bottom:20px;">
+            <h2>Studio Shopify</h2>
+            <p class="muted">La cible preview est resolue automatiquement sur la version QA la plus recente pour garder le cockpit aligne avec la bonne release.</p>
+            <div class="quickstart" style="grid-template-columns: 1.1fr 1.1fr 0.9fr 0.9fr;">
+              <article class="card toolbar-card">
+                <strong>Preview cible</strong>
+                <p>#{preview_ready ? "#{html_escape(preview_target[:name])} · <code>#{html_escape(preview_target[:id])}</code>" : html_escape(preview_target[:error] || 'Aucune cible preview')}</p>
+                <div class="helper">Strategie: prefixe <code>#{html_escape(preview_metadata[:preview_theme_prefix])}</code> · roles #{html_escape(Array(preview_metadata[:preview_role_allowlist]).join(', '))}</div>
+              </article>
+              <article class="card toolbar-card">
+                <strong>Store & configuration</strong>
+                <p><code>#{html_escape(preview_metadata[:store_domain])}</code> · API #{html_escape(preview_metadata[:api_version])}</p>
+                <div class="helper">Fichier studio: <code>#{html_escape(STUDIO_SETTINGS.path)}</code></div>
+              </article>
+              <form class="card toolbar-card" method="post" action="/admin">
+                <input type="hidden" name="action" value="sync_preview_theme">
+                <button class="button-accent" type="submit">Synchroniser la preview cible</button>
+                <div class="helper">Push du theme local vers la QA la plus recente via Shopify CLI.</div>
+              </form>
+              <article class="card toolbar-card">
+                <strong>Raccourcis</strong>
+                <div class="mini-grid">
+                  #{preview_ready ? "<a class=\"button-light\" style=\"display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,0.92);color:var(--text);\" href=\"#{html_escape(preview_target[:preview_url])}\" target=\"_blank\" rel=\"noreferrer\">Ouvrir la preview</a>" : ''}
+                  #{preview_ready ? "<a class=\"button-light\" style=\"display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,0.92);color:var(--text);\" href=\"#{html_escape(preview_target[:editor_url])}\" target=\"_blank\" rel=\"noreferrer\">Theme editor</a>" : ''}
+                </div>
+              </article>
+            </div>
+          </section>
 
           <section class="panel" style="margin-bottom:20px;">
             <h2>Console editoriale</h2>
@@ -1443,6 +1493,10 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                   <p>#{shopify_page['page_url'].to_s.empty? ? 'Aucune publication Shopify enregistree pour cette recette.' : "<code>#{html_escape(shopify_page['page_url'])}</code> · #{html_escape(shopify_page['last_action'])} · #{html_escape(shopify_page['last_published_at'])}"}</p>
                 </article>
               SHOPIFY
+              <article class="card">
+                <strong>Preview de relecture active</strong>
+                <p>#{preview_ready ? "#{html_escape(preview_target[:name])} · <code>#{html_escape(preview_target[:preview_url])}</code>" : html_escape(preview_target[:error] || 'Preview non resolue')}</p>
+              </article>
             </div>
           </section>
 
@@ -1473,9 +1527,11 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             <div class="stack">
               <article class="card"><strong>Identity</strong><p><code>GET /me</code> · <code>GET /actors</code></p></article>
               <article class="card"><strong>Dashboard</strong><p><code>GET /dashboard</code></p></article>
+              <article class="card"><strong>Studio meta</strong><p><code>GET /studio/meta</code> · <code>GET /theme/preview-target</code></p></article>
               <article class="card"><strong>Recherche / filtres</strong><p><code>GET /recipes?status=pending&amp;q=vanille&amp;access=member</code> · <code>GET /admin/login</code></p></article>
               <article class="card"><strong>Historique d'une recette</strong><p><code>GET /recipes/:slug/history</code></p></article>
               <article class="card"><strong>Publication Shopify</strong><p><code>POST /recipes/:slug/publish-shopify</code> avec header <code>X-VD-Token</code></p></article>
+              <article class="card"><strong>Sync preview</strong><p><code>POST /theme/sync-preview</code> avec header <code>X-VD-Token</code></p></article>
               <article class="card"><strong>Export public</strong><p><code>POST /exports/registry</code> avec header <code>X-VD-Token</code> ou <code>Authorization: Bearer ...</code></p></article>
             </div>
           </section>
@@ -1573,12 +1629,37 @@ server = WEBrick::HTTPServer.new(
 )
 
 server.mount_proc '/health' do |_request, response|
+  preview_target = PREVIEW_MANAGER.preview_target
   json_response(response, 200, {
     ok: true,
     service: 'recipes-service',
-    version: 3,
-    backend: STORE.respond_to?(:backend) ? STORE.backend : 'json'
+    version: 4,
+    backend: STORE.respond_to?(:backend) ? STORE.backend : 'json',
+    preview_target: preview_target[:ok] ? {
+      id: preview_target[:id],
+      name: preview_target[:name],
+      version: preview_target[:version],
+      preview_url: preview_target[:preview_url]
+    } : nil
   })
+end
+
+server.mount_proc '/studio/meta' do |request, response|
+  if request.request_method != 'GET'
+    json_response(response, 405, { error: 'method_not_allowed' })
+    next
+  end
+
+  json_response(response, 200, studio_meta_payload)
+end
+
+server.mount_proc '/theme/preview-target' do |request, response|
+  if request.request_method != 'GET'
+    json_response(response, 405, { error: 'method_not_allowed' })
+    next
+  end
+
+  json_response(response, 200, PREVIEW_MANAGER.preview_target)
 end
 
 server.mount_proc '/dashboard' do |_request, response|
@@ -1763,6 +1844,11 @@ server.mount_proc '/admin' do |request, response|
       publication = publish_to_shopify(recipe, actor: reviewer)
       selected_slug = publication[:recipe]['slug']
       flash = admin_flash('success', "#{publication[:recipe]['title']} publie sur Shopify (#{publication[:shopify][:action]} #{publication[:shopify][:page_url]}).")
+    when 'sync_preview_theme'
+      sync = PREVIEW_MANAGER.sync_latest_preview(repo_root: REPO_ROOT)
+      raise ArgumentError, sync[:error] || sync[:output].to_s unless sync[:ok]
+
+      flash = admin_flash('success', "Preview synchronisee sur #{sync.dig(:target, :name)}.")
     when 'export_registry'
       publication = run_export(reviewer)
       flash = admin_flash('success', publication[:ok] ? 'Registre public exporte.' : 'Export termine avec erreurs.')
@@ -2009,8 +2095,22 @@ server.mount_proc '/recipes/' do |request, response|
     )
   else
     json_response(response, 405, { error: 'method_not_allowed' })
-  end
+end
 rescue ArgumentError, KeyError => e
+  json_response(response, 422, { error: e.message })
+end
+
+server.mount_proc '/theme/sync-preview' do |request, response|
+  if request.request_method != 'POST'
+    json_response(response, 405, { error: 'method_not_allowed' })
+    next
+  end
+
+  actor = require_permission!(request, response, 'themes:sync')
+  next unless actor
+
+  json_response(response, 200, PREVIEW_MANAGER.sync_latest_preview(repo_root: REPO_ROOT))
+rescue ArgumentError => e
   json_response(response, 422, { error: e.message })
 end
 

@@ -20,17 +20,22 @@ final class ServiceController: ObservableObject {
   @Published private(set) var state: State = .stopped
   @Published private(set) var lastLogLine: String?
   @Published private(set) var activePort: Int
+  @Published private(set) var studioMeta: StudioMeta?
+  @Published private(set) var isSyncingPreview = false
+  @Published private(set) var lastSyncSummary: String?
 
   let repositoryRoot: String
   private let serviceScriptPath: String
   private let envFilePath: String
   private let defaultPort: Int
+  private let previewSyncScriptPath: String
 
-  init(repositoryRoot: String, serviceScriptPath: String, envFilePath: String, port: Int) {
+  init(repositoryRoot: String, serviceScriptPath: String, envFilePath: String, previewSyncScriptPath: String, port: Int) {
     self.repositoryRoot = repositoryRoot
     self.serviceScriptPath = serviceScriptPath
     self.envFilePath = envFilePath
     self.defaultPort = port
+    self.previewSyncScriptPath = previewSyncScriptPath
     self.activePort = port
 
     DispatchQueue.main.async { [weak self] in
@@ -54,6 +59,9 @@ final class ServiceController: ObservableObject {
     case .starting:
       return "La console locale recette demarre sur http://127.0.0.1:\(activePort)."
     case .running:
+      if let preview = activePreviewTarget, let name = preview.name {
+        return "Back-office disponible sur http://127.0.0.1:\(activePort), aligne sur \(name)."
+      }
       return "Back-office disponible sur http://127.0.0.1:\(activePort) avec les cookies et la navigation gardes dans l'app."
     case .failed(let message):
       return message
@@ -76,6 +84,34 @@ final class ServiceController: ObservableObject {
     return false
   }
 
+  var activePreviewTarget: PreviewTarget? {
+    guard let preview = studioMeta?.shopify.previewTarget, preview.ok else { return nil }
+    return preview
+  }
+
+  var previewTitle: String {
+    activePreviewTarget?.name ?? "Preview QA auto"
+  }
+
+  var previewSubtitle: String {
+    if let preview = activePreviewTarget,
+       let version = preview.version,
+       let role = preview.role,
+       let id = preview.id {
+      return "v\(version) · \(role) · #\(id)"
+    }
+
+    return studioMeta?.shopify.previewTarget.error ?? "Resolution automatique de la preview la plus recente."
+  }
+
+  var canSyncPreview: Bool {
+    studioMeta?.shopify.cliAvailable == true && activePreviewTarget != nil && isReady
+  }
+
+  var moduleSnapshot: [StudioModule] {
+    studioMeta?.modules ?? []
+  }
+
   func startIfNeeded() {
     if state == .starting || state == .running { return }
     Task {
@@ -83,6 +119,7 @@ final class ServiceController: ObservableObject {
       activePort = preferredPort
       if await healthcheck(port: preferredPort) == .recipesService {
         state = .running
+        await refreshStudioMeta()
       } else {
         start()
       }
@@ -148,6 +185,7 @@ final class ServiceController: ObservableObject {
         if await healthcheck(port: activePort) == .recipesService {
           lastLogLine = "Service local actif sur le port \(activePort)."
           state = .running
+          await refreshStudioMeta()
           return
         }
         try? await Task.sleep(for: .milliseconds(250))
@@ -163,7 +201,8 @@ final class ServiceController: ObservableObject {
   }
 
   func localURL(for section: StudioSection) -> URL? {
-    guard let localPath = section.localPath else { return nil }
+    let resolvedPath = studioMeta?.modules.first(where: { $0.key == section.rawValue })?.localPath ?? section.localPath
+    guard let localPath = resolvedPath else { return nil }
     return URL(string: "http://127.0.0.1:\(activePort)\(localPath)")
   }
 
@@ -173,17 +212,65 @@ final class ServiceController: ObservableObject {
   }
 
   func openPreview() {
-    guard let url = URL(string: "https://4bru0c-p4.myshopify.com?preview_theme_id=181102379275") else { return }
+    guard let raw = activePreviewTarget?.previewURL, let url = URL(string: raw) else { return }
     NSWorkspace.shared.open(url)
   }
 
   func openThemeEditor() {
-    guard let url = URL(string: "https://4bru0c-p4.myshopify.com/admin/themes/181102379275/editor") else { return }
+    guard let raw = activePreviewTarget?.editorURL, let url = URL(string: raw) else { return }
     NSWorkspace.shared.open(url)
   }
 
   func openRepository() {
     NSWorkspace.shared.open(URL(fileURLWithPath: repositoryRoot))
+  }
+
+  func openStudioSettings() {
+    guard let path = studioMeta?.settingsPath ?? studioMeta?.shopify.settingsPath else { return }
+    NSWorkspace.shared.open(URL(fileURLWithPath: path))
+  }
+
+  func refreshMetadata() {
+    Task {
+      await refreshStudioMeta()
+    }
+  }
+
+  func syncPreview() {
+    guard !isSyncingPreview else { return }
+
+    Task {
+      isSyncingPreview = true
+      defer { isSyncingPreview = false }
+
+      var environment = ProcessInfo.processInfo.environment
+      loadEnvFile().forEach { key, value in
+        environment[key] = value
+      }
+
+      let process = Process()
+      process.executableURL = URL(fileURLWithPath: "/usr/bin/ruby")
+      process.currentDirectoryURL = URL(fileURLWithPath: repositoryRoot)
+      process.arguments = [previewSyncScriptPath]
+      process.environment = environment
+
+      do {
+        let pipe = Pipe()
+        process.standardOutput = pipe
+        process.standardError = pipe
+        try process.run()
+        process.waitUntilExit()
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        let output = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        lastSyncSummary = output.isEmpty ? "Synchronisation preview terminee." : output
+        lastLogLine = "Preview cible synchronisee."
+      } catch {
+        lastSyncSummary = "Echec sync preview: \(error.localizedDescription)"
+        lastLogLine = lastSyncSummary
+      }
+
+      await refreshStudioMeta()
+    }
   }
 
   private func loadEnvFile() -> [String: String] {
@@ -263,6 +350,21 @@ final class ServiceController: ObservableObject {
       return (payload["service"] as? String) == "recipes-service" ? .recipesService : .otherService
     } catch {
       return .unavailable
+    }
+  }
+
+  private func refreshStudioMeta() async {
+    guard let url = URL(string: "http://127.0.0.1:\(activePort)/studio/meta") else { return }
+    var request = URLRequest(url: url)
+    request.timeoutInterval = 2.0
+
+    do {
+      let (data, response) = try await URLSession.shared.data(for: request)
+      guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else { return }
+      let decoded = try JSONDecoder().decode(StudioMeta.self, from: data)
+      studioMeta = decoded
+    } catch {
+      lastLogLine = "Meta studio indisponible: \(error.localizedDescription)"
     }
   }
 }

@@ -228,6 +228,24 @@ Le publisher Shopify:
 - attache le metafield `vd.recipe_slug` pour que le theme reconnaisse automatiquement la page comme fiche recette
 - met a jour `page_url` et l'etat de publication dans le store local
 
+Pilotage preview QA:
+
+- `GET /studio/meta` expose les modules du cockpit et la cible preview resolue automatiquement
+- `GET /theme/preview-target` retourne la preview QA la plus recente selon le prefixe configure
+- `POST /theme/sync-preview` pousse le theme local sur cette preview via Shopify CLI
+- `bin/theme-push-latest-preview.rb` permet de lancer la meme synchronisation hors UI
+
+Variables utiles:
+
+- `VD_RECIPES_PREVIEW_THEME_PREFIX`
+- `VD_RECIPES_PREVIEW_EXCLUDE`
+- `VD_RECIPES_PREVIEW_ROLES`
+- `VD_RECIPES_PREVIEW_SYNC_ARGS`
+
+Configuration persistante:
+
+- `apps/recipes-service/data/studio_settings.json`
+
 Voir aussi:
 
 - `apps/recipes-service/data/actors.json`

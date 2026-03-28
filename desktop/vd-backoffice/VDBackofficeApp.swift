@@ -6,6 +6,7 @@ struct VDBackofficeApp: App {
     repositoryRoot: "__REPO_ROOT__",
     serviceScriptPath: "__REPO_ROOT__/apps/recipes-service/server.rb",
     envFilePath: "__REPO_ROOT__/apps/recipes-service/.env",
+    previewSyncScriptPath: "__REPO_ROOT__/bin/theme-push-latest-preview.rb",
     port: 4567
   )
   @State private var selection: StudioSection? = .recipes
@@ -65,9 +66,9 @@ enum StudioSection: String, CaseIterable, Identifiable {
     case .recipes:
       return "Creation, import, moderation et publication Shopify des fiches recette."
     case .wiki:
-      return "Prochain module pour piloter les contenus Wiki tres pousses depuis la meme app."
+      return "Module editorial pour le wiki, avec publication et synchronisation future sur la bonne preview."
     case .pages:
-      return "Futur poste de publication pour les pages editoriales qui depassent le simple cycle preview."
+      return "Poste de publication pour les pages editoriales, landings et experiences poussees."
     }
   }
 }
@@ -91,10 +92,12 @@ struct ContentView: View {
       VStack(alignment: .leading, spacing: 8) {
         Text("Vanille Desire")
           .font(.system(size: 28, weight: .bold, design: .rounded))
-        Text("Cockpit editorial local pour Recettes, puis Wiki et Pages.")
+        Text("Cockpit editorial local pour Recettes, Wiki et Pages, synchronise sur la preview QA la plus recente.")
           .font(.system(size: 13, weight: .medium))
           .foregroundStyle(.secondary)
       }
+
+      previewCard
 
       List(StudioSection.allCases, selection: $selection) { section in
         Label(section.title, systemImage: section.systemImage)
@@ -124,9 +127,41 @@ struct ContentView: View {
         Button {
           service.openPreview()
         } label: {
-          Label("Ouvrir la preview 1.1.4", systemImage: "sparkles.tv")
+          Label("Ouvrir la preview cible", systemImage: "sparkles.tv")
         }
         .buttonStyle(.bordered)
+        .disabled(service.activePreviewTarget == nil)
+
+        Button {
+          service.openThemeEditor()
+        } label: {
+          Label("Theme editor cible", systemImage: "paintpalette")
+        }
+        .buttonStyle(.bordered)
+        .disabled(service.activePreviewTarget == nil)
+
+        Button {
+          service.syncPreview()
+        } label: {
+          Label(service.isSyncingPreview ? "Sync en cours..." : "Synchroniser la preview", systemImage: "arrow.triangle.2.circlepath")
+        }
+        .buttonStyle(.borderedProminent)
+        .disabled(!service.canSyncPreview || service.isSyncingPreview)
+
+        Button {
+          service.refreshMetadata()
+        } label: {
+          Label("Rafraichir le cockpit", systemImage: "rectangle.and.arrow.clockwise")
+        }
+        .buttonStyle(.bordered)
+
+        Button {
+          service.openStudioSettings()
+        } label: {
+          Label("Ouvrir la config studio", systemImage: "slider.horizontal.3")
+        }
+        .buttonStyle(.bordered)
+        .disabled(service.studioMeta == nil)
       }
 
       Spacer()
@@ -153,6 +188,32 @@ struct ContentView: View {
         endPoint: .bottomTrailing
       )
     )
+  }
+
+  private var previewCard: some View {
+    VStack(alignment: .leading, spacing: 10) {
+      Text("Preview active")
+        .font(.caption.weight(.semibold))
+        .foregroundStyle(.secondary)
+
+      Text(service.previewTitle)
+        .font(.title3.weight(.bold))
+
+      Text(service.previewSubtitle)
+        .font(.subheadline)
+        .foregroundStyle(.secondary)
+        .fixedSize(horizontal: false, vertical: true)
+
+      if let syncSummary = service.lastSyncSummary {
+        Text(syncSummary)
+          .font(.caption.monospaced())
+          .foregroundStyle(.secondary)
+          .lineLimit(4)
+      }
+    }
+    .padding(16)
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 22, style: .continuous))
   }
 
   private var statusCard: some View {
@@ -211,6 +272,7 @@ struct ContentView: View {
     } else if let localURL = service.localURL(for: section) {
       VStack(spacing: 0) {
         header(section: section)
+        studioRibbon
         Divider()
         WebContainerView(url: localURL)
       }
@@ -228,6 +290,9 @@ struct ContentView: View {
         Text(section.summary)
           .font(.subheadline)
           .foregroundStyle(.secondary)
+        Text(service.previewTitle)
+          .font(.caption.weight(.semibold))
+          .foregroundStyle(section.accent)
       }
 
       Spacer()
@@ -239,6 +304,14 @@ struct ContentView: View {
           Label("Safari", systemImage: "safari")
         }
         .buttonStyle(.bordered)
+
+        Button {
+          service.syncPreview()
+        } label: {
+          Label("Sync preview", systemImage: "arrow.triangle.2.circlepath")
+        }
+        .buttonStyle(.borderedProminent)
+        .disabled(!service.canSyncPreview || service.isSyncingPreview)
       }
     }
     .padding(.horizontal, 24)
@@ -253,6 +326,39 @@ struct ContentView: View {
         endPoint: .bottomTrailing
       )
     )
+  }
+
+  private var studioRibbon: some View {
+    HStack(spacing: 14) {
+      VStack(alignment: .leading, spacing: 4) {
+        Text("Preview QA cible")
+          .font(.caption.weight(.semibold))
+          .foregroundStyle(.secondary)
+        Text(service.previewTitle)
+          .font(.headline)
+        Text(service.previewSubtitle)
+          .font(.subheadline)
+          .foregroundStyle(.secondary)
+      }
+
+      Spacer()
+
+      ForEach(service.moduleSnapshot.prefix(3)) { module in
+        VStack(alignment: .leading, spacing: 2) {
+          Text(module.title)
+            .font(.caption.weight(.semibold))
+          Text(module.status.capitalized)
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .background(Color.white.opacity(0.72), in: Capsule())
+      }
+    }
+    .padding(.horizontal, 24)
+    .padding(.vertical, 14)
+    .background(Color.white.opacity(0.82))
   }
 }
 
@@ -285,6 +391,19 @@ struct PlaceholderSectionView: View {
               .foregroundStyle(.secondary)
               .fixedSize(horizontal: false, vertical: true)
 
+            if let module = service.moduleSnapshot.first(where: { $0.key == section.rawValue }) {
+              VStack(alignment: .leading, spacing: 8) {
+                Text("Etat du module")
+                  .font(.caption.weight(.semibold))
+                  .foregroundStyle(.secondary)
+                Text("\(module.title) · \(module.status.capitalized)")
+                  .font(.headline)
+                Text(module.summary)
+                  .font(.body)
+                  .foregroundStyle(.secondary)
+              }
+            }
+
             HStack(spacing: 12) {
               Button {
                 service.openThemeEditor()
@@ -292,6 +411,15 @@ struct PlaceholderSectionView: View {
                 Label("Theme editor", systemImage: "paintpalette")
               }
               .buttonStyle(.borderedProminent)
+              .disabled(service.activePreviewTarget == nil)
+
+              Button {
+                service.openPreview()
+              } label: {
+                Label("Preview cible", systemImage: "sparkles.tv")
+              }
+              .buttonStyle(.bordered)
+              .disabled(service.activePreviewTarget == nil)
 
               Button {
                 service.openRepository()
