@@ -130,9 +130,9 @@
       'recettes-gratuites': 'Recettes gratuites',
       'recettes-premium': 'Recettes premium',
       'desserts-a-la-vanille': 'Desserts vanille',
-      'petits-dejeuners-a-la-vanille': 'Petit dejeuner',
-      'vanille-salee': 'Vanille salee',
-      'accords-fruites': 'Accords fruites',
+      'petits-dejeuners-a-la-vanille': 'Petit-déjeuner',
+      'vanille-salee': 'Vanille salée',
+      'accords-fruites': 'Accords fruités',
       guides: 'Guides',
       accords: 'Accords'
     };
@@ -165,7 +165,7 @@
   function buildCard(recipe, heroOverrides) {
     var heroOverride = heroOverrides && heroOverrides[recipe.slug];
     var cover = (heroOverride && heroOverride.image_url) || (recipe.hero && recipe.hero.image_url);
-    var accessLabel = recipe.access === 'member' ? 'Compte client' : 'Acces libre';
+    var accessLabel = recipe.access === 'member' ? 'Compte client' : 'Accès libre';
     var badge = recipe.category || 'Recette';
     var search = recipeSearchText(recipe);
     var collections = Array.isArray(recipe.collections) ? recipe.collections.join(',') : '';
@@ -174,7 +174,7 @@
     var mediaClass = 'vd-recipes-hub__card-media' + (cover ? '' : ' is-placeholder');
     var placeholder = cover
       ? ''
-      : '<div class="vd-recipes-hub__card-placeholder"><span>Visuel recette a poser</span><strong>' + escapeHtml(recipe.title) + '</strong></div>';
+      : '<div class="vd-recipes-hub__card-placeholder"><span>Visuel recette à poser</span><strong>' + escapeHtml(recipe.title) + '</strong></div>';
 
     return (
       '<article class="vd-recipes-hub__card" data-vd-recipe-card data-slug="' + escapeHtml(recipe.slug || '') + '" data-search="' + escapeHtml(search) + '" data-access="' + escapeHtml(recipe.access || 'free') + '" data-difficulty="' + escapeHtml((recipe.difficulty && recipe.difficulty.value) || 'all') + '" data-collections="' + escapeHtml(collections) + '">' +
@@ -194,10 +194,12 @@
           '</div>' +
           '<div class="vd-recipes-hub__card-footer">' +
             '<span class="vd-recipes-hub__card-state">' + escapeHtml(recipe.subtitle || '') + '</span>' +
-            '<span class="vd-recipes-hub__card-cta">Ouvrir</span>' +
+            '<span class="vd-recipes-hub__card-actions">' +
+              '<span class="vd-recipes-hub__card-cta">Ouvrir</span>' +
+            '</span>' +
           '</div>' +
         '</a>' +
-        '<button type="button" class="vd-recipes-hub__favorite' + (isFavorite ? ' is-active' : '') + '" data-vd-recipe-favorite-toggle data-slug="' + escapeHtml(recipe.slug || '') + '" aria-label="Ajouter aux favoris">' + (isFavorite ? 'Favori' : 'Sauver') + '</button>' +
+        '<button type="button" class="vd-recipes-hub__favorite' + (isFavorite ? ' is-active' : '') + '" data-vd-recipe-favorite-toggle data-slug="' + escapeHtml(recipe.slug || '') + '" aria-label="Ajouter aux favoris">' + (isFavorite ? 'Favori' : 'Sauvegarder') + '</button>' +
       '</article>'
     );
   }
@@ -224,7 +226,7 @@
     });
 
     if (count) {
-      count.textContent = visibleCount + ' resultat' + (visibleCount > 1 ? 's' : '');
+      count.textContent = visibleCount + ' résultat' + (visibleCount > 1 ? 's' : '');
     }
 
     if (empty) {
@@ -267,9 +269,9 @@
     if (!target) return;
 
     var config = [
-      { key: 'desserts-a-la-vanille', title: 'Desserts a la vanille', text: 'Les recettes pilier pour installer Vanille Desire sur les requetes coeur de gamme.' },
-      { key: 'vanille-salee', title: 'Vanille salee', text: 'Le territoire le plus differentiant pour la marque, avec des recettes qui surprennent sans perdre en lisibilite.' },
-      { key: 'petits-dejeuners-a-la-vanille', title: 'Petit dejeuner & gouter', text: 'Des formats simples a refaire souvent, parfaits pour la recurrence et le carnet personnel.' }
+      { key: 'desserts-a-la-vanille', title: 'Desserts à la vanille', text: 'Les recettes pilier pour installer Vanille Désiré sur les requêtes cœur de gamme.' },
+      { key: 'vanille-salee', title: 'Vanille salée', text: 'Le territoire le plus différenciant pour la marque, avec des recettes qui surprennent sans perdre en lisibilité.' },
+      { key: 'petits-dejeuners-a-la-vanille', title: 'Petit-déjeuner & goûter', text: 'Des formats simples à refaire souvent, parfaits pour la récurrence et le carnet personnel.' }
     ];
 
     var panels = config.map(function (entry) {
@@ -348,7 +350,7 @@
         saveJSON('vd-recipes-favorites', store);
 
         button.classList.toggle('is-active', index === -1);
-        button.textContent = index === -1 ? 'Favori' : 'Sauver';
+        button.textContent = index === -1 ? 'Favori' : 'Sauvegarder';
         buildPersonalRails(section, recipes, heroOverrides);
         applyFilters(section, state);
       });
