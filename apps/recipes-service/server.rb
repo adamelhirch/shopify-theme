@@ -1102,6 +1102,15 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   shopify_page = recipe['shopify_page'] || {}
   shopify_errors = SHOPIFY_PUBLISHER.configuration_errors
   shopify_ready = shopify_errors.empty?
+  editorial_checks = [
+    ['Identite', recipe['title'].to_s.strip != '' && recipe['slug'].to_s.strip != ''],
+    ['Hero', recipe.dig('hero', 'video_url').to_s.strip != '' || recipe.dig('hero', 'image_url').to_s.strip != ''],
+    ['Produits', Array(recipe['products']).any? || primary_product.to_s.strip != ''],
+    ['Source', Array(recipe['sources']).any?],
+    ['SEO', recipe.dig('seo', 'title').to_s.strip != '' && recipe.dig('seo', 'description').to_s.strip != ''],
+    ['Publication', recipe['page_url'].to_s.strip != '' || shopify_page['page_url'].to_s.strip != '']
+  ]
+  editorial_score = editorial_checks.count { |entry| entry[1] }
   preview_metadata = PREVIEW_MANAGER.metadata
   preview_target = preview_metadata[:preview_target] || {}
   preview_ready = preview_target[:ok]
@@ -1204,11 +1213,47 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
           .filters { grid-template-columns: repeat(5, minmax(0,1fr)); }
           .editor-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
           .editor-grid .full { grid-column: 1 / -1; }
+          .editor-grid .section-title {
+            grid-column: 1 / -1;
+            margin-top: 4px;
+            padding-top: 6px;
+            border-top: 1px solid var(--line);
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+          }
           .editor-actions {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
             margin-top: 16px;
+          }
+          .assistant-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 14px;
+            margin: 14px 0 18px;
+          }
+          .checklist {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0,1fr));
+            gap: 10px;
+          }
+          .check {
+            padding: 14px;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: rgba(255,255,255,0.64);
+          }
+          .check strong {
+            display: block;
+            margin-top: 8px;
+          }
+          .check.is-ok {
+            border-color: rgba(106,134,99,0.28);
+            background: rgba(106,134,99,0.1);
           }
           details.advanced {
             margin-top: 18px;
@@ -1330,7 +1375,9 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             .quickstart,
             .import-grid,
             .filters,
-            .editor-grid { grid-template-columns: 1fr; }
+            .editor-grid,
+            .assistant-grid,
+            .checklist { grid-template-columns: 1fr; }
           }
         </style>
       </head>
@@ -1503,9 +1550,22 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             <section class="panel">
               <h2>Edition recette</h2>
               <p class="muted">Creation rapide, enrichissement SEO, produits lies et publication sans quitter le poste editorial.</p>
+              <div class="assistant-grid">
+                <article class="card toolbar-card">
+                  <strong>Assistant de publication</strong>
+                  <p>#{recipe['slug'] ? "#{editorial_score}/#{editorial_checks.length} points clefs prets pour la publication." : 'Commencez par l identite, les produits et une source claire.'}</p>
+                  <div class="helper">Le bloc simple suffit dans la plupart des cas. Le JSON avance ne sert que pour des formats plus rares.</div>
+                </article>
+                <div class="checklist">
+                  #{editorial_checks.map { |label, ok|
+                    "<article class=\"check #{ok ? 'is-ok' : ''}\"><span class=\"pill\">#{ok ? 'ok' : 'a faire'}</span><strong>#{html_escape(label)}</strong></article>"
+                  }.join}
+                </div>
+              </div>
               <form method="post" action="/admin">
                 <input type="hidden" name="action" value="#{recipe['slug'] ? 'save_recipe' : 'create_recipe'}">
                 <div class="editor-grid">
+                  <div class="section-title">1. Identite & parcours</div>
                   <label>Slug
                     <input type="text" name="slug" value="#{html_escape(recipe['slug'])}" #{recipe['slug'] ? 'readonly' : ''} data-role="recipe-slug">
                   </label>
@@ -1585,6 +1645,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                   <label>Hero ambiance
                     <input type="text" name="hero_ambient_label" value="#{html_escape(recipe.dig('hero', 'ambient_label'))}">
                   </label>
+                  <div class="section-title">2. SEO & recherche</div>
                   <label>SEO title
                     <input type="text" name="seo_title" value="#{html_escape(recipe.dig('seo', 'title'))}" data-role="seo-title">
                   </label>
@@ -1600,6 +1661,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                   <label>Type auteur
                     <input type="text" name="submitted_by_type" value="#{html_escape(recipe.dig('submitted_by', 'type'))}">
                   </label>
+                  <div class="section-title">3. Contenu recette</div>
                   <label class="full">Ingredients simplifies
                     <textarea name="ingredient_groups_text" placeholder="Base:&#10;- 3 oeufs&#10;- 120 g sucre&#10;&#10;Finition:&#10;- 1 gousse de vanille">#{html_escape(ingredient_groups_text)}</textarea>
                   </label>
@@ -1612,6 +1674,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                   <label class="full">Produits lies
                     <textarea name="product_handles" placeholder="vanille-bourbon-madagascar-3-gousses&#10;caviar-vanille-bourbon-madagascar-20g">#{html_escape(product_handles_text)}</textarea>
                   </label>
+                  <div class="section-title">4. Produits & credits</div>
                   <label>Produit principal
                     <input type="text" name="primary_product_handle" value="#{html_escape(primary_product)}" placeholder="vanille-bourbon-madagascar-3-gousses">
                   </label>

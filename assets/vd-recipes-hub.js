@@ -58,9 +58,38 @@
         recipe.access,
         recipe.difficulty && recipe.difficulty.label,
         recipe.difficulty && recipe.difficulty.value,
-        recipe.search_terms && recipe.search_terms.join(' ')
+        recipe.search_terms && recipe.search_terms.join(' '),
+        recipe.tags && recipe.tags.join(' '),
+        recipe.collections && recipe.collections.join(' ')
       ].join(' ')
     );
+  }
+
+  function loadJSON(key, fallback) {
+    try {
+      var parsed = JSON.parse(window.localStorage.getItem(key) || 'null');
+      return parsed && typeof parsed === 'object' ? parsed : fallback;
+    } catch (error) {
+      return fallback;
+    }
+  }
+
+  function saveJSON(key, value) {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {}
+  }
+
+  function favoriteStore() {
+    var data = loadJSON('vd-recipes-favorites', { slugs: [] });
+    data.slugs = Array.isArray(data.slugs) ? data.slugs : [];
+    return data;
+  }
+
+  function historyStore() {
+    var data = loadJSON('vd-recipes-history', { items: [] });
+    data.items = Array.isArray(data.items) ? data.items : [];
+    return data;
   }
 
   function recipeHref(recipe) {
@@ -96,19 +125,59 @@
     return parts.join(' • ');
   }
 
+  function collectionLabel(value) {
+    var map = {
+      'recettes-gratuites': 'Recettes gratuites',
+      'recettes-premium': 'Recettes premium',
+      'desserts-a-la-vanille': 'Desserts vanille',
+      'petits-dejeuners-a-la-vanille': 'Petit dejeuner',
+      'vanille-salee': 'Vanille salee',
+      'accords-fruites': 'Accords fruites',
+      guides: 'Guides',
+      accords: 'Accords'
+    };
+    return map[value] || String(value || '').replace(/-/g, ' ');
+  }
+
+  function compactSummary(recipe) {
+    return escapeHtml(recipe.summary || recipe.subtitle || '');
+  }
+
+  function buildMiniCard(recipe, heroOverrides, modifier) {
+    var heroOverride = heroOverrides && heroOverrides[recipe.slug];
+    var cover = (heroOverride && heroOverride.image_url) || (recipe.hero && recipe.hero.image_url);
+
+    return (
+      '<article class="vd-recipes-hub__mini-card' + (modifier ? ' ' + modifier : '') + '">' +
+        '<a class="vd-recipes-hub__mini-link" href="' + escapeHtml(recipeHref(recipe)) + '">' +
+          '<div class="vd-recipes-hub__mini-media"' + (cover ? ' style="background-image:url(\'' + escapeHtml(cover) + '\')"' : '') + '>' +
+            (!cover ? '<span>Recette</span>' : '') +
+          '</div>' +
+          '<div class="vd-recipes-hub__mini-body">' +
+            '<strong>' + escapeHtml(recipe.title) + '</strong>' +
+            '<p>' + compactSummary(recipe) + '</p>' +
+          '</div>' +
+        '</a>' +
+      '</article>'
+    );
+  }
+
   function buildCard(recipe, heroOverrides) {
     var heroOverride = heroOverrides && heroOverrides[recipe.slug];
     var cover = (heroOverride && heroOverride.image_url) || (recipe.hero && recipe.hero.image_url);
     var accessLabel = recipe.access === 'member' ? 'Compte client' : 'Acces libre';
     var badge = recipe.category || 'Recette';
     var search = recipeSearchText(recipe);
+    var collections = Array.isArray(recipe.collections) ? recipe.collections.join(',') : '';
+    var favoriteSlugs = favoriteStore().slugs;
+    var isFavorite = favoriteSlugs.indexOf(recipe.slug) !== -1;
     var mediaClass = 'vd-recipes-hub__card-media' + (cover ? '' : ' is-placeholder');
     var placeholder = cover
       ? ''
       : '<div class="vd-recipes-hub__card-placeholder"><span>Visuel recette a poser</span><strong>' + escapeHtml(recipe.title) + '</strong></div>';
 
     return (
-      '<article class="vd-recipes-hub__card" data-vd-recipe-card data-search="' + escapeHtml(search) + '" data-access="' + escapeHtml(recipe.access || 'free') + '" data-difficulty="' + escapeHtml((recipe.difficulty && recipe.difficulty.value) || 'all') + '">' +
+      '<article class="vd-recipes-hub__card" data-vd-recipe-card data-slug="' + escapeHtml(recipe.slug || '') + '" data-search="' + escapeHtml(search) + '" data-access="' + escapeHtml(recipe.access || 'free') + '" data-difficulty="' + escapeHtml((recipe.difficulty && recipe.difficulty.value) || 'all') + '" data-collections="' + escapeHtml(collections) + '">' +
         '<a class="vd-recipes-hub__card-link" href="' + escapeHtml(recipeHref(recipe)) + '">' +
           '<div class="' + mediaClass + '"' + (cover ? ' style="background-image:url(\'' + escapeHtml(cover) + '\')"' : '') + '>' +
             '<div class="vd-recipes-hub__card-overlay"></div>' +
@@ -128,6 +197,7 @@
             '<span class="vd-recipes-hub__card-cta">Ouvrir</span>' +
           '</div>' +
         '</a>' +
+        '<button type="button" class="vd-recipes-hub__favorite' + (isFavorite ? ' is-active' : '') + '" data-vd-recipe-favorite-toggle data-slug="' + escapeHtml(recipe.slug || '') + '" aria-label="Ajouter aux favoris">' + (isFavorite ? 'Favori' : 'Sauver') + '</button>' +
       '</article>'
     );
   }
@@ -142,10 +212,12 @@
       var haystack = normalize(card.getAttribute('data-search'));
       var access = normalize(card.getAttribute('data-access'));
       var difficulty = normalize(card.getAttribute('data-difficulty'));
+      var collections = normalize(card.getAttribute('data-collections'));
       var matchesQuery = !state.query || haystack.indexOf(state.query) !== -1;
       var matchesAccess = state.access === 'all' || access === state.access;
       var matchesDifficulty = state.difficulty === 'all' || difficulty === state.difficulty;
-      var show = matchesQuery && matchesAccess && matchesDifficulty;
+      var matchesCollection = state.collection === 'all' || collections.indexOf(state.collection) !== -1;
+      var show = matchesQuery && matchesAccess && matchesDifficulty && matchesCollection;
 
       card.hidden = !show;
       if (show) visibleCount += 1;
@@ -166,6 +238,123 @@
     });
   }
 
+  function buildCollectionButtons(section, recipes, state) {
+    var target = section.querySelector('[data-vd-recipes-collection-filters]');
+    if (!target) return [];
+
+    var ordered = [];
+    recipes.forEach(function (recipe) {
+      (recipe.collections || []).forEach(function (collection) {
+        if (ordered.indexOf(collection) === -1) ordered.push(collection);
+      });
+    });
+
+    var interesting = ordered.filter(function (value) {
+      return /recettes|desserts|petits-dejeuners|salee|accords|guides/.test(value);
+    }).slice(0, 6);
+
+    target.innerHTML =
+      '<button type="button" class="vd-recipes-hub__filter' + (state.collection === 'all' ? ' is-active' : '') + '" data-vd-recipes-collection data-value="all">Tous les univers</button>' +
+      interesting.map(function (collection) {
+        return '<button type="button" class="vd-recipes-hub__filter' + (state.collection === collection ? ' is-active' : '') + '" data-vd-recipes-collection data-value="' + escapeHtml(collection) + '">' + escapeHtml(collectionLabel(collection)) + '</button>';
+      }).join('');
+
+    return Array.prototype.slice.call(target.querySelectorAll('[data-vd-recipes-collection]'));
+  }
+
+  function buildCollectionShowcase(section, recipes, heroOverrides) {
+    var target = section.querySelector('[data-vd-recipes-collections]');
+    if (!target) return;
+
+    var config = [
+      { key: 'desserts-a-la-vanille', title: 'Desserts a la vanille', text: 'Les recettes pilier pour installer Vanille Desire sur les requetes coeur de gamme.' },
+      { key: 'vanille-salee', title: 'Vanille salee', text: 'Le territoire le plus differentiant pour la marque, avec des recettes qui surprennent sans perdre en lisibilite.' },
+      { key: 'petits-dejeuners-a-la-vanille', title: 'Petit dejeuner & gouter', text: 'Des formats simples a refaire souvent, parfaits pour la recurrence et le carnet personnel.' }
+    ];
+
+    var panels = config.map(function (entry) {
+      var items = recipes.filter(function (recipe) {
+        return Array.isArray(recipe.collections) && recipe.collections.indexOf(entry.key) !== -1;
+      }).slice(0, 3);
+
+      if (!items.length) return '';
+
+      return (
+        '<article class="vd-recipes-hub__collection-panel">' +
+          '<div class="vd-recipes-hub__collection-copy">' +
+            '<span class="vd-recipes-hub__panel-label">Collection</span>' +
+            '<h2>' + escapeHtml(entry.title) + '</h2>' +
+            '<p>' + escapeHtml(entry.text) + '</p>' +
+          '</div>' +
+          '<div class="vd-recipes-hub__collection-grid">' +
+            items.map(function (recipe) { return buildMiniCard(recipe, heroOverrides); }).join('') +
+          '</div>' +
+        '</article>'
+      );
+    }).join('');
+
+    target.innerHTML = panels;
+    target.hidden = !panels;
+  }
+
+  function buildPersonalRails(section, recipes, heroOverrides) {
+    var rails = section.querySelector('[data-vd-recipes-rails]');
+    var historyPanel = section.querySelector('[data-vd-recipes-history]');
+    var historyTrack = section.querySelector('[data-vd-recipes-history-track]');
+    var favoritesPanel = section.querySelector('[data-vd-recipes-favorites]');
+    var favoritesTrack = section.querySelector('[data-vd-recipes-favorites-track]');
+    if (!rails || !historyPanel || !favoritesPanel || !historyTrack || !favoritesTrack) return;
+
+    var history = historyStore().items
+      .map(function (entry) {
+        return recipes.find(function (recipe) { return recipe.slug === entry.slug; });
+      })
+      .filter(Boolean)
+      .slice(0, 6);
+    var favorites = favoriteStore().slugs
+      .map(function (slug) {
+        return recipes.find(function (recipe) { return recipe.slug === slug; });
+      })
+      .filter(Boolean)
+      .slice(0, 6);
+
+    historyTrack.innerHTML = history.map(function (recipe) {
+      return buildMiniCard(recipe, heroOverrides, 'is-history');
+    }).join('');
+    favoritesTrack.innerHTML = favorites.map(function (recipe) {
+      return buildMiniCard(recipe, heroOverrides, 'is-favorite');
+    }).join('');
+
+    historyPanel.hidden = history.length === 0;
+    favoritesPanel.hidden = favorites.length === 0;
+    rails.hidden = history.length === 0 && favorites.length === 0;
+  }
+
+  function bindFavoriteButtons(section, recipes, heroOverrides, state) {
+    Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipe-favorite-toggle]')).forEach(function (button) {
+      button.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        var slug = button.getAttribute('data-slug');
+        var store = favoriteStore();
+        var index = store.slugs.indexOf(slug);
+        if (index === -1) {
+          store.slugs.unshift(slug);
+        } else {
+          store.slugs.splice(index, 1);
+        }
+        store.slugs = store.slugs.slice(0, 20);
+        saveJSON('vd-recipes-favorites', store);
+
+        button.classList.toggle('is-active', index === -1);
+        button.textContent = index === -1 ? 'Favori' : 'Sauver';
+        buildPersonalRails(section, recipes, heroOverrides);
+        applyFilters(section, state);
+      });
+    });
+  }
+
   function initRecipesHub(section) {
     if (!section || section.__vdRecipesHubReady) return;
     section.__vdRecipesHubReady = true;
@@ -182,7 +371,8 @@
     var heroOverrides = buildHeroOverrideMap(section);
     var accessButtons = Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipes-access]'));
     var difficultyButtons = Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipes-difficulty]'));
-    var state = { query: '', access: 'all', difficulty: 'all' };
+    var collectionButtons = [];
+    var state = { query: '', access: 'all', difficulty: 'all', collection: 'all' };
     var requestedRecipe = new URLSearchParams(window.location.search).get('recipe');
 
     if (!registryUrl || !grid || !input) return;
@@ -210,6 +400,17 @@
         grid.innerHTML = approved.map(function (recipe) {
           return buildCard(recipe, heroOverrides);
         }).join('');
+        collectionButtons = buildCollectionButtons(section, approved, state);
+        buildPersonalRails(section, approved, heroOverrides);
+        buildCollectionShowcase(section, approved, heroOverrides);
+        bindFavoriteButtons(section, approved, heroOverrides, state);
+        collectionButtons.forEach(function (button) {
+          button.addEventListener('click', function () {
+            state.collection = button.getAttribute('data-value') || 'all';
+            setButtonState(collectionButtons, state.collection);
+            applyFilters(section, state);
+          });
+        });
 
         if (totalNode) totalNode.textContent = String(approved.length);
         if (freeNode) {
@@ -284,6 +485,7 @@
         applyFilters(section, state);
       });
     });
+
   }
 
   function initAll() {

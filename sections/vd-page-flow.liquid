@@ -171,7 +171,33 @@
             <button type="button" class="vd-recipes-hub__filter" data-vd-recipes-difficulty data-value="intermediaire">Intermediaire</button>
             <button type="button" class="vd-recipes-hub__filter" data-vd-recipes-difficulty data-value="signature">Signature</button>
           </div>
+
+          <div class="vd-recipes-hub__filters vd-recipes-hub__filters--collections" role="toolbar" aria-label="Filtrer par univers" data-vd-recipes-collection-filters></div>
         </div>
+
+        <div class="vd-recipes-hub__rails" data-vd-recipes-rails hidden>
+          <section class="vd-recipes-hub__rail" data-vd-recipes-history hidden>
+            <div class="vd-recipes-hub__rail-head">
+              <div>
+                <span class="vd-recipes-hub__panel-label">Session</span>
+                <h2>Reprendre une recette deja ouverte.</h2>
+              </div>
+            </div>
+            <div class="vd-recipes-hub__rail-track" data-vd-recipes-history-track></div>
+          </section>
+
+          <section class="vd-recipes-hub__rail" data-vd-recipes-favorites hidden>
+            <div class="vd-recipes-hub__rail-head">
+              <div>
+                <span class="vd-recipes-hub__panel-label">Carnet</span>
+                <h2>Vos recettes favorites pour revenir plus vite.</h2>
+              </div>
+            </div>
+            <div class="vd-recipes-hub__rail-track" data-vd-recipes-favorites-track></div>
+          </section>
+        </div>
+
+        <section class="vd-recipes-hub__collections" data-vd-recipes-collections></section>
 
         <div class="vd-recipes-hub__grid" data-vd-recipes-grid></div>
 

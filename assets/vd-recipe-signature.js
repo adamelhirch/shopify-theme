@@ -65,6 +65,60 @@
     return sentence.slice(0, Math.max(0, maxLength - 1)).trim() + '…';
   }
 
+  function loadJSON(key, fallback) {
+    try {
+      var parsed = JSON.parse(window.localStorage.getItem(key) || 'null');
+      return parsed && typeof parsed === 'object' ? parsed : fallback;
+    } catch (error) {
+      return fallback;
+    }
+  }
+
+  function saveJSON(key, value) {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {}
+  }
+
+  function getFavoriteStore() {
+    var data = loadJSON('vd-recipes-favorites', { slugs: [] });
+    data.slugs = Array.isArray(data.slugs) ? data.slugs : [];
+    return data;
+  }
+
+  function isFavoriteRecipe(slug) {
+    return getFavoriteStore().slugs.indexOf(slug) !== -1;
+  }
+
+  function toggleFavoriteRecipe(slug) {
+    var store = getFavoriteStore();
+    var index = store.slugs.indexOf(slug);
+    if (index === -1) {
+      store.slugs.unshift(slug);
+    } else {
+      store.slugs.splice(index, 1);
+    }
+    store.slugs = store.slugs.slice(0, 20);
+    saveJSON('vd-recipes-favorites', store);
+    return index === -1;
+  }
+
+  function pushRecipeHistory(recipe) {
+    if (!recipe || !recipe.slug) return;
+    var store = loadJSON('vd-recipes-history', { items: [] });
+    store.items = Array.isArray(store.items) ? store.items : [];
+    store.items = store.items.filter(function (entry) {
+      return entry && entry.slug !== recipe.slug;
+    });
+    store.items.unshift({
+      slug: recipe.slug,
+      title: recipe.title || '',
+      at: new Date().toISOString()
+    });
+    store.items = store.items.slice(0, 12);
+    saveJSON('vd-recipes-history', store);
+  }
+
   function showToast(section, message) {
     var toast = section.querySelector('[data-vd-recipe-toast]');
     if (!toast) return;
@@ -224,6 +278,49 @@
     '</div></article>';
   }
 
+  function relatedRecipesFor(recipe, recipes) {
+    if (!Array.isArray(recipes)) return [];
+
+    var baseTags = Array.isArray(recipe.tags) ? recipe.tags : [];
+    return recipes
+      .filter(function (entry) {
+        return entry && entry.slug !== recipe.slug && entry.status === 'approved';
+      })
+      .map(function (entry) {
+        var score = 0;
+        if (entry.category && recipe.category && entry.category === recipe.category) score += 2;
+        if (entry.access === recipe.access) score += 1;
+        if (Array.isArray(entry.collections) && Array.isArray(recipe.collections)) {
+          entry.collections.forEach(function (collection) {
+            if (recipe.collections.indexOf(collection) !== -1) score += 3;
+          });
+        }
+        if (Array.isArray(entry.tags)) {
+          entry.tags.forEach(function (tag) {
+            if (baseTags.indexOf(tag) !== -1) score += 1;
+          });
+        }
+        return { recipe: entry, score: score };
+      })
+      .sort(function (left, right) {
+        return right.score - left.score;
+      })
+      .slice(0, 3)
+      .map(function (entry) {
+        return entry.recipe;
+      });
+  }
+
+  function renderRelated(recipe, items) {
+    if (!Array.isArray(items) || !items.length) return '';
+
+    return '<article class="vd-recipe-signature__related"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">A poursuivre</span><h2>Continuer la lecture dans le meme univers.</h2></div></div><div class="vd-recipe-signature__related-grid">' +
+      items.map(function (entry) {
+        return '<a class="vd-recipe-signature__related-card" href="' + escapeHtml(appendPreviewThemeId((entry.page_url || ('/pages/recettes?recipe=' + encodeURIComponent(entry.slug || ''))))) + '" data-vd-preview-link><span>' + escapeHtml(entry.category || 'Recette') + '</span><strong>' + escapeHtml(entry.title) + '</strong><p>' + escapeHtml(entry.summary || entry.subtitle || '') + '</p></a>';
+      }).join('') +
+    '</div></article>';
+  }
+
   function renderMedia(media, recipe) {
     var hero = recipe.hero || {};
 
@@ -304,7 +401,7 @@
       .join('');
   }
 
-  function renderRecipeShell(section, recipe, isLocked) {
+  function renderRecipeShell(section, recipe, isLocked, relatedRecipes) {
     var shell = section.querySelector('[data-vd-recipe-shell]');
     var loginUrl = section.getAttribute('data-login-url') || '/account/login';
     var registerUrl = section.getAttribute('data-register-url') || '/account/register';
@@ -346,6 +443,7 @@
       .join('');
     var recipeSummary = escapeHtml(recipe.description || recipe.summary || '');
     var recipeSubtitle = escapeHtml(recipe.subtitle || recipe.summary || '');
+    var favoriteActive = isFavoriteRecipe(recipe.slug);
     var editorialPanel =
       (recipe.seo && Array.isArray(recipe.seo.body_sections) && recipe.seo.body_sections.length
         ? '<article class="vd-recipe-signature__editorial"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Conseils & contexte</span><h2>Ce qu il faut savoir avant de lancer la recette.</h2></div></div><div class="vd-recipe-signature__editorial-grid">' +
@@ -367,6 +465,7 @@
         ? '<article class="vd-recipe-signature__story"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Visuels recette</span><h2>Une lecture visuelle pour suivre chaque geste.</h2></div></div><div class="vd-recipe-signature__story-grid">' + renderEditorialMedia(recipe.story_media, 'vd-recipe-signature__story-card') + '</div></article>'
         : '');
     var sourcePanel = renderSources(recipe);
+    var relatedPanel = renderRelated(recipe, relatedRecipes);
     var shopPanel =
       ((productUrl || collectionUrl)
         ? '<article class="vd-recipe-signature__shop" data-vd-recipe-shop data-product-handle="' + escapeHtml((recipe.product && recipe.product.handle) || '') + '" data-collection-handle="' + escapeHtml((recipe.product && recipe.product.collection_handle) || '') + '">' +
@@ -401,6 +500,7 @@
               : '<a href="#VDRecipeIngredients" class="vd-recipe-signature__hero-link is-primary">Voir les ingredients</a><a href="#VDRecipePreparation" class="vd-recipe-signature__hero-link is-secondary">Voir la preparation</a>'
             ) +
           '</div>' +
+          (!isLocked ? '<button type="button" class="vd-recipe-signature__hero-favorite' + (favoriteActive ? ' is-active' : '') + '" data-vd-recipe-favorite>' + (favoriteActive ? 'Dans vos favoris' : 'Ajouter au carnet') + '</button>' : '') +
         '</aside>' +
       '</div>' +
       (isLocked
@@ -419,7 +519,7 @@
             '<div class="vd-recipe-signature__preview">' +
               '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Ingredients</span><h2>Avant de cuisiner</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__preview-copy">' + previewIngredients + '</div></article>' +
               '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Etapes</span><h2>Lecture libre</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__preview-copy">' + previewSteps + '</div></article>' +
-            '</div>' + editorialPanel + faqPanel + sourcePanel + shopPanel +
+            '</div>' + editorialPanel + faqPanel + sourcePanel + relatedPanel + shopPanel +
           '</div>'
         : '<div class="vd-recipe-signature__fullscreen-spotlight">' +
             '<button type="button" class="vd-recipe-signature__fullscreen-button" data-vd-recipe-fullscreen>Plein ecran</button>' +
@@ -452,7 +552,7 @@
                 ? '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">A retenir</span><h2>Deux repères vraiment utiles.</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__tips-compact" data-vd-recipe-tips></div></article>'
                 : '') +
             '</aside>' +
-          '</div>' + faqPanel + sourcePanel + shopPanel
+          '</div>' + faqPanel + sourcePanel + relatedPanel + shopPanel
       );
   }
 
@@ -605,6 +705,7 @@
     var sessionJumpButton = section.querySelector('[data-vd-recipe-session-jump]');
     var focusButton = section.querySelector('[data-vd-recipe-focus]');
     var fullscreenButton = section.querySelector('[data-vd-recipe-fullscreen]');
+    var favoriteButton = section.querySelector('[data-vd-recipe-favorite]');
     var toggleButton = section.querySelector('[data-vd-recipe-toggle]');
     var copyButton = section.querySelector('[data-vd-recipe-copy]');
     var downloadButton = section.querySelector('[data-vd-recipe-download]');
@@ -1105,6 +1206,15 @@
       saveState(storageKey, state);
     });
 
+    if (favoriteButton) {
+      favoriteButton.addEventListener('click', function () {
+        var active = toggleFavoriteRecipe(recipe.slug);
+        favoriteButton.classList.toggle('is-active', active);
+        favoriteButton.textContent = active ? 'Dans vos favoris' : 'Ajouter au carnet';
+        showToast(section, active ? 'Ajoute au carnet' : 'Retire du carnet');
+      });
+    }
+
     fullscreenButton.addEventListener('click', function () {
       if (!document.fullscreenElement && section.requestFullscreen) {
         section.requestFullscreen();
@@ -1364,10 +1474,11 @@
         }
 
         recipe = applyEditorMedia(recipe, parseEditorMedia(section, requestedSlug));
+        pushRecipeHistory(recipe);
 
         var isLocked = requireCustomerAccess && recipe.access === 'member' && !customerAuthenticated;
         renderMedia(media, recipe);
-        renderRecipeShell(section, recipe, isLocked);
+        renderRecipeShell(section, recipe, isLocked, relatedRecipesFor(recipe, recipes));
 
         if (schemaNode) {
           schemaNode.textContent = JSON.stringify(buildStructuredData(recipe));
