@@ -34,6 +34,7 @@ PREVIEW_MANAGER = ShopifyPreviewManager.build_from_env(settings: STUDIO_SETTINGS
 SESSION_COOKIE = 'vd_recipes_admin_session'
 SESSION_SECRET = ENV.fetch('VD_RECIPES_SESSION_SECRET', 'vd-recipes-local-session-secret')
 SESSION_TTL = Integer(ENV.fetch('VD_RECIPES_SESSION_TTL', '43200'))
+SHOPIFY_APP_PROXY_PATH = ENV.fetch('VD_RECIPES_SHOPIFY_APP_PROXY_PATH', '/apps/recipes-studio/shelf')
 
 def json_response(response, status, payload)
   response.status = status
@@ -248,6 +249,29 @@ def public_shelf_payload(request, shelf)
       path: request.path,
       customer_id: request.query['logged_in_customer_id'],
       customer_email: request.query['logged_in_customer_email']
+    }
+  }
+end
+
+def app_proxy_config_payload
+  {
+    ok: true,
+    proxy_path: SHOPIFY_APP_PROXY_PATH,
+    configured: SHOPIFY_APP_PROXY_AUTH.configured? && SHOPIFY_CUSTOMER_SHELF.configured?,
+    auth: {
+      configured: SHOPIFY_APP_PROXY_AUTH.configured?,
+      errors: SHOPIFY_APP_PROXY_AUTH.configuration_errors
+    },
+    customer_shelf: {
+      configured: SHOPIFY_CUSTOMER_SHELF.configured?,
+      shop_domain: SHOPIFY_CUSTOMER_SHELF.shop_domain,
+      api_version: SHOPIFY_CUSTOMER_SHELF.api_version,
+      errors: SHOPIFY_CUSTOMER_SHELF.configuration_errors
+    },
+    shopify_app_suggested: {
+      app_proxy_subpath_prefix: 'apps',
+      app_proxy_subpath: 'recipes-studio',
+      endpoint_path: SHOPIFY_APP_PROXY_PATH
     }
   }
 end
@@ -1322,6 +1346,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   shopify_ready = shopify_errors.empty?
   customer_shelf_ready = SHOPIFY_CUSTOMER_SHELF.configuration_errors.empty?
   app_proxy_ready = SHOPIFY_APP_PROXY_AUTH.configuration_errors.empty?
+  app_proxy_config = app_proxy_config_payload
   editorial_checks = [
     ['Identite', recipe['title'].to_s.strip != '' && recipe['slug'].to_s.strip != ''],
     ['Hero', recipe.dig('hero', 'video_url').to_s.strip != '' || recipe.dig('hero', 'image_url').to_s.strip != ''],
@@ -1776,7 +1801,14 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
               <article class="card toolbar-card">
                 <strong>App proxy public</strong>
                 <p>#{app_proxy_ready ? 'Le service peut maintenant repondre a un app proxy Shopify signe pour lire et ecrire le carnet en direct.' : html_escape(SHOPIFY_APP_PROXY_AUTH.configuration_errors.join(' · '))}</p>
+                <div class="helper">Chemin recommande: <code>#{html_escape(app_proxy_config[:proxy_path])}</code></div>
               </article>
+            </div>
+            <div class="card toolbar-card" style="margin-top:16px;">
+              <strong>Configuration Shopify recommandee</strong>
+              <div class="helper">Prefixe: <code>apps</code> · Sous-chemin: <code>recipes-studio</code> · Endpoint theme: <code>#{html_escape(app_proxy_config[:proxy_path])}</code></div>
+              <div class="helper">Le theme peut pointer vers ce chemin dans l editeur Shopify sans changer le code.</div>
+              <div class="helper">Verif admin JSON: <code>/shopify/app-proxy/config</code></div>
             </div>
             <form method="post" action="/admin" style="margin-top:16px;">
               <input type="hidden" name="action" value="sync_customer_recipe_shelf">
@@ -2620,7 +2652,7 @@ rescue ArgumentError, KeyError => e
   json_response(response, 422, { error: e.message })
 end
 
-server.mount_proc '/app-proxy/recipes/shelf' do |request, response|
+app_proxy_shelf_handler = proc do |request, response|
   next unless require_app_proxy!(request, response)
 
   customer_id = request.query['logged_in_customer_id'].to_s.strip
@@ -2640,8 +2672,8 @@ server.mount_proc '/app-proxy/recipes/shelf' do |request, response|
     shelf = SHOPIFY_CUSTOMER_SHELF.sync(
       customer_id: customer_id,
       email: customer_email,
-      favorites: Array(payload['favorites']),
-      history: normalize_public_history(payload['history']),
+      favorites: payload['favorites'],
+      history: payload['history'].is_a?(Hash) ? payload['history'] : { 'items' => normalize_public_history(payload['history']) },
       actor: actor
     )
     json_response(response, 200, public_shelf_payload(request, shelf))
@@ -2650,6 +2682,16 @@ server.mount_proc '/app-proxy/recipes/shelf' do |request, response|
   end
 rescue ArgumentError, KeyError => e
   json_response(response, 422, { error: e.message })
+end
+
+server.mount_proc '/app-proxy/recipes/shelf', &app_proxy_shelf_handler
+server.mount_proc SHOPIFY_APP_PROXY_PATH, &app_proxy_shelf_handler
+
+server.mount_proc '/shopify/app-proxy/config' do |request, response|
+  actor = require_permission!(request, response, 'admin')
+  next unless actor
+
+  json_response(response, 200, app_proxy_config_payload)
 end
 
 server.mount_proc '/recipes' do |request, response|

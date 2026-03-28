@@ -33,6 +33,8 @@ export VD_RECIPES_STORE=json
 export VD_RECIPES_SHOPIFY_STORE=4bru0c-p4.myshopify.com
 export VD_RECIPES_SHOPIFY_ADMIN_TOKEN=shpat_xxx
 export VD_RECIPES_SHOPIFY_API_VERSION=2025-10
+export VD_RECIPES_SHOPIFY_API_SECRET=shpss_xxx
+export VD_RECIPES_SHOPIFY_APP_PROXY_PATH=/apps/recipes-studio/shelf
 ```
 
 Backends disponibles:
@@ -125,6 +127,7 @@ Admin / edition:
 - `POST /recipes/:slug/archive`
 - `POST /recipes/:slug/publish-shopify`
 - `POST /exports/registry`
+- `GET /shopify/app-proxy/config`
 
 Les routes protegees attendent:
 
@@ -174,6 +177,31 @@ Cette page donne:
 - le rappel des endpoints utiles
 
 Le login du back-office cree une session locale signee en cookie HTTP-only. Les tokens en query string ne sont plus necessaires pour l'interface HTML.
+
+## Carnet client persistant via app proxy Shopify
+
+Le theme peut maintenant synchroniser le carnet recette en direct avec le compte client Shopify via un vrai app proxy signe.
+
+Variables necessaires:
+
+```bash
+export VD_RECIPES_SHOPIFY_STORE=4bru0c-p4.myshopify.com
+export VD_RECIPES_SHOPIFY_ADMIN_TOKEN=shpat_xxx
+export VD_RECIPES_SHOPIFY_API_SECRET=shpss_xxx
+export VD_RECIPES_SHOPIFY_APP_PROXY_PATH=/apps/recipes-studio/shelf
+```
+
+Configuration Shopify recommandee pour l'app:
+
+- prefixe proxy: `apps`
+- sous-chemin proxy: `recipes-studio`
+- chemin utilise par le theme: `/apps/recipes-studio/shelf`
+
+Verification rapide:
+
+- back-office JSON: `GET /shopify/app-proxy/config`
+- storefront: renseigner `Endpoint carnet client` avec `/apps/recipes-studio/shelf`
+- le theme fusionne maintenant les favoris / historiques locaux avec Shopify avant de re-synchroniser, pour eviter la perte de donnees quand on active la persistance apres coup
 
 Exemple de brief importable:
 

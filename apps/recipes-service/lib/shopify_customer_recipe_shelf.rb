@@ -1,5 +1,6 @@
 require 'json'
 require 'net/http'
+require 'time'
 require 'uri'
 
 class ShopifyCustomerRecipeShelf
@@ -105,16 +106,8 @@ class ShopifyCustomerRecipeShelf
     raise KeyError, 'customer not found' unless customer
 
     now = Time.now.utc.iso8601
-    favorite_payload = {
-      'slugs' => normalize_slugs(favorites),
-      'updated_at' => now,
-      'updated_by' => actor.to_s
-    }
-    history_payload = {
-      'items' => normalize_history(history, now),
-      'updated_at' => now,
-      'updated_by' => actor.to_s
-    }
+    favorite_payload = normalize_favorites_payload(favorites, now, actor)
+    history_payload = normalize_history_payload(history, now, actor)
 
     payload = graphql(
       METAFIELDS_SET_MUTATION,
@@ -194,10 +187,55 @@ class ShopifyCustomerRecipeShelf
     Array(values).map { |value| value.to_s.strip }.reject(&:empty?).uniq.first(24)
   end
 
-  def normalize_history(values, timestamp)
-    normalize_slugs(values).map do |slug|
-      { 'slug' => slug, 'saved_at' => timestamp }
-    end
+  def normalize_favorites_payload(values, timestamp, actor)
+    source = values.is_a?(Hash) ? values : {}
+    {
+      'slugs' => normalize_slugs(source['slugs'] || source[:slugs] || values),
+      'updated_at' => normalize_timestamp(source['updated_at'] || source[:updated_at], timestamp),
+      'updated_by' => source['updated_by'].to_s.strip.empty? ? actor.to_s : source['updated_by'].to_s
+    }
+  end
+
+  def normalize_history_payload(values, timestamp, actor)
+    source = values.is_a?(Hash) ? values : {}
+    {
+      'items' => normalize_history_items(source['items'] || source[:items] || values, timestamp),
+      'updated_at' => normalize_timestamp(source['updated_at'] || source[:updated_at], timestamp),
+      'updated_by' => source['updated_by'].to_s.strip.empty? ? actor.to_s : source['updated_by'].to_s
+    }
+  end
+
+  def normalize_history_items(values, timestamp)
+    Array(values).each_with_object([]) do |entry, items|
+      normalized =
+        if entry.is_a?(Hash)
+          slug = entry['slug'].to_s.strip
+          next if slug.empty?
+
+          {
+            'slug' => slug,
+            'saved_at' => normalize_timestamp(entry['saved_at'] || entry[:saved_at] || entry['at'] || entry[:at], timestamp)
+          }
+        else
+          slug = entry.to_s.strip
+          next if slug.empty?
+
+          { 'slug' => slug, 'saved_at' => timestamp }
+        end
+
+      next if items.any? { |item| item['slug'] == normalized['slug'] }
+
+      items << normalized
+    end.first(24)
+  end
+
+  def normalize_timestamp(value, fallback)
+    candidate = value.to_s.strip
+    return fallback if candidate.empty?
+
+    Time.parse(candidate).utc.iso8601
+  rescue ArgumentError
+    fallback
   end
 
   def graphql(query, variables = {})

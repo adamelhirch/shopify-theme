@@ -80,6 +80,87 @@
     } catch (error) {}
   }
 
+  function normalizeFavoritePayload(data) {
+    var source = data && typeof data === 'object' ? data : {};
+    return {
+      slugs: Array.isArray(source.slugs)
+        ? source.slugs.map(function (value) { return String(value || '').trim(); }).filter(Boolean).slice(0, 24)
+        : [],
+      updated_at: source.updated_at || '',
+      updated_by: source.updated_by || ''
+    };
+  }
+
+  function normalizeHistoryPayload(data) {
+    var source = data && typeof data === 'object' ? data : {};
+    return {
+      items: Array.isArray(source.items)
+        ? source.items.map(function (entry) {
+            var item = entry && typeof entry === 'object' ? entry : { slug: entry };
+            var slug = String(item.slug || '').trim();
+            if (!slug) return null;
+            return {
+              slug: slug,
+              saved_at: item.saved_at || item.at || '',
+              title: item.title || ''
+            };
+          }).filter(Boolean).slice(0, 24)
+        : [],
+      updated_at: source.updated_at || '',
+      updated_by: source.updated_by || ''
+    };
+  }
+
+  function payloadSignature(value) {
+    return JSON.stringify(value || {});
+  }
+
+  function mergeFavoritePayloads(localPayload, remotePayload) {
+    var local = normalizeFavoritePayload(localPayload);
+    var remote = normalizeFavoritePayload(remotePayload);
+    var merged = [];
+
+    remote.slugs.concat(local.slugs).forEach(function (slug) {
+      if (merged.indexOf(slug) === -1) merged.push(slug);
+    });
+
+    return {
+      slugs: merged.slice(0, 24),
+      updated_at: local.updated_at || remote.updated_at || '',
+      updated_by: local.updated_by || remote.updated_by || ''
+    };
+  }
+
+  function mergeHistoryPayloads(localPayload, remotePayload) {
+    var local = normalizeHistoryPayload(localPayload);
+    var remote = normalizeHistoryPayload(remotePayload);
+    var bySlug = {};
+
+    remote.items.concat(local.items).forEach(function (entry) {
+      if (!entry || !entry.slug) return;
+      var current = bySlug[entry.slug];
+      var currentTime = current && Date.parse(current.saved_at || '') || 0;
+      var nextTime = Date.parse(entry.saved_at || '') || 0;
+      if (!current || nextTime >= currentTime) {
+        bySlug[entry.slug] = {
+          slug: entry.slug,
+          saved_at: entry.saved_at || new Date().toISOString(),
+          title: entry.title || (current && current.title) || ''
+        };
+      }
+    });
+
+    return {
+      items: Object.keys(bySlug).map(function (slug) {
+        return bySlug[slug];
+      }).sort(function (left, right) {
+        return (Date.parse(right.saved_at || '') || 0) - (Date.parse(left.saved_at || '') || 0);
+      }).slice(0, 24),
+      updated_at: local.updated_at || remote.updated_at || '',
+      updated_by: local.updated_by || remote.updated_by || ''
+    };
+  }
+
   function createShelfClient(section) {
     var endpoint = (section.getAttribute('data-customer-shelf-endpoint') || '').trim();
     var authenticated = section.getAttribute('data-customer-authenticated') === 'true';
@@ -108,22 +189,31 @@
       },
       syncLocalStores: function () {
         return request('POST', {
-          favorites: getFavoriteStore().slugs,
-          history: loadJSON('vd-recipes-history', { items: [] }).items || []
+          favorites: getFavoriteStore(),
+          history: getHistoryStore()
         });
       },
       applyRemote: function (payload) {
-        if (!payload || !payload.favorites || !payload.history) return;
-        saveJSON('vd-recipes-favorites', payload.favorites);
-        saveJSON('vd-recipes-history', payload.history);
+        if (!payload) return { changed: false };
+        var mergedFavorites = mergeFavoritePayloads(getFavoriteStore(), payload.favorites);
+        var mergedHistory = mergeHistoryPayloads(getHistoryStore(), payload.history);
+        var remoteFavorites = normalizeFavoritePayload(payload.favorites);
+        var remoteHistory = normalizeHistoryPayload(payload.history);
+        saveJSON('vd-recipes-favorites', mergedFavorites);
+        saveJSON('vd-recipes-history', mergedHistory);
+        return {
+          changed: payloadSignature(mergedFavorites) !== payloadSignature(remoteFavorites) || payloadSignature(mergedHistory) !== payloadSignature(remoteHistory)
+        };
       }
     };
   }
 
   function getFavoriteStore() {
-    var data = loadJSON('vd-recipes-favorites', { slugs: [] });
-    data.slugs = Array.isArray(data.slugs) ? data.slugs : [];
-    return data;
+    return normalizeFavoritePayload(loadJSON('vd-recipes-favorites', { slugs: [] }));
+  }
+
+  function getHistoryStore() {
+    return normalizeHistoryPayload(loadJSON('vd-recipes-history', { items: [] }));
   }
 
   function isFavoriteRecipe(slug) {
@@ -139,23 +229,26 @@
       store.slugs.splice(index, 1);
     }
     store.slugs = store.slugs.slice(0, 20);
+    store.updated_at = new Date().toISOString();
+    store.updated_by = 'storefront';
     saveJSON('vd-recipes-favorites', store);
     return index === -1;
   }
 
   function pushRecipeHistory(recipe) {
     if (!recipe || !recipe.slug) return;
-    var store = loadJSON('vd-recipes-history', { items: [] });
-    store.items = Array.isArray(store.items) ? store.items : [];
+    var store = getHistoryStore();
     store.items = store.items.filter(function (entry) {
       return entry && entry.slug !== recipe.slug;
     });
     store.items.unshift({
       slug: recipe.slug,
       title: recipe.title || '',
-      at: new Date().toISOString()
+      saved_at: new Date().toISOString()
     });
     store.items = store.items.slice(0, 12);
+    store.updated_at = new Date().toISOString();
+    store.updated_by = 'storefront';
     saveJSON('vd-recipes-history', store);
   }
 
@@ -1515,7 +1608,10 @@
 
     var shelfReady = shelfClient.enabled
       ? shelfClient.fetch().then(function (payload) {
-          shelfClient.applyRemote(payload);
+          var remoteState = shelfClient.applyRemote(payload);
+          if (remoteState && remoteState.changed) {
+            return shelfClient.syncLocalStores().catch(function () {});
+          }
         }).catch(function () {})
       : Promise.resolve();
 
