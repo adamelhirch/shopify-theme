@@ -1750,6 +1750,28 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
           .media-slot__inputs--compact {
             grid-template-columns: 0.5fr 1.5fr;
           }
+          .media-slot__toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+          }
+          .media-slot__tool {
+            width: auto;
+            min-height: 40px;
+            padding: 10px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.94);
+            color: var(--text);
+            border: 1px solid var(--line);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+          }
+          .media-slot__tool--danger {
+            background: rgba(128,35,35,0.08);
+            color: #7c1f1f;
+          }
           @media (max-width: 960px) {
             .summary,
             .grid { grid-template-columns: 1fr; }
@@ -2090,16 +2112,19 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                           caption: recipe.dig('hero', 'ambient_label').to_s,
                           alt: recipe.dig('hero', 'image_alt').to_s
                         )}
-                        <div class="media-slot">
+                        <div class="media-slot" data-media-slot data-media-group="hero" data-media-index="0">
                           <div class="media-slot__inputs">
+                            <div class="media-slot__toolbar">
+                              <button class="media-slot__tool media-slot__tool--danger" type="button" data-media-clear>Vider le hero</button>
+                            </div>
                             <label>Hero vidéo
-                              <input type="text" name="hero_video_url" value="#{html_escape(recipe.dig('hero', 'video_url'))}" placeholder="MP4 libre de droit ou vidéo Shopify publiée">
+                              <input type="text" name="hero_video_url" value="#{html_escape(recipe.dig('hero', 'video_url'))}" placeholder="MP4 libre de droit ou vidéo Shopify publiée" data-media-field="url-video">
                             </label>
                             <label>Hero image
-                              <input type="text" name="hero_image_url" value="#{html_escape(recipe.dig('hero', 'image_url'))}" placeholder="https://cdn.shopify.com/...">
+                              <input type="text" name="hero_image_url" value="#{html_escape(recipe.dig('hero', 'image_url'))}" placeholder="https://cdn.shopify.com/..." data-media-field="url-image">
                             </label>
                             <label>Hero ambiance
-                              <input type="text" name="hero_ambient_label" value="#{html_escape(recipe.dig('hero', 'ambient_label'))}" placeholder="Friture nette, cœur fondant, vanille lisible.">
+                              <input type="text" name="hero_ambient_label" value="#{html_escape(recipe.dig('hero', 'ambient_label'))}" placeholder="Friture nette, cœur fondant, vanille lisible." data-media-field="caption">
                             </label>
                           </div>
                         </div>
@@ -2113,7 +2138,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                       <div class="media-studio__gallery-grid">
                   #{story_media_slot_items.each_with_index.map { |slot, index|
                     <<~HTML
-                      <article class="media-slot">
+                      <article class="media-slot" data-media-slot data-media-group="gallery" data-media-index="#{index + 1}">
                         #{media_preview_markup(
                           kind: slot['kind'],
                           url: slot['url'],
@@ -2122,22 +2147,28 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                           alt: slot['alt']
                         )}
                         <div class="media-slot__inputs">
+                          <div class="media-slot__toolbar">
+                            <button class="media-slot__tool" type="button" data-media-move-up>Monter</button>
+                            <button class="media-slot__tool" type="button" data-media-move-down>Descendre</button>
+                            <button class="media-slot__tool" type="button" data-media-duplicate>Dupliquer</button>
+                            <button class="media-slot__tool media-slot__tool--danger" type="button" data-media-clear>Vider</button>
+                          </div>
                           <div class="media-slot__inputs media-slot__inputs--compact">
                             <label>Type
-                              <select name="story_media_#{index + 1}_kind">
+                              <select name="story_media_#{index + 1}_kind" data-media-field="kind">
                                 <option value="image" #{slot['kind'] == 'image' ? 'selected' : ''}>Image</option>
                                 <option value="video" #{slot['kind'] == 'video' ? 'selected' : ''}>Vidéo</option>
                               </select>
                             </label>
                             <label>URL média
-                              <input type="text" name="story_media_#{index + 1}_url" value="#{html_escape(slot['url'])}" placeholder="https://cdn.shopify.com/...">
+                              <input type="text" name="story_media_#{index + 1}_url" value="#{html_escape(slot['url'])}" placeholder="https://cdn.shopify.com/..." data-media-field="url">
                             </label>
                           </div>
                           <label>Légende
-                            <input type="text" name="story_media_#{index + 1}_caption" value="#{html_escape(slot['caption'])}" placeholder="Plan large, texture finale, geste clé...">
+                            <input type="text" name="story_media_#{index + 1}_caption" value="#{html_escape(slot['caption'])}" placeholder="Plan large, texture finale, geste clé..." data-media-field="caption">
                           </label>
                           <label>Texte alternatif
-                            <input type="text" name="story_media_#{index + 1}_alt" value="#{html_escape(slot['alt'])}" placeholder="Description courte pour le visuel">
+                            <input type="text" name="story_media_#{index + 1}_alt" value="#{html_escape(slot['alt'])}" placeholder="Description courte pour le visuel" data-media-field="alt">
                           </label>
                         </div>
                       </article>
@@ -2153,7 +2184,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                       <div class="media-studio__steps-grid">
                   #{step_media_slot_items.map { |slot|
                     <<~HTML
-                      <article class="media-slot">
+                      <article class="media-slot" data-media-slot data-media-group="steps" data-media-index="#{slot['index']}">
                         #{media_preview_markup(
                           kind: slot['kind'],
                           url: slot['url'],
@@ -2163,22 +2194,28 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                           step_label: "Étape #{slot['index']}"
                         )}
                         <div class="media-slot__inputs">
+                          <div class="media-slot__toolbar">
+                            <button class="media-slot__tool" type="button" data-media-move-up>Monter</button>
+                            <button class="media-slot__tool" type="button" data-media-move-down>Descendre</button>
+                            <button class="media-slot__tool" type="button" data-media-duplicate>Dupliquer</button>
+                            <button class="media-slot__tool media-slot__tool--danger" type="button" data-media-clear>Vider</button>
+                          </div>
                           <div class="media-slot__inputs media-slot__inputs--compact">
                             <label>Type
-                              <select name="step_media_#{slot['index']}_kind">
+                              <select name="step_media_#{slot['index']}_kind" data-media-field="kind">
                                 <option value="image" #{slot['kind'] == 'image' ? 'selected' : ''}>Image</option>
                                 <option value="video" #{slot['kind'] == 'video' ? 'selected' : ''}>Vidéo</option>
                               </select>
                             </label>
                             <label>URL média
-                              <input type="text" name="step_media_#{slot['index']}_url" value="#{html_escape(slot['url'])}" placeholder="https://cdn.shopify.com/...">
+                              <input type="text" name="step_media_#{slot['index']}_url" value="#{html_escape(slot['url'])}" placeholder="https://cdn.shopify.com/..." data-media-field="url">
                             </label>
                           </div>
                           <label>Légende étape
-                            <input type="text" name="step_media_#{slot['index']}_caption" value="#{html_escape(slot['caption'])}" placeholder="#{html_escape(slot['step_title'])}">
+                            <input type="text" name="step_media_#{slot['index']}_caption" value="#{html_escape(slot['caption'])}" placeholder="#{html_escape(slot['step_title'])}" data-media-field="caption">
                           </label>
                           <label>Texte alternatif
-                            <input type="text" name="step_media_#{slot['index']}_alt" value="#{html_escape(slot['alt'])}" placeholder="Description de l’étape en image">
+                            <input type="text" name="step_media_#{slot['index']}_alt" value="#{html_escape(slot['alt'])}" placeholder="Description de l’étape en image" data-media-field="alt">
                           </label>
                         </div>
                       </article>
@@ -2502,6 +2539,93 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                 }
               });
             }
+
+            const mediaSlots = Array.from(document.querySelectorAll('[data-media-slot]'));
+
+            const mediaFieldNames = function(slot) {
+              return Array.from(slot.querySelectorAll('[data-media-field]')).map(function(field) {
+                return field.getAttribute('data-media-field');
+              });
+            };
+
+            const readSlot = function(slot) {
+              return mediaFieldNames(slot).reduce(function(data, name) {
+                const field = slot.querySelector('[data-media-field="' + name + '"]');
+                data[name] = field ? field.value : '';
+                return data;
+              }, {});
+            };
+
+            const writeSlot = function(slot, data) {
+              mediaFieldNames(slot).forEach(function(name) {
+                const field = slot.querySelector('[data-media-field="' + name + '"]');
+                if (field) field.value = data[name] || '';
+              });
+            };
+
+            const clearSlot = function(slot) {
+              const snapshot = readSlot(slot);
+              Object.keys(snapshot).forEach(function(name) {
+                snapshot[name] = '';
+              });
+              if (snapshot.kind !== undefined) snapshot.kind = 'image';
+              writeSlot(slot, snapshot);
+            };
+
+            const slotsInGroup = function(group) {
+              return mediaSlots.filter(function(slot) {
+                return slot.getAttribute('data-media-group') === group;
+              });
+            };
+
+            mediaSlots.forEach(function(slot) {
+              const group = slot.getAttribute('data-media-group');
+
+              const clearButton = slot.querySelector('[data-media-clear]');
+              if (clearButton) {
+                clearButton.addEventListener('click', function() {
+                  clearSlot(slot);
+                });
+              }
+
+              const moveUp = slot.querySelector('[data-media-move-up]');
+              if (moveUp) {
+                moveUp.addEventListener('click', function() {
+                  const groupSlots = slotsInGroup(group);
+                  const index = groupSlots.indexOf(slot);
+                  if (index <= 0) return;
+                  const current = readSlot(slot);
+                  const previous = readSlot(groupSlots[index - 1]);
+                  writeSlot(groupSlots[index - 1], current);
+                  writeSlot(slot, previous);
+                });
+              }
+
+              const moveDown = slot.querySelector('[data-media-move-down]');
+              if (moveDown) {
+                moveDown.addEventListener('click', function() {
+                  const groupSlots = slotsInGroup(group);
+                  const index = groupSlots.indexOf(slot);
+                  if (index === -1 || index >= groupSlots.length - 1) return;
+                  const current = readSlot(slot);
+                  const next = readSlot(groupSlots[index + 1]);
+                  writeSlot(groupSlots[index + 1], current);
+                  writeSlot(slot, next);
+                });
+              }
+
+              const duplicateButton = slot.querySelector('[data-media-duplicate]');
+              if (duplicateButton) {
+                duplicateButton.addEventListener('click', function() {
+                  const groupSlots = slotsInGroup(group);
+                  const index = groupSlots.indexOf(slot);
+                  if (index === -1) return;
+                  const target = groupSlots[index + 1];
+                  if (!target) return;
+                  writeSlot(target, readSlot(slot));
+                });
+              }
+            });
           })();
         </script>
       </body>
