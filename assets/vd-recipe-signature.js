@@ -216,6 +216,18 @@
     return normalizeHistoryPayload(loadJSON('vd-recipes-history', { items: [] }));
   }
 
+  function syncShelfState(shelfClient) {
+    if (!shelfClient || !shelfClient.enabled) return Promise.resolve(null);
+    return shelfClient.syncLocalStores()
+      .then(function (payload) {
+        if (payload) shelfClient.applyRemote(payload);
+        return payload;
+      })
+      .catch(function () {
+        return null;
+      });
+  }
+
   function isFavoriteRecipe(slug) {
     return getFavoriteStore().slugs.indexOf(slug) !== -1;
   }
@@ -680,6 +692,7 @@
             '</div>' +
           '</div>' +
           '<article class="vd-recipe-signature__overview"><div class="vd-recipe-signature__overview-head"><span class="vd-recipe-signature__panel-kicker">Descriptif</span><h2>Ce que vous allez préparer.</h2></div><div class="vd-recipe-signature__overview-body"><p>' + recipeSummary + '</p></div></article>' +
+          '<article class="vd-recipe-signature__shopping"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Liste de courses</span><h2>Tout ce qu’il faut prévoir avant de commencer.</h2></div><div class="vd-recipe-signature__shopping-actions"><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-shopping-copy>Copier la liste</button><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-shopping-download>Télécharger</button></div></div><div class="vd-recipe-signature__shopping-meta" data-vd-recipe-shopping-meta></div><div class="vd-recipe-signature__shopping-list" data-vd-recipe-shopping-list></div></article>' +
           storyPanel +
           editorialPanel +
           '<div class="vd-recipe-signature__layout">' +
@@ -846,6 +859,10 @@
     var focusButton = section.querySelector('[data-vd-recipe-focus]');
     var fullscreenButton = section.querySelector('[data-vd-recipe-fullscreen]');
     var favoriteButton = section.querySelector('[data-vd-recipe-favorite]');
+    var shoppingTarget = section.querySelector('[data-vd-recipe-shopping-list]');
+    var shoppingMeta = section.querySelector('[data-vd-recipe-shopping-meta]');
+    var shoppingCopyButton = section.querySelector('[data-vd-recipe-shopping-copy]');
+    var shoppingDownloadButton = section.querySelector('[data-vd-recipe-shopping-download]');
     var toggleButton = section.querySelector('[data-vd-recipe-toggle]');
     var copyButton = section.querySelector('[data-vd-recipe-copy]');
     var downloadButton = section.querySelector('[data-vd-recipe-download]');
@@ -957,6 +974,75 @@
         .join('');
     }
 
+    function shoppingEntries() {
+      return (recipe.ingredient_groups || []).reduce(function (entries, group) {
+        (group.items || []).forEach(function (item) {
+          var itemId = 'ingredient-' + item.id;
+          entries.push({
+            id: itemId,
+            title: group.title || 'Liste',
+            label: [scaledQuantity(item), item.unit, item.name].join(' ').trim(),
+            note: item.note || '',
+            checked: !!state.checked[itemId]
+          });
+        });
+        return entries;
+      }, []);
+    }
+
+    function buildShoppingText() {
+      var lines = ['Liste de courses · ' + recipe.title, ''];
+      var groups = {};
+      shoppingEntries().forEach(function (entry) {
+        if (!groups[entry.title]) groups[entry.title] = [];
+        groups[entry.title].push(entry);
+      });
+
+      Object.keys(groups).forEach(function (groupTitle) {
+        lines.push(groupTitle);
+        groups[groupTitle].forEach(function (entry) {
+          lines.push('- ' + entry.label + (entry.note ? ' (' + entry.note + ')' : ''));
+        });
+        lines.push('');
+      });
+
+      return lines.join('\n').trim();
+    }
+
+    function downloadShoppingList() {
+      var blob = new Blob([buildShoppingText()], { type: 'text/plain;charset=utf-8' });
+      var url = window.URL.createObjectURL(blob);
+      var anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = recipe.slug + '-liste-courses.txt';
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      window.URL.revokeObjectURL(url);
+      showToast(section, 'Liste de courses téléchargée');
+    }
+
+    function renderShoppingList() {
+      if (!shoppingTarget || !shoppingMeta) return;
+      var entries = shoppingEntries();
+      var remaining = entries.filter(function (entry) { return !entry.checked; }).length;
+
+      shoppingMeta.innerHTML =
+        '<strong>' + remaining + ' élément' + (remaining > 1 ? 's' : '') + ' à prévoir</strong>' +
+        '<span>' + state.serves + ' personne' + (state.serves > 1 ? 's' : '') + '</span>';
+
+      shoppingTarget.innerHTML = entries
+        .map(function (entry) {
+          return (
+            '<label class="vd-recipe-signature__shopping-item' + (entry.checked ? ' is-checked' : '') + '">' +
+              '<input type="checkbox" data-vd-recipe-shopping-check data-item-id="' + escapeHtml(entry.id) + '"' + (entry.checked ? ' checked' : '') + '>' +
+              '<span><strong>' + escapeHtml(entry.label) + '</strong>' + (entry.note ? '<small>' + escapeHtml(entry.note) + '</small>' : '') + '</span>' +
+            '</label>'
+          );
+        })
+        .join('');
+    }
+
     function ingredientCheckboxes() {
       return Array.prototype.slice.call(section.querySelectorAll('[data-item-type="ingredient"][data-vd-recipe-check]'));
     }
@@ -1039,6 +1125,7 @@
         slot.textContent = String(state.serves);
       });
       renderIngredients();
+      renderShoppingList();
       bindDynamicEvents();
       refreshIngredientsPanel(false);
       saveState(storageKey, state);
@@ -1187,6 +1274,20 @@
       Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipe-check]')).forEach(function (checkbox) {
         checkbox.addEventListener('change', function () {
           state.checked[checkbox.getAttribute('data-item-id')] = checkbox.checked;
+          renderShoppingList();
+          refreshIngredientsPanel(true);
+          refreshProgress();
+          saveState(storageKey, state);
+        });
+      });
+
+      Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipe-shopping-check]')).forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+          var itemId = checkbox.getAttribute('data-item-id') || '';
+          state.checked[itemId] = checkbox.checked;
+          renderIngredients();
+          renderShoppingList();
+          bindDynamicEvents();
           refreshIngredientsPanel(true);
           refreshProgress();
           saveState(storageKey, state);
@@ -1304,6 +1405,7 @@
     renderSteps();
     renderTips();
     syncServes();
+    renderShoppingList();
     refreshProgress();
     refreshIngredientsPanel(false);
     setActiveStep(state.activeStepIndex, false);
@@ -1352,10 +1454,24 @@
         favoriteButton.classList.toggle('is-active', active);
         favoriteButton.textContent = active ? 'Dans vos favoris' : 'Ajouter au carnet';
         showToast(section, active ? 'Ajoutée au carnet' : 'Retirée du carnet');
-        if (shelfClient && shelfClient.enabled) {
-          shelfClient.syncLocalStores().catch(function () {});
-        }
+        syncShelfState(shelfClient);
       });
+    }
+
+    if (shoppingCopyButton) {
+      shoppingCopyButton.addEventListener('click', function () {
+        if (!navigator.clipboard || !navigator.clipboard.writeText) {
+          showToast(section, 'Copie indisponible');
+          return;
+        }
+        navigator.clipboard.writeText(buildShoppingText()).then(function () {
+          showToast(section, 'Liste de courses copiée');
+        });
+      });
+    }
+
+    if (shoppingDownloadButton) {
+      shoppingDownloadButton.addEventListener('click', downloadShoppingList);
     }
 
     fullscreenButton.addEventListener('click', function () {
@@ -1446,9 +1562,8 @@
       updateTimerButtons();
       setActiveStep(0, false);
       showToast(section, 'Progression reinitialisee');
-      if (shelfClient && shelfClient.enabled) {
-        shelfClient.syncLocalStores().catch(function () {});
-      }
+      renderShoppingList();
+      syncShelfState(shelfClient);
     });
 
     prevButton.addEventListener('click', function () {
@@ -1635,9 +1750,7 @@
 
         recipe = applyEditorMedia(recipe, parseEditorMedia(section, requestedSlug));
         pushRecipeHistory(recipe);
-        if (shelfClient.enabled) {
-          shelfClient.syncLocalStores().catch(function () {});
-        }
+        syncShelfState(shelfClient);
 
         var isLocked = requireCustomerAccess && recipe.access === 'member' && !customerAuthenticated;
         renderMedia(media, recipe);

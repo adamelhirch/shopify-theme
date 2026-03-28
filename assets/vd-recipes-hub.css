@@ -243,6 +243,57 @@
   gap: 0.8rem;
 }
 
+.vd-recipes-hub__discover {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+  gap: 1rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid rgba(var(--vd-text), 0.08);
+}
+
+.vd-recipes-hub__discover-field {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.vd-recipes-hub__discover-field span {
+  color: var(--vd-recipes-muted);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.vd-recipes-hub__discover-field select,
+.vd-recipes-hub__discover-reset {
+  min-height: 4.6rem;
+  border: 1px solid rgba(var(--vd-text), 0.08);
+  border-radius: 1.6rem;
+  background: rgba(var(--vd-white), 0.8);
+  color: rgba(var(--vd-text), 0.78);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.vd-recipes-hub__discover-field select {
+  padding: 0.9rem 1.2rem;
+}
+
+.vd-recipes-hub__discover-reset {
+  align-self: end;
+  padding: 0.9rem 1.4rem;
+  cursor: pointer;
+  font-size: 1.04rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.vd-recipes-hub__discover-reset:hover,
+.vd-recipes-hub__discover-reset:focus-visible {
+  background: rgb(var(--vd-text));
+  color: rgb(var(--vd-ivory));
+}
+
 .vd-recipes-hub__filter {
   min-height: 4.2rem;
   padding: 0.9rem 1.4rem;
@@ -762,6 +813,10 @@
   .vd-recipes-hub__collection-grid,
   .vd-recipes-hub__viewer-hero,
   .vd-recipes-hub__viewer-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .vd-recipes-hub__discover {
     grid-template-columns: 1fr;
   }
 }

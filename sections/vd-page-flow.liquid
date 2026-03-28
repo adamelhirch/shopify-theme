@@ -172,7 +172,32 @@
             <button type="button" class="vd-recipes-hub__filter" data-vd-recipes-difficulty data-value="signature">Signature</button>
           </div>
 
+          <div class="vd-recipes-hub__filters" role="toolbar" aria-label="Filtrer par temps">
+            <button type="button" class="vd-recipes-hub__filter is-active" data-vd-recipes-time data-value="all">Tous les temps</button>
+            <button type="button" class="vd-recipes-hub__filter" data-vd-recipes-time data-value="quick">Moins de 30 min</button>
+            <button type="button" class="vd-recipes-hub__filter" data-vd-recipes-time data-value="medium">30 à 60 min</button>
+            <button type="button" class="vd-recipes-hub__filter" data-vd-recipes-time data-value="long">Plus de 60 min</button>
+          </div>
+
           <div class="vd-recipes-hub__filters vd-recipes-hub__filters--collections" role="toolbar" aria-label="Filtrer par univers" data-vd-recipes-collection-filters></div>
+
+          <div class="vd-recipes-hub__discover" aria-label="Affiner la recherche">
+            <label class="vd-recipes-hub__discover-field">
+              <span>Ingrédient</span>
+              <select data-vd-recipes-ingredient>
+                <option value="all">Tous les ingrédients</option>
+              </select>
+            </label>
+            <label class="vd-recipes-hub__discover-field">
+              <span>Produit</span>
+              <select data-vd-recipes-product>
+                <option value="all">Tous les produits</option>
+              </select>
+            </label>
+            <button type="button" class="vd-recipes-hub__discover-reset" data-vd-recipes-reset>
+              Réinitialiser les filtres
+            </button>
+          </div>
         </div>
 
         <div class="vd-recipes-hub__rails" data-vd-recipes-rails hidden>

@@ -60,9 +60,28 @@
         recipe.difficulty && recipe.difficulty.value,
         recipe.search_terms && recipe.search_terms.join(' '),
         recipe.tags && recipe.tags.join(' '),
-        recipe.collections && recipe.collections.join(' ')
+        recipe.collections && recipe.collections.join(' '),
+        recipe.ingredient_groups && recipe.ingredient_groups.map(function (group) {
+          return (group.items || []).map(function (item) { return item.name || ''; }).join(' ');
+        }).join(' '),
+        recipe.product && recipe.product.handle,
+        recipe.product && recipe.product.required_handles && recipe.product.required_handles.join(' ')
       ].join(' ')
     );
+  }
+
+  function parseDurationMinutes(value) {
+    if (!value) return 0;
+    var text = String(value).trim().toLowerCase();
+    if (!text) return 0;
+    var match = text.match(/(\d+(?:[.,]\d+)?)/);
+    if (!match) return 0;
+    var amount = Number(match[1].replace(',', '.'));
+    if (!Number.isFinite(amount)) return 0;
+    if (text.indexOf('h') !== -1 || text.indexOf('heure') !== -1) {
+      return Math.max(1, Math.round(amount * 60));
+    }
+    return Math.max(1, Math.round(amount));
   }
 
   function loadJSON(key, fallback) {
@@ -216,6 +235,18 @@
     return normalizeHistoryPayload(loadJSON('vd-recipes-history', { items: [] }));
   }
 
+  function syncShelfState(shelfClient) {
+    if (!shelfClient || !shelfClient.enabled) return Promise.resolve(null);
+    return shelfClient.syncLocalStores()
+      .then(function (payload) {
+        if (payload) shelfClient.applyRemote(payload);
+        return payload;
+      })
+      .catch(function () {
+        return null;
+      });
+  }
+
   function recipeHref(recipe) {
     var baseUrl = recipe.page_url || ('/pages/recettes?recipe=' + encodeURIComponent(recipe.slug || ''));
     return appendPreviewThemeId(baseUrl);
@@ -293,6 +324,15 @@
     var badge = recipe.category || 'Recette';
     var search = recipeSearchText(recipe);
     var collections = Array.isArray(recipe.collections) ? recipe.collections.join(',') : '';
+    var ingredients = Array.isArray(recipe.ingredient_groups)
+      ? recipe.ingredient_groups.reduce(function (names, group) {
+          return names.concat((group.items || []).map(function (item) { return normalize(item.name || ''); }).filter(Boolean));
+        }, []).filter(function (value, index, array) { return array.indexOf(value) === index; }).join(',')
+      : '';
+    var productHandles = recipe.product && Array.isArray(recipe.product.required_handles)
+      ? recipe.product.required_handles.join(',')
+      : ((recipe.product && recipe.product.handle) || '');
+    var totalMinutes = parseDurationMinutes(recipe.timing && recipe.timing.total);
     var favoriteSlugs = favoriteStore().slugs;
     var isFavorite = favoriteSlugs.indexOf(recipe.slug) !== -1;
     var mediaClass = 'vd-recipes-hub__card-media' + (cover ? '' : ' is-placeholder');
@@ -301,7 +341,7 @@
       : '<div class="vd-recipes-hub__card-placeholder"><span>Visuel recette à poser</span><strong>' + escapeHtml(recipe.title) + '</strong></div>';
 
     return (
-      '<article class="vd-recipes-hub__card" data-vd-recipe-card data-slug="' + escapeHtml(recipe.slug || '') + '" data-search="' + escapeHtml(search) + '" data-access="' + escapeHtml(recipe.access || 'free') + '" data-difficulty="' + escapeHtml((recipe.difficulty && recipe.difficulty.value) || 'all') + '" data-collections="' + escapeHtml(collections) + '">' +
+      '<article class="vd-recipes-hub__card" data-vd-recipe-card data-slug="' + escapeHtml(recipe.slug || '') + '" data-search="' + escapeHtml(search) + '" data-access="' + escapeHtml(recipe.access || 'free') + '" data-difficulty="' + escapeHtml((recipe.difficulty && recipe.difficulty.value) || 'all') + '" data-collections="' + escapeHtml(collections) + '" data-total-minutes="' + escapeHtml(String(totalMinutes)) + '" data-ingredients="' + escapeHtml(ingredients) + '" data-products="' + escapeHtml(productHandles) + '">' +
         '<a class="vd-recipes-hub__card-link" href="' + escapeHtml(recipeHref(recipe)) + '">' +
           '<div class="' + mediaClass + '"' + (cover ? ' style="background-image:url(\'' + escapeHtml(cover) + '\')"' : '') + '>' +
             '<div class="vd-recipes-hub__card-overlay"></div>' +
@@ -339,11 +379,21 @@
       var access = normalize(card.getAttribute('data-access'));
       var difficulty = normalize(card.getAttribute('data-difficulty'));
       var collections = normalize(card.getAttribute('data-collections'));
+      var totalMinutes = Number(card.getAttribute('data-total-minutes') || 0);
+      var ingredients = normalize(card.getAttribute('data-ingredients'));
+      var products = normalize(card.getAttribute('data-products'));
       var matchesQuery = !state.query || haystack.indexOf(state.query) !== -1;
       var matchesAccess = state.access === 'all' || access === state.access;
       var matchesDifficulty = state.difficulty === 'all' || difficulty === state.difficulty;
       var matchesCollection = state.collection === 'all' || collections.indexOf(state.collection) !== -1;
-      var show = matchesQuery && matchesAccess && matchesDifficulty && matchesCollection;
+      var matchesTime =
+        state.time === 'all' ||
+        (state.time === 'quick' && totalMinutes > 0 && totalMinutes < 30) ||
+        (state.time === 'medium' && totalMinutes >= 30 && totalMinutes <= 60) ||
+        (state.time === 'long' && totalMinutes > 60);
+      var matchesIngredient = state.ingredient === 'all' || ingredients.indexOf(state.ingredient) !== -1;
+      var matchesProduct = state.product === 'all' || products.indexOf(state.product) !== -1;
+      var show = matchesQuery && matchesAccess && matchesDifficulty && matchesCollection && matchesTime && matchesIngredient && matchesProduct;
 
       card.hidden = !show;
       if (show) visibleCount += 1;
@@ -356,6 +406,58 @@
     if (empty) {
       empty.hidden = visibleCount !== 0;
     }
+  }
+
+  function collectIngredientOptions(recipes) {
+    var values = {};
+    recipes.forEach(function (recipe) {
+      (recipe.ingredient_groups || []).forEach(function (group) {
+        (group.items || []).forEach(function (item) {
+          var raw = String(item.name || '').trim();
+          if (!raw) return;
+          var key = normalize(raw);
+          if (!key || values[key]) return;
+          values[key] = raw.charAt(0).toUpperCase() + raw.slice(1);
+        });
+      });
+    });
+    return Object.keys(values).sort().slice(0, 24).map(function (key) {
+      return { value: key, label: values[key] };
+    });
+  }
+
+  function productLabel(handle) {
+    return String(handle || '')
+      .split('-')
+      .filter(Boolean)
+      .map(function (part) { return part.charAt(0).toUpperCase() + part.slice(1); })
+      .join(' ');
+  }
+
+  function collectProductOptions(recipes) {
+    var values = {};
+    recipes.forEach(function (recipe) {
+      var handles = [];
+      if (recipe.product && Array.isArray(recipe.product.required_handles)) handles = handles.concat(recipe.product.required_handles);
+      if (recipe.product && recipe.product.handle) handles.push(recipe.product.handle);
+      handles.filter(Boolean).forEach(function (handle) {
+        var key = normalize(handle);
+        if (!key || values[key]) return;
+        values[key] = productLabel(handle);
+      });
+    });
+    return Object.keys(values).sort().map(function (key) {
+      return { value: key, label: values[key] };
+    });
+  }
+
+  function populateSelect(select, options, placeholder) {
+    if (!select) return;
+    select.innerHTML =
+      '<option value="all">' + escapeHtml(placeholder) + '</option>' +
+      options.map(function (option) {
+        return '<option value="' + escapeHtml(option.value) + '">' + escapeHtml(option.label) + '</option>';
+      }).join('');
   }
 
   function setButtonState(buttons, value) {
@@ -477,9 +579,7 @@
 
         button.classList.toggle('is-active', index === -1);
         button.textContent = index === -1 ? 'Favori' : 'Sauvegarder';
-        if (shelfClient && shelfClient.enabled) {
-          shelfClient.syncLocalStores().catch(function () {});
-        }
+        syncShelfState(shelfClient);
         buildPersonalRails(section, recipes, heroOverrides);
         applyFilters(section, state);
       });
@@ -503,8 +603,12 @@
     var shelfClient = createShelfClient(section);
     var accessButtons = Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipes-access]'));
     var difficultyButtons = Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipes-difficulty]'));
+    var timeButtons = Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipes-time]'));
+    var ingredientSelect = section.querySelector('[data-vd-recipes-ingredient]');
+    var productSelect = section.querySelector('[data-vd-recipes-product]');
+    var resetButton = section.querySelector('[data-vd-recipes-reset]');
     var collectionButtons = [];
-    var state = { query: '', access: 'all', difficulty: 'all', collection: 'all' };
+    var state = { query: '', access: 'all', difficulty: 'all', time: 'all', ingredient: 'all', product: 'all', collection: 'all' };
     var requestedRecipe = new URLSearchParams(window.location.search).get('recipe');
 
     if (!registryUrl || !grid || !input) return;
@@ -543,6 +647,8 @@
         grid.innerHTML = approved.map(function (recipe) {
           return buildCard(recipe, heroOverrides);
         }).join('');
+        populateSelect(ingredientSelect, collectIngredientOptions(approved), 'Tous les ingrédients');
+        populateSelect(productSelect, collectProductOptions(approved), 'Tous les produits');
         collectionButtons = buildCollectionButtons(section, approved, state);
         buildPersonalRails(section, approved, heroOverrides);
         buildCollectionShowcase(section, approved, heroOverrides);
@@ -628,6 +734,49 @@
         applyFilters(section, state);
       });
     });
+
+    timeButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        state.time = button.getAttribute('data-value') || 'all';
+        setButtonState(timeButtons, state.time);
+        applyFilters(section, state);
+      });
+    });
+
+    if (ingredientSelect) {
+      ingredientSelect.addEventListener('change', function () {
+        state.ingredient = normalize(ingredientSelect.value);
+        applyFilters(section, state);
+      });
+    }
+
+    if (productSelect) {
+      productSelect.addEventListener('change', function () {
+        state.product = normalize(productSelect.value);
+        applyFilters(section, state);
+      });
+    }
+
+    if (resetButton) {
+      resetButton.addEventListener('click', function () {
+        state.query = '';
+        state.access = 'all';
+        state.difficulty = 'all';
+        state.time = 'all';
+        state.ingredient = 'all';
+        state.product = 'all';
+        state.collection = 'all';
+        input.value = '';
+        if (clearButton) clearButton.hidden = true;
+        if (ingredientSelect) ingredientSelect.value = 'all';
+        if (productSelect) productSelect.value = 'all';
+        setButtonState(accessButtons, state.access);
+        setButtonState(difficultyButtons, state.difficulty);
+        setButtonState(timeButtons, state.time);
+        setButtonState(collectionButtons, state.collection);
+        applyFilters(section, state);
+      });
+    }
 
   }
 
