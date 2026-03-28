@@ -398,7 +398,7 @@
   function renderSources(recipe) {
     if (!Array.isArray(recipe.sources) || !recipe.sources.length) return '';
 
-    return '<article class="vd-recipe-signature__sources"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Sources & credits</span><h2>Base adaptée depuis des recettes ouvertes et références libres.</h2></div></div><div class="vd-recipe-signature__sources-list">' +
+    return '<article class="vd-recipe-signature__sources"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Sources & références</span><h2>Recette inspirée de sources ouvertes et adaptée pour Vanille Désiré.</h2></div></div><div class="vd-recipe-signature__sources-list">' +
       recipe.sources.map(function (source) {
         var title = escapeHtml(source.title || source.url || 'Source');
         var meta = [source.license, source.note].filter(Boolean).map(escapeHtml).join(' · ');
@@ -586,7 +586,7 @@
     var favoriteActive = isFavoriteRecipe(recipe.slug);
     var editorialPanel =
       (recipe.seo && Array.isArray(recipe.seo.body_sections) && recipe.seo.body_sections.length
-        ? '<article class="vd-recipe-signature__editorial"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Conseils & contexte</span><h2>Ce qu’il faut savoir avant de lancer la recette.</h2></div></div><div class="vd-recipe-signature__editorial-grid">' +
+        ? '<article class="vd-recipe-signature__editorial"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Conseils utiles</span><h2>Les bons repères avant de commencer.</h2></div></div><div class="vd-recipe-signature__editorial-grid">' +
             (recipe.seo.body_sections || []).map(function (sectionItem) {
               return '<article class="vd-recipe-signature__editorial-card"><h3>' + escapeHtml(sectionItem.title) + '</h3><p>' + escapeHtml(sectionItem.body) + '</p></article>';
             }).join('') +
@@ -594,7 +594,7 @@
         : '');
     var faqPanel =
       (recipe.seo && Array.isArray(recipe.seo.faq) && recipe.seo.faq.length
-        ? '<article class="vd-recipe-signature__faq"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">FAQ recette</span><h2>Questions utiles pour capter la recherche et rassurer avant cuisson.</h2></div></div><div class="vd-recipe-signature__faq-list">' +
+        ? '<article class="vd-recipe-signature__faq"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">FAQ recette</span><h2>Questions fréquentes avant de se lancer.</h2></div></div><div class="vd-recipe-signature__faq-list">' +
             recipe.seo.faq.map(function (item) {
               return '<details class="vd-recipe-signature__faq-item"><summary>' + escapeHtml(item.question) + '</summary><p>' + escapeHtml(item.answer) + '</p></details>';
             }).join('') +
@@ -609,12 +609,12 @@
     var shopPanel =
       ((productUrl || collectionUrl)
         ? '<article class="vd-recipe-signature__shop" data-vd-recipe-shop data-product-handle="' + escapeHtml((recipe.product && recipe.product.handle) || '') + '" data-collection-handle="' + escapeHtml((recipe.product && recipe.product.collection_handle) || '') + '">' +
-            '<div class="vd-recipe-signature__shop-copy"><span class="vd-recipe-signature__panel-kicker">Nos produits</span><h2>Les produits du catalogue pour réaliser la recette.</h2><p>' + escapeHtml((recipe.product && recipe.product.note) || 'Retrouvez la vanille et les références conseillées pour réaliser cette recette avec le bon produit.') + '</p></div>' +
+            '<div class="vd-recipe-signature__shop-copy"><span class="vd-recipe-signature__panel-kicker">Nos produits</span><h2>Les produits utiles pour refaire la recette.</h2><p>' + escapeHtml((recipe.product && recipe.product.note) || 'Retrouvez la vanille et les références conseillées pour refaire cette recette avec les bons produits.') + '</p></div>' +
             '<div class="vd-recipe-signature__shop-carousel">' +
               '<button type="button" class="vd-recipe-signature__shop-nav" data-vd-recipe-shop-prev aria-label="Produit précédent">Préc.</button>' +
               '<div class="vd-recipe-signature__shop-window">' +
                 '<div class="vd-recipe-signature__shop-track" data-vd-recipe-shop-track>' +
-                  '<article class="vd-recipe-signature__shop-loading">Chargement du catalogue...</article>' +
+                  '<article class="vd-recipe-signature__shop-loading">Chargement des produits...</article>' +
                 '</div>' +
               '</div>' +
               '<button type="button" class="vd-recipe-signature__shop-nav" data-vd-recipe-shop-next aria-label="Produit suivant">Suiv.</button>' +
@@ -649,7 +649,7 @@
             '<div class="vd-recipe-signature__gate-card">' +
               '<span class="vd-recipe-signature__panel-kicker">Apercu</span>' +
               '<h2>Le mode complet se débloque après connexion.</h2>' +
-              '<p>La recette premium conserve une entrée publique, puis ouvre la navigation immersive une fois le compte client connecté.</p>' +
+              '<p>Connectez-vous pour suivre les étapes pas à pas, mémoriser votre progression et cuisiner en mode plein écran.</p>' +
               '<div class="vd-recipe-signature__gate-actions">' +
                 '<a href="' + escapeHtml(loginUrl) + '" class="vd-recipe-signature__hero-link is-primary">Se connecter</a>' +
                 '<a href="' + escapeHtml(registerUrl) + '" class="vd-recipe-signature__hero-link is-secondary">Créer un compte</a>' +
@@ -658,7 +658,7 @@
             storyPanel +
             '<div class="vd-recipe-signature__preview">' +
               '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Ingrédients</span><h2>Avant de cuisiner</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__preview-copy">' + previewIngredients + '</div></article>' +
-              '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Étapes</span><h2>Lecture libre</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__preview-copy">' + previewSteps + '</div></article>' +
+              '<article class="vd-recipe-signature__panel"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Étapes</span><h2>Aperçu de la préparation</h2></div></div><div class="vd-recipe-signature__panel-body vd-recipe-signature__preview-copy">' + previewSteps + '</div></article>' +
             '</div>' + editorialPanel + faqPanel + sourcePanel + relatedPanel + shopPanel +
           '</div>'
         : '<div class="vd-recipe-signature__fullscreen-spotlight">' +
@@ -1116,7 +1116,7 @@
       if (!activeStep) {
         sessionStatus.textContent = 'Recette';
         sessionTitle.textContent = 'Aucune étape disponible';
-        sessionMeta.textContent = 'Le registre n’expose pas encore de pas à pas pour cette fiche.';
+        sessionMeta.textContent = 'Le pas à pas n’est pas encore disponible pour cette recette.';
         return;
       }
 
@@ -1629,7 +1629,7 @@
         var recipe = resolveRequestedRecipe(recipes, requestedSlug);
 
         if (!recipe) {
-          renderError(section, 'Cette recette est introuvable dans le registre.');
+          renderError(section, 'Cette recette est introuvable pour le moment.');
           return;
         }
 
@@ -1654,7 +1654,7 @@
         }
       })
       .catch(function () {
-        renderError(section, 'Le registre recette ne repond pas pour le moment.');
+        renderError(section, 'La recette ne peut pas être chargée pour le moment.');
       });
   }
 

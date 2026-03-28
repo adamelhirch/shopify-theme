@@ -10,10 +10,10 @@
       "access": "free",
       "title": "Gâteau pomme vanille cannelle",
       "page_url": "",
-      "eyebrow": "Recette libre",
+      "eyebrow": "Recette facile",
       "subtitle": "Une pomme fondante, un crumble court, une vanille très lisible dans un gâteau simple.",
-      "summary": "Un gâteau aux pommes d’inspiration ouverte, orienté vers la vanille Bourbon et la cannelle pour nourrir le répertoire SEO dessert avec une vraie recette d’usage.",
-      "description": "Cette adaptation d’une base ouverte type apple crumb cake réduit les effets trop sucrés, clarifie les étapes et fait de la vanille un marqueur central plutôt qu’un simple décor aromatique.",
+      "summary": "Un gâteau aux pommes moelleux, parfumé à la vanille Bourbon et à la cannelle, facile à refaire pour le goûter ou le dessert.",
+      "description": "Une pâte tendre, des pommes fondantes et une belle note de vanille pour un gâteau simple à partager.",
       "category": "Desserts",
       "difficulty": {
         "value": "intermédiaire",
@@ -43,7 +43,7 @@
         "pomme",
         "vanille",
         "cannelle",
-        "recette libre"
+        "recette facile"
       ],
       "collections": [
         "recettes-gratuites",
@@ -239,7 +239,7 @@
           "title": "Wikibooks Cookbook:Apple Crumb Cake",
           "url": "https://en.wikibooks.org/wiki/Cookbook:Apple_Crumb_Cake",
           "license": "CC BY-SA 4.0",
-          "note": "Base adaptée pour Vanille Désiré avec vanille Bourbon et cannelle de Madagascar."
+          "note": "Base adaptée avec vanille Bourbon et cannelle de Madagascar."
         }
       ],
       "submitted_by": {
@@ -251,12 +251,8 @@
       "updated_at": "2026-03-28T13:29:36Z",
       "validated_at": "2026-03-28T13:29:36Z",
       "validated_by": "VD Editorial Studio",
-      "moderation_notes": [
-
-      ],
-      "revisions": [
-
-      ]
+      "moderation_notes": [],
+      "revisions": []
     },
     {
       "slug": "muffins-avoine-raisin-vanille",
@@ -264,10 +260,10 @@
       "access": "free",
       "title": "Muffins avoine raisin vanille",
       "page_url": "",
-      "eyebrow": "Recette libre",
+      "eyebrow": "Recette facile",
       "subtitle": "Des muffins francs, cerealiers, avec une vanille qui allonge le raisin sans sucre brutal.",
-      "summary": "Une base petit-déjeuner très simple à adapter avec vanille Bourbon et cannelle de Madagascar pour enrichir le répertoire facile.",
-      "description": "Cette adaptation d’une recette ouverte de muffins à l’avoine serre mieux la sucrosité, arrondit le raisin et installe une note vanille plus nette en fin de bouche.",
+      "summary": "Des muffins moelleux à l’avoine et au raisin, relevés d’une pointe de vanille et de cannelle.",
+      "description": "Une pâte simple, un cœur souple et juste assez de raisins pour un petit-déjeuner ou un goûter facile.",
       "category": "Desserts",
       "difficulty": {
         "value": "facile",
@@ -297,7 +293,7 @@
         "avoine",
         "raisin",
         "vanille",
-        "recette libre"
+        "recette facile"
       ],
       "collections": [
         "recettes-gratuites",
@@ -482,7 +478,7 @@
           "title": "Wikibooks Cookbook:Raisin Oatmeal Muffins",
           "url": "https://en.wikibooks.org/wiki/Cookbook:Raisin_Oatmeal_Muffins",
           "license": "CC BY-SA 4.0",
-          "note": "Base adaptée pour Vanille Désiré avec vanille Bourbon et cannelle de Madagascar."
+          "note": "Base adaptée avec vanille Bourbon et cannelle de Madagascar."
         }
       ],
       "submitted_by": {
@@ -494,12 +490,8 @@
       "updated_at": "2026-03-28T13:29:36Z",
       "validated_at": "2026-03-28T13:29:36Z",
       "validated_by": "VD Editorial Studio",
-      "moderation_notes": [
-
-      ],
-      "revisions": [
-
-      ]
+      "moderation_notes": [],
+      "revisions": []
     },
     {
       "slug": "pancakes-vanille-sucre",
@@ -507,10 +499,10 @@
       "access": "free",
       "title": "Pancakes vanille sucre",
       "page_url": "",
-      "eyebrow": "Recette libre",
+      "eyebrow": "Recette facile",
       "subtitle": "Une pâte courte, une vanille nette, une finition sucre vanille bien propre.",
-      "summary": "Des pancakes faciles à refaire, adaptés pour mettre en avant la vanille Bourbon et le sucre vanille sur un format du matin très lisible.",
-      "description": "Cette base ouverte de pancake est simplifiée puis orientée vers une lecture plus premium : moins de sucre dans la pâte, une vanille plus claire et une finition plus propre à servir chaud.",
+      "summary": "Des pancakes moelleux à la vanille, faciles à refaire pour le petit-déjeuner ou le brunch.",
+      "description": "Des pancakes peu sucrés, servis bien chauds, avec une vanille nette du premier au dernier morceau.",
       "category": "Desserts",
       "difficulty": {
         "value": "facile",
@@ -539,7 +531,7 @@
         "petit-déjeuner",
         "pancake",
         "vanille",
-        "recette libre"
+        "recette facile"
       ],
       "collections": [
         "recettes-gratuites",
@@ -713,7 +705,7 @@
           "title": "Wikibooks Cookbook:Pancake",
           "url": "https://en.wikibooks.org/wiki/Cookbook:Pancake",
           "license": "CC BY-SA 4.0",
-          "note": "Base adaptée et reorientée vers la vanille Bourbon et le sucre vanille."
+          "note": "Base adaptée pour mettre la vanille Bourbon et le sucre vanille au premier plan."
         }
       ],
       "submitted_by": {
@@ -725,12 +717,8 @@
       "updated_at": "2026-03-28T13:29:36Z",
       "validated_at": "2026-03-28T13:29:36Z",
       "validated_by": "VD Editorial Studio",
-      "moderation_notes": [
-
-      ],
-      "revisions": [
-
-      ]
+      "moderation_notes": [],
+      "revisions": []
     },
     {
       "slug": "beignet-banane",
@@ -967,20 +955,12 @@
           }
         ]
       },
-      "revisions": [
-
-      ],
-      "moderation_notes": [
-
-      ],
+      "revisions": [],
+      "moderation_notes": [],
       "created_at": "2026-03-27T12:00:00Z",
       "updated_at": "2026-03-27T12:30:00Z",
-      "tags": [
-
-      ],
-      "collections": [
-
-      ],
+      "tags": [],
+      "collections": [],
       "products": [
         {
           "handle": "vanille-bourbon-madagascar-3-gousses"
@@ -1006,10 +986,10 @@
       "validated_by": "VD Editorial",
       "title": "Accords salés à la vanille",
       "page_url": "/pages/recettes-accords",
-      "eyebrow": "Guide libre",
+      "eyebrow": "Guide cuisine",
       "subtitle": "Poisson, beurre, legumes et sauces ou la vanille joue en fond.",
-      "summary": "Une lecture libre et structurante pour travailler la vanille dans des assiettes salées sans effet gadget.",
-      "description": "Trois familles d'accords pour comprendre comment introduire la vanille dans une cuisine salée contemporaine avec justesse.",
+      "summary": "Des pistes concrètes pour marier la vanille avec poissons, légumes, sauces et cuissons salées.",
+      "description": "Trois familles d’accords pour utiliser la vanille dans une cuisine salée contemporaine avec justesse.",
       "category": "Guides",
       "difficulty": {
         "value": "intermédiaire",
@@ -1045,7 +1025,7 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la collection",
-        "note": "Guide libre pour l'entrée SEO et la decouverte."
+        "note": "Guide pratique pour découvrir les accords salés autour de la vanille."
       },
       "ingredient_groups": [
         {
@@ -1120,7 +1100,7 @@
       ],
       "seo": {
         "title": "Accords salés à la vanille",
-        "description": "Guide libre pour travailler la vanille dans une cuisine salée.",
+        "description": "Guide cuisine pour travailler la vanille dans une cuisine salée.",
         "keywords": [
           "vanille salée",
           "accords vanille poisson",
@@ -1156,23 +1136,13 @@
           }
         ]
       },
-      "revisions": [
-
-      ],
-      "moderation_notes": [
-
-      ],
+      "revisions": [],
+      "moderation_notes": [],
       "created_at": "2026-03-27T12:10:00Z",
       "updated_at": "2026-03-27T12:20:00Z",
-      "tags": [
-
-      ],
-      "collections": [
-
-      ],
-      "products": [
-
-      ]
+      "tags": [],
+      "collections": [],
+      "products": []
     },
     {
       "slug": "riz-lait-tonka-vanille",
@@ -1189,8 +1159,8 @@
       "page_url": "",
       "eyebrow": "Recette signature",
       "subtitle": "Une crème de riz ronde, vanille lisible, finale tonka bien tenue.",
-      "summary": "Une lecture premium du riz au lait, très simple à suivre et très facile à finir avec les bons produits.",
-      "description": "Le lait est infusé doucement avec la vanille et la tonka pour obtenir un riz au lait ample, crémeux et propre en bouche, sans effet sucré lourd.",
+      "summary": "Un riz au lait crémeux, infusé à la vanille et à la tonka, à servir tiède ou froid.",
+      "description": "Le lait infuse doucement pour donner un dessert ample, crémeux et très réconfortant.",
       "category": "Desserts",
       "difficulty": {
         "value": "facile",
@@ -1357,7 +1327,7 @@
           },
           {
             "title": "Conservation et service",
-            "body": "Servez tiède ou froid, avec un léger rappel de caviar juste avant d envoyer si vous voulez une signature plus premium."
+            "body": "Servez tiède ou froid, avec un léger rappel de caviar juste avant d envoyer si vous voulez une finition plus marquée."
           }
         ],
         "faq": [
@@ -1392,7 +1362,7 @@
             "page_url": "",
             "eyebrow": "Recette signature",
             "subtitle": "Une crème de riz ronde, vanille lisible, finale tonka bien tenue.",
-            "summary": "Une lecture premium du riz au lait, très simple à suivre et très facile à finir avec les bons produits.",
+            "summary": "Un riz au lait crémeux, infusé à la vanille et à la tonka, à servir tiède ou froid.",
             "description": "Le lait est infusé doucement avec la vanille et la tonka pour obtenir un riz au lait ample, crémeux et propre en bouche, sans effet sucré lourd.",
             "category": "Desserts",
             "difficulty": {
@@ -1574,9 +1544,7 @@
                 }
               ]
             },
-            "moderation_notes": [
-
-            ],
+            "moderation_notes": [],
             "created_at": "2026-03-27T13:00:00Z",
             "updated_at": "2026-03-28T11:01:08Z",
             "tags": [
@@ -1626,7 +1594,7 @@
             "page_url": "",
             "eyebrow": "Recette signature",
             "subtitle": "Une crème de riz ronde, vanille lisible, finale tonka bien tenue.",
-            "summary": "Une lecture premium du riz au lait, très simple à suivre et très facile à finir avec les bons produits.",
+            "summary": "Un riz au lait crémeux, infusé à la vanille et à la tonka, à servir tiède ou froid.",
             "description": "Le lait est infusé doucement avec la vanille et la tonka pour obtenir un riz au lait ample, crémeux et propre en bouche, sans effet sucré lourd.",
             "category": "Desserts",
             "difficulty": {
@@ -1861,7 +1829,7 @@
         "vanille",
         "riz au lait",
         "tonka",
-        "premium"
+        "signature"
       ],
       "collections": [
         "recettes-premium",
@@ -1890,8 +1858,8 @@
       "page_url": "",
       "eyebrow": "Recette signature",
       "subtitle": "Crème dense, sucre net, vanille profonde et service impeccable.",
-      "summary": "Une crème brûlée premium qui met la gousse au centre, avec un pas à pas stable et très rassurant.",
-      "description": "Cette version cherche l’équilibre entre appareil riche, cuisson douce et cassant net sur le dessus pour une vraie recette signature facile à reproduire.",
+      "summary": "Une crème brûlée à la vanille Bourbon, onctueuse dessous et bien cassante sur le dessus.",
+      "description": "Une crème riche et lisse, une cuisson douce et une fine couche caramélisée à casser à la cuillère.",
       "category": "Desserts",
       "serves": 6,
       "difficulty": {
@@ -1923,7 +1891,7 @@
         "dessert",
         "crème brûlée",
         "vanille",
-        "premium"
+        "signature"
       ],
       "collections": [
         "recettes-premium",
@@ -2107,7 +2075,7 @@
             "page_url": "",
             "eyebrow": "Recette signature",
             "subtitle": "Crème dense, sucre net, vanille profonde et service impeccable.",
-            "summary": "Une crème brûlée premium qui met la gousse au centre, avec un pas à pas stable et très rassurant.",
+            "summary": "Une crème brûlée à la vanille Bourbon, onctueuse dessous et bien cassante sur le dessus.",
             "description": "Cette version cherche l’équilibre entre appareil riche, cuisson douce et cassant net sur le dessus pour une vraie recette signature facile à reproduire.",
             "category": "Desserts",
             "serves": 6,
@@ -2302,9 +2270,7 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": [
-
-            ]
+            "moderation_notes": []
           }
         },
         {
@@ -2320,7 +2286,7 @@
             "page_url": "",
             "eyebrow": "Recette signature",
             "subtitle": "Crème dense, sucre net, vanille profonde et service impeccable.",
-            "summary": "Une crème brûlée premium qui met la gousse au centre, avec un pas à pas stable et très rassurant.",
+            "summary": "Une crème brûlée à la vanille Bourbon, onctueuse dessous et bien cassante sur le dessus.",
             "description": "Cette version cherche l’équilibre entre appareil riche, cuisson douce et cassant net sur le dessus pour une vraie recette signature facile à reproduire.",
             "category": "Desserts",
             "serves": 6,
@@ -2515,9 +2481,7 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": [
-
-            ]
+            "moderation_notes": []
           }
         },
         {
@@ -2533,7 +2497,7 @@
             "page_url": "",
             "eyebrow": "Recette signature",
             "subtitle": "Crème dense, sucre net, vanille profonde et service impeccable.",
-            "summary": "Une crème brûlée premium qui met la gousse au centre, avec un pas à pas stable et très rassurant.",
+            "summary": "Une crème brûlée à la vanille Bourbon, onctueuse dessous et bien cassante sur le dessus.",
             "description": "Cette version cherche l’équilibre entre appareil riche, cuisson douce et cassant net sur le dessus pour une vraie recette signature facile à reproduire.",
             "category": "Desserts",
             "serves": 6,
@@ -2754,10 +2718,10 @@
       "status": "approved",
       "access": "free",
       "page_url": "",
-      "eyebrow": "Recette libre",
+      "eyebrow": "Recette facile",
       "subtitle": "Un cake simple, très lisible, parfait pour découvrir la vanille maison.",
-      "summary": "Une recette gratuite à forte utilité SEO, pensée pour entrer facilement dans l’univers Vanille Désiré.",
-      "description": "Le cake joue sur une vanille souple, une pointe de cannelle et une mie très régulière. C’est une excellente porte d’entrée pour travailler la gousse sans complexité.",
+      "summary": "Un cake moelleux à la vanille et à la cannelle, simple à préparer et facile à refaire.",
+      "description": "Une mie régulière, une vanille souple et juste ce qu’il faut de cannelle pour un gâteau du quotidien.",
       "category": "Desserts",
       "serves": 8,
       "difficulty": {
@@ -2790,7 +2754,7 @@
         "cake",
         "vanille",
         "cannelle",
-        "gratuit"
+        "accès libre"
       ],
       "collections": [
         "recettes-gratuites",
@@ -2806,7 +2770,7 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la collection",
-        "note": "Une recette gratuite pour convertir naturellement vers la gousse et les essentiels de patisserie."
+        "note": "Une recette simple pour retrouver la gousse et les essentiels de pâtisserie."
       },
       "products": [
         {
@@ -2972,9 +2936,9 @@
             "status": "draft",
             "access": "free",
             "page_url": "",
-            "eyebrow": "Recette libre",
+            "eyebrow": "Recette facile",
             "subtitle": "Un cake simple, très lisible, parfait pour découvrir la vanille maison.",
-            "summary": "Une recette gratuite à forte utilité SEO, pensée pour entrer facilement dans l’univers Vanille Désiré.",
+            "summary": "Un cake moelleux à la vanille et à la cannelle, simple à préparer et facile à refaire.",
             "description": "Le cake joue sur une vanille souple, une pointe de cannelle et une mie très régulière. C’est une excellente porte d’entrée pour travailler la gousse sans complexité.",
             "category": "Desserts",
             "serves": 8,
@@ -3024,7 +2988,7 @@
               ],
               "primary_label": "Voir le produit",
               "secondary_label": "Voir la collection",
-              "note": "Une recette gratuite pour convertir naturellement vers la gousse et les essentiels de patisserie."
+              "note": "Une recette simple pour retrouver la gousse et les essentiels de pâtisserie."
             },
             "products": [
               {
@@ -3170,9 +3134,7 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": [
-
-            ]
+            "moderation_notes": []
           }
         },
         {
@@ -3186,9 +3148,9 @@
             "status": "approved",
             "access": "free",
             "page_url": "",
-            "eyebrow": "Recette libre",
+            "eyebrow": "Recette facile",
             "subtitle": "Un cake simple, très lisible, parfait pour découvrir la vanille maison.",
-            "summary": "Une recette gratuite à forte utilité SEO, pensée pour entrer facilement dans l’univers Vanille Désiré.",
+            "summary": "Un cake moelleux à la vanille et à la cannelle, simple à préparer et facile à refaire.",
             "description": "Le cake joue sur une vanille souple, une pointe de cannelle et une mie très régulière. C’est une excellente porte d’entrée pour travailler la gousse sans complexité.",
             "category": "Desserts",
             "serves": 8,
@@ -3238,7 +3200,7 @@
               ],
               "primary_label": "Voir le produit",
               "secondary_label": "Voir la collection",
-              "note": "Une recette gratuite pour convertir naturellement vers la gousse et les essentiels de patisserie."
+              "note": "Une recette simple pour retrouver la gousse et les essentiels de pâtisserie."
             },
             "products": [
               {
@@ -3384,9 +3346,7 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": [
-
-            ]
+            "moderation_notes": []
           }
         },
         {
@@ -3400,9 +3360,9 @@
             "status": "approved",
             "access": "free",
             "page_url": "",
-            "eyebrow": "Recette libre",
+            "eyebrow": "Recette facile",
             "subtitle": "Un cake simple, très lisible, parfait pour découvrir la vanille maison.",
-            "summary": "Une recette gratuite à forte utilité SEO, pensée pour entrer facilement dans l’univers Vanille Désiré.",
+            "summary": "Un cake moelleux à la vanille et à la cannelle, simple à préparer et facile à refaire.",
             "description": "Le cake joue sur une vanille souple, une pointe de cannelle et une mie très régulière. C’est une excellente porte d’entrée pour travailler la gousse sans complexité.",
             "category": "Desserts",
             "serves": 8,
@@ -3452,7 +3412,7 @@
               ],
               "primary_label": "Voir le produit",
               "secondary_label": "Voir la collection",
-              "note": "Une recette gratuite pour convertir naturellement vers la gousse et les essentiels de patisserie."
+              "note": "Une recette simple pour retrouver la gousse et les essentiels de pâtisserie."
             },
             "products": [
               {
@@ -3616,10 +3576,10 @@
       "status": "approved",
       "access": "free",
       "page_url": "",
-      "eyebrow": "Recette libre",
+      "eyebrow": "Recette facile",
       "subtitle": "Une recette courte, visuelle et très efficace pour montrer la precision aromatique de Madagascar.",
-      "summary": "Ananas, vanille et voatsiperifery forment une recette de répertoire très simple et très différenciante.",
-      "description": "L’ananas est saisi puis glacé légèrement. La vanille apporte la rondeur, tandis que le poivre sauvage tire la finale vers quelque chose de plus vivant.",
+      "summary": "De l’ananas rôti, une vanille ronde et une pointe de poivre sauvage pour un dessert vif.",
+      "description": "L’ananas est saisi puis glacé légèrement pour garder du jus, du relief et une finale épicée.",
       "category": "Desserts",
       "serves": 4,
       "difficulty": {
@@ -3652,7 +3612,7 @@
         "ananas",
         "vanille",
         "poivre sauvage",
-        "gratuit"
+        "accès libre"
       ],
       "collections": [
         "recettes-gratuites",
@@ -3668,7 +3628,7 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la selection",
-        "note": "Le poivre sauvage donne ici un vrai signal de marque et une belle difference en SEO."
+        "note": "Le poivre sauvage apporte ici une vraie longueur et une finale plus vive."
       },
       "products": [
         {
@@ -3821,9 +3781,9 @@
             "status": "draft",
             "access": "free",
             "page_url": "",
-            "eyebrow": "Recette libre",
+            "eyebrow": "Recette facile",
             "subtitle": "Une recette courte, visuelle et très efficace pour montrer la precision aromatique de Madagascar.",
-            "summary": "Ananas, vanille et voatsiperifery forment une recette de répertoire très simple et très différenciante.",
+            "summary": "De l’ananas rôti, une vanille ronde et une pointe de poivre sauvage pour un dessert vif.",
             "description": "L’ananas est saisi puis glacé légèrement. La vanille apporte la rondeur, tandis que le poivre sauvage tire la finale vers quelque chose de plus vivant.",
             "category": "Desserts",
             "serves": 4,
@@ -3873,7 +3833,7 @@
               ],
               "primary_label": "Voir le produit",
               "secondary_label": "Voir la selection",
-              "note": "Le poivre sauvage donne ici un vrai signal de marque et une belle difference en SEO."
+              "note": "Le poivre sauvage apporte ici une vraie longueur et une finale plus vive."
             },
             "products": [
               {
@@ -4006,9 +3966,7 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": [
-
-            ]
+            "moderation_notes": []
           }
         },
         {
@@ -4022,9 +3980,9 @@
             "status": "approved",
             "access": "free",
             "page_url": "",
-            "eyebrow": "Recette libre",
+            "eyebrow": "Recette facile",
             "subtitle": "Une recette courte, visuelle et très efficace pour montrer la precision aromatique de Madagascar.",
-            "summary": "Ananas, vanille et voatsiperifery forment une recette de répertoire très simple et très différenciante.",
+            "summary": "De l’ananas rôti, une vanille ronde et une pointe de poivre sauvage pour un dessert vif.",
             "description": "L’ananas est saisi puis glacé légèrement. La vanille apporte la rondeur, tandis que le poivre sauvage tire la finale vers quelque chose de plus vivant.",
             "category": "Desserts",
             "serves": 4,
@@ -4074,7 +4032,7 @@
               ],
               "primary_label": "Voir le produit",
               "secondary_label": "Voir la selection",
-              "note": "Le poivre sauvage donne ici un vrai signal de marque et une belle difference en SEO."
+              "note": "Le poivre sauvage apporte ici une vraie longueur et une finale plus vive."
             },
             "products": [
               {
@@ -4207,9 +4165,7 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": [
-
-            ]
+            "moderation_notes": []
           }
         },
         {
@@ -4223,9 +4179,9 @@
             "status": "approved",
             "access": "free",
             "page_url": "",
-            "eyebrow": "Recette libre",
+            "eyebrow": "Recette facile",
             "subtitle": "Une recette courte, visuelle et très efficace pour montrer la precision aromatique de Madagascar.",
-            "summary": "Ananas, vanille et voatsiperifery forment une recette de répertoire très simple et très différenciante.",
+            "summary": "De l’ananas rôti, une vanille ronde et une pointe de poivre sauvage pour un dessert vif.",
             "description": "L’ananas est saisi puis glacé légèrement. La vanille apporte la rondeur, tandis que le poivre sauvage tire la finale vers quelque chose de plus vivant.",
             "category": "Desserts",
             "serves": 4,
@@ -4275,7 +4231,7 @@
               ],
               "primary_label": "Voir le produit",
               "secondary_label": "Voir la selection",
-              "note": "Le poivre sauvage donne ici un vrai signal de marque et une belle difference en SEO."
+              "note": "Le poivre sauvage apporte ici une vraie longueur et une finale plus vive."
             },
             "products": [
               {
@@ -4426,10 +4382,10 @@
       "status": "approved",
       "access": "free",
       "page_url": "",
-      "eyebrow": "Recette libre",
+      "eyebrow": "Recette facile",
       "subtitle": "Une entrée salée qui montre que la vanille peut rester precise sans basculer dessert.",
-      "summary": "Une recette libre très utile pour le SEO salé et la découverte de la vanille dans un registre non sucré.",
-      "description": "Les carottes sont rissolées puis finies avec une vanille légère et un accent combava. Le résultat reste végétal, net et très accessible.",
+      "summary": "Des carottes rôties, relevées de vanille et de combava, pour un accompagnement lumineux.",
+      "description": "Les carottes gardent de la tenue, la vanille apporte de la rondeur et le combava réveille l’ensemble.",
       "category": "Sale",
       "serves": 4,
       "difficulty": {
@@ -4462,7 +4418,7 @@
         "legumes",
         "vanille",
         "combava",
-        "gratuit"
+        "accès libre"
       ],
       "collections": [
         "recettes-gratuites",
@@ -4634,9 +4590,9 @@
             "status": "draft",
             "access": "free",
             "page_url": "",
-            "eyebrow": "Recette libre",
+            "eyebrow": "Recette facile",
             "subtitle": "Une entrée salée qui montre que la vanille peut rester precise sans basculer dessert.",
-            "summary": "Une recette libre très utile pour le SEO salé et la découverte de la vanille dans un registre non sucré.",
+            "summary": "Des carottes rôties, relevées de vanille et de combava, pour un accompagnement lumineux.",
             "description": "Les carottes sont rissolées puis finies avec une vanille légère et un accent combava. Le résultat reste végétal, net et très accessible.",
             "category": "Sale",
             "serves": 4,
@@ -4822,9 +4778,7 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": [
-
-            ]
+            "moderation_notes": []
           }
         },
         {
@@ -4838,9 +4792,9 @@
             "status": "approved",
             "access": "free",
             "page_url": "",
-            "eyebrow": "Recette libre",
+            "eyebrow": "Recette facile",
             "subtitle": "Une entrée salée qui montre que la vanille peut rester precise sans basculer dessert.",
-            "summary": "Une recette libre très utile pour le SEO salé et la découverte de la vanille dans un registre non sucré.",
+            "summary": "Des carottes rôties, relevées de vanille et de combava, pour un accompagnement lumineux.",
             "description": "Les carottes sont rissolées puis finies avec une vanille légère et un accent combava. Le résultat reste végétal, net et très accessible.",
             "category": "Sale",
             "serves": 4,
@@ -5026,9 +4980,7 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": [
-
-            ]
+            "moderation_notes": []
           }
         },
         {
@@ -5042,9 +4994,9 @@
             "status": "approved",
             "access": "free",
             "page_url": "",
-            "eyebrow": "Recette libre",
+            "eyebrow": "Recette facile",
             "subtitle": "Une entrée salée qui montre que la vanille peut rester precise sans basculer dessert.",
-            "summary": "Une recette libre très utile pour le SEO salé et la découverte de la vanille dans un registre non sucré.",
+            "summary": "Des carottes rôties, relevées de vanille et de combava, pour un accompagnement lumineux.",
             "description": "Les carottes sont rissolées puis finies avec une vanille légère et un accent combava. Le résultat reste végétal, net et très accessible.",
             "category": "Sale",
             "serves": 4,
@@ -5250,8 +5202,8 @@
       "page_url": "",
       "eyebrow": "Recette signature",
       "subtitle": "Une sauce courte, crèmeuse et precise pour faire entrer la vanille dans un plat salé gourmand.",
-      "summary": "Une recette premium très démonstrative pour la cuisine salée Vanille Désiré, avec un mode guide très utile.",
-      "description": "Les crevettes sont snackées rapidement puis nappées d’une sauce crème, curry et vanille. L’ensemble reste court, net et très lisible.",
+      "summary": "Des crevettes nappées d’une sauce curry-vanille courte, crémeuse et très parfumée.",
+      "description": "Les crevettes sont snackées rapidement puis enrobées d’une sauce douce et épicée, avec une vanille bien tenue.",
       "category": "Sale",
       "serves": 4,
       "difficulty": {
@@ -5284,7 +5236,7 @@
         "crevettes",
         "curry",
         "vanille",
-        "premium"
+        "signature"
       ],
       "collections": [
         "recettes-premium",
@@ -5410,7 +5362,7 @@
       ],
       "seo": {
         "title": "Crevettes curry et vanille | Vanille Désiré",
-        "description": "Recette de crevettes curry et vanille, une demonstration premium de la vanille en cuisine salée.",
+        "description": "Recette de crevettes curry et vanille, une belle démonstration de la vanille en cuisine salée.",
         "keywords": [
           "crevettes curry vanille",
           "vanille cuisine salée",
@@ -5469,7 +5421,7 @@
             "page_url": "",
             "eyebrow": "Recette signature",
             "subtitle": "Une sauce courte, crèmeuse et precise pour faire entrer la vanille dans un plat salé gourmand.",
-            "summary": "Une recette premium très démonstrative pour la cuisine salée Vanille Désiré, avec un mode guide très utile.",
+            "summary": "Des crevettes nappées d’une sauce curry-vanille courte, crémeuse et très parfumée.",
             "description": "Les crevettes sont snackées rapidement puis nappées d’une sauce crème, curry et vanille. L’ensemble reste court, net et très lisible.",
             "category": "Sale",
             "serves": 4,
@@ -5666,9 +5618,7 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": [
-
-            ]
+            "moderation_notes": []
           }
         },
         {
@@ -5684,7 +5634,7 @@
             "page_url": "",
             "eyebrow": "Recette signature",
             "subtitle": "Une sauce courte, crèmeuse et precise pour faire entrer la vanille dans un plat salé gourmand.",
-            "summary": "Une recette premium très démonstrative pour la cuisine salée Vanille Désiré, avec un mode guide très utile.",
+            "summary": "Des crevettes nappées d’une sauce curry-vanille courte, crémeuse et très parfumée.",
             "description": "Les crevettes sont snackées rapidement puis nappées d’une sauce crème, curry et vanille. L’ensemble reste court, net et très lisible.",
             "category": "Sale",
             "serves": 4,
@@ -5881,9 +5831,7 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": [
-
-            ]
+            "moderation_notes": []
           }
         },
         {
@@ -5899,7 +5847,7 @@
             "page_url": "",
             "eyebrow": "Recette signature",
             "subtitle": "Une sauce courte, crèmeuse et precise pour faire entrer la vanille dans un plat salé gourmand.",
-            "summary": "Une recette premium très démonstrative pour la cuisine salée Vanille Désiré, avec un mode guide très utile.",
+            "summary": "Des crevettes nappées d’une sauce curry-vanille courte, crémeuse et très parfumée.",
             "description": "Les crevettes sont snackées rapidement puis nappées d’une sauce crème, curry et vanille. L’ensemble reste court, net et très lisible.",
             "category": "Sale",
             "serves": 4,
@@ -6122,10 +6070,10 @@
       "access": "free",
       "title": "Banana bread vanille cannelle",
       "page_url": "",
-      "eyebrow": "Recette libre",
+      "eyebrow": "Recette facile",
       "subtitle": "Une mie souple, une banane nette, une vanille chaude sans lourdeur.",
-      "summary": "Une base très simple pour valoriser bananes mures, cannelle de Madagascar et vanille Bourbon dans un cake facile à refaire.",
-      "description": "Cette adaptation s’appuie sur une base de banana bread ouverte, puis resserre le sucre, pose mieux la cannelle et fait entrer la vanille Désiré de façon plus lisible.",
+      "summary": "Un banana bread moelleux à la vanille et à la cannelle, parfait pour utiliser des bananes bien mûres.",
+      "description": "Une mie tendre, une belle tenue à la découpe et une vanille qui accompagne la banane sans l’écraser.",
       "category": "Desserts",
       "difficulty": {
         "value": "facile",
@@ -6156,7 +6104,7 @@
         "banane",
         "vanille",
         "cannelle",
-        "recette libre"
+        "recette facile"
       ],
       "collections": [
         "recettes-gratuites",
@@ -6335,7 +6283,7 @@
           "title": "Wikibooks Cookbook:Banana Bread I",
           "url": "https://en.wikibooks.org/wiki/Cookbook:Banana_Bread_I",
           "license": "CC BY-SA 4.0",
-          "note": "Base adaptée et rééquilibrée pour les produits Vanille Désiré."
+          "note": "Base adaptée et rééquilibrée autour des produits Vanille Désiré."
         }
       ],
       "submitted_by": {
@@ -6347,12 +6295,8 @@
       "updated_at": "2026-03-28T13:16:27Z",
       "validated_at": "2026-03-28T13:16:27Z",
       "validated_by": "VD Editorial Studio",
-      "moderation_notes": [
-
-      ],
-      "revisions": [
-
-      ]
+      "moderation_notes": [],
+      "revisions": []
     },
     {
       "slug": "carrot-cake-vanille-cannelle",
@@ -6360,10 +6304,10 @@
       "access": "free",
       "title": "Carrot cake vanille cannelle",
       "page_url": "",
-      "eyebrow": "Recette libre",
+      "eyebrow": "Recette facile",
       "subtitle": "Une pate souple, epicee juste ce qu il faut, avec une vanille qui reste claire.",
-      "summary": "Une adaptation de carrot cake plus propre en bouche, moins sucrée, pour mettre la cannelle de Madagascar et la vanille au bon niveau.",
-      "description": "Le carrot cake fonctionne très bien avec une cannelle fine et une touche de vanille en appareil comme en finition. Ici, on garde une lecture simple et un glaçage optionnel.",
+      "summary": "Un carrot cake fondant, peu sucré, avec une belle note de cannelle et de vanille.",
+      "description": "Un cake moelleux, parfumé sans lourdeur, à servir nature ou avec un glaçage léger.",
       "category": "Desserts",
       "difficulty": {
         "value": "intermédiaire",
@@ -6394,7 +6338,7 @@
         "vanille",
         "cannelle",
         "cake",
-        "recette libre"
+        "recette facile"
       ],
       "collections": [
         "recettes-gratuites",
@@ -6579,7 +6523,7 @@
           "title": "Wikibooks Cookbook:Carrot Cake I",
           "url": "https://en.wikibooks.org/wiki/Cookbook:Carrot_Cake_I",
           "license": "CC BY-SA 4.0",
-          "note": "Base adaptée et rééquilibrée pour Vanille Désiré."
+          "note": "Base adaptée et rééquilibrée pour une lecture plus claire en cuisine."
         }
       ],
       "submitted_by": {
@@ -6591,12 +6535,8 @@
       "updated_at": "2026-03-28T13:16:27Z",
       "validated_at": "2026-03-28T13:16:27Z",
       "validated_by": "VD Editorial Studio",
-      "moderation_notes": [
-
-      ],
-      "revisions": [
-
-      ]
+      "moderation_notes": [],
+      "revisions": []
     },
     {
       "slug": "genoise-vanille-levee",
@@ -6606,8 +6546,8 @@
       "page_url": "",
       "eyebrow": "Recette signature",
       "subtitle": "Une mie aerienne, levée en douceur, avec une vanille plus structuree qu un simple biscuit.",
-      "summary": "Cette génoise levée est idéale pour une lecture premium : peu d’ingrédients, une fermentation douce et une vanille qui tient le centre du jeu.",
-      "description": "À partir d’une base ouverte de vanilla sponge cake levé, on resserre les repères pour obtenir un biscuit plus luxe, parfait en entremets, shortcake ou brunch sucré.",
+      "summary": "Une génoise légère et aérée, avec une fermentation douce et une vanille bien présente.",
+      "description": "Une base souple et élégante pour monter un dessert, un shortcake ou un gâteau de brunch.",
       "category": "Desserts",
       "difficulty": {
         "value": "signature",
@@ -6635,7 +6575,7 @@
         "dessert",
         "génoise",
         "vanille",
-        "premium",
+        "signature",
         "recette signature"
       ],
       "collections": [
@@ -6762,7 +6702,7 @@
       ],
       "seo": {
         "title": "Génoise vanille levée | Vanille Désiré",
-        "description": "Génoise vanille levée, aeree et premium, pour desserts à la vanille plus techniques.",
+        "description": "Génoise vanille levée, aérée et généreuse, pour desserts à la vanille plus techniques.",
         "keywords": [
           "génoise vanille",
           "vanilla sponge cake",
@@ -6799,7 +6739,7 @@
           "title": "Wikibooks Cookbook:Yeasted Vanilla Sponge Cake",
           "url": "https://en.wikibooks.org/wiki/Cookbook:Yeasted_Vanilla_Sponge_Cake",
           "license": "CC BY-SA 4.0",
-          "note": "Base adaptée et resserrée pour le registre premium Vanille Désiré."
+          "note": "Base resserrée pour une réalisation plus claire à la maison."
         }
       ],
       "submitted_by": {
@@ -6811,12 +6751,8 @@
       "updated_at": "2026-03-28T13:16:27Z",
       "validated_at": "2026-03-28T13:16:27Z",
       "validated_by": "VD Editorial Studio",
-      "moderation_notes": [
-
-      ],
-      "revisions": [
-
-      ]
+      "moderation_notes": [],
+      "revisions": []
     },
     {
       "slug": "gateau-ananas-renverse-vanille",
@@ -6824,10 +6760,10 @@
       "access": "free",
       "title": "Gâteau ananas renverse vanille",
       "page_url": "",
-      "eyebrow": "Recette libre",
+      "eyebrow": "Recette facile",
       "subtitle": "Un caramel net, un ananas juteux, une vanille qui reste au premier plan.",
-      "summary": "Une lecture tropicale très simple à publier dans le répertoire, avec ananas, sucre vanille et gousse Bourbon.",
-      "description": "Cette adaptation d’un pineapple upside-down cake garde le geste classique mais simplifie les repères pour une page recette très accessible.",
+      "summary": "Un gâteau renversé à l’ananas, brillant et généreux, relevé de vanille Bourbon.",
+      "description": "Des tranches d’ananas caramélisées, une pâte souple et une vanille nette pour un dessert facile à partager.",
       "category": "Desserts",
       "difficulty": {
         "value": "facile",
@@ -6856,7 +6792,7 @@
         "ananas",
         "vanille",
         "goûter",
-        "recette libre"
+        "recette facile"
       ],
       "collections": [
         "recettes-gratuites",
@@ -6996,7 +6932,7 @@
       ],
       "seo": {
         "title": "Gâteau ananas renverse vanille | Vanille Désiré",
-        "description": "Gâteau ananas renverse vanille, simple, brillant et très utile pour le répertoire dessert tropical.",
+        "description": "Gâteau ananas renverse vanille, simple, brillant et très utile pour le dessert tropical.",
         "keywords": [
           "gâteau ananas vanille",
           "pineapple upside down cake vanille",
@@ -7032,7 +6968,7 @@
           "title": "Wikibooks Cookbook:Pineapple Upside-Down Cake in a Skillet",
           "url": "https://en.wikibooks.org/wiki/Cookbook:Pineapple_Upside-Down_Cake_in_a_Skillet",
           "license": "CC BY-SA 4.0",
-          "note": "Base adaptée avec produits Vanille Désiré et repères simplifiés."
+          "note": "Base adaptée avec des repères simplifiés pour cuisiner sereinement."
         }
       ],
       "submitted_by": {
@@ -7044,12 +6980,8 @@
       "updated_at": "2026-03-28T13:16:27Z",
       "validated_at": "2026-03-28T13:16:27Z",
       "validated_by": "VD Editorial Studio",
-      "moderation_notes": [
-
-      ],
-      "revisions": [
-
-      ]
+      "moderation_notes": [],
+      "revisions": []
     }
   ],
   "audit_log": [

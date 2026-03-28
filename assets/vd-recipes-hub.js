@@ -393,9 +393,9 @@
     if (!target) return;
 
     var config = [
-      { key: 'desserts-a-la-vanille', title: 'Desserts à la vanille', text: 'Les recettes pilier pour installer Vanille Désiré sur les requêtes cœur de gamme.' },
-      { key: 'vanille-salee', title: 'Vanille salée', text: 'Le territoire le plus différenciant pour la marque, avec des recettes qui surprennent sans perdre en lisibilité.' },
-      { key: 'petits-dejeuners-a-la-vanille', title: 'Petit-déjeuner & goûter', text: 'Des formats simples à refaire souvent, parfaits pour la récurrence et le carnet personnel.' }
+      { key: 'desserts-a-la-vanille', title: 'Desserts à la vanille', text: 'Des classiques gourmands et des idées à partager pour mettre la vanille au centre du dessert.' },
+      { key: 'vanille-salee', title: 'Vanille salée', text: 'Des recettes nettes et surprenantes pour cuisiner la vanille autrement, sans perdre en équilibre.' },
+      { key: 'petits-dejeuners-a-la-vanille', title: 'Petit-déjeuner & goûter', text: 'Des formats simples, moelleux et faciles à refaire pour le matin ou le goûter.' }
     ];
 
     var panels = config.map(function (entry) {
