@@ -80,6 +80,46 @@
     } catch (error) {}
   }
 
+  function createShelfClient(section) {
+    var endpoint = (section.getAttribute('data-customer-shelf-endpoint') || '').trim();
+    var authenticated = section.getAttribute('data-customer-authenticated') === 'true';
+
+    function request(method, payload) {
+      if (!endpoint || !authenticated) return Promise.resolve(null);
+
+      return fetch(endpoint, {
+        method: method,
+        credentials: 'same-origin',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: payload ? JSON.stringify(payload) : undefined
+      }).then(function (response) {
+        if (!response.ok) throw new Error('shelf_request_failed');
+        return response.json();
+      });
+    }
+
+    return {
+      enabled: !!(endpoint && authenticated),
+      fetch: function () {
+        return request('GET');
+      },
+      syncLocalStores: function () {
+        return request('POST', {
+          favorites: getFavoriteStore().slugs,
+          history: loadJSON('vd-recipes-history', { items: [] }).items || []
+        });
+      },
+      applyRemote: function (payload) {
+        if (!payload || !payload.favorites || !payload.history) return;
+        saveJSON('vd-recipes-favorites', payload.favorites);
+        saveJSON('vd-recipes-history', payload.history);
+      }
+    };
+  }
+
   function getFavoriteStore() {
     var data = loadJSON('vd-recipes-favorites', { slugs: [] });
     data.slugs = Array.isArray(data.slugs) ? data.slugs : [];
@@ -690,7 +730,7 @@
     loadRecipeProducts(recipe).then(renderProducts);
   }
 
-  function bindRecipe(section, recipe) {
+  function bindRecipe(section, recipe, shelfClient) {
     var storageKey = 'vd-recipe-' + recipe.slug;
     var baseServes = Number(recipe.serves) || 1;
     var state = loadState(storageKey, baseServes, (recipe.steps || []).length);
@@ -1219,6 +1259,9 @@
         favoriteButton.classList.toggle('is-active', active);
         favoriteButton.textContent = active ? 'Dans vos favoris' : 'Ajouter au carnet';
         showToast(section, active ? 'Ajoutée au carnet' : 'Retirée du carnet');
+        if (shelfClient && shelfClient.enabled) {
+          shelfClient.syncLocalStores().catch(function () {});
+        }
       });
     }
 
@@ -1310,6 +1353,9 @@
       updateTimerButtons();
       setActiveStep(0, false);
       showToast(section, 'Progression reinitialisee');
+      if (shelfClient && shelfClient.enabled) {
+        shelfClient.syncLocalStores().catch(function () {});
+      }
     });
 
     prevButton.addEventListener('click', function () {
@@ -1451,6 +1497,7 @@
     var querySlug = new URLSearchParams(window.location.search).get('recipe');
     var customerAuthenticated = section.getAttribute('data-customer-authenticated') === 'true';
     var requireCustomerAccess = section.getAttribute('data-require-customer-access') === 'true';
+    var shelfClient = createShelfClient(section);
     var media = section.querySelector('[data-vd-recipe-media]');
     var schemaNode = section.querySelector('[data-vd-recipe-schema]');
 
@@ -1466,12 +1513,22 @@
       return;
     }
 
-    fetch(registryUrl, { credentials: 'same-origin' })
+    var shelfReady = shelfClient.enabled
+      ? shelfClient.fetch().then(function (payload) {
+          shelfClient.applyRemote(payload);
+        }).catch(function () {})
+      : Promise.resolve();
+
+    Promise.all([
+      fetch(registryUrl, { credentials: 'same-origin' })
+        .then(function (response) {
+          if (!response.ok) throw new Error('registry');
+          return response.json();
+        }),
+      shelfReady
+    ])
       .then(function (response) {
-        if (!response.ok) throw new Error('registry');
-        return response.json();
-      })
-      .then(function (payload) {
+        var payload = response[0];
         var recipes = Array.isArray(payload.recipes) ? payload.recipes : [];
         var recipe = resolveRequestedRecipe(recipes, requestedSlug);
 
@@ -1482,6 +1539,9 @@
 
         recipe = applyEditorMedia(recipe, parseEditorMedia(section, requestedSlug));
         pushRecipeHistory(recipe);
+        if (shelfClient.enabled) {
+          shelfClient.syncLocalStores().catch(function () {});
+        }
 
         var isLocked = requireCustomerAccess && recipe.access === 'member' && !customerAuthenticated;
         renderMedia(media, recipe);
@@ -1494,7 +1554,7 @@
         hydrateShop(section, recipe);
 
         if (!isLocked) {
-          bindRecipe(section, recipe);
+          bindRecipe(section, recipe, shelfClient);
         }
       })
       .catch(function () {

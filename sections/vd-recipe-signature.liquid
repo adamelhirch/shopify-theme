@@ -37,6 +37,9 @@
   data-page-handle="{{ page.handle }}"
   data-require-customer-access="{{ section.settings.require_customer_access }}"
   data-customer-authenticated="{% if customer %}true{% else %}false{% endif %}"
+  data-customer-id="{{ customer.id }}"
+  data-customer-email="{{ customer.email | escape }}"
+  data-customer-shelf-endpoint="{{ section.settings.customer_shelf_endpoint | escape }}"
   data-login-url="{{ login_target }}"
   data-register-url="{{ register_target }}"
 >
@@ -102,6 +105,13 @@
       "id": "require_customer_access",
       "label": "Exiger un compte client pour les recettes premium",
       "default": true
+    },
+    {
+      "type": "text",
+      "id": "customer_shelf_endpoint",
+      "label": "Endpoint carnet client",
+      "default": "/apps/recipes-studio/shelf",
+      "info": "App proxy Shopify ou endpoint public pour synchroniser favoris et historique."
     },
     {
       "type": "color_scheme",

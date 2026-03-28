@@ -18,6 +18,25 @@ class ShopifyCustomerRecipeShelf
     }
   GRAPHQL
 
+  CUSTOMER_BY_ID_QUERY = <<~GRAPHQL.freeze
+    query CustomerById($id: ID!) {
+      customer(id: $id) {
+        id
+        email
+        firstName
+        lastName
+        recipeFavorites: metafield(namespace: "vd", key: "recipe_favorites") {
+          value
+          updatedAt
+        }
+        recipeHistory: metafield(namespace: "vd", key: "recipe_history") {
+          value
+          updatedAt
+        }
+      }
+    }
+  GRAPHQL
+
   METAFIELDS_SET_MUTATION = <<~GRAPHQL.freeze
     mutation MetafieldsSet($metafields: [MetafieldsSetInput!]!) {
       metafieldsSet(metafields: $metafields) {
@@ -63,13 +82,26 @@ class ShopifyCustomerRecipeShelf
     errors
   end
 
-  def sync(email:, favorites:, history:, actor:)
+  def fetch(customer_id: nil, email: nil)
     raise ArgumentError, configuration_errors.join(', ') unless configured?
 
-    normalized_email = email.to_s.strip.downcase
-    raise ArgumentError, 'email client manquant' if normalized_email.empty?
+    customer = resolve_customer(customer_id: customer_id, email: email)
+    raise KeyError, 'customer not found' unless customer
 
-    customer = find_customer_by_email(normalized_email)
+    {
+      ok: true,
+      customer: public_customer(customer),
+      favorites: parse_metafield_json(customer['recipeFavorites'], fallback: { 'slugs' => [] }),
+      history: parse_metafield_json(customer['recipeHistory'], fallback: { 'items' => [] }),
+      shop_domain: shop_domain,
+      api_version: api_version
+    }
+  end
+
+  def sync(customer_id: nil, email: nil, favorites:, history:, actor:)
+    raise ArgumentError, configuration_errors.join(', ') unless configured?
+
+    customer = resolve_customer(customer_id: customer_id, email: email)
     raise KeyError, 'customer not found' unless customer
 
     now = Time.now.utc.iso8601
@@ -111,12 +143,7 @@ class ShopifyCustomerRecipeShelf
 
     {
       ok: true,
-      customer: {
-        id: customer['id'],
-        email: customer['email'],
-        first_name: customer['firstName'],
-        last_name: customer['lastName']
-      },
+      customer: public_customer(customer),
       favorites: favorite_payload,
       history: history_payload,
       updated_at: now,
@@ -130,6 +157,37 @@ class ShopifyCustomerRecipeShelf
   def find_customer_by_email(email)
     payload = graphql(CUSTOMER_LOOKUP_QUERY, { query: "email:#{email}" })
     Array(payload.dig('customers', 'nodes')).first
+  end
+
+  def find_customer_by_id(customer_id)
+    gid = customer_id.to_s.start_with?('gid://') ? customer_id.to_s : "gid://shopify/Customer/#{customer_id}"
+    payload = graphql(CUSTOMER_BY_ID_QUERY, { id: gid })
+    payload['customer']
+  end
+
+  def resolve_customer(customer_id:, email:)
+    normalized_email = email.to_s.strip.downcase
+    return find_customer_by_id(customer_id) unless customer_id.to_s.strip.empty?
+    raise ArgumentError, 'email client manquant' if normalized_email.empty?
+
+    find_customer_by_email(normalized_email)
+  end
+
+  def parse_metafield_json(entry, fallback:)
+    return fallback unless entry.is_a?(Hash)
+
+    JSON.parse(entry['value'].to_s)
+  rescue JSON::ParserError
+    fallback
+  end
+
+  def public_customer(customer)
+    {
+      id: customer['id'],
+      email: customer['email'],
+      first_name: customer['firstName'],
+      last_name: customer['lastName']
+    }
   end
 
   def normalize_slugs(values)

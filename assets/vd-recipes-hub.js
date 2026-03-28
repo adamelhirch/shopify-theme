@@ -80,6 +80,46 @@
     } catch (error) {}
   }
 
+  function createShelfClient(section) {
+    var endpoint = (section.getAttribute('data-customer-shelf-endpoint') || '').trim();
+    var authenticated = section.getAttribute('data-customer-authenticated') === 'true';
+
+    function request(method, payload) {
+      if (!endpoint || !authenticated) return Promise.resolve(null);
+
+      return fetch(endpoint, {
+        method: method,
+        credentials: 'same-origin',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: payload ? JSON.stringify(payload) : undefined
+      }).then(function (response) {
+        if (!response.ok) throw new Error('shelf_request_failed');
+        return response.json();
+      });
+    }
+
+    return {
+      enabled: !!(endpoint && authenticated),
+      fetch: function () {
+        return request('GET');
+      },
+      syncLocalStores: function () {
+        return request('POST', {
+          favorites: favoriteStore().slugs,
+          history: historyStore().items
+        });
+      },
+      applyRemote: function (payload) {
+        if (!payload) return;
+        if (payload.favorites) saveJSON('vd-recipes-favorites', payload.favorites);
+        if (payload.history) saveJSON('vd-recipes-history', payload.history);
+      }
+    };
+  }
+
   function favoriteStore() {
     var data = loadJSON('vd-recipes-favorites', { slugs: [] });
     data.slugs = Array.isArray(data.slugs) ? data.slugs : [];
@@ -332,7 +372,7 @@
     rails.hidden = history.length === 0 && favorites.length === 0;
   }
 
-  function bindFavoriteButtons(section, recipes, heroOverrides, state) {
+  function bindFavoriteButtons(section, recipes, heroOverrides, state, shelfClient) {
     Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipe-favorite-toggle]')).forEach(function (button) {
       button.addEventListener('click', function (event) {
         event.preventDefault();
@@ -351,6 +391,9 @@
 
         button.classList.toggle('is-active', index === -1);
         button.textContent = index === -1 ? 'Favori' : 'Sauvegarder';
+        if (shelfClient && shelfClient.enabled) {
+          shelfClient.syncLocalStores().catch(function () {});
+        }
         buildPersonalRails(section, recipes, heroOverrides);
         applyFilters(section, state);
       });
@@ -371,6 +414,7 @@
     var hubScreen = section.querySelector('[data-vd-recipes-screen="hub"]');
     var detailScreen = section.querySelector('[data-vd-recipes-screen="detail"]');
     var heroOverrides = buildHeroOverrideMap(section);
+    var shelfClient = createShelfClient(section);
     var accessButtons = Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipes-access]'));
     var difficultyButtons = Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipes-difficulty]'));
     var collectionButtons = [];
@@ -388,12 +432,20 @@
     if (hubScreen) hubScreen.hidden = false;
     if (detailScreen) detailScreen.hidden = true;
 
-    fetch(registryUrl, { credentials: 'same-origin' })
-      .then(function (response) {
-        if (!response.ok) throw new Error('registry');
-        return response.json();
-      })
-      .then(function (payload) {
+    Promise.all([
+      fetch(registryUrl, { credentials: 'same-origin' })
+        .then(function (response) {
+          if (!response.ok) throw new Error('registry');
+          return response.json();
+        }),
+      shelfClient.enabled
+        ? shelfClient.fetch().then(function (payload) {
+            shelfClient.applyRemote(payload);
+          }).catch(function () {})
+        : Promise.resolve()
+    ])
+      .then(function (result) {
+        var payload = result[0];
         var recipes = Array.isArray(payload.recipes) ? payload.recipes : [];
         var approved = recipes.filter(function (recipe) {
           return recipe.status === 'approved';
@@ -405,7 +457,7 @@
         collectionButtons = buildCollectionButtons(section, approved, state);
         buildPersonalRails(section, approved, heroOverrides);
         buildCollectionShowcase(section, approved, heroOverrides);
-        bindFavoriteButtons(section, approved, heroOverrides, state);
+        bindFavoriteButtons(section, approved, heroOverrides, state, shelfClient);
         collectionButtons.forEach(function (button) {
           button.addEventListener('click', function () {
             state.collection = button.getAttribute('data-value') || 'all';

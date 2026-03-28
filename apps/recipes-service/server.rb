@@ -10,6 +10,7 @@ require 'uri'
 require 'webrick'
 require 'English'
 require_relative 'lib/actor_registry'
+require_relative 'lib/shopify_app_proxy_auth'
 require_relative 'lib/shopify_customer_recipe_shelf'
 require_relative 'lib/shopify_page_publisher'
 require_relative 'lib/shopify_preview_manager'
@@ -26,6 +27,7 @@ ACTORS = ActorRegistry.new(File.join(ROOT, 'data', 'actors.json'), fallback_admi
 EXPORT_SCRIPT = File.expand_path('../../bin/export-recipes-store.rb', __dir__)
 SHOPIFY_PUBLISHER = ShopifyPagePublisher.build_from_env
 SHOPIFY_CUSTOMER_SHELF = ShopifyCustomerRecipeShelf.build_from_env
+SHOPIFY_APP_PROXY_AUTH = ShopifyAppProxyAuth.build_from_env
 STUDIO_SETTINGS = StudioSettings.new(File.join(ROOT, 'data', 'studio_settings.json'))
 STUDIO_CONTENT = StudioContentRegistry.new(File.join(ROOT, 'data', 'studio_content.json'))
 PREVIEW_MANAGER = ShopifyPreviewManager.build_from_env(settings: STUDIO_SETTINGS)
@@ -203,6 +205,51 @@ def sync_customer_recipe_shelf(email:, favorites:, history:, actor:)
     history: history,
     actor: actor
   )
+end
+
+def app_proxy_unauthorized!(response)
+  json_response(response, 401, { error: 'invalid_app_proxy_signature' })
+end
+
+def require_app_proxy!(request, response)
+  unless SHOPIFY_APP_PROXY_AUTH.valid_request?(request.query)
+    app_proxy_unauthorized!(response)
+    return false
+  end
+
+  true
+end
+
+def normalize_public_history(items)
+  Array(items).map do |entry|
+    if entry.is_a?(Hash)
+      slug = entry['slug'].to_s.strip
+      saved_at = entry['saved_at'].to_s.strip
+      next if slug.empty?
+
+      { 'slug' => slug, 'saved_at' => saved_at.empty? ? Time.now.utc.iso8601 : saved_at }
+    else
+      slug = entry.to_s.strip
+      next if slug.empty?
+
+      { 'slug' => slug, 'saved_at' => Time.now.utc.iso8601 }
+    end
+  end.compact.first(24)
+end
+
+def public_shelf_payload(request, shelf)
+  customer = shelf[:customer] || {}
+  {
+    ok: true,
+    customer: customer,
+    favorites: shelf[:favorites] || { 'slugs' => [] },
+    history: shelf[:history] || { 'items' => [] },
+    app_proxy: {
+      path: request.path,
+      customer_id: request.query['logged_in_customer_id'],
+      customer_email: request.query['logged_in_customer_email']
+    }
+  }
 end
 
 def html_escape(value)
@@ -896,6 +943,75 @@ def step_media_for_form(steps)
   end.join("\n")
 end
 
+def story_media_slots(media_items, slots = 4)
+  base = Array(media_items).first(slots).map do |item|
+    {
+      'kind' => item['video_url'].to_s.strip.empty? ? 'image' : 'video',
+      'url' => item['video_url'].to_s.strip.empty? ? item['image_url'].to_s : item['video_url'].to_s,
+      'caption' => item['caption'].to_s,
+      'alt' => item['image_alt'].to_s
+    }
+  end
+
+  while base.length < slots
+    base << { 'kind' => 'image', 'url' => '', 'caption' => '', 'alt' => '' }
+  end
+
+  base
+end
+
+def step_media_slots(steps)
+  Array(steps).each_with_index.map do |step, index|
+    media = Array(step['media']).first || {}
+    {
+      'index' => index + 1,
+      'step_title' => step['title'].to_s,
+      'kind' => media['video_url'].to_s.strip.empty? ? 'image' : 'video',
+      'url' => media['video_url'].to_s.strip.empty? ? media['image_url'].to_s : media['video_url'].to_s,
+      'caption' => media['caption'].to_s,
+      'alt' => media['image_alt'].to_s
+    }
+  end
+end
+
+def parse_story_media_slots(query, slots = 4)
+  (1..slots).each_with_object([]) do |index, items|
+    url = query["story_media_#{index}_url"].to_s.strip
+    next if url.empty?
+
+    kind = query["story_media_#{index}_kind"].to_s.strip.downcase == 'video' ? 'video' : 'image'
+    item = {
+      'caption' => query["story_media_#{index}_caption"].to_s.strip,
+      'image_alt' => query["story_media_#{index}_alt"].to_s.strip
+    }
+    if kind == 'video'
+      item['video_url'] = url
+    else
+      item['image_url'] = url
+    end
+    items << item.reject { |_key, value| value.to_s.empty? }
+  end
+end
+
+def parse_step_media_slots(query, steps)
+  Array(steps).each_with_index.each_with_object({}) do |(step, index), media_map|
+    url = query["step_media_#{index + 1}_url"].to_s.strip
+    next if url.empty?
+
+    kind = query["step_media_#{index + 1}_kind"].to_s.strip.downcase == 'video' ? 'video' : 'image'
+    item = {
+      'caption' => query["step_media_#{index + 1}_caption"].to_s.strip,
+      'image_alt' => query["step_media_#{index + 1}_alt"].to_s.strip
+    }
+    if kind == 'video'
+      item['video_url'] = url
+    else
+      item['image_url'] = url
+    end
+    media_map[index] = [item.reject { |_key, value| value.to_s.empty? }]
+  end
+end
+
 def primary_product_handle(recipe)
   primary = recipe.dig('product', 'handle').to_s.presence
   return primary if primary
@@ -1083,7 +1199,14 @@ end
 def admin_recipe_payload(request)
   query = request.query
   steps = parsed_or_json_textarea(query['steps_text'], query['steps_json'], parser: method(:parse_steps_lines), fallback: [])
-  step_media_map = parsed_or_json_textarea(query['step_media_text'], query['step_media_json'], parser: method(:parse_step_media_lines), fallback: {})
+  step_media_map = parse_step_media_slots(query, steps)
+  if step_media_map.empty?
+    step_media_map = parsed_or_json_textarea(query['step_media_text'], query['step_media_json'], parser: method(:parse_step_media_lines), fallback: {})
+  end
+  story_media_items = parse_story_media_slots(query)
+  if story_media_items.empty?
+    story_media_items = parsed_or_json_textarea(query['story_media_text'], query['story_media_json'], parser: method(:parse_story_media_lines), fallback: [])
+  end
   payload = {
     'slug' => query['slug'],
     'title' => query['title'],
@@ -1121,7 +1244,7 @@ def admin_recipe_payload(request)
     'ingredient_groups' => parsed_or_json_textarea(query['ingredient_groups_text'], query['ingredient_groups_json'], parser: method(:parse_import_ingredient_groups), fallback: []),
     'steps' => merge_step_media(steps, step_media_map),
     'tips' => parsed_or_json_textarea(query['tips_text'], query['tips_json'], parser: method(:parse_import_tips), fallback: []),
-    'story_media' => parsed_or_json_textarea(query['story_media_text'], query['story_media_json'], parser: method(:parse_story_media_lines), fallback: []),
+    'story_media' => story_media_items,
     'product' => begin
       primary_handle = query['primary_product_handle'].to_s.strip
       collection_handle = query['product_collection_handle'].to_s.strip
@@ -1187,6 +1310,8 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   tips_text = tips_for_form(recipe['tips'] || [])
   story_media_text = story_media_for_form(recipe['story_media'] || [])
   step_media_text = step_media_for_form(recipe['steps'] || [])
+  story_media_slot_items = story_media_slots(recipe['story_media'] || [])
+  step_media_slot_items = step_media_slots(recipe['steps'] || [])
   faq_text = faq_for_form(recipe.dig('seo', 'faq') || [])
   body_sections_text = body_sections_for_form(recipe.dig('seo', 'body_sections') || [])
   product_handles_text = product_handles_for_form(recipe['products'] || [])
@@ -1196,6 +1321,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   shopify_errors = SHOPIFY_PUBLISHER.configuration_errors
   shopify_ready = shopify_errors.empty?
   customer_shelf_ready = SHOPIFY_CUSTOMER_SHELF.configuration_errors.empty?
+  app_proxy_ready = SHOPIFY_APP_PROXY_AUTH.configuration_errors.empty?
   editorial_checks = [
     ['Identite', recipe['title'].to_s.strip != '' && recipe['slug'].to_s.strip != ''],
     ['Hero', recipe.dig('hero', 'video_url').to_s.strip != '' || recipe.dig('hero', 'image_url').to_s.strip != ''],
@@ -1648,8 +1774,8 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                 <p>Le compte garde aussi la reprise des recettes pour retrouver un parcours utile.</p>
               </article>
               <article class="card toolbar-card">
-                <strong>Lecture cote compte</strong>
-                <p>La page <code>/account</code> lit ces metachamps et recompose les cartes recette a partir du registre public.</p>
+                <strong>App proxy public</strong>
+                <p>#{app_proxy_ready ? 'Le service peut maintenant repondre a un app proxy Shopify signe pour lire et ecrire le carnet en direct.' : html_escape(SHOPIFY_APP_PROXY_AUTH.configuration_errors.join(' · '))}</p>
               </article>
             </div>
             <form method="post" action="/admin" style="margin-top:16px;">
@@ -1775,7 +1901,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                   <label>Timing total
                     <input type="text" name="timing_total" value="#{html_escape(recipe.dig('timing', 'total'))}">
                   </label>
-                  <label>Hero video
+                  <label>Hero vidéo
                     <input type="text" name="hero_video_url" value="#{html_escape(recipe.dig('hero', 'video_url'))}" placeholder="MP4 libre de droit ou video Shopify via l'editeur theme">
                   </label>
                   <label>Hero image
@@ -1784,13 +1910,53 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                   <label>Hero ambiance
                     <input type="text" name="hero_ambient_label" value="#{html_escape(recipe.dig('hero', 'ambient_label'))}">
                   </label>
-                  <label class="full">Galerie recette
+                  <div class="full section-title">Pilotage média simplifié</div>
+                  <div class="full helper">Renseignez un hero, jusqu’à 4 médias de galerie et un média par étape. Les zones JSON restent disponibles plus bas uniquement pour les cas avancés.</div>
+                  #{story_media_slot_items.each_with_index.map { |slot, index|
+                    <<~HTML
+                      <label>Galerie #{index + 1} · type
+                        <select name="story_media_#{index + 1}_kind">
+                          <option value="image" #{slot['kind'] == 'image' ? 'selected' : ''}>Image</option>
+                          <option value="video" #{slot['kind'] == 'video' ? 'selected' : ''}>Vidéo</option>
+                        </select>
+                      </label>
+                      <label>Galerie #{index + 1} · URL
+                        <input type="text" name="story_media_#{index + 1}_url" value="#{html_escape(slot['url'])}" placeholder="https://cdn.shopify.com/...">
+                      </label>
+                      <label>Galerie #{index + 1} · légende
+                        <input type="text" name="story_media_#{index + 1}_caption" value="#{html_escape(slot['caption'])}" placeholder="Plan large, texture finale, geste clé...">
+                      </label>
+                      <label>Galerie #{index + 1} · alt
+                        <input type="text" name="story_media_#{index + 1}_alt" value="#{html_escape(slot['alt'])}" placeholder="Description courte pour le visuel">
+                      </label>
+                    HTML
+                  }.join}
+                  #{step_media_slot_items.map { |slot|
+                    <<~HTML
+                      <label>Étape #{slot['index']} · type
+                        <select name="step_media_#{slot['index']}_kind">
+                          <option value="image" #{slot['kind'] == 'image' ? 'selected' : ''}>Image</option>
+                          <option value="video" #{slot['kind'] == 'video' ? 'selected' : ''}>Vidéo</option>
+                        </select>
+                      </label>
+                      <label>Étape #{slot['index']} · URL
+                        <input type="text" name="step_media_#{slot['index']}_url" value="#{html_escape(slot['url'])}" placeholder="https://cdn.shopify.com/...">
+                      </label>
+                      <label>Étape #{slot['index']} · légende
+                        <input type="text" name="step_media_#{slot['index']}_caption" value="#{html_escape(slot['caption'])}" placeholder="#{html_escape(slot['step_title'])}">
+                      </label>
+                      <label>Étape #{slot['index']} · alt
+                        <input type="text" name="step_media_#{slot['index']}_alt" value="#{html_escape(slot['alt'])}" placeholder="Description de l’étape en image">
+                      </label>
+                    HTML
+                  }.join}
+                  <label class="full">Galerie recette · mode texte
                     <textarea name="story_media_text" placeholder="image | https://cdn.shopify.com/.../hero-recette.jpg | Hero recette large | Hero recette&#10;video | https://cdn.shopify.com/.../geste.mp4 | Geste cle de la recette">#{html_escape(story_media_text)}</textarea>
                   </label>
-                  <label class="full">Medias par etape
+                  <label class="full">Médias par étape · mode texte
                     <textarea name="step_media_text" placeholder="1 | image | https://cdn.shopify.com/.../step-1.jpg | Mise en place&#10;2 | video | https://cdn.shopify.com/.../step-2.mp4 | Texture a viser">#{html_escape(step_media_text)}</textarea>
                   </label>
-                  <div class="full helper">Ces medias alimentent directement la recette depuis le back-office. Les blocs <code>Media recette</code> dans l editeur Shopify peuvent ensuite surcharger hero, galerie et etapes sans casser la base.</div>
+                  <div class="full helper">Ces médias alimentent directement la recette depuis le back-office. Les blocs <code>Media recette</code> dans l’éditeur Shopify peuvent ensuite surcharger hero, galerie et étapes sans casser la base.</div>
                   <div class="section-title">2. SEO & recherche</div>
                   <label>SEO title
                     <input type="text" name="seo_title" value="#{html_escape(recipe.dig('seo', 'title'))}" data-role="seo-title">
@@ -2450,6 +2616,38 @@ server.mount_proc '/customers' do |request, response|
     actor: actor_name(request, actor)
   )
   json_response(response, 200, result)
+rescue ArgumentError, KeyError => e
+  json_response(response, 422, { error: e.message })
+end
+
+server.mount_proc '/app-proxy/recipes/shelf' do |request, response|
+  next unless require_app_proxy!(request, response)
+
+  customer_id = request.query['logged_in_customer_id'].to_s.strip
+  customer_email = request.query['logged_in_customer_email'].to_s.strip
+  if customer_id.empty? && customer_email.empty?
+    json_response(response, 401, { error: 'customer_context_missing' })
+    next
+  end
+
+  case request.request_method
+  when 'GET'
+    shelf = SHOPIFY_CUSTOMER_SHELF.fetch(customer_id: customer_id, email: customer_email)
+    json_response(response, 200, public_shelf_payload(request, shelf))
+  when 'POST'
+    payload = parse_body(request)
+    actor = "app-proxy:#{customer_id.empty? ? customer_email : customer_id}"
+    shelf = SHOPIFY_CUSTOMER_SHELF.sync(
+      customer_id: customer_id,
+      email: customer_email,
+      favorites: Array(payload['favorites']),
+      history: normalize_public_history(payload['history']),
+      actor: actor
+    )
+    json_response(response, 200, public_shelf_payload(request, shelf))
+  else
+    json_response(response, 405, { error: 'method_not_allowed' })
+  end
 rescue ArgumentError, KeyError => e
   json_response(response, 422, { error: e.message })
 end

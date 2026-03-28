@@ -20,6 +20,21 @@
     }
   }
 
+  function fetchShelf(section) {
+    var endpoint = (section.getAttribute('data-customer-shelf-endpoint') || '').trim();
+    if (!endpoint) return Promise.resolve(null);
+
+    return fetch(endpoint, {
+      credentials: 'same-origin',
+      headers: {
+        Accept: 'application/json'
+      }
+    }).then(function (response) {
+      if (!response.ok) throw new Error('shelf_fetch_failed');
+      return response.json();
+    });
+  }
+
   function fetchRegistry(url) {
     return fetch(url, { credentials: 'same-origin' })
       .then(function (response) {
@@ -74,8 +89,15 @@
     var historyCount = section.querySelector('[data-vd-customer-history-count]');
     var emptyState = section.querySelector('[data-vd-customer-carnet-empty]');
 
-    fetchRegistry(registryUrl)
-      .then(function (recipes) {
+    Promise.all([
+      fetchRegistry(registryUrl),
+      fetchShelf(section).catch(function () { return null; })
+    ])
+      .then(function (result) {
+        var recipes = result[0];
+        var shelfPayload = result[1];
+        if (shelfPayload && shelfPayload.favorites) favoritesData = shelfPayload.favorites;
+        if (shelfPayload && shelfPayload.history) historyData = shelfPayload.history;
         var bySlug = recipes.reduce(function (map, recipe) {
           if (recipe && recipe.slug) map[recipe.slug] = recipe;
           return map;
