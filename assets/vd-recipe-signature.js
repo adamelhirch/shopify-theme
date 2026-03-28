@@ -621,7 +621,7 @@
     var shopPanel =
       ((productUrl || collectionUrl)
         ? '<article class="vd-recipe-signature__shop" data-vd-recipe-shop data-product-handle="' + escapeHtml((recipe.product && recipe.product.handle) || '') + '" data-collection-handle="' + escapeHtml((recipe.product && recipe.product.collection_handle) || '') + '">' +
-            '<div class="vd-recipe-signature__shop-copy"><span class="vd-recipe-signature__panel-kicker">Nos produits</span><h2>Les produits utiles pour refaire la recette.</h2><p>' + escapeHtml((recipe.product && recipe.product.note) || 'Retrouvez la vanille et les références conseillées pour refaire cette recette avec les bons produits.') + '</p></div>' +
+            '<div class="vd-recipe-signature__shop-copy"><span class="vd-recipe-signature__panel-kicker">Nos produits</span><h2>Les produits utiles pour refaire la recette.</h2><p>' + escapeHtml((recipe.product && recipe.product.note) || 'Retrouvez la vanille et les références conseillées pour refaire cette recette avec les bons produits.') + '</p><div class="vd-recipe-signature__shop-actions"><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-shop-add>Ajouter les produits au panier</button><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-share>Partager</button><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-print>Imprimer</button></div></div>' +
             '<div class="vd-recipe-signature__shop-carousel">' +
               '<button type="button" class="vd-recipe-signature__shop-nav" data-vd-recipe-shop-prev aria-label="Produit précédent">Préc.</button>' +
               '<div class="vd-recipe-signature__shop-window">' +
@@ -731,7 +731,8 @@
         image: image,
         price: formatMoney(firstVariant.price || product.price || 0),
         vendor: product.vendor || '',
-        available: product.available !== false
+        available: product.available !== false,
+        variantId: firstVariant.id || ''
       };
     }
 
@@ -775,6 +776,9 @@
     var track = shop.querySelector('[data-vd-recipe-shop-track]');
     var prevButton = shop.querySelector('[data-vd-recipe-shop-prev]');
     var nextButton = shop.querySelector('[data-vd-recipe-shop-next]');
+    var addButton = shop.querySelector('[data-vd-recipe-shop-add]');
+    var shareButton = shop.querySelector('[data-vd-recipe-share]');
+    var printButton = shop.querySelector('[data-vd-recipe-print]');
     if (!track || !viewport) return;
 
     function updateNav() {
@@ -785,10 +789,12 @@
     }
 
     function renderProducts(products) {
+      shop.__vdRecipeProducts = products;
       if (!products.length) {
         track.innerHTML = '<article class="vd-recipe-signature__shop-loading">Les produits recommandes arrivent bientot.</article>';
         if (prevButton) prevButton.hidden = true;
         if (nextButton) nextButton.hidden = true;
+        if (addButton) addButton.disabled = true;
         return;
       }
 
@@ -831,6 +837,85 @@
           { opacity: 1, y: 0, duration: 0.48, stagger: 0.06, ease: 'power2.out' }
         );
       }
+    }
+
+    if (addButton) {
+      addButton.addEventListener('click', function () {
+        if (addButton.getAttribute('data-added') === 'true') {
+          window.location.href = '/cart';
+          return;
+        }
+
+        var products = Array.isArray(shop.__vdRecipeProducts) ? shop.__vdRecipeProducts : [];
+        var items = products
+          .filter(function (product) { return product.available && product.variantId; })
+          .map(function (product) {
+            return { id: product.variantId, quantity: 1 };
+          });
+
+        if (!items.length) {
+          showToast(section, 'Aucun produit disponible à ajouter');
+          return;
+        }
+
+        addButton.disabled = true;
+        addButton.textContent = 'Ajout en cours';
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ items: items })
+        })
+          .then(function (response) {
+            if (!response.ok) throw new Error('cart_add_failed');
+            return response.json();
+          })
+          .then(function () {
+            showToast(section, 'Produits ajoutés au panier');
+            addButton.textContent = 'Voir le panier';
+            addButton.disabled = false;
+            addButton.setAttribute('data-added', 'true');
+          })
+          .catch(function () {
+            addButton.disabled = false;
+            addButton.textContent = 'Ajouter les produits au panier';
+            showToast(section, 'Impossible d’ajouter les produits pour le moment');
+          });
+      });
+    }
+
+    if (shareButton) {
+      shareButton.addEventListener('click', function () {
+        var shareData = {
+          title: recipe.title,
+          text: recipe.summary || recipe.description || '',
+          url: window.location.href
+        };
+
+        if (navigator.share) {
+          navigator.share(shareData).catch(function () {});
+          return;
+        }
+
+        if (!navigator.clipboard || !navigator.clipboard.writeText) {
+          showToast(section, 'Partage indisponible');
+          return;
+        }
+
+        navigator.clipboard.writeText(window.location.href).then(function () {
+          showToast(section, 'Lien copié');
+        });
+      });
+    }
+
+    if (printButton) {
+      printButton.addEventListener('click', function () {
+        window.print();
+      });
     }
 
     loadRecipeProducts(recipe).then(renderProducts);

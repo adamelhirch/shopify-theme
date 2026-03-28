@@ -254,6 +254,11 @@ def public_shelf_payload(request, shelf)
 end
 
 def app_proxy_config_payload
+  proxy_subpath = SHOPIFY_APP_PROXY_PATH.sub(%r{\A/apps/}, '')
+  proxy_parts = proxy_subpath.split('/').reject(&:empty?)
+  proxy_root = proxy_parts.shift || 'recipes-studio'
+  proxy_tail = proxy_parts.join('/')
+
   {
     ok: true,
     proxy_path: SHOPIFY_APP_PROXY_PATH,
@@ -270,8 +275,16 @@ def app_proxy_config_payload
     },
     shopify_app_suggested: {
       app_proxy_subpath_prefix: 'apps',
-      app_proxy_subpath: 'recipes-studio',
-      endpoint_path: SHOPIFY_APP_PROXY_PATH
+      app_proxy_subpath: proxy_root,
+      endpoint_path: SHOPIFY_APP_PROXY_PATH,
+      endpoint_subpath: proxy_tail,
+      admin_steps: [
+        'Creer ou ouvrir une app custom Shopify sur la boutique cible.',
+        'Activer App proxy dans la section de configuration de l app.',
+        "Renseigner le prefixe `apps` puis le sous-chemin `#{proxy_root}`.",
+        "Faire pointer la requete vers `#{proxy_tail.empty? ? '/' : "/#{proxy_tail}"}` sur le domaine du service recette expose.",
+        'Renseigner ensuite le meme chemin dans le theme pour `Endpoint carnet client`.'
+      ]
     }
   }
 end
@@ -2115,6 +2128,8 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
               <div class="helper">Prefixe: <code>apps</code> · Sous-chemin: <code>recipes-studio</code> · Endpoint theme: <code>#{html_escape(app_proxy_config[:proxy_path])}</code></div>
               <div class="helper">Le theme peut pointer vers ce chemin dans l editeur Shopify sans changer le code.</div>
               <div class="helper">Verif admin JSON: <code>/shopify/app-proxy/config</code></div>
+              <div class="helper">Chemin a configurer dans l app custom: <code>#{html_escape(begin proxy_tail = app_proxy_config.dig(:shopify_app_suggested, :endpoint_subpath).to_s.sub(%r{^/}, ''); proxy_tail.empty? ? '/' : '/' + proxy_tail end)}</code></div>
+              <div class="helper">1. Ouvrir une app custom Shopify. 2. Activer l App proxy. 3. Prefixe <code>apps</code>. 4. Sous-chemin <code>#{html_escape(app_proxy_config.dig(:shopify_app_suggested, :app_proxy_subpath))}</code>. 5. Renseigner le meme endpoint dans le theme.</div>
             </div>
             <form method="post" action="/admin" style="margin-top:16px;">
               <input type="hidden" name="action" value="sync_customer_recipe_shelf">
