@@ -61,15 +61,16 @@
 }
 
 .vd-recipe-signature__back-shell {
-  position: relative;
-  z-index: 2;
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 3;
   pointer-events: none;
 }
 
 .vd-recipe-signature__back-wrap {
   display: flex;
   justify-content: flex-start;
-  padding-top: clamp(1.6rem, 3.4vh, 2.8rem);
+  padding-top: calc(var(--header-height, 8rem) + env(safe-area-inset-top, 0px) + clamp(1rem, 2vh, 2rem));
 }
 
 .vd-recipe-signature__back-link {

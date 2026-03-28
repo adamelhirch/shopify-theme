@@ -68,6 +68,26 @@
     return appendPreviewThemeId(baseUrl);
   }
 
+  function parseEditorMedia(section) {
+    var node = section.querySelector('[data-vd-recipe-editor-media]');
+    if (!node) return [];
+
+    try {
+      var payload = JSON.parse(node.textContent || '[]');
+      return Array.isArray(payload) ? payload : [];
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function buildHeroOverrideMap(section) {
+    return parseEditorMedia(section).reduce(function (map, item) {
+      if (!item || item.placement !== 'hero' || !item.recipe_slug || !item.image_url) return map;
+      map[item.recipe_slug] = item;
+      return map;
+    }, {});
+  }
+
   function metricValue(recipe) {
     var parts = [];
     if (recipe.timing && recipe.timing.total) parts.push(recipe.timing.total);
@@ -76,8 +96,9 @@
     return parts.join(' • ');
   }
 
-  function buildCard(recipe) {
-    var cover = recipe.hero && recipe.hero.image_url;
+  function buildCard(recipe, heroOverrides) {
+    var heroOverride = heroOverrides && heroOverrides[recipe.slug];
+    var cover = (heroOverride && heroOverride.image_url) || (recipe.hero && recipe.hero.image_url);
     var accessLabel = recipe.access === 'member' ? 'Compte client' : 'Acces libre';
     var badge = recipe.category || 'Recette';
     var search = recipeSearchText(recipe);
@@ -153,6 +174,7 @@
     var memberNode = section.querySelector('[data-vd-recipes-member]');
     var hubScreen = section.querySelector('[data-vd-recipes-screen="hub"]');
     var detailScreen = section.querySelector('[data-vd-recipes-screen="detail"]');
+    var heroOverrides = buildHeroOverrideMap(section);
     var accessButtons = Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipes-access]'));
     var difficultyButtons = Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipes-difficulty]'));
     var state = { query: '', access: 'all', difficulty: 'all' };
@@ -180,7 +202,9 @@
           return recipe.status === 'approved';
         });
 
-        grid.innerHTML = approved.map(buildCard).join('');
+        grid.innerHTML = approved.map(function (recipe) {
+          return buildCard(recipe, heroOverrides);
+        }).join('');
 
         if (totalNode) totalNode.textContent = String(approved.length);
         if (freeNode) {
