@@ -83,6 +83,7 @@ struct ContentView: View {
       detail
     }
     .navigationSplitViewStyle(.balanced)
+    .navigationSplitViewColumnWidth(min: 250, ideal: 280, max: 320)
   }
 
   private var sidebar: some View {
@@ -97,6 +98,7 @@ struct ContentView: View {
 
       List(StudioSection.allCases, selection: $selection) { section in
         Label(section.title, systemImage: section.systemImage)
+          .lineLimit(1)
           .tag(section)
       }
       .listStyle(.sidebar)
@@ -139,6 +141,7 @@ struct ContentView: View {
           .foregroundStyle(.secondary)
       }
     }
+    .frame(minWidth: 250, idealWidth: 280, maxWidth: 320, maxHeight: .infinity, alignment: .topLeading)
     .padding(22)
     .background(
       LinearGradient(
