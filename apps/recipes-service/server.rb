@@ -273,9 +273,128 @@ def csv_terms(value)
   value.to_s.split(/[\n,]/).map(&:strip).reject(&:empty?)
 end
 
+def slugify(value)
+  value.to_s.encode('UTF-8', invalid: :replace, undef: :replace, replace: '').downcase.unicode_normalize(:nfkd).gsub(/\p{Mn}/, '')
+    .gsub(/[^a-z0-9]+/, '-')
+    .gsub(/\A-+|-+\z/, '')
+end
+
+def labelize(value)
+  value.to_s.split(/[-_]/).reject(&:empty?).map(&:capitalize).join(' ')
+end
+
+RECIPE_TEMPLATES = {
+  'recipe_premium' => {
+    'label' => 'Recette premium',
+    'status' => 'draft',
+    'access' => 'member',
+    'eyebrow' => 'Recette signature',
+    'category' => 'Recettes',
+    'difficulty' => { 'value' => 'facile', 'label' => 'Facile' },
+    'collections' => %w[recettes-premium],
+    'tags' => %w[recette premium vanille],
+    'tips' => [
+      { 'title' => 'Texture', 'body' => 'Precisez le bon repere visuel pour rassurer pendant la preparation.' },
+      { 'title' => 'Cuisson', 'body' => 'Ajoutez un garde-fou simple sur temperature, temps ou geste a surveiller.' }
+    ],
+    'seo' => {
+      'body_sections' => [
+        { 'title' => 'Pourquoi cette recette fonctionne', 'body' => '' },
+        { 'title' => 'Erreurs a eviter', 'body' => '' },
+        { 'title' => 'Conservation et service', 'body' => '' }
+      ],
+      'faq' => [
+        { 'question' => '', 'answer' => '' },
+        { 'question' => '', 'answer' => '' }
+      ]
+    }
+  },
+  'recipe_free' => {
+    'label' => 'Recette libre',
+    'status' => 'draft',
+    'access' => 'free',
+    'eyebrow' => 'Recette libre',
+    'category' => 'Recettes',
+    'difficulty' => { 'value' => 'facile', 'label' => 'Facile' },
+    'collections' => %w[recettes-gratuites],
+    'tags' => %w[recette libre vanille]
+  },
+  'guide' => {
+    'label' => 'Guide / astuce',
+    'status' => 'draft',
+    'access' => 'free',
+    'eyebrow' => 'Guide libre',
+    'category' => 'Guides',
+    'difficulty' => { 'value' => 'intermediaire', 'label' => 'Intermediaire' },
+    'collections' => %w[guides],
+    'tags' => %w[guide usage vanille],
+    'timing' => { 'prep' => 'Lecture', 'cook' => '', 'rest' => '', 'total' => '6 min' }
+  },
+  'accord' => {
+    'label' => 'Accord / pairing',
+    'status' => 'draft',
+    'access' => 'free',
+    'eyebrow' => 'Accord',
+    'category' => 'Accords',
+    'difficulty' => { 'value' => 'intermediaire', 'label' => 'Intermediaire' },
+    'collections' => %w[accords],
+    'tags' => %w[accord pairing vanille]
+  }
+}.freeze
+
+def deep_clone(value)
+  JSON.parse(JSON.generate(value))
+end
+
+def recipe_template_payload(template_key)
+  template = RECIPE_TEMPLATES[template_key.to_s]
+  payload = template ? deep_clone(template) : {}
+  payload['title'] ||= template && template['label']
+  payload
+end
+
+def smart_recipe_defaults(payload)
+  draft = deep_clone(payload || {})
+  title = draft['title'].to_s.strip
+  slug = draft['slug'].to_s.strip
+  category = draft['category'].to_s.strip
+
+  draft['slug'] = slug.empty? ? slugify(title) : slugify(slug)
+  draft['page_url'] = "/pages/#{draft['slug']}" unless draft['slug'].to_s.empty?
+  draft['eyebrow'] = category.empty? ? (draft['eyebrow'] || 'Recette') : draft['eyebrow']
+
+  seo = draft['seo'] ||= {}
+  seo['title'] = "#{title} | Vanille Desire" if seo['title'].to_s.strip.empty? && !title.empty?
+  if seo['description'].to_s.strip.empty?
+    description_seed = draft['summary'].to_s.strip.empty? ? draft['description'].to_s.strip : draft['summary'].to_s.strip
+    seo['description'] = description_seed[0, 156] unless description_seed.empty?
+  end
+  seo['keywords'] ||= []
+  seo['keywords'] = (seo['keywords'] + [title, category, draft['access'], draft['eyebrow']]).map(&:to_s).map(&:strip).reject(&:empty?).uniq
+
+  draft['search_terms'] ||= []
+  draft['search_terms'] = (draft['search_terms'] + seo['keywords']).map(&:to_s).map(&:strip).reject(&:empty?).uniq
+  draft['tags'] ||= []
+  draft['tags'] = (draft['tags'] + [category, draft['access'], draft['difficulty'].to_h['value']]).map(&:to_s).map(&:strip).reject(&:empty?).uniq
+  draft['collections'] ||= []
+  draft['collections'] = draft['collections'].map(&:to_s).map(&:strip).reject(&:empty?).uniq
+  draft['products'] ||= []
+  draft
+end
+
+def duplicate_recipe_payload(recipe)
+  clone = deep_clone(recipe || {})
+  %w[revisions moderation_notes created_at updated_at submitted_at validated_at validated_by].each { |key| clone.delete(key) }
+  clone['slug'] = "#{clone['slug']}-copy" if clone['slug']
+  clone['title'] = "#{clone['title']} copie" if clone['title']
+  clone['status'] = 'draft'
+  clone['page_url'] = "/pages/#{clone['slug']}" if clone['slug']
+  clone
+end
+
 def admin_recipe_payload(request)
   query = request.query
-  {
+  payload = {
     'slug' => query['slug'],
     'title' => query['title'],
     'status' => query['status'],
@@ -302,20 +421,28 @@ def admin_recipe_payload(request)
       'image_url' => query['hero_image_url'],
       'ambient_label' => query['hero_ambient_label']
     },
-    'seo' => {
-      'title' => query['seo_title'],
-      'description' => query['seo_description']
-    },
     'submitted_by' => {
       'name' => query['submitted_by_name'],
       'type' => query['submitted_by_type']
     },
     'search_terms' => csv_terms(query['search_terms']),
+    'tags' => csv_terms(query['tags']),
+    'collections' => csv_terms(query['collections']),
     'ingredient_groups' => parse_json_field(query['ingredient_groups_json'], []),
     'steps' => parse_json_field(query['steps_json'], []),
     'tips' => parse_json_field(query['tips_json'], []),
-    'product' => parse_json_field(query['product_json'], {})
+    'product' => parse_json_field(query['product_json'], {}),
+    'products' => parse_json_field(query['products_json'], []),
+    'seo' => {
+      'title' => query['seo_title'],
+      'description' => query['seo_description'],
+      'keywords' => csv_terms(query['seo_keywords']),
+      'body_sections' => parse_json_field(query['seo_body_sections_json'], []),
+      'faq' => parse_json_field(query['seo_faq_json'], [])
+    }
   }.reject { |_key, value| value.nil? }
+
+  smart_recipe_defaults(payload)
 end
 
 def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
@@ -332,7 +459,17 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   steps_json = pretty_json(recipe['steps'] || [])
   tips_json = pretty_json(recipe['tips'] || [])
   product_json = pretty_json(recipe['product'] || {})
+  products_json = pretty_json(recipe['products'] || [])
+  tags = Array(recipe['tags']).join(', ')
+  collections = Array(recipe['collections']).join(', ')
+  seo_keywords = Array(recipe.dig('seo', 'keywords')).join(', ')
+  seo_body_sections_json = pretty_json(recipe.dig('seo', 'body_sections') || [])
+  seo_faq_json = pretty_json(recipe.dig('seo', 'faq') || [])
   history_count = recipe.fetch('revisions', []).length
+  template_options = RECIPE_TEMPLATES.map do |key, template|
+    "<option value=\"#{html_escape(key)}\">#{html_escape(template['label'])}</option>"
+  end.join
+  quick_start_title = recipe['slug'] ? '' : (recipe['title'] || '')
 
   <<~HTML
     <!doctype html>
@@ -415,14 +552,17 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
           .panel { padding: 22px; }
           .stack { display: grid; gap: 14px; }
           .toolbar,
+          .quickstart,
           .filters,
           .editor-grid {
             display: grid;
             gap: 12px;
           }
           .toolbar { grid-template-columns: repeat(4, minmax(0,1fr)); }
+          .quickstart { grid-template-columns: 1.15fr 1.15fr 0.7fr 0.7fr; }
           .filters { grid-template-columns: repeat(5, minmax(0,1fr)); }
           .editor-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+          .editor-grid .full { grid-column: 1 / -1; }
           .editor-actions {
             display: flex;
             flex-wrap: wrap;
@@ -454,6 +594,10 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
           .button-light {
             background: rgba(255,255,255,0.9);
             color: var(--text);
+          }
+          .button-accent {
+            background: var(--accent);
+            color: #fff;
           }
           .flash {
             padding: 14px 16px;
@@ -512,10 +656,26 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             border-radius: 999px;
             background: rgba(0,0,0,0.06);
           }
+          .mini-grid {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(2, minmax(0,1fr));
+          }
+          .toolbar-card {
+            display: grid;
+            gap: 12px;
+            align-content: start;
+          }
+          .helper {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.5;
+          }
           @media (max-width: 960px) {
             .summary,
             .grid { grid-template-columns: 1fr; }
             .toolbar,
+            .quickstart,
             .filters,
             .editor-grid { grid-template-columns: 1fr; }
           }
@@ -574,17 +734,50 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
               </div>
             </form>
             <div class="toolbar" style="margin-top:16px;">
+              <a class="button-light" style="display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,0.92);color:var(--text);" href="#{html_escape(admin_url(query: filters[:query], status: filters[:status], access: filters[:access]))}">Nouvelle recette</a>
+              <a class="button-light" style="display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,0.92);color:var(--text);" href="/admin">Recharger</a>
               <form method="post" action="/admin">
                 <input type="hidden" name="action" value="export_registry">
                 <input type="hidden" name="recipe" value="#{html_escape(filters[:recipe])}">
                 <button type="submit">Exporter le registre</button>
               </form>
-              <a class="button-light" style="display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,0.92);color:var(--text);" href="#{html_escape(admin_url(query: filters[:query], status: filters[:status], access: filters[:access]))}">Nouvelle recette</a>
-              <a class="button-light" style="display:flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,0.92);color:var(--text);" href="/admin">Recharger</a>
               <form method="post" action="/admin/logout">
                 <button class="button-light" type="submit">Deconnexion</button>
               </form>
               <div class="card"><strong>Selection</strong><p>#{html_escape(recipe['title'] || 'Aucune recette selectionnee')}</p></div>
+            </div>
+            <div class="quickstart" style="margin-top:16px;">
+              <form class="card toolbar-card" method="post" action="/admin">
+                <input type="hidden" name="action" value="create_from_template">
+                <label>Template
+                  <select name="template">
+                    #{template_options}
+                  </select>
+                </label>
+                <label>Titre de depart
+                  <input type="text" name="title" value="#{html_escape(quick_start_title)}" placeholder="Ex: Creme vanille express">
+                </label>
+                <button class="button-accent" type="submit">Creer depuis template</button>
+              </form>
+              <form class="card toolbar-card" method="post" action="/admin">
+                <input type="hidden" name="action" value="duplicate_recipe">
+                <input type="hidden" name="recipe" value="#{html_escape(recipe['slug'])}">
+                <label>Dupliquer la selection
+                  <input type="text" name="duplicate_title" value="#{html_escape(recipe['title'] ? "#{recipe['title']} copie" : '')}" placeholder="Nouvelle version ou adaptation">
+                </label>
+                <div class="helper">Duplique la recette courante en brouillon avec nouveau slug auto.</div>
+                <button class="button-light" type="submit" #{recipe['slug'] ? '' : 'disabled'}>Dupliquer</button>
+              </form>
+              <div class="card toolbar-card">
+                <strong>Publication rapide</strong>
+                <p class="muted">Enregistrer, exporter et garder le registre public synchro sans quitter l'editeur.</p>
+                <div class="helper">Utilisez le bouton Enregistrer + exporter dans le formulaire de droite.</div>
+              </div>
+              <div class="card toolbar-card">
+                <strong>Cadence editoriale</strong>
+                <p class="muted">Templates, tags et SEO auto reduisent fortement le temps de publication.</p>
+                <div class="helper">Selectionnez une recette pour la moderer, la dupliquer ou la faire evoluer en quelques minutes.</div>
+              </div>
             </div>
           </section>
 
@@ -601,15 +794,15 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
 
             <section class="panel">
               <h2>Edition recette</h2>
-              <p class="muted">Modification structuree avec champs utiles et blocs JSON pour ingredients, etapes et tips.</p>
+              <p class="muted">Creation rapide, enrichissement SEO, produits lies et publication sans quitter le poste editorial.</p>
               <form method="post" action="/admin">
                 <input type="hidden" name="action" value="#{recipe['slug'] ? 'save_recipe' : 'create_recipe'}">
                 <div class="editor-grid">
                   <label>Slug
-                    <input type="text" name="slug" value="#{html_escape(recipe['slug'])}" #{recipe['slug'] ? 'readonly' : ''}>
+                    <input type="text" name="slug" value="#{html_escape(recipe['slug'])}" #{recipe['slug'] ? 'readonly' : ''} data-role="recipe-slug">
                   </label>
                   <label>Titre
-                    <input type="text" name="title" value="#{html_escape(recipe['title'])}">
+                    <input type="text" name="title" value="#{html_escape(recipe['title'])}" data-role="recipe-title">
                   </label>
                   <label>Status
                     <select name="status">
@@ -631,22 +824,28 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                     <input type="text" name="eyebrow" value="#{html_escape(recipe['eyebrow'])}">
                   </label>
                   <label>Category
-                    <input type="text" name="category" value="#{html_escape(recipe['category'])}">
+                    <input type="text" name="category" value="#{html_escape(recipe['category'])}" data-role="recipe-category">
                   </label>
                   <label>Subtitle
                     <textarea name="subtitle">#{html_escape(recipe['subtitle'])}</textarea>
                   </label>
                   <label>Summary
-                    <textarea name="summary">#{html_escape(recipe['summary'])}</textarea>
+                    <textarea name="summary" data-role="recipe-summary">#{html_escape(recipe['summary'])}</textarea>
                   </label>
-                  <label>Description
+                  <label class="full">Description
                     <textarea name="description">#{html_escape(recipe['description'])}</textarea>
                   </label>
                   <label>Search terms
                     <textarea name="search_terms">#{html_escape(search_terms)}</textarea>
                   </label>
+                  <label>Tags
+                    <textarea name="tags" placeholder="dessert, gousse, petit-dejeuner">#{html_escape(tags)}</textarea>
+                  </label>
+                  <label>Collections
+                    <textarea name="collections" placeholder="recettes-gratuites, desserts-a-la-vanille">#{html_escape(collections)}</textarea>
+                  </label>
                   <label>Page URL
-                    <input type="text" name="page_url" value="#{html_escape(recipe['page_url'])}">
+                    <input type="text" name="page_url" value="#{html_escape(recipe['page_url'])}" data-role="recipe-page-url">
                   </label>
                   <label>Serves
                     <input type="number" name="serves" value="#{html_escape(recipe['serves'])}">
@@ -679,10 +878,13 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                     <input type="text" name="hero_ambient_label" value="#{html_escape(recipe.dig('hero', 'ambient_label'))}">
                   </label>
                   <label>SEO title
-                    <input type="text" name="seo_title" value="#{html_escape(recipe.dig('seo', 'title'))}">
+                    <input type="text" name="seo_title" value="#{html_escape(recipe.dig('seo', 'title'))}" data-role="seo-title">
                   </label>
                   <label>SEO description
-                    <textarea name="seo_description">#{html_escape(recipe.dig('seo', 'description'))}</textarea>
+                    <textarea name="seo_description" data-role="seo-description">#{html_escape(recipe.dig('seo', 'description'))}</textarea>
+                  </label>
+                  <label class="full">SEO keywords
+                    <textarea name="seo_keywords" placeholder="beignet banane vanille, vanille madagascar, dessert maison">#{html_escape(seo_keywords)}</textarea>
                   </label>
                   <label>Soumis par
                     <input type="text" name="submitted_by_name" value="#{html_escape(recipe.dig('submitted_by', 'name'))}">
@@ -690,21 +892,31 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                   <label>Type auteur
                     <input type="text" name="submitted_by_type" value="#{html_escape(recipe.dig('submitted_by', 'type'))}">
                   </label>
-                  <label>Product JSON
+                  <label class="full">Product JSON
                     <textarea name="product_json">#{html_escape(product_json)}</textarea>
                   </label>
-                  <label>Ingredients JSON
+                  <label class="full">Products JSON
+                    <textarea name="products_json">#{html_escape(products_json)}</textarea>
+                  </label>
+                  <label class="full">SEO body sections JSON
+                    <textarea name="seo_body_sections_json">#{html_escape(seo_body_sections_json)}</textarea>
+                  </label>
+                  <label class="full">SEO FAQ JSON
+                    <textarea name="seo_faq_json">#{html_escape(seo_faq_json)}</textarea>
+                  </label>
+                  <label class="full">Ingredients JSON
                     <textarea name="ingredient_groups_json">#{html_escape(ingredient_groups_json)}</textarea>
                   </label>
-                  <label>Steps JSON
+                  <label class="full">Steps JSON
                     <textarea name="steps_json">#{html_escape(steps_json)}</textarea>
                   </label>
-                  <label>Tips JSON
+                  <label class="full">Tips JSON
                     <textarea name="tips_json">#{html_escape(tips_json)}</textarea>
                   </label>
                 </div>
                 <div class="editor-actions">
                   <button type="submit">#{recipe['slug'] ? 'Enregistrer' : 'Creer la recette'}</button>
+                  #{recipe['slug'] ? '<button class="button-light" type="submit" onclick="this.form.querySelector(\'[name=action]\').value=\'save_and_export\'">Enregistrer + exporter</button>' : '<button class="button-light" type="submit" onclick="this.form.querySelector(\'[name=action]\').value=\'save_and_export\'">Creer + exporter</button>'}
                   #{recipe['slug'] ? "<span class=\"pill\">#{html_escape(recipe['status'])}</span><span class=\"pill\">#{history_count} revisions</span>" : ''}
                 </div>
               </form>
@@ -821,6 +1033,80 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             </div>
           </section>
         </div>
+        <script>
+          (function() {
+            const titleInput = document.querySelector('[data-role="recipe-title"]');
+            const slugInput = document.querySelector('[data-role="recipe-slug"]');
+            const pageUrlInput = document.querySelector('[data-role="recipe-page-url"]');
+            const categoryInput = document.querySelector('[data-role="recipe-category"]');
+            const summaryInput = document.querySelector('[data-role="recipe-summary"]');
+            const seoTitleInput = document.querySelector('[data-role="seo-title"]');
+            const seoDescriptionInput = document.querySelector('[data-role="seo-description"]');
+
+            if (!titleInput || !slugInput) return;
+
+            const slugify = function(value) {
+              return String(value || '')
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\\u0300-\\u036f]/g, '')
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '')
+                .slice(0, 90);
+            };
+
+            const isReadonlySlug = slugInput.hasAttribute('readonly');
+
+            titleInput.addEventListener('input', function() {
+              if (!isReadonlySlug && !slugInput.dataset.touched) {
+                const slug = slugify(titleInput.value);
+                slugInput.value = slug;
+                if (pageUrlInput && !pageUrlInput.dataset.touched) pageUrlInput.value = slug ? '/pages/' + slug : '';
+              }
+
+              if (seoTitleInput && !seoTitleInput.dataset.touched && titleInput.value.trim()) {
+                seoTitleInput.value = titleInput.value.trim() + ' | Vanille Desire';
+              }
+
+              if (seoDescriptionInput && summaryInput && !seoDescriptionInput.dataset.touched && summaryInput.value.trim()) {
+                seoDescriptionInput.value = summaryInput.value.trim().slice(0, 156);
+              }
+            });
+
+            slugInput.addEventListener('input', function() {
+              slugInput.dataset.touched = 'true';
+              if (pageUrlInput && !pageUrlInput.dataset.touched) {
+                pageUrlInput.value = slugInput.value.trim() ? '/pages/' + slugify(slugInput.value) : '';
+              }
+            });
+
+            if (pageUrlInput) {
+              pageUrlInput.addEventListener('input', function() {
+                pageUrlInput.dataset.touched = 'true';
+              });
+            }
+
+            if (seoTitleInput) {
+              seoTitleInput.addEventListener('input', function() {
+                seoTitleInput.dataset.touched = 'true';
+              });
+            }
+
+            if (seoDescriptionInput) {
+              seoDescriptionInput.addEventListener('input', function() {
+                seoDescriptionInput.dataset.touched = 'true';
+              });
+            }
+
+            if (categoryInput) {
+              categoryInput.addEventListener('input', function() {
+                if (seoTitleInput && !seoTitleInput.dataset.touched && titleInput.value.trim()) {
+                  seoTitleInput.value = titleInput.value.trim() + ' | Vanille Desire';
+                }
+              });
+            }
+          })();
+        </script>
       </body>
     </html>
   HTML
@@ -933,11 +1219,52 @@ server.mount_proc '/admin' do |request, response|
       created = STORE.create_recipe(payload, actor: reviewer)
       selected_slug = created['slug']
       flash = admin_flash('success', "Recette creee: #{created['title']}")
+    when 'create_from_template'
+      payload = recipe_template_payload(request.query['template'])
+      payload['title'] = request.query['title'].to_s.strip unless request.query['title'].to_s.strip.empty?
+      payload = smart_recipe_defaults(payload)
+      created = STORE.create_recipe(payload, actor: reviewer)
+      selected_slug = created['slug']
+      flash = admin_flash('success', "Template deploye: #{created['title']}")
+    when 'duplicate_recipe'
+      source_slug = [request.query['recipe'], request.query['slug']].map { |value| value.to_s.strip }.find { |value| !value.empty? }
+      source = STORE.find(source_slug)
+      source ||= STORE.all.find { |entry| entry['slug'] == source_slug }
+      raise KeyError, 'recipe not found' unless source
+
+      payload = duplicate_recipe_payload(source)
+      duplicate_title = request.query['duplicate_title'].to_s.strip
+      payload['title'] = duplicate_title unless duplicate_title.empty?
+      base_slug = slugify(payload['title'].to_s.strip.empty? ? payload['slug'] : payload['title'])
+      candidate = base_slug
+      suffix = 2
+      while STORE.find(candidate)
+        candidate = "#{base_slug}-#{suffix}"
+        suffix += 1
+      end
+      payload['slug'] = candidate
+      payload['page_url'] = "/pages/#{candidate}"
+      payload = smart_recipe_defaults(payload)
+      created = STORE.create_recipe(payload, actor: reviewer)
+      selected_slug = created['slug']
+      flash = admin_flash('success', "Recette dupliquee: #{created['title']}")
     when 'save_recipe'
       payload = admin_recipe_payload(request)
       updated = STORE.update_recipe(request.query['slug'], payload, actor: reviewer)
       selected_slug = updated['slug']
       flash = admin_flash('success', "Recette mise a jour: #{updated['title']}")
+    when 'save_and_export'
+      if request.query['slug'].to_s.strip.empty?
+        payload = admin_recipe_payload(request)
+        record = STORE.create_recipe(payload, actor: reviewer)
+        selected_slug = record['slug']
+      else
+        payload = admin_recipe_payload(request)
+        record = STORE.update_recipe(request.query['slug'], payload, actor: reviewer)
+        selected_slug = record['slug']
+      end
+      publication = run_export(reviewer)
+      flash = admin_flash('success', "#{record['title']} enregistre et registre exporte#{publication[:ok] ? '' : ' avec erreurs'}")
     when 'approve_recipe'
       STORE.approve(request.query['slug'], reviewer, note: request.query['moderation_note'])
       selected_slug = request.query['slug']

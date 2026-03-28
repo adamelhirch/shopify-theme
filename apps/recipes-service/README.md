@@ -142,6 +142,12 @@ http://127.0.0.1:4567/admin/login
 Cette page donne:
 
 - les compteurs clefs
+- un poste de publication recette avec creation rapide
+- des templates `recette premium`, `recette libre`, `guide`, `accord`
+- la duplication d'une recette existante en brouillon
+- l'autoremplissage du slug, de l'URL et des metadonnees SEO de base
+- l'edition des tags, collections, FAQ SEO, sections editoriales et produits lies
+- un raccourci `Enregistrer + exporter` pour republier le registre public
 - les soumissions en attente
 - les recettes publiees
 - l'historique des publications

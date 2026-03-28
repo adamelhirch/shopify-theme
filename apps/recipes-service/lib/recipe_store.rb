@@ -242,10 +242,17 @@ class RecipeStore
     result['steps'] ||= []
     result['tips'] ||= []
     result['search_terms'] ||= []
+    result['tags'] ||= []
+    result['collections'] ||= []
     result['product'] ||= {}
+    result['products'] ||= []
     result['difficulty'] ||= { 'value' => 'facile', 'label' => 'Facile' }
     result['timing'] ||= {}
     result['hero'] ||= {}
+    result['seo'] ||= {}
+    result['seo']['keywords'] ||= []
+    result['seo']['body_sections'] ||= []
+    result['seo']['faq'] ||= []
     result
   end
 
@@ -274,6 +281,13 @@ class RecipeStore
       recipe['moderation_notes'] ||= []
       recipe['created_at'] ||= recipe['submitted_at']
       recipe['updated_at'] ||= recipe['validated_at'] || recipe['submitted_at']
+      recipe['tags'] ||= []
+      recipe['collections'] ||= []
+      recipe['products'] ||= []
+      recipe['seo'] ||= {}
+      recipe['seo']['keywords'] ||= []
+      recipe['seo']['body_sections'] ||= []
+      recipe['seo']['faq'] ||= []
     end
 
     raw

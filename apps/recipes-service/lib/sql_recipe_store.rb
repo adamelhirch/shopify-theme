@@ -301,10 +301,17 @@ class SqlRecipeStore
     result['steps'] ||= []
     result['tips'] ||= []
     result['search_terms'] ||= []
+    result['tags'] ||= []
+    result['collections'] ||= []
     result['product'] ||= {}
+    result['products'] ||= []
     result['difficulty'] ||= { 'value' => 'facile', 'label' => 'Facile' }
     result['timing'] ||= {}
     result['hero'] ||= {}
+    result['seo'] ||= {}
+    result['seo']['keywords'] ||= []
+    result['seo']['body_sections'] ||= []
+    result['seo']['faq'] ||= []
     result
   end
 
@@ -337,11 +344,11 @@ class SqlRecipeStore
   end
 
   def normalized(value)
-    value.to_s.downcase.unicode_normalize(:nfkd).gsub(/\p{Mn}/, '')
+    value.to_s.encode('UTF-8', invalid: :replace, undef: :replace, replace: '').downcase.unicode_normalize(:nfkd).gsub(/\p{Mn}/, '')
   end
 
   def parse_json(value)
-    JSON.parse(value)
+    JSON.parse(value.to_s.encode('UTF-8', invalid: :replace, undef: :replace, replace: ''))
   end
 
   def database
