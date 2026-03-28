@@ -69,6 +69,13 @@ final class ServiceController: ObservableObject {
     }
   }
 
+  var isReady: Bool {
+    if case .running = state {
+      return true
+    }
+    return false
+  }
+
   func startIfNeeded() {
     if state == .starting || state == .running { return }
     Task {
@@ -152,7 +159,7 @@ final class ServiceController: ObservableObject {
   }
 
   func canOpen(section: StudioSection) -> Bool {
-    localURL(for: section) != nil
+    isReady && localURL(for: section) != nil
   }
 
   func localURL(for section: StudioSection) -> URL? {

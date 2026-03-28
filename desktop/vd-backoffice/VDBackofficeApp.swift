@@ -182,7 +182,30 @@ struct ContentView: View {
   @ViewBuilder
   private var detail: some View {
     let section = selection ?? .recipes
-    if let localURL = service.localURL(for: section) {
+    if section == .recipes && !service.isReady {
+      VStack(spacing: 18) {
+        header(section: section)
+        Spacer()
+        ProgressView()
+          .controlSize(.large)
+        Text("Demarrage du back-office recette sur un port libre...")
+          .font(.title3.weight(.semibold))
+        Text(service.statusMessage)
+          .font(.body)
+          .foregroundStyle(.secondary)
+          .multilineTextAlignment(.center)
+          .frame(maxWidth: 520)
+        Button {
+          service.restart()
+        } label: {
+          Label("Relancer le service", systemImage: "arrow.clockwise")
+        }
+        .buttonStyle(.borderedProminent)
+        Spacer()
+      }
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(Color(red: 0.98, green: 0.97, blue: 0.95))
+    } else if let localURL = service.localURL(for: section) {
       VStack(spacing: 0) {
         header(section: section)
         Divider()
