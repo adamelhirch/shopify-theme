@@ -367,75 +367,186 @@ struct PlaceholderSectionView: View {
   @EnvironmentObject private var service: ServiceController
 
   var body: some View {
-    VStack(spacing: 22) {
-      RoundedRectangle(cornerRadius: 28, style: .continuous)
-        .fill(
-          LinearGradient(
-            colors: [
-              section.accent.opacity(0.16),
-              Color.white.opacity(0.92)
-            ],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
+    let module = service.moduleSnapshot.first(where: { $0.key == section.rawValue })
+    let content = service.moduleContent(for: section)
+
+    ScrollView {
+      VStack(spacing: 22) {
+        RoundedRectangle(cornerRadius: 28, style: .continuous)
+          .fill(
+            LinearGradient(
+              colors: [
+                section.accent.opacity(0.16),
+                Color.white.opacity(0.92)
+              ],
+              startPoint: .topLeading,
+              endPoint: .bottomTrailing
+            )
           )
-        )
-        .overlay(
-          VStack(alignment: .leading, spacing: 18) {
-            Label(section.title, systemImage: section.systemImage)
-              .font(.system(size: 28, weight: .bold, design: .rounded))
-            Text(section.summary)
-              .font(.title3)
-              .foregroundStyle(.secondary)
-            Text("Le cockpit est deja pret pour accueillir ce module. On branchera ici un vrai poste editorial, avec publication souveraine et parcours qui ne dependent plus uniquement de la preview Shopify.")
-              .font(.body)
-              .foregroundStyle(.secondary)
-              .fixedSize(horizontal: false, vertical: true)
+          .overlay(
+            VStack(alignment: .leading, spacing: 18) {
+              Label(section.title, systemImage: section.systemImage)
+                .font(.system(size: 28, weight: .bold, design: .rounded))
+              Text(content?.headline ?? section.summary)
+                .font(.title3)
+                .foregroundStyle(.secondary)
+              Text(content?.body ?? "Le cockpit est deja pret pour accueillir ce module. On branchera ici un vrai poste editorial, avec publication souveraine et parcours qui ne dependent plus uniquement de la preview Shopify.")
+                .font(.body)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
 
-            if let module = service.moduleSnapshot.first(where: { $0.key == section.rawValue }) {
-              VStack(alignment: .leading, spacing: 8) {
-                Text("Etat du module")
-                  .font(.caption.weight(.semibold))
-                  .foregroundStyle(.secondary)
-                Text("\(module.title) · \(module.status.capitalized)")
-                  .font(.headline)
-                Text(module.summary)
-                  .font(.body)
-                  .foregroundStyle(.secondary)
+              if let module {
+                HStack(spacing: 10) {
+                  Text(module.title)
+                    .font(.caption.weight(.semibold))
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 7)
+                    .background(Color.white.opacity(0.82), in: Capsule())
+                  Text(module.status.capitalized)
+                    .font(.caption.weight(.semibold))
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 7)
+                    .background(section.accent.opacity(0.12), in: Capsule())
+                }
+              }
+
+              HStack(spacing: 12) {
+                Button {
+                  service.openThemeEditor()
+                } label: {
+                  Label("Theme editor", systemImage: "paintpalette")
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(service.activePreviewTarget == nil)
+
+                Button {
+                  service.openPreview()
+                } label: {
+                  Label("Preview cible", systemImage: "sparkles.tv")
+                }
+                .buttonStyle(.bordered)
+                .disabled(service.activePreviewTarget == nil)
+
+                Button {
+                  service.openRepository()
+                } label: {
+                  Label("Ouvrir le repo", systemImage: "folder")
+                }
+                .buttonStyle(.bordered)
               }
             }
+            .padding(28),
+            alignment: .topLeading
+          )
+          .frame(maxWidth: .infinity, minHeight: 340)
 
-            HStack(spacing: 12) {
-              Button {
-                service.openThemeEditor()
-              } label: {
-                Label("Theme editor", systemImage: "paintpalette")
-              }
-              .buttonStyle(.borderedProminent)
-              .disabled(service.activePreviewTarget == nil)
-
-              Button {
-                service.openPreview()
-              } label: {
-                Label("Preview cible", systemImage: "sparkles.tv")
-              }
-              .buttonStyle(.bordered)
-              .disabled(service.activePreviewTarget == nil)
-
-              Button {
-                service.openRepository()
-              } label: {
-                Label("Ouvrir le repo", systemImage: "folder")
-              }
-              .buttonStyle(.bordered)
-            }
-          }
-          .padding(28),
-          alignment: .topLeading
-        )
-        .frame(maxWidth: 880, maxHeight: 420)
+        if let content {
+          moduleDashboard(content: content, accent: section.accent)
+        } else {
+          ProgressView("Chargement du module...")
+            .frame(maxWidth: .infinity, minHeight: 240)
+        }
+      }
+      .padding(32)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
-    .padding(32)
     .background(Color(red: 0.97, green: 0.96, blue: 0.94))
+  }
+
+  @ViewBuilder
+  private func moduleDashboard(content: StudioModuleContent, accent: Color) -> some View {
+    VStack(spacing: 20) {
+      HStack(spacing: 14) {
+        ForEach(content.stats) { stat in
+          VStack(alignment: .leading, spacing: 10) {
+            Text(stat.label)
+              .font(.caption.weight(.semibold))
+              .foregroundStyle(.secondary)
+            Text(stat.value.displayValue)
+              .font(.system(size: 28, weight: .bold, design: .rounded))
+          }
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(18)
+          .background(Color.white.opacity(0.84), in: RoundedRectangle(cornerRadius: 22, style: .continuous))
+        }
+      }
+
+      HStack(alignment: .top, spacing: 20) {
+        VStack(alignment: .leading, spacing: 16) {
+          moduleCard(title: "Piliers", accent: accent) {
+            ForEach(content.pillars, id: \.self) { item in
+              moduleRow(text: item)
+            }
+          }
+
+          moduleCard(title: "Roadmap", accent: accent) {
+            ForEach(content.roadmap, id: \.self) { item in
+              moduleRow(text: item)
+            }
+          }
+        }
+        .frame(maxWidth: .infinity, alignment: .top)
+
+        VStack(alignment: .leading, spacing: 16) {
+          moduleCard(title: "Collections", accent: accent) {
+            ForEach(content.collections) { collection in
+              VStack(alignment: .leading, spacing: 6) {
+                HStack {
+                  Text(collection.title)
+                    .font(.headline)
+                  Spacer()
+                  Text(String(collection.count))
+                    .font(.headline)
+                    .foregroundStyle(accent)
+                }
+                Text(collection.description)
+                  .font(.subheadline)
+                  .foregroundStyle(.secondary)
+              }
+              .padding(14)
+              .background(Color.white.opacity(0.72), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+            }
+          }
+
+          moduleCard(title: "Actions rapides", accent: accent) {
+            ForEach(content.quickActions, id: \.self) { item in
+              moduleRow(text: item)
+            }
+          }
+        }
+        .frame(maxWidth: .infinity, alignment: .top)
+      }
+    }
+  }
+
+  private func moduleCard<Content: View>(title: String, accent: Color, @ViewBuilder content: () -> Content) -> some View {
+    VStack(alignment: .leading, spacing: 14) {
+      Text(title)
+        .font(.title3.weight(.bold))
+      content()
+    }
+    .padding(22)
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .background(
+      LinearGradient(
+        colors: [Color.white.opacity(0.92), accent.opacity(0.08)],
+        startPoint: .topLeading,
+        endPoint: .bottomTrailing
+      ),
+      in: RoundedRectangle(cornerRadius: 24, style: .continuous)
+    )
+  }
+
+  private func moduleRow(text: String) -> some View {
+    HStack(alignment: .top, spacing: 10) {
+      Circle()
+        .fill(Color.black.opacity(0.7))
+        .frame(width: 7, height: 7)
+        .padding(.top, 6)
+      Text(text)
+        .font(.body)
+        .foregroundStyle(.secondary)
+        .fixedSize(horizontal: false, vertical: true)
+    }
   }
 }

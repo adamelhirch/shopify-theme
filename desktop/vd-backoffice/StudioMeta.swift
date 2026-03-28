@@ -6,6 +6,7 @@ struct StudioMeta: Decodable {
   let version: Int
   let backend: String
   let modules: [StudioModule]
+  let contentModules: [String]?
   let shopify: ShopifyStudioMeta
   let repositoryRoot: String?
   let settingsPath: String?
@@ -16,9 +17,72 @@ struct StudioMeta: Decodable {
     case version
     case backend
     case modules
+    case contentModules = "content_modules"
     case shopify
     case repositoryRoot = "repository_root"
     case settingsPath = "settings_path"
+  }
+}
+
+struct StudioModuleContentResponse: Decodable {
+  let modules: [String: StudioModuleContent]
+}
+
+struct StudioModuleContent: Decodable {
+  let key: String
+  let headline: String
+  let body: String
+  let pillars: [String]
+  let collections: [StudioCollection]
+  let roadmap: [String]
+  let quickActions: [String]
+  let stats: [StudioStat]
+
+  enum CodingKeys: String, CodingKey {
+    case key
+    case headline
+    case body
+    case pillars
+    case collections
+    case roadmap
+    case quickActions = "quick_actions"
+    case stats
+  }
+}
+
+struct StudioCollection: Decodable, Identifiable {
+  let title: String
+  let description: String
+  let count: Int
+
+  var id: String { title }
+}
+
+struct StudioStat: Decodable, Identifiable {
+  let label: String
+  let value: StudioStatValue
+
+  var id: String { label }
+}
+
+enum StudioStatValue: Decodable {
+  case integer(Int)
+  case text(String)
+
+  var displayValue: String {
+    switch self {
+    case .integer(let value): return String(value)
+    case .text(let value): return value
+    }
+  }
+
+  init(from decoder: Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    if let intValue = try? container.decode(Int.self) {
+      self = .integer(intValue)
+    } else {
+      self = .text(try container.decode(String.self))
+    }
   }
 }
 

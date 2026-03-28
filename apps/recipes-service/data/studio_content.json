@@ -1,0 +1,97 @@
+{
+  "modules": {
+    "recipes": {
+      "headline": "Registre souverain des recettes premium, gratuites et membres.",
+      "body": "Le cockpit Recettes est deja actif. L'objectif maintenant est d'accelerer la cadence editoriale, la qualite SEO, la publication Shopify et le maillage avec catalogue, wiki et pages d'atterrissage.",
+      "pillars": [
+        "Creation et duplication ultra rapides",
+        "Publication Shopify en un clic",
+        "Media par etape, SEO et schema Recipe"
+      ],
+      "collections": [
+        {
+          "title": "Production active",
+          "description": "Registre public, publication Shopify, preview QA et export JSON.",
+          "count": 8
+        },
+        {
+          "title": "Prochaine couche",
+          "description": "Moteur de recherche premium, suggestions, categories SEO et profils auteurs.",
+          "count": 4
+        }
+      ],
+      "roadmap": [
+        "Ajouter l'edition media par etape directement dans le cockpit",
+        "Brancher des pages categories SEO dediees",
+        "Ouvrir les contributions externes avec validation"
+      ],
+      "quick_actions": [
+        "Creer une recette depuis template",
+        "Importer un brief Markdown",
+        "Publier vers Shopify et sync preview"
+      ]
+    },
+    "wiki": {
+      "headline": "Base de connaissance premium pour educer, convertir et mailler le site.",
+      "body": "Le module Wiki doit devenir le centre editorial des contenus longs: origines, terroirs, techniques, FAQ expertes, usages, mythes, comparatifs et guides de preparation.",
+      "pillars": [
+        "Articles piliers et clusters SEO",
+        "Navigation par themes, terroirs, usages et questions",
+        "Ponts directs vers recettes et catalogue"
+      ],
+      "collections": [
+        {
+          "title": "Fondations a poser",
+          "description": "Templates article, taxonomie, medias, schema FAQ/Article et workflow de relecture.",
+          "count": 5
+        },
+        {
+          "title": "Premiers dossiers",
+          "description": "Terroirs de Madagascar, difference gousse/caviar/extrait, comment conserver la vanille.",
+          "count": 6
+        }
+      ],
+      "roadmap": [
+        "Construire un modele article avec sections reorderables",
+        "Ajouter recherche, taxonomie et related content",
+        "Publier des clusters SEO relies aux recettes"
+      ],
+      "quick_actions": [
+        "Definir taxonomie wiki",
+        "Creer un template article premium",
+        "Connecter publication Shopify pages"
+      ]
+    },
+    "pages": {
+      "headline": "Studio pour les pages editoriales, pages categories et experiences de conversion.",
+      "body": "Le module Pages doit piloter les landings strategiques, pages marques, categories SEO, campagnes, pages expertes et experiences immersives qui depassent la simple preview du theme editor.",
+      "pillars": [
+        "Templates landing et pages categories",
+        "Synchronisation preview et publication Shopify",
+        "Blocs de conversion, SEO et maillage interne"
+      ],
+      "collections": [
+        {
+          "title": "Pages a fort impact",
+          "description": "Hero premium, sections sur mesure, lead capture et CTA catalogue.",
+          "count": 4
+        },
+        {
+          "title": "Socle futur",
+          "description": "Page builder interne, presets de blocs, variantes saisonnieres et A/B creatifs.",
+          "count": 5
+        }
+      ],
+      "roadmap": [
+        "Poser un modele de page editable en sections",
+        "Brancher la creation automatique des pages Shopify",
+        "Ajouter des presets landing, categorie et expert"
+      ],
+      "quick_actions": [
+        "Definir les templates prioritaires",
+        "Lister les pages business critiques",
+        "Brancher le workflow de publication"
+      ]
+    }
+  }
+}

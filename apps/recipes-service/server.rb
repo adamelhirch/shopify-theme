@@ -12,6 +12,7 @@ require 'English'
 require_relative 'lib/actor_registry'
 require_relative 'lib/shopify_page_publisher'
 require_relative 'lib/shopify_preview_manager'
+require_relative 'lib/studio_content_registry'
 require_relative 'lib/studio_settings'
 require_relative 'lib/store_factory'
 
@@ -24,6 +25,7 @@ ACTORS = ActorRegistry.new(File.join(ROOT, 'data', 'actors.json'), fallback_admi
 EXPORT_SCRIPT = File.expand_path('../../bin/export-recipes-store.rb', __dir__)
 SHOPIFY_PUBLISHER = ShopifyPagePublisher.build_from_env
 STUDIO_SETTINGS = StudioSettings.new(File.join(ROOT, 'data', 'studio_settings.json'))
+STUDIO_CONTENT = StudioContentRegistry.new(File.join(ROOT, 'data', 'studio_content.json'))
 PREVIEW_MANAGER = ShopifyPreviewManager.build_from_env(settings: STUDIO_SETTINGS)
 SESSION_COOKIE = 'vd_recipes_admin_session'
 SESSION_SECRET = ENV.fetch('VD_RECIPES_SESSION_SECRET', 'vd-recipes-local-session-secret')
@@ -241,9 +243,50 @@ def studio_meta_payload
     version: 4,
     backend: STORE.respond_to?(:backend) ? STORE.backend : 'json',
     modules: STUDIO_SETTINGS.module_list,
+    content_modules: STUDIO_CONTENT.all.keys,
     shopify: PREVIEW_MANAGER.metadata,
     repository_root: REPO_ROOT,
     settings_path: STUDIO_SETTINGS.path
+  }
+end
+
+def studio_module_payload(module_key)
+  module_data = STUDIO_CONTENT.fetch(module_key) || {}
+
+  stats =
+    case module_key.to_s
+    when 'recipes'
+      dashboard = STORE.dashboard_summary
+      [
+        { 'label' => 'Total', 'value' => dashboard[:total].to_i },
+        { 'label' => 'Approuvees', 'value' => dashboard[:approved].to_i },
+        { 'label' => 'Preview', 'value' => 'auto' }
+      ]
+    when 'wiki'
+      [
+        { 'label' => 'Templates', 'value' => 1 },
+        { 'label' => 'Clusters cibles', 'value' => 6 },
+        { 'label' => 'Etat', 'value' => 'fondation' }
+      ]
+    when 'pages'
+      [
+        { 'label' => 'Templates', 'value' => 3 },
+        { 'label' => 'Priorites', 'value' => 4 },
+        { 'label' => 'Etat', 'value' => 'preparation' }
+      ]
+    else
+      []
+    end
+
+  {
+    'key' => module_key.to_s,
+    'headline' => module_data['headline'],
+    'body' => module_data['body'],
+    'pillars' => Array(module_data['pillars']),
+    'collections' => Array(module_data['collections']),
+    'roadmap' => Array(module_data['roadmap']),
+    'quick_actions' => Array(module_data['quick_actions']),
+    'stats' => stats
   }
 end
 
@@ -1651,6 +1694,30 @@ server.mount_proc '/studio/meta' do |request, response|
   end
 
   json_response(response, 200, studio_meta_payload)
+end
+
+server.mount_proc '/studio/content' do |request, response|
+  if request.request_method != 'GET'
+    json_response(response, 405, { error: 'method_not_allowed' })
+    next
+  end
+
+  if request.path != '/studio/content'
+    module_key = request.path.sub(%r{\A/studio/content/?}, '')
+    payload = studio_module_payload(module_key)
+    if payload['headline'].to_s.empty?
+      json_response(response, 404, { error: 'not_found' })
+    else
+      json_response(response, 200, payload)
+    end
+    next
+  end
+
+  payload = STUDIO_CONTENT.all.keys.each_with_object({}) do |module_key, hash|
+    hash[module_key] = studio_module_payload(module_key)
+  end
+
+  json_response(response, 200, { modules: payload })
 end
 
 server.mount_proc '/theme/preview-target' do |request, response|

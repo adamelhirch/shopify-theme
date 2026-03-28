@@ -21,6 +21,7 @@ final class ServiceController: ObservableObject {
   @Published private(set) var lastLogLine: String?
   @Published private(set) var activePort: Int
   @Published private(set) var studioMeta: StudioMeta?
+  @Published private(set) var studioContent: [String: StudioModuleContent] = [:]
   @Published private(set) var isSyncingPreview = false
   @Published private(set) var lastSyncSummary: String?
 
@@ -110,6 +111,10 @@ final class ServiceController: ObservableObject {
 
   var moduleSnapshot: [StudioModule] {
     studioMeta?.modules ?? []
+  }
+
+  func moduleContent(for section: StudioSection) -> StudioModuleContent? {
+    studioContent[section.rawValue]
   }
 
   func startIfNeeded() {
@@ -363,8 +368,24 @@ final class ServiceController: ObservableObject {
       guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else { return }
       let decoded = try JSONDecoder().decode(StudioMeta.self, from: data)
       studioMeta = decoded
+      await refreshStudioContent()
     } catch {
       lastLogLine = "Meta studio indisponible: \(error.localizedDescription)"
+    }
+  }
+
+  private func refreshStudioContent() async {
+    guard let url = URL(string: "http://127.0.0.1:\(activePort)/studio/content") else { return }
+    var request = URLRequest(url: url)
+    request.timeoutInterval = 2.0
+
+    do {
+      let (data, response) = try await URLSession.shared.data(for: request)
+      guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else { return }
+      let decoded = try JSONDecoder().decode(StudioModuleContentResponse.self, from: data)
+      studioContent = decoded.modules
+    } catch {
+      lastLogLine = "Contenu studio indisponible: \(error.localizedDescription)"
     }
   }
 }
