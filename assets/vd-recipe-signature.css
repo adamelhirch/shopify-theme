@@ -11,6 +11,16 @@
   color: var(--vd-recipe-text);
 }
 
+.vd-recipe-signature::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: clamp(16rem, 24vh, 24rem);
+  background: linear-gradient(180deg, rgba(14, 14, 14, 0.22), rgba(14, 14, 14, 0));
+  z-index: 0;
+  pointer-events: none;
+}
+
 .vd-recipe-signature__media,
 .vd-recipe-signature__veil,
 .vd-recipe-signature__glow {
@@ -27,20 +37,21 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.08);
-  filter: blur(22px) saturate(0.82);
-  opacity: 0.58;
+  transform: scale(1.1);
+  filter: blur(18px) saturate(0.92);
+  opacity: 0.68;
 }
 
 .vd-recipe-signature__veil {
   background:
-    linear-gradient(180deg, rgba(245, 241, 236, 0.18) 0%, rgba(245, 241, 236, 0.82) 26%, rgba(245, 241, 236, 0.98) 100%);
+    linear-gradient(180deg, rgba(18, 18, 18, 0.2) 0%, rgba(245, 241, 236, 0.5) 18%, rgba(245, 241, 236, 0.84) 34%, rgba(245, 241, 236, 0.98) 100%);
 }
 
 .vd-recipe-signature__glow {
   background:
-    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.54), transparent 26%),
-    radial-gradient(circle at 82% 18%, rgba(98, 131, 96, 0.18), transparent 24%);
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.5), transparent 24%),
+    radial-gradient(circle at 82% 18%, rgba(98, 131, 96, 0.2), transparent 22%),
+    radial-gradient(circle at 52% 12%, rgba(219, 177, 144, 0.2), transparent 22%);
 }
 
 .vd-recipe-signature > .page-width,
@@ -58,7 +69,7 @@
 .vd-recipe-signature__back-wrap {
   display: flex;
   justify-content: flex-start;
-  padding-top: clamp(3rem, 5vh, 4.8rem);
+  padding-top: clamp(1.6rem, 3.4vh, 2.8rem);
 }
 
 .vd-recipe-signature__back-link {
@@ -66,24 +77,38 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 5.8rem;
-  padding: 1.1rem 2rem;
-  border: 1px solid rgba(var(--vd-text), 0.12);
-  border-radius: 2rem;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(245, 235, 226, 0.92));
+  gap: 0.9rem;
+  min-height: 4.8rem;
+  padding: 0.95rem 1.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(245, 235, 226, 0.2));
   color: rgb(var(--vd-text));
-  font-size: 1.14rem;
+  font-size: 1rem;
   font-weight: 800;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   text-decoration: none;
-  box-shadow: 0 1.2rem 2.8rem rgba(var(--vd-shadow), 0.08);
-  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  box-shadow: 0 1.4rem 3.2rem rgba(var(--vd-shadow), 0.1);
+  backdrop-filter: blur(18px);
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+.vd-recipe-signature__back-link::before {
+  content: "";
+  width: 0.8rem;
+  height: 0.8rem;
+  border-left: 0.14rem solid currentColor;
+  border-bottom: 0.14rem solid currentColor;
+  transform: rotate(45deg);
+  margin-top: -0.1rem;
 }
 
 .vd-recipe-signature__back-link:hover,
 .vd-recipe-signature__back-link:focus-visible {
   transform: translateY(-0.1rem);
-  box-shadow: 0 1.6rem 3.4rem rgba(var(--vd-shadow), 0.12);
+  border-color: rgba(255, 255, 255, 0.48);
+  box-shadow: 0 1.8rem 3.8rem rgba(var(--vd-shadow), 0.14);
 }
 
 .vd-recipe-signature .page-width {
@@ -151,8 +176,8 @@
   display: grid;
   grid-template-columns: minmax(0, 1.06fr) minmax(30rem, 0.72fr);
   gap: clamp(2rem, 4vw, 4rem);
-  min-height: min(86vh, 80rem);
-  padding: clamp(4.2rem, 7vh, 6.8rem) 0 clamp(2.4rem, 4vw, 4rem);
+  min-height: min(90vh, 84rem);
+  padding: clamp(2.4rem, 4.5vh, 4.2rem) 0 clamp(2.4rem, 4vw, 4rem);
   align-items: end;
 }
 
@@ -170,14 +195,15 @@
 }
 
 .vd-recipe-signature__heading {
-  margin: 1.4rem 0 0;
+  margin: 1rem 0 0;
   max-width: 11ch;
   font-size: clamp(4.8rem, 7vw, 9.4rem);
   line-height: 0.9;
+  text-wrap: balance;
 }
 
 .vd-recipe-signature__intro {
-  margin: 1.8rem 0 0;
+  margin: 1.4rem 0 0;
   max-width: 66rem;
   color: rgba(var(--vd-text), 0.74);
   font-size: clamp(1.7rem, 2vw, 2.1rem);
