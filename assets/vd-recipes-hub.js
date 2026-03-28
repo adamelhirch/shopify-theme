@@ -232,14 +232,14 @@
             '<h2>' + escapeHtml(recipe.title) + '</h2>' +
             '<p>' + escapeHtml(recipe.summary || recipe.subtitle || '') + '</p>' +
           '</div>' +
-          '<div class="vd-recipes-hub__card-footer">' +
-            '<span class="vd-recipes-hub__card-state">' + escapeHtml(recipe.subtitle || '') + '</span>' +
-            '<span class="vd-recipes-hub__card-actions">' +
-              '<span class="vd-recipes-hub__card-cta">Ouvrir</span>' +
-            '</span>' +
-          '</div>' +
         '</a>' +
-        '<button type="button" class="vd-recipes-hub__favorite' + (isFavorite ? ' is-active' : '') + '" data-vd-recipe-favorite-toggle data-slug="' + escapeHtml(recipe.slug || '') + '" aria-label="Ajouter aux favoris">' + (isFavorite ? 'Favori' : 'Sauvegarder') + '</button>' +
+        '<div class="vd-recipes-hub__card-footer">' +
+          '<span class="vd-recipes-hub__card-state">' + escapeHtml(recipe.subtitle || '') + '</span>' +
+          '<span class="vd-recipes-hub__card-actions">' +
+            '<button type="button" class="vd-recipes-hub__favorite' + (isFavorite ? ' is-active' : '') + '" data-vd-recipe-favorite-toggle data-slug="' + escapeHtml(recipe.slug || '') + '" aria-label="Ajouter aux favoris">' + (isFavorite ? 'Favori' : 'Sauvegarder') + '</button>' +
+            '<a class="vd-recipes-hub__card-cta" href="' + escapeHtml(recipeHref(recipe)) + '">Ouvrir</a>' +
+          '</span>' +
+        '</div>' +
       '</article>'
     );
   }
