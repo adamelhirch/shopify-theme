@@ -967,7 +967,7 @@ def step_media_for_form(steps)
   end.join("\n")
 end
 
-def story_media_slots(media_items, slots = 4)
+def story_media_slots(media_items, slots = 6)
   base = Array(media_items).first(slots).map do |item|
     {
       'kind' => item['video_url'].to_s.strip.empty? ? 'image' : 'video',
@@ -998,7 +998,7 @@ def step_media_slots(steps)
   end
 end
 
-def parse_story_media_slots(query, slots = 4)
+def parse_story_media_slots(query, slots = 6)
   (1..slots).each_with_object([]) do |index, items|
     url = query["story_media_#{index}_url"].to_s.strip
     next if url.empty?
@@ -1015,6 +1015,37 @@ def parse_story_media_slots(query, slots = 4)
     end
     items << item.reject { |_key, value| value.to_s.empty? }
   end
+end
+
+def media_preview_markup(kind:, url:, title:, caption: '', alt: '', step_label: nil)
+  safe_url = html_escape(url)
+  safe_title = html_escape(title)
+  safe_caption = html_escape(caption)
+  safe_alt = html_escape(alt)
+  safe_step = html_escape(step_label.to_s)
+  classes = ['media-slot__preview']
+  classes << 'is-video' if kind == 'video'
+  style = kind == 'image' && !url.to_s.strip.empty? ? " style=\"background-image:url('#{safe_url}')\"" : ''
+  meta = []
+  meta << "<span class=\"media-slot__eyebrow\">#{safe_step}</span>" unless safe_step.empty?
+  meta << "<span class=\"media-slot__eyebrow\">#{kind == 'video' ? 'Video' : 'Image'}</span>"
+
+  <<~HTML
+    <div class="#{classes.join(' ')}">
+      <div class="media-slot__surface"#{style}>
+        <div class="media-slot__veil"></div>
+        <div class="media-slot__content">
+          #{meta.join}
+          <strong>#{safe_title}</strong>
+          <span>#{safe_caption.empty? ? (kind == 'video' ? 'MP4 ou video Shopify publiee' : 'Image Shopify CDN ou URL media') : safe_caption}</span>
+        </div>
+      </div>
+      <div class="media-slot__foot">
+        <span><strong>URL</strong> #{safe_url.empty? ? 'Aucune' : '<code>' + safe_url + '</code>'}</span>
+        #{safe_alt.empty? ? '' : "<span><strong>Alt</strong> #{safe_alt}</span>"}
+      </div>
+    </div>
+  HTML
 end
 
 def parse_step_media_slots(query, steps)
@@ -1613,6 +1644,112 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             color: var(--muted);
             line-height: 1.5;
           }
+          .media-studio {
+            display: grid;
+            gap: 16px;
+            margin-top: 6px;
+          }
+          .media-studio__hero,
+          .media-studio__gallery,
+          .media-studio__steps {
+            display: grid;
+            gap: 14px;
+            padding: 16px;
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            background: rgba(255,255,255,0.56);
+          }
+          .media-studio__head {
+            display: grid;
+            gap: 6px;
+          }
+          .media-studio__head strong {
+            font-size: 15px;
+          }
+          .media-studio__hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+            gap: 14px;
+            align-items: start;
+          }
+          .media-studio__gallery-grid,
+          .media-studio__steps-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+          }
+          .media-slot {
+            display: grid;
+            gap: 12px;
+            padding: 14px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: rgba(255,255,255,0.72);
+          }
+          .media-slot__preview {
+            display: grid;
+            gap: 10px;
+          }
+          .media-slot__surface {
+            position: relative;
+            min-height: 220px;
+            border-radius: 18px;
+            overflow: hidden;
+            background:
+              linear-gradient(145deg, rgba(211, 224, 203, 0.64), rgba(235, 226, 214, 0.72));
+            background-size: cover;
+            background-position: center;
+            border: 1px solid rgba(16,16,16,0.08);
+          }
+          .media-slot__preview.is-video .media-slot__surface {
+            background:
+              linear-gradient(145deg, rgba(18, 18, 18, 0.78), rgba(80, 80, 80, 0.68));
+          }
+          .media-slot__veil {
+            position: absolute;
+            inset: 0;
+            background:
+              linear-gradient(180deg, rgba(17,17,17,0.06), rgba(17,17,17,0.34)),
+              radial-gradient(circle at 18% 14%, rgba(255,255,255,0.24), transparent 24%);
+          }
+          .media-slot__content {
+            position: absolute;
+            inset: auto 0 0 0;
+            z-index: 1;
+            display: grid;
+            gap: 6px;
+            padding: 16px;
+            color: #fff;
+          }
+          .media-slot__content strong {
+            font-size: 22px;
+            line-height: 1.02;
+          }
+          .media-slot__content span {
+            font-size: 12px;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.82);
+          }
+          .media-slot__eyebrow {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.76);
+          }
+          .media-slot__foot {
+            display: grid;
+            gap: 4px;
+            font-size: 12px;
+            color: var(--muted);
+          }
+          .media-slot__inputs {
+            display: grid;
+            gap: 10px;
+          }
+          .media-slot__inputs--compact {
+            grid-template-columns: 0.5fr 1.5fr;
+          }
           @media (max-width: 960px) {
             .summary,
             .grid { grid-template-columns: 1fr; }
@@ -1623,6 +1760,10 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             .editor-grid,
             .assistant-grid,
             .checklist { grid-template-columns: 1fr; }
+            .media-studio__hero-grid,
+            .media-studio__gallery-grid,
+            .media-studio__steps-grid,
+            .media-slot__inputs--compact { grid-template-columns: 1fr; }
           }
         </style>
       </head>
@@ -1933,55 +2074,119 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                   <label>Timing total
                     <input type="text" name="timing_total" value="#{html_escape(recipe.dig('timing', 'total'))}">
                   </label>
-                  <label>Hero vidéo
-                    <input type="text" name="hero_video_url" value="#{html_escape(recipe.dig('hero', 'video_url'))}" placeholder="MP4 libre de droit ou video Shopify via l'editeur theme">
-                  </label>
-                  <label>Hero image
-                    <input type="text" name="hero_image_url" value="#{html_escape(recipe.dig('hero', 'image_url'))}">
-                  </label>
-                  <label>Hero ambiance
-                    <input type="text" name="hero_ambient_label" value="#{html_escape(recipe.dig('hero', 'ambient_label'))}">
-                  </label>
                   <div class="full section-title">Pilotage média simplifié</div>
-                  <div class="full helper">Renseignez un hero, jusqu’à 4 médias de galerie et un média par étape. Les zones JSON restent disponibles plus bas uniquement pour les cas avancés.</div>
+                  <div class="full helper">Renseignez ici les médias de base du registre. L’éditeur Shopify peut ensuite surcharger hero, galerie et étapes via les blocs <code>Media recette</code> si vous voulez affiner une page sans toucher au socle.</div>
+                  <div class="full media-studio">
+                    <section class="media-studio__hero">
+                      <div class="media-studio__head">
+                        <strong>Hero recette</strong>
+                        <span class="helper">Le média principal qui donne le ton sur la fiche recette. Mettez soit une image soit une vidéo, puis un libellé d’ambiance.</span>
+                      </div>
+                      <div class="media-studio__hero-grid">
+                        #{media_preview_markup(
+                          kind: recipe.dig('hero', 'video_url').to_s.strip.empty? ? 'image' : 'video',
+                          url: recipe.dig('hero', 'video_url').to_s.strip.empty? ? recipe.dig('hero', 'image_url').to_s : recipe.dig('hero', 'video_url').to_s,
+                          title: recipe['title'].to_s.strip.empty? ? 'Hero recette' : recipe['title'].to_s,
+                          caption: recipe.dig('hero', 'ambient_label').to_s,
+                          alt: recipe.dig('hero', 'image_alt').to_s
+                        )}
+                        <div class="media-slot">
+                          <div class="media-slot__inputs">
+                            <label>Hero vidéo
+                              <input type="text" name="hero_video_url" value="#{html_escape(recipe.dig('hero', 'video_url'))}" placeholder="MP4 libre de droit ou vidéo Shopify publiée">
+                            </label>
+                            <label>Hero image
+                              <input type="text" name="hero_image_url" value="#{html_escape(recipe.dig('hero', 'image_url'))}" placeholder="https://cdn.shopify.com/...">
+                            </label>
+                            <label>Hero ambiance
+                              <input type="text" name="hero_ambient_label" value="#{html_escape(recipe.dig('hero', 'ambient_label'))}" placeholder="Friture nette, cœur fondant, vanille lisible.">
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                    <section class="media-studio__gallery">
+                      <div class="media-studio__head">
+                        <strong>Galerie recette</strong>
+                        <span class="helper">Jusqu’à 6 médias pour montrer l’assiette, la texture, le dressage ou l’ambiance de préparation.</span>
+                      </div>
+                      <div class="media-studio__gallery-grid">
                   #{story_media_slot_items.each_with_index.map { |slot, index|
                     <<~HTML
-                      <label>Galerie #{index + 1} · type
-                        <select name="story_media_#{index + 1}_kind">
-                          <option value="image" #{slot['kind'] == 'image' ? 'selected' : ''}>Image</option>
-                          <option value="video" #{slot['kind'] == 'video' ? 'selected' : ''}>Vidéo</option>
-                        </select>
-                      </label>
-                      <label>Galerie #{index + 1} · URL
-                        <input type="text" name="story_media_#{index + 1}_url" value="#{html_escape(slot['url'])}" placeholder="https://cdn.shopify.com/...">
-                      </label>
-                      <label>Galerie #{index + 1} · légende
-                        <input type="text" name="story_media_#{index + 1}_caption" value="#{html_escape(slot['caption'])}" placeholder="Plan large, texture finale, geste clé...">
-                      </label>
-                      <label>Galerie #{index + 1} · alt
-                        <input type="text" name="story_media_#{index + 1}_alt" value="#{html_escape(slot['alt'])}" placeholder="Description courte pour le visuel">
-                      </label>
+                      <article class="media-slot">
+                        #{media_preview_markup(
+                          kind: slot['kind'],
+                          url: slot['url'],
+                          title: "Galerie #{index + 1}",
+                          caption: slot['caption'],
+                          alt: slot['alt']
+                        )}
+                        <div class="media-slot__inputs">
+                          <div class="media-slot__inputs media-slot__inputs--compact">
+                            <label>Type
+                              <select name="story_media_#{index + 1}_kind">
+                                <option value="image" #{slot['kind'] == 'image' ? 'selected' : ''}>Image</option>
+                                <option value="video" #{slot['kind'] == 'video' ? 'selected' : ''}>Vidéo</option>
+                              </select>
+                            </label>
+                            <label>URL média
+                              <input type="text" name="story_media_#{index + 1}_url" value="#{html_escape(slot['url'])}" placeholder="https://cdn.shopify.com/...">
+                            </label>
+                          </div>
+                          <label>Légende
+                            <input type="text" name="story_media_#{index + 1}_caption" value="#{html_escape(slot['caption'])}" placeholder="Plan large, texture finale, geste clé...">
+                          </label>
+                          <label>Texte alternatif
+                            <input type="text" name="story_media_#{index + 1}_alt" value="#{html_escape(slot['alt'])}" placeholder="Description courte pour le visuel">
+                          </label>
+                        </div>
+                      </article>
                     HTML
                   }.join}
+                      </div>
+                    </section>
+                    <section class="media-studio__steps">
+                      <div class="media-studio__head">
+                        <strong>Médias par étape</strong>
+                        <span class="helper">Un média par étape pour guider la préparation sans surcharger la lecture. Laissez vide si l’étape n’en a pas besoin.</span>
+                      </div>
+                      <div class="media-studio__steps-grid">
                   #{step_media_slot_items.map { |slot|
                     <<~HTML
-                      <label>Étape #{slot['index']} · type
-                        <select name="step_media_#{slot['index']}_kind">
-                          <option value="image" #{slot['kind'] == 'image' ? 'selected' : ''}>Image</option>
-                          <option value="video" #{slot['kind'] == 'video' ? 'selected' : ''}>Vidéo</option>
-                        </select>
-                      </label>
-                      <label>Étape #{slot['index']} · URL
-                        <input type="text" name="step_media_#{slot['index']}_url" value="#{html_escape(slot['url'])}" placeholder="https://cdn.shopify.com/...">
-                      </label>
-                      <label>Étape #{slot['index']} · légende
-                        <input type="text" name="step_media_#{slot['index']}_caption" value="#{html_escape(slot['caption'])}" placeholder="#{html_escape(slot['step_title'])}">
-                      </label>
-                      <label>Étape #{slot['index']} · alt
-                        <input type="text" name="step_media_#{slot['index']}_alt" value="#{html_escape(slot['alt'])}" placeholder="Description de l’étape en image">
-                      </label>
+                      <article class="media-slot">
+                        #{media_preview_markup(
+                          kind: slot['kind'],
+                          url: slot['url'],
+                          title: slot['step_title'].to_s.strip.empty? ? "Étape #{slot['index']}" : slot['step_title'],
+                          caption: slot['caption'],
+                          alt: slot['alt'],
+                          step_label: "Étape #{slot['index']}"
+                        )}
+                        <div class="media-slot__inputs">
+                          <div class="media-slot__inputs media-slot__inputs--compact">
+                            <label>Type
+                              <select name="step_media_#{slot['index']}_kind">
+                                <option value="image" #{slot['kind'] == 'image' ? 'selected' : ''}>Image</option>
+                                <option value="video" #{slot['kind'] == 'video' ? 'selected' : ''}>Vidéo</option>
+                              </select>
+                            </label>
+                            <label>URL média
+                              <input type="text" name="step_media_#{slot['index']}_url" value="#{html_escape(slot['url'])}" placeholder="https://cdn.shopify.com/...">
+                            </label>
+                          </div>
+                          <label>Légende étape
+                            <input type="text" name="step_media_#{slot['index']}_caption" value="#{html_escape(slot['caption'])}" placeholder="#{html_escape(slot['step_title'])}">
+                          </label>
+                          <label>Texte alternatif
+                            <input type="text" name="step_media_#{slot['index']}_alt" value="#{html_escape(slot['alt'])}" placeholder="Description de l’étape en image">
+                          </label>
+                        </div>
+                      </article>
                     HTML
                   }.join}
+                      </div>
+                    </section>
+                  </div>
                   <label class="full">Galerie recette · mode texte
                     <textarea name="story_media_text" placeholder="image | https://cdn.shopify.com/.../hero-recette.jpg | Hero recette large | Hero recette&#10;video | https://cdn.shopify.com/.../geste.mp4 | Geste cle de la recette">#{html_escape(story_media_text)}</textarea>
                   </label>
