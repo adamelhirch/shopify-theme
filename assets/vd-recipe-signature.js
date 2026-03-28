@@ -1092,9 +1092,40 @@
       }
     });
 
+    var fullscreenWheelHandler = function (event) {
+      if (document.fullscreenElement !== section || !section.classList.contains('is-fullscreen')) return;
+
+      var horizontalScrollable = findScrollableParent(event.target, 'x', section);
+      if (horizontalScrollable && Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+        return;
+      }
+
+      var verticalScrollable = findScrollableParent(event.target, 'y', section);
+      if (verticalScrollable && verticalScrollable !== section) {
+        return;
+      }
+
+      if (Math.abs(event.deltaY) < 1) return;
+
+      event.preventDefault();
+      section.scrollTop += event.deltaY;
+    };
+
+    section.addEventListener('wheel', fullscreenWheelHandler, { passive: false });
+    cleanups.push(function () {
+      section.removeEventListener('wheel', fullscreenWheelHandler, { passive: false });
+    });
+
     document.addEventListener('fullscreenchange', function () {
-      section.classList.toggle('is-fullscreen', document.fullscreenElement === section);
-      fullscreenButton.textContent = document.fullscreenElement === section ? 'Quitter plein ecran' : 'Plein ecran';
+      var isFullscreen = document.fullscreenElement === section;
+      section.classList.toggle('is-fullscreen', isFullscreen);
+      fullscreenButton.textContent = isFullscreen ? 'Quitter plein ecran' : 'Plein ecran';
+      if (isFullscreen) {
+        section.setAttribute('tabindex', '-1');
+        section.focus({ preventScroll: true });
+      } else {
+        section.removeAttribute('tabindex');
+      }
     });
 
     toggleButton.addEventListener('click', function () {
@@ -1222,6 +1253,31 @@
       if (!href) return;
       link.setAttribute('href', appendPreviewThemeId(href));
     });
+  }
+
+  function canScrollOnAxis(element, axis) {
+    if (!element || element === document.body || element === document.documentElement) return false;
+
+    var style = window.getComputedStyle(element);
+    var overflowProp = axis === 'x' ? style.overflowX : style.overflowY;
+    if (!/(auto|scroll|overlay)/.test(overflowProp)) return false;
+
+    if (axis === 'x') {
+      return element.scrollWidth > element.clientWidth + 4;
+    }
+
+    return element.scrollHeight > element.clientHeight + 4;
+  }
+
+  function findScrollableParent(node, axis, stopAt) {
+    var current = node;
+
+    while (current && current !== stopAt && current !== document.body) {
+      if (canScrollOnAxis(current, axis)) return current;
+      current = current.parentElement;
+    }
+
+    return null;
   }
 
   function resolveRequestedRecipe(recipes, requestedSlug) {
