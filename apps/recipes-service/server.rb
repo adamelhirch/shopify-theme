@@ -1049,7 +1049,7 @@ def media_preview_markup(kind:, url:, title:, caption: '', alt: '', step_label: 
 end
 
 def media_library_entries(recipes, current_slug: nil)
-  Array(recipes).each_with_object([]) do |entry, items|
+  entries = Array(recipes).each_with_object([]) do |entry, items|
     next unless entry.is_a?(Hash)
 
     recipe_slug = entry['slug'].to_s
@@ -1099,7 +1099,28 @@ def media_library_entries(recipes, current_slug: nil)
         'label' => step['title'].to_s.strip.empty? ? "Étape #{index + 1}" : step['title'].to_s
       }
     end
-  end.sort_by { |item| [item['recipe_slug'] == current_slug ? 1 : 0, item['recipe_title'].to_s, item['placement'].to_s, item['label'].to_s] }
+  end
+
+  deduped = {}
+  entries.each do |item|
+    key = [item['kind'].to_s, item['url'].to_s.strip].join('::')
+    next if item['url'].to_s.strip.empty?
+
+    existing = deduped[key]
+    if existing.nil?
+      deduped[key] = item
+      next
+    end
+
+    current_priority = item['recipe_slug'] == current_slug ? 0 : 1
+    existing_priority = existing['recipe_slug'] == current_slug ? 0 : 1
+    next if current_priority >= existing_priority
+
+    deduped[key] = item
+  end
+
+  deduped.values
+    .sort_by { |item| [item['recipe_slug'] == current_slug ? 1 : 0, item['recipe_title'].to_s, item['placement'].to_s, item['label'].to_s] }
     .first(60)
 end
 
@@ -1848,10 +1869,25 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             gap: 12px;
             flex-wrap: wrap;
           }
+          .media-library__filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+          }
+          .media-library__filters input,
+          .media-library__filters select {
+            width: auto;
+            min-width: 180px;
+          }
           .media-library__head strong {
             font-size: 15px;
           }
           .media-library__status {
+            font-size: 12px;
+            color: var(--muted);
+          }
+          .media-library__count {
             font-size: 12px;
             color: var(--muted);
           }
@@ -2346,10 +2382,25 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                       </div>
                       <div class="media-library__status" data-media-library-status>Aucun slot ciblé. Cliquez sur “Utiliser ici” dans un slot média.</div>
                     </div>
+                    <div class="media-library__filters">
+                      <input type="search" placeholder="Rechercher une recette ou un média" data-media-library-search>
+                      <select data-media-library-kind>
+                        <option value="all">Tous les types</option>
+                        <option value="image">Images</option>
+                        <option value="video">Vidéos</option>
+                      </select>
+                      <select data-media-library-placement>
+                        <option value="all">Tous les usages</option>
+                        <option value="hero">Hero</option>
+                        <option value="gallery">Galerie</option>
+                        <option value="step">Étape</option>
+                      </select>
+                      <div class="media-library__count" data-media-library-count>#{media_library.length} médias</div>
+                    </div>
                     <div class="media-library__grid">
                       #{media_library.map { |item|
                         <<~HTML
-                          <article class="media-library__card" data-media-library-item data-kind="#{html_escape(item['kind'])}" data-url="#{html_escape(item['url'])}" data-caption="#{html_escape(item['caption'])}" data-alt="#{html_escape(item['alt'])}">
+                          <article class="media-library__card" data-media-library-item data-kind="#{html_escape(item['kind'])}" data-placement="#{html_escape(item['placement'])}" data-search="#{html_escape([item['recipe_title'], item['recipe_slug'], item['label'], item['caption'], item['placement'], item['kind']].join(' '))}" data-url="#{html_escape(item['url'])}" data-caption="#{html_escape(item['caption'])}" data-alt="#{html_escape(item['alt'])}">
                             #{media_preview_markup(
                               kind: item['kind'],
                               url: item['url'],
@@ -2681,6 +2732,10 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             const mediaSlots = Array.from(document.querySelectorAll('[data-media-slot]'));
             const libraryStatus = document.querySelector('[data-media-library-status]');
             const libraryItems = Array.from(document.querySelectorAll('[data-media-library-item]'));
+            const librarySearch = document.querySelector('[data-media-library-search]');
+            const libraryKind = document.querySelector('[data-media-library-kind]');
+            const libraryPlacement = document.querySelector('[data-media-library-placement]');
+            const libraryCount = document.querySelector('[data-media-library-count]');
             let activeMediaSlot = null;
 
             const mediaFieldNames = function(slot) {
@@ -2720,6 +2775,37 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
               });
               if (libraryStatus) {
                 libraryStatus.textContent = slot ? 'Slot ciblé : ' + slotLabel(slot) + '.' : 'Aucun slot ciblé. Cliquez sur “Utiliser ici” dans un slot média.';
+              }
+            };
+
+            const normalize = function(value) {
+              return String(value || '')
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .trim();
+            };
+
+            const applyLibraryFilters = function() {
+              const query = normalize(librarySearch ? librarySearch.value : '');
+              const kind = libraryKind ? libraryKind.value : 'all';
+              const placement = libraryPlacement ? libraryPlacement.value : 'all';
+              let visible = 0;
+
+              libraryItems.forEach(function(item) {
+                const haystack = normalize(item.getAttribute('data-search'));
+                const itemKind = item.getAttribute('data-kind') || '';
+                const itemPlacement = item.getAttribute('data-placement') || '';
+                const matchesQuery = !query || haystack.indexOf(query) !== -1;
+                const matchesKind = kind === 'all' || itemKind === kind;
+                const matchesPlacement = placement === 'all' || itemPlacement === placement;
+                const show = matchesQuery && matchesKind && matchesPlacement;
+                item.hidden = !show;
+                if (show) visible += 1;
+              });
+
+              if (libraryCount) {
+                libraryCount.textContent = visible + ' média' + (visible > 1 ? 's' : '');
               }
             };
 
@@ -2826,6 +2912,13 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
               });
             });
 
+            [librarySearch, libraryKind, libraryPlacement].forEach(function(control) {
+              if (!control) return;
+              control.addEventListener('input', applyLibraryFilters);
+              control.addEventListener('change', applyLibraryFilters);
+            });
+
+            applyLibraryFilters();
             if (mediaSlots.length) setActiveMediaSlot(mediaSlots[0]);
           })();
         </script>
