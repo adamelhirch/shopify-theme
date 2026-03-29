@@ -1608,6 +1608,38 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   preview_target = preview_metadata[:preview_target] || {}
   preview_ready = preview_target[:ok]
   media_library = media_library_entries(recipes, current_slug: recipe['slug'])
+  studio_steps = [
+    {
+      number: '01',
+      title: 'Identité',
+      description: 'Titre, accès, collection, promesse courte et timings.',
+      ok: recipe['title'].to_s.strip != '' && recipe['slug'].to_s.strip != '' && recipe['summary'].to_s.strip != ''
+    },
+    {
+      number: '02',
+      title: 'Médias',
+      description: 'Hero, galerie et étapes visuelles prêtes à recevoir vos bons fichiers.',
+      ok: recipe.dig('hero', 'video_url').to_s.strip != '' || recipe.dig('hero', 'image_url').to_s.strip != '' || recipe['media_plan'].is_a?(Hash)
+    },
+    {
+      number: '03',
+      title: 'SEO',
+      description: 'Méta, FAQ, sources et publication.',
+      ok: recipe.dig('seo', 'title').to_s.strip != '' && recipe.dig('seo', 'description').to_s.strip != '' && Array(recipe['sources']).any?
+    },
+    {
+      number: '04',
+      title: 'Contenu',
+      description: 'Ingrédients, étapes et astuces avec une lecture nette.',
+      ok: Array(recipe['ingredient_groups']).any? && Array(recipe['steps']).any?
+    },
+    {
+      number: '05',
+      title: 'Vente',
+      description: 'Produits liés, bundle et angle de service.',
+      ok: (Array(recipe['products']).any? || primary_product.to_s.strip != '') && product_note.to_s.strip != ''
+    }
+  ]
   template_options = RECIPE_TEMPLATES.map do |key, template|
     "<option value=\"#{html_escape(key)}\">#{html_escape(template['label'])}</option>"
   end.join
@@ -1709,14 +1741,22 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
           .editor-grid .full { grid-column: 1 / -1; }
           .editor-grid .section-title {
             grid-column: 1 / -1;
-            margin-top: 4px;
-            padding-top: 6px;
+            margin-top: 8px;
+            padding: 12px 14px 0;
             border-top: 1px solid var(--line);
             color: var(--text);
             font-size: 12px;
             font-weight: 800;
             letter-spacing: 0.14em;
             text-transform: uppercase;
+          }
+          .section-kicker {
+            grid-column: 1 / -1;
+            margin-top: -4px;
+            padding: 0 14px 4px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.55;
           }
           .editor-actions {
             display: flex;
@@ -1729,6 +1769,40 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             grid-template-columns: 1.1fr 0.9fr;
             gap: 14px;
             margin: 14px 0 18px;
+          }
+          .studio-roadmap {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 10px;
+            margin: 0 0 18px;
+          }
+          .studio-roadmap__step {
+            padding: 14px;
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            background: rgba(255,255,255,0.68);
+            display: grid;
+            gap: 8px;
+          }
+          .studio-roadmap__step.is-ok {
+            border-color: rgba(106,134,99,0.3);
+            background: rgba(106,134,99,0.12);
+          }
+          .studio-roadmap__number {
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            font-weight: 800;
+          }
+          .studio-roadmap__step strong {
+            font-size: 15px;
+          }
+          .studio-roadmap__step p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.45;
+            font-size: 13px;
           }
           .checklist {
             display: grid;
@@ -2136,6 +2210,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             .filters,
             .editor-grid,
             .assistant-grid,
+            .studio-roadmap,
             .checklist { grid-template-columns: 1fr; }
             .media-studio__hero-grid,
             .media-studio__gallery-grid,
@@ -2382,10 +2457,23 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                   }.join}
                 </div>
               </div>
+              <div class="studio-roadmap">
+                #{studio_steps.map { |step|
+                  <<~HTML
+                    <article class="studio-roadmap__step #{step[:ok] ? 'is-ok' : ''}">
+                      <span class="studio-roadmap__number">Étape #{html_escape(step[:number])}</span>
+                      <strong>#{html_escape(step[:title])}</strong>
+                      <p>#{html_escape(step[:description])}</p>
+                      <span class="pill">#{step[:ok] ? 'prête' : 'à compléter'}</span>
+                    </article>
+                  HTML
+                }.join}
+              </div>
               <form method="post" action="/admin">
                 <input type="hidden" name="action" value="#{recipe['slug'] ? 'save_recipe' : 'create_recipe'}">
                 <div class="editor-grid">
                   <div class="section-title">1. Identite & parcours</div>
+                  <div class="section-kicker">Commencez toujours ici. Si le titre, l’accès et le résumé sont justes, tout le reste devient beaucoup plus simple.</div>
                   <label>Slug
                     <input type="text" name="slug" value="#{html_escape(recipe['slug'])}" #{recipe['slug'] ? 'readonly' : ''} data-role="recipe-slug">
                   </label>
@@ -2456,7 +2544,8 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                   <label>Timing total
                     <input type="text" name="timing_total" value="#{html_escape(recipe.dig('timing', 'total'))}">
                   </label>
-                  <div class="full section-title">Pilotage média simplifié</div>
+                  <div class="full section-title">2. Médias & ambiance</div>
+                  <div class="section-kicker">Préparez la structure visuelle ici, puis remplacez facilement les bons fichiers plus tard dans l’éditeur Shopify.</div>
                   <div class="full helper">Renseignez ici les médias de base du registre. L’éditeur Shopify peut ensuite surcharger hero, galerie et étapes via les blocs <code>Media recette</code> si vous voulez affiner une page sans toucher au socle.</div>
                   <div class="full media-plan">
                     <strong>Plan média recommandé</strong>
@@ -2663,7 +2752,8 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                       }.join.presence || '<article class="card"><p>Aucun média réutilisable trouvé dans le registre pour le moment.</p></article>'}
                     </div>
                   </div>
-                  <div class="section-title">2. SEO & recherche</div>
+                  <div class="section-title">3. SEO & recherche</div>
+                  <div class="section-kicker">Le minimum utile : un titre net, une méta propre, des mots-clés et des sources qui rassurent.</div>
                   <label>SEO title
                     <input type="text" name="seo_title" value="#{html_escape(recipe.dig('seo', 'title'))}" data-role="seo-title">
                   </label>
@@ -2679,7 +2769,8 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                   <label>Type auteur
                     <input type="text" name="submitted_by_type" value="#{html_escape(recipe.dig('submitted_by', 'type'))}">
                   </label>
-                  <div class="section-title">3. Contenu recette</div>
+                  <div class="section-title">4. Contenu recette</div>
+                  <div class="section-kicker">Écrivez pour une vraie lecture de cuisine : ingrédients simples, étapes courtes, astuces utiles.</div>
                   <label class="full">Ingredients simplifies
                     <textarea name="ingredient_groups_text" placeholder="Base:&#10;- 3 oeufs&#10;- 120 g sucre&#10;&#10;Finition:&#10;- 1 gousse de vanille">#{html_escape(ingredient_groups_text)}</textarea>
                   </label>
@@ -2692,7 +2783,8 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                   <label class="full">Produits lies
                     <textarea name="product_handles" placeholder="vanille-bourbon-madagascar-3-gousses&#10;caviar-vanille-bourbon-madagascar-20g">#{html_escape(product_handles_text)}</textarea>
                   </label>
-                  <div class="section-title">4. Produits & credits</div>
+                  <div class="section-title">5. Produits & credits</div>
+                  <div class="section-kicker">Terminez par le bundle : ce que le client doit acheter, pourquoi, et comment le raconter sans perdre l’allure luxe.</div>
                   <div class="full bundle-plan">
                     <strong>Plan bundle recommandé</strong>
                     <div class="helper">Ce guide reste interne au studio. Il vous aide à garder un angle de vente cohérent et haut de gamme sans repartir de zéro.</div>
