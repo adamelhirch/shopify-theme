@@ -1104,6 +1104,24 @@ def step_media_slots(steps)
   end
 end
 
+def media_plan_for_form(recipe)
+  plan = recipe['media_plan'].is_a?(Hash) ? recipe['media_plan'] : {}
+  hero = plan['hero'].is_a?(Hash) ? plan['hero'] : {}
+  gallery = Array(plan['gallery']).map { |entry| entry.is_a?(Hash) ? entry : {} }
+  step_map = Array(plan['steps']).each_with_object({}) do |entry, memo|
+    next unless entry.is_a?(Hash)
+    index = entry['index'].to_i
+    next if index <= 0
+    memo[index] = entry
+  end
+
+  {
+    hero: hero,
+    gallery: gallery,
+    steps: step_map
+  }
+end
+
 def parse_story_media_slots(query, slots = 6)
   (1..slots).each_with_object([]) do |index, items|
     url = query["story_media_#{index}_url"].to_s.strip
@@ -1549,6 +1567,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   step_media_text = step_media_for_form(recipe['steps'] || [])
   story_media_slot_items = story_media_slots(recipe['story_media'] || [])
   step_media_slot_items = step_media_slots(recipe['steps'] || [])
+  media_plan = media_plan_for_form(recipe)
   faq_text = faq_for_form(recipe.dig('seo', 'faq') || [])
   body_sections_text = body_sections_for_form(recipe.dig('seo', 'body_sections') || [])
   product_handles_text = product_handles_for_form(recipe['products'] || [])
@@ -2024,6 +2043,42 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             color: var(--text);
             font-size: 15px;
           }
+          .media-plan {
+            display: grid;
+            gap: 1.2rem;
+            padding: 1.2rem;
+            border-radius: 1.6rem;
+            background: rgba(255,255,255,0.72);
+            border: 1px solid rgba(22,22,22,0.08);
+          }
+          .media-plan__grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+          }
+          .media-plan__card {
+            padding: 1rem 1.1rem;
+            border-radius: 1.2rem;
+            background: rgba(255,255,255,0.92);
+            border: 1px solid rgba(22,22,22,0.08);
+            display: grid;
+            gap: 0.75rem;
+          }
+          .media-plan__card strong {
+            font-size: 1rem;
+          }
+          .media-plan__card ul {
+            margin: 0;
+            padding-left: 1.1rem;
+            color: var(--muted);
+            display: grid;
+            gap: 0.45rem;
+          }
+          .media-plan__card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.55;
+          }
           @media (max-width: 960px) {
             .summary,
             .grid { grid-template-columns: 1fr; }
@@ -2038,7 +2093,8 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             .media-studio__gallery-grid,
             .media-studio__steps-grid,
             .media-slot__inputs--compact,
-            .media-library__grid { grid-template-columns: 1fr; }
+            .media-library__grid,
+            .media-plan__grid { grid-template-columns: 1fr; }
           }
         </style>
       </head>
@@ -2353,6 +2409,32 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                   </label>
                   <div class="full section-title">Pilotage média simplifié</div>
                   <div class="full helper">Renseignez ici les médias de base du registre. L’éditeur Shopify peut ensuite surcharger hero, galerie et étapes via les blocs <code>Media recette</code> si vous voulez affiner une page sans toucher au socle.</div>
+                  <div class="full media-plan">
+                    <strong>Plan média recommandé</strong>
+                    <div class="helper">Ce guide reste dans le back-office. Il sert juste à vous indiquer quels visuels poser dans Shopify quand vous aurez les bons médias.</div>
+                    <div class="media-plan__grid">
+                      <article class="media-plan__card">
+                        <strong>Hero</strong>
+                        <p>#{html_escape(media_plan[:hero]['shot'].to_s.empty? ? 'Prévoyez un plan principal qui pose l’ambiance de la recette avec une lecture immédiate du résultat final.' : media_plan[:hero]['shot'].to_s)}</p>
+                        <p>#{html_escape(media_plan[:hero]['why'].to_s)}</p>
+                      </article>
+                      <article class="media-plan__card">
+                        <strong>Galerie</strong>
+                        <ul>
+                          #{Array(media_plan[:gallery]).map { |entry| "<li>#{html_escape(entry['shot'].to_s)}</li>" }.join}
+                        </ul>
+                      </article>
+                      <article class="media-plan__card">
+                        <strong>Étapes</strong>
+                        <ul>
+                          #{step_media_slot_items.map { |slot|
+                            plan_entry = media_plan[:steps][slot['index']] || {}
+                            "<li>Étape #{slot['index']} · #{html_escape(plan_entry['shot'].to_s.empty? ? slot['step_title'].to_s : plan_entry['shot'].to_s)}</li>"
+                          }.join}
+                        </ul>
+                      </article>
+                    </div>
+                  </div>
                   <div class="full media-studio">
                     <section class="media-studio__hero">
                       <div class="media-studio__head">
@@ -2379,7 +2461,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                               <input type="text" name="hero_image_url" value="#{html_escape(recipe.dig('hero', 'image_url'))}" placeholder="https://cdn.shopify.com/..." data-media-field="url-image">
                             </label>
                             <label>Hero ambiance
-                              <input type="text" name="hero_ambient_label" value="#{html_escape(recipe.dig('hero', 'ambient_label'))}" placeholder="Friture nette, cœur fondant, vanille lisible." data-media-field="caption">
+                              <input type="text" name="hero_ambient_label" value="#{html_escape(recipe.dig('hero', 'ambient_label'))}" placeholder="#{html_escape(media_plan[:hero]['caption'].to_s.empty? ? 'Friture nette, cœur fondant, vanille lisible.' : media_plan[:hero]['caption'].to_s)}" data-media-field="caption">
                             </label>
                           </div>
                         </div>
@@ -2420,10 +2502,10 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                             </label>
                           </div>
                           <label>Légende
-                            <input type="text" name="story_media_#{index + 1}_caption" value="#{html_escape(slot['caption'])}" placeholder="Plan large, texture finale, geste clé..." data-media-field="caption">
+                            <input type="text" name="story_media_#{index + 1}_caption" value="#{html_escape(slot['caption'])}" placeholder="#{html_escape((media_plan[:gallery][index] || {})['caption'].to_s.empty? ? 'Plan large, texture finale, geste clé...' : (media_plan[:gallery][index] || {})['caption'].to_s)}" data-media-field="caption">
                           </label>
                           <label>Texte alternatif
-                            <input type="text" name="story_media_#{index + 1}_alt" value="#{html_escape(slot['alt'])}" placeholder="Description courte pour le visuel" data-media-field="alt">
+                            <input type="text" name="story_media_#{index + 1}_alt" value="#{html_escape(slot['alt'])}" placeholder="#{html_escape((media_plan[:gallery][index] || {})['alt'].to_s.empty? ? 'Description courte pour le visuel' : (media_plan[:gallery][index] || {})['alt'].to_s)}" data-media-field="alt">
                           </label>
                         </div>
                       </article>
@@ -2467,10 +2549,10 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                             </label>
                           </div>
                           <label>Légende étape
-                            <input type="text" name="step_media_#{slot['index']}_caption" value="#{html_escape(slot['caption'])}" placeholder="#{html_escape(slot['step_title'])}" data-media-field="caption">
+                            <input type="text" name="step_media_#{slot['index']}_caption" value="#{html_escape(slot['caption'])}" placeholder="#{html_escape((media_plan[:steps][slot['index']] || {})['caption'].to_s.empty? ? slot['step_title'] : (media_plan[:steps][slot['index']] || {})['caption'].to_s)}" data-media-field="caption">
                           </label>
                           <label>Texte alternatif
-                            <input type="text" name="step_media_#{slot['index']}_alt" value="#{html_escape(slot['alt'])}" placeholder="Description de l’étape en image" data-media-field="alt">
+                            <input type="text" name="step_media_#{slot['index']}_alt" value="#{html_escape(slot['alt'])}" placeholder="#{html_escape((media_plan[:steps][slot['index']] || {})['alt'].to_s.empty? ? 'Description de l’étape en image' : (media_plan[:steps][slot['index']] || {})['alt'].to_s)}" data-media-field="alt">
                           </label>
                         </div>
                       </article>

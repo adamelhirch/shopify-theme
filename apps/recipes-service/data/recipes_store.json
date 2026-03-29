@@ -7375,7 +7375,7 @@
       },
       "submitted_at": "2026-03-29T12:00:00Z",
       "created_at": "2026-03-29T12:00:00Z",
-      "updated_at": "2026-03-29T14:15:00Z",
+      "updated_at": "2026-03-29T14:45:00Z",
       "validated_at": "2026-03-29T12:00:00Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -7383,7 +7383,57 @@
       ],
       "revisions": [
 
-      ]
+      ],
+      "media_plan": {
+        "hero": {
+          "shot": "Plan trois-quarts d’une assiette de madeleines encore tièdes, lumière douce, une madeleine ouverte pour montrer la bosse et la mie.",
+          "why": "Le hero doit vendre la texture et le côté goûter de maison soigné en un seul regard.",
+          "caption": "Coque dorée, cœur souple, vanille claire."
+        },
+        "gallery": [
+          {
+            "shot": "Plan large de l’assiette ou du plat de service.",
+            "caption": "Assiette de madeleines encore tièdes.",
+            "alt": "Assiette de madeleines dorées à la vanille Bourbon."
+          },
+          {
+            "shot": "Gros plan sur une madeleine ouverte.",
+            "caption": "Mie souple et bosse légère.",
+            "alt": "Gros plan sur l’intérieur d’une madeleine à la vanille."
+          },
+          {
+            "shot": "Plan tasse de café ou thé avec 2 madeleines.",
+            "caption": "Service café ou goûter.",
+            "alt": "Madeleines à côté d’une tasse pour le goûter."
+          }
+        ],
+        "steps": [
+          {
+            "index": 1,
+            "shot": "Mélange œufs et sucre bien mousseux.",
+            "caption": "Base bien mousseuse avant la farine.",
+            "alt": "Appareil à madeleines mousseux dans un bol."
+          },
+          {
+            "index": 2,
+            "shot": "Beurre incorporé et pâte lisse.",
+            "caption": "Pâte souple et bien lisse.",
+            "alt": "Pâte à madeleines lisse avant repos."
+          },
+          {
+            "index": 3,
+            "shot": "Repos de la pâte au froid.",
+            "caption": "Repos pour aider la bosse.",
+            "alt": "Pâte à madeleines au repos au frais."
+          },
+          {
+            "index": 4,
+            "shot": "Plaque sortie du four, madeleines bien dorées.",
+            "caption": "Cuisson juste, bords nets.",
+            "alt": "Madeleines dorées juste sorties du four."
+          }
+        ]
+      }
     },
     {
       "slug": "scones-vanille-sucre",
@@ -7620,7 +7670,7 @@
       },
       "submitted_at": "2026-03-29T12:00:00Z",
       "created_at": "2026-03-29T12:00:00Z",
-      "updated_at": "2026-03-29T14:15:00Z",
+      "updated_at": "2026-03-29T14:45:00Z",
       "validated_at": "2026-03-29T12:00:00Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -7628,7 +7678,57 @@
       ],
       "revisions": [
 
-      ]
+      ],
+      "media_plan": {
+        "hero": {
+          "shot": "Plan brunch avec 3 ou 4 scones fendus, servis tièdes avec beurre ou confiture, sans surcharge.",
+          "why": "Le hero doit montrer la hauteur, la mie et l’usage brunch immédiatement.",
+          "caption": "Brunch clair, mie chaude, vanille douce."
+        },
+        "gallery": [
+          {
+            "shot": "Plan large de la fournée entière.",
+            "caption": "Fournée prête pour le brunch.",
+            "alt": "Scones dorés alignés sur une plaque ou une assiette."
+          },
+          {
+            "shot": "Scone ouvert avec mie visible.",
+            "caption": "Mie tendre, ouverture nette.",
+            "alt": "Scone ouvert montrant sa mie encore tiède."
+          },
+          {
+            "shot": "Beurre, confiture ou crème servis à côté.",
+            "caption": "Service simple et soigné.",
+            "alt": "Scones servis avec garnitures de brunch."
+          }
+        ],
+        "steps": [
+          {
+            "index": 1,
+            "shot": "Sabler beurre et farine du bout des doigts.",
+            "caption": "Sablage encore grossier.",
+            "alt": "Farine et beurre sablés pour des scones."
+          },
+          {
+            "index": 2,
+            "shot": "Ajout des liquides et pâte juste assemblée.",
+            "caption": "Pâte encore brute, pas trop travaillée.",
+            "alt": "Pâte à scones après ajout crème et vanille."
+          },
+          {
+            "index": 3,
+            "shot": "Découpe des scones avant four.",
+            "caption": "Épaisseur régulière avant cuisson.",
+            "alt": "Découpe de scones crus sur un plan de travail."
+          },
+          {
+            "index": 4,
+            "shot": "Scones dorés en sortie de four.",
+            "caption": "Cuisson dorée, intérieur encore tendre.",
+            "alt": "Scones dorés tout juste cuits."
+          }
+        ]
+      }
     },
     {
       "slug": "patate-douce-rotie-vanille-combava",
@@ -7871,7 +7971,7 @@
       },
       "submitted_at": "2026-03-29T12:00:00Z",
       "created_at": "2026-03-29T12:00:00Z",
-      "updated_at": "2026-03-29T14:15:00Z",
+      "updated_at": "2026-03-29T14:45:00Z",
       "validated_at": "2026-03-29T12:00:00Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -7879,7 +7979,57 @@
       ],
       "revisions": [
 
-      ]
+      ],
+      "media_plan": {
+        "hero": {
+          "shot": "Plat de patates douces rôties avec beaux bords caramélisés et quelques zestes en finition.",
+          "why": "Le hero doit assumer le salé et montrer la caramélisation, pas faire dessert.",
+          "caption": "Bords rôtis, cœur fondant, finale fraîche."
+        },
+        "gallery": [
+          {
+            "shot": "Plan du plat complet à table.",
+            "caption": "Garniture chaude prête à servir.",
+            "alt": "Plat de patates douces rôties à la vanille et au combava."
+          },
+          {
+            "shot": "Gros plan sur les bords colorés.",
+            "caption": "Bords rôtis et chair fondante.",
+            "alt": "Gros plan sur la caramélisation des patates douces."
+          },
+          {
+            "shot": "Finition zestes et poivre au dernier moment.",
+            "caption": "Finition fraîche juste avant service.",
+            "alt": "Zestes de combava ajoutés sur des patates douces rôties."
+          }
+        ],
+        "steps": [
+          {
+            "index": 1,
+            "shot": "Quartiers de patate douce prêts à assaisonner.",
+            "caption": "Découpe régulière pour une cuisson homogène.",
+            "alt": "Patates douces découpées en quartiers."
+          },
+          {
+            "index": 2,
+            "shot": "Assaisonnement vanille, huile et épices.",
+            "caption": "Assaisonnement avant four.",
+            "alt": "Patates douces enrobées d’huile, vanille et épices."
+          },
+          {
+            "index": 3,
+            "shot": "Cuisson au four avec bords colorés.",
+            "caption": "Caramélisation nette sans brûler.",
+            "alt": "Patates douces rôties en cours de cuisson."
+          },
+          {
+            "index": 4,
+            "shot": "Ajout des zestes en sortie de four.",
+            "caption": "Combava et zeste juste avant service.",
+            "alt": "Finition au combava sur patates douces rôties."
+          }
+        ]
+      }
     },
     {
       "slug": "riz-lait-vanille-agrumes",
@@ -8122,7 +8272,7 @@
       },
       "submitted_at": "2026-03-29T13:00:00Z",
       "created_at": "2026-03-29T13:00:00Z",
-      "updated_at": "2026-03-29T14:15:00Z",
+      "updated_at": "2026-03-29T14:45:00Z",
       "validated_at": "2026-03-29T13:00:00Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -8130,7 +8280,57 @@
       ],
       "revisions": [
 
-      ]
+      ],
+      "media_plan": {
+        "hero": {
+          "shot": "Bol ou assiette creuse de riz au lait bien crémeux, avec zestes fins et service très propre.",
+          "why": "Le hero doit montrer la texture et la douceur, avec une finition légère qui évite le côté lourd.",
+          "caption": "Crème souple, vanille ronde, agrumes légers."
+        },
+        "gallery": [
+          {
+            "shot": "Plan du bol de service complet.",
+            "caption": "Bol crémeux prêt à servir.",
+            "alt": "Riz au lait crémeux à la vanille dans un bol de service."
+          },
+          {
+            "shot": "Cuillère plongeant dans la texture.",
+            "caption": "Texture souple et liée.",
+            "alt": "Cuillère montrant la texture du riz au lait."
+          },
+          {
+            "shot": "Finition zestes ou caviar vanille.",
+            "caption": "Finition légère au moment du service.",
+            "alt": "Zestes d’agrumes ajoutés sur un riz au lait à la vanille."
+          }
+        ],
+        "steps": [
+          {
+            "index": 1,
+            "shot": "Infusion du lait avec la gousse et les zestes.",
+            "caption": "Infusion douce avant cuisson.",
+            "alt": "Lait chauffé avec vanille et zestes d’agrumes."
+          },
+          {
+            "index": 2,
+            "shot": "Cuisson du riz à feu doux.",
+            "caption": "Cuisson lente pour garder du liant.",
+            "alt": "Riz au lait en cuisson lente dans une casserole."
+          },
+          {
+            "index": 3,
+            "shot": "Texture finale avant service.",
+            "caption": "Texture souple après ajout du sucre.",
+            "alt": "Texture finale du riz au lait à la vanille."
+          },
+          {
+            "index": 4,
+            "shot": "Dressage en bol avec finition.",
+            "caption": "Service tiède ou froid.",
+            "alt": "Dressage final du riz au lait à la vanille et agrumes."
+          }
+        ]
+      }
     },
     {
       "slug": "volaille-rotie-vanille-jus-court",
@@ -8381,7 +8581,7 @@
       },
       "submitted_at": "2026-03-29T13:00:00Z",
       "created_at": "2026-03-29T13:00:00Z",
-      "updated_at": "2026-03-29T14:15:00Z",
+      "updated_at": "2026-03-29T14:45:00Z",
       "validated_at": "2026-03-29T13:00:00Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -8389,7 +8589,57 @@
       ],
       "revisions": [
 
-      ]
+      ],
+      "media_plan": {
+        "hero": {
+          "shot": "Volaille rôtie découpée ou prête à découper, peau brillante, jus servi à part ou nappé très légèrement.",
+          "why": "Le hero doit rester cuisine de maison haut de gamme, pas restaurant démonstratif.",
+          "caption": "Peau rôtie, jus court, vanille discrète."
+        },
+        "gallery": [
+          {
+            "shot": "Plan large de la volaille rôtie sur plat.",
+            "caption": "Volaille prête à être servie.",
+            "alt": "Volaille rôtie entière avec peau dorée."
+          },
+          {
+            "shot": "Gros plan sur la peau colorée.",
+            "caption": "Peau bien rôtie, cuisson nette.",
+            "alt": "Gros plan sur la peau croustillante d’une volaille rôtie."
+          },
+          {
+            "shot": "Jus court versé au moment du service.",
+            "caption": "Jus court brillant et précis.",
+            "alt": "Jus court à la vanille versé sur une volaille rôtie."
+          }
+        ],
+        "steps": [
+          {
+            "index": 1,
+            "shot": "Volaille assaisonnée avant four.",
+            "caption": "Assaisonnement simple avant cuisson.",
+            "alt": "Volaille assaisonnée prête à rôtir."
+          },
+          {
+            "index": 2,
+            "shot": "Volaille au four ou juste sortie avec peau dorée.",
+            "caption": "Peau dorée, cuisson maîtrisée.",
+            "alt": "Volaille rôtie avec peau dorée en sortie de four."
+          },
+          {
+            "index": 3,
+            "shot": "Réduction du jus avec vanille.",
+            "caption": "Jus court en réduction avec la gousse.",
+            "alt": "Jus court à la vanille en réduction dans une casserole."
+          },
+          {
+            "index": 4,
+            "shot": "Découpe et nappage léger.",
+            "caption": "Repos puis service.",
+            "alt": "Découpe d’une volaille rôtie avec jus court."
+          }
+        ]
+      }
     }
   ],
   "audit_log": [
