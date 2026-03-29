@@ -509,6 +509,7 @@
     if (state.collection !== 'all') chips.push(collectionLabel(state.collection));
     if (state.ingredient !== 'all') chips.push('Ingrédient : ' + state.ingredient);
     if (state.product !== 'all') chips.push('Produit : ' + productLabel(state.product));
+    if (state.sort === 'recommended') chips.push('Tri : à commencer');
     if (state.sort === 'quick') chips.push('Tri : plus rapides');
     if (state.sort === 'easy') chips.push('Tri : plus faciles');
     if (state.sort === 'name') chips.push('Tri : alphabétique');
@@ -577,9 +578,9 @@
     if (!target) return;
 
     var config = [
-      { key: 'desserts-a-la-vanille', title: 'Desserts à la vanille', text: 'Des classiques gourmands et des idées à partager pour mettre la vanille au centre du dessert.' },
-      { key: 'vanille-salee', title: 'Vanille salée', text: 'Des recettes nettes et surprenantes pour cuisiner la vanille autrement, sans perdre en équilibre.' },
-      { key: 'petits-dejeuners-a-la-vanille', title: 'Petit-déjeuner & goûter', text: 'Des formats simples, moelleux et faciles à refaire pour le matin ou le goûter.' }
+      { key: 'desserts-a-la-vanille', title: 'Desserts à la vanille', text: 'Des classiques gourmands, des desserts de maison et quelques assiettes plus habillées pour laisser la vanille mener le goût.' },
+      { key: 'vanille-salee', title: 'Vanille salée', text: 'Des plats nets, sobres et étonnants juste comme il faut pour faire entrer la vanille dans une vraie cuisine de table.' },
+      { key: 'petits-dejeuners-a-la-vanille', title: 'Petit-déjeuner & goûter', text: 'Des formats simples, chauds ou moelleux, à refaire souvent pour le matin, le brunch ou le goûter.' }
     ];
 
     var panels = config.map(function (entry) {

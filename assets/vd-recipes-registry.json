@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-29T11:43:40Z",
+  "generated_at": "2026-03-29T12:11:33Z",
   "recipes": [
     {
       "slug": "gateau-pomme-vanille-cannelle",
@@ -308,7 +308,7 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la sélection",
-        "note": "La gousse tient l’infusion, le sucre vanillé arrondit le dessert et le caviar peut signer le bol au dernier moment avec une lecture plus haut de gamme.",
+        "note": "La gousse tient l’infusion, le sucre vanillé arrondit le dessert et le caviar peut signer le bol au dernier moment pour une finition plus précieuse.",
         "bundle_title": "La sélection pour un riz au lait de maison très soigné.",
         "bundle_summary": "Infuser, arrondir puis finir proprement pour obtenir un dessert crémeux, lumineux et très agréable à servir froid ou tiède."
       },
@@ -683,7 +683,7 @@
       ],
       "seo": {
         "title": "Patate douce rôtie vanille combava | Vanille Désiré",
-        "description": "Recette de patate douce rôtie à la vanille et au combava, simple, parfumée et très utile pour découvrir la vanille en salé.",
+        "description": "Recette de patate douce rôtie à la vanille et au combava, simple, parfumée et parfaite pour accompagner une table salée.",
         "keywords": [
           "patate douce vanille",
           "vanille salée",
@@ -979,7 +979,7 @@
       "eyebrow": "Recette facile",
       "subtitle": "Une bosse légère, un beurre net et une vanille Bourbon qui reste claire jusque dans la finale.",
       "summary": "Des madeleines dorées, souples au cœur et très propres en bouche, pensées pour le goûter, le café ou une table de maison soignée.",
-      "description": "La pâte reste simple, le geste reste précis, et la vanille entre pour allonger le beurre sans alourdir la bouchée. Une recette très utile pour donner une lecture élégante à un grand classique.",
+      "description": "La pâte reste simple, le geste reste précis, et la vanille entre pour allonger le beurre sans alourdir la bouchée. Une très belle base pour un goûter de maison plus élégant.",
       "category": "Desserts",
       "difficulty": {
         "value": "facile",
@@ -1384,7 +1384,7 @@
       ],
       "seo": {
         "title": "Gâteau ananas renverse vanille | Vanille Désiré",
-        "description": "Gâteau ananas renverse vanille, simple, brillant et très utile pour le dessert tropical.",
+        "description": "Gâteau ananas renversé vanille, simple, brillant et très agréable à partager au dessert.",
         "keywords": [
           "gâteau ananas vanille",
           "pineapple upside down cake vanille",
@@ -2742,7 +2742,7 @@
       "access": "free",
       "page_url": "",
       "eyebrow": "Recette facile",
-      "subtitle": "Un cake simple, très lisible, parfait pour découvrir la vanille maison.",
+      "subtitle": "Un cake simple, très lisible, parfait pour retrouver une vanille douce dans une pâtisserie du quotidien.",
       "summary": "Un cake moelleux à la vanille et à la cannelle, simple à préparer et facile à refaire.",
       "description": "Une mie régulière, une vanille souple et juste ce qu’il faut de cannelle pour un gâteau du quotidien.",
       "category": "Desserts",
@@ -2907,7 +2907,7 @@
       ],
       "seo": {
         "title": "Cake moelleux vanille cannelle | Vanille Désiré",
-        "description": "Recette facile de cake vanille cannelle de Madagascar, parfaite pour découvrir la gousse de vanille en patisserie.",
+        "description": "Cake à la vanille et à la cannelle, moelleux, simple et très agréable à refaire pour le goûter ou le matin.",
         "keywords": [
           "cake vanille facile",
           "cake cannelle vanille",
@@ -4301,8 +4301,8 @@
       "title": "Volaille rôtie vanille et jus court",
       "page_url": "",
       "eyebrow": "Recette signature",
-      "subtitle": "Une peau bien rôtie, un jus court brillant et une vanille discrète qui reste pleinement dans le registre de la cuisine.",
-      "summary": "Une volaille de maison servie avec un jus court à la vanille, plus long en bouche, plus brillante au service et très facile à comprendre à table.",
+      "subtitle": "Une peau bien rôtie, un jus court brillant et une vanille discrète qui reste pleinement du côté du plat.",
+      "summary": "Une volaille de maison servie avec un jus court à la vanille, plus longue en bouche, plus brillante au service et très facile à aimer à table.",
       "description": "Toute la recette repose sur la justesse. La cuisson reste classique, puis la vanille arrive seulement dans le jus pour donner plus de profondeur sans tirer le plat vers le dessert.",
       "category": "Sale",
       "difficulty": {
@@ -4491,7 +4491,7 @@
       ],
       "seo": {
         "title": "Volaille rôtie vanille et jus court | Vanille Désiré",
-        "description": "Recette de volaille rôtie à la vanille avec jus court, pour découvrir une lecture salée nette, généreuse et très élégante.",
+        "description": "Recette de volaille rôtie à la vanille avec jus court, pour découvrir une assiette salée nette, généreuse et très élégante.",
         "keywords": [
           "volaille vanille",
           "poulet rôti vanille",
