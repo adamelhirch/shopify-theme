@@ -275,6 +275,80 @@
     }, 1500);
   }
 
+  function sharePayload(section, payload, fallbackText) {
+    if (navigator.share) {
+      return navigator.share(payload).catch(function () {});
+    }
+
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+      showToast(section, 'Partage indisponible');
+      return Promise.resolve();
+    }
+
+    return navigator.clipboard.writeText(payload.url || '').then(function () {
+      showToast(section, fallbackText || 'Lien copié');
+    });
+  }
+
+  function addProductsToCart(section, products, button, labels) {
+    var sourceProducts = Array.isArray(products) ? products : [];
+    var items = sourceProducts
+      .filter(function (product) { return product && product.available && product.variantId; })
+      .map(function (product) {
+        return { id: product.variantId, quantity: 1 };
+      });
+
+    if (!items.length) {
+      showToast(section, 'Aucun produit disponible à ajouter');
+      return Promise.resolve(false);
+    }
+
+    if (button && button.getAttribute('data-added') === 'true') {
+      window.location.href = '/cart';
+      return Promise.resolve(true);
+    }
+
+    var idleLabel = (labels && labels.idle) || 'Ajouter au panier';
+    var loadingLabel = (labels && labels.loading) || 'Ajout en cours';
+    var successLabel = (labels && labels.success) || 'Voir le panier';
+
+    if (button) {
+      button.disabled = true;
+      button.textContent = loadingLabel;
+    }
+
+    return fetch('/cart/add.js', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ items: items })
+    })
+      .then(function (response) {
+        if (!response.ok) throw new Error('cart_add_failed');
+        return response.json();
+      })
+      .then(function () {
+        showToast(section, 'Produits ajoutés au panier');
+        if (button) {
+          button.textContent = successLabel;
+          button.disabled = false;
+          button.setAttribute('data-added', 'true');
+        }
+        return true;
+      })
+      .catch(function () {
+        if (button) {
+          button.disabled = false;
+          button.textContent = idleLabel;
+        }
+        showToast(section, 'Impossible d’ajouter les produits pour le moment');
+        return false;
+      });
+  }
+
   function loadState(storageKey, baseServes, stepTotal) {
     var state = {
       serves: baseServes,
@@ -692,7 +766,7 @@
             '</div>' +
           '</div>' +
           '<article class="vd-recipe-signature__overview"><div class="vd-recipe-signature__overview-head"><span class="vd-recipe-signature__panel-kicker">Descriptif</span><h2>Ce que vous allez préparer.</h2></div><div class="vd-recipe-signature__overview-body"><p>' + recipeSummary + '</p></div></article>' +
-          '<article class="vd-recipe-signature__shopping"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Liste de courses</span><h2>Tout ce qu’il faut prévoir avant de commencer.</h2></div><div class="vd-recipe-signature__shopping-actions"><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-shopping-copy>Copier la liste</button><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-shopping-download>Télécharger</button></div></div><div class="vd-recipe-signature__shopping-meta" data-vd-recipe-shopping-meta></div><div class="vd-recipe-signature__shopping-list" data-vd-recipe-shopping-list></div></article>' +
+          '<article class="vd-recipe-signature__shopping"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">Liste de courses</span><h2>Tout ce qu’il faut prévoir avant de commencer.</h2></div><div class="vd-recipe-signature__shopping-actions"><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-shopping-copy>Copier la liste</button><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-shopping-share>Partager la liste</button><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-shopping-print>Imprimer</button><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-shopping-add>Ajouter les produits utiles</button><button type="button" class="vd-recipe-signature__utility-button" data-vd-recipe-shopping-download>Télécharger</button></div></div><div class="vd-recipe-signature__shopping-meta" data-vd-recipe-shopping-meta></div><div class="vd-recipe-signature__shopping-list" data-vd-recipe-shopping-list></div></article>' +
           storyPanel +
           editorialPanel +
           '<div class="vd-recipe-signature__layout">' +
@@ -841,74 +915,21 @@
 
     if (addButton) {
       addButton.addEventListener('click', function () {
-        if (addButton.getAttribute('data-added') === 'true') {
-          window.location.href = '/cart';
-          return;
-        }
-
-        var products = Array.isArray(shop.__vdRecipeProducts) ? shop.__vdRecipeProducts : [];
-        var items = products
-          .filter(function (product) { return product.available && product.variantId; })
-          .map(function (product) {
-            return { id: product.variantId, quantity: 1 };
-          });
-
-        if (!items.length) {
-          showToast(section, 'Aucun produit disponible à ajouter');
-          return;
-        }
-
-        addButton.disabled = true;
-        addButton.textContent = 'Ajout en cours';
-
-        fetch('/cart/add.js', {
-          method: 'POST',
-          credentials: 'same-origin',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ items: items })
-        })
-          .then(function (response) {
-            if (!response.ok) throw new Error('cart_add_failed');
-            return response.json();
-          })
-          .then(function () {
-            showToast(section, 'Produits ajoutés au panier');
-            addButton.textContent = 'Voir le panier';
-            addButton.disabled = false;
-            addButton.setAttribute('data-added', 'true');
-          })
-          .catch(function () {
-            addButton.disabled = false;
-            addButton.textContent = 'Ajouter les produits au panier';
-            showToast(section, 'Impossible d’ajouter les produits pour le moment');
-          });
+        addProductsToCart(section, shop.__vdRecipeProducts, addButton, {
+          idle: 'Ajouter les produits au panier',
+          loading: 'Ajout en cours',
+          success: 'Voir le panier'
+        });
       });
     }
 
     if (shareButton) {
       shareButton.addEventListener('click', function () {
-        var shareData = {
+        sharePayload(section, {
           title: recipe.title,
           text: recipe.summary || recipe.description || '',
           url: window.location.href
-        };
-
-        if (navigator.share) {
-          navigator.share(shareData).catch(function () {});
-          return;
-        }
-
-        if (!navigator.clipboard || !navigator.clipboard.writeText) {
-          showToast(section, 'Partage indisponible');
-          return;
-        }
-
-        navigator.clipboard.writeText(window.location.href).then(function () {
-          showToast(section, 'Lien copié');
-        });
+        }, 'Lien copié');
       });
     }
 
@@ -947,6 +968,9 @@
     var shoppingTarget = section.querySelector('[data-vd-recipe-shopping-list]');
     var shoppingMeta = section.querySelector('[data-vd-recipe-shopping-meta]');
     var shoppingCopyButton = section.querySelector('[data-vd-recipe-shopping-copy]');
+    var shoppingShareButton = section.querySelector('[data-vd-recipe-shopping-share]');
+    var shoppingPrintButton = section.querySelector('[data-vd-recipe-shopping-print]');
+    var shoppingAddButton = section.querySelector('[data-vd-recipe-shopping-add]');
     var shoppingDownloadButton = section.querySelector('[data-vd-recipe-shopping-download]');
     var toggleButton = section.querySelector('[data-vd-recipe-toggle]');
     var copyButton = section.querySelector('[data-vd-recipe-copy]');
@@ -960,6 +984,7 @@
       stepId: '',
       remainingSeconds: 0
     };
+    var recipeProducts = [];
 
     if (!quantityInput || !ingredientsTarget || !stepsTarget) return;
 
@@ -1107,14 +1132,28 @@
       showToast(section, 'Liste de courses téléchargée');
     }
 
+    function syncShoppingProducts(products) {
+      recipeProducts = Array.isArray(products) ? products : [];
+      if (shoppingAddButton) {
+        shoppingAddButton.disabled = !recipeProducts.some(function (product) {
+          return product && product.available && product.variantId;
+        });
+      }
+      renderShoppingList();
+    }
+
     function renderShoppingList() {
       if (!shoppingTarget || !shoppingMeta) return;
       var entries = shoppingEntries();
       var remaining = entries.filter(function (entry) { return !entry.checked; }).length;
+      var availableProducts = recipeProducts.filter(function (product) {
+        return product && product.available && product.variantId;
+      }).length;
 
       shoppingMeta.innerHTML =
         '<strong>' + remaining + ' élément' + (remaining > 1 ? 's' : '') + ' à prévoir</strong>' +
-        '<span>' + state.serves + ' personne' + (state.serves > 1 ? 's' : '') + '</span>';
+        '<span>' + state.serves + ' personne' + (state.serves > 1 ? 's' : '') + '</span>' +
+        '<span>' + availableProducts + ' produit' + (availableProducts > 1 ? 's' : '') + ' utile' + (availableProducts > 1 ? 's' : '') + '</span>';
 
       shoppingTarget.innerHTML = entries
         .map(function (entry) {
@@ -1555,6 +1594,32 @@
       });
     }
 
+    if (shoppingShareButton) {
+      shoppingShareButton.addEventListener('click', function () {
+        sharePayload(section, {
+          title: recipe.title + ' · Liste de courses',
+          text: buildShoppingText(),
+          url: window.location.href
+        }, 'Lien de la recette copié');
+      });
+    }
+
+    if (shoppingPrintButton) {
+      shoppingPrintButton.addEventListener('click', function () {
+        window.print();
+      });
+    }
+
+    if (shoppingAddButton) {
+      shoppingAddButton.addEventListener('click', function () {
+        addProductsToCart(section, recipeProducts, shoppingAddButton, {
+          idle: 'Ajouter les produits utiles',
+          loading: 'Ajout en cours',
+          success: 'Voir le panier'
+        });
+      });
+    }
+
     if (shoppingDownloadButton) {
       shoppingDownloadButton.addEventListener('click', downloadShoppingList);
     }
@@ -1660,6 +1725,7 @@
     });
 
     registerMotion();
+    loadRecipeProducts(recipe).then(syncShoppingProducts);
 
     document.addEventListener('shopify:section:unload', function (event) {
       if (!section.contains(event.target)) return;

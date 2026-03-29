@@ -194,10 +194,20 @@
                 <option value="all">Tous les produits</option>
               </select>
             </label>
+            <label class="vd-recipes-hub__discover-field">
+              <span>Trier</span>
+              <select data-vd-recipes-sort>
+                <option value="recommended">Les plus utiles</option>
+                <option value="quick">Les plus rapides</option>
+                <option value="easy">Les plus faciles</option>
+                <option value="name">Par nom</option>
+              </select>
+            </label>
             <button type="button" class="vd-recipes-hub__discover-reset" data-vd-recipes-reset>
               Réinitialiser les filtres
             </button>
           </div>
+          <div class="vd-recipes-hub__active-filters" data-vd-recipes-active-filters hidden></div>
         </div>
 
         <div class="vd-recipes-hub__rails" data-vd-recipes-rails hidden>

@@ -372,7 +372,9 @@
     var cards = Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipe-card]'));
     var count = section.querySelector('[data-vd-recipes-count]');
     var empty = section.querySelector('[data-vd-recipes-empty]');
+    var activeFilters = section.querySelector('[data-vd-recipes-active-filters]');
     var visibleCount = 0;
+    var visibleCards = [];
 
     cards.forEach(function (card) {
       var haystack = normalize(card.getAttribute('data-search'));
@@ -396,8 +398,40 @@
       var show = matchesQuery && matchesAccess && matchesDifficulty && matchesCollection && matchesTime && matchesIngredient && matchesProduct;
 
       card.hidden = !show;
-      if (show) visibleCount += 1;
+      if (show) {
+        visibleCount += 1;
+        visibleCards.push(card);
+      }
     });
+
+    visibleCards.sort(function (left, right) {
+      var leftMinutes = Number(left.getAttribute('data-total-minutes') || 0);
+      var rightMinutes = Number(right.getAttribute('data-total-minutes') || 0);
+      var leftDifficulty = difficultyRank(left.getAttribute('data-difficulty'));
+      var rightDifficulty = difficultyRank(right.getAttribute('data-difficulty'));
+      var leftTitle = (left.querySelector('h2') && left.querySelector('h2').textContent) || '';
+      var rightTitle = (right.querySelector('h2') && right.querySelector('h2').textContent) || '';
+
+      if (state.sort === 'quick') {
+        return leftMinutes - rightMinutes || leftDifficulty - rightDifficulty || leftTitle.localeCompare(rightTitle, 'fr');
+      }
+
+      if (state.sort === 'easy') {
+        return leftDifficulty - rightDifficulty || leftMinutes - rightMinutes || leftTitle.localeCompare(rightTitle, 'fr');
+      }
+
+      if (state.sort === 'name') {
+        return leftTitle.localeCompare(rightTitle, 'fr');
+      }
+
+      return leftDifficulty - rightDifficulty || leftMinutes - rightMinutes || leftTitle.localeCompare(rightTitle, 'fr');
+    });
+
+    if (visibleCards.length && visibleCards[0].parentNode) {
+      visibleCards.forEach(function (card) {
+        card.parentNode.appendChild(card);
+      });
+    }
 
     if (count) {
       count.textContent = visibleCount + ' résultat' + (visibleCount > 1 ? 's' : '');
@@ -405,6 +439,14 @@
 
     if (empty) {
       empty.hidden = visibleCount !== 0;
+    }
+
+    if (activeFilters) {
+      var chips = activeFilterChips(state, visibleCount);
+      activeFilters.innerHTML = chips.map(function (label) {
+        return '<span class="vd-recipes-hub__active-chip">' + escapeHtml(label) + '</span>';
+      }).join('');
+      activeFilters.hidden = chips.length === 0;
     }
   }
 
@@ -432,6 +474,32 @@
       .filter(Boolean)
       .map(function (part) { return part.charAt(0).toUpperCase() + part.slice(1); })
       .join(' ');
+  }
+
+  function difficultyRank(value) {
+    var key = normalize(value);
+    if (key === 'facile') return 0;
+    if (key === 'intermediaire') return 1;
+    if (key === 'signature') return 2;
+    return 9;
+  }
+
+  function activeFilterChips(state, visibleCount) {
+    var chips = [];
+    if (state.query) chips.push('Recherche : ' + state.query);
+    if (state.access !== 'all') chips.push(state.access === 'member' ? 'Compte client' : 'Accès libre');
+    if (state.difficulty !== 'all') chips.push('Niveau : ' + state.difficulty);
+    if (state.time === 'quick') chips.push('Moins de 30 min');
+    if (state.time === 'medium') chips.push('30 à 60 min');
+    if (state.time === 'long') chips.push('Plus de 60 min');
+    if (state.collection !== 'all') chips.push(collectionLabel(state.collection));
+    if (state.ingredient !== 'all') chips.push('Ingrédient : ' + state.ingredient);
+    if (state.product !== 'all') chips.push('Produit : ' + productLabel(state.product));
+    if (state.sort === 'quick') chips.push('Tri : plus rapides');
+    if (state.sort === 'easy') chips.push('Tri : plus faciles');
+    if (state.sort === 'name') chips.push('Tri : alphabétique');
+    if (!chips.length && visibleCount) chips.push('Sélection complète');
+    return chips;
   }
 
   function collectProductOptions(recipes) {
@@ -606,9 +674,10 @@
     var timeButtons = Array.prototype.slice.call(section.querySelectorAll('[data-vd-recipes-time]'));
     var ingredientSelect = section.querySelector('[data-vd-recipes-ingredient]');
     var productSelect = section.querySelector('[data-vd-recipes-product]');
+    var sortSelect = section.querySelector('[data-vd-recipes-sort]');
     var resetButton = section.querySelector('[data-vd-recipes-reset]');
     var collectionButtons = [];
-    var state = { query: '', access: 'all', difficulty: 'all', time: 'all', ingredient: 'all', product: 'all', collection: 'all' };
+    var state = { query: '', access: 'all', difficulty: 'all', time: 'all', ingredient: 'all', product: 'all', collection: 'all', sort: 'recommended' };
     var requestedRecipe = new URLSearchParams(window.location.search).get('recipe');
 
     if (!registryUrl || !grid || !input) return;
@@ -757,6 +826,13 @@
       });
     }
 
+    if (sortSelect) {
+      sortSelect.addEventListener('change', function () {
+        state.sort = normalize(sortSelect.value) || 'recommended';
+        applyFilters(section, state);
+      });
+    }
+
     if (resetButton) {
       resetButton.addEventListener('click', function () {
         state.query = '';
@@ -766,10 +842,12 @@
         state.ingredient = 'all';
         state.product = 'all';
         state.collection = 'all';
+        state.sort = 'recommended';
         input.value = '';
         if (clearButton) clearButton.hidden = true;
         if (ingredientSelect) ingredientSelect.value = 'all';
         if (productSelect) productSelect.value = 'all';
+        if (sortSelect) sortSelect.value = 'recommended';
         setButtonState(accessButtons, state.access);
         setButtonState(difficultyButtons, state.difficulty);
         setButtonState(timeButtons, state.time);

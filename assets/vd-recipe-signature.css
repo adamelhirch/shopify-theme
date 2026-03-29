@@ -515,7 +515,7 @@
 }
 
 .vd-recipe-signature__shopping-meta {
-  grid-template-columns: repeat(2, auto);
+  grid-template-columns: repeat(3, auto);
   justify-content: space-between;
   align-items: center;
   padding: 1.2rem 1.4rem;
@@ -1121,6 +1121,10 @@
   .vd-recipe-signature__shopping-list,
   .vd-recipe-signature__editorial-grid,
   .vd-recipe-signature__related-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vd-recipe-signature__shopping-meta {
     grid-template-columns: 1fr;
   }
 }

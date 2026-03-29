@@ -245,7 +245,7 @@
 
 .vd-recipes-hub__discover {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
   gap: 1rem;
   padding-top: 0.4rem;
   border-top: 1px solid rgba(var(--vd-text), 0.08);
@@ -292,6 +292,29 @@
 .vd-recipes-hub__discover-reset:focus-visible {
   background: rgb(var(--vd-text));
   color: rgb(var(--vd-ivory));
+}
+
+.vd-recipes-hub__active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid rgba(var(--vd-text), 0.08);
+}
+
+.vd-recipes-hub__active-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3.8rem;
+  padding: 0.7rem 1.1rem;
+  border-radius: 999px;
+  background: rgba(var(--vd-white), 0.78);
+  border: 1px solid rgba(var(--vd-text), 0.08);
+  color: rgba(var(--vd-text), 0.74);
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .vd-recipes-hub__filter {
@@ -574,6 +597,10 @@
 .vd-recipes-hub__card-state {
   line-height: 1.45;
   max-width: 34ch;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .vd-recipes-hub__card-cta {
