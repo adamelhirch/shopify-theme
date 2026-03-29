@@ -1122,6 +1122,17 @@ def media_plan_for_form(recipe)
   }
 end
 
+def bundle_plan_for_form(recipe)
+  plan = recipe['bundle_plan'].is_a?(Hash) ? recipe['bundle_plan'] : {}
+  {
+    promise: plan['promise'].to_s,
+    essentials: Array(plan['essentials']).map(&:to_s),
+    finishing: Array(plan['finishing']).map(&:to_s),
+    upsell: plan['upsell'].to_s,
+    service: plan['service'].to_s
+  }
+end
+
 def parse_story_media_slots(query, slots = 6)
   (1..slots).each_with_object([]) do |index, items|
     url = query["story_media_#{index}_url"].to_s.strip
@@ -1568,6 +1579,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   story_media_slot_items = story_media_slots(recipe['story_media'] || [])
   step_media_slot_items = step_media_slots(recipe['steps'] || [])
   media_plan = media_plan_for_form(recipe)
+  bundle_plan = bundle_plan_for_form(recipe)
   faq_text = faq_for_form(recipe.dig('seo', 'faq') || [])
   body_sections_text = body_sections_for_form(recipe.dig('seo', 'body_sections') || [])
   product_handles_text = product_handles_for_form(recipe['products'] || [])
@@ -2079,6 +2091,42 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             color: var(--muted);
             line-height: 1.55;
           }
+          .bundle-plan {
+            display: grid;
+            gap: 1rem;
+            padding: 1.2rem;
+            border-radius: 1.6rem;
+            background: rgba(255,255,255,0.72);
+            border: 1px solid rgba(22,22,22,0.08);
+          }
+          .bundle-plan__grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+          }
+          .bundle-plan__card {
+            padding: 1rem 1.1rem;
+            border-radius: 1.2rem;
+            background: rgba(255,255,255,0.92);
+            border: 1px solid rgba(22,22,22,0.08);
+            display: grid;
+            gap: 0.75rem;
+          }
+          .bundle-plan__card strong {
+            font-size: 1rem;
+          }
+          .bundle-plan__card ul {
+            margin: 0;
+            padding-left: 1.1rem;
+            color: var(--muted);
+            display: grid;
+            gap: 0.45rem;
+          }
+          .bundle-plan__card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.55;
+          }
           @media (max-width: 960px) {
             .summary,
             .grid { grid-template-columns: 1fr; }
@@ -2094,7 +2142,8 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
             .media-studio__steps-grid,
             .media-slot__inputs--compact,
             .media-library__grid,
-            .media-plan__grid { grid-template-columns: 1fr; }
+            .media-plan__grid,
+            .bundle-plan__grid { grid-template-columns: 1fr; }
           }
         </style>
       </head>
@@ -2644,6 +2693,30 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                     <textarea name="product_handles" placeholder="vanille-bourbon-madagascar-3-gousses&#10;caviar-vanille-bourbon-madagascar-20g">#{html_escape(product_handles_text)}</textarea>
                   </label>
                   <div class="section-title">4. Produits & credits</div>
+                  <div class="full bundle-plan">
+                    <strong>Plan bundle recommandé</strong>
+                    <div class="helper">Ce guide reste interne au studio. Il vous aide à garder un angle de vente cohérent et haut de gamme sans repartir de zéro.</div>
+                    <div class="bundle-plan__grid">
+                      <article class="bundle-plan__card">
+                        <strong>Promesse</strong>
+                        <p>#{html_escape(bundle_plan[:promise].empty? ? 'Construisez ici une sélection très simple à comprendre, avec une promesse claire de goût, de geste ou de service.' : bundle_plan[:promise])}</p>
+                        <p>#{html_escape(bundle_plan[:service])}</p>
+                      </article>
+                      <article class="bundle-plan__card">
+                        <strong>Essentiels</strong>
+                        <ul>
+                          #{bundle_plan[:essentials].map { |entry| "<li>#{html_escape(entry)}</li>" }.join}
+                        </ul>
+                      </article>
+                      <article class="bundle-plan__card">
+                        <strong>Finition & montée en gamme</strong>
+                        <ul>
+                          #{bundle_plan[:finishing].map { |entry| "<li>#{html_escape(entry)}</li>" }.join}
+                        </ul>
+                        <p>#{html_escape(bundle_plan[:upsell])}</p>
+                      </article>
+                    </div>
+                  </div>
                   <label>Produit principal
                     <input type="text" name="primary_product_handle" value="#{html_escape(primary_product)}" placeholder="vanille-bourbon-madagascar-3-gousses">
                   </label>

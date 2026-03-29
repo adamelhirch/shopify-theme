@@ -256,7 +256,7 @@
       },
       "submitted_at": "2026-03-28T13:29:36Z",
       "created_at": "2026-03-28T13:29:36Z",
-      "updated_at": "2026-03-28T13:29:36Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-28T13:29:36Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -264,7 +264,21 @@
       ],
       "revisions": [
 
-      ]
+      ],
+      "bundle_plan": {
+        "promise": "Vendre une pâtisserie de maison simple mais très tenue, où la pomme reste au centre et la vanille allonge la finale.",
+        "essentials": [
+          "Mettre la gousse au centre du bundle.",
+          "Garder la cannelle comme soutien de cuisson.",
+          "Présenter le sucre vanillé comme finition douce."
+        ],
+        "finishing": [
+          "Proposer le caviar seulement en montée en gamme.",
+          "Ne pas charger le bundle avec trop de références."
+        ],
+        "upsell": "Le bon angle est “gâteau de maison très soigné”, pas “dessert technique”.",
+        "service": "Mettre en avant le goûter, la table familiale et la découpe nette."
+      }
     },
     {
       "slug": "muffins-avoine-raisin-vanille",
@@ -507,7 +521,7 @@
       },
       "submitted_at": "2026-03-28T13:29:36Z",
       "created_at": "2026-03-28T13:29:36Z",
-      "updated_at": "2026-03-28T13:29:36Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-28T13:29:36Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -515,7 +529,21 @@
       ],
       "revisions": [
 
-      ]
+      ],
+      "bundle_plan": {
+        "promise": "Porter un format du matin simple, franc et propre, avec une vanille qui tient sans alourdir.",
+        "essentials": [
+          "Conserver la gousse comme signature.",
+          "Garder la cannelle comme soutien de céréales.",
+          "Utiliser le sucre vanillé pour une finition courte."
+        ],
+        "finishing": [
+          "Rester sur un bundle très lisible.",
+          "Éviter les produits trop premium si la recette reste petit-déjeuner."
+        ],
+        "upsell": "Le bon discours est récurrence et facilité, pas pâtisserie d’exception.",
+        "service": "Montrer le matin, la boîte à emporter ou le goûter simple."
+      }
     },
     {
       "slug": "pancakes-vanille-sucre",
@@ -746,7 +774,7 @@
       },
       "submitted_at": "2026-03-28T13:29:36Z",
       "created_at": "2026-03-28T13:29:36Z",
-      "updated_at": "2026-03-28T13:29:36Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-28T13:29:36Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -754,7 +782,21 @@
       ],
       "revisions": [
 
-      ]
+      ],
+      "bundle_plan": {
+        "promise": "Faire sentir qu’un geste très simple peut devenir beaucoup plus soigné avec la bonne vanille.",
+        "essentials": [
+          "Garder sucre vanillé et extrait comme duo de sécurité.",
+          "Proposer la gousse comme version signature.",
+          "Rester très clair sur l’usage du matin."
+        ],
+        "finishing": [
+          "Utiliser l’extrait en régularité.",
+          "Réserver la gousse au moment où l’on veut monter en gamme."
+        ],
+        "upsell": "L’angle de vente doit être facilité + rendu propre, pas sophistication inutile.",
+        "service": "Valoriser le brunch, la pile de pancakes et le service à partager."
+      }
     },
     {
       "slug": "beignet-banane",
@@ -1000,7 +1042,7 @@
 
       ],
       "created_at": "2026-03-27T12:00:00Z",
-      "updated_at": "2026-03-27T12:30:00Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "tags": [
 
       ],
@@ -1023,7 +1065,21 @@
           "role": "ajustement",
           "selection_label": "Ajouter en finition"
         }
-      ]
+      ],
+      "bundle_plan": {
+        "promise": "Vendre une friture maison gourmande mais nette, où la banane reste lisible et la vanille tient la pâte.",
+        "essentials": [
+          "Conserver la gousse comme structure.",
+          "Garder l’extrait pour sécuriser l’appareil.",
+          "Terminer avec le sucre vanillé encore chaud."
+        ],
+        "finishing": [
+          "Ne pas noyer la recette sous trop de références.",
+          "Laisser le sucre vanillé jouer la dernière touche."
+        ],
+        "upsell": "Le bon angle est gourmandise maîtrisée, pas démonstration technique.",
+        "service": "Mettre en avant le partage, la sortie de friture et le service immédiat."
+      }
     },
     {
       "slug": "accords-vanille-salee",
@@ -1197,7 +1253,7 @@
 
       ],
       "created_at": "2026-03-27T12:10:00Z",
-      "updated_at": "2026-03-27T12:20:00Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "tags": [
 
       ],
@@ -1206,7 +1262,21 @@
       ],
       "products": [
 
-      ]
+      ],
+      "bundle_plan": {
+        "promise": "Faire entrer le client dans la vanille salée avec des produits clairs et rassurants.",
+        "essentials": [
+          "Garder une gousse en repère principal.",
+          "Ajouter un poivre ou une épice comme ouverture salée.",
+          "Rester très pédagogique."
+        ],
+        "finishing": [
+          "Le bundle doit rester découverte.",
+          "Ne pas transformer ce guide en panier trop lourd."
+        ],
+        "upsell": "L’upsell doit proposer une exploration, pas une liste complète d’achats.",
+        "service": "Présenter le bundle comme porte d’entrée simple dans la cuisine salée."
+      }
     },
     {
       "slug": "riz-lait-tonka-vanille",
@@ -1891,7 +1961,7 @@
         }
       ],
       "created_at": "2026-03-27T13:00:00Z",
-      "updated_at": "2026-03-28T11:01:08Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "tags": [
         "dessert",
         "vanille",
@@ -1919,7 +1989,21 @@
           "role": "ajustement",
           "selection_label": "Ajouter en finition"
         }
-      ]
+      ],
+      "bundle_plan": {
+        "promise": "Mettre en avant un dessert crémeux très réglé, avec une vraie finition de maison soignée.",
+        "essentials": [
+          "Conserver la gousse pour l’infusion.",
+          "Garder le caviar pour signer la finition.",
+          "Utiliser l’extrait comme ajustement discret."
+        ],
+        "finishing": [
+          "Le bundle doit raconter infusion puis finition.",
+          "Rester sur une lecture douce et très propre."
+        ],
+        "upsell": "Le bon angle est dessert crémeux premium, pas simple riz au lait générique.",
+        "service": "Parler du service en bol, tiède ou froid, avec une finition minute."
+      }
     },
     {
       "slug": "creme-brulee-vanille-bourbon",
@@ -2126,7 +2210,7 @@
       },
       "submitted_at": "2026-03-28T11:01:08Z",
       "created_at": "2026-03-28T11:01:08Z",
-      "updated_at": "2026-03-28T11:01:08Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-28T11:01:08Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -2790,7 +2874,21 @@
           "license": "CC BY-SA 4.0",
           "note": "Base ouverte adaptée pour la version Vanille Désiré."
         }
-      ]
+      ],
+      "bundle_plan": {
+        "promise": "Vendre le grand classique avec un niveau de vanille qui justifie l’achat.",
+        "essentials": [
+          "Mettre la gousse en tête.",
+          "Utiliser le caviar pour la finition luxe.",
+          "Laisser un coffret si l’on veut offrir ou refaire plusieurs fois."
+        ],
+        "finishing": [
+          "La montée en gamme doit rester élégante.",
+          "Ne pas multiplier les références annexes."
+        ],
+        "upsell": "L’angle de vente est “grande crème brûlée maison”, pas laboratoire de pâtisserie.",
+        "service": "Mettre en avant le contraste crème froide / surface cassée."
+      }
     },
     {
       "slug": "cake-vanille-cannelle-madagascar",
@@ -2998,7 +3096,7 @@
       },
       "submitted_at": "2026-03-28T11:01:08Z",
       "created_at": "2026-03-28T11:01:08Z",
-      "updated_at": "2026-03-28T11:01:08Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-28T11:01:08Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -3657,7 +3755,21 @@
             ]
           }
         }
-      ]
+      ],
+      "bundle_plan": {
+        "promise": "Faire vendre un cake simple de maison avec un parfum plus noble et plus chaud.",
+        "essentials": [
+          "Garder la gousse en premier repère.",
+          "Conserver la cannelle comme chaleur douce.",
+          "Rester sur un bundle court."
+        ],
+        "finishing": [
+          "Le sucre vanillé peut jouer la dernière touche.",
+          "Éviter de surcharger un format volontairement simple."
+        ],
+        "upsell": "Le bon angle est “cake du quotidien bien fait”.",
+        "service": "Montrer le tranchage, le café, la conservation facile."
+      }
     },
     {
       "slug": "ananas-roti-vanille-poivre-sauvage",
@@ -3852,7 +3964,7 @@
       },
       "submitted_at": "2026-03-28T11:01:08Z",
       "created_at": "2026-03-28T11:01:08Z",
-      "updated_at": "2026-03-28T11:01:08Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-28T11:01:08Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -4472,7 +4584,21 @@
             ]
           }
         }
-      ]
+      ],
+      "bundle_plan": {
+        "promise": "Vendre un dessert fruité plus vif et plus raffiné qu’un dessert très pâtissier.",
+        "essentials": [
+          "Garder la vanille pour arrondir le fruit.",
+          "Utiliser le poivre sauvage comme signature.",
+          "Rester sur une finition courte."
+        ],
+        "finishing": [
+          "Le bundle doit raconter fruit, chaleur, finale.",
+          "Ne pas perdre la lisibilité du dessert."
+        ],
+        "upsell": "Le bon angle est dessert fruité haut de gamme, pas assiette complexe.",
+        "service": "Valoriser le service tiède et la brillance du fruit rôti."
+      }
     },
     {
       "slug": "carottes-roties-vanille-combava",
@@ -4670,7 +4796,7 @@
       },
       "submitted_at": "2026-03-28T11:01:08Z",
       "created_at": "2026-03-28T11:01:08Z",
-      "updated_at": "2026-03-28T11:01:08Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-28T11:01:08Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -5299,7 +5425,21 @@
             ]
           }
         }
-      ]
+      ],
+      "bundle_plan": {
+        "promise": "Montrer que la vanille salée peut être facile, nette et très utile à table.",
+        "essentials": [
+          "Conserver la vanille pour le fond.",
+          "Garder le combava pour l’élan.",
+          "Ajouter une épice douce si elle sert vraiment le plat."
+        ],
+        "finishing": [
+          "Le bundle doit rester lisible et végétal.",
+          "Éviter toute impression dessert."
+        ],
+        "upsell": "L’angle de vente est accompagnement différenciant mais simple.",
+        "service": "Mettre en avant la garniture, les légumes rôtis et la table salée."
+      }
     },
     {
       "slug": "crevettes-curry-vanille",
@@ -5508,7 +5648,7 @@
       },
       "submitted_at": "2026-03-28T11:01:08Z",
       "created_at": "2026-03-28T11:01:08Z",
-      "updated_at": "2026-03-28T11:01:08Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-28T11:01:08Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -6178,7 +6318,21 @@
           "license": "CC BY-SA 4.0",
           "note": "Structure ouverte adaptée pour une lecture salée à la vanille Désiré."
         }
-      ]
+      ],
+      "bundle_plan": {
+        "promise": "Vendre un salé signature très démonstratif mais compréhensible au premier coup d’œil.",
+        "essentials": [
+          "Conserver le curry comme repère principal.",
+          "Utiliser la gousse pour la profondeur.",
+          "Garder un poivre ou une finition en soutien."
+        ],
+        "finishing": [
+          "Le bundle doit rester culinaire.",
+          "Éviter les produits trop sucrés dans le discours."
+        ],
+        "upsell": "Le bon angle est “cuisine salée de caractère”, pas exotisme flou.",
+        "service": "Montrer sauce courte, crevettes nettes et service immédiat."
+      }
     },
     {
       "slug": "banana-bread-vanille-cannelle",
@@ -6416,7 +6570,7 @@
       },
       "submitted_at": "2026-03-28T13:16:27Z",
       "created_at": "2026-03-28T13:16:27Z",
-      "updated_at": "2026-03-28T13:16:27Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-28T13:16:27Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -6424,7 +6578,21 @@
       ],
       "revisions": [
 
-      ]
+      ],
+      "bundle_plan": {
+        "promise": "Porter un grand classique très rassurant avec une signature Vanille Désiré plus nette.",
+        "essentials": [
+          "Garder la gousse ou l’extrait comme base.",
+          "Conserver la cannelle comme chaleur.",
+          "Rester sur une sélection courte."
+        ],
+        "finishing": [
+          "Le sucre vanillé peut servir la finition.",
+          "Ne pas transformer le cake en panier trop lourd."
+        ],
+        "upsell": "Le bon angle est confort + parfum, pas sophistication.",
+        "service": "Mettre en avant le tranchage, le petit-déjeuner ou le goûter."
+      }
     },
     {
       "slug": "carrot-cake-vanille-cannelle",
@@ -6668,7 +6836,7 @@
       },
       "submitted_at": "2026-03-28T13:16:27Z",
       "created_at": "2026-03-28T13:16:27Z",
-      "updated_at": "2026-03-28T13:16:27Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-28T13:16:27Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -6676,7 +6844,21 @@
       ],
       "revisions": [
 
-      ]
+      ],
+      "bundle_plan": {
+        "promise": "Faire vendre un carrot cake plus propre, moins lourd et mieux cadré en bouche.",
+        "essentials": [
+          "Conserver cannelle et vanille comme colonne vertébrale.",
+          "Garder la vanille au centre du glaçage ou de la pâte.",
+          "Éviter la dispersion."
+        ],
+        "finishing": [
+          "Le bundle doit soutenir la recette, pas la compliquer.",
+          "Monter en gamme surtout via la qualité des références."
+        ],
+        "upsell": "Le bon angle est carrot cake bien tenu, pas dessert américain surchargé.",
+        "service": "Valoriser la coupe nette et la dégustation lente."
+      }
     },
     {
       "slug": "genoise-vanille-levee",
@@ -6896,7 +7078,7 @@
       },
       "submitted_at": "2026-03-28T13:16:27Z",
       "created_at": "2026-03-28T13:16:27Z",
-      "updated_at": "2026-03-28T13:16:27Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-28T13:16:27Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -6904,7 +7086,21 @@
       ],
       "revisions": [
 
-      ]
+      ],
+      "bundle_plan": {
+        "promise": "Vendre une base de pâtisserie utile, propre et très adaptable, avec une vraie tenue de vanille.",
+        "essentials": [
+          "Mettre la gousse en repère principal.",
+          "Garder une finition légère possible.",
+          "Rester sur des produits très techniques et lisibles."
+        ],
+        "finishing": [
+          "Le bundle doit soutenir l’idée de base premium.",
+          "Éviter tout discours trop dessert fini."
+        ],
+        "upsell": "Le bon angle est base pâtissière noble et réutilisable.",
+        "service": "Montrer la découpe, l’intérieur et les usages futurs."
+      }
     },
     {
       "slug": "gateau-ananas-renverse-vanille",
@@ -7137,7 +7333,7 @@
       },
       "submitted_at": "2026-03-28T13:16:27Z",
       "created_at": "2026-03-28T13:16:27Z",
-      "updated_at": "2026-03-28T13:16:27Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-28T13:16:27Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -7145,7 +7341,21 @@
       ],
       "revisions": [
 
-      ]
+      ],
+      "bundle_plan": {
+        "promise": "Faire monter un gâteau fruité familier avec une lecture de vanille plus précise.",
+        "essentials": [
+          "Conserver la vanille comme fond du fruit.",
+          "Garder une touche de sucre vanillé en finition.",
+          "Rester sur une sélection courte."
+        ],
+        "finishing": [
+          "Le bundle doit rester ensoleillé et simple.",
+          "Éviter l’effet catalogue trop large."
+        ],
+        "upsell": "L’angle est gâteau fruité de maison, très agréable à partager.",
+        "service": "Montrer le démoulage, le fruit brillant et la part servie."
+      }
     },
     {
       "slug": "madeleines-vanille-bourbon",
@@ -7375,7 +7585,7 @@
       },
       "submitted_at": "2026-03-29T12:00:00Z",
       "created_at": "2026-03-29T12:00:00Z",
-      "updated_at": "2026-03-29T14:45:00Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-29T12:00:00Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -7433,6 +7643,20 @@
             "alt": "Madeleines dorées juste sorties du four."
           }
         ]
+      },
+      "bundle_plan": {
+        "promise": "Vendre le goût du jour même, avec une madeleine plus fine, plus beurrée et mieux signée.",
+        "essentials": [
+          "Mettre la gousse au centre.",
+          "Garder le sucre vanillé en soutien court.",
+          "Rester sur un bundle très compact."
+        ],
+        "finishing": [
+          "La finition doit rester douce.",
+          "Ne pas surcharger un format aussi simple."
+        ],
+        "upsell": "Le bon angle est élégance du goûter, pas pâtisserie démonstrative.",
+        "service": "Parler de café, thé, assiette tiède et service minute."
       }
     },
     {
@@ -7670,7 +7894,7 @@
       },
       "submitted_at": "2026-03-29T12:00:00Z",
       "created_at": "2026-03-29T12:00:00Z",
-      "updated_at": "2026-03-29T14:45:00Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-29T12:00:00Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -7728,6 +7952,20 @@
             "alt": "Scones dorés tout juste cuits."
           }
         ]
+      },
+      "bundle_plan": {
+        "promise": "Vendre un brunch maison mieux tenu, avec une vanille douce et une vraie lecture de mie.",
+        "essentials": [
+          "Conserver la gousse pour la base.",
+          "Garder le sucre vanillé pour l’ouverture ou la finition.",
+          "Rester sur un bundle de matin."
+        ],
+        "finishing": [
+          "Le bundle doit rester simple à comprendre.",
+          "Garder l’idée de table du week-end."
+        ],
+        "upsell": "Le bon angle est confort raffiné, pas sophistication excessive.",
+        "service": "Mettre en avant beurre, confiture et service tiède."
       }
     },
     {
@@ -7971,7 +8209,7 @@
       },
       "submitted_at": "2026-03-29T12:00:00Z",
       "created_at": "2026-03-29T12:00:00Z",
-      "updated_at": "2026-03-29T14:45:00Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-29T12:00:00Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -8029,6 +8267,20 @@
             "alt": "Finition au combava sur patates douces rôties."
           }
         ]
+      },
+      "bundle_plan": {
+        "promise": "Montrer une garniture salée qui surprend juste assez, sans perdre personne.",
+        "essentials": [
+          "Conserver la vanille pour l’arrondi.",
+          "Garder le combava pour l’élan.",
+          "Ajouter une épice douce seulement si elle reste lisible."
+        ],
+        "finishing": [
+          "Le bundle doit raconter la netteté salée.",
+          "Éviter tout effet dessert."
+        ],
+        "upsell": "Le bon angle est accompagnement signature très facile à adopter.",
+        "service": "Valoriser le plat chaud, les bords rôtis et la finition minute."
       }
     },
     {
@@ -8272,7 +8524,7 @@
       },
       "submitted_at": "2026-03-29T13:00:00Z",
       "created_at": "2026-03-29T13:00:00Z",
-      "updated_at": "2026-03-29T14:45:00Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-29T13:00:00Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -8330,6 +8582,20 @@
             "alt": "Dressage final du riz au lait à la vanille et agrumes."
           }
         ]
+      },
+      "bundle_plan": {
+        "promise": "Faire vendre un dessert de maison très rassurant mais beaucoup plus lumineux qu’un riz au lait lourd.",
+        "essentials": [
+          "Conserver la gousse pour l’infusion.",
+          "Garder le sucre vanillé pour arrondir.",
+          "Proposer le caviar en finition signature."
+        ],
+        "finishing": [
+          "Le bundle doit raconter infusion puis service.",
+          "Rester sur une lecture douce et claire."
+        ],
+        "upsell": "Le bon angle est dessert crémeux de maison, avec une montée en gamme par la finition.",
+        "service": "Mettre en avant bol, cuillère et service froid ou tiède."
       }
     },
     {
@@ -8581,7 +8847,7 @@
       },
       "submitted_at": "2026-03-29T13:00:00Z",
       "created_at": "2026-03-29T13:00:00Z",
-      "updated_at": "2026-03-29T14:45:00Z",
+      "updated_at": "2026-03-29T15:20:00Z",
       "validated_at": "2026-03-29T13:00:00Z",
       "validated_by": "VD Editorial Studio",
       "moderation_notes": [
@@ -8639,6 +8905,20 @@
             "alt": "Découpe d’une volaille rôtie avec jus court."
           }
         ]
+      },
+      "bundle_plan": {
+        "promise": "Vendre une volaille de maison plus noble grâce au jus, sans jamais sortir du salé.",
+        "essentials": [
+          "Conserver la gousse pour le jus.",
+          "Garder le poivre sauvage comme finition signature.",
+          "Réserver l’extrait au réglage final."
+        ],
+        "finishing": [
+          "Le bundle doit être très culinaire.",
+          "Éviter toute confusion avec un dessert ou une sauce sucrée."
+        ],
+        "upsell": "Le bon angle est plat de maison haut de gamme, pas performance de chef.",
+        "service": "Valoriser le plat de partage, la découpe et le jus servi court."
       }
     }
   ],
