@@ -59,17 +59,25 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la selection",
-        "note": "La gousse structure la pomme, la cannelle signe la cuisson et le sucre vanille aide la finition du crumble sans surcharge."
+        "note": "La gousse structure la pomme, la cannelle signe la cuisson et le sucre vanille aide la finition du crumble sans surcharge.",
+        "bundle_title": "Le trio pour un gâteau aux pommes bien parfumé.",
+        "bundle_summary": "Gousse, cannelle et sucre vanillé pour garder une pâtisserie simple, précise et très agréable au service."
       },
       "products": [
         {
-          "handle": "vanille-bourbon-madagascar-3-gousses"
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
         },
         {
-          "handle": "cannelle-madagascar-pot-verre-40g"
+          "handle": "cannelle-madagascar-pot-verre-40g",
+          "role": "assaisonnement",
+          "selection_label": "Ajouter en assaisonnement"
         },
         {
-          "handle": "sucre-vanille-bourbon-madagascar-60g"
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
         }
       ],
       "ingredient_groups": [
@@ -313,17 +321,25 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la selection",
-        "note": "La gousse donne la signature, la cannelle soutient l avoine et le sucre vanille permet une finition courte en sortie de four."
+        "note": "La gousse donne la signature, la cannelle soutient l avoine et le sucre vanille permet une finition courte en sortie de four.",
+        "bundle_title": "La sélection pour des muffins du matin très nets.",
+        "bundle_summary": "Une base simple pour porter l’avoine, le raisin et une vanille légère qui reste bien présente."
       },
       "products": [
         {
-          "handle": "vanille-bourbon-madagascar-3-gousses"
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
         },
         {
-          "handle": "cannelle-madagascar-pot-verre-40g"
+          "handle": "cannelle-madagascar-pot-verre-40g",
+          "role": "assaisonnement",
+          "selection_label": "Ajouter en assaisonnement"
         },
         {
-          "handle": "sucre-vanille-bourbon-madagascar-60g"
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
         }
       ],
       "ingredient_groups": [
@@ -555,17 +571,25 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la selection",
-        "note": "Le sucre vanille pose la finition, l extrait securise la regularite et la gousse permet une version plus signature quand vous voulez monter en gamme."
+        "note": "Le sucre vanille pose la finition, l extrait securise la regularite et la gousse permet une version plus signature quand vous voulez monter en gamme.",
+        "bundle_title": "Le nécessaire pour des pancakes bien finis.",
+        "bundle_summary": "Sucre vanillé, extrait et gousse pour une pâte du matin très simple mais vraiment soignée."
       },
       "products": [
         {
-          "handle": "sucre-vanille-bourbon-madagascar-60g"
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
         },
         {
-          "handle": "extrait-vanille-bourbon-madagascar-20ml"
+          "handle": "extrait-vanille-bourbon-madagascar-20ml",
+          "role": "ajustement",
+          "selection_label": "Ajouter en finition"
         },
         {
-          "handle": "vanille-bourbon-madagascar-3-gousses"
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
         }
       ],
       "ingredient_groups": [
@@ -785,7 +809,9 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la selection",
-        "note": "La gousse pose la structure, l extrait aide l appareil, et le sucre vanille peut finir les beignets a chaud."
+        "note": "La gousse pose la structure, l extrait aide l appareil, et le sucre vanille peut finir les beignets a chaud.",
+        "bundle_title": "La sélection pour des beignets gourmands et nets.",
+        "bundle_summary": "Tout ce qu’il faut pour garder la banane au centre, avec une vanille lisible et une finition propre."
       },
       "ingredient_groups": [
         {
@@ -983,13 +1009,19 @@
       ],
       "products": [
         {
-          "handle": "vanille-bourbon-madagascar-3-gousses"
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
         },
         {
-          "handle": "sucre-vanille-bourbon-madagascar-60g"
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
         },
         {
-          "handle": "extrait-vanille-bourbon-madagascar-20ml"
+          "handle": "extrait-vanille-bourbon-madagascar-20ml",
+          "role": "ajustement",
+          "selection_label": "Ajouter en finition"
         }
       ]
     },
@@ -1045,7 +1077,9 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la collection",
-        "note": "Guide pratique pour découvrir les accords salés autour de la vanille."
+        "note": "Guide pratique pour découvrir les accords salés autour de la vanille.",
+        "bundle_title": "La sélection pour explorer la vanille salée.",
+        "bundle_summary": "Quelques repères maison pour entrer dans le salé avec une vanille discrète, précise et facile à doser."
       },
       "ingredient_groups": [
         {
@@ -1225,7 +1259,9 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la collection",
-        "note": "Le caviar donne une finition precise, la gousse structure l infusion, et l extrait aide a recalibrer au service."
+        "note": "Le caviar donne une finition precise, la gousse structure l infusion, et l extrait aide a recalibrer au service.",
+        "bundle_title": "Le trio pour un riz au lait bien tenu.",
+        "bundle_summary": "Infusion, finition et ajustement final pour garder un dessert crémeux, rond et très régulier."
       },
       "ingredient_groups": [
         {
@@ -1870,15 +1906,18 @@
       "products": [
         {
           "handle": "caviar-vanille-bourbon-madagascar-20g",
-          "role": "finition"
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
         },
         {
           "handle": "vanille-bourbon-madagascar-3-gousses",
-          "role": "infusion"
+          "role": "infusion",
+          "selection_label": "Ajouter en infusion"
         },
         {
           "handle": "extrait-vanille-bourbon-madagascar-20ml",
-          "role": "ajustement"
+          "role": "ajustement",
+          "selection_label": "Ajouter en finition"
         }
       ]
     },
@@ -1939,20 +1978,25 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la collection",
-        "note": "La gousse fait le coeur aromatique, le caviar peut signer la finition, et le pack simplifie l achat."
+        "note": "La gousse fait le coeur aromatique, le caviar peut signer la finition, et le pack simplifie l achat.",
+        "bundle_title": "La sélection pour une crème brûlée maison.",
+        "bundle_summary": "Le coeur aromatique, la finition et le coffret pour refaire la recette avec une vraie lecture de la vanille."
       },
       "products": [
         {
           "handle": "vanille-bourbon-madagascar-3-gousses",
-          "role": "essentiel"
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
         },
         {
           "handle": "caviar-vanille-bourbon-madagascar-20g",
-          "role": "finition"
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
         },
         {
           "handle": "pack-patisserie-premium-vanille-bourbon-madagascar",
-          "role": "pack"
+          "role": "pack",
+          "selection_label": "Ajouter le coffret"
         }
       ],
       "ingredient_groups": [
@@ -2806,20 +2850,25 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la collection",
-        "note": "Une recette simple pour retrouver la gousse et les essentiels de pâtisserie."
+        "note": "Une recette simple pour retrouver la gousse et les essentiels de pâtisserie.",
+        "bundle_title": "Le duo essentiel pour un cake de maison.",
+        "bundle_summary": "Une sélection simple pour retrouver la vanille, la cannelle et le bon niveau de gourmandise."
       },
       "products": [
         {
           "handle": "vanille-bourbon-madagascar-3-gousses",
-          "role": "essentiel"
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
         },
         {
           "handle": "cannelle-madagascar-pot-verre-40g",
-          "role": "assaisonnement"
+          "role": "assaisonnement",
+          "selection_label": "Ajouter en assaisonnement"
         },
         {
           "handle": "pack-patisserie-decouverte-vanille-bourbon-madagascar",
-          "role": "pack"
+          "role": "pack",
+          "selection_label": "Ajouter le coffret"
         }
       ],
       "ingredient_groups": [
@@ -3668,20 +3717,25 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la selection",
-        "note": "Le poivre sauvage apporte ici une vraie longueur et une finale plus vive."
+        "note": "Le poivre sauvage apporte ici une vraie longueur et une finale plus vive.",
+        "bundle_title": "La sélection pour un dessert minute très vif.",
+        "bundle_summary": "Vanille, poivre sauvage et finition sucrée pour garder l’ananas juteux et très lisible."
       },
       "products": [
         {
           "handle": "poivre-sauvage-voatsiperifery-sachet-50g-madagascar",
-          "role": "signature"
+          "role": "signature",
+          "selection_label": "Garder dans la sélection"
         },
         {
           "handle": "vanille-bourbon-madagascar-3-gousses",
-          "role": "structure"
+          "role": "structure",
+          "selection_label": "Garder dans la sélection"
         },
         {
           "handle": "sucre-vanille-bourbon-madagascar-60g",
-          "role": "finition"
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
         }
       ],
       "ingredient_groups": [
@@ -4478,20 +4532,25 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la selection",
-        "note": "Le combava aide a garder la recette lumineuse et très lisible en bouche."
+        "note": "Le combava aide a garder la recette lumineuse et très lisible en bouche.",
+        "bundle_title": "La sélection pour une assiette salée lumineuse.",
+        "bundle_summary": "Combava, vanille et assaisonnement maison pour garder le plat vif, net et très élégant."
       },
       "products": [
         {
           "handle": "poudre-combava-sauvage-madagascar-20g",
-          "role": "accent"
+          "role": "accent",
+          "selection_label": "Ajouter en accent"
         },
         {
           "handle": "vanille-bourbon-madagascar-3-gousses",
-          "role": "structure"
+          "role": "structure",
+          "selection_label": "Garder dans la sélection"
         },
         {
           "handle": "sel-parfume-au-combava",
-          "role": "assaisonnement"
+          "role": "assaisonnement",
+          "selection_label": "Ajouter en assaisonnement"
         }
       ],
       "ingredient_groups": [
@@ -5300,20 +5359,25 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la selection",
-        "note": "La gousse donne le fond, l extrait aide a corriger la sauce juste avant service."
+        "note": "La gousse donne le fond, l extrait aide a corriger la sauce juste avant service.",
+        "bundle_title": "La sélection pour une sauce curry-vanille courte.",
+        "bundle_summary": "Base aromatique, infusion et ajustement final pour une sauce crémeuse qui reste parfaitement lisible."
       },
       "products": [
         {
           "handle": "curry-madagascar-pot-épices-40g",
-          "role": "base aromatique"
+          "role": "base aromatique",
+          "selection_label": "Garder dans la sélection"
         },
         {
           "handle": "extrait-vanille-bourbon-madagascar-20ml",
-          "role": "ajustement"
+          "role": "ajustement",
+          "selection_label": "Ajouter en finition"
         },
         {
           "handle": "vanille-bourbon-madagascar-3-gousses",
-          "role": "infusion"
+          "role": "infusion",
+          "selection_label": "Ajouter en infusion"
         }
       ],
       "ingredient_groups": [
@@ -6172,17 +6236,25 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la selection",
-        "note": "La gousse donne la structure, la cannelle signe le cake et le sucre vanille aide la finition sans refaire toute la base."
+        "note": "La gousse donne la structure, la cannelle signe le cake et le sucre vanille aide la finition sans refaire toute la base.",
+        "bundle_title": "Le trio pour un banana bread moelleux.",
+        "bundle_summary": "Une sélection simple pour garder la banane généreuse, la cannelle douce et la vanille bien en place."
       },
       "products": [
         {
-          "handle": "vanille-bourbon-madagascar-3-gousses"
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
         },
         {
-          "handle": "cannelle-madagascar-pot-verre-40g"
+          "handle": "cannelle-madagascar-pot-verre-40g",
+          "role": "assaisonnement",
+          "selection_label": "Ajouter en assaisonnement"
         },
         {
-          "handle": "sucre-vanille-bourbon-madagascar-60g"
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
         }
       ],
       "ingredient_groups": [
@@ -6410,17 +6482,25 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la selection",
-        "note": "La cannelle structure l ensemble, l extrait cale l appareil, et la gousse peut revenir dans le glaçage ou la finition."
+        "note": "La cannelle structure l ensemble, l extrait cale l appareil, et la gousse peut revenir dans le glaçage ou la finition.",
+        "bundle_title": "La sélection pour un carrot cake plus fin.",
+        "bundle_summary": "Cannelle, vanille et correction finale pour un gâteau moelleux, épicé juste ce qu’il faut."
       },
       "products": [
         {
-          "handle": "cannelle-madagascar-pot-verre-40g"
+          "handle": "cannelle-madagascar-pot-verre-40g",
+          "role": "assaisonnement",
+          "selection_label": "Ajouter en assaisonnement"
         },
         {
-          "handle": "extrait-vanille-bourbon-madagascar-20ml"
+          "handle": "extrait-vanille-bourbon-madagascar-20ml",
+          "role": "ajustement",
+          "selection_label": "Ajouter en finition"
         },
         {
-          "handle": "vanille-bourbon-madagascar-3-gousses"
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
         }
       ],
       "ingredient_groups": [
@@ -6652,17 +6732,25 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la selection",
-        "note": "L extrait cale la pâte, la gousse affine le parfum, et le sucre vanille peut servir à la finition ou au sirop de punchage."
+        "note": "L extrait cale la pâte, la gousse affine le parfum, et le sucre vanille peut servir à la finition ou au sirop de punchage.",
+        "bundle_title": "La sélection pour une génoise plus habillée.",
+        "bundle_summary": "Extrait, gousse et sucre vanillé pour garder une mie légère, régulière et très propre au goût."
       },
       "products": [
         {
-          "handle": "extrait-vanille-bourbon-madagascar-20ml"
+          "handle": "extrait-vanille-bourbon-madagascar-20ml",
+          "role": "ajustement",
+          "selection_label": "Ajouter en finition"
         },
         {
-          "handle": "vanille-bourbon-madagascar-3-gousses"
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
         },
         {
-          "handle": "sucre-vanille-bourbon-madagascar-60g"
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
         }
       ],
       "ingredient_groups": [
@@ -6872,17 +6960,25 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la selection",
-        "note": "Le sucre vanille aide le caramel, la gousse garde la profondeur, et une pointe de poivre sauvage peut moderniser le final."
+        "note": "Le sucre vanille aide le caramel, la gousse garde la profondeur, et une pointe de poivre sauvage peut moderniser le final.",
+        "bundle_title": "La sélection pour un gâteau renversé généreux.",
+        "bundle_summary": "Vanille, sucre vanillé et pointe poivrée pour un dessert très lisible malgré le caramel et le fruit."
       },
       "products": [
         {
-          "handle": "sucre-vanille-bourbon-madagascar-60g"
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
         },
         {
-          "handle": "vanille-bourbon-madagascar-3-gousses"
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
         },
         {
-          "handle": "poivre-sauvage-voatsiperifery-sachet-50g-madagascar"
+          "handle": "poivre-sauvage-voatsiperifery-sachet-50g-madagascar",
+          "role": "assaisonnement",
+          "selection_label": "Ajouter en assaisonnement"
         }
       ],
       "ingredient_groups": [
@@ -7105,16 +7201,20 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la sélection",
-        "note": "La gousse donne la profondeur et le sucre vanillé aide à finir les madeleines encore tièdes."
+        "note": "La gousse donne la profondeur et le sucre vanillé aide à finir les madeleines encore tièdes.",
+        "bundle_title": "La sélection pour des madeleines du jour.",
+        "bundle_summary": "La gousse et le sucre vanillé suffisent ici à signer la pâte sans la charger."
       },
       "products": [
         {
           "handle": "vanille-bourbon-madagascar-3-gousses",
-          "role": "structure"
+          "role": "structure",
+          "selection_label": "Garder dans la sélection"
         },
         {
           "handle": "sucre-vanille-bourbon-madagascar-60g",
-          "role": "finition"
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
         }
       ],
       "ingredient_groups": [
@@ -7337,16 +7437,20 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la sélection",
-        "note": "Le sucre vanillé porte la pâte et la gousse aide à garder une vraie longueur aromatique."
+        "note": "Le sucre vanillé porte la pâte et la gousse aide à garder une vraie longueur aromatique.",
+        "bundle_title": "La sélection pour un brunch maison soigné.",
+        "bundle_summary": "Une vanille douce et un sucre vanillé propre pour accompagner beurre, crème ou confiture."
       },
       "products": [
         {
           "handle": "sucre-vanille-bourbon-madagascar-60g",
-          "role": "base aromatique"
+          "role": "base aromatique",
+          "selection_label": "Garder dans la sélection"
         },
         {
           "handle": "vanille-bourbon-madagascar-3-gousses",
-          "role": "signature"
+          "role": "signature",
+          "selection_label": "Garder dans la sélection"
         }
       ],
       "ingredient_groups": [
@@ -7578,20 +7682,25 @@
         ],
         "primary_label": "Voir le produit",
         "secondary_label": "Voir la sélection",
-        "note": "La vanille arrondit la patate douce, le combava garde l’assiette vive et la cannelle reste en fond."
+        "note": "La vanille arrondit la patate douce, le combava garde l’assiette vive et la cannelle reste en fond.",
+        "bundle_title": "La sélection pour une patate douce rôtie très nette.",
+        "bundle_summary": "Combava, vanille et épice douce pour garder un plat salé élégant, fondant et bien équilibré."
       },
       "products": [
         {
           "handle": "poudre-combava-sauvage-madagascar-20g",
-          "role": "finition"
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
         },
         {
           "handle": "vanille-bourbon-madagascar-3-gousses",
-          "role": "structure"
+          "role": "structure",
+          "selection_label": "Garder dans la sélection"
         },
         {
           "handle": "cannelle-madagascar-pot-verre-40g",
-          "role": "épice douce"
+          "role": "épice douce",
+          "selection_label": "Ajouter l’épice douce"
         }
       ],
       "ingredient_groups": [
