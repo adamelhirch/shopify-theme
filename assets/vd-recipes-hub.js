@@ -283,7 +283,7 @@
   function collectionLabel(value) {
     var map = {
       'recettes-gratuites': 'Recettes gratuites',
-      'recettes-premium': 'Recettes premium',
+      'recettes-premium': 'Compte client',
       'desserts-a-la-vanille': 'Desserts vanille',
       'petits-dejeuners-a-la-vanille': 'Petit-déjeuner',
       'vanille-salee': 'Vanille salée',
@@ -338,7 +338,7 @@
     var mediaClass = 'vd-recipes-hub__card-media' + (cover ? '' : ' is-placeholder');
     var placeholder = cover
       ? ''
-      : '<div class="vd-recipes-hub__card-placeholder"><span>Visuel recette à poser</span><strong>' + escapeHtml(recipe.title) + '</strong></div>';
+      : '<div class="vd-recipes-hub__card-placeholder"><span>Photo recette à ajouter</span><strong>' + escapeHtml(recipe.title) + '</strong></div>';
 
     return (
       '<article class="vd-recipes-hub__card" data-vd-recipe-card data-slug="' + escapeHtml(recipe.slug || '') + '" data-search="' + escapeHtml(search) + '" data-access="' + escapeHtml(recipe.access || 'free') + '" data-difficulty="' + escapeHtml((recipe.difficulty && recipe.difficulty.value) || 'all') + '" data-collections="' + escapeHtml(collections) + '" data-total-minutes="' + escapeHtml(String(totalMinutes)) + '" data-ingredients="' + escapeHtml(ingredients) + '" data-products="' + escapeHtml(productHandles) + '">' +
@@ -769,7 +769,7 @@
       })
       .catch(function () {
         grid.innerHTML =
-          '<article class="vd-recipes-hub__empty-card"><h2>Le registre des recettes est indisponible.</h2><p>Rechargez la page dans un instant.</p></article>';
+          '<article class="vd-recipes-hub__empty-card"><h2>Les recettes sont en cours de chargement.</h2><p>Rechargez la page dans un instant.</p></article>';
       });
 
     input.addEventListener('input', function () {

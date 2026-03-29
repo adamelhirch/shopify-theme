@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-28T15:30:14Z",
+  "generated_at": "2026-03-29T10:03:43Z",
   "recipes": [
     {
       "slug": "gateau-pomme-vanille-cannelle",
@@ -208,8 +208,8 @@
         ],
         "body_sections": [
           {
-            "title": "Pourquoi cette recette est utile",
-            "body": "Elle relie un dessert très familier à une vraie mise en valeur de la vanille et de la cannelle de Madagascar."
+            "title": "Ce que vous allez retrouver",
+            "body": "Une base moelleuse, des pommes fondantes et une vanille bien présente, soutenue par une touche de cannelle."
           },
           {
             "title": "Erreurs à éviter",
@@ -252,7 +252,7 @@
       "title": "Muffins avoine raisin vanille",
       "page_url": "",
       "eyebrow": "Recette facile",
-      "subtitle": "Des muffins francs, cerealiers, avec une vanille qui allonge le raisin sans sucre brutal.",
+      "subtitle": "Des muffins moelleux, céréaliers, avec une vanille qui prolonge le raisin sans lourdeur.",
       "summary": "Des muffins moelleux à l’avoine et au raisin, relevés d’une pointe de vanille et de cannelle.",
       "description": "Une pâte simple, un cœur souple et juste assez de raisins pour un petit-déjeuner ou un goûter facile.",
       "category": "Desserts",
@@ -432,7 +432,7 @@
       ],
       "seo": {
         "title": "Muffins avoine raisin vanille | Vanille Désiré",
-        "description": "Muffins avoine raisin vanille: une recette facile, céréalière et bien liee aux produits Vanille Désiré.",
+        "description": "Muffins avoine raisin vanille : une recette facile, moelleuse et parfaite pour le petit-déjeuner ou le goûter.",
         "keywords": [
           "muffins avoine vanille",
           "muffins raisin cannelle",
@@ -662,8 +662,8 @@
         ],
         "body_sections": [
           {
-            "title": "Pourquoi cette version est utile",
-            "body": "Elle montre comment faire entrer la vanille dans un geste quotidien sans alourdir la recette."
+            "title": "Pourquoi on l’aime",
+            "body": "La vanille trouve naturellement sa place dans une pâte du matin simple, légère et rapide à refaire."
           },
           {
             "title": "Erreurs à éviter",
@@ -706,7 +706,7 @@
       "title": "Génoise vanille levée",
       "page_url": "",
       "eyebrow": "Recette signature",
-      "subtitle": "Une mie aerienne, levée en douceur, avec une vanille plus structuree qu un simple biscuit.",
+      "subtitle": "Une mie aérienne, levée en douceur, avec une vanille plus présente qu’un simple biscuit.",
       "summary": "Une génoise légère et aérée, avec une fermentation douce et une vanille bien présente.",
       "description": "Une base souple et élégante pour monter un dessert, un shortcake ou un gâteau de brunch.",
       "category": "Desserts",
@@ -1601,7 +1601,7 @@
       "access": "member",
       "page_url": "",
       "eyebrow": "Recette signature",
-      "subtitle": "Une sauce courte, crèmeuse et precise pour faire entrer la vanille dans un plat salé gourmand.",
+      "subtitle": "Une sauce courte, crémeuse et précise pour napper les crevettes sans couvrir la vanille.",
       "summary": "Des crevettes nappées d’une sauce curry-vanille courte, crémeuse et très parfumée.",
       "description": "Les crevettes sont snackées rapidement puis enrobées d’une sauce douce et épicée, avec une vanille bien tenue.",
       "category": "Sale",
@@ -1762,7 +1762,7 @@
       ],
       "seo": {
         "title": "Crevettes curry et vanille | Vanille Désiré",
-        "description": "Recette de crevettes curry et vanille, une belle démonstration de la vanille en cuisine salée.",
+        "description": "Recette de crevettes curry et vanille, crémeuse, parfumée et idéale pour découvrir la vanille en salé.",
         "keywords": [
           "crevettes curry vanille",
           "vanille cuisine salée",
@@ -2004,7 +2004,9 @@
         ]
       },
       "submitted_at": "2026-03-28T11:01:08Z",
-      "sources": []
+      "sources": [
+
+      ]
     },
     {
       "slug": "ananas-roti-vanille-poivre-sauvage",
@@ -2013,7 +2015,7 @@
       "access": "free",
       "page_url": "",
       "eyebrow": "Recette facile",
-      "subtitle": "Une recette courte, visuelle et très efficace pour montrer la precision aromatique de Madagascar.",
+      "subtitle": "Un ananas juteux, une vanille ronde et une finale poivrée qui réveille le dessert.",
       "summary": "De l’ananas rôti, une vanille ronde et une pointe de poivre sauvage pour un dessert vif.",
       "description": "L’ananas est saisi puis glacé légèrement pour garder du jus, du relief et une finale épicée.",
       "category": "Desserts",
@@ -2160,7 +2162,7 @@
       ],
       "seo": {
         "title": "Ananas rôti vanille et poivre sauvage | Vanille Désiré",
-        "description": "Recette d ananas rôti à la vanille et au poivre sauvage de Madagascar, facile, rapide et très différenciante.",
+        "description": "Recette d’ananas rôti à la vanille et au poivre sauvage de Madagascar, rapide, parfumée et très simple à servir.",
         "keywords": [
           "ananas rôti vanille",
           "poivre sauvage dessert",
@@ -2193,7 +2195,9 @@
         ]
       },
       "submitted_at": "2026-03-28T11:01:08Z",
-      "sources": []
+      "sources": [
+
+      ]
     },
     {
       "slug": "creme-brulee-vanille-bourbon",
@@ -2623,7 +2627,9 @@
           "role": "ajustement"
         }
       ],
-      "sources": []
+      "sources": [
+
+      ]
     },
     {
       "slug": "carottes-roties-vanille-combava",
@@ -2632,7 +2638,7 @@
       "access": "free",
       "page_url": "",
       "eyebrow": "Recette facile",
-      "subtitle": "Une entrée salée qui montre que la vanille peut rester precise sans basculer dessert.",
+      "subtitle": "Des carottes rôties brillantes, avec une vanille discrète et un combava très frais.",
       "summary": "Des carottes rôties, relevées de vanille et de combava, pour un accompagnement lumineux.",
       "description": "Les carottes gardent de la tenue, la vanille apporte de la rondeur et le combava réveille l’ensemble.",
       "category": "Sale",
@@ -2815,7 +2821,9 @@
         ]
       },
       "submitted_at": "2026-03-28T11:01:08Z",
-      "sources": []
+      "sources": [
+
+      ]
     },
     {
       "slug": "beignet-banane",
@@ -2830,7 +2838,7 @@
       "page_url": "/pages/beignet-banane",
       "eyebrow": "Recette signature",
       "subtitle": "Friture nette, coeur fondant, vanille lisible sans surcharge.",
-      "summary": "Une recette courte et gourmande, pensée pour une exécution très fluide en cuisine.",
+      "summary": "Des beignets de banane croustillants dehors, fondants dedans, relevés d’une vanille bien nette.",
       "description": "Une base maison précise pour obtenir des beignets de banane croustillants à l'extérieur, moelleux au centre, avec une vanille bien tenue.",
       "category": "Desserts",
       "difficulty": {
@@ -3050,8 +3058,12 @@
           }
         ]
       },
-      "tags": [],
-      "collections": [],
+      "tags": [
+
+      ],
+      "collections": [
+
+      ],
       "products": [
         {
           "handle": "vanille-bourbon-madagascar-3-gousses"
@@ -3063,7 +3075,9 @@
           "handle": "extrait-vanille-bourbon-madagascar-20ml"
         }
       ],
-      "sources": []
+      "sources": [
+
+      ]
     },
     {
       "slug": "accords-vanille-salee",
@@ -3226,10 +3240,18 @@
           }
         ]
       },
-      "tags": [],
-      "collections": [],
-      "products": [],
-      "sources": []
+      "tags": [
+
+      ],
+      "collections": [
+
+      ],
+      "products": [
+
+      ],
+      "sources": [
+
+      ]
     }
   ]
 }
