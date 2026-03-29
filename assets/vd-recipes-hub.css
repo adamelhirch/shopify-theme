@@ -504,6 +504,7 @@
   display: grid;
   gap: 0.8rem;
   max-width: 75%;
+  align-content: end;
 }
 
 .vd-recipes-hub__card-placeholder span {
@@ -519,6 +520,14 @@
   font-size: clamp(2.2rem, 2.8vw, 3.4rem);
   line-height: 0.98;
   text-wrap: balance;
+}
+
+.vd-recipes-hub__card-placeholder p {
+  margin: 0;
+  color: rgba(var(--vd-white), 0.82);
+  font-size: 1.55rem;
+  line-height: 1.45;
+  max-width: 34rem;
 }
 
 .vd-recipes-hub__card-badges {

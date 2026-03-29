@@ -298,6 +298,14 @@
     return escapeHtml(recipe.summary || recipe.subtitle || '');
   }
 
+  function placeholderEyebrow(recipe) {
+    return escapeHtml(recipe.eyebrow || recipe.category || 'Recette');
+  }
+
+  function placeholderLine(recipe) {
+    return escapeHtml((recipe.hero && recipe.hero.ambient_label) || recipe.subtitle || recipe.summary || '');
+  }
+
   function buildMiniCard(recipe, heroOverrides, modifier) {
     var heroOverride = heroOverrides && heroOverrides[recipe.slug];
     var cover = (heroOverride && heroOverride.image_url) || (recipe.hero && recipe.hero.image_url);
@@ -338,7 +346,13 @@
     var mediaClass = 'vd-recipes-hub__card-media' + (cover ? '' : ' is-placeholder');
     var placeholder = cover
       ? ''
-      : '<div class="vd-recipes-hub__card-placeholder"><span>Photo recette à ajouter</span><strong>' + escapeHtml(recipe.title) + '</strong></div>';
+      : (
+        '<div class="vd-recipes-hub__card-placeholder">' +
+          '<span>' + placeholderEyebrow(recipe) + '</span>' +
+          '<strong>' + escapeHtml(recipe.title) + '</strong>' +
+          '<p>' + placeholderLine(recipe) + '</p>' +
+        '</div>'
+      );
 
     return (
       '<article class="vd-recipes-hub__card" data-vd-recipe-card data-slug="' + escapeHtml(recipe.slug || '') + '" data-search="' + escapeHtml(search) + '" data-access="' + escapeHtml(recipe.access || 'free') + '" data-difficulty="' + escapeHtml((recipe.difficulty && recipe.difficulty.value) || 'all') + '" data-collections="' + escapeHtml(collections) + '" data-total-minutes="' + escapeHtml(String(totalMinutes)) + '" data-ingredients="' + escapeHtml(ingredients) + '" data-products="' + escapeHtml(productHandles) + '">' +
@@ -360,7 +374,7 @@
         '<div class="vd-recipes-hub__card-footer">' +
           '<span class="vd-recipes-hub__card-state">' + escapeHtml(recipe.subtitle || '') + '</span>' +
           '<span class="vd-recipes-hub__card-actions">' +
-            '<button type="button" class="vd-recipes-hub__favorite' + (isFavorite ? ' is-active' : '') + '" data-vd-recipe-favorite-toggle data-slug="' + escapeHtml(recipe.slug || '') + '" aria-label="Ajouter aux favoris">' + (isFavorite ? 'Favori' : 'Sauvegarder') + '</button>' +
+            '<button type="button" class="vd-recipes-hub__favorite' + (isFavorite ? ' is-active' : '') + '" data-vd-recipe-favorite-toggle data-slug="' + escapeHtml(recipe.slug || '') + '" aria-label="Ajouter au carnet">' + (isFavorite ? 'Gardée' : 'Garder') + '</button>' +
             '<a class="vd-recipes-hub__card-cta" href="' + escapeHtml(recipeHref(recipe)) + '">Ouvrir</a>' +
           '</span>' +
         '</div>' +
@@ -646,7 +660,7 @@
         saveJSON('vd-recipes-favorites', store);
 
         button.classList.toggle('is-active', index === -1);
-        button.textContent = index === -1 ? 'Favori' : 'Sauvegarder';
+        button.textContent = index === -1 ? 'Gardée' : 'Garder';
         syncShelfState(shelfClient);
         buildPersonalRails(section, recipes, heroOverrides);
         applyFilters(section, state);
