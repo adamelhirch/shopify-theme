@@ -285,6 +285,9 @@ Pilotage batch Shopify:
 
 ```bash
 curl -H "X-VD-Token: change-me" \
+  http://127.0.0.1:4567/shopify/setup-status
+
+curl -H "X-VD-Token: change-me" \
   http://127.0.0.1:4567/publishing/shopify/status
 
 curl -X POST \
@@ -295,6 +298,13 @@ curl -X POST \
 ```
 
 Le mode `missing` publie uniquement les recettes approuvees qui n'ont pas encore de page Shopify dediee.
+
+`GET /shopify/setup-status` donne la check-list Shopify complete:
+
+- variables d'environnement encore manquantes
+- etat de la publication Shopify
+- etat de l'app proxy
+- prochaines etapes pour finaliser la boucle reelle
 
 Pilotage preview QA:
 

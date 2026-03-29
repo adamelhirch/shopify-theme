@@ -343,6 +343,45 @@ def shopify_publishing_status_payload
   }
 end
 
+def shopify_setup_status_payload
+  env_checks = [
+    {
+      key: 'VD_RECIPES_SHOPIFY_STORE',
+      fallback: 'SHOPIFY_STORE',
+      present: !(ENV['VD_RECIPES_SHOPIFY_STORE'] || ENV['SHOPIFY_STORE']).to_s.strip.empty?,
+      purpose: 'Cible la boutique Shopify a publier.'
+    },
+    {
+      key: 'VD_RECIPES_SHOPIFY_ADMIN_TOKEN',
+      fallback: 'SHOPIFY_ADMIN_ACCESS_TOKEN',
+      present: !(ENV['VD_RECIPES_SHOPIFY_ADMIN_TOKEN'] || ENV['SHOPIFY_ADMIN_ACCESS_TOKEN']).to_s.strip.empty?,
+      purpose: 'Autorise la creation et la mise a jour des pages Shopify.'
+    },
+    {
+      key: 'VD_RECIPES_SHOPIFY_API_SECRET',
+      fallback: 'SHOPIFY_API_SECRET',
+      present: !(ENV['VD_RECIPES_SHOPIFY_API_SECRET'] || ENV['SHOPIFY_API_SECRET']).to_s.strip.empty?,
+      purpose: 'Signe et verifie le vrai app proxy Shopify.'
+    }
+  ]
+
+  publishing = shopify_publishing_status_payload
+  app_proxy = app_proxy_config_payload
+
+  {
+    ok: env_checks.all? { |entry| entry[:present] } && publishing[:configured] && app_proxy[:configured],
+    env: env_checks,
+    publishing: publishing,
+    app_proxy: app_proxy,
+    next_steps: [
+      'Renseigner les 3 variables Shopify dans le .env local du recipes-service.',
+      'Verifier ensuite GET /shopify/setup-status et GET /publishing/shopify/status.',
+      'Configurer le vrai App proxy Shopify avec le sous-chemin recommande.',
+      'Lancer enfin la publication batch des pages recette encore manquantes.'
+    ]
+  }
+end
+
 def html_escape(value)
   CGI.escapeHTML(value.to_s)
 end
@@ -1524,6 +1563,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   customer_shelf_ready = SHOPIFY_CUSTOMER_SHELF.configuration_errors.empty?
   app_proxy_ready = SHOPIFY_APP_PROXY_AUTH.configuration_errors.empty?
   app_proxy_config = app_proxy_config_payload
+  shopify_setup = shopify_setup_status_payload
   editorial_checks = [
     ['Identite', recipe['title'].to_s.strip != '' && recipe['slug'].to_s.strip != ''],
     ['Hero', recipe.dig('hero', 'video_url').to_s.strip != '' || recipe.dig('hero', 'image_url').to_s.strip != ''],
@@ -2680,6 +2720,13 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                 <p>#{shopify_ready ? "Configuree pour #{html_escape(SHOPIFY_PUBLISHER.shop_domain)} (API #{html_escape(SHOPIFY_PUBLISHER.api_version)})" : html_escape(shopify_errors.join(' · '))}</p>
               </article>
               <article class="card">
+                <strong>Assistant de configuration</strong>
+                <p>#{shopify_setup[:ok] ? 'Le service est pret pour la publication Shopify et le carnet client persistant.' : 'Il reste une configuration Shopify a finaliser avant la publication reelle et la synchro carnet au clic.'}</p>
+                <div class="helper">Etat global: <strong>#{shopify_setup[:ok] ? 'pret' : 'a terminer'}</strong></div>
+                <div class="helper">App proxy cible: <code>#{html_escape(shopify_setup.dig(:app_proxy, :proxy_path))}</code></div>
+                <div class="helper">Verification JSON: <code>GET /shopify/setup-status</code> · <code>GET /publishing/shopify/status</code></div>
+              </article>
+              <article class="card">
                 <strong>Pages recette manquantes</strong>
                 <p>#{shopify_missing_pages.length} recette#{shopify_missing_pages.length > 1 ? 's' : ''} approuvee#{shopify_missing_pages.length > 1 ? 's' : ''} sans page Shopify dediee.</p>
                 <div class="editor-actions">
@@ -2695,6 +2742,14 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                   </form>
                 </div>
               </article>
+              <article class="card">
+                <strong>Variables attendues</strong>
+                <ul style="margin:0; padding-left:18px;">
+                  #{shopify_setup[:env].map { |entry|
+                    "<li><code>#{html_escape(entry[:key])}</code>#{entry[:fallback].to_s.empty? ? '' : " ou <code>#{html_escape(entry[:fallback])}</code>"} · <strong>#{entry[:present] ? 'OK' : 'manquante'}</strong><br><span class=\"helper\">#{html_escape(entry[:purpose])}</span></li>"
+                  }.join}
+                </ul>
+              </article>
               #{recipe['slug'] ? <<~SHOPIFY : '<article class="card"><p>Creez d abord la recette pour publier sa page Shopify dediee.</p></article>'}
                 <article class="card">
                   <strong>Derniere page synchronisee</strong>
@@ -2704,6 +2759,18 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
               <article class="card">
                 <strong>Preview de relecture active</strong>
                 <p>#{preview_ready ? "#{html_escape(preview_target[:name])} · <code>#{html_escape(preview_target[:preview_url])}</code>" : html_escape(preview_target[:error] || 'Preview non resolue')}</p>
+              </article>
+            </div>
+            <div class="stack" style="margin-top:16px;">
+              <article class="card">
+                <strong>Check-list Shopify</strong>
+                <ol style="margin:0; padding-left:18px;">
+                  #{shopify_setup[:next_steps].map { |step| "<li>#{html_escape(step)}</li>" }.join}
+                </ol>
+              </article>
+              <article class="card">
+                <strong>Recettes encore sans page dediee</strong>
+                #{shopify_missing_pages.empty? ? '<p>Toutes les recettes approuvees ont deja une page Shopify dediee.</p>' : "<table><thead><tr><th>Slug</th><th>Titre</th><th>Acces</th><th>URL actuelle</th></tr></thead><tbody>#{shopify_missing_pages.first(10).map { |entry| "<tr><td><code>#{html_escape(entry['slug'])}</code></td><td>#{html_escape(entry['title'])}</td><td>#{html_escape(entry['access'])}</td><td>#{entry['page_url'].to_s.strip.empty? ? '<span class=\"muted\">fallback hub</span>' : "<code>#{html_escape(entry['page_url'])}</code>"}</td></tr>" }.join}</tbody></table>"}
               </article>
             </div>
           </section>
@@ -2739,6 +2806,7 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
               <article class="card"><strong>Recherche / filtres</strong><p><code>GET /recipes?status=pending&amp;q=vanille&amp;access=member</code> · <code>GET /admin/login</code></p></article>
               <article class="card"><strong>Historique d'une recette</strong><p><code>GET /recipes/:slug/history</code></p></article>
               <article class="card"><strong>Publication Shopify</strong><p><code>POST /recipes/:slug/publish-shopify</code> avec header <code>X-VD-Token</code></p></article>
+              <article class="card"><strong>Setup Shopify</strong><p><code>GET /shopify/setup-status</code> · <code>GET /shopify/app-proxy/config</code></p></article>
               <article class="card"><strong>Sync preview</strong><p><code>POST /theme/sync-preview</code> avec header <code>X-VD-Token</code></p></article>
               <article class="card"><strong>Export public</strong><p><code>POST /exports/registry</code> avec header <code>X-VD-Token</code> ou <code>Authorization: Bearer ...</code></p></article>
             </div>
@@ -3096,6 +3164,18 @@ server.mount_proc '/publishing/shopify/status' do |request, response|
   next unless actor
 
   json_response(response, 200, shopify_publishing_status_payload)
+end
+
+server.mount_proc '/shopify/setup-status' do |request, response|
+  if request.request_method != 'GET'
+    json_response(response, 405, { error: 'method_not_allowed' })
+    next
+  end
+
+  actor = require_permission!(request, response, 'recipes:publish')
+  next unless actor
+
+  json_response(response, 200, shopify_setup_status_payload)
 end
 
 server.mount_proc '/dashboard' do |_request, response|
