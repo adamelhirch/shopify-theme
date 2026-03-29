@@ -7877,6 +7877,514 @@
       "revisions": [
 
       ]
+    },
+    {
+      "slug": "riz-lait-vanille-agrumes",
+      "status": "approved",
+      "access": "free",
+      "title": "Riz au lait vanille agrumes",
+      "page_url": "",
+      "eyebrow": "Recette facile",
+      "subtitle": "Une crème douce, une vanille ronde et une touche d’agrume pour alléger la finale.",
+      "summary": "Un riz au lait crémeux à la vanille, relevé de zestes d’agrumes pour un dessert très simple et très propre.",
+      "description": "Une cuisson douce, un vrai parfum de vanille et juste assez d’agrume pour garder le dessert léger, même servi froid.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "15 min",
+        "cook": "40 min",
+        "rest": "20 min",
+        "total": "1 h 15"
+      },
+      "serves": 6,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Dessert maison"
+      },
+      "search_terms": [
+        "riz au lait vanille",
+        "riz au lait citron",
+        "dessert vanille facile",
+        "riz pudding vanille"
+      ],
+      "tags": [
+        "dessert",
+        "riz au lait",
+        "vanille",
+        "agrumes",
+        "recette facile"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "desserts-a-la-vanille"
+      ],
+      "product": {
+        "handle": "vanille-bourbon-madagascar-3-gousses",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "vanille-bourbon-madagascar-3-gousses",
+          "sucre-vanille-bourbon-madagascar-60g",
+          "caviar-vanille-bourbon-madagascar-20g"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la sélection",
+        "note": "La gousse porte l’infusion, le sucre vanillé aide l’équilibre, et le caviar peut signer la finition au moment du service.",
+        "bundle_title": "La sélection pour un riz au lait très net.",
+        "bundle_summary": "Infusion, douceur et finition pour garder un dessert crémeux, régulier et très agréable à servir."
+      },
+      "products": [
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "infusion",
+          "selection_label": "Ajouter en infusion"
+        },
+        {
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
+        },
+        {
+          "handle": "caviar-vanille-bourbon-madagascar-20g",
+          "role": "signature",
+          "selection_label": "Garder dans la sélection"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Base crémeuse",
+          "items": [
+            {
+              "id": "riz",
+              "quantity": "180",
+              "unit": "g",
+              "name": "riz rond à dessert",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "lait",
+              "quantity": "900",
+              "unit": "ml",
+              "name": "lait entier",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "creme",
+              "quantity": "150",
+              "unit": "ml",
+              "name": "crème liquide entière",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "sucre",
+              "quantity": "90",
+              "unit": "g",
+              "name": "sucre",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "unit": "",
+              "name": "gousse de vanille Bourbon",
+              "scalable": true,
+              "badge": "Produit VD"
+            },
+            {
+              "id": "orange",
+              "quantity": "1",
+              "unit": "",
+              "name": "orange non traitée",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "citron",
+              "quantity": "1",
+              "unit": "",
+              "name": "citron non traité",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "sel",
+              "quantity": "1",
+              "unit": "pincée",
+              "name": "sel fin",
+              "scalable": false,
+              "badge": ""
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "infuser",
+          "title": "Chauffer le lait avec la vanille",
+          "duration": "8 min",
+          "highlight": "Infusion",
+          "body": "Faites chauffer le lait et la crème avec la gousse fendue, ses graines et quelques zestes d’orange et de citron."
+        },
+        {
+          "id": "cuire",
+          "title": "Cuire le riz doucement",
+          "duration": "30 min",
+          "highlight": "Cuisson",
+          "body": "Ajoutez le riz et laissez cuire à feu doux en remuant régulièrement jusqu’à obtenir une texture souple et crémeuse."
+        },
+        {
+          "id": "ajuster",
+          "title": "Sucrer et ajuster la texture",
+          "duration": "5 min",
+          "highlight": "Texture",
+          "body": "Ajoutez le sucre et une pincée de sel en fin de cuisson, puis ajustez avec un peu de lait si besoin."
+        },
+        {
+          "id": "servir",
+          "title": "Finir et servir",
+          "duration": "2 min",
+          "highlight": "Service",
+          "body": "Servez tiède ou froid avec un peu de sucre vanillé et, si vous le souhaitez, une pointe de caviar vanille."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Cuisson",
+          "body": "Gardez une cuisson douce pour éviter qu’une peau épaisse ou un goût trop cuit ne prenne le dessus."
+        },
+        {
+          "title": "Finition",
+          "body": "Les agrumes doivent juste réveiller le dessert, jamais couvrir la vanille."
+        }
+      ],
+      "seo": {
+        "title": "Riz au lait vanille agrumes | Vanille Désiré",
+        "description": "Recette de riz au lait à la vanille et aux agrumes, crémeux, simple et très agréable à servir tiède ou froid.",
+        "keywords": [
+          "riz au lait vanille",
+          "dessert vanille facile",
+          "riz au lait agrumes",
+          "riz pudding maison"
+        ],
+        "body_sections": [
+          {
+            "title": "Ce qui fait l’équilibre",
+            "body": "La vanille apporte le fond, les zestes éclairent le dessert et le riz garde une texture douce, simple et très rassurante."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Ne poussez pas trop la cuisson et ne forcez pas sur les agrumes. Le dessert doit rester rond, crémeux et très lisible."
+          },
+          {
+            "title": "Service",
+            "body": "Servez tiède, frais ou bien refroidi, avec une finition légère pour garder une lecture nette de la vanille."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on le faire la veille ?",
+            "answer": "Oui, il se tient très bien au frais et peut être détendu avec un peu de lait avant service."
+          },
+          {
+            "question": "Peut-on supprimer la crème ?",
+            "answer": "Oui, mais la crème aide à garder un résultat plus rond et plus soyeux."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Rice with Milk (Arroz con Leche)",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Rice_with_Milk_(Arroz_con_Leche)",
+          "license": "CC BY-SA 4.0",
+          "note": "Base ouverte adaptée avec vraie infusion vanille et une finition agrumes plus légère."
+        },
+        {
+          "title": "Great British Chefs: Vanilla rice pudding with poached pears",
+          "url": "https://www.greatbritishchefs.com/recipes/rice-pudding-pears-recipe",
+          "license": "",
+          "note": "Référence technique utilisée pour confirmer la cuisson progressive, la texture soyeuse et le service soigné."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-29T13:00:00Z",
+      "created_at": "2026-03-29T13:00:00Z",
+      "updated_at": "2026-03-29T13:00:00Z",
+      "validated_at": "2026-03-29T13:00:00Z",
+      "validated_by": "VD Editorial Studio",
+      "moderation_notes": [
+
+      ],
+      "revisions": [
+
+      ]
+    },
+    {
+      "slug": "volaille-rotie-vanille-jus-court",
+      "status": "approved",
+      "access": "member",
+      "title": "Volaille rôtie vanille et jus court",
+      "page_url": "",
+      "eyebrow": "Recette signature",
+      "subtitle": "Une peau bien rôtie, un jus court brillant et une vanille discrète qui reste du côté de la cuisine.",
+      "summary": "Une volaille rôtie simplement, servie avec un jus court à la vanille pour une assiette nette, généreuse et très maison.",
+      "description": "La cuisson reste classique pour garder une vraie lisibilité du geste, puis la vanille entre dans le jus à petite dose pour donner plus de longueur sans sucrer le plat.",
+      "category": "Sale",
+      "difficulty": {
+        "value": "signature",
+        "label": "Signature"
+      },
+      "timing": {
+        "prep": "20 min",
+        "cook": "1 h 10",
+        "rest": "15 min",
+        "total": "1 h 45"
+      },
+      "serves": 4,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Table maison"
+      },
+      "search_terms": [
+        "volaille vanille",
+        "poulet rôti vanille",
+        "jus court vanille",
+        "recette salée vanille"
+      ],
+      "tags": [
+        "salé",
+        "volaille",
+        "vanille",
+        "plat signature",
+        "compte client"
+      ],
+      "collections": [
+        "recettes-premium",
+        "vanille-salée"
+      ],
+      "product": {
+        "handle": "vanille-bourbon-madagascar-3-gousses",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "vanille-bourbon-madagascar-3-gousses",
+          "poivre-sauvage-voatsiperifery-sachet-50g-madagascar",
+          "extrait-vanille-bourbon-madagascar-20ml"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la sélection",
+        "note": "La gousse porte le jus, le poivre sauvage réveille la finition et l’extrait peut aider à corriger très légèrement en sortie de feu.",
+        "bundle_title": "La sélection pour une volaille rôtie de maison.",
+        "bundle_summary": "Un trio précis pour garder une peau bien rôtie, un jus brillant et une vanille discrète mais réelle."
+      },
+      "products": [
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "infusion",
+          "selection_label": "Ajouter en infusion"
+        },
+        {
+          "handle": "poivre-sauvage-voatsiperifery-sachet-50g-madagascar",
+          "role": "signature",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "extrait-vanille-bourbon-madagascar-20ml",
+          "role": "ajustement",
+          "selection_label": "Ajouter en finition"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Volaille et jus",
+          "items": [
+            {
+              "id": "volaille",
+              "quantity": "1",
+              "unit": "",
+              "name": "petit poulet fermier",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "beurre",
+              "quantity": "40",
+              "unit": "g",
+              "name": "beurre",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "huile",
+              "quantity": "1",
+              "unit": "c. à soupe",
+              "name": "huile neutre",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "echalote",
+              "quantity": "2",
+              "unit": "",
+              "name": "échalotes",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "bouillon",
+              "quantity": "20",
+              "unit": "cl",
+              "name": "bouillon de volaille",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "unit": "",
+              "name": "gousse de vanille Bourbon",
+              "scalable": true,
+              "badge": "Produit VD"
+            },
+            {
+              "id": "poivre",
+              "quantity": "4",
+              "unit": "pincées",
+              "name": "poivre sauvage",
+              "scalable": false,
+              "badge": "Produit VD"
+            },
+            {
+              "id": "sel",
+              "quantity": "1",
+              "unit": "c. à café",
+              "name": "sel fin",
+              "scalable": false,
+              "badge": ""
+            },
+            {
+              "id": "citron",
+              "quantity": "0.5",
+              "unit": "",
+              "name": "citron",
+              "scalable": true,
+              "badge": ""
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "assaisonner",
+          "title": "Assaisonner la volaille",
+          "duration": "10 min",
+          "highlight": "Base",
+          "body": "Salez la volaille, huilez-la légèrement et laissez-la revenir à température ambiante pendant que le four chauffe."
+        },
+        {
+          "id": "rotir",
+          "title": "Rôtir jusqu’à peau dorée",
+          "duration": "1 h",
+          "highlight": "Four",
+          "body": "Faites rôtir la volaille jusqu’à ce que la peau soit bien colorée et que le jus qui s’écoule soit clair."
+        },
+        {
+          "id": "jus",
+          "title": "Monter le jus court",
+          "duration": "12 min",
+          "highlight": "Sauce",
+          "body": "Faites suer les échalotes, déglacez au bouillon, ajoutez la gousse de vanille et réduisez pour obtenir un jus court, brillant et net."
+        },
+        {
+          "id": "servir",
+          "title": "Laisser reposer puis servir",
+          "duration": "15 min",
+          "highlight": "Service",
+          "body": "Laissez reposer la volaille avant de la découper, puis nappez légèrement avec le jus et finissez au poivre sauvage."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Vanille",
+          "body": "La vanille ne doit jamais dominer le jus. Travaillez-la comme une note de fond, pas comme une saveur principale."
+        },
+        {
+          "title": "Jus",
+          "body": "Gardez un jus court, pas une sauce lourde. C’est ce qui maintient le plat élégant."
+        }
+      ],
+      "seo": {
+        "title": "Volaille rôtie vanille et jus court | Vanille Désiré",
+        "description": "Recette de volaille rôtie à la vanille avec jus court, pour découvrir une lecture salée nette, généreuse et très élégante.",
+        "keywords": [
+          "volaille vanille",
+          "poulet rôti vanille",
+          "jus court vanille",
+          "recette salée signature"
+        ],
+        "body_sections": [
+          {
+            "title": "Pourquoi cette recette reste juste",
+            "body": "La cuisson de la volaille reste classique. Toute la différence vient du jus, où la vanille apporte seulement de la longueur et plus de relief."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Ne faites pas un jus trop réduit, ni trop parfumé. Le plat doit rester salé, clair et très lisible à table."
+          },
+          {
+            "title": "Service",
+            "body": "Servez avec des légumes rôtis, une purée courte ou quelques pommes de terre grenailles pour garder un ensemble simple."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on utiliser seulement de l’extrait ?",
+            "answer": "Oui, mais à très petite dose. La gousse donne un résultat plus fin et plus stable dans le jus."
+          },
+          {
+            "question": "La recette marche-t-elle avec des suprêmes ?",
+            "answer": "Oui, mais il faudra raccourcir la cuisson et surveiller encore plus la jutosité."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Roast Chicken",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Roast_Chicken",
+          "license": "CC BY-SA 4.0",
+          "note": "Base ouverte utilisée pour la cuisson de la volaille entière et les repères de repos."
+        },
+        {
+          "title": "Great British Chefs: Roast chicken with cider and sage by Martin Wishart",
+          "url": "https://www.greatbritishchefs.com/recipes/roast-chicken-recipe-cider-sage",
+          "license": "",
+          "note": "Référence technique pour l’idée de jus de cuisson court, la gestion du rôtissage et le service d’une volaille maison plus soignée."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-29T13:00:00Z",
+      "created_at": "2026-03-29T13:00:00Z",
+      "updated_at": "2026-03-29T13:00:00Z",
+      "validated_at": "2026-03-29T13:00:00Z",
+      "validated_by": "VD Editorial Studio",
+      "moderation_notes": [
+
+      ],
+      "revisions": [
+
+      ]
     }
   ],
   "audit_log": [
@@ -8070,6 +8578,36 @@
       "id": "5d9b0c8300680c34",
       "event": "recipe_status_changed",
       "at": "2026-03-29T12:00:00Z"
+    },
+    {
+      "slug": "riz-lait-vanille-agrumes",
+      "actor": "VD Editorial Studio",
+      "id": "e5eeda9528e2fb3f",
+      "event": "recipe_created",
+      "at": "2026-03-29T13:00:00Z"
+    },
+    {
+      "slug": "riz-lait-vanille-agrumes",
+      "actor": "VD Editorial Studio",
+      "status": "approved",
+      "id": "b31a81f539b4321c",
+      "event": "recipe_status_changed",
+      "at": "2026-03-29T13:00:00Z"
+    },
+    {
+      "slug": "volaille-rotie-vanille-jus-court",
+      "actor": "VD Editorial Studio",
+      "id": "f0d593589851f0c4",
+      "event": "recipe_created",
+      "at": "2026-03-29T13:00:00Z"
+    },
+    {
+      "slug": "volaille-rotie-vanille-jus-court",
+      "actor": "VD Editorial Studio",
+      "status": "approved",
+      "id": "802b606c53456ed9",
+      "event": "recipe_status_changed",
+      "at": "2026-03-29T13:00:00Z"
     }
   ],
   "publications": [
