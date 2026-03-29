@@ -349,6 +349,22 @@
       });
   }
 
+  function selectedProductsFromShop(shop, fallbackProducts) {
+    var products = Array.isArray(fallbackProducts) ? fallbackProducts : [];
+    if (!shop) return products;
+
+    var selectedHandles = Array.prototype.slice.call(shop.querySelectorAll('[data-vd-recipe-product-select]'))
+      .filter(function (input) { return input.checked; })
+      .map(function (input) { return input.getAttribute('data-product-handle') || ''; })
+      .filter(Boolean);
+
+    if (!selectedHandles.length) return [];
+
+    return products.filter(function (product) {
+      return selectedHandles.indexOf(product.handle) !== -1;
+    });
+  }
+
   function loadState(storageKey, baseServes, stepTotal) {
     var state = {
       serves: baseServes,
@@ -876,6 +892,10 @@
         .map(function (product) {
           return (
             '<article class="vd-recipe-signature__product-card">' +
+              '<label class="vd-recipe-signature__product-select">' +
+                '<input type="checkbox" data-vd-recipe-product-select data-product-handle="' + escapeHtml(product.handle) + '"' + (product.available ? ' checked' : '') + (product.available ? '' : ' disabled') + '>' +
+                '<span>' + escapeHtml(product.available ? 'Inclure au panier' : 'Indisponible') + '</span>' +
+              '</label>' +
               '<a class="vd-recipe-signature__product-link" href="' + escapeHtml(product.url) + '">' +
                 (product.image ? '<div class="vd-recipe-signature__product-media"><img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.title) + '"></div>' : '') +
                 '<div class="vd-recipe-signature__product-copy">' +
@@ -915,7 +935,7 @@
 
     if (addButton) {
       addButton.addEventListener('click', function () {
-        addProductsToCart(section, shop.__vdRecipeProducts, addButton, {
+        addProductsToCart(section, selectedProductsFromShop(shop, shop.__vdRecipeProducts), addButton, {
           idle: 'Ajouter les produits au panier',
           loading: 'Ajout en cours',
           success: 'Voir le panier'
@@ -965,6 +985,7 @@
     var focusButton = section.querySelector('[data-vd-recipe-focus]');
     var fullscreenButton = section.querySelector('[data-vd-recipe-fullscreen]');
     var favoriteButton = section.querySelector('[data-vd-recipe-favorite]');
+    var shopPanel = section.querySelector('[data-vd-recipe-shop]');
     var shoppingTarget = section.querySelector('[data-vd-recipe-shopping-list]');
     var shoppingMeta = section.querySelector('[data-vd-recipe-shopping-meta]');
     var shoppingCopyButton = section.querySelector('[data-vd-recipe-shopping-copy]');
@@ -1612,7 +1633,7 @@
 
     if (shoppingAddButton) {
       shoppingAddButton.addEventListener('click', function () {
-        addProductsToCart(section, recipeProducts, shoppingAddButton, {
+        addProductsToCart(section, selectedProductsFromShop(shopPanel, recipeProducts), shoppingAddButton, {
           idle: 'Ajouter les produits utiles',
           loading: 'Ajout en cours',
           success: 'Voir le panier'

@@ -199,6 +199,36 @@ def publish_to_shopify(recipe, actor:, export_registry: false)
   }
 end
 
+def publish_many_to_shopify(recipes, actor:, export_registry: false)
+  successes = []
+  failures = []
+
+  Array(recipes).each do |recipe|
+    next unless recipe.is_a?(Hash) && recipe['slug'].to_s.strip != ''
+
+    begin
+      successes << publish_to_shopify(recipe, actor: actor, export_registry: false)
+    rescue StandardError => e
+      failures << {
+        'slug' => recipe['slug'],
+        'title' => recipe['title'],
+        'error' => e.message
+      }
+    end
+  end
+
+  export_result = export_registry && successes.any? ? run_export(actor) : nil
+
+  {
+    ok: failures.empty?,
+    published_count: successes.length,
+    failed_count: failures.length,
+    published: successes,
+    failed: failures,
+    export: export_result
+  }
+end
+
 def sync_customer_recipe_shelf(email:, favorites:, history:, actor:)
   SHOPIFY_CUSTOMER_SHELF.sync(
     email: email,
@@ -1464,6 +1494,9 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
   shopify_page = recipe['shopify_page'] || {}
   shopify_errors = SHOPIFY_PUBLISHER.configuration_errors
   shopify_ready = shopify_errors.empty?
+  shopify_missing_pages = approved.select do |entry|
+    entry.dig('shopify_page', 'id').to_s.strip.empty?
+  end
   customer_shelf_ready = SHOPIFY_CUSTOMER_SHELF.configuration_errors.empty?
   app_proxy_ready = SHOPIFY_APP_PROXY_AUTH.configuration_errors.empty?
   app_proxy_config = app_proxy_config_payload
@@ -2622,6 +2655,22 @@ def admin_dashboard(actor:, recipes:, selected_recipe:, filters:, flash:)
                 <strong>Etat de la connexion</strong>
                 <p>#{shopify_ready ? "Configuree pour #{html_escape(SHOPIFY_PUBLISHER.shop_domain)} (API #{html_escape(SHOPIFY_PUBLISHER.api_version)})" : html_escape(shopify_errors.join(' · '))}</p>
               </article>
+              <article class="card">
+                <strong>Pages recette manquantes</strong>
+                <p>#{shopify_missing_pages.length} recette#{shopify_missing_pages.length > 1 ? 's' : ''} approuvee#{shopify_missing_pages.length > 1 ? 's' : ''} sans page Shopify dediee.</p>
+                <div class="editor-actions">
+                  <form method="post" action="/admin">
+                    <input type="hidden" name="action" value="publish_shopify_missing">
+                    <input type="hidden" name="recipe" value="#{html_escape(recipe['slug'])}">
+                    <button class="button-accent" type="submit">Publier les pages manquantes</button>
+                  </form>
+                  <form method="post" action="/admin">
+                    <input type="hidden" name="action" value="publish_shopify_missing_export">
+                    <input type="hidden" name="recipe" value="#{html_escape(recipe['slug'])}">
+                    <button class="button-light" type="submit">Publier puis exporter le registre</button>
+                  </form>
+                </div>
+              </article>
               #{recipe['slug'] ? <<~SHOPIFY : '<article class="card"><p>Creez d abord la recette pour publier sa page Shopify dediee.</p></article>'}
                 <article class="card">
                   <strong>Derniere page synchronisee</strong>
@@ -3195,6 +3244,21 @@ server.mount_proc '/admin' do |request, response|
       publication = publish_to_shopify(recipe, actor: reviewer)
       selected_slug = publication[:recipe]['slug']
       flash = admin_flash('success', "#{publication[:recipe]['title']} publie sur Shopify (#{publication[:shopify][:action]} #{publication[:shopify][:page_url]}).")
+    when 'publish_shopify_missing', 'publish_shopify_missing_export'
+      targets = STORE.by_status('approved').select do |entry|
+        entry.dig('shopify_page', 'id').to_s.strip.empty?
+      end
+      result = publish_many_to_shopify(
+        targets,
+        actor: reviewer,
+        export_registry: action == 'publish_shopify_missing_export'
+      )
+      flash =
+        if result[:failed_count].zero?
+          admin_flash('success', "#{result[:published_count]} page#{result[:published_count] > 1 ? 's' : ''} Shopify publiee#{result[:published_count] > 1 ? 's' : ''}.")
+        else
+          admin_flash('error', "#{result[:published_count]} publication#{result[:published_count] > 1 ? 's' : ''} reussie#{result[:published_count] > 1 ? 's' : ''}, #{result[:failed_count]} echec#{result[:failed_count] > 1 ? 's' : ''}.")
+        end
     when 'sync_customer_recipe_shelf'
       actor = require_permission!(request, response, 'customers:write')
       next unless actor
@@ -3540,6 +3604,39 @@ server.mount_proc '/theme/sync-preview' do |request, response|
 
   json_response(response, 200, PREVIEW_MANAGER.sync_latest_preview(repo_root: REPO_ROOT))
 rescue ArgumentError => e
+  json_response(response, 422, { error: e.message })
+end
+
+server.mount_proc '/publishing/shopify/batch' do |request, response|
+  if request.request_method != 'POST'
+    json_response(response, 405, { error: 'method_not_allowed' })
+    next
+  end
+
+  actor = require_permission!(request, response, 'recipes:publish')
+  next unless actor
+
+  payload = parse_body(request)
+  mode = payload['mode'].to_s.strip
+  export_registry = !!payload['export_registry']
+
+  recipes =
+    if mode == 'missing'
+      STORE.by_status('approved').select { |entry| entry.dig('shopify_page', 'id').to_s.strip.empty? }
+    else
+      Array(payload['slugs']).map { |slug| STORE.find(slug.to_s.strip) }.compact
+    end
+
+  json_response(
+    response,
+    200,
+    publish_many_to_shopify(
+      recipes,
+      actor: actor_name(request, actor),
+      export_registry: export_registry
+    )
+  )
+rescue ArgumentError, KeyError => e
   json_response(response, 422, { error: e.message })
 end
 
