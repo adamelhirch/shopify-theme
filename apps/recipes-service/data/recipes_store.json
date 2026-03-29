@@ -251,8 +251,12 @@
       "updated_at": "2026-03-28T13:29:36Z",
       "validated_at": "2026-03-28T13:29:36Z",
       "validated_by": "VD Editorial Studio",
-      "moderation_notes": [],
-      "revisions": []
+      "moderation_notes": [
+
+      ],
+      "revisions": [
+
+      ]
     },
     {
       "slug": "muffins-avoine-raisin-vanille",
@@ -490,8 +494,12 @@
       "updated_at": "2026-03-28T13:29:36Z",
       "validated_at": "2026-03-28T13:29:36Z",
       "validated_by": "VD Editorial Studio",
-      "moderation_notes": [],
-      "revisions": []
+      "moderation_notes": [
+
+      ],
+      "revisions": [
+
+      ]
     },
     {
       "slug": "pancakes-vanille-sucre",
@@ -717,8 +725,12 @@
       "updated_at": "2026-03-28T13:29:36Z",
       "validated_at": "2026-03-28T13:29:36Z",
       "validated_by": "VD Editorial Studio",
-      "moderation_notes": [],
-      "revisions": []
+      "moderation_notes": [
+
+      ],
+      "revisions": [
+
+      ]
     },
     {
       "slug": "beignet-banane",
@@ -955,12 +967,20 @@
           }
         ]
       },
-      "revisions": [],
-      "moderation_notes": [],
+      "revisions": [
+
+      ],
+      "moderation_notes": [
+
+      ],
       "created_at": "2026-03-27T12:00:00Z",
       "updated_at": "2026-03-27T12:30:00Z",
-      "tags": [],
-      "collections": [],
+      "tags": [
+
+      ],
+      "collections": [
+
+      ],
       "products": [
         {
           "handle": "vanille-bourbon-madagascar-3-gousses"
@@ -1136,13 +1156,23 @@
           }
         ]
       },
-      "revisions": [],
-      "moderation_notes": [],
+      "revisions": [
+
+      ],
+      "moderation_notes": [
+
+      ],
       "created_at": "2026-03-27T12:10:00Z",
       "updated_at": "2026-03-27T12:20:00Z",
-      "tags": [],
-      "collections": [],
-      "products": []
+      "tags": [
+
+      ],
+      "collections": [
+
+      ],
+      "products": [
+
+      ]
     },
     {
       "slug": "riz-lait-tonka-vanille",
@@ -1544,7 +1574,9 @@
                 }
               ]
             },
-            "moderation_notes": [],
+            "moderation_notes": [
+
+            ],
             "created_at": "2026-03-27T13:00:00Z",
             "updated_at": "2026-03-28T11:01:08Z",
             "tags": [
@@ -2270,7 +2302,9 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": []
+            "moderation_notes": [
+
+            ]
           }
         },
         {
@@ -2481,7 +2515,9 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": []
+            "moderation_notes": [
+
+            ]
           }
         },
         {
@@ -3134,7 +3170,9 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": []
+            "moderation_notes": [
+
+            ]
           }
         },
         {
@@ -3346,7 +3384,9 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": []
+            "moderation_notes": [
+
+            ]
           }
         },
         {
@@ -3966,7 +4006,9 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": []
+            "moderation_notes": [
+
+            ]
           }
         },
         {
@@ -4165,7 +4207,9 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": []
+            "moderation_notes": [
+
+            ]
           }
         },
         {
@@ -4778,7 +4822,9 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": []
+            "moderation_notes": [
+
+            ]
           }
         },
         {
@@ -4980,7 +5026,9 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": []
+            "moderation_notes": [
+
+            ]
           }
         },
         {
@@ -5618,7 +5666,9 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": []
+            "moderation_notes": [
+
+            ]
           }
         },
         {
@@ -5831,7 +5881,9 @@
             "updated_at": "2026-03-28T11:01:08Z",
             "validated_at": null,
             "validated_by": null,
-            "moderation_notes": []
+            "moderation_notes": [
+
+            ]
           }
         },
         {
@@ -6295,8 +6347,12 @@
       "updated_at": "2026-03-28T13:16:27Z",
       "validated_at": "2026-03-28T13:16:27Z",
       "validated_by": "VD Editorial Studio",
-      "moderation_notes": [],
-      "revisions": []
+      "moderation_notes": [
+
+      ],
+      "revisions": [
+
+      ]
     },
     {
       "slug": "carrot-cake-vanille-cannelle",
@@ -6535,8 +6591,12 @@
       "updated_at": "2026-03-28T13:16:27Z",
       "validated_at": "2026-03-28T13:16:27Z",
       "validated_by": "VD Editorial Studio",
-      "moderation_notes": [],
-      "revisions": []
+      "moderation_notes": [
+
+      ],
+      "revisions": [
+
+      ]
     },
     {
       "slug": "genoise-vanille-levee",
@@ -6751,8 +6811,12 @@
       "updated_at": "2026-03-28T13:16:27Z",
       "validated_at": "2026-03-28T13:16:27Z",
       "validated_by": "VD Editorial Studio",
-      "moderation_notes": [],
-      "revisions": []
+      "moderation_notes": [
+
+      ],
+      "revisions": [
+
+      ]
     },
     {
       "slug": "gateau-ananas-renverse-vanille",
@@ -6980,8 +7044,730 @@
       "updated_at": "2026-03-28T13:16:27Z",
       "validated_at": "2026-03-28T13:16:27Z",
       "validated_by": "VD Editorial Studio",
-      "moderation_notes": [],
-      "revisions": []
+      "moderation_notes": [
+
+      ],
+      "revisions": [
+
+      ]
+    },
+    {
+      "slug": "madeleines-vanille-bourbon",
+      "status": "approved",
+      "access": "free",
+      "title": "Madeleines vanille Bourbon",
+      "page_url": "",
+      "eyebrow": "Recette facile",
+      "subtitle": "Une coque fine, un coeur moelleux et une vanille douce qui arrive dès la première bouchée.",
+      "summary": "Des madeleines dorées, légères et beurrées, parfumées à la vanille Bourbon pour le goûter ou le café.",
+      "description": "Une pâte simple, reposée juste ce qu’il faut, pour obtenir une madeleine souple, bien bombée et très agréable à refaire à la maison.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "20 min",
+        "cook": "10 min",
+        "rest": "30 min",
+        "total": "1 h"
+      },
+      "serves": 12,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Goûter maison"
+      },
+      "search_terms": [
+        "madeleines vanille",
+        "madeleine bourbon",
+        "gouter vanille",
+        "petit gateau vanille"
+      ],
+      "tags": [
+        "dessert",
+        "goûter",
+        "madeleine",
+        "vanille",
+        "recette facile"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "petits-dejeuners-a-la-vanille",
+        "desserts-a-la-vanille"
+      ],
+      "product": {
+        "handle": "vanille-bourbon-madagascar-3-gousses",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "vanille-bourbon-madagascar-3-gousses",
+          "sucre-vanille-bourbon-madagascar-60g"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la sélection",
+        "note": "La gousse donne la profondeur et le sucre vanillé aide à finir les madeleines encore tièdes."
+      },
+      "products": [
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "structure"
+        },
+        {
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Pâte à madeleines",
+          "items": [
+            {
+              "id": "oeufs",
+              "quantity": "3",
+              "unit": "",
+              "name": "oeufs",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "sucre",
+              "quantity": "120",
+              "unit": "g",
+              "name": "sucre",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "farine",
+              "quantity": "140",
+              "unit": "g",
+              "name": "farine",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "levure",
+              "quantity": "1",
+              "unit": "c. à café",
+              "name": "levure chimique",
+              "scalable": false,
+              "badge": ""
+            },
+            {
+              "id": "beurre",
+              "quantity": "130",
+              "unit": "g",
+              "name": "beurre fondu",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "unit": "",
+              "name": "gousse de vanille Bourbon",
+              "scalable": true,
+              "badge": "Produit VD"
+            },
+            {
+              "id": "sel",
+              "quantity": "1",
+              "unit": "pincée",
+              "name": "sel fin",
+              "scalable": false,
+              "badge": ""
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "fouetter",
+          "title": "Monter les oeufs et le sucre",
+          "duration": "6 min",
+          "highlight": "Base",
+          "body": "Fouettez les oeufs, le sucre et le sel jusqu’à obtenir une texture plus claire et mousseuse."
+        },
+        {
+          "id": "assembler",
+          "title": "Ajouter farine, levure et beurre",
+          "duration": "8 min",
+          "highlight": "Texture",
+          "body": "Incorporez la farine et la levure, puis versez le beurre fondu et les graines de vanille. Mélangez juste assez pour obtenir une pâte lisse."
+        },
+        {
+          "id": "reposer",
+          "title": "Laisser reposer la pâte",
+          "duration": "30 min",
+          "highlight": "Repos",
+          "body": "Placez la pâte au frais pour aider la bosse à se former à la cuisson."
+        },
+        {
+          "id": "cuire",
+          "title": "Cuire les madeleines",
+          "duration": "10 min",
+          "highlight": "Four",
+          "body": "Remplissez les moules aux trois quarts et cuisez jusqu’à obtenir des bords dorés et un centre souple."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Repos",
+          "body": "Même un repos court améliore le bombé et la tenue des madeleines."
+        },
+        {
+          "title": "Finition",
+          "body": "Un voile de sucre vanillé juste après cuisson garde un parfum net sans alourdir la pâte."
+        }
+      ],
+      "seo": {
+        "title": "Madeleines vanille Bourbon | Vanille Désiré",
+        "description": "Recette de madeleines à la vanille Bourbon, légères, beurrées et très simples à refaire pour le goûter.",
+        "keywords": [
+          "madeleines vanille",
+          "goûter vanille bourbon",
+          "petits gâteaux vanille",
+          "recette madeleine facile"
+        ],
+        "body_sections": [
+          {
+            "title": "Ce qui fait la différence",
+            "body": "La pâte reste simple, mais la vanille Bourbon apporte une vraie longueur et rend la madeleine plus gourmande sans la charger."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Ne remplissez pas trop les moules et ne poussez pas trop la cuisson. Une madeleine trop sèche perd tout son charme."
+          },
+          {
+            "title": "Service",
+            "body": "Servez-les tièdes ou le jour même avec un café, un thé ou un fruit frais."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on préparer la pâte la veille ?",
+            "answer": "Oui, la pâte peut reposer au frais plusieurs heures avant cuisson."
+          },
+          {
+            "question": "Faut-il absolument une gousse ?",
+            "answer": "La gousse donne le meilleur résultat, mais un bon sucre vanillé peut compléter la recette."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Madeleines",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Madeleines",
+          "license": "CC BY-SA 4.0",
+          "note": "Base ouverte adaptée avec vanille Bourbon et finition Vanille Désiré."
+        },
+        {
+          "title": "Great British Chefs: Madeleines by Tom Aikens",
+          "url": "https://www.greatbritishchefs.com/recipes/madeleines-recipe",
+          "license": "",
+          "note": "Référence technique utilisée pour confirmer la cuisson courte, la texture légère et le service tiède."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-29T12:00:00Z",
+      "created_at": "2026-03-29T12:00:00Z",
+      "updated_at": "2026-03-29T12:00:00Z",
+      "validated_at": "2026-03-29T12:00:00Z",
+      "validated_by": "VD Editorial Studio",
+      "moderation_notes": [
+
+      ],
+      "revisions": [
+
+      ]
+    },
+    {
+      "slug": "scones-vanille-sucre",
+      "status": "approved",
+      "access": "free",
+      "title": "Scones vanille et sucre vanillé",
+      "page_url": "",
+      "eyebrow": "Recette facile",
+      "subtitle": "Une mie tendre, une belle hauteur et une vanille douce qui accompagne la confiture sans la dominer.",
+      "summary": "Des scones dorés et moelleux, faciles à cuire pour le petit-déjeuner, le brunch ou le goûter.",
+      "description": "Une pâte courte, peu travaillée, pour obtenir des scones bien montés, encore meilleurs tièdes avec beurre, crème ou confiture.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "20 min",
+        "cook": "12 min",
+        "rest": "0 min",
+        "total": "32 min"
+      },
+      "serves": 8,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Brunch"
+      },
+      "search_terms": [
+        "scones vanille",
+        "brunch vanille",
+        "gouter vanille",
+        "scones faciles"
+      ],
+      "tags": [
+        "dessert",
+        "petit-déjeuner",
+        "scones",
+        "vanille",
+        "recette facile"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "petits-dejeuners-a-la-vanille"
+      ],
+      "product": {
+        "handle": "sucre-vanille-bourbon-madagascar-60g",
+        "collection_handle": "",
+        "required_handles": [
+          "sucre-vanille-bourbon-madagascar-60g",
+          "vanille-bourbon-madagascar-3-gousses"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la sélection",
+        "note": "Le sucre vanillé porte la pâte et la gousse aide à garder une vraie longueur aromatique."
+      },
+      "products": [
+        {
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "base aromatique"
+        },
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "signature"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Pâte à scones",
+          "items": [
+            {
+              "id": "farine",
+              "quantity": "300",
+              "unit": "g",
+              "name": "farine",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "levure",
+              "quantity": "2",
+              "unit": "c. à café",
+              "name": "levure chimique",
+              "scalable": false,
+              "badge": ""
+            },
+            {
+              "id": "sel",
+              "quantity": "1",
+              "unit": "pincée",
+              "name": "sel fin",
+              "scalable": false,
+              "badge": ""
+            },
+            {
+              "id": "sucre-vanille",
+              "quantity": "40",
+              "unit": "g",
+              "name": "sucre vanillé Bourbon",
+              "scalable": true,
+              "badge": "Produit VD"
+            },
+            {
+              "id": "beurre",
+              "quantity": "75",
+              "unit": "g",
+              "name": "beurre froid",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "oeuf",
+              "quantity": "1",
+              "unit": "",
+              "name": "oeuf",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "creme",
+              "quantity": "12",
+              "unit": "cl",
+              "name": "crème liquide entière",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "vanille",
+              "quantity": "0.5",
+              "unit": "",
+              "name": "gousse de vanille Bourbon",
+              "scalable": true,
+              "badge": "Produit VD"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "sabler",
+          "title": "Sabler la pâte",
+          "duration": "6 min",
+          "highlight": "Texture",
+          "body": "Mélangez farine, levure, sel et sucre vanillé, puis sablez avec le beurre froid du bout des doigts."
+        },
+        {
+          "id": "lier",
+          "title": "Ajouter l’oeuf, la crème et la vanille",
+          "duration": "5 min",
+          "highlight": "Pâte",
+          "body": "Ajoutez l’oeuf, la crème et les graines de vanille. Mélangez juste assez pour former une pâte souple."
+        },
+        {
+          "id": "decouper",
+          "title": "Former et détailler",
+          "duration": "6 min",
+          "highlight": "Forme",
+          "body": "Abaissez la pâte sans trop la travailler, puis détaillez des scones épais pour garder une belle hauteur."
+        },
+        {
+          "id": "cuire",
+          "title": "Cuire jusqu’à coloration",
+          "duration": "12 min",
+          "highlight": "Four",
+          "body": "Dorez légèrement à la crème et cuisez jusqu’à obtenir des scones gonflés et bien dorés."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Geste",
+          "body": "Travaillez peu la pâte pour garder une mie légère et friable."
+        },
+        {
+          "title": "Service",
+          "body": "Servez-les encore tièdes avec beurre, crème épaisse ou confiture légère."
+        }
+      ],
+      "seo": {
+        "title": "Scones vanille et sucre vanillé | Vanille Désiré",
+        "description": "Recette de scones à la vanille et au sucre vanillé, simple, rapide et parfaite pour le brunch ou le goûter.",
+        "keywords": [
+          "scones vanille",
+          "brunch vanille",
+          "sucre vanillé bourbon",
+          "recette scones facile"
+        ],
+        "body_sections": [
+          {
+            "title": "Ce que vous allez retrouver",
+            "body": "Des scones tendres et dorés, avec une vanille discrète mais très agréable, faciles à servir avec des accompagnements simples."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Une pâte trop travaillée ou trop humide donne des scones plats. Gardez un geste bref et une pâte encore souple."
+          },
+          {
+            "title": "Service",
+            "body": "Ils sont meilleurs le jour même, encore tièdes, avec une confiture de fruits rouges ou un peu de beurre salé."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on les préparer sans crème ?",
+            "answer": "Oui, mais la crème apporte une mie plus fondante et plus régulière."
+          },
+          {
+            "question": "Peut-on ajouter des raisins ?",
+            "answer": "Oui, en petite quantité pour garder la vanille bien lisible."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Plain Scones",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Plain_Scones",
+          "license": "CC BY-SA 4.0",
+          "note": "Base ouverte adaptée avec sucre vanillé et vanille Bourbon."
+        },
+        {
+          "title": "Great British Chefs: Fruit scones by William Drabble",
+          "url": "https://www.greatbritishchefs.com/recipes/fruit-scone-recipe",
+          "license": "",
+          "note": "Référence technique pour la texture, la hauteur et la cuisson courte des scones."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-29T12:00:00Z",
+      "created_at": "2026-03-29T12:00:00Z",
+      "updated_at": "2026-03-29T12:00:00Z",
+      "validated_at": "2026-03-29T12:00:00Z",
+      "validated_by": "VD Editorial Studio",
+      "moderation_notes": [
+
+      ],
+      "revisions": [
+
+      ]
+    },
+    {
+      "slug": "patate-douce-rotie-vanille-combava",
+      "status": "approved",
+      "access": "free",
+      "title": "Patate douce rôtie vanille combava",
+      "page_url": "",
+      "eyebrow": "Recette facile",
+      "subtitle": "Une chair fondante, des bords rôtis et une vanille fine qui reste du côté salé du plat.",
+      "summary": "Des patates douces rôties, relevées de vanille, de combava et d’épices douces, à servir en accompagnement ou en assiette légère.",
+      "description": "Une cuisson au four simple qui concentre le goût de la patate douce, puis une finition précise pour garder de la fraîcheur et du relief.",
+      "category": "Sale",
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "15 min",
+        "cook": "30 min",
+        "rest": "0 min",
+        "total": "45 min"
+      },
+      "serves": 4,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Cuisine salée"
+      },
+      "search_terms": [
+        "patate douce vanille",
+        "patate douce combava",
+        "vanille salée facile",
+        "accompagnement vanille"
+      ],
+      "tags": [
+        "salé",
+        "patate douce",
+        "vanille",
+        "combava",
+        "recette facile"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "vanille-salée"
+      ],
+      "product": {
+        "handle": "poudre-combava-sauvage-madagascar-20g",
+        "collection_handle": "",
+        "required_handles": [
+          "poudre-combava-sauvage-madagascar-20g",
+          "vanille-bourbon-madagascar-3-gousses",
+          "cannelle-madagascar-pot-verre-40g"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la sélection",
+        "note": "La vanille arrondit la patate douce, le combava garde l’assiette vive et la cannelle reste en fond."
+      },
+      "products": [
+        {
+          "handle": "poudre-combava-sauvage-madagascar-20g",
+          "role": "finition"
+        },
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "structure"
+        },
+        {
+          "handle": "cannelle-madagascar-pot-verre-40g",
+          "role": "épice douce"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Légumes rôtis",
+          "items": [
+            {
+              "id": "patate-douce",
+              "quantity": "900",
+              "unit": "g",
+              "name": "patates douces",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "huile",
+              "quantity": "3",
+              "unit": "c. à soupe",
+              "name": "huile neutre",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "unit": "",
+              "name": "gousse de vanille Bourbon",
+              "scalable": true,
+              "badge": "Produit VD"
+            },
+            {
+              "id": "combava",
+              "quantity": "0.5",
+              "unit": "c. à café",
+              "name": "poudre de combava",
+              "scalable": false,
+              "badge": "Produit VD"
+            },
+            {
+              "id": "cannelle",
+              "quantity": "0.25",
+              "unit": "c. à café",
+              "name": "cannelle de Madagascar",
+              "scalable": false,
+              "badge": "Produit VD"
+            },
+            {
+              "id": "sel",
+              "quantity": "1",
+              "unit": "c. à café",
+              "name": "sel fin",
+              "scalable": false,
+              "badge": ""
+            },
+            {
+              "id": "poivre",
+              "quantity": "2",
+              "unit": "pincées",
+              "name": "poivre noir",
+              "scalable": false,
+              "badge": ""
+            },
+            {
+              "id": "orange",
+              "quantity": "1",
+              "unit": "",
+              "name": "orange non traitée",
+              "scalable": true,
+              "badge": ""
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "tailler",
+          "title": "Préparer les patates douces",
+          "duration": "8 min",
+          "highlight": "Base",
+          "body": "Pelez et coupez les patates douces en quartiers ou en gros cubes pour garder du fondant après cuisson."
+        },
+        {
+          "id": "assaisonner",
+          "title": "Ajouter vanille, huile et épices",
+          "duration": "5 min",
+          "highlight": "Assaisonnement",
+          "body": "Mélangez l’huile avec les graines de vanille, une pointe de cannelle, le sel et le poivre, puis enrobez les morceaux."
+        },
+        {
+          "id": "rotir",
+          "title": "Rôtir jusqu’à caramélisation",
+          "duration": "30 min",
+          "highlight": "Four",
+          "body": "Faites rôtir en remuant une fois pour obtenir des bords bien colorés et un coeur fondant."
+        },
+        {
+          "id": "finir",
+          "title": "Finir au combava et au zeste",
+          "duration": "2 min",
+          "highlight": "Finition",
+          "body": "Ajoutez le combava et un peu de zeste d’orange juste avant de servir pour garder la fraîcheur."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Dosage",
+          "body": "Gardez la vanille légère : elle doit accompagner le légume, pas le faire basculer côté dessert."
+        },
+        {
+          "title": "Service",
+          "body": "Servez avec volaille, poisson grillé ou un yaourt salé aux herbes."
+        }
+      ],
+      "seo": {
+        "title": "Patate douce rôtie vanille combava | Vanille Désiré",
+        "description": "Recette de patate douce rôtie à la vanille et au combava, simple, parfumée et très utile pour découvrir la vanille en salé.",
+        "keywords": [
+          "patate douce vanille",
+          "vanille salée",
+          "combava patate douce",
+          "accompagnement vanille"
+        ],
+        "body_sections": [
+          {
+            "title": "Ce qui fait l’équilibre",
+            "body": "La patate douce apporte le fondant, la vanille arrondit la cuisson et le combava garde l’assiette nerveuse et fraîche."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "N’ajoutez pas trop de vanille ni trop de combava. Le plat doit rester net, végétal et très simple à lire en bouche."
+          },
+          {
+            "title": "Service",
+            "body": "Servez chaud, seul ou en accompagnement, avec une herbe fraîche, un yaourt salé ou un jus court."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on préparer la recette à l’avance ?",
+            "answer": "Oui, vous pouvez rôtir les patates douces en avance puis refaire la finition au moment du service."
+          },
+          {
+            "question": "Le combava est-il obligatoire ?",
+            "answer": "Il apporte une vraie fraîcheur, mais un peu de zeste d’orange peut dépanner."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Orange-Glazed Sweet Potatoes",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Orange-Glazed_Sweet_Potatoes",
+          "license": "CC BY-SA 4.0",
+          "note": "Base ouverte retravaillée en version moins sucrée et plus salée, avec vanille et combava."
+        },
+        {
+          "title": "Great British Chefs: Sweet potato chaat by Atul Kochhar",
+          "url": "https://www.greatbritishchefs.com/recipes/sweet-potato-chaat-recipe",
+          "license": "",
+          "note": "Référence technique pour la cuisson rôtie, la gestion des épices et la finition fraîche sur patate douce."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-29T12:00:00Z",
+      "created_at": "2026-03-29T12:00:00Z",
+      "updated_at": "2026-03-29T12:00:00Z",
+      "validated_at": "2026-03-29T12:00:00Z",
+      "validated_by": "VD Editorial Studio",
+      "moderation_notes": [
+
+      ],
+      "revisions": [
+
+      ]
     }
   ],
   "audit_log": [
@@ -7130,6 +7916,51 @@
       "id": "3c08fa7262504f01",
       "event": "recipe_status_changed",
       "at": "2026-03-28T11:01:08Z"
+    },
+    {
+      "slug": "madeleines-vanille-bourbon",
+      "actor": "VD Editorial Studio",
+      "id": "897c8fcca304787e",
+      "event": "recipe_created",
+      "at": "2026-03-29T12:00:00Z"
+    },
+    {
+      "slug": "madeleines-vanille-bourbon",
+      "actor": "VD Editorial Studio",
+      "status": "approved",
+      "id": "d6beddcc05da9aaf",
+      "event": "recipe_status_changed",
+      "at": "2026-03-29T12:00:00Z"
+    },
+    {
+      "slug": "scones-vanille-sucre",
+      "actor": "VD Editorial Studio",
+      "id": "0354e30c4944d07e",
+      "event": "recipe_created",
+      "at": "2026-03-29T12:00:00Z"
+    },
+    {
+      "slug": "scones-vanille-sucre",
+      "actor": "VD Editorial Studio",
+      "status": "approved",
+      "id": "7f7e43cfd3a3133f",
+      "event": "recipe_status_changed",
+      "at": "2026-03-29T12:00:00Z"
+    },
+    {
+      "slug": "patate-douce-rotie-vanille-combava",
+      "actor": "VD Editorial Studio",
+      "id": "e4784a30656e1965",
+      "event": "recipe_created",
+      "at": "2026-03-29T12:00:00Z"
+    },
+    {
+      "slug": "patate-douce-rotie-vanille-combava",
+      "actor": "VD Editorial Studio",
+      "status": "approved",
+      "id": "5d9b0c8300680c34",
+      "event": "recipe_status_changed",
+      "at": "2026-03-29T12:00:00Z"
     }
   ],
   "publications": [
