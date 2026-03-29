@@ -281,6 +281,21 @@ Le publisher Shopify:
 - attache le metafield `vd.recipe_slug` pour que le theme reconnaisse automatiquement la page comme fiche recette
 - met a jour `page_url` et l'etat de publication dans le store local
 
+Pilotage batch Shopify:
+
+```bash
+curl -H "X-VD-Token: change-me" \
+  http://127.0.0.1:4567/publishing/shopify/status
+
+curl -X POST \
+  -H "X-VD-Token: change-me" \
+  -H "Content-Type: application/json" \
+  -d '{"mode":"missing","export_registry":true}' \
+  http://127.0.0.1:4567/publishing/shopify/batch
+```
+
+Le mode `missing` publie uniquement les recettes approuvees qui n'ont pas encore de page Shopify dediee.
+
 Pilotage preview QA:
 
 - `GET /studio/meta` expose les modules du cockpit et la cible preview resolue automatiquement

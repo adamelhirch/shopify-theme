@@ -319,6 +319,30 @@ def app_proxy_config_payload
   }
 end
 
+def shopify_publishing_status_payload
+  approved = STORE.by_status('approved')
+  missing = approved.select { |entry| entry.dig('shopify_page', 'id').to_s.strip.empty? }
+
+  {
+    ok: SHOPIFY_PUBLISHER.configured?,
+    configured: SHOPIFY_PUBLISHER.configured?,
+    shop_domain: SHOPIFY_PUBLISHER.shop_domain,
+    api_version: SHOPIFY_PUBLISHER.api_version,
+    configuration_errors: SHOPIFY_PUBLISHER.configuration_errors,
+    approved_count: approved.length,
+    missing_count: missing.length,
+    missing_slugs: missing.map { |entry| entry['slug'] },
+    latest_missing: missing.first(12).map do |entry|
+      {
+        slug: entry['slug'],
+        title: entry['title'],
+        access: entry['access'],
+        page_url: entry['page_url']
+      }
+    end
+  }
+end
+
 def html_escape(value)
   CGI.escapeHTML(value.to_s)
 end
@@ -3060,6 +3084,18 @@ server.mount_proc '/theme/preview-target' do |request, response|
   end
 
   json_response(response, 200, PREVIEW_MANAGER.preview_target)
+end
+
+server.mount_proc '/publishing/shopify/status' do |request, response|
+  if request.request_method != 'GET'
+    json_response(response, 405, { error: 'method_not_allowed' })
+    next
+  end
+
+  actor = require_permission!(request, response, 'recipes:publish')
+  next unless actor
+
+  json_response(response, 200, shopify_publishing_status_payload)
 end
 
 server.mount_proc '/dashboard' do |_request, response|
