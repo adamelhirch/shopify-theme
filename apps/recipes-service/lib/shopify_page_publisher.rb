@@ -188,7 +188,7 @@ class ShopifyPagePublisher
 
     ingredient_groups = Array(recipe['ingredient_groups'])
     unless ingredient_groups.empty?
-      sections << '<h2>Ingredients</h2>'
+      sections << '<h2>Ingrédients</h2>'
       ingredient_groups.each do |group|
         sections << "<h3>#{escape(group['title'])}</h3>" unless group['title'].to_s.strip.empty?
         items = Array(group['items']).map do |item|
@@ -204,7 +204,7 @@ class ShopifyPagePublisher
 
     steps = Array(recipe['steps'])
     unless steps.empty?
-      sections << '<h2>Preparation</h2>'
+      sections << '<h2>Préparation</h2>'
       items = steps.map do |step|
         duration = step['duration'].to_s.strip
         heading = escape(step['title'])
@@ -213,6 +213,15 @@ class ShopifyPagePublisher
       end
       sections << "<ol>#{items.join}</ol>"
     end
+
+    body_sections = Array(recipe.dig('seo', 'body_sections')).filter_map do |entry|
+      title = entry['title'].to_s.strip
+      body = entry['body'].to_s.strip
+      next if title.empty? || body.empty?
+
+      "<section><h2>#{escape(title)}</h2><p>#{paragraphize(body)}</p></section>"
+    end
+    sections.concat(body_sections) unless body_sections.empty?
 
     tips = Array(recipe['tips']).filter_map do |tip|
       next if tip['body'].to_s.strip.empty?
@@ -223,6 +232,11 @@ class ShopifyPagePublisher
     end
     sections << "<h2>Astuces</h2><ul>#{tips.join}</ul>" unless tips.empty?
 
+    product_note = recipe.dig('product', 'note').to_s.strip
+    unless product_note.empty?
+      sections << "<h2>Produits Vanille Désiré conseillés</h2><p>#{paragraphize(product_note)}</p>"
+    end
+
     faqs = Array(recipe.dig('seo', 'faq')).filter_map do |entry|
       question = entry['question'].to_s.strip
       answer = entry['answer'].to_s.strip
@@ -231,6 +245,19 @@ class ShopifyPagePublisher
       "<dt>#{escape(question)}</dt><dd>#{paragraphize(answer)}</dd>"
     end
     sections << "<h2>FAQ</h2><dl>#{faqs.join}</dl>" unless faqs.empty?
+
+    sources = Array(recipe['sources']).filter_map do |entry|
+      title = entry['title'].to_s.strip
+      url = entry['url'].to_s.strip
+      note = entry['note'].to_s.strip
+      next if title.empty? && url.empty?
+
+      label = title.empty? ? url : title
+      line = url.empty? ? escape(label) : %(<a href="#{escape(url)}" rel="noreferrer">#{escape(label)}</a>)
+      line = "#{line} — #{escape(note)}" unless note.empty?
+      "<li>#{line}</li>"
+    end
+    sections << "<h2>Sources</h2><ul>#{sources.join}</ul>" unless sources.empty?
 
     sections.join
   end

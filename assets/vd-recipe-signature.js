@@ -65,6 +65,30 @@
     return sentence.slice(0, Math.max(0, maxLength - 1)).trim() + '…';
   }
 
+  function ensureMetaTag(selector, attributes) {
+    var node = document.head.querySelector(selector);
+    if (node) return node;
+
+    node = document.createElement('meta');
+    Object.keys(attributes || {}).forEach(function (key) {
+      node.setAttribute(key, attributes[key]);
+    });
+    document.head.appendChild(node);
+    return node;
+  }
+
+  function ensureLinkTag(selector, attributes) {
+    var node = document.head.querySelector(selector);
+    if (node) return node;
+
+    node = document.createElement('link');
+    Object.keys(attributes || {}).forEach(function (key) {
+      node.setAttribute(key, attributes[key]);
+    });
+    document.head.appendChild(node);
+    return node;
+  }
+
   function productRoleLabel(value) {
     var map = {
       essentiel: 'Essentiel',
@@ -412,6 +436,7 @@
   function buildStructuredData(recipe) {
     var recipeImage = [];
     var hero = recipe.hero || {};
+    var pageUrl = recipe.page_url || window.location.pathname;
     if (hero.image_url) recipeImage.push(hero.image_url);
     (recipe.story_media || []).forEach(function (item) {
       if (item.image_url) recipeImage.push(item.image_url);
@@ -422,6 +447,10 @@
       name: recipe.title,
       description: recipe.description || recipe.summary || '',
       image: recipeImage,
+      url: new URL(pageUrl, window.location.origin).toString(),
+      mainEntityOfPage: new URL(pageUrl, window.location.origin).toString(),
+      inLanguage: 'fr-FR',
+      isAccessibleForFree: recipe.access !== 'member',
       recipeYield: recipe.serves ? recipe.serves + ' portions' : '',
       keywords: ((recipe.seo && recipe.seo.keywords) || recipe.search_terms || []).join(', '),
       recipeCategory: recipe.category || '',
@@ -466,6 +495,9 @@
       }
     };
 
+    if (recipe.updated_at) recipeSchema.dateModified = recipe.updated_at;
+    if (recipe.validated_at || recipe.created_at) recipeSchema.datePublished = recipe.validated_at || recipe.created_at;
+
     if (hero.video_url) {
       recipeSchema.video = {
         '@type': 'VideoObject',
@@ -502,6 +534,34 @@
       '@context': 'https://schema.org',
       '@graph': graph
     };
+  }
+
+  function syncDocumentMetadata(recipe) {
+    if (!recipe) return;
+
+    var seo = recipe.seo || {};
+    var title = String(seo.title || recipe.title || '').trim();
+    var description = String(seo.description || recipe.summary || recipe.description || '').trim();
+    var canonicalPath = String(recipe.page_url || window.location.pathname || '').trim() || window.location.pathname;
+    var canonicalUrl = new URL(canonicalPath, window.location.origin).toString();
+
+    if (title) document.title = title;
+
+    if (description) {
+      ensureMetaTag('meta[name="description"]', { name: 'description' }).setAttribute('content', description);
+      ensureMetaTag('meta[property="og:description"]', { property: 'og:description' }).setAttribute('content', description);
+      ensureMetaTag('meta[name="twitter:description"]', { name: 'twitter:description' }).setAttribute('content', description);
+    }
+
+    if (title) {
+      ensureMetaTag('meta[property="og:title"]', { property: 'og:title' }).setAttribute('content', title);
+      ensureMetaTag('meta[name="twitter:title"]', { name: 'twitter:title' }).setAttribute('content', title);
+    }
+
+    ensureMetaTag('meta[property="og:type"]', { property: 'og:type' }).setAttribute('content', 'article');
+    ensureMetaTag('meta[property="og:url"]', { property: 'og:url' }).setAttribute('content', canonicalUrl);
+    ensureMetaTag('meta[name="twitter:card"]', { name: 'twitter:card' }).setAttribute('content', 'summary_large_image');
+    ensureLinkTag('link[rel="canonical"]', { rel: 'canonical' }).setAttribute('href', canonicalUrl);
   }
 
   function metricList(recipe) {
@@ -1964,6 +2024,7 @@
         var isLocked = requireCustomerAccess && recipe.access === 'member' && !customerAuthenticated;
         renderMedia(media, recipe);
         renderRecipeShell(section, recipe, isLocked, relatedRecipesFor(recipe, recipes));
+        syncDocumentMetadata(recipe);
 
         if (schemaNode) {
           schemaNode.textContent = JSON.stringify(buildStructuredData(recipe));
