@@ -23,6 +23,13 @@
   assign collection_background_video_url = ''
   assign collection_backdrop_image = section.settings.background_image
   assign has_collection_backdrop = false
+  assign compact_collection_hero = false
+  assign backdrop_opacity = section.settings.backdrop_opacity | divided_by: 100.0
+  assign backdrop_blur = section.settings.backdrop_blur
+
+  if collection_products_count <= 2
+    assign compact_collection_hero = true
+  endif
 
   if collection.handle == 'all'
     assign display_title = 'Tous les produits'
@@ -76,7 +83,10 @@
   }
 {%- endstyle -%}
 
-<div class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %}{% if has_collection_backdrop %} collection-hero--with-backdrop{% endif %} color-{{ section.settings.color_scheme }} gradient">
+<div
+  class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %}{% if has_collection_backdrop %} collection-hero--with-backdrop{% endif %} color-{{ section.settings.color_scheme }} gradient"
+  style="--collection-hero-backdrop-opacity: {{ backdrop_opacity }}; --collection-hero-backdrop-blur: {{ backdrop_blur }}px;"
+>
   {% if has_collection_backdrop %}
     <div class="collection-hero__backdrop" aria-hidden="true">
       {% if collection_background_video_url != blank %}
@@ -98,7 +108,7 @@
     </div>
   {% endif %}
   <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    <div class="collection-hero__shell">
+    <div class="collection-hero__shell{% if compact_collection_hero %} collection-hero__shell--compact{% endif %}">
       <div class="collection-hero__text-wrapper">
         <span class="vd-section-kicker">{{ hero_eyebrow }}</span>
         <h1 class="collection-hero__title{% if collection.handle == 'all' %} collection-hero__title--catalog{% endif %}">
@@ -141,7 +151,7 @@
         {%- endif -%}
       </div>
 
-      <div class="collection-hero__stage">
+      <div class="collection-hero__stage{% if compact_collection_hero %} collection-hero__stage--compact{% endif %}">
         <div class="collection-hero__stage-glow" aria-hidden="true"></div>
         {% if primary_visual != blank %}
           <div class="collection-hero__visual collection-hero__visual--main media gradient">
@@ -273,6 +283,26 @@
       "type": "video",
       "id": "background_video",
       "label": "Vidéo Shopify de fond"
+    },
+    {
+      "type": "range",
+      "id": "backdrop_opacity",
+      "label": "Opacité du fond",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "backdrop_blur",
+      "label": "Flou du fond",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 14
     },
     {
       "type": "url",

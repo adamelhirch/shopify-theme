@@ -104,72 +104,83 @@
                 </small>
               </div>
             {%- else -%}
-              <div class="cart__ctas vd-cart-checkout-shell" {{ block.shopify_attributes }}>
-                <button
-                  type="submit"
-                  id="checkout"
-                  class="cart__checkout-button button vd-cart-checkout-shell__button"
-                  name="checkout"
-                  {% if cart == empty %}
-                    disabled
-                  {% endif %}
-                  form="cart"
-                >
-                  {{ 'sections.cart.checkout' | t }}
-                </button>
-              </div>
-
-              <a href="{{ routes.all_products_collection_url }}" class="vd-cart-checkout-shell__continue-link">
-                <span>Continuer les achats</span>
-                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                </svg>
-              </a>
-
-              {%- if additional_checkout_buttons -%}
-                <div class="cart__dynamic-checkout-buttons additional-checkout-buttons vd-cart-checkout-shell__wallets">
-                  {{ content_for_additional_checkout_buttons }}
+              <div class="vd-cart-purchase-shell" {{ block.shopify_attributes }}>
+                <div class="cart__ctas vd-cart-checkout-shell">
+                  <button
+                    type="submit"
+                    id="checkout"
+                    class="cart__checkout-button button vd-cart-checkout-shell__button"
+                    name="checkout"
+                    {% if cart == empty %}
+                      disabled
+                    {% endif %}
+                    form="cart"
+                  >
+                    {{ 'sections.cart.checkout' | t }}
+                  </button>
                 </div>
-              {%- endif -%}
+
+                {%- if additional_checkout_buttons -%}
+                  <div class="vd-cart-direct-pay-shell">
+                    <button
+                      type="button"
+                      class="vd-transaction vd-cart-direct-pay-trigger"
+                      data-cart-wallet-trigger
+                      aria-label="Payer maintenant"
+                    >
+                      <div class="vd-transaction__left" aria-hidden="true">
+                        <div class="vd-transaction__card">
+                          <div class="vd-transaction__card-line"></div>
+                          <div class="vd-transaction__buttons"></div>
+                        </div>
+                        <div class="vd-transaction__post">
+                          <div class="vd-transaction__post-line"></div>
+                          <div class="vd-transaction__screen">
+                            <div class="vd-transaction__currency">€</div>
+                          </div>
+                          <div class="vd-transaction__numbers"></div>
+                          <div class="vd-transaction__numbers-line2"></div>
+                        </div>
+                      </div>
+                      <div class="vd-transaction__right">
+                        <div class="vd-transaction__label-wrap">
+                          <span class="vd-transaction__label">Payer maintenant</span>
+                        </div>
+                        <svg viewBox="0 0 451.846 451.847" class="vd-transaction__arrow" aria-hidden="true">
+                          <path d="M345.441 248.292 151.154 442.573c-12.359 12.365-32.397 12.365-44.75 0-12.354-12.354-12.354-32.391 0-44.744L278.318 225.92 106.409 54.017c-12.354-12.359-12.354-32.394 0-44.748 12.354-12.359 32.391-12.359 44.75 0l194.287 194.284c6.177 6.18 9.262 14.271 9.262 22.366 0 8.099-3.091 16.196-9.267 22.373z"></path>
+                        </svg>
+                      </div>
+                    </button>
+
+                    <div class="cart__dynamic-checkout-buttons additional-checkout-buttons vd-cart-checkout-shell__wallets">
+                      {{ content_for_additional_checkout_buttons }}
+                    </div>
+                  </div>
+
+                  <script>
+                    (() => {
+                      const shell = document.currentScript.previousElementSibling;
+                      if (!shell) return;
+                      const trigger = shell.querySelector('[data-cart-wallet-trigger]');
+                      if (!trigger || trigger.dataset.paymentBound === 'true') return;
+                      trigger.dataset.paymentBound = 'true';
+                      trigger.addEventListener('click', () => {
+                        const liveButton = shell.querySelector('.shopify-payment-button__button, .shopify-payment-button__button--unbranded, .shopify-payment-button [role="button"], .shopify-cleanslate [role="button"], .shopify-cleanslate button');
+                        if (liveButton) liveButton.click();
+                      });
+                    })();
+                  </script>
+                {%- endif -%}
+
+                <a href="{{ routes.all_products_collection_url }}" class="vd-cart-checkout-shell__continue-link">
+                  <span>Continuer les achats</span>
+                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                  </svg>
+                </a>
+              </div>
           {%- endcase -%}
         {% endfor %}
-
-        <div class="vd-cart-assurance" aria-label="Réassurance panier">
-          <article class="vd-cart-assurance__card vd-cart-assurance__card--payment">
-            <div class="vd-cart-assurance__payment-visual" aria-hidden="true">
-              <div class="vd-cart-assurance__payment-left">
-                <div class="vd-cart-assurance__payment-card">
-                  <span class="vd-cart-assurance__payment-line"></span>
-                  <span class="vd-cart-assurance__payment-dots"></span>
-                </div>
-                <div class="vd-cart-assurance__payment-slip">
-                  <span class="vd-cart-assurance__payment-slip-top"></span>
-                  <span class="vd-cart-assurance__payment-slip-screen">€</span>
-                  <span class="vd-cart-assurance__payment-slip-grid"></span>
-                </div>
-              </div>
-              <div class="vd-cart-assurance__payment-right">
-                <strong>Paiement sécurisé</strong>
-                <span>Checkout propre, rapide et rassurant.</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="vd-cart-assurance__card vd-cart-assurance__card--shipping">
-            <div class="vd-cart-assurance__truck" aria-hidden="true">
-              <div class="vd-cart-assurance__truck-body">
-                <span class="vd-cart-assurance__truck-cabin"></span>
-              </div>
-              <div class="vd-cart-assurance__truck-wheel vd-cart-assurance__truck-wheel--front"></div>
-              <div class="vd-cart-assurance__truck-wheel vd-cart-assurance__truck-wheel--rear"></div>
-              <span class="vd-cart-assurance__truck-road"></span>
-            </div>
-            <div class="vd-cart-assurance__copy">
-              <strong>Expédition soignée</strong>
-              <span>Préparation rapide, protection propre, suivi simple.</span>
-            </div>
-          </article>
-        </div>
 
         <div id="cart-errors"></div>
       </div>
