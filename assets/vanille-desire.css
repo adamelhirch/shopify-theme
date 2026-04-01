@@ -9371,3 +9371,264 @@ body:has(.section-vd-hero) .header-wrapper {
     padding-top: 0 !important;
   }
 }
+
+/* PDP purchase flow reset */
+.product-form__purchase-shell {
+  display: grid;
+  gap: 1.6rem;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 2.8rem;
+  background: linear-gradient(180deg, rgba(18, 18, 18, 0.9) 0%, rgba(11, 11, 11, 0.96) 100%);
+  box-shadow: 0 2.2rem 5.4rem rgba(0, 0, 0, 0.18);
+}
+
+.product-form__purchase-shell--with-express .product-form__primary-actions {
+  padding-bottom: 1.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.product-form__submit.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 6rem;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: rgba(252, 248, 241, 0.96) !important;
+}
+
+.product-form__submit.button:hover:not([disabled]),
+.product-form__submit.button:focus-visible {
+  background: transparent !important;
+  color: rgba(252, 248, 241, 0.96) !important;
+}
+
+.product-form__submit.button::before,
+.product-form__submit.button::after {
+  display: none !important;
+}
+
+.product-form__submit-copy {
+  width: auto;
+  justify-content: flex-start;
+  gap: 1.4rem;
+}
+
+.product-form__submit-label {
+  padding-bottom: 0.7rem;
+  color: rgba(252, 248, 241, 0.96) !important;
+  letter-spacing: 0.28em;
+}
+
+.product-form__submit-label::after {
+  background: rgba(252, 248, 241, 0.92) !important;
+}
+
+.product-form__express-shell {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2.4rem;
+  background: rgba(248, 244, 236, 0.08) !important;
+  isolation: isolate;
+}
+
+.product-form__express-media,
+.product-form__express-surface {
+  position: absolute;
+  inset: 0;
+}
+
+.product-form__express-media {
+  z-index: 0;
+  overflow: hidden;
+}
+
+.product-form__express-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 10, 10, 0.08) 0%, rgba(10, 10, 10, 0.28) 100%);
+}
+
+.product-form__express-media-image,
+.product-form__express-media-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.08);
+  filter: blur(var(--vd-payment-surface-blur, 18px));
+}
+
+.product-form__express-surface {
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(249, 245, 239, var(--vd-payment-surface-opacity, 0.76)) 0%,
+    rgba(242, 236, 227, 0.92) 100%
+  );
+}
+
+.product-form__express-inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 1.4rem;
+  padding: 1.8rem;
+}
+
+.vd-transaction {
+  display: flex;
+  width: 100%;
+  min-height: 11.6rem;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(214, 201, 184, 0.48);
+  border-radius: 1.8rem;
+  background: rgba(255, 255, 255, 0.9) !important;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.vd-transaction:hover,
+.vd-transaction:focus-visible {
+  transform: translateY(-0.2rem);
+  box-shadow: 0 1.2rem 2.8rem rgba(70, 141, 104, 0.16);
+}
+
+.vd-transaction__left {
+  position: relative;
+  width: 13rem;
+  min-height: 11.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(145deg, #60e2a5 0%, #7ef0bd 100%);
+  flex-shrink: 0;
+  transition: width 0.3s ease;
+}
+
+.vd-transaction:hover .vd-transaction__left,
+.vd-transaction:focus-visible .vd-transaction__left {
+  width: 15.5rem;
+}
+
+.vd-transaction__right {
+  width: calc(100% - 13rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.4rem;
+  padding: 0 2.2rem;
+  text-align: left;
+  transition: background-color 0.3s ease;
+}
+
+.vd-transaction:hover .vd-transaction__right,
+.vd-transaction:focus-visible .vd-transaction__right {
+  background-color: rgba(255, 255, 255, 0.74);
+}
+
+.vd-transaction__label-wrap {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.vd-transaction__kicker {
+  color: rgba(128, 98, 66, 0.84);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.vd-transaction__label {
+  color: #191713 !important;
+  font-size: clamp(2rem, 2vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.04;
+}
+
+.vd-transaction__arrow {
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 2rem;
+  fill: #bcb6b2;
+  transition: transform 0.3s ease;
+}
+
+.vd-transaction:hover .vd-transaction__arrow,
+.vd-transaction:focus-visible .vd-transaction__arrow {
+  transform: translateX(0.35rem);
+}
+
+.product-form__express-copy,
+.product-form__express-kicker,
+.product-form__express-button-label {
+  display: none !important;
+}
+
+.product-form__express-button {
+  position: relative;
+  z-index: 2;
+  display: block !important;
+}
+
+.product-form__express-button .shopify-payment-button {
+  margin: 0;
+}
+
+.product-form__express-button .shopify-payment-button__button,
+.product-form__express-button .shopify-payment-button__button--unbranded,
+.product-form__express-button .shopify-payment-button [role='button'] {
+  min-height: 5.8rem !important;
+  border-radius: 999px !important;
+  overflow: hidden;
+  box-shadow: 0 1.4rem 3rem rgba(44, 28, 92, 0.18);
+}
+
+.shopify-payment-button__more-options {
+  color: rgba(84, 64, 40, 0.84) !important;
+  text-decoration: none !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 1.05rem !important;
+}
+
+@media screen and (max-width: 989px) {
+  .product-form__purchase-shell {
+    padding: 1.8rem;
+  }
+
+  .vd-transaction {
+    min-height: 10rem;
+  }
+
+  .vd-transaction__left {
+    width: 11rem;
+    min-height: 10rem;
+  }
+
+  .vd-transaction:hover .vd-transaction__left,
+  .vd-transaction:focus-visible .vd-transaction__left {
+    width: 13rem;
+  }
+
+  .vd-transaction__right {
+    width: calc(100% - 11rem);
+    padding: 0 1.4rem;
+  }
+
+  .vd-transaction__kicker {
+    font-size: 0.9rem;
+  }
+
+  .vd-transaction__label {
+    font-size: 1.7rem;
+  }
+}

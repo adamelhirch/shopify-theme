@@ -22,6 +22,13 @@
       if block.settings.show_dynamic_checkout and gift_card_recipient_feature_active == false
         assign show_dynamic_checkout = true
       endif
+
+      assign payment_media_opacity = block.settings.payment_media_opacity | default: 76 | divided_by: 100.0
+      assign payment_media_blur = block.settings.payment_media_blur | default: 18
+      assign payment_has_media = false
+      if block.settings.payment_background_video != blank or block.settings.payment_background_image != blank
+        assign payment_has_media = true
+      endif
     -%}
 
     <product-form
@@ -70,79 +77,132 @@
               assign quantity_rule_soldout = true
             endif
           -%}
-          <button
-            id="ProductSubmitButton-{{ section_id }}"
-            type="submit"
-            name="add"
-            class="product-form__submit button button--full-width button--primary"
-            {% if product.selected_or_first_available_variant.available == false
-              or quantity_rule_soldout
-              or product.selected_or_first_available_variant == null
-            %}
-              disabled
-            {% endif %}
-          >
-            <span class="product-form__submit-copy">
-              <span class="product-form__submit-label">
-              {%- if product.selected_or_first_available_variant == null -%}
-                {{ 'products.product.unavailable' | t }}
-              {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
-                {{ 'products.product.sold_out' | t }}
-              {%- else -%}
-                {{ 'products.product.add_to_cart' | t }}
-              {%- endif -%}
-              </span>
-              <svg
-                class="product-form__submit-arrow"
-                xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="10"
-                viewBox="0 0 46 16"
-                aria-hidden="true"
+          <div class="product-form__purchase-shell{% if show_dynamic_checkout %} product-form__purchase-shell--with-express{% endif %}">
+            <div class="product-form__primary-actions">
+              <button
+                id="ProductSubmitButton-{{ section_id }}"
+                type="submit"
+                name="add"
+                class="product-form__submit button button--full-width button--primary"
+                {% if product.selected_or_first_available_variant.available == false
+                  or quantity_rule_soldout
+                  or product.selected_or_first_available_variant == null
+                %}
+                  disabled
+                {% endif %}
               >
-                <path
-                  d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
-                  transform="translate(30)"
-                ></path>
-              </svg>
-            </span>
-            {%- render 'loading-spinner' -%}
-          </button>
-          {%- if show_dynamic_checkout -%}
-            <div class="product-form__express-shell">
-              <div class="vd-transaction" aria-hidden="true">
-                <div class="vd-transaction__left">
-                  <div class="vd-transaction__card">
-                    <div class="vd-transaction__card-line"></div>
-                    <div class="vd-transaction__buttons"></div>
-                  </div>
-                  <div class="vd-transaction__post">
-                    <div class="vd-transaction__post-line"></div>
-                    <div class="vd-transaction__screen">
-                      <div class="vd-transaction__currency">€</div>
-                    </div>
-                    <div class="vd-transaction__numbers"></div>
-                    <div class="vd-transaction__numbers-line2"></div>
-                  </div>
-                </div>
-                <div class="vd-transaction__right">
-                  <div class="vd-transaction__label">Payer maintenant</div>
-                  <svg viewBox="0 0 451.846 451.847" class="vd-transaction__arrow" aria-hidden="true">
-                    <path d="M345.441 248.292 151.154 442.573c-12.359 12.365-32.397 12.365-44.75 0-12.354-12.354-12.354-32.391 0-44.744L278.318 225.92 106.409 54.017c-12.354-12.359-12.354-32.394 0-44.748 12.354-12.359 32.391-12.359 44.75 0l194.287 194.284c6.177 6.18 9.262 14.271 9.262 22.366 0 8.099-3.091 16.196-9.267 22.373z"></path>
+                <span class="product-form__submit-copy">
+                  <span class="product-form__submit-label">
+                  {%- if product.selected_or_first_available_variant == null -%}
+                    {{ 'products.product.unavailable' | t }}
+                  {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+                    {{ 'products.product.sold_out' | t }}
+                  {%- else -%}
+                    {{ 'products.product.add_to_cart' | t }}
+                  {%- endif -%}
+                  </span>
+                  <svg
+                    class="product-form__submit-arrow"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="30"
+                    height="10"
+                    viewBox="0 0 46 16"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+                      transform="translate(30)"
+                    ></path>
                   </svg>
+                </span>
+                {%- render 'loading-spinner' -%}
+              </button>
+            </div>
+            {%- if show_dynamic_checkout -%}
+              <div
+                class="product-form__express-shell{% if payment_has_media %} product-form__express-shell--with-media{% endif %}"
+                style="--vd-payment-surface-opacity: {{ payment_media_opacity }}; --vd-payment-surface-blur: {{ payment_media_blur }}px;"
+              >
+                {%- if payment_has_media -%}
+                  <div class="product-form__express-media" aria-hidden="true">
+                    {%- if block.settings.payment_background_video != blank -%}
+                      {{
+                        block.settings.payment_background_video
+                        | video_tag:
+                          class: 'product-form__express-media-video',
+                          autoplay: true,
+                          loop: true,
+                          muted: true,
+                          controls: false,
+                          playsinline: true,
+                          image_size: '1200x'
+                      }}
+                    {%- elsif block.settings.payment_background_image != blank -%}
+                      {{
+                        block.settings.payment_background_image
+                        | image_url: width: 1600
+                        | image_tag:
+                          class: 'product-form__express-media-image',
+                          widths: '480, 720, 960, 1200, 1600',
+                          sizes: '(min-width: 990px) 32vw, 92vw',
+                          loading: 'lazy',
+                          alt: block.settings.payment_background_image.alt | default: product.title | escape
+                      }}
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+                <div class="product-form__express-surface" aria-hidden="true"></div>
+                <div class="product-form__express-inner">
+                  <button
+                    type="button"
+                    class="vd-transaction product-form__direct-pay-trigger"
+                    data-payment-trigger
+                    aria-label="Payer maintenant"
+                  >
+                    <div class="vd-transaction__left" aria-hidden="true">
+                      <div class="vd-transaction__card">
+                        <div class="vd-transaction__card-line"></div>
+                        <div class="vd-transaction__buttons"></div>
+                      </div>
+                      <div class="vd-transaction__post">
+                        <div class="vd-transaction__post-line"></div>
+                        <div class="vd-transaction__screen">
+                          <div class="vd-transaction__currency">€</div>
+                        </div>
+                        <div class="vd-transaction__numbers"></div>
+                        <div class="vd-transaction__numbers-line2"></div>
+                      </div>
+                    </div>
+                    <div class="vd-transaction__right">
+                      <div class="vd-transaction__label-wrap">
+                        <span class="vd-transaction__kicker">Paiement direct</span>
+                        <span class="vd-transaction__label">Payer maintenant</span>
+                      </div>
+                      <svg viewBox="0 0 451.846 451.847" class="vd-transaction__arrow" aria-hidden="true">
+                        <path d="M345.441 248.292 151.154 442.573c-12.359 12.365-32.397 12.365-44.75 0-12.354-12.354-12.354-32.391 0-44.744L278.318 225.92 106.409 54.017c-12.354-12.359-12.354-32.394 0-44.748 12.354-12.359 32.391-12.359 44.75 0l194.287 194.284c6.177 6.18 9.262 14.271 9.262 22.366 0 8.099-3.091 16.196-9.267 22.373z"></path>
+                      </svg>
+                    </div>
+                  </button>
+                  <div class="product-form__express-button">
+                    {{ form | payment_button }}
+                  </div>
                 </div>
               </div>
-              <div class="product-form__express-copy">
-                <span class="product-form__express-kicker">Paiement direct</span>
-                <strong>Wallet et checkout rapide</strong>
-                <p>Apple Pay, Google Pay ou le moyen disponible sur votre appareil apparaissent ici au bon moment.</p>
-              </div>
-              <div class="product-form__express-button">
-                <span class="product-form__express-button-label">Payer maintenant</span>
-                {{ form | payment_button }}
-              </div>
-            </div>
-          {%- endif -%}
+              <script>
+                (() => {
+                  const shell = document.currentScript.previousElementSibling;
+                  if (!shell) return;
+                  const trigger = shell.querySelector('[data-payment-trigger]');
+                  if (!trigger || trigger.dataset.paymentBound === 'true') return;
+                  trigger.dataset.paymentBound = 'true';
+                  trigger.addEventListener('click', () => {
+                    const liveButton = shell.querySelector('.shopify-payment-button__button, .shopify-payment-button__button--unbranded, .shopify-payment-button [role="button"]');
+                    if (liveButton) liveButton.click();
+                  });
+                })();
+              </script>
+            {%- endif -%}
+          </div>
         </div>
       {%- endform -%}
     </product-form>
