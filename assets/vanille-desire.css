@@ -4559,7 +4559,6 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .vd-page-flow {
   overflow: clip;
-  padding-top: clamp(8.8rem, 10vw, 11.2rem);
 }
 
 .vd-page-flow__hero {
@@ -6291,7 +6290,6 @@ body:has(.section-vd-hero) .header-wrapper {
     border-radius: 0.6rem;
   }
 
-  .vd-page-flow,
   .collection-hero,
   .vd-catalogue {
     padding-top: 9.8rem;
@@ -7341,7 +7339,7 @@ body:has(.section-vd-hero) .header-wrapper {
 .vd-header-primary-menu__panel,
 .vd-header-secondary-menu__panel {
   position: fixed;
-  top: calc(var(--vd-header-shell-height) + 1.6rem);
+  top: calc(var(--vd-header-shell-height) + 0.45rem);
   padding: 2.4rem 2.6rem;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 2.4rem;
@@ -7352,6 +7350,15 @@ body:has(.section-vd-hero) .header-wrapper {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.12),
     0 1.8rem 4.4rem rgba(0, 0, 0, 0.08);
+}
+
+.vd-header-secondary-menu__panel::before {
+  content: "";
+  position: absolute;
+  top: -1.4rem;
+  left: 0;
+  right: 0;
+  height: 1.6rem;
 }
 
 .vd-header-primary-menu__panel {
@@ -7390,7 +7397,6 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .vd-header-secondary-menu:hover > .vd-header-secondary-menu__panel,
 .vd-header-secondary-menu:focus-within > .vd-header-secondary-menu__panel,
-.vd-header-secondary-menu.is-open > .vd-header-secondary-menu__panel,
 .vd-header-secondary-menu__panel:hover,
 .vd-header-secondary-menu__panel:focus-within,
 .vd-header-secondary-menu__toggle:focus-visible + .vd-header-secondary-menu__panel {
@@ -7398,10 +7404,6 @@ body:has(.section-vd-hero) .header-wrapper {
   visibility: visible;
   pointer-events: auto;
   transform: translateY(0);
-}
-
-.vd-header-secondary-menu.is-open > .vd-header-secondary-menu__toggle {
-  color: rgb(var(--vd-orange));
 }
 
 .vd-header-primary-menu__panel {
