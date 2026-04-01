@@ -115,6 +115,13 @@ p,
   padding-top: 1.4rem;
 }
 
+body:has(.vd-recipes-hub) #MainContent,
+body:has(.vd-catalogue) #MainContent,
+body:has(.collection-hero) #MainContent,
+body:has(.vd-product-shell) #MainContent {
+  padding-top: 0;
+}
+
 .vd-catalogue,
 .collection-hero {
   padding-top: clamp(8.8rem, 10vw, 11.2rem);
@@ -5237,7 +5244,7 @@ body:has(.section-vd-hero) .header-wrapper {
 .collection-hero__backdrop {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   overflow: hidden;
   border-radius: 3rem;
 }
@@ -5247,8 +5254,8 @@ body:has(.section-vd-hero) .header-wrapper {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(9, 9, 9, 0.42) 0%, rgba(9, 9, 9, 0.76) 68%, rgba(9, 9, 9, 0.92) 100%),
-    radial-gradient(circle at 82% 18%, rgba(214, 128, 43, 0.2), transparent 26%);
+    linear-gradient(180deg, rgba(9, 9, 9, 0.18) 0%, rgba(9, 9, 9, 0.56) 68%, rgba(9, 9, 9, 0.82) 100%),
+    radial-gradient(circle at 82% 18%, rgba(214, 128, 43, 0.22), transparent 26%);
 }
 
 .collection-hero__backdrop-media {
@@ -5265,6 +5272,8 @@ body:has(.section-vd-hero) .header-wrapper {
   grid-template-columns: minmax(0, 0.92fr) minmax(34rem, 1.08fr);
   gap: clamp(2rem, 4vw, 4.8rem);
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
 .collection-hero__description {
@@ -5523,7 +5532,7 @@ body:has(.section-vd-hero) .header-wrapper {
 .vd-product-shell__backdrop {
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   overflow: hidden;
   border-radius: 2.8rem;
   opacity: 0.92;
@@ -5534,8 +5543,8 @@ body:has(.section-vd-hero) .header-wrapper {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(10, 10, 10, 0.38) 0%, rgba(10, 10, 10, 0.74) 62%, rgba(10, 10, 10, 0.9) 100%),
-    radial-gradient(circle at 18% 20%, rgba(210, 133, 53, 0.18), transparent 34%);
+    linear-gradient(180deg, rgba(10, 10, 10, 0.18) 0%, rgba(10, 10, 10, 0.58) 62%, rgba(10, 10, 10, 0.84) 100%),
+    radial-gradient(circle at 18% 20%, rgba(210, 133, 53, 0.2), transparent 34%);
 }
 
 .vd-product-shell__backdrop-media {
@@ -5549,6 +5558,7 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .vd-product-shell .page-width {
   position: relative;
+  z-index: 1;
 }
 
 .product__media-wrapper,
@@ -5967,7 +5977,7 @@ body:has(.section-vd-hero) .header-wrapper {
 .vd-catalogue__backdrop {
   position: absolute;
   inset: 0;
-  z-index: -2;
+  z-index: 0;
   overflow: hidden;
   border-radius: 3rem;
   opacity: 0.96;
@@ -5978,9 +5988,9 @@ body:has(.section-vd-hero) .header-wrapper {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(8, 8, 8, 0.42) 0%, rgba(8, 8, 8, 0.76) 64%, rgba(8, 8, 8, 0.92) 100%),
-    radial-gradient(circle at 20% 24%, rgba(210, 133, 53, 0.16), transparent 28%),
-    radial-gradient(circle at 78% 18%, rgba(255, 255, 255, 0.08), transparent 24%);
+    linear-gradient(180deg, rgba(8, 8, 8, 0.16) 0%, rgba(8, 8, 8, 0.52) 64%, rgba(8, 8, 8, 0.82) 100%),
+    radial-gradient(circle at 20% 24%, rgba(210, 133, 53, 0.18), transparent 28%),
+    radial-gradient(circle at 78% 18%, rgba(255, 255, 255, 0.11), transparent 24%);
 }
 
 .vd-catalogue__backdrop-media {
@@ -5994,6 +6004,7 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .vd-catalogue--with-backdrop .page-width {
   position: relative;
+  z-index: 1;
 }
 
 .vd-catalogue--page-flow::before,
@@ -7919,7 +7930,7 @@ body:has(.section-vd-hero) .vd-hero__image,
 
 .section-header.shopify-section-group-header-group,
 body:has(.section-vd-hero) .section-header.shopify-section-group-header-group {
-  padding-top: 0.45rem !important;
+  padding-top: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
 }
@@ -7954,6 +7965,6 @@ body:has(.section-vd-hero) .header-wrapper {
 @media screen and (max-width: 989px) {
   .section-header.shopify-section-group-header-group,
   body:has(.section-vd-hero) .section-header.shopify-section-group-header-group {
-    padding-top: 0.3rem !important;
+    padding-top: 0 !important;
   }
 }

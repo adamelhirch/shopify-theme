@@ -57,6 +57,7 @@
   {%- liquid
     assign selected_variant_title = product.selected_or_first_available_variant.title
     assign product_background_video_url = ''
+    assign product_backdrop_image = section.settings.background_image
     assign has_product_backdrop = false
     if selected_variant_title == 'Default Title'
       assign selected_variant_title = blank
@@ -91,7 +92,11 @@
       endfor
     endif
 
-    if section.settings.background_image != blank or product_background_video_url != blank
+    if product_backdrop_image == blank
+      assign product_backdrop_image = product.featured_media.preview_image | default: product.featured_image
+    endif
+
+    if product_backdrop_image != blank or product_background_video_url != blank
       assign has_product_backdrop = true
     endif
   -%}
@@ -121,9 +126,9 @@
           <video class="vd-product-shell__backdrop-media" autoplay muted loop playsinline preload="metadata">
             <source src="{{ product_background_video_url }}" type="video/mp4">
           </video>
-        {% elsif section.settings.background_image != blank %}
+        {% elsif product_backdrop_image != blank %}
           {{
-            section.settings.background_image
+            product_backdrop_image
             | image_url: width: 2200
             | image_tag:
               class: 'vd-product-shell__backdrop-media',

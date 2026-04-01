@@ -397,6 +397,7 @@
     assign hero_image_secondary = hero_collection_secondary.image
     assign hero_image_tertiary = hero_collection_tertiary.image
     assign catalogue_background_video_url = ''
+    assign catalogue_backdrop_image = section.settings.catalogue_background_image
     assign has_catalogue_backdrop = false
 
     if section.settings.catalogue_background_video != blank
@@ -418,7 +419,11 @@
       assign hero_image_tertiary = hero_collection_tertiary.products.first.featured_media.preview_image | default: hero_collection_tertiary.products.first.featured_image
     endif
 
-    if section.settings.catalogue_background_image != blank or catalogue_background_video_url != blank
+    if catalogue_backdrop_image == blank
+      assign catalogue_backdrop_image = hero_image_primary
+    endif
+
+    if catalogue_backdrop_image != blank or catalogue_background_video_url != blank
       assign has_catalogue_backdrop = true
     endif
   -%}
@@ -436,9 +441,9 @@
           >
             <source src="{{ catalogue_background_video_url }}" type="video/mp4">
           </video>
-        {% elsif section.settings.catalogue_background_image != blank %}
+        {% elsif catalogue_backdrop_image != blank %}
           {{
-            section.settings.catalogue_background_image
+            catalogue_backdrop_image
             | image_url: width: 2200
             | image_tag:
               class: 'vd-catalogue__backdrop-media',

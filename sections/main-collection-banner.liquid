@@ -15,12 +15,14 @@
 
   assign display_title = collection.title
   assign curation_note = 'Une lecture plus nette des formats, de la matière et des usages.'
+  assign collection_description_plain = collection.description | strip_html | strip
   assign hero_detail = collection_products_count | append: ' ' | append: collection_products_label
   assign primary_visual = collection.image
   assign feature_product_primary = collection.products.first
   assign feature_product_secondary = collection.products[1]
   assign feature_product_tertiary = collection.products[2]
   assign collection_background_video_url = ''
+  assign collection_backdrop_image = section.settings.background_image
   assign has_collection_backdrop = false
 
   if collection.handle == 'all'
@@ -37,6 +39,9 @@
   elsif collection.handle == 'sels-aromatises'
     assign curation_note = "Des assemblages signatures pour la finition, l’assaisonnement et les accords plus contemporains."
     assign hero_detail = 'Assemblages aromatiques'
+  elsif collection.handle == 'poivre-baies'
+    assign curation_note = 'Poivres, baies rares et signatures franches pour la table, les sauces et les finitions qui demandent du caractère.'
+    assign hero_detail = 'Poivres, baies, coffrets'
   elsif collection.handle == 'huiles-essentielles'
     assign curation_note = 'Une approche claire et responsable pour les usages externes, les précautions et la bonne orientation produit.'
     assign hero_detail = 'Usage externe et dilution'
@@ -44,6 +49,10 @@
 
   if primary_visual == blank and feature_product_primary != blank
     assign primary_visual = feature_product_primary.featured_media.preview_image | default: feature_product_primary.featured_image
+  endif
+
+  if collection_backdrop_image == blank
+    assign collection_backdrop_image = primary_visual
   endif
 
   if section.settings.background_video != blank
@@ -55,7 +64,7 @@
     endfor
   endif
 
-  if section.settings.background_image != blank or collection_background_video_url != blank
+  if collection_backdrop_image != blank or collection_background_video_url != blank
     assign has_collection_backdrop = true
   endif
 -%}
@@ -75,9 +84,9 @@
         <video class="collection-hero__backdrop-media" autoplay muted loop playsinline preload="metadata">
           <source src="{{ collection_background_video_url }}" type="video/mp4">
         </video>
-      {% elsif section.settings.background_image != blank %}
+      {% elsif collection_backdrop_image != blank %}
         {{
-          section.settings.background_image
+          collection_backdrop_image
           | image_url: width: 2200
           | image_tag:
             class: 'collection-hero__backdrop-media',
@@ -103,8 +112,8 @@
           <span class="collection-hero__detail" role="listitem">{{ hero_detail }}</span>
         </div>
 
-        {%- if section.settings.show_collection_description and collection.description != blank -%}
-          <div class="collection-hero__description rte">{{ collection.description }}</div>
+        {%- if section.settings.show_collection_description and collection_description_plain != blank -%}
+          <div class="collection-hero__description rte"><p>{{ collection_description_plain | truncatewords: 40 }}</p></div>
         {%- else -%}
           <div class="collection-hero__description rte"><p>{{ curation_note }}</p></div>
         {%- endif -%}
