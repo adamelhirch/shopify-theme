@@ -72,6 +72,10 @@
       "
       style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
     >
+      {% if editorial_card %}
+        <div class="vd-editorial-card__shine" aria-hidden="true"></div>
+        <div class="vd-editorial-card__glow" aria-hidden="true"></div>
+      {% endif %}
       <div
         class="card__inner {% if settings.card_style == 'standard' %}color-{{ settings.card_color_scheme }} gradient{% endif %}{% if card_product.featured_media or settings.card_style == 'standard' %} ratio{% endif %}"
         style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
@@ -235,7 +239,14 @@
               <div class="card-information__price">
                 {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
               </div>
-              <span class="card-information__cta">Découvrir</span>
+              <span class="card-information__cta" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                  <path
+                    fill="currentColor"
+                    d="M11 4h2v6h6v2h-6v6h-2v-6H5v-2h6z"
+                  ></path>
+                </svg>
+              </span>
             </div>
             {%- if card_product.quantity_price_breaks_configured? -%}
               {% if card_product.variants_count == 1 and quick_add == 'bulk' %}

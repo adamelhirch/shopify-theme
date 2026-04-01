@@ -82,7 +82,8 @@
               disabled
             {% endif %}
           >
-            <span>
+            <span class="product-form__submit-copy">
+              <span class="product-form__submit-label hover-underline-animation">
               {%- if product.selected_or_first_available_variant == null -%}
                 {{ 'products.product.unavailable' | t }}
               {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
@@ -90,14 +91,44 @@
               {%- else -%}
                 {{ 'products.product.add_to_cart' | t }}
               {%- endif -%}
+              </span>
+              <svg
+                class="product-form__submit-arrow"
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="10"
+                viewBox="0 0 46 16"
+                aria-hidden="true"
+              >
+                <path
+                  d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+                  transform="translate(30)"
+                ></path>
+              </svg>
             </span>
             {%- render 'loading-spinner' -%}
           </button>
           {%- if show_dynamic_checkout -%}
             <div class="product-form__express-shell">
-              <div class="product-form__express-head">
-                <span class="product-form__express-kicker">Paiement express</span>
-                <p>Apple Pay, Google Pay et autres moyens rapides selon votre appareil et votre configuration.</p>
+              <div class="product-form__express-showcase" aria-hidden="true">
+                <div class="product-form__express-visual">
+                  <div class="product-form__express-card">
+                    <div class="product-form__express-card-line"></div>
+                    <div class="product-form__express-card-dots"></div>
+                  </div>
+                  <div class="product-form__express-terminal">
+                    <div class="product-form__express-terminal-line"></div>
+                    <div class="product-form__express-terminal-screen">
+                      <span>€</span>
+                    </div>
+                    <div class="product-form__express-terminal-pad"></div>
+                  </div>
+                </div>
+                <div class="product-form__express-copy">
+                  <span class="product-form__express-kicker">Paiement express</span>
+                  <strong>Finaliser en un geste</strong>
+                  <p>Apple Pay, Google Pay et les moyens rapides disponibles sur votre appareil.</p>
+                </div>
               </div>
               <div class="product-form__express-pills" aria-hidden="true">
                 <span>Apple&nbsp;Pay</span>
