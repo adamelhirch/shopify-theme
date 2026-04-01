@@ -28,6 +28,7 @@
         {%- liquid
           assign story_background_video_url = ''
           assign story_background_image = block.settings.background_image
+          assign story_media_index = forloop.index0
 
           if block.settings.background_video != blank
             for source in block.settings.background_video.sources
@@ -38,11 +39,15 @@
             endfor
           endif
 
+          if story_background_image == blank and product != blank and product.media[story_media_index] != blank
+            assign story_background_image = product.media[story_media_index].preview_image | default: product.media[story_media_index]
+          endif
+
           if story_background_image == blank and product != blank and product.featured_media != blank
             assign story_background_image = product.featured_media.preview_image | default: product.featured_image
           endif
         -%}
-        <article class="vd-story-card{% if story_background_video_url != blank or story_background_image != blank %} vd-story-card--immersive{% endif %}" {{ block.shopify_attributes }}>
+        <article class="vd-story-card vd-story-card--{{ forloop.index }}{% if story_background_video_url != blank or story_background_image != blank %} vd-story-card--immersive{% endif %}" {{ block.shopify_attributes }}>
           {% if story_background_video_url != blank or story_background_image != blank %}
             <div class="vd-story-card__media" aria-hidden="true">
               {% if story_background_video_url != blank %}
