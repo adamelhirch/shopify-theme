@@ -10,17 +10,17 @@
       "settings": {
         "eyebrow": "Le Wiki",
         "heading": "Vanille Pompona",
-        "text": "<p>Une lecture plus precise pour presenter la Pompona par profil aromatique, singularite et accords, avec une vraie tenue de marque et des passerelles nettes vers la gamme.</p>",
+        "text": "<p>Une lecture précise pour présenter la Pompona par profil aromatique, singularité et accords, avec des passerelles nettes vers la gamme.</p>",
         "primary_button_label": "Voir les produits",
         "primary_button_link": "shopify://collections/all",
         "secondary_button_label": "Nous contacter",
         "secondary_button_link": "shopify://pages/contact",
         "metric_1_label": "Espece",
         "metric_1_value": "Pompona",
-        "metric_2_label": "Lecture",
-        "metric_2_value": "Profil + usage",
+        "metric_2_label": "Profil",
+        "metric_2_value": "Accords & usage",
         "metric_3_label": "Style",
-        "metric_3_value": "Editorial",
+        "metric_3_value": "Rare & généreux",
         "color_scheme": "scheme-3",
         "padding_top": 20,
         "padding_bottom": 8
@@ -33,8 +33,8 @@
           "type": "item",
           "settings": {
             "kicker": "Profil",
-            "title": "Un caractere different de la Bourbon",
-            "text": "<p>Cette page peut poser une vraie comparaison de profil, d'intensite, d'accords et de contextes d'usage sans se perdre dans le decor.</p>",
+            "title": "Un caractère différent de la Bourbon",
+            "text": "<p>Comparer les profils, les intensités, les accords et les contextes d’usage sans perdre la lisibilité du sujet.</p>",
             "link_label": "Voir la vanille Bourbon",
             "link": "shopify://collections/vanille-bourbon"
           }
@@ -44,7 +44,7 @@
           "settings": {
             "kicker": "Accords",
             "title": "Chocolat, rhum, desserts intenses",
-            "text": "<p>Le contenu doit aider a comprendre ou la Pompona excelle vraiment et comment la travailler differemment d'une planifolia.</p>",
+            "text": "<p>Comprendre où la Pompona excelle vraiment et comment la travailler différemment d’une planifolia.</p>",
             "link_label": "Voir les recettes",
             "link": "shopify://pages/recettes"
           }
@@ -52,9 +52,9 @@
         "item_3": {
           "type": "item",
           "settings": {
-            "kicker": "Suite",
-            "title": "Une page construite pour les futurs focus video",
-            "text": "<p>Vos contenus 4K pourront ensuite détailler matiere, texture et coupe de gousse sans refaire le squelette de page.</p>",
+            "kicker": "Repère",
+            "title": "Retrouver vite la bonne gamme",
+            "text": "<p>Revenir vers la Bourbon, les recettes ou une prise de contact sans casser la lecture ni l’intérêt pour la matière.</p>",
             "link_label": "Parler sourcing",
             "link": "shopify://pages/contact"
           }
@@ -66,10 +66,10 @@
         "item_3"
       ],
       "settings": {
-        "eyebrow": "Lecture produit",
-        "heading": "Differencier la Pompona sans noyer le lecteur.",
-        "text": "<p>La page doit aider a comprendre ce qui distingue vraiment la Pompona, comment la travailler et dans quels accords elle prend tout son relief.</p>",
-        "summary": "Le contenu sert ici a comparer, differencier et donner envie d'explorer plus loin la matiere.",
+        "eyebrow": "Guide matière",
+        "heading": "Différencier la Pompona sans noyer le lecteur.",
+        "text": "<p>Comprendre ce qui distingue vraiment la Pompona, comment la travailler et dans quels accords elle prend tout son relief.</p>",
+        "summary": "Comparer, différencier et donner envie d’explorer plus loin la matière.",
         "color_scheme": "scheme-3",
         "padding_top": 0,
         "padding_bottom": 28
@@ -82,21 +82,21 @@
           "type": "pillar",
           "settings": {
             "title": "Rare mais lisible",
-            "text": "<p>Le ton reste accessible meme quand le sujet devient plus pointu ou plus botanique.</p>"
+            "text": "<p>Le ton reste accessible même quand le sujet devient plus pointu ou plus botanique.</p>"
           }
         },
         "pillar_2": {
           "type": "pillar",
           "settings": {
             "title": "Comparer sans noyer",
-            "text": "<p>Une bonne page wiki aide a distinguer Pompona, Bourbon et autres profils sans transformer la lecture en fiche technique indigeste.</p>"
+            "text": "<p>Une bonne page wiki aide à distinguer Pompona, Bourbon et autres profils sans transformer la lecture en fiche technique indigeste.</p>"
           }
         },
         "pillar_3": {
           "type": "pillar",
           "settings": {
             "title": "Shoppable",
-            "text": "<p>Le contenu editorial doit pouvoir ramener vers un produit, une recette ou une prise de contact en quelques secondes.</p>"
+            "text": "<p>Le contenu éditorial doit pouvoir ramener vers un produit, une recette ou une prise de contact en quelques secondes.</p>"
           }
         }
       },
@@ -106,8 +106,8 @@
         "pillar_3"
       ],
       "settings": {
-        "heading": "Une page matiere, pas une page patchwork.",
-        "text": "<p>Le sujet rare gagne en force quand la lecture reste simple, tranchee et directement reliee aux usages, aux recettes et aux produits.</p>",
+        "heading": "Une page matière, sobre et directement utile.",
+        "text": "<p>Un sujet rare gagne en force quand la lecture reste simple, tranchée et directement reliée aux usages, aux recettes et aux produits.</p>",
         "color_scheme": "scheme-2",
         "padding_top": 0,
         "padding_bottom": 56

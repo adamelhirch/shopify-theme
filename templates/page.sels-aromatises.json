@@ -10,17 +10,17 @@
       "settings": {
         "eyebrow": "Le Wiki",
         "heading": "Sels aromatises de Madagascar",
-        "text": "<p>Des assemblages lisibles, travailles pour la finition, l'assaisonnement et les accords sucre-sale. La page doit aider a choisir selon le bon geste, sans folklore ni surcharge.</p>",
+        "text": "<p>Des assemblages pensés pour la finition, l’assaisonnement et les accords sucré-salé, avec une lecture claire selon le geste et l’envie de cuisine.</p>",
         "primary_button_label": "Voir la collection",
         "primary_button_link": "shopify://collections/sels-aromatises",
         "secondary_button_label": "Lire les recettes",
         "secondary_button_link": "shopify://pages/recettes",
         "metric_1_label": "Base",
         "metric_1_value": "Camargue + Madagascar",
-        "metric_2_label": "Lecture",
-        "metric_2_value": "Usage avant folklore",
-        "metric_3_label": "But",
-        "metric_3_value": "Choisir vite",
+        "metric_2_label": "Profil",
+        "metric_2_value": "Usage & intensité",
+        "metric_3_label": "Style",
+        "metric_3_value": "Précis & gourmand",
         "color_scheme": "scheme-3",
         "padding_top": 20,
         "padding_bottom": 8
@@ -34,7 +34,7 @@
           "settings": {
             "kicker": "Signature",
             "title": "Vanille, combava, pili-pili, poivres",
-            "text": "<p>Chaque sel doit etre lu d'abord par son profil d'usage: finition, cuisson douce, accord sucre-sale ou marinade courte.</p>",
+            "text": "<p>Chaque sel se lit d’abord par son usage: finition, cuisson douce, accord sucré-salé ou marinade courte.</p>",
             "link_label": "Voir les produits",
             "link": "shopify://collections/sels-aromatises"
           }
@@ -44,7 +44,7 @@
           "settings": {
             "kicker": "Repere",
             "title": "Des dosages simples et reproductibles",
-            "text": "<p>La page pourra accueillir vos videos ensuite, mais la base doit deja dire clairement quoi utiliser, sur quoi, et en quelle quantite.</p>",
+            "text": "<p>Quelques repères concrets pour savoir quel sel utiliser, sur quoi et en quelle quantité selon le résultat recherché.</p>",
             "link_label": "Aller aux recettes",
             "link": "shopify://pages/recettes"
           }
@@ -53,8 +53,8 @@
           "type": "item",
           "settings": {
             "kicker": "Passerelle",
-            "title": "Relier le wiki au catalogue",
-            "text": "<p>Le contenu ne reste pas theorique. Il doit toujours permettre de revenir au bon sel ou au bon produit complementaire.</p>",
+            "title": "Retrouver vite le bon produit",
+            "text": "<p>Le contenu reste relié au catalogue pour revenir facilement au bon sel ou à un produit complémentaire.</p>",
             "link_label": "Nous contacter",
             "link": "shopify://pages/contact"
           }
@@ -68,8 +68,8 @@
       "settings": {
         "eyebrow": "Guide de lecture",
         "heading": "Comprendre les sels par profil aromatique et usage.",
-        "text": "<p>Le contenu doit clarifier les signatures, les dosages et les contextes d'usage pour que le client passe naturellement du repere editorial au bon produit.</p>",
-        "summary": "Une hierarchie claire, des usages concrets et des passerelles nettes vers collection, recettes et conseil.",
+        "text": "<p>Des repères concrets pour distinguer les signatures, les dosages et les contextes d’usage, puis aller vers le bon produit.</p>",
+        "summary": "Des usages concrets, une hiérarchie claire et des passerelles nettes vers collection, recettes et conseil.",
         "color_scheme": "scheme-3",
         "padding_top": 0,
         "padding_bottom": 28
@@ -82,21 +82,21 @@
           "type": "pillar",
           "settings": {
             "title": "Entrer par le besoin",
-            "text": "<p>Finir une assiette, relever une marinade, signer un dessert: la page doit aider a choisir par usage concret.</p>"
+            "text": "<p>Finir une assiette, relever une marinade ou signer un dessert: des repères concrets pour choisir juste.</p>"
           }
         },
         "pillar_2": {
           "type": "pillar",
           "settings": {
             "title": "Monter en gamme sans bruit",
-            "text": "<p>Le luxe ici passe par la precision des repères et la tenue visuelle, pas par l'accumulation d'effets.</p>"
+            "text": "<p>Le luxe passe ici par la précision des repères et la tenue visuelle, pas par l’accumulation d’effets.</p>"
           }
         },
         "pillar_3": {
           "type": "pillar",
           "settings": {
             "title": "Prete pour la video",
-            "text": "<p>Les modules futurs pourront venir enrichir cette base sans refaire toute la structure de page.</p>"
+            "text": "<p>Une base prête à accueillir ensuite des démonstrations, des gestes cuisine et des médias plus immersifs.</p>"
           }
         }
       },
@@ -106,8 +106,8 @@
         "pillar_3"
       ],
       "settings": {
-        "heading": "Une page guide qui aide vraiment a choisir.",
-        "text": "<p>Le contenu editorial devient un appui a la vente, a la comprehension du geste et a la montee en gamme, sans casser la direction artistique globale.</p>",
+        "heading": "Des repères utiles pour cuisiner et assaisonner plus juste.",
+        "text": "<p>Une page guide pour comprendre les signatures, choisir selon le geste et prolonger naturellement vers les produits ou les recettes.</p>",
         "color_scheme": "scheme-2",
         "padding_top": 0,
         "padding_bottom": 56

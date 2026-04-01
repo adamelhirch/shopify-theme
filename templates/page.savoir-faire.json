@@ -12,8 +12,8 @@
           "type": "item",
           "settings": {
             "kicker": "Origine",
-            "title": "Direct Madagascar, sans folklore inutile",
-            "text": "<p>Cette page doit poser votre lecture du sourcing, de la selection et de la relation terrain. Pas besoin de sur-raconter: il faut d'abord rendre visible la logique de travail.</p>",
+            "title": "Direct Madagascar, lecture nette",
+            "text": "<p>Présenter le sourcing, la sélection et la relation terrain avec précision, sans folklore ni surcharge.</p>",
             "link_label": "Voir la collection",
             "link": "shopify://collections/vanille-bourbon"
           }
@@ -22,8 +22,8 @@
           "type": "item",
           "settings": {
             "kicker": "Methode",
-            "title": "Selection, tri, controle, lisibilite",
-            "text": "<p>Le site doit montrer des gestes concrets: choisir un lot, lire sa qualite, expliquer le conditionnement et donner des points de repere simples sur ce qui distingue une belle matiere.</p>",
+            "title": "Sélection, tri, contrôle, lisibilité",
+            "text": "<p>Rendre visibles les gestes concrets: choisir un lot, lire sa qualité, expliquer le conditionnement et donner les bons repères.</p>",
             "link_label": "Nous contacter",
             "link": "shopify://pages/contact"
           }
@@ -32,8 +32,8 @@
           "type": "item",
           "settings": {
             "kicker": "Suite",
-            "title": "Une base qui pourra accueillir vos videos 4K",
-            "text": "<p>Vous pourrez ajouter ensuite les demonstrations, scenes de terrain et details de texture. La structure sert deja de socle propre, sobre et premium.</p>",
+            "title": "Origines, gestes et matière",
+            "text": "<p>Une page pensée pour accueillir naturellement des scènes terrain, des gestes de préparation et des détails de texture.</p>",
             "link_label": "Voir les recettes",
             "link": "shopify://pages/recettes"
           }
@@ -47,8 +47,8 @@
       "settings": {
         "eyebrow": "Le Wiki",
         "heading": "Savoir-faire & producteurs",
-        "text": "<p>Une page wiki doit ici tenir la marque: angle net, peu de bruit, trois ou quatre blocs forts et une direction claire vers le produit ou la lecture suivante.</p>",
-        "summary": "Cette base remplace les gros blocs demonstratifs trop bavards. Elle sert de fondation simple, luxe et facilement enrichissable.",
+        "text": "<p>Une page wiki qui tient la marque: angle net, peu de bruit, quelques blocs forts et une direction claire vers le produit ou la lecture suivante.</p>",
+        "summary": "Une fondation sobre, premium et facilement enrichissable pour raconter le sourcing et le travail matière.",
         "color_scheme": "scheme-3",
         "padding_top": 20,
         "padding_bottom": 56

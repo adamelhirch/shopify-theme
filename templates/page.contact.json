@@ -10,7 +10,7 @@
       "settings": {
         "eyebrow": "Contact",
         "heading": "Une prise de contact plus nette et plus premium.",
-        "text": "<p>Que ce soit pour une question produit, un besoin professionnel, un sourcing ou un conseil d'usage, cette page doit rassurer immediatement et rester a la hauteur du reste du site.</p>",
+        "text": "<p>Question produit, besoin professionnel, sourcing ou conseil d’usage: une page claire et rassurante pour entrer en contact simplement.</p>",
         "primary_button_label": "Voir le catalogue",
         "primary_button_link": "shopify://collections/all",
         "secondary_button_label": "Lire le wiki",
@@ -57,7 +57,7 @@
           "type": "pillar",
           "settings": {
             "title": "Conseil rapide",
-            "text": "<p>Le contact doit rester simple, lisible et beaucoup plus engageant qu'une page formulaire vide.</p>"
+            "text": "<p>Un contact simple, lisible et soigné pour répondre vite sans casser la tenue de marque.</p>"
           }
         }
       },
@@ -67,8 +67,8 @@
         "pillar_3"
       ],
       "settings": {
-        "heading": "Un formulaire qui s'inscrit dans un vrai parcours de marque.",
-        "text": "<p>On ne laisse plus cette page tomber a plat. Elle devient un vrai point d'entree et de reassurance.</p>",
+        "heading": "Un point de contact à la hauteur de la maison.",
+        "text": "<p>Une page pensée pour rassurer, orienter et prolonger la qualité perçue du catalogue et des produits.</p>",
         "color_scheme": "scheme-2",
         "padding_top": 0,
         "padding_bottom": 32
@@ -119,7 +119,7 @@
       "settings": {
         "eyebrow": "Confiance",
         "heading": "Un point de contact qui reste premium",
-        "text": "<p>Le formulaire ne doit pas etre une page blanche. Il doit rassurer, credibiliser et prolonger la qualite percue sur les produits.</p>",
+        "text": "<p>Des repères utiles pour rassurer et prolonger la confiance, sans transformer la page en simple formulaire vide.</p>",
         "reviews_limit": "6",
         "button_label": "Voir la collection",
         "button_link": "shopify://collections/vanille-bourbon",

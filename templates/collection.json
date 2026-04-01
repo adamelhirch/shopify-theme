@@ -12,10 +12,10 @@
         "metric_secondary_value": "Formats, intensite, usages",
         "metric_tertiary_label": "Suite",
         "metric_tertiary_value": "Recettes, conseils, wiki",
-        "primary_link_label": "Voir les recettes",
-        "primary_link": "/pages/recettes",
-        "secondary_link_label": "Demander conseil",
-        "secondary_link": "/pages/contact"
+        "primary_link_label": "Voir tout le catalogue",
+        "primary_link": "/collections/all",
+        "secondary_link_label": "Voir les recettes",
+        "secondary_link": "/pages/recettes"
       }
     },
     "product-grid": {
@@ -33,12 +33,14 @@
         "enable_sorting": true,
         "color_scheme": "scheme-3",
         "intro_kicker": "Sélection",
-        "intro_heading": "Choisir un format, une intensité, une sensation.",
-        "intro_text": "<p>Le filtre reste rapide, mais la page doit conserver une vraie désirabilité visuelle et une lecture haut de gamme du premier scroll jusqu’au panier.</p>",
-        "primary_link_label": "Voir les recettes",
-        "primary_link": "/pages/recettes",
-        "secondary_link_label": "Demander conseil",
-        "secondary_link": "/pages/contact",
+        "intro_heading": "Comparer les formats, affiner le choix, retrouver le bon usage.",
+        "intro_text": "<p>Une lecture claire pour aller droit au bon produit, sans casser la sensation de qualité ni encombrer la navigation.</p>",
+        "primary_link_label": "Voir tout le catalogue",
+        "primary_link": "/collections/all",
+        "secondary_link_label": "Voir les recettes",
+        "secondary_link": "/pages/recettes",
+        "grid_note_eyebrow": "Conseil",
+        "grid_note": "",
         "columns_mobile": "2",
         "padding_top": 36,
         "padding_bottom": 36

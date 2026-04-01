@@ -19,7 +19,7 @@
 
   assign intro_note = section.settings.intro_text
   if intro_note == blank
-    assign intro_note = '<p>Un filtre doit aider à comparer, pas à casser la désirabilité. La lecture reste nette, rapide et plus sensorielle.</p>'
+    assign intro_note = '<p>Retrouver rapidement le bon format, comparer les usages et affiner le choix sans perdre la sensation de qualité.</p>'
   endif
 -%}
 
@@ -146,11 +146,12 @@
               {%- endif -%}
             </div>
           {%- endif -%}
-
-          <div class="vd-collection-grid__curation-note">
-            <span>Edition</span>
-            <p>Une sélection qui reste filtrable, lisible et assez désirable pour donner envie avant même l’ouverture d’une fiche produit.</p>
-          </div>
+          {%- if section.settings.grid_note != blank -%}
+            <div class="vd-collection-grid__curation-note">
+              <span>{{ section.settings.grid_note_eyebrow | default: 'Repères' }}</span>
+              <p>{{ section.settings.grid_note }}</p>
+            </div>
+          {%- endif -%}
         </div>
       </div>
       {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
@@ -316,7 +317,7 @@
       "type": "richtext",
       "id": "intro_text",
       "label": "Texte",
-      "default": "<p>La page doit aider a comparer rapidement les formats, lire les usages sans surcharge et garder une impression premium du premier filtre jusqu'au panier.</p>"
+      "default": "<p>Retrouver rapidement le bon format, comparer les usages et affiner le choix sans perdre la sensation de qualité.</p>"
     },
     {
       "type": "text",
@@ -339,6 +340,18 @@
       "type": "url",
       "id": "secondary_link",
       "label": "Lien secondaire"
+    },
+    {
+      "type": "text",
+      "id": "grid_note_eyebrow",
+      "label": "Sur-titre note",
+      "default": "Sélection"
+    },
+    {
+      "type": "textarea",
+      "id": "grid_note",
+      "label": "Note latérale",
+      "default": "Des filtres utiles pour comparer rapidement les formats et aller droit au bon produit."
     },
     {
       "type": "header",

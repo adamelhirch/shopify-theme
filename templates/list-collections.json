@@ -8,19 +8,19 @@
           "settings": {
             "kicker": "Signature",
             "title": "Vanille Bourbon",
-            "text": "<p>Le coeur de la maison: gousses, caviar, poudre, extraits et formats d'entree ou de cadeau. C'est ici qu'on doit comprendre le mieux la marque.</p>",
+            "text": "<p>Gousses, caviar, poudre, extraits et formats cadeau: le cœur de la maison, pensé pour la pâtisserie, l’infusion et les gestes de précision.</p>",
             "collection": "vanille-bourbon",
-            "link_label": "Entrer dans l'univers"
+            "link_label": "Explorer la vanille"
           }
         },
         "collection_2": {
           "type": "entry",
           "settings": {
-            "kicker": "Extension",
+            "kicker": "Accords",
             "title": "Epices de Madagascar",
-            "text": "<p>Une lecture plus large du sourcing maison: epices aromatiques, accords et formats qui prolongent naturellement l'univers principal.</p>",
+            "text": "<p>Épices de cuisine, accords aromatiques et formats du quotidien pour prolonger la maison avec du relief et de la précision.</p>",
             "collection": "epices-madagascar",
-            "link_label": "Explorer les epices"
+            "link_label": "Explorer les épices"
           }
         },
         "collection_3": {
@@ -28,9 +28,9 @@
           "settings": {
             "kicker": "Selection",
             "title": "Poivres, baies & coffrets",
-            "text": "<p>Le catalogue doit aussi offrir des points d'entree plus rapides: idee cadeau, premier panier, ou besoins plus pointus autour des accords.</p>",
+            "text": "<p>Poivres, baies, coffrets et sélections à offrir pour composer un panier, découvrir la maison ou aller vers un besoin plus précis.</p>",
             "collection": "poivre-baies",
-            "link_label": "Voir les selections"
+            "link_label": "Voir les sélections"
           }
         }
       },
@@ -41,11 +41,11 @@
       ],
       "settings": {
         "eyebrow": "Catalogue",
-        "heading": "Explorer la maison par univers, usages et niveaux de lecture.",
-        "text": "<p>Le catalogue sert d'abord a bien orienter: la vanille comme coeur de maison, les epices pour prolonger les accords, puis des selections plus cadeau, plus pointues ou plus immediates.</p>",
+        "heading": "Explorer la maison par univers, usages et formats.",
+        "text": "<p>La vanille comme cœur de maison, les épices pour prolonger les accords, puis des sélections pensées pour offrir, cuisiner ou découvrir plus vite.</p>",
         "primary_link_label": "Voir tous les produits",
         "primary_link": "shopify://collections/all",
-        "secondary_link_label": "Aller aux recettes",
+        "secondary_link_label": "Voir les recettes",
         "secondary_link": "shopify://pages/recettes",
         "color_scheme": "scheme-3",
         "padding_top": 20,
@@ -67,21 +67,21 @@
           "type": "pillar",
           "settings": {
             "title": "Entrer vite",
-            "text": "<p>Le client doit comprendre tout de suite ou aller: cadeau, usage quotidien, patisserie ou sourcing plus expert.</p>"
+            "text": "<p>Retrouver rapidement un cadeau, un usage quotidien, une idée pâtisserie ou une collection plus experte.</p>"
           }
         },
         "pillar_2": {
           "type": "pillar",
           "settings": {
             "title": "Monter en gamme",
-            "text": "<p>Le catalogue doit donner une sensation de precision, pas une impression de bazar ou de simples tuiles Shopify.</p>"
+            "text": "<p>Une lecture précise, des visuels nets et une hiérarchie claire pour éviter l’effet grille générique.</p>"
           }
         },
         "pillar_3": {
           "type": "pillar",
           "settings": {
             "title": "Relier au contenu",
-            "text": "<p>Chaque univers doit pouvoir renvoyer vers les bons usages, recettes ou pages de wiki pour aider a choisir.</p>"
+            "text": "<p>Chaque univers peut mener vers les recettes, les conseils utiles et les bons contenus wiki au bon moment.</p>"
           }
         }
       },
@@ -91,8 +91,8 @@
         "pillar_3"
       ],
       "settings": {
-        "heading": "Un catalogue qui raconte une logique avant d'empiler des cartes.",
-        "text": "<p>Chaque univers doit aider a choisir rapidement, rassurer sur la matiere et ouvrir ensuite vers les recettes, les contenus et les associations pertinentes.</p>",
+        "heading": "Un catalogue qui oriente avant de multiplier les cartes.",
+        "text": "<p>Chaque univers aide à choisir rapidement, rassure sur la matière et ouvre ensuite vers les recettes, les contenus et les associations pertinentes.</p>",
         "color_scheme": "scheme-2",
         "padding_top": 0,
         "padding_bottom": 56

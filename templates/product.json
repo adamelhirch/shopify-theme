@@ -42,9 +42,9 @@
         "complementary": {
           "type": "complementary",
           "settings": {
-            "block_heading": "A associer pour composer un panier plus complet",
-            "eyebrow": "Composer sa selection",
-            "text": "<p>Une selection complementaire pour prolonger l'usage du produit, construire un cadeau plus coherent ou varier les formats sans sortir de l'univers.</p>",
+            "block_heading": "À associer",
+            "eyebrow": "Composer votre panier",
+            "text": "<p>Formats complémentaires, idées cadeau et autres produits de la maison pour prolonger l’usage ou varier les plaisirs.</p>",
             "make_collapsible_row": false,
             "icon": "price_tag",
             "product_list_limit": 4,
@@ -60,36 +60,36 @@
         "collapsible-row-0": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Sélection à Madagascar",
+            "heading": "Origine & sélection",
             "icon": "map_pin",
-            "content": "<p>Nous sélectionnons uniquement des épices et vanilles Bourbon de Madagascar de la plus haute qualité, récoltées à la main et préparées selon un savoir-faire ancestral.</p>",
+            "content": "<p>Une sélection suivie à Madagascar, avec une attention portée à la matière, à la préparation et à la tenue aromatique.</p>",
             "page": ""
           }
         },
         "collapsible-row-1": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Soutien aux Producteurs Locaux",
+            "heading": "Usages & formats",
             "icon": "plant",
-            "content": "<p>Chaque achat contribue directement à soutenir les familles productrices à Madagascar, en assurant un revenu juste et durable.</p>",
+            "content": "<p>Selon le format, le produit peut convenir à l’infusion, à la pâtisserie, au dosage quotidien ou à une idée cadeau plus soignée.</p>",
             "page": ""
           }
         },
         "collapsible-row-2": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Livraison Rapide & Sûre",
+            "heading": "Préparation & conservation",
             "icon": "truck",
-            "content": "<p>Vos commandes sont soigneusement emballées et expédiées rapidement, pour préserver toute la fraîcheur et l'arôme de nos produits.</p>",
+            "content": "<p>Conserver à l’abri de la chaleur et de l’humidité, puis utiliser selon le dosage adapté à votre cuisine et à vos habitudes.</p>",
             "page": ""
           }
         },
         "collapsible-row-3": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Une question ?",
+            "heading": "Besoin d’un conseil ?",
             "icon": "question_mark",
-            "content": "<p>Besoin d'un conseil ou d'une précision sur un produit ? Nous restons disponibles pour vous orienter selon vos usages et vos attentes.</p>",
+            "content": "<p>Nous pouvons vous orienter selon l’usage recherché, le niveau d’intensité attendu ou le format le plus adapté.</p>",
             "page": ""
           }
         },
@@ -126,11 +126,11 @@
         "hide_variants": true,
         "enable_video_looping": false,
         "support_eyebrow": "Repères",
-        "support_heading": "Une lecture plus utile, plus rassurante, plus premium.",
-        "support_text": "<p>La fiche doit aider a choisir vite, faire sentir la qualite de la matiere et orienter naturellement vers les recettes, le wiki ou un conseil plus direct.</p>",
-        "support_point_1": "Usage net selon infusion, dessert, cadeau ou dosage quotidien",
-        "support_point_2": "Origine suivie et matiere selectionnee avec exigence",
-        "support_point_3": "Ponts editoriaux vers recettes, wiki et reste de la gamme",
+        "support_heading": "Bien choisir, bien doser, bien offrir.",
+        "support_text": "<p>Une fiche pensée pour retrouver le bon format, comprendre la matière et poursuivre naturellement vers les recettes ou le reste de la gamme.</p>",
+        "support_point_1": "Formats lisibles selon l’infusion, la pâtisserie, le quotidien ou le cadeau",
+        "support_point_2": "Origine suivie et sélection attentive de la matière",
+        "support_point_3": "Passerelles utiles vers recettes, wiki et produits associés",
         "support_link_label_1": "Voir les recettes",
         "support_link_1": "/pages/recettes",
         "support_link_label_2": "Lire le wiki",
@@ -148,21 +148,21 @@
           "type": "pillar",
           "settings": {
             "title": "Usage lisible",
-            "text": "<p>La fiche doit aider a comprendre vite si ce format est fait pour l'infusion, le dosage quotidien, le cadeau ou une patisserie plus exigeante.</p>"
+            "text": "<p>Retrouver rapidement si ce format convient à l’infusion, au dosage quotidien, au dessert ou à un cadeau plus soigné.</p>"
           }
         },
         "pillar_2": {
           "type": "pillar",
           "settings": {
             "title": "Origine suivie",
-            "text": "<p>On rappelle la selection a Madagascar, le tri et la tenue de la matiere sans tomber dans un discours folklorique ou bavard.</p>"
+            "text": "<p>Une provenance claire, une matière choisie avec exigence et des repères sobres pour comprendre la qualité.</p>"
           }
         },
         "pillar_3": {
           "type": "pillar",
           "settings": {
-            "title": "Suite logique",
-            "text": "<p>Apres la fiche, il faut pouvoir basculer naturellement vers la collection, le wiki ou les produits complementaires.</p>"
+            "title": "Suite naturelle",
+            "text": "<p>Continuer vers la collection, les recettes ou des formats complémentaires sans quitter l’univers du produit.</p>"
           }
         }
       },
@@ -172,8 +172,8 @@
         "pillar_3"
       ],
       "settings": {
-        "heading": "Une fiche produit qui explique, rassure et donne envie d'aller plus loin.",
-        "text": "<p>Le produit reste au centre, avec assez de contexte pour comprendre le bon usage, la qualite de la matiere et la suite naturelle du parcours.</p>",
+        "heading": "La matière, l’usage et les suites naturelles.",
+        "text": "<p>Quelques repères pour comprendre le produit, le bon format et les prolongements utiles dans la maison.</p>",
         "color_scheme": "scheme-2",
         "padding_top": 20,
         "padding_bottom": 28
@@ -199,8 +199,8 @@
       "type": "vd-testimonials",
       "settings": {
         "eyebrow": "Rassurance",
-        "heading": "La confiance se confirme jusqu'en bas de page.",
-        "text": "<p>Une couche finale de preuve sociale et de continuité de marque, sans surcharge ni ton promotionnel trop appuye.</p>",
+        "heading": "Des avis vérifiés, une confiance plus simple à lire.",
+        "text": "<p>Des retours clients utiles pour confirmer le choix, sans surjouer la promesse.</p>",
         "reviews_limit": "6",
         "button_label": "Voir plus de produits",
         "button_link": "shopify://collections/vanille-bourbon",

@@ -10,17 +10,17 @@
       "settings": {
         "eyebrow": "Le Wiki",
         "heading": "Huiles essentielles & huiles naturelles",
-        "text": "<p>Une lecture nette pour les usages externes, la dilution et les precautions essentielles, avec un ton responsable et une orientation produit simple.</p>",
+        "text": "<p>Des repères clairs pour les usages externes, la dilution et les précautions essentielles, avec une lecture simple et responsable.</p>",
         "primary_button_label": "Voir la collection",
         "primary_button_link": "shopify://collections/huiles-essentielles",
         "secondary_button_label": "Nous contacter",
         "secondary_button_link": "shopify://pages/contact",
         "metric_1_label": "Angle",
-        "metric_1_value": "Pedagogie stricte",
+        "metric_1_value": "Repères clairs",
         "metric_2_label": "Focus",
         "metric_2_value": "Usage externe",
-        "metric_3_label": "Tenue",
-        "metric_3_value": "Sobre",
+        "metric_3_label": "Approche",
+        "metric_3_value": "Responsable",
         "color_scheme": "scheme-3",
         "padding_top": 20,
         "padding_bottom": 8
@@ -33,8 +33,8 @@
           "type": "item",
           "settings": {
             "kicker": "Base",
-            "title": "Comprendre les familles sans dramatiser",
-            "text": "<p>Ravintsara, ylang-ylang, girofle ou eucalyptus citronne: la page doit expliquer les usages avec des repères concrets et un ton responsable.</p>",
+            "title": "Comprendre les familles sans confusion",
+            "text": "<p>Ravintsara, ylang-ylang, girofle ou eucalyptus citronné: des repères concrets pour comprendre les usages avec un ton responsable.</p>",
             "link_label": "Voir la collection",
             "link": "shopify://collections/huiles-essentielles"
           }
@@ -43,8 +43,8 @@
           "type": "item",
           "settings": {
             "kicker": "Prudence",
-            "title": "Dilution, diffusion, gestes d'usage",
-            "text": "<p>On privilege une information simple, lisible et non medicalisee a outrance, avec des repères de dilution et des limites d'usage evidentes.</p>",
+            "title": "Dilution, diffusion, gestes d’usage",
+            "text": "<p>Une information simple, lisible et non surchargée, avec des repères de dilution et des limites d’usage évidentes.</p>",
             "link_label": "Poser une question",
             "link": "shopify://pages/contact"
           }
@@ -53,8 +53,8 @@
           "type": "item",
           "settings": {
             "kicker": "Evolution",
-            "title": "Une page prete a recevoir vos videos courtes",
-            "text": "<p>La structure peut ensuite accueillir des demonstrations d'application, des focus texture et des explications plus fines produit par produit.</p>",
+            "title": "Retrouver vite la bonne famille",
+            "text": "<p>Le contenu doit permettre d’aller rapidement vers la bonne huile, la bonne base ou le bon conseil selon l’usage recherché.</p>",
             "link_label": "Voir les recettes",
             "link": "shopify://pages/recettes"
           }
@@ -67,9 +67,9 @@
       ],
       "settings": {
         "eyebrow": "Mode d'emploi",
-        "heading": "Des reperes clairs avant tout le reste.",
-        "text": "<p>Le but est de rassurer, orienter et rappeler les bons gestes d'usage sans transformer la page en encyclopedie ou en promesse floue.</p>",
-        "summary": "Clair, responsable et premium: une page qui remet l'information utile, la precaution et le bon produit au centre.",
+        "heading": "Des repères clairs avant tout le reste.",
+        "text": "<p>Rassurer, orienter et rappeler les bons gestes d’usage sans surcharge ni promesse floue.</p>",
+        "summary": "Clair, responsable et premium: une page qui remet l’information utile, la précaution et le bon produit au centre.",
         "color_scheme": "scheme-3",
         "padding_top": 0,
         "padding_bottom": 28
@@ -82,21 +82,21 @@
           "type": "pillar",
           "settings": {
             "title": "Usage encadre",
-            "text": "<p>On montre des cas d'usage realistes, jamais des promesses floues ou trop demonstratives.</p>"
+            "text": "<p>Des cas d’usage réalistes, expliqués avec prudence et sans promesse excessive.</p>"
           }
         },
         "pillar_2": {
           "type": "pillar",
           "settings": {
             "title": "Page evolutive",
-            "text": "<p>Chaque huile pourra ensuite recevoir son propre niveau de detail, sans repartir de zero graphiquement.</p>"
+            "text": "<p>Chaque huile pourra ensuite recevoir son propre niveau de détail sans casser l’ensemble graphique.</p>"
           }
         },
         "pillar_3": {
           "type": "pillar",
           "settings": {
             "title": "Lien direct au produit",
-            "text": "<p>Le wiki doit pouvoir mener vite au bon flacon, au bon support de dilution ou au bon contact.</p>"
+            "text": "<p>Retrouver vite le bon flacon, la bonne base de dilution ou le bon contact selon le besoin.</p>"
           }
         }
       },
@@ -106,8 +106,8 @@
         "pillar_3"
       ],
       "settings": {
-        "heading": "Un cadre net pour une categorie sensible.",
-        "text": "<p>La page doit rester accessible, exigeante et rassurante, tout en laissant une place naturelle aux contenus plus experts.</p>",
+        "heading": "Un cadre net pour une catégorie sensible.",
+        "text": "<p>Une page accessible, exigeante et rassurante, avec une place naturelle pour les contenus plus experts quand ils seront prêts.</p>",
         "color_scheme": "scheme-2",
         "padding_top": 0,
         "padding_bottom": 56

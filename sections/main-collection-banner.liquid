@@ -20,17 +20,19 @@
   assign feature_product_primary = collection.products.first
   assign feature_product_secondary = collection.products[1]
   assign feature_product_tertiary = collection.products[2]
+  assign collection_background_video_url = ''
+  assign has_collection_backdrop = false
 
   if collection.handle == 'all'
-    assign display_title = 'Catalogue'
+    assign display_title = 'Tous les produits'
     assign hero_eyebrow = 'Maison'
-    assign curation_note = "Une vue d’ensemble de la maison pour comparer les usages, les intensités et les formats sans sensation de catalogue générique."
-    assign hero_detail = 'Sélection complète de la maison'
+    assign curation_note = "Comparer l’ensemble de la maison pour retrouver rapidement le bon format, le bon usage ou une idée cadeau."
+    assign hero_detail = 'Sélection complète'
   elsif collection.handle == 'vanille-bourbon'
     assign curation_note = 'La matière signature: gousses, caviar, extraits et formats de cuisine ou de cadeau.'
     assign hero_detail = 'Gousses, extraits, caviar'
   elsif collection.handle == 'epices-madagascar'
-    assign curation_note = 'Poivres, combava, cannelle et épices de cuisine dans une lecture plus sensorielle et plus précise.'
+    assign curation_note = 'Poivres, combava, cannelle et épices de cuisine pour retrouver vite le bon accord et le bon niveau d’intensité.'
     assign hero_detail = 'Accords, intensités, cuisines'
   elsif collection.handle == 'sels-aromatises'
     assign curation_note = "Des assemblages signatures pour la finition, l’assaisonnement et les accords plus contemporains."
@@ -43,6 +45,19 @@
   if primary_visual == blank and feature_product_primary != blank
     assign primary_visual = feature_product_primary.featured_media.preview_image | default: feature_product_primary.featured_image
   endif
+
+  if section.settings.background_video != blank
+    for source in section.settings.background_video.sources
+      if source.mime_type == 'video/mp4'
+        assign collection_background_video_url = source.url
+        break
+      endif
+    endfor
+  endif
+
+  if section.settings.background_image != blank or collection_background_video_url != blank
+    assign has_collection_backdrop = true
+  endif
 -%}
 
 {%- style -%}
@@ -53,7 +68,27 @@
   }
 {%- endstyle -%}
 
-<div class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
+<div class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %}{% if has_collection_backdrop %} collection-hero--with-backdrop{% endif %} color-{{ section.settings.color_scheme }} gradient">
+  {% if has_collection_backdrop %}
+    <div class="collection-hero__backdrop" aria-hidden="true">
+      {% if collection_background_video_url != blank %}
+        <video class="collection-hero__backdrop-media" autoplay muted loop playsinline preload="metadata">
+          <source src="{{ collection_background_video_url }}" type="video/mp4">
+        </video>
+      {% elsif section.settings.background_image != blank %}
+        {{
+          section.settings.background_image
+          | image_url: width: 2200
+          | image_tag:
+            class: 'collection-hero__backdrop-media',
+            widths: '720, 960, 1280, 1600, 2200',
+            sizes: '100vw',
+            loading: 'eager',
+            alt: ''
+        }}
+      {% endif %}
+    </div>
+  {% endif %}
   <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     <div class="collection-hero__shell">
       <div class="collection-hero__text-wrapper">
@@ -162,10 +197,6 @@
           </a>
         {% endif %}
 
-        <div class="collection-hero__glass-note">
-          <span>Sélection</span>
-          <p>{{ curation_note }}</p>
-        </div>
       </div>
     </div>
   </div>
@@ -263,6 +294,20 @@
       "id": "secondary_link_label",
       "label": "Libellé lien secondaire",
       "default": "Parler avec nous"
+    },
+    {
+      "type": "header",
+      "content": "Fond média"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Image de fond"
+    },
+    {
+      "type": "video",
+      "id": "background_video",
+      "label": "Vidéo Shopify de fond"
     },
     {
       "type": "url",

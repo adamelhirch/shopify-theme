@@ -387,14 +387,26 @@
   </section>
 {% elsif is_catalog_page %}
   {%- liquid
-    assign catalogue_handles = 'vanille-bourbon,epices-madagascar,poivre-baies,sels-aromatises'
+    assign catalogue_handles = section.settings.catalogue_handles | default: 'vanille-bourbon,epices-madagascar,poivre-baies,sels-aromatises,huiles-essentielles'
     assign catalogue_handles_array = catalogue_handles | split: ','
+    assign all_products_collection = collections['all']
     assign hero_collection_primary = collections['vanille-bourbon']
     assign hero_collection_secondary = collections['epices-madagascar']
     assign hero_collection_tertiary = collections['poivre-baies']
     assign hero_image_primary = hero_collection_primary.image
     assign hero_image_secondary = hero_collection_secondary.image
     assign hero_image_tertiary = hero_collection_tertiary.image
+    assign catalogue_background_video_url = ''
+    assign has_catalogue_backdrop = false
+
+    if section.settings.catalogue_background_video != blank
+      for source in section.settings.catalogue_background_video.sources
+        if source.mime_type == 'video/mp4'
+          assign catalogue_background_video_url = source.url
+          break
+        endif
+      endfor
+    endif
 
     if hero_image_primary == blank and hero_collection_primary.products.first != blank
       assign hero_image_primary = hero_collection_primary.products.first.featured_media.preview_image | default: hero_collection_primary.products.first.featured_image
@@ -405,25 +417,56 @@
     if hero_image_tertiary == blank and hero_collection_tertiary.products.first != blank
       assign hero_image_tertiary = hero_collection_tertiary.products.first.featured_media.preview_image | default: hero_collection_tertiary.products.first.featured_image
     endif
+
+    if section.settings.catalogue_background_image != blank or catalogue_background_video_url != blank
+      assign has_catalogue_backdrop = true
+    endif
   -%}
-  <section class="section-{{ section.id }}-padding vd-catalogue vd-catalogue--page-flow color-{{ section.settings.color_scheme }}">
+  <section class="section-{{ section.id }}-padding vd-catalogue vd-catalogue--page-flow{% if has_catalogue_backdrop %} vd-catalogue--with-backdrop{% endif %} color-{{ section.settings.color_scheme }}">
+    {% if has_catalogue_backdrop %}
+      <div class="vd-catalogue__backdrop" aria-hidden="true">
+        {% if catalogue_background_video_url != blank %}
+          <video
+            class="vd-catalogue__backdrop-media"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+          >
+            <source src="{{ catalogue_background_video_url }}" type="video/mp4">
+          </video>
+        {% elsif section.settings.catalogue_background_image != blank %}
+          {{
+            section.settings.catalogue_background_image
+            | image_url: width: 2200
+            | image_tag:
+              class: 'vd-catalogue__backdrop-media',
+              widths: '720, 960, 1280, 1600, 2200',
+              sizes: '100vw',
+              loading: 'eager',
+              alt: ''
+          }}
+        {% endif %}
+      </div>
+    {% endif %}
     <div class="page-width">
       <div class="vd-catalogue__hero vd-catalogue__hero--immersive">
         <div class="vd-catalogue__hero-copy">
-          <span class="vd-section-kicker">Catalogue</span>
-          <h1 class="vd-catalogue__title">Explorer la maison par matière, intensité et usage.</h1>
+          <span class="vd-section-kicker">{{ section.settings.catalogue_eyebrow | default: 'Catalogue' }}</span>
+          <h1 class="vd-catalogue__title">{{ section.settings.catalogue_heading | default: 'Explorer la maison par matière, intensité et usage.' }}</h1>
           <div class="vd-catalogue__text rte">
-            <p>Vanille Bourbon, épices, poivres, assemblages et formats cadeaux: le catalogue doit donner envie tout en aidant à choisir vite, sans folklore ni blocs de remplissage.</p>
+            {{ section.settings.catalogue_text | default: '<p>Vanille Bourbon, épices, poivres, assemblages, huiles et formats cadeau: une entrée claire pour retrouver la bonne matière, le bon usage et le bon niveau de gamme.</p>' }}
           </div>
           <div class="vd-catalogue__actions">
-            <a href="/collections/all" class="vd-arrow-cta">
-              <span class="vd-arrow-cta__label">Voir tous les produits</span>
+            <a href="{{ routes.all_products_collection_url }}" class="vd-arrow-cta">
+              <span class="vd-arrow-cta__label">{{ section.settings.catalogue_primary_link_label | default: 'Voir tous les produits' }}</span>
               <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
                 <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
               </svg>
             </a>
             <a href="/pages/recettes" class="vd-arrow-cta">
-              <span class="vd-arrow-cta__label">Entrer par les recettes</span>
+              <span class="vd-arrow-cta__label">{{ section.settings.catalogue_secondary_link_label | default: 'Entrer par les recettes' }}</span>
               <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
                 <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
               </svg>
@@ -431,11 +474,11 @@
           </div>
         </div>
 
-        <div class="vd-catalogue__stage" aria-hidden="true">
+        <div class="vd-catalogue__stage">
           <div class="vd-catalogue__stage-glow"></div>
           <div class="vd-catalogue__mosaic">
             {% if hero_image_primary != blank %}
-              <div class="vd-catalogue__mosaic-tile vd-catalogue__mosaic-tile--1">
+              <a href="{{ routes.all_products_collection_url }}" class="vd-catalogue__mosaic-tile vd-catalogue__mosaic-tile--1">
                 {{
                   hero_image_primary
                   | image_url: width: 1600
@@ -444,12 +487,16 @@
                     widths: '480, 720, 960, 1280, 1600',
                     sizes: '(min-width: 990px) 52vw, 100vw',
                     loading: 'eager',
-                    alt: hero_collection_primary.title | escape
+                    alt: all_products_collection.title | default: hero_collection_primary.title | escape
                 }}
-              </div>
+                <span class="vd-catalogue__tile-copy">
+                  <span>{{ section.settings.catalogue_primary_link_label | default: 'Voir tous les produits' }}</span>
+                  <strong>{{ all_products_collection.all_products_count }} références</strong>
+                </span>
+              </a>
             {% endif %}
             {% if hero_image_secondary != blank %}
-              <div class="vd-catalogue__mosaic-tile vd-catalogue__mosaic-tile--2">
+              <a href="{{ hero_collection_secondary.url }}" class="vd-catalogue__mosaic-tile vd-catalogue__mosaic-tile--2">
                 {{
                   hero_image_secondary
                   | image_url: width: 960
@@ -460,10 +507,14 @@
                     loading: 'lazy',
                     alt: hero_collection_secondary.title | escape
                 }}
-              </div>
+                <span class="vd-catalogue__tile-copy">
+                  <span>Collection</span>
+                  <strong>{{ hero_collection_secondary.title }}</strong>
+                </span>
+              </a>
             {% endif %}
             {% if hero_image_tertiary != blank %}
-              <div class="vd-catalogue__mosaic-tile vd-catalogue__mosaic-tile--3">
+              <a href="{{ hero_collection_tertiary.url }}" class="vd-catalogue__mosaic-tile vd-catalogue__mosaic-tile--3">
                 {{
                   hero_image_tertiary
                   | image_url: width: 960
@@ -474,19 +525,51 @@
                     loading: 'lazy',
                     alt: hero_collection_tertiary.title | escape
                 }}
-              </div>
+                <span class="vd-catalogue__tile-copy">
+                  <span>Collection</span>
+                  <strong>{{ hero_collection_tertiary.title }}</strong>
+                </span>
+              </a>
             {% endif %}
-          </div>
-
-          <div class="vd-catalogue__glass-panel">
-            <span>Lecture</span>
-            <h2>Des origines nettes, des formats lisibles, des accords crédibles.</h2>
-            <p>Chaque univers doit pouvoir renvoyer ensuite vers les recettes, les bundles et les conseils utiles, sans casser le désir ni la clarté.</p>
           </div>
         </div>
       </div>
 
       <div class="vd-catalogue__grid" role="list">
+        {% if all_products_collection != blank %}
+          <article class="vd-catalogue__card vd-catalogue__card--all" role="listitem">
+            <a href="{{ routes.all_products_collection_url }}" class="vd-catalogue__card-link">
+              {% if hero_image_primary != blank %}
+                <div class="vd-catalogue__card-media">
+                  {{
+                    hero_image_primary
+                    | image_url: width: 1200
+                    | image_tag:
+                      class: 'vd-catalogue__card-image',
+                      widths: '360, 540, 720, 960, 1200',
+                      sizes: '(min-width: 990px) 30vw, 92vw',
+                      loading: 'lazy',
+                      alt: all_products_collection.title | escape
+                  }}
+                </div>
+              {% endif %}
+              <div class="vd-catalogue__card-head">
+                <span>Vue d’ensemble</span>
+                <strong>{{ all_products_collection.all_products_count }} refs</strong>
+              </div>
+              <h2>Voir tout le catalogue</h2>
+              <div class="vd-catalogue__card-text rte">
+                <p>Retrouver l’ensemble de la maison pour comparer rapidement les formats, les intensités, les cadeaux et les usages quotidiens.</p>
+              </div>
+              <span class="vd-arrow-cta">
+                <span class="vd-arrow-cta__label">Parcourir tous les produits</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </span>
+            </a>
+          </article>
+        {% endif %}
         {% for handle in catalogue_handles_array %}
           {%- liquid
             assign entry_collection = collections[handle]
@@ -524,33 +607,35 @@
             endcase
           -%}
           <article class="vd-catalogue__card" role="listitem">
-            {% if entry_image != blank %}
-              <div class="vd-catalogue__card-media">
-                {{
-                  entry_image
-                  | image_url: width: 1200
-                  | image_tag:
-                    class: 'vd-catalogue__card-image',
-                    widths: '360, 540, 720, 960, 1200',
-                    sizes: '(min-width: 990px) 30vw, 92vw',
-                    loading: 'lazy',
-                    alt: entry_title | escape
-                }}
+            <a href="{{ entry_collection.url }}" class="vd-catalogue__card-link">
+              {% if entry_image != blank %}
+                <div class="vd-catalogue__card-media">
+                  {{
+                    entry_image
+                    | image_url: width: 1200
+                    | image_tag:
+                      class: 'vd-catalogue__card-image',
+                      widths: '360, 540, 720, 960, 1200',
+                      sizes: '(min-width: 990px) 30vw, 92vw',
+                      loading: 'lazy',
+                      alt: entry_title | escape
+                  }}
+                </div>
+              {% endif %}
+              <div class="vd-catalogue__card-head">
+                <span>{{ entry_kicker }}</span>
+                <strong>{{ entry_collection.all_products_count }} refs</strong>
               </div>
-            {% endif %}
-            <div class="vd-catalogue__card-head">
-              <span>{{ entry_kicker }}</span>
-              <strong>{{ entry_collection.all_products_count }} refs</strong>
-            </div>
-            <h2>{{ entry_title }}</h2>
-            <div class="vd-catalogue__card-text rte">
-              <p>{{ entry_text }}</p>
-            </div>
-            <a href="{{ entry_collection.url }}" class="vd-arrow-cta">
-              <span class="vd-arrow-cta__label">{{ entry_link_label }}</span>
-              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-              </svg>
+              <h2>{{ entry_title }}</h2>
+              <div class="vd-catalogue__card-text rte">
+                <p>{{ entry_text }}</p>
+              </div>
+              <span class="vd-arrow-cta">
+                <span class="vd-arrow-cta__label">{{ entry_link_label }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </span>
             </a>
           </article>
         {% endfor %}
@@ -634,6 +719,56 @@
       "type": "image_picker",
       "id": "recipes_background_image",
       "label": "Image de fond recettes"
+    },
+    {
+      "type": "header",
+      "content": "Catalogue"
+    },
+    {
+      "type": "text",
+      "id": "catalogue_eyebrow",
+      "label": "Sur-titre catalogue",
+      "default": "Catalogue"
+    },
+    {
+      "type": "textarea",
+      "id": "catalogue_heading",
+      "label": "Titre catalogue",
+      "default": "Explorer la maison par matière, intensité et usage."
+    },
+    {
+      "type": "richtext",
+      "id": "catalogue_text",
+      "label": "Introduction catalogue",
+      "default": "<p>Vanille Bourbon, épices, poivres, assemblages, huiles et formats cadeau: une entrée claire pour retrouver la bonne matière, le bon usage et le bon niveau de gamme.</p>"
+    },
+    {
+      "type": "text",
+      "id": "catalogue_handles",
+      "label": "Handles collections catalogue",
+      "default": "vanille-bourbon,epices-madagascar,poivre-baies,sels-aromatises,huiles-essentielles"
+    },
+    {
+      "type": "text",
+      "id": "catalogue_primary_link_label",
+      "label": "Libellé CTA principal catalogue",
+      "default": "Voir tous les produits"
+    },
+    {
+      "type": "text",
+      "id": "catalogue_secondary_link_label",
+      "label": "Libellé CTA secondaire catalogue",
+      "default": "Entrer par les recettes"
+    },
+    {
+      "type": "video",
+      "id": "catalogue_background_video",
+      "label": "Vidéo Shopify de fond catalogue"
+    },
+    {
+      "type": "image_picker",
+      "id": "catalogue_background_image",
+      "label": "Image de fond catalogue"
     },
     {
       "type": "range",
