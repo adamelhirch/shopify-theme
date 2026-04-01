@@ -13,34 +13,35 @@
     assign hero_eyebrow = 'Collection'
   endif
 
-  assign metric_primary_label = section.settings.metric_primary_label
-  if metric_primary_label == blank
-    assign metric_primary_label = 'Selection'
+  assign display_title = collection.title
+  assign curation_note = 'Une lecture plus nette des formats, de la matiere et des usages.'
+  assign hero_detail = collection_products_count | append: ' ' | append: collection_products_label
+  assign primary_visual = collection.image
+  assign feature_product_primary = collection.products.first
+  assign feature_product_secondary = collection.products[1]
+  assign feature_product_tertiary = collection.products[2]
+
+  if collection.handle == 'all'
+    assign display_title = 'Catalogue'
+    assign hero_eyebrow = 'Maison'
+    assign curation_note = "Un parcours plus editorial pour entrer par la matiere, le geste et l'usage sans sensation de catalogue generique."
+    assign hero_detail = 'Selection complete de la maison'
+  elsif collection.handle == 'vanille-bourbon'
+    assign curation_note = 'La matiere signature: gousses, caviar, extraits et formats de cuisine ou de cadeau.'
+    assign hero_detail = 'Gousses, extraits, caviar'
+  elsif collection.handle == 'epices-madagascar'
+    assign curation_note = 'Poivres, combava, cannelle et epices de cuisine dans une lecture plus sensorielle et plus precise.'
+    assign hero_detail = 'Accords, intensites, cuisines'
+  elsif collection.handle == 'sels-aromatises'
+    assign curation_note = "Des assemblages signatures pour la finition, l'assaisonnement et les accords plus contemporains."
+    assign hero_detail = 'Assemblages aromatiques'
+  elsif collection.handle == 'huiles-essentielles'
+    assign curation_note = 'Une approche claire et responsable pour les usages externes, les precautions et la bonne orientation produit.'
+    assign hero_detail = 'Usage externe et dilution'
   endif
 
-  assign metric_primary_value = section.settings.metric_primary_value
-  if metric_primary_value == blank
-    assign metric_primary_value = collection_products_count | append: ' ' | append: collection_products_label
-  endif
-
-  assign metric_secondary_label = section.settings.metric_secondary_label
-  if metric_secondary_label == blank
-    assign metric_secondary_label = 'Lecture'
-  endif
-
-  assign metric_secondary_value = section.settings.metric_secondary_value
-  if metric_secondary_value == blank
-    assign metric_secondary_value = 'Formats, intensite, usages'
-  endif
-
-  assign metric_tertiary_label = section.settings.metric_tertiary_label
-  if metric_tertiary_label == blank
-    assign metric_tertiary_label = 'Suite'
-  endif
-
-  assign metric_tertiary_value = section.settings.metric_tertiary_value
-  if metric_tertiary_value == blank
-    assign metric_tertiary_value = 'Recettes, conseils, wiki'
+  if primary_visual == blank and feature_product_primary != blank
+    assign primary_visual = feature_product_primary.featured_media.preview_image | default: feature_product_primary.featured_image
   endif
 -%}
 
@@ -54,74 +55,119 @@
 
 <div class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
   <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    <div class="collection-hero__text-wrapper">
-      <span class="vd-section-kicker">{{ hero_eyebrow }}</span>
-      <h1 class="collection-hero__title">
-        <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
-        {{- collection.title | escape -}}
-      </h1>
+    <div class="collection-hero__shell">
+      <div class="collection-hero__text-wrapper">
+        <span class="vd-section-kicker">{{ hero_eyebrow }}</span>
+        <h1 class="collection-hero__title">
+          <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
+          {{- display_title | escape -}}
+        </h1>
 
-      {%- if section.settings.show_collection_description -%}
-        <div class="collection-hero__description rte">{{ collection.description }}</div>
-      {%- endif -%}
+        <div class="collection-hero__details" role="list">
+          <span class="collection-hero__detail" role="listitem">{{ collection_products_count }} {{ collection_products_label }}</span>
+          <span class="collection-hero__detail" role="listitem">{{ hero_detail }}</span>
+        </div>
 
-      <div class="collection-hero__metrics" role="list">
-        <div class="collection-hero__metric" role="listitem">
-          <span>{{ metric_primary_label }}</span>
-          <strong>{{ metric_primary_value }}</strong>
-        </div>
-        <div class="collection-hero__metric" role="listitem">
-          <span>{{ metric_secondary_label }}</span>
-          <strong>{{ metric_secondary_value }}</strong>
-        </div>
-        <div class="collection-hero__metric" role="listitem">
-          <span>{{ metric_tertiary_label }}</span>
-          <strong>{{ metric_tertiary_value }}</strong>
-        </div>
+        {%- if section.settings.show_collection_description and collection.description != blank -%}
+          <div class="collection-hero__description rte">{{ collection.description }}</div>
+        {%- else -%}
+          <div class="collection-hero__description rte"><p>{{ curation_note }}</p></div>
+        {%- endif -%}
+
+        {%- if section.settings.primary_link_label != blank or section.settings.secondary_link_label != blank -%}
+          <div class="collection-hero__actions">
+            {%- if section.settings.primary_link_label != blank and section.settings.primary_link != blank -%}
+              <a href="{{ section.settings.primary_link }}" class="vd-arrow-cta">
+                <span class="vd-arrow-cta__label">{{ section.settings.primary_link_label }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </a>
+            {%- endif -%}
+            {%- if section.settings.secondary_link_label != blank and section.settings.secondary_link != blank -%}
+              <a href="{{ section.settings.secondary_link }}" class="vd-arrow-cta">
+                <span class="vd-arrow-cta__label">{{ section.settings.secondary_link_label }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
       </div>
 
-      {%- if section.settings.primary_link_label != blank or section.settings.secondary_link_label != blank -%}
-        <div class="collection-hero__actions">
-          {%- if section.settings.primary_link_label != blank and section.settings.primary_link != blank -%}
-            <a href="{{ section.settings.primary_link }}" class="vd-arrow-cta">
-              <span class="vd-arrow-cta__label">{{ section.settings.primary_link_label }}</span>
-              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-              </svg>
-            </a>
-          {%- endif -%}
-          {%- if section.settings.secondary_link_label != blank and section.settings.secondary_link != blank -%}
-            <a href="{{ section.settings.secondary_link }}" class="vd-arrow-cta">
-              <span class="vd-arrow-cta__label">{{ section.settings.secondary_link_label }}</span>
-              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-              </svg>
-            </a>
-          {%- endif -%}
+      <div class="collection-hero__stage">
+        <div class="collection-hero__stage-glow" aria-hidden="true"></div>
+        {% if primary_visual != blank %}
+          <div class="collection-hero__visual collection-hero__visual--main media gradient">
+            <img
+              srcset="
+                {%- if primary_visual.width >= 360 -%}{{ primary_visual | image_url: width: 360 }} 360w,{%- endif -%}
+                {%- if primary_visual.width >= 535 -%}{{ primary_visual | image_url: width: 535 }} 535w,{%- endif -%}
+                {%- if primary_visual.width >= 750 -%}{{ primary_visual | image_url: width: 750 }} 750w,{%- endif -%}
+                {%- if primary_visual.width >= 1070 -%}{{ primary_visual | image_url: width: 1070 }} 1070w,{%- endif -%}
+                {%- if primary_visual.width >= 1500 -%}{{ primary_visual | image_url: width: 1500 }} 1500w,{%- endif -%}
+                {{ primary_visual | image_url }} {{ primary_visual.width }}w
+              "
+              src="{{ primary_visual | image_url: width: 1070 }}"
+              sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 120 | divided_by: 2 }}px, (min-width: 750px) calc(54vw - 10rem), calc(100vw - 4rem)"
+              alt="{{ primary_visual.alt | default: display_title | escape }}"
+              width="{{ primary_visual.width }}"
+              height="{{ primary_visual.height }}"
+            >
+          </div>
+        {% endif %}
+
+        {% if feature_product_secondary != blank %}
+          <a class="collection-hero__floating-card collection-hero__floating-card--top" href="{{ feature_product_secondary.url }}">
+            {% assign floating_image_top = feature_product_secondary.featured_media.preview_image | default: feature_product_secondary.featured_image %}
+            {% if floating_image_top != blank %}
+              {{
+                floating_image_top
+                | image_url: width: 320
+                | image_tag:
+                  class: 'collection-hero__floating-image',
+                  widths: '160, 240, 320',
+                  sizes: '18rem',
+                  loading: 'lazy',
+                  alt: feature_product_secondary.title | escape
+              }}
+            {% endif %}
+            <div class="collection-hero__floating-copy">
+              <span>{{ feature_product_secondary.type | default: 'Selection' }}</span>
+              <strong>{{ feature_product_secondary.title }}</strong>
+            </div>
+          </a>
+        {% endif %}
+
+        {% if feature_product_tertiary != blank %}
+          <a class="collection-hero__floating-card collection-hero__floating-card--bottom" href="{{ feature_product_tertiary.url }}">
+            {% assign floating_image_bottom = feature_product_tertiary.featured_media.preview_image | default: feature_product_tertiary.featured_image %}
+            {% if floating_image_bottom != blank %}
+              {{
+                floating_image_bottom
+                | image_url: width: 320
+                | image_tag:
+                  class: 'collection-hero__floating-image',
+                  widths: '160, 240, 320',
+                  sizes: '18rem',
+                  loading: 'lazy',
+                  alt: feature_product_tertiary.title | escape
+              }}
+            {% endif %}
+            <div class="collection-hero__floating-copy">
+              <span>{{ feature_product_tertiary.type | default: 'Signature' }}</span>
+              <strong>{{ feature_product_tertiary.title }}</strong>
+            </div>
+          </a>
+        {% endif %}
+
+        <div class="collection-hero__glass-note">
+          <span>Curation</span>
+          <p>{{ curation_note }}</p>
         </div>
-      {%- endif -%}
+      </div>
     </div>
-
-    {%- if section.settings.show_collection_image and collection.image -%}
-      <div class="collection-hero__image-container media gradient">
-        <img
-          srcset="
-            {%- if collection.image.width >= 165 -%}{{ collection.image | image_url: width: 165 }} 165w,{%- endif -%}
-            {%- if collection.image.width >= 360 -%}{{ collection.image | image_url: width: 360 }} 360w,{%- endif -%}
-            {%- if collection.image.width >= 535 -%}{{ collection.image | image_url: width: 535 }} 535w,{%- endif -%}
-            {%- if collection.image.width >= 750 -%}{{ collection.image | image_url: width: 750 }} 750w,{%- endif -%}
-            {%- if collection.image.width >= 1070 -%}{{ collection.image | image_url: width: 1070 }} 1070w,{%- endif -%}
-            {%- if collection.image.width >= 1500 -%}{{ collection.image | image_url: width: 1500 }} 1500w,{%- endif -%}
-            {{ collection.image | image_url }} {{ collection.image.width }}w
-          "
-          src="{{ collection.image | image_url: width: 750 }}"
-          sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px, (min-width: 750px) calc(50vw - 130px), calc(50vw - 55px)"
-          alt="{{ collection.image.alt | escape }}"
-          width="{{ collection.image.width }}"
-          height="{{ collection.image.height }}"
-        >
-      </div>
-    {%- endif -%}
   </div>
 </div>
 

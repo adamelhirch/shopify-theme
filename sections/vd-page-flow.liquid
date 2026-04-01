@@ -278,26 +278,26 @@
 
       {% if is_catalog_page %}
         <div class="vd-catalogue vd-catalogue--page-flow">
-          <div class="vd-catalogue__hero">
+          <div class="vd-catalogue__hero vd-catalogue__hero--immersive">
             <div class="vd-catalogue__hero-copy">
               <span class="vd-section-kicker">Catalogue</span>
               <h1 class="vd-catalogue__title">{{ page.title }}</h1>
               <div class="vd-catalogue__text">
                 <p>
-                  Une entree claire pour explorer la maison par univers, usages et niveau de gamme, avec une lecture
-                  nette des formats, de la matiere et des suites logiques.
+                  Un catalogue qui doit donner envie avant meme le clic: plus de matiere, plus de desir, plus de
+                  modernite, sans tomber dans un langage de maquette ou un empilement de tuiles standards.
                 </p>
               </div>
 
               <div class="vd-catalogue__actions">
-                <a class="vd-arrow-cta" href="/collections/all">
-                  <span class="vd-arrow-cta__label">Voir tous les produits</span>
+                <a class="vd-arrow-cta" href="/collections/vanille-bourbon">
+                  <span class="vd-arrow-cta__label">Entrer par la vanille</span>
                   <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
                     <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
                   </svg>
                 </a>
-                <a class="vd-arrow-cta" href="/pages/recettes">
-                  <span class="vd-arrow-cta__label">Voir les recettes</span>
+                <a class="vd-arrow-cta" href="/collections/all">
+                  <span class="vd-arrow-cta__label">Voir toute la selection</span>
                   <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
                     <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
                   </svg>
@@ -305,35 +305,32 @@
               </div>
             </div>
 
-            <div class="vd-catalogue__hero-panel">
-              <div class="vd-catalogue__quicklinks">
-                <a href="/collections/vanille-bourbon" class="vd-catalogue__quicklink">
-                  <span>Signature</span>
-                  <strong>Commencer par la vanille Bourbon</strong>
-                </a>
-                <a href="/collections/all?filter.v.availability=1" class="vd-catalogue__quicklink">
-                  <span>Selection</span>
-                  <strong>Voir les produits disponibles</strong>
-                </a>
-                <a href="/pages/contact" class="vd-catalogue__quicklink">
-                  <span>Conseil</span>
-                  <strong>Nous orienter selon un usage</strong>
-                </a>
+            <div class="vd-catalogue__stage">
+              <div class="vd-catalogue__stage-glow" aria-hidden="true"></div>
+              <div class="vd-catalogue__mosaic" role="presentation">
+                {% for collection_handle in catalogue_collection_handles limit: 3 %}
+                  {% assign featured_collection = collections[collection_handle] %}
+                  {% if featured_collection != blank and featured_collection.featured_image != blank %}
+                    <div class="vd-catalogue__mosaic-tile vd-catalogue__mosaic-tile--{{ forloop.index }}">
+                      {{
+                        featured_collection.featured_image
+                        | image_url: width: 1200
+                        | image_tag:
+                          class: 'vd-catalogue__mosaic-image',
+                          widths: '360, 540, 720, 960, 1200',
+                          sizes: '(min-width: 990px) 18vw, 32vw',
+                          loading: 'lazy',
+                          alt: featured_collection.title | escape
+                      }}
+                    </div>
+                  {% endif %}
+                {% endfor %}
               </div>
 
-              <div class="vd-catalogue__metric-list" role="list">
-                <div class="vd-catalogue__metric" role="listitem">
-                  <span>Navigation</span>
-                  <strong>Par univers et besoin</strong>
-                </div>
-                <div class="vd-catalogue__metric" role="listitem">
-                  <span>Promesse</span>
-                  <strong>Moins de bruit, plus de repere</strong>
-                </div>
-                <div class="vd-catalogue__metric" role="listitem">
-                  <span>Suite</span>
-                  <strong>Produits, recettes, contact</strong>
-                </div>
+              <div class="vd-catalogue__glass-panel">
+                <span>Direction</span>
+                <h2>Une vitrine plus sensorielle, plus nette, plus contemporaine.</h2>
+                <p>Le catalogue retrouve une vraie desirabilite visuelle: matiere, profondeur, transparence et parcours lisible.</p>
               </div>
             </div>
           </div>
@@ -409,24 +406,6 @@
                 </article>
               {% endif %}
             {% endfor %}
-          </div>
-
-          <div class="vd-page-flow__pillars vd-catalogue__pillars" role="list">
-            <article class="vd-page-flow__pillar" role="listitem">
-              <span>01</span>
-              <h2>Choisir par usage</h2>
-              <p>Chaque entree doit aider a distinguer infusion, patisserie, cadeau, assaisonnement ou usage quotidien.</p>
-            </article>
-            <article class="vd-page-flow__pillar" role="listitem">
-              <span>02</span>
-              <h2>Relier les contenus utiles</h2>
-              <p>Le catalogue doit renvoyer vers les recettes, le wiki et le contact au bon moment, sans parasiter l'achat.</p>
-            </article>
-            <article class="vd-page-flow__pillar" role="listitem">
-              <span>03</span>
-              <h2>Monter en gamme sans folklore</h2>
-              <p>La tenue premium passe par la clarte, la selection et la matiere, pas par des artifices de template.</p>
-            </article>
           </div>
         </div>
       {% endif %}

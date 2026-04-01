@@ -14,7 +14,12 @@
 
   assign intro_heading = section.settings.intro_heading
   if intro_heading == blank
-    assign intro_heading = 'Trouver le bon produit doit rester simple, meme dans une gamme exigeante.'
+    assign intro_heading = "Choisir la bonne matiere, le bon format, le bon niveau d'intensite."
+  endif
+
+  assign intro_note = section.settings.intro_text
+  if intro_note == blank
+    assign intro_note = '<p>Un filtre doit aider a comparer, pas a casser la desirabilite. La lecture reste nette, rapide et plus sensorielle.</p>'
   endif
 -%}
 
@@ -116,32 +121,37 @@
         <div class="vd-collection-grid__intro-copy">
           <span class="vd-section-kicker">{{ intro_kicker }}</span>
           <h2>{{ intro_heading }}</h2>
-          {%- if section.settings.intro_text != blank -%}
-            <div class="rte">
-              {{ section.settings.intro_text }}
+          <div class="rte">
+            {{ intro_note }}
+          </div>
+        </div>
+        <div class="vd-collection-grid__intro-links">
+          {%- if section.settings.primary_link_label != blank or section.settings.secondary_link_label != blank -%}
+            <div class="vd-collection-grid__action-stack">
+              {%- if section.settings.primary_link_label != blank and section.settings.primary_link != blank -%}
+                <a href="{{ section.settings.primary_link }}" class="vd-arrow-cta">
+                  <span class="vd-arrow-cta__label">{{ section.settings.primary_link_label }}</span>
+                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                  </svg>
+                </a>
+              {%- endif -%}
+              {%- if section.settings.secondary_link_label != blank and section.settings.secondary_link != blank -%}
+                <a href="{{ section.settings.secondary_link }}" class="vd-arrow-cta">
+                  <span class="vd-arrow-cta__label">{{ section.settings.secondary_link_label }}</span>
+                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                  </svg>
+                </a>
+              {%- endif -%}
             </div>
           {%- endif -%}
-        </div>
-        {%- if section.settings.primary_link_label != blank or section.settings.secondary_link_label != blank -%}
-          <div class="vd-collection-grid__intro-links">
-            {%- if section.settings.primary_link_label != blank and section.settings.primary_link != blank -%}
-              <a href="{{ section.settings.primary_link }}" class="vd-arrow-cta">
-                <span class="vd-arrow-cta__label">{{ section.settings.primary_link_label }}</span>
-                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                </svg>
-              </a>
-            {%- endif -%}
-            {%- if section.settings.secondary_link_label != blank and section.settings.secondary_link != blank -%}
-              <a href="{{ section.settings.secondary_link }}" class="vd-arrow-cta">
-                <span class="vd-arrow-cta__label">{{ section.settings.secondary_link_label }}</span>
-                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                </svg>
-              </a>
-            {%- endif -%}
+
+          <div class="vd-collection-grid__curation-note">
+            <span>Edition</span>
+            <p>Une selection qui reste filtrable, lisible et assez desirante pour donner envie avant meme l'ouverture d'une fiche produit.</p>
           </div>
-        {%- endif -%}
+        </div>
       </div>
       {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
         <aside

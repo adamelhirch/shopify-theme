@@ -14,7 +14,7 @@
         "metric_tertiary_value": "Recettes, conseils, wiki",
         "primary_link_label": "Voir les recettes",
         "primary_link": "/pages/recettes",
-        "secondary_link_label": "Parler avec nous",
+        "secondary_link_label": "Demander conseil",
         "secondary_link": "/pages/contact"
       }
     },
@@ -32,9 +32,9 @@
         "enable_filtering": true,
         "enable_sorting": true,
         "color_scheme": "scheme-3",
-        "intro_kicker": "Catalogue",
-        "intro_heading": "Comparer les formats sans perdre la sensation de qualite.",
-        "intro_text": "<p>Le catalogue doit rester rapide a filtrer, net a lire et suffisamment precis pour aider a choisir entre usage quotidien, cadeau ou cuisine plus exigeante.</p>",
+        "intro_kicker": "Selection",
+        "intro_heading": "Choisir un format, une intensite, une sensation.",
+        "intro_text": "<p>Le filtre reste rapide, mais la page doit conserver une vraie desirabilite visuelle et une lecture haut de gamme du premier scroll jusqu'au panier.</p>",
         "primary_link_label": "Voir les recettes",
         "primary_link": "/pages/recettes",
         "secondary_link_label": "Demander conseil",
