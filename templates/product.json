@@ -54,9 +54,6 @@
             "enable_quick_add": false
           }
         },
-        "description": {
-          "type": "description"
-        },
         "collapsible-row-0": {
           "type": "collapsible_tab",
           "settings": {
@@ -109,7 +106,6 @@
         "quantity_selector",
         "buy_buttons",
         "complementary",
-        "description",
         "collapsible-row-0",
         "collapsible-row-1",
         "collapsible-row-2",

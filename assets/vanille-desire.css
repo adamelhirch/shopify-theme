@@ -33,6 +33,7 @@ body::after {
   pointer-events: none;
   z-index: -1;
   filter: blur(12px);
+  display: none;
 }
 
 body::before {
@@ -4989,9 +4990,7 @@ body:has(.section-vd-hero) .header-wrapper {
   padding: 2.2rem;
   border-radius: 0.8rem;
   border: 1px solid rgba(var(--vd-white), 0.08);
-  background:
-    linear-gradient(180deg, rgba(var(--vd-white), 0.05), rgba(var(--vd-white), 0.03)),
-    rgba(var(--vd-black-soft), 0.66);
+  background: rgba(var(--vd-black-soft), 0.72);
   box-shadow: 0 2rem 5rem rgba(var(--vd-shadow), 0.18);
 }
 
@@ -5253,9 +5252,7 @@ body:has(.section-vd-hero) .header-wrapper {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(9, 9, 9, 0.18) 0%, rgba(9, 9, 9, 0.56) 68%, rgba(9, 9, 9, 0.82) 100%),
-    radial-gradient(circle at 82% 18%, rgba(214, 128, 43, 0.22), transparent 26%);
+  background: linear-gradient(180deg, rgba(9, 9, 9, 0.22) 0%, rgba(9, 9, 9, 0.58) 68%, rgba(9, 9, 9, 0.82) 100%);
 }
 
 .collection-hero__backdrop-media {
@@ -5314,14 +5311,7 @@ body:has(.section-vd-hero) .header-wrapper {
 }
 
 .collection-hero__stage-glow {
-  position: absolute;
-  inset: 6% 10% auto auto;
-  width: 24rem;
-  height: 24rem;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(207, 126, 45, 0.34), rgba(207, 126, 45, 0));
-  filter: blur(30px);
-  opacity: 0.9;
+  display: none;
 }
 
 .collection-hero__visual {
@@ -5337,9 +5327,7 @@ body:has(.section-vd-hero) .header-wrapper {
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.28)),
-    linear-gradient(120deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0));
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.22));
 }
 
 .collection-hero__visual img {
@@ -5424,10 +5412,7 @@ body:has(.section-vd-hero) .header-wrapper {
   padding: clamp(1.8rem, 2.4vw, 2.6rem);
   border: 1px solid rgba(var(--vd-white), 0.1);
   border-radius: 1.8rem;
-  background:
-    radial-gradient(circle at top left, rgba(210, 133, 53, 0.16), transparent 42%),
-    linear-gradient(180deg, rgba(var(--vd-white), 0.05), rgba(var(--vd-white), 0.03)),
-    rgba(var(--vd-black-soft), 0.76);
+  background: rgba(var(--vd-black-soft), 0.76);
   -webkit-backdrop-filter: blur(16px) saturate(116%);
   backdrop-filter: blur(16px) saturate(116%);
   box-shadow: 0 2rem 5rem rgba(var(--vd-shadow), 0.16);
@@ -5473,16 +5458,11 @@ body:has(.section-vd-hero) .header-wrapper {
   border-radius: 2rem;
   overflow: hidden;
   border: 1px solid rgba(var(--vd-white), 0.08);
-  background:
-    radial-gradient(circle at top center, rgba(210, 133, 53, 0.18), transparent 38%),
-    linear-gradient(180deg, rgba(var(--vd-white), 0.06), rgba(var(--vd-white), 0.02)),
-    rgba(var(--vd-black-soft), 0.72);
+  background: rgba(var(--vd-black-soft), 0.72);
 }
 
 .collection .product-card-wrapper .card__media .media {
-  background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.08), transparent 44%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.14));
+  background: rgba(0, 0, 0, 0.08);
 }
 
 .collection .product-card-wrapper .card__media img {
@@ -5542,9 +5522,7 @@ body:has(.section-vd-hero) .header-wrapper {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(10, 10, 10, 0.18) 0%, rgba(10, 10, 10, 0.58) 62%, rgba(10, 10, 10, 0.84) 100%),
-    radial-gradient(circle at 18% 20%, rgba(210, 133, 53, 0.2), transparent 34%);
+  background: linear-gradient(180deg, rgba(10, 10, 10, 0.18) 0%, rgba(10, 10, 10, 0.56) 62%, rgba(10, 10, 10, 0.82) 100%);
 }
 
 .vd-product-shell__backdrop-media {
@@ -5566,9 +5544,7 @@ body:has(.section-vd-hero) .header-wrapper {
 .related-products {
   border: 1px solid rgba(var(--vd-white), 0.08);
   border-radius: 1.8rem;
-  background:
-    linear-gradient(180deg, rgba(var(--vd-white), 0.06), rgba(var(--vd-white), 0.025)),
-    rgba(var(--vd-black-soft), 0.76);
+  background: rgba(var(--vd-black-soft), 0.78);
   -webkit-backdrop-filter: blur(18px) saturate(120%);
   backdrop-filter: blur(18px) saturate(120%);
   box-shadow: 0 2rem 5rem rgba(var(--vd-shadow), 0.18);
@@ -5606,9 +5582,7 @@ body:has(.section-vd-hero) .header-wrapper {
   padding: 1.8rem;
   border: 1px solid rgba(var(--vd-white), 0.1);
   border-radius: 1.6rem;
-  background:
-    linear-gradient(180deg, rgba(var(--vd-white), 0.05), rgba(var(--vd-white), 0.02)),
-    rgba(var(--vd-black-soft), 0.44);
+  background: rgba(var(--vd-black-soft), 0.52);
   -webkit-backdrop-filter: blur(14px) saturate(116%);
   backdrop-filter: blur(14px) saturate(116%);
 }
@@ -5987,10 +5961,7 @@ body:has(.section-vd-hero) .header-wrapper {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(8, 8, 8, 0.16) 0%, rgba(8, 8, 8, 0.52) 64%, rgba(8, 8, 8, 0.82) 100%),
-    radial-gradient(circle at 20% 24%, rgba(210, 133, 53, 0.18), transparent 28%),
-    radial-gradient(circle at 78% 18%, rgba(255, 255, 255, 0.11), transparent 24%);
+  background: linear-gradient(180deg, rgba(8, 8, 8, 0.14) 0%, rgba(8, 8, 8, 0.48) 64%, rgba(8, 8, 8, 0.8) 100%);
 }
 
 .vd-catalogue__backdrop-media {
@@ -6009,13 +5980,7 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .vd-catalogue--page-flow::before,
 .vd-catalogue--page-flow::after {
-  content: "";
-  position: absolute;
-  inset: auto;
-  z-index: -1;
-  pointer-events: none;
-  border-radius: 999px;
-  filter: blur(26px);
+  display: none;
 }
 
 .vd-catalogue--page-flow::before {
@@ -6053,9 +6018,7 @@ body:has(.section-vd-hero) .header-wrapper {
   padding: 2.4rem;
   border: 1px solid rgba(var(--vd-white), 0.08);
   border-radius: 0.8rem;
-  background:
-    linear-gradient(180deg, rgba(var(--vd-white), 0.05), rgba(var(--vd-white), 0.03)),
-    rgba(var(--vd-black-soft), 0.74);
+  background: rgba(var(--vd-black-soft), 0.74);
   box-shadow: 0 2rem 5rem rgba(var(--vd-shadow), 0.2);
 }
 
@@ -6091,13 +6054,7 @@ body:has(.section-vd-hero) .header-wrapper {
 }
 
 .vd-catalogue__stage-glow {
-  position: absolute;
-  inset: 6% auto auto 12%;
-  width: 28rem;
-  height: 28rem;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(209, 126, 45, 0.3), rgba(209, 126, 45, 0));
-  filter: blur(34px);
+  display: none;
 }
 
 .vd-catalogue__mosaic {
@@ -6120,9 +6077,7 @@ body:has(.section-vd-hero) .header-wrapper {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(180deg, rgba(5, 5, 5, 0.04) 0%, rgba(5, 5, 5, 0.42) 100%),
-    linear-gradient(120deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+  background: linear-gradient(180deg, rgba(5, 5, 5, 0.02) 0%, rgba(5, 5, 5, 0.34) 100%);
 }
 
 .vd-catalogue__mosaic-tile:hover,

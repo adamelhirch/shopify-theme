@@ -1,139 +1,215 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
-      "type": "main-product-high-variant",
+      "type": "main-product",
       "blocks": {
-        "title": {
-          "type": "_section-flex-pdp-title",
-          "settings": {}
-        },
         "vendor": {
-          "type": "_section-flex-pdp-vendor",
-          "settings": {}
+          "type": "text",
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title": {
+          "type": "title"
+        },
+        "caption": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.metafields.descriptors.subtitle.value }}",
+            "text_style": "subtitle"
+          }
         },
         "price": {
-          "type": "_section-flex-pdp-price",
-          "settings": {}
-        },
-        "installments": {
-          "type": "_section-flex-pdp-installments",
-          "disabled": true,
-          "settings": {}
-        },
-        "divider": {
-          "type": "_section-flex-pdp-divider",
-          "settings": {}
+          "type": "price"
         },
         "variant_picker": {
-          "type": "_section-flex-pdp-variant-picker",
-          "settings": {}
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button"
+          }
         },
-        "quantity_picker": {
-          "type": "_section-flex-pdp-quantity-picker",
-          "settings": {}
+        "quantity_selector": {
+          "type": "quantity_selector"
         },
         "buy_buttons": {
-          "type": "_section-flex-pdp-buy-buttons",
-          "settings": {}
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
         },
-        "pick_up": {
-          "type": "_section-flex-pdp-pick-up",
-          "disabled": true,
-          "settings": {}
+        "complementary": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "À associer",
+            "eyebrow": "Composer votre panier",
+            "text": "<p>Formats complémentaires, idées cadeau et autres produits de la maison pour prolonger l’usage ou varier les plaisirs.</p>",
+            "make_collapsible_row": false,
+            "icon": "price_tag",
+            "product_list_limit": 4,
+            "products_per_page": 2,
+            "pagination_style": "counter",
+            "image_ratio": "square",
+            "enable_quick_add": false
+          }
         },
-        "description": {
-          "type": "_section-flex-pdp-description",
-          "settings": {}
+        "collapsible-row-0": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Origine & sélection",
+            "icon": "map_pin",
+            "content": "<p>Une sélection suivie à Madagascar, avec une attention portée à la matière, à la préparation et à la tenue aromatique.</p>",
+            "page": ""
+          }
         },
-        "gallery": {
-          "type": "_section-flex-pdp-media-gallery",
-          "settings": {}
+        "collapsible-row-1": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Usages & formats",
+            "icon": "plant",
+            "content": "<p>Selon le format, le produit peut convenir à l’infusion, à la pâtisserie, au dosage quotidien ou à une idée cadeau plus soignée.</p>",
+            "page": ""
+          }
+        },
+        "collapsible-row-2": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Préparation & conservation",
+            "icon": "truck",
+            "content": "<p>Conserver à l’abri de la chaleur et de l’humidité, puis utiliser selon le dosage adapté à votre cuisine et à vos habitudes.</p>",
+            "page": ""
+          }
+        },
+        "collapsible-row-3": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Besoin d’un conseil ?",
+            "icon": "question_mark",
+            "content": "<p>Nous pouvons vous orienter selon l’usage recherché, le niveau d’intensité attendu ou le format le plus adapté.</p>",
+            "page": ""
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Partager"
+          }
         }
       },
       "block_order": [
-        "title",
         "vendor",
+        "title",
+        "caption",
         "price",
-        "installments",
-        "divider",
         "variant_picker",
-        "quantity_picker",
+        "quantity_selector",
         "buy_buttons",
-        "pick_up",
-        "description"
+        "complementary",
+        "collapsible-row-0",
+        "collapsible-row-1",
+        "collapsible-row-2",
+        "collapsible-row-3",
+        "share"
       ],
-      "settings": {}
-    },
-    "sub": {
-      "type": "product-full-width",
-      "disabled": true,
-      "settings": {}
-    },
-    "product-recommendations": {
-      "type": "product-recommendations",
-      "settings": {}
-    },
-    "collection-return": {
-      "type": "collection-return",
-      "settings": {}
-    },
-    "background-image-text": {
-      "type": "background-image-text",
       "settings": {
-        "parallax": false
+        "color_scheme": "scheme-3",
+        "enable_sticky_info": true,
+        "gallery_layout": "stacked",
+        "media_size": "large",
+        "constrain_to_viewport": true,
+        "mobile_thumbnails": "hide",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "support_eyebrow": "Repères",
+        "support_heading": "Bien choisir, bien doser, bien offrir.",
+        "support_text": "<p>Une fiche pensée pour retrouver le bon format, comprendre la matière et poursuivre naturellement vers les recettes ou le reste de la gamme.</p>",
+        "support_point_1": "Formats lisibles selon l’infusion, la pâtisserie, le quotidien ou le cadeau",
+        "support_point_2": "Origine suivie et sélection attentive de la matière",
+        "support_point_3": "Passerelles utiles vers recettes, wiki et produits associés",
+        "support_link_label_1": "Voir les recettes",
+        "support_link_1": "/pages/recettes",
+        "support_link_label_2": "Lire le wiki",
+        "support_link_2": "/blogs/le-wiki",
+        "support_link_label_3": "Parler avec nous",
+        "support_link_3": "/pages/contact",
+        "padding_top": 36,
+        "padding_bottom": 12
       }
     },
-    "text-and-image": {
-      "type": "text-and-image",
-      "settings": {}
-    },
-    "text-and-image2": {
-      "type": "text-and-image",
-      "settings": {
-        "layout": "left"
-      }
-    },
-    "testimonials": {
-      "type": "testimonials",
+    "vd_story_grid_product_j7P2mK": {
+      "type": "vd-story-grid",
       "blocks": {
-        "testimonials-0": {
-          "type": "testimonial",
-          "settings": {}
+        "pillar_1": {
+          "type": "pillar",
+          "settings": {
+            "title": "Usage lisible",
+            "text": "<p>Retrouver rapidement si ce format convient à l’infusion, au dosage quotidien, au dessert ou à un cadeau plus soigné.</p>"
+          }
         },
-        "testimonials-1": {
-          "type": "testimonial",
-          "settings": {}
+        "pillar_2": {
+          "type": "pillar",
+          "settings": {
+            "title": "Origine suivie",
+            "text": "<p>Une provenance claire, une matière choisie avec exigence et des repères sobres pour comprendre la qualité.</p>"
+          }
         },
-        "testimonials-2": {
-          "type": "testimonial",
-          "settings": {}
+        "pillar_3": {
+          "type": "pillar",
+          "settings": {
+            "title": "Suite naturelle",
+            "text": "<p>Continuer vers la collection, les recettes ou des formats complémentaires sans quitter l’univers du produit.</p>"
+          }
         }
       },
       "block_order": [
-        "testimonials-0",
-        "testimonials-1",
-        "testimonials-2"
+        "pillar_1",
+        "pillar_2",
+        "pillar_3"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "La matière, l’usage et les suites naturelles.",
+        "text": "<p>Quelques repères pour comprendre le produit, le bon format et les prolongements utiles dans la maison.</p>",
+        "color_scheme": "scheme-2",
+        "padding_top": 20,
+        "padding_bottom": 28
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "Ils pourraient vous plaire",
+        "heading_size": "h2",
+        "columns_desktop": 4,
+        "image_ratio": "square",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-3",
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "vd_testimonials_product_k3L8sP": {
+      "type": "vd-testimonials",
+      "settings": {
+        "eyebrow": "Rassurance",
+        "heading": "Des avis vérifiés, une confiance plus simple à lire.",
+        "text": "<p>Des retours clients utiles pour confirmer le choix, sans surjouer la promesse.</p>",
+        "reviews_limit": "6",
+        "button_label": "Voir plus de produits",
+        "button_link": "shopify://collections/vanille-bourbon",
+        "color_scheme": "scheme-3",
+        "padding_top": 12,
+        "padding_bottom": 56
+      }
     }
   },
   "order": [
     "main",
-    "sub",
-    "background-image-text",
-    "text-and-image",
-    "text-and-image2",
-    "testimonials",
-    "product-recommendations",
-    "collection-return"
+    "vd_story_grid_product_j7P2mK",
+    "related-products",
+    "vd_testimonials_product_k3L8sP"
   ]
 }
