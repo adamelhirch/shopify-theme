@@ -49,23 +49,56 @@
         class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
         role="list"
       >
-        {% assign skip_card_product_styles = false %}
         {% for recommendation in recommendations.products %}
           <li class="grid__item">
-            {% render 'card-product',
-              card_product: recommendation,
-              media_aspect_ratio: section.settings.image_ratio,
-              image_shape: section.settings.image_shape,
-              show_secondary_image: section.settings.show_secondary_image,
-              show_vendor: section.settings.show_vendor,
-              show_product_type: true,
-              show_subtitle: true,
-              show_rating: section.settings.show_rating,
-              editorial_card: true,
-              skip_styles: skip_card_product_styles
-            %}
+            <article class="vd-related-card">
+              <a href="{{ recommendation.url }}" class="vd-related-card__link">
+                <span class="vd-related-card__shine" aria-hidden="true"></span>
+                <span class="vd-related-card__glow" aria-hidden="true"></span>
+                <div class="vd-related-card__content">
+                  <div class="vd-related-card__media">
+                    {% if recommendation.featured_media != blank %}
+                      {{
+                        recommendation.featured_media
+                        | image_url: width: 960
+                        | image_tag:
+                          class: 'vd-related-card__image',
+                          widths: '320, 480, 720, 960',
+                          sizes: '(min-width: 990px) 25vw, 50vw',
+                          loading: 'lazy',
+                          alt: recommendation.featured_media.alt | default: recommendation.title
+                      }}
+                    {% endif %}
+                  </div>
+                  <div class="vd-related-card__text">
+                    {% if recommendation.type != blank %}
+                      <p class="vd-related-card__eyebrow">{{ recommendation.type }}</p>
+                    {% endif %}
+                    <h3 class="vd-related-card__title">{{ recommendation.title }}</h3>
+                    {% if recommendation.metafields.descriptors.subtitle.value != blank %}
+                      <p class="vd-related-card__description">{{ recommendation.metafields.descriptors.subtitle.value }}</p>
+                    {% endif %}
+                  </div>
+                  <div class="vd-related-card__footer">
+                    <div class="vd-related-card__price">
+                      {% render 'price', product: recommendation, use_variant: false, show_badges: true %}
+                    </div>
+                    <span class="vd-related-card__button" aria-hidden="true">
+                      <svg height="16" width="16" viewBox="0 0 24 24">
+                        <path
+                          stroke-width="2"
+                          stroke="currentColor"
+                          d="M4 12H20M12 4V20"
+                          fill="none"
+                          stroke-linecap="round"
+                        ></path>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </a>
+            </article>
           </li>
-          {%- assign skip_card_product_styles = true -%}
         {% endfor %}
       </ul>
     {% endif %}

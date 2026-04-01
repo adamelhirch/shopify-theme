@@ -83,7 +83,7 @@
             {% endif %}
           >
             <span class="product-form__submit-copy">
-              <span class="product-form__submit-label hover-underline-animation">
+              <span class="product-form__submit-label">
               {%- if product.selected_or_first_available_variant == null -%}
                 {{ 'products.product.unavailable' | t }}
               {%- elsif product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
@@ -110,30 +110,31 @@
           </button>
           {%- if show_dynamic_checkout -%}
             <div class="product-form__express-shell">
-              <div class="product-form__express-showcase" aria-hidden="true">
+              <div class="product-form__express-showcase">
                 <div class="product-form__express-visual">
-                  <div class="product-form__express-card">
+                  <div class="product-form__express-card-ghost">
                     <div class="product-form__express-card-line"></div>
                     <div class="product-form__express-card-dots"></div>
                   </div>
+                  <div class="product-form__express-wallet">
+                    <span>€</span>
+                  </div>
                   <div class="product-form__express-terminal">
                     <div class="product-form__express-terminal-line"></div>
-                    <div class="product-form__express-terminal-screen">
-                      <span>€</span>
-                    </div>
+                    <div class="product-form__express-terminal-screen"></div>
                     <div class="product-form__express-terminal-pad"></div>
                   </div>
                 </div>
                 <div class="product-form__express-copy">
                   <span class="product-form__express-kicker">Paiement express</span>
-                  <strong>Finaliser en un geste</strong>
-                  <p>Apple Pay, Google Pay et les moyens rapides disponibles sur votre appareil.</p>
+                  <strong>Finaliser sans friction</strong>
+                  <p>Apple Pay, Google Pay ou le wallet disponible sur votre appareil au moment du paiement.</p>
                 </div>
               </div>
-              <div class="product-form__express-pills" aria-hidden="true">
-                <span>Apple&nbsp;Pay</span>
-                <span>Google&nbsp;Pay</span>
-                <span>CB</span>
+              <div class="product-form__express-brands" aria-hidden="true">
+                <span>Apple Pay</span>
+                <span>Google Pay</span>
+                <span>Carte</span>
                 <span>PayPal</span>
               </div>
               <div class="product-form__express-button">
