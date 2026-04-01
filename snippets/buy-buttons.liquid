@@ -74,7 +74,7 @@
             id="ProductSubmitButton-{{ section_id }}"
             type="submit"
             name="add"
-            class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+            class="product-form__submit button button--full-width button--primary"
             {% if product.selected_or_first_available_variant.available == false
               or quantity_rule_soldout
               or product.selected_or_first_available_variant == null
@@ -94,7 +94,21 @@
             {%- render 'loading-spinner' -%}
           </button>
           {%- if show_dynamic_checkout -%}
-            {{ form | payment_button }}
+            <div class="product-form__express-shell">
+              <div class="product-form__express-head">
+                <span class="product-form__express-kicker">Paiement express</span>
+                <p>Apple Pay, Google Pay et autres moyens rapides selon votre appareil et votre configuration.</p>
+              </div>
+              <div class="product-form__express-pills" aria-hidden="true">
+                <span>Apple&nbsp;Pay</span>
+                <span>Google&nbsp;Pay</span>
+                <span>CB</span>
+                <span>PayPal</span>
+              </div>
+              <div class="product-form__express-button">
+                {{ form | payment_button }}
+              </div>
+            </div>
           {%- endif -%}
         </div>
       {%- endform -%}
