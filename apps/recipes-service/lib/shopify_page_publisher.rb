@@ -13,7 +13,6 @@ class ShopifyPagePublisher
           id
           handle
           title
-          onlineStoreUrl
         }
       }
     }
@@ -26,7 +25,6 @@ class ShopifyPagePublisher
           id
           handle
           title
-          onlineStoreUrl
           recipeSlug: metafield(namespace: "vd", key: "recipe_slug") {
             id
             value
@@ -51,7 +49,6 @@ class ShopifyPagePublisher
           id
           handle
           title
-          onlineStoreUrl
         }
         userErrors {
           field
@@ -62,13 +59,12 @@ class ShopifyPagePublisher
   GRAPHQL
 
   PAGE_UPDATE_MUTATION = <<~GRAPHQL.freeze
-    mutation PageUpdate($page: PageUpdateInput!) {
-      pageUpdate(page: $page) {
+    mutation PageUpdate($id: ID!, $page: PageUpdateInput!) {
+      pageUpdate(id: $id, page: $page) {
         page {
           id
           handle
           title
-          onlineStoreUrl
         }
         userErrors {
           field
@@ -185,12 +181,12 @@ class ShopifyPagePublisher
 
     payload =
       if existing
-        graphql(PAGE_UPDATE_MUTATION, { page: input.merge(id: existing.fetch('id')) }).fetch('pageUpdate')
+        graphql(PAGE_UPDATE_MUTATION, { id: existing.fetch('id'), page: input }).fetch('pageUpdate')
       else
         graphql(PAGE_CREATE_MUTATION, { page: input }).fetch('pageCreate')
       end
 
-    user_errors = Array(payload['userErrors']).map { |entry| entry['message'] }.reject(&:to_s.empty?)
+    user_errors = Array(payload['userErrors']).map { |entry| entry['message'] }.reject { |message| message.to_s.empty? }
     raise ArgumentError, user_errors.join(', ') unless user_errors.empty?
 
     page = payload['page'] || {}
@@ -200,7 +196,7 @@ class ShopifyPagePublisher
       page_id: page['id'],
       handle: page['handle'] || handle,
       page_url: "/pages/#{page['handle'] || handle}",
-      online_store_url: page['onlineStoreUrl'],
+      online_store_url: "https://#{shop_domain}/pages/#{page['handle'] || handle}",
       shop_domain: shop_domain,
       api_version: api_version,
       metafields_published: include_metafields
@@ -209,15 +205,19 @@ class ShopifyPagePublisher
 
   def metafield_scope_error?(message)
     text = message.to_s.downcase
-    text.include?('metafield') || text.include?('access denied') || text.include?('permission') || text.include?('scope')
+    text.include?('metafield') ||
+      text.include?('access denied') ||
+      text.include?('permission') ||
+      text.include?('scope') ||
+      text.include?('namespace')
   end
 
   def compact_metafields(entries)
-    entries.filter_map do |entry|
+    entries.each_with_object([]) do |entry, result|
       value = entry[:value].to_s.strip
       next if value.empty?
 
-      {
+      result << {
         id: entry[:id],
         namespace: entry[:namespace],
         key: entry[:key],
@@ -240,7 +240,7 @@ class ShopifyPagePublisher
         items = Array(group['items']).map do |item|
           quantity = [item['quantity'], item['unit']].map(&:to_s).reject(&:empty?).join(' ')
           note = item['note'].to_s.strip
-          line = [quantity, item['name']].reject(&:to_s.empty?).join(' ').strip
+          line = [quantity, item['name']].reject { |value| value.to_s.empty? }.join(' ').strip
           line = "#{line} — #{note}" unless note.empty?
           "<li>#{escape(line)}</li>"
         end
@@ -260,21 +260,21 @@ class ShopifyPagePublisher
       sections << "<ol>#{items.join}</ol>"
     end
 
-    body_sections = Array(recipe.dig('seo', 'body_sections')).filter_map do |entry|
+    body_sections = Array(recipe.dig('seo', 'body_sections')).each_with_object([]) do |entry, result|
       title = entry['title'].to_s.strip
       body = entry['body'].to_s.strip
       next if title.empty? || body.empty?
 
-      "<section><h2>#{escape(title)}</h2><p>#{paragraphize(body)}</p></section>"
+      result << "<section><h2>#{escape(title)}</h2><p>#{paragraphize(body)}</p></section>"
     end
     sections.concat(body_sections) unless body_sections.empty?
 
-    tips = Array(recipe['tips']).filter_map do |tip|
+    tips = Array(recipe['tips']).each_with_object([]) do |tip, result|
       next if tip['body'].to_s.strip.empty?
 
       title = tip['title'].to_s.strip
       line = title.empty? ? tip['body'].to_s : "#{title} : #{tip['body']}"
-      "<li>#{escape(line)}</li>"
+      result << "<li>#{escape(line)}</li>"
     end
     sections << "<h2>Astuces</h2><ul>#{tips.join}</ul>" unless tips.empty?
 
@@ -283,16 +283,16 @@ class ShopifyPagePublisher
       sections << "<h2>Produits Vanille Désiré conseillés</h2><p>#{paragraphize(product_note)}</p>"
     end
 
-    faqs = Array(recipe.dig('seo', 'faq')).filter_map do |entry|
+    faqs = Array(recipe.dig('seo', 'faq')).each_with_object([]) do |entry, result|
       question = entry['question'].to_s.strip
       answer = entry['answer'].to_s.strip
       next if question.empty? || answer.empty?
 
-      "<dt>#{escape(question)}</dt><dd>#{paragraphize(answer)}</dd>"
+      result << "<dt>#{escape(question)}</dt><dd>#{paragraphize(answer)}</dd>"
     end
     sections << "<h2>FAQ</h2><dl>#{faqs.join}</dl>" unless faqs.empty?
 
-    sources = Array(recipe['sources']).filter_map do |entry|
+    sources = Array(recipe['sources']).each_with_object([]) do |entry, result|
       title = entry['title'].to_s.strip
       url = entry['url'].to_s.strip
       note = entry['note'].to_s.strip
@@ -301,7 +301,7 @@ class ShopifyPagePublisher
       label = title.empty? ? url : title
       line = url.empty? ? escape(label) : %(<a href="#{escape(url)}" rel="noreferrer">#{escape(label)}</a>)
       line = "#{line} — #{escape(note)}" unless note.empty?
-      "<li>#{line}</li>"
+      result << "<li>#{line}</li>"
     end
     sections << "<h2>Sources</h2><ul>#{sources.join}</ul>" unless sources.empty?
 
