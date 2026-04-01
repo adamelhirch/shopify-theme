@@ -1,3 +1,6 @@
+{{ 'vd-wiki-teaser.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'vd-wiki-teaser.js' | asset_url }}" defer="defer"></script>
+
 {% style %}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -12,83 +15,325 @@
   }
 {% endstyle %}
 
-<section class="section-{{ section.id }}-padding vd-wiki color-{{ section.settings.color_scheme }} vd-reveal">
-  <div class="page-width">
-    <div class="vd-wiki__head vd-reveal-item">
-      {% if section.settings.heading != blank %}
-        <h2 class="vd-wiki__title">{{ section.settings.heading }}</h2>
-      {% endif %}
-      {% if section.settings.text != blank %}
-        <div class="vd-wiki__text rte">{{ section.settings.text }}</div>
-      {% endif %}
-    </div>
+{%- liquid
+  assign slide_count = section.blocks.size
+  if slide_count < 1
+    assign slide_count = 1
+  endif
+-%}
 
-    <div class="vd-wiki__grid" role="list">
-      {% for block in section.blocks %}
-        <a
-          class="vd-wiki-card vd-reveal-item{% if forloop.first %} vd-wiki-card--feature{% endif %}"
-          {% if block.settings.link == blank %}
-            role="link" aria-disabled="true"
-          {% else %}
-            href="{{ block.settings.link }}"
-          {% endif %}
-          role="listitem"
-          {{ block.shopify_attributes }}
+<section
+  class="section-{{ section.id }}-padding vd-wiki-teaser color-{{ section.settings.color_scheme }}"
+  data-vd-wiki-teaser
+  data-vd-wiki-count="{{ slide_count }}"
+  style="--vd-wiki-slide-count: {{ slide_count }};"
+>
+  <svg class="vd-wiki-teaser__fx" aria-hidden="true" focusable="false" width="0" height="0">
+    <defs>
+      <filter id="vd-wiki-motion-blur-{{ section.id }}" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="0 0" data-vd-wiki-blur-node />
+      </filter>
+    </defs>
+  </svg>
+
+  <div class="vd-wiki-teaser__backdrop" aria-hidden="true">
+    <div class="vd-wiki-teaser__backdrop-blur" style="filter: url('#vd-wiki-motion-blur-{{ section.id }}');">
+      {% for block in section.blocks limit: 3 %}
+        {%- liquid
+          assign fallback_asset = 'vd-wiki-botanique.jpg'
+          assign fallback_width = 1350
+          assign fallback_height = 1800
+          assign has_chapter_video = false
+
+          if block.settings.video != blank
+            assign has_chapter_video = true
+          endif
+
+          if forloop.index == 2
+            assign fallback_asset = 'vd-wiki-terroirs.jpg'
+            assign fallback_width = 1800
+            assign fallback_height = 1350
+          elsif forloop.index == 3
+            assign fallback_asset = 'vd-wiki-science.jpg'
+            assign fallback_width = 1800
+            assign fallback_height = 1350
+          endif
+        -%}
+
+        <figure
+          class="vd-wiki-teaser__backdrop-layer{% if forloop.first %} is-active{% endif %}"
+          data-vd-wiki-backdrop-layer
+          data-vd-wiki-layer="{{ forloop.index0 }}"
+          data-vd-wiki-video-index="{{ forloop.index0 }}"
         >
-          {% if block.settings.image != blank %}
-            <div class="vd-wiki-card__media">
-              {{
-                block.settings.image
-                | image_url: width: 1600
-                | image_tag:
-                  class: 'vd-wiki-card__image',
-                  widths: '360, 540, 720, 960, 1280, 1600',
-                  sizes: '(min-width: 990px) 32vw, 92vw',
-                  loading: 'lazy',
-                  alt: block.settings.image.alt | default: block.settings.title | escape
-              }}
-            </div>
+          {% if has_chapter_video %}
+            {{
+              block.settings.video
+              | video_tag:
+                class: 'vd-wiki-teaser__backdrop-video',
+                autoplay: true,
+                loop: true,
+                muted: true,
+                controls: false,
+                playsinline: true,
+                preload: 'metadata',
+                image_size: '2000x'
+            }}
+          {% elsif block.settings.image != blank %}
+            {{
+              block.settings.image
+              | image_url: width: 2400
+              | image_tag:
+                class: 'vd-wiki-teaser__backdrop-image',
+                widths: '900, 1200, 1600, 2000, 2400',
+                sizes: '100vw',
+                loading: 'eager',
+                alt: block.settings.image.alt | default: block.settings.title | escape
+            }}
+          {% else %}
+            <img
+              class="vd-wiki-teaser__backdrop-image"
+              src="{{ fallback_asset | asset_url }}"
+              alt=""
+              loading="eager"
+              width="{{ fallback_width }}"
+              height="{{ fallback_height }}"
+            >
           {% endif %}
-
-          <div class="vd-wiki-card__body">
-            <div class="vd-wiki-card__topline">
-              {% if block.settings.number != blank %}
-                <span>{{ block.settings.number }}</span>
-              {% endif %}
-              {% if block.settings.category != blank %}
-                <span>{{ block.settings.category }}</span>
-              {% endif %}
-            </div>
-
-            {% if block.settings.title != blank %}
-              <h3>{{ block.settings.title }}</h3>
-            {% endif %}
-
-            {% if block.settings.text != blank %}
-              <p>{{ block.settings.text }}</p>
-            {% endif %}
-          </div>
-        </a>
+        </figure>
       {% endfor %}
     </div>
 
-    {% if section.settings.button_label != blank %}
-      <div class="vd-wiki__actions">
-        <a
-          {% if section.settings.button_link == blank %}
-            role="link" aria-disabled="true"
-          {% else %}
-            href="{{ section.settings.button_link }}"
-          {% endif %}
-          class="vd-arrow-cta{% if section.settings.button_link == blank %} is-disabled{% endif %}"
-        >
-          <span class="vd-arrow-cta__label">{{ section.settings.button_label }}</span>
-          <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-            <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-          </svg>
-        </a>
+    <div class="vd-wiki-teaser__backdrop-shade"></div>
+    <div class="vd-wiki-teaser__backdrop-noise"></div>
+  </div>
+
+  <div class="vd-wiki-teaser__cursor" data-vd-wiki-cursor aria-hidden="true">
+    <span data-vd-wiki-cursor-text>Explorer</span>
+  </div>
+
+  <div class="page-width">
+    <div class="vd-wiki-teaser__shell">
+      <div class="vd-wiki-teaser__viewport" data-vd-wiki-viewport tabindex="0">
+        <div class="vd-wiki-teaser__track" data-vd-wiki-track role="list">
+          {% for block in section.blocks %}
+            {%- liquid
+              assign chapter_key = 'botanique'
+              assign fallback_asset = 'vd-wiki-botanique.jpg'
+              assign fallback_secondary = 'vd-wiki-terroirs.jpg'
+              assign fallback_tertiary = 'vd-wiki-science.jpg'
+              assign fallback_width = 1350
+              assign fallback_height = 1800
+              assign chapter_cursor = 'Explorer'
+
+              if forloop.index == 2
+                assign chapter_key = 'terroirs'
+                assign fallback_asset = 'vd-wiki-terroirs.jpg'
+                assign fallback_secondary = 'vd-wiki-botanique.jpg'
+                assign fallback_tertiary = 'vd-wiki-science.jpg'
+                assign fallback_width = 1800
+                assign fallback_height = 1350
+                assign chapter_cursor = 'Decouvrir'
+              elsif forloop.index == 3
+                assign chapter_key = 'techniques'
+                assign fallback_asset = 'vd-wiki-science.jpg'
+                assign fallback_secondary = 'vd-wiki-botanique.jpg'
+                assign fallback_tertiary = 'vd-wiki-terroirs.jpg'
+                assign fallback_width = 1800
+                assign fallback_height = 1350
+                assign chapter_cursor = 'Observer'
+              endif
+
+              assign slide_link_label = block.settings.link_label
+              if slide_link_label == blank
+                assign slide_link_label = 'Explorer le chapitre'
+              endif
+
+              assign has_chapter_video = false
+              if block.settings.video != blank
+                assign has_chapter_video = true
+              endif
+            -%}
+
+            <article
+              class="vd-wiki-teaser__slide vd-wiki-teaser__slide--{{ chapter_key }}{% if forloop.first %} is-active{% endif %}"
+              data-vd-wiki-slide
+              data-vd-wiki-index="{{ forloop.index0 }}"
+              data-vd-wiki-cursor="{{ chapter_cursor }}"
+              aria-label="{{ forloop.index }} / {{ slide_count }}"
+              role="listitem"
+              {{ block.shopify_attributes }}
+            >
+              <div class="vd-wiki-teaser__panel">
+                <div class="vd-wiki-teaser__copy">
+                  <div class="vd-wiki-teaser__meta" data-vd-wiki-meta>
+                    {% if block.settings.number != blank %}
+                      <span>{{ block.settings.number }}</span>
+                    {% endif %}
+                    {% if block.settings.category != blank %}
+                      <span>{{ block.settings.category }}</span>
+                    {% endif %}
+                  </div>
+
+                  {% if block.settings.title != blank %}
+                    <h2 class="vd-wiki-teaser__panel-title" data-vd-wiki-title>{{ block.settings.title }}</h2>
+                  {% endif %}
+
+                  {% if block.settings.text != blank %}
+                    <div class="vd-wiki-teaser__body rte" data-vd-wiki-body>{{ block.settings.text }}</div>
+                  {% endif %}
+
+                  {% if block.settings.link != blank %}
+                    <div class="vd-wiki-teaser__actions" data-vd-wiki-body>
+                      <a
+                        class="vd-inline-link"
+                        href="{{ block.settings.link }}"
+                        data-vd-wiki-cursor-label="Entrer"
+                      >
+                        {{ slide_link_label }}
+                      </a>
+                    </div>
+                  {% endif %}
+                </div>
+
+                <div class="vd-wiki-teaser__stage" data-vd-wiki-stage>
+                  {% case forloop.index %}
+                    {% when 1 %}
+                      <div class="vd-wiki-teaser__stage-shell vd-wiki-teaser__stage-shell--botanique" data-vd-wiki-stage-main>
+                        <div class="vd-wiki-teaser__macro-frame" data-vd-wiki-video-index="{{ forloop.index0 }}">
+                          {% if has_chapter_video %}
+                            {{
+                              block.settings.video
+                              | video_tag:
+                                class: 'vd-wiki-teaser__macro-video',
+                                autoplay: true,
+                                loop: true,
+                                muted: true,
+                                controls: false,
+                                playsinline: true,
+                                preload: 'metadata',
+                                image_size: '1800x'
+                            }}
+                          {% elsif block.settings.image != blank %}
+                            {{
+                              block.settings.image
+                              | image_url: width: 2200
+                              | image_tag:
+                                class: 'vd-wiki-teaser__macro-image',
+                                widths: '800, 1200, 1600, 2000, 2200',
+                                sizes: '(min-width: 990px) 54vw, 100vw',
+                                loading: 'lazy',
+                                alt: block.settings.image.alt | default: block.settings.title | escape
+                            }}
+                          {% else %}
+                            <img
+                              class="vd-wiki-teaser__macro-image"
+                              src="{{ fallback_asset | asset_url }}"
+                              alt="{{ block.settings.title | escape }}"
+                              loading="lazy"
+                              width="{{ fallback_width }}"
+                              height="{{ fallback_height }}"
+                            >
+                          {% endif %}
+                          <div class="vd-wiki-teaser__film-grain"></div>
+                        </div>
+                      </div>
+                    {% when 2 %}
+                      <div class="vd-wiki-teaser__stage-shell vd-wiki-teaser__stage-shell--terroirs" data-vd-wiki-stage-main>
+                        <div class="vd-wiki-teaser__map-frame">
+                          <div
+                            class="vd-wiki-teaser__madagascar-panel"
+                            role="img"
+                            aria-label="Carte de Madagascar avec repere sur Vangaindrano"
+                            style="--map-marker-x: 60.3%; --map-marker-y: 83.7%;"
+                          >
+                            {% render 'vd-madagascar-outline' %}
+                            <span class="vd-wiki-teaser__map-callout" aria-hidden="true">
+                              <span class="vd-wiki-teaser__map-label">Vangaindrano</span>
+                              <span class="vd-wiki-teaser__map-marker" data-vd-wiki-map-marker></span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    {% else %}
+                      <div class="vd-wiki-teaser__stage-shell vd-wiki-teaser__stage-shell--techniques" data-vd-wiki-stage-main>
+                        <div class="vd-wiki-teaser__cinema-grid">
+                          <div class="vd-wiki-teaser__cinema-frame vd-wiki-teaser__cinema-frame--hero" data-vd-wiki-video-index="{{ forloop.index0 }}">
+                            {% if has_chapter_video %}
+                              {{
+                                block.settings.video
+                                | video_tag:
+                                  class: 'vd-wiki-teaser__cinema-video',
+                                  autoplay: true,
+                                  loop: true,
+                                  muted: true,
+                                  controls: false,
+                                  playsinline: true,
+                                  preload: 'metadata',
+                                  image_size: '1800x'
+                              }}
+                            {% else %}
+                              <img
+                                class="vd-wiki-teaser__cinema-image"
+                                src="{{ fallback_asset | asset_url }}"
+                                alt="{{ block.settings.title | escape }}"
+                                loading="lazy"
+                                width="1800"
+                                height="1350"
+                              >
+                            {% endif %}
+                            <div class="vd-wiki-teaser__film-grain"></div>
+                          </div>
+                        </div>
+                      </div>
+                  {% endcase %}
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
       </div>
-    {% endif %}
+
+      <div class="vd-wiki-teaser__hud">
+        {% if section.settings.button_label != blank %}
+          <a
+            {% if section.settings.button_link == blank %}
+              role="link" aria-disabled="true"
+            {% else %}
+              href="{{ section.settings.button_link }}"
+            {% endif %}
+            class="vd-arrow-cta vd-wiki-teaser__cta-link{% if section.settings.button_link == blank %} is-disabled{% endif %}"
+            data-vd-wiki-cursor-label="Explorer"
+          >
+            <span class="vd-arrow-cta__label">{{ section.settings.button_label }}</span>
+            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+            </svg>
+          </a>
+        {% endif %}
+
+        <div class="vd-wiki-teaser__rail" role="tablist" aria-label="Navigation du wiki">
+          {% for block in section.blocks %}
+            <button
+              class="vd-wiki-teaser__nav-button{% if forloop.first %} is-active{% endif %}"
+              type="button"
+              data-vd-wiki-nav="{{ forloop.index0 }}"
+              data-vd-wiki-cursor-label="Aller"
+              aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+            >
+              <span class="vd-wiki-teaser__nav-pill"></span>
+              <span class="vd-wiki-teaser__sr">
+                {{ block.settings.category | default: block.settings.title | default: 'Chapitre' }}
+              </span>
+            </button>
+          {% endfor %}
+        </div>
+
+        <div class="vd-wiki-teaser__counter" data-vd-wiki-counter>
+          {% if slide_count < 10 %}0{% endif %}1 / {% if slide_count < 10 %}0{% endif %}{{ slide_count }}
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -100,15 +345,21 @@
   "settings": [
     {
       "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Le Wiki"
+    },
+    {
+      "type": "text",
       "id": "heading",
       "label": "Titre",
-      "default": "Le Wiki Vanille"
+      "default": "Un codex digital pour la matiere, les terroirs et le geste."
     },
     {
       "type": "richtext",
       "id": "text",
       "label": "Texte",
-      "default": "<p>Une porte d'entree editoriale pour parler terroirs, varietes, usages et gestes professionnels sans retomber dans une grille de blog standard.</p>"
+      "default": "<p>Trois chapitres plein ecran. Plus d'espace, plus de rythme, plus de credibilite editoriale.</p>"
     },
     {
       "type": "text",
@@ -131,28 +382,28 @@
       "type": "range",
       "id": "padding_top",
       "min": 0,
-      "max": 120,
-      "step": 4,
+      "max": 180,
+      "step": 6,
       "unit": "px",
       "label": "Marge haute",
-      "default": 28
+      "default": 18
     },
     {
       "type": "range",
       "id": "padding_bottom",
       "min": 0,
-      "max": 120,
-      "step": 4,
+      "max": 180,
+      "step": 6,
       "unit": "px",
       "label": "Marge basse",
-      "default": 56
+      "default": 30
     }
   ],
   "blocks": [
     {
-      "type": "article_card",
-      "name": "Carte wiki",
-      "limit": 6,
+      "type": "wiki_chapter",
+      "name": "Chapitre wiki",
+      "limit": 3,
       "settings": [
         {
           "type": "text",
@@ -170,13 +421,37 @@
           "type": "text",
           "id": "title",
           "label": "Titre",
-          "default": "L'Orchidee Planifolia"
+          "default": "Botanique"
         },
         {
-          "type": "textarea",
+          "type": "richtext",
           "id": "text",
-          "label": "Resume",
-          "default": "Comprendre la liane, la pollinisation et le temps long qui precede l'arome."
+          "label": "Texte",
+          "default": "<p>Une lecture plus ample de la fleur, du temps de maturation et du geste initial.</p>"
+        },
+        {
+          "type": "text",
+          "id": "detail_one",
+          "label": "Detail 1",
+          "default": "Matiere"
+        },
+        {
+          "type": "text",
+          "id": "detail_two",
+          "label": "Detail 2",
+          "default": "Temps long"
+        },
+        {
+          "type": "text",
+          "id": "detail_three",
+          "label": "Detail 3",
+          "default": "Precision"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Libelle lien",
+          "default": "Explorer"
         },
         {
           "type": "url",
@@ -186,7 +461,12 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"
+          "label": "Image principale"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video principale"
         }
       ]
     }
@@ -196,24 +476,39 @@
       "name": "VD Wiki Grid",
       "blocks": [
         {
-          "type": "article_card"
-        },
-        {
-          "type": "article_card",
+          "type": "wiki_chapter",
           "settings": {
-            "number": "02",
-            "category": "Science",
-            "title": "La Vanilline Naturelle",
-            "text": "Faire la difference entre concentration aromatique, extraction et faux raccourcis."
+            "number": "01",
+            "category": "Botanique",
+            "title": "Botanique",
+            "text": "<p>La fleur n'apparait qu'un instant. Tout commence dans une matiere encore verte, avant meme le parfum.</p>",
+            "detail_one": "Vanilla planifolia",
+            "detail_two": "Pollinisation manuelle",
+            "detail_three": "Floraison eclair"
           }
         },
         {
-          "type": "article_card",
+          "type": "wiki_chapter",
+          "settings": {
+            "number": "02",
+            "category": "Terroirs & Crus",
+            "title": "Terroirs",
+            "text": "<p>Une geographie sobre, presque nocturne, ou l'origine apparait comme un trait d'or.</p>",
+            "detail_one": "SAVA",
+            "detail_two": "Humidite elevee",
+            "detail_three": "Altitude douce"
+          }
+        },
+        {
+          "type": "wiki_chapter",
           "settings": {
             "number": "03",
-            "category": "Terroirs",
-            "title": "Terroirs & Crus",
-            "text": "Lire les nuances entre regions, affinage, humidite et texture des gousses."
+            "category": "Techniques",
+            "title": "Le Geste",
+            "text": "<p>Pas de discours long. Le tri, la tension des mains, le temps de sechage, la repetition juste.</p>",
+            "detail_one": "Tri manuel",
+            "detail_two": "Sechage lent",
+            "detail_three": "Affinage precis"
           }
         }
       ]
