@@ -6,6 +6,19 @@ require 'uri'
 class ShopifyPagePublisher
   DEFAULT_API_VERSION = '2025-10'.freeze
 
+  PAGE_LOOKUP_QUERY_BASIC = <<~GRAPHQL.freeze
+    query PageByHandle($query: String!) {
+      pages(first: 1, query: $query) {
+        nodes {
+          id
+          handle
+          title
+          onlineStoreUrl
+        }
+      }
+    }
+  GRAPHQL
+
   PAGE_LOOKUP_QUERY = <<~GRAPHQL.freeze
     query PageByHandle($query: String!) {
       pages(first: 1, query: $query) {
@@ -79,6 +92,7 @@ class ShopifyPagePublisher
     @shop_domain = shop_domain.to_s.strip
     @access_token = access_token.to_s.strip
     @api_version = api_version.to_s.strip.empty? ? DEFAULT_API_VERSION : api_version.to_s.strip
+    @supports_metafields = true
   end
 
   def configured?
@@ -100,7 +114,74 @@ class ShopifyPagePublisher
     handle = recipe['page_url'].to_s[%r{/pages/([^/?#]+)}, 1].to_s.strip
     handle = recipe['slug'].to_s.strip if handle.empty?
     existing = find_page_by_handle(handle)
-    input = build_page_input(recipe, handle, existing)
+
+    begin
+      perform_publish(recipe, handle, existing, include_metafields: @supports_metafields)
+    rescue ArgumentError => e
+      raise e unless @supports_metafields && metafield_scope_error?(e.message)
+
+      @supports_metafields = false
+      existing = find_page_by_handle(handle)
+      perform_publish(recipe, handle, existing, include_metafields: false)
+    end
+  end
+
+  private
+
+  def find_page_by_handle(handle)
+    payload =
+      begin
+        graphql(@supports_metafields ? PAGE_LOOKUP_QUERY : PAGE_LOOKUP_QUERY_BASIC, { query: "handle:#{handle}" })
+      rescue ArgumentError => e
+        raise e unless @supports_metafields && metafield_scope_error?(e.message)
+
+        @supports_metafields = false
+        graphql(PAGE_LOOKUP_QUERY_BASIC, { query: "handle:#{handle}" })
+      end
+
+    Array(payload.dig('pages', 'nodes')).first
+  end
+
+  def build_page_input(recipe, handle, existing, include_metafields: true)
+    seo = recipe['seo'] || {}
+    input = {
+      title: recipe['title'],
+      handle: handle,
+      body: build_page_body_html(recipe),
+      isPublished: true
+    }
+
+    return input unless include_metafields
+
+    metafields = compact_metafields([
+      {
+        id: existing&.dig('recipeSlug', 'id'),
+        namespace: 'vd',
+        key: 'recipe_slug',
+        type: 'single_line_text_field',
+        value: recipe['slug'].to_s
+      },
+      {
+        id: existing&.dig('seoTitle', 'id'),
+        namespace: 'global',
+        key: 'title_tag',
+        type: 'single_line_text_field',
+        value: seo['title'].to_s
+      },
+      {
+        id: existing&.dig('seoDescription', 'id'),
+        namespace: 'global',
+        key: 'description_tag',
+        type: 'single_line_text_field',
+        value: seo['description'].to_s
+      }
+    ])
+    input[:metafields] = metafields unless metafields.empty?
+    input
+  end
+
+  def perform_publish(recipe, handle, existing, include_metafields:)
+    input = build_page_input(recipe, handle, existing, include_metafields: include_metafields)
 
     payload =
       if existing
@@ -121,49 +202,14 @@ class ShopifyPagePublisher
       page_url: "/pages/#{page['handle'] || handle}",
       online_store_url: page['onlineStoreUrl'],
       shop_domain: shop_domain,
-      api_version: api_version
+      api_version: api_version,
+      metafields_published: include_metafields
     }
   end
 
-  private
-
-  def find_page_by_handle(handle)
-    payload = graphql(PAGE_LOOKUP_QUERY, { query: "handle:#{handle}" })
-    Array(payload.dig('pages', 'nodes')).first
-  end
-
-  def build_page_input(recipe, handle, existing)
-    seo = recipe['seo'] || {}
-
-    {
-      title: recipe['title'],
-      handle: handle,
-      body: build_page_body_html(recipe),
-      isPublished: true,
-      metafields: compact_metafields([
-        {
-          id: existing.dig('recipeSlug', 'id'),
-          namespace: 'vd',
-          key: 'recipe_slug',
-          type: 'single_line_text_field',
-          value: recipe['slug'].to_s
-        },
-        {
-          id: existing.dig('seoTitle', 'id'),
-          namespace: 'global',
-          key: 'title_tag',
-          type: 'single_line_text_field',
-          value: seo['title'].to_s
-        },
-        {
-          id: existing.dig('seoDescription', 'id'),
-          namespace: 'global',
-          key: 'description_tag',
-          type: 'single_line_text_field',
-          value: seo['description'].to_s
-        }
-      ])
-    }
+  def metafield_scope_error?(message)
+    text = message.to_s.downcase
+    text.include?('metafield') || text.include?('access denied') || text.include?('permission') || text.include?('scope')
   end
 
   def compact_metafields(entries)
