@@ -256,6 +256,7 @@
               id="HeaderMenu-{{ desktop_secondary_link.handle }}"
               class="vd-header-secondary-menu__toggle link focus-inset"
               aria-haspopup="true"
+              aria-expanded="false"
             >
               <span
                 {%- if desktop_secondary_link.child_active %}
@@ -584,10 +585,66 @@
 
     if (!isDesktopPointer) return;
 
-    document.querySelectorAll('.vd-header-secondary-menu__toggle').forEach((toggle) => {
+    const secondaryMenus = Array.from(document.querySelectorAll('.vd-header-secondary-menu'));
+
+    const closeSecondaryMenu = (menu) => {
+      if (!menu) return;
+      menu.classList.remove('is-open');
+      const toggle = menu.querySelector('.vd-header-secondary-menu__toggle');
+      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    };
+
+    const openSecondaryMenu = (menu) => {
+      if (!menu) return;
+      secondaryMenus.forEach((entry) => {
+        if (entry !== menu) closeSecondaryMenu(entry);
+      });
+      menu.classList.add('is-open');
+      const toggle = menu.querySelector('.vd-header-secondary-menu__toggle');
+      if (toggle) toggle.setAttribute('aria-expanded', 'true');
+    };
+
+    secondaryMenus.forEach((menu) => {
+      const toggle = menu.querySelector('.vd-header-secondary-menu__toggle');
+      if (!toggle) return;
+
       toggle.addEventListener('mousedown', (event) => {
         event.preventDefault();
       });
+
+      toggle.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (menu.classList.contains('is-open')) {
+          closeSecondaryMenu(menu);
+        } else {
+          openSecondaryMenu(menu);
+        }
+      });
+
+      menu.addEventListener('mouseleave', () => {
+        if (!menu.classList.contains('is-open')) return;
+        const activeElement = document.activeElement;
+        if (activeElement && menu.contains(activeElement)) return;
+        closeSecondaryMenu(menu);
+      });
+
+      menu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          closeSecondaryMenu(menu);
+        });
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      secondaryMenus.forEach((menu) => {
+        if (menu.contains(event.target)) return;
+        closeSecondaryMenu(menu);
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      secondaryMenus.forEach((menu) => closeSecondaryMenu(menu));
     });
   });
 {% endjavascript %}

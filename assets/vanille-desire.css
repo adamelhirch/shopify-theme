@@ -7390,6 +7390,7 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .vd-header-secondary-menu:hover > .vd-header-secondary-menu__panel,
 .vd-header-secondary-menu:focus-within > .vd-header-secondary-menu__panel,
+.vd-header-secondary-menu.is-open > .vd-header-secondary-menu__panel,
 .vd-header-secondary-menu__panel:hover,
 .vd-header-secondary-menu__panel:focus-within,
 .vd-header-secondary-menu__toggle:focus-visible + .vd-header-secondary-menu__panel {
@@ -7397,6 +7398,10 @@ body:has(.section-vd-hero) .header-wrapper {
   visibility: visible;
   pointer-events: auto;
   transform: translateY(0);
+}
+
+.vd-header-secondary-menu.is-open > .vd-header-secondary-menu__toggle {
+  color: rgb(var(--vd-orange));
 }
 
 .vd-header-primary-menu__panel {
