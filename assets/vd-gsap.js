@@ -104,6 +104,11 @@
     cleanups.length = 0;
   }
 
+  function registerCleanup(cleanups, cleanup) {
+    if (!cleanups || typeof cleanup !== 'function') return;
+    cleanups.push(cleanup);
+  }
+
   function getNodeText(node) {
     return node ? (node.textContent || '').replace(/\s+/g, ' ').trim() : '';
   }
@@ -120,6 +125,48 @@
     }
 
     return node;
+  }
+
+  function formatTestimonialProductLabel(value) {
+    if (!value) return '';
+
+    var label = String(value)
+      .replace(/\s+/g, ' ')
+      .replace(/\s+\(([^)]+)\)\s*$/, '')
+      .trim();
+
+    if (label.indexOf(' - ') !== -1) {
+      label = label.split(' - ')[0].trim();
+    }
+
+    if (label.indexOf(' – ') !== -1) {
+      label = label.split(' – ')[0].trim();
+    }
+
+    return label;
+  }
+
+  function formatTestimonialDateLabel(value) {
+    if (!value) return '';
+
+    var date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      var parts = String(value).match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+
+      if (parts) {
+        date = new Date(Number(parts[3]), Number(parts[1]) - 1, Number(parts[2]));
+      }
+    }
+
+    if (Number.isNaN(date.getTime())) {
+      return String(value).trim();
+    }
+
+    return date.toLocaleDateString('fr-FR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
   }
 
   function extractJudgeReviews(source, limit) {
@@ -149,11 +196,16 @@
         title: title,
         quote: quote || title,
         author: author || 'Client verifie',
-        date: date || 'Avis client',
-        product: product || 'Selection Judge.me',
+        date: formatTestimonialDateLabel(date) || 'Avis client',
+        product: formatTestimonialProductLabel(product) || 'Selection Judge.me',
         productLink: productLink,
-        rating: Math.max(1, Math.min(5, rating))
+        rating: Math.max(1, Math.min(5, rating)),
+        sourceLabel: 'Avis verifie via Judge.me'
       });
+    });
+
+    reviews.sort(function (left, right) {
+      return (right.quote || '').length - (left.quote || '').length;
     });
 
     return reviews;
@@ -173,6 +225,14 @@
 
     item.setAttribute('data-vd-testimonial-card', '');
     item.setAttribute('role', 'listitem');
+    card.setAttribute('data-vd-testimonial-shell', '');
+    card.tabIndex = 0;
+    card.setAttribute('data-vd-testimonial-rating', review.rating);
+    card.setAttribute('data-vd-testimonial-author', review.author || '');
+    card.setAttribute('data-vd-testimonial-date', review.date || '');
+    card.setAttribute('data-vd-testimonial-product', review.product || '');
+    card.setAttribute('data-vd-testimonial-quote', review.quote || '');
+    card.setAttribute('data-vd-testimonial-source-label', review.sourceLabel || 'Avis client');
     if (review.productLink) {
       item.setAttribute('data-vd-testimonial-link', review.productLink);
     }
@@ -186,14 +246,18 @@
       productLink.href = review.productLink;
     }
 
+    if (review.product) {
+      productLink.title = review.product;
+    }
+
     top.appendChild(stars);
     top.appendChild(productLink);
 
     card.appendChild(top);
+    quote.setAttribute('data-vd-testimonial-quote', '');
     card.appendChild(quote);
     meta.appendChild(author);
     meta.appendChild(location);
-
     card.appendChild(meta);
     item.appendChild(card);
 
@@ -235,6 +299,18 @@
     }
   }
 
+  function buildTestimonialStarsMarkup(rating) {
+    var safeRating = Math.max(1, Math.min(5, Number(rating) || 5));
+    var markup = '';
+    var index;
+
+    for (index = 0; index < 5; index += 1) {
+      markup += '<span class="' + (index < safeRating ? 'is-active' : '') + '">★</span>';
+    }
+
+    return markup;
+  }
+
   function setTestimonialsActiveState(cards, activeIndex) {
     cards.forEach(function (card, index) {
       card.classList.toggle('is-active', index === activeIndex);
@@ -258,8 +334,9 @@
     return nearestIndex;
   }
 
-  function clearTestimonialStyles(gsap, section, stage, viewport, cardsContainer, cards) {
+  function clearTestimonialStyles(gsap, section, stage, viewport, cardsContainer, cards, revealTargets) {
     var targets = cardsContainer ? [cardsContainer].concat(cards) : cards;
+    var mergedTargets = revealTargets && revealTargets.length ? targets.concat(revealTargets) : targets;
 
     section.classList.remove('is-enhanced');
 
@@ -273,8 +350,8 @@
 
     setTestimonialsActiveState(cards, -1);
 
-    if (targets.length) {
-      gsap.set(targets, { clearProps: 'all' });
+    if (mergedTargets.length) {
+      gsap.set(mergedTargets, { clearProps: 'all' });
     }
   }
 
@@ -328,7 +405,7 @@
     return seamlessLoop;
   }
 
-  function initCraftStories(gsap, ScrollTrigger, prefersReducedMotion) {
+  function initCraftStories(gsap, ScrollTrigger, prefersReducedMotion, cleanups) {
     gsap.utils.toArray('[data-vd-craft-story]').forEach(function (section) {
       var sticky = section.querySelector('.vd-craft-story__sticky');
       var panels = gsap.utils.toArray(section.querySelectorAll('[data-vd-craft-panel]'));
@@ -348,14 +425,14 @@
 
       var defaults = { ease: 'expo.out', duration: 1.6 };
 
-      gsap.set(panels, { autoAlpha: 0, scale: 1.08, yPercent: 8, filter: 'blur(18px)' });
-      gsap.set(panels[0], { autoAlpha: 1, scale: 1, yPercent: 0, filter: 'blur(0px)' });
-      gsap.set(quoteCards, { autoAlpha: 0, y: 24, filter: 'blur(14px)' });
-      gsap.set(steps, { autoAlpha: 0.34, x: 0, filter: 'blur(0px)' });
-      gsap.set(steps[0], { autoAlpha: 1, x: 0, filter: 'blur(0px)' });
+      gsap.set(panels, { autoAlpha: 0, scale: 1.08, yPercent: 8 });
+      gsap.set(panels[0], { autoAlpha: 1, scale: 1, yPercent: 0 });
+      gsap.set(quoteCards, { autoAlpha: 0, y: 24 });
+      gsap.set(steps, { autoAlpha: 0.34, x: 0 });
+      gsap.set(steps[0], { autoAlpha: 1, x: 0 });
 
       if (quoteCards[0]) {
-        gsap.set(quoteCards[0], { autoAlpha: 1, y: 0, filter: 'blur(0px)' });
+        gsap.set(quoteCards[0], { autoAlpha: 1, y: 0 });
       }
 
       syncCraftStoryState(panels, steps, 0, true);
@@ -407,7 +484,6 @@
             autoAlpha: 0.14,
             scale: 0.95,
             yPercent: -6,
-            filter: 'blur(18px)',
             duration: 1.5
           },
           label
@@ -419,7 +495,6 @@
             {
               autoAlpha: 0,
               y: -16,
-              filter: 'blur(16px)',
               duration: 1.2
             },
             label
@@ -431,7 +506,6 @@
           {
             autoAlpha: 0.34,
             x: 0,
-            filter: 'blur(0px)',
             duration: 1.25
           },
           label
@@ -443,7 +517,6 @@
             autoAlpha: 1,
             scale: 1,
             yPercent: 0,
-            filter: 'blur(0px)',
             duration: 1.8
           },
           label
@@ -454,7 +527,6 @@
           {
             autoAlpha: 1,
             x: 0,
-            filter: 'blur(0px)',
             duration: 1.45
           },
           label + '+=0.15'
@@ -466,7 +538,6 @@
             {
               autoAlpha: 1,
               y: 0,
-              filter: 'blur(0px)',
               duration: 1.35
             },
             label + '+=0.2'
@@ -484,10 +555,19 @@
           label + '+=0.25'
         );
       });
+
+      registerCleanup(cleanups, function () {
+        if (timeline.scrollTrigger) {
+          timeline.scrollTrigger.kill();
+        }
+
+        timeline.kill();
+        clearCraftStoryStyles(gsap, section, panels, steps, quoteCards, introItems);
+      });
     });
   }
 
-  function initFeatureGalleries(gsap, ScrollTrigger, prefersReducedMotion) {
+  function initFeatureGalleries(gsap, ScrollTrigger, prefersReducedMotion, cleanups) {
     gsap.utils.toArray('[data-vd-feature-gallery]').forEach(function (section) {
       var wrapper = section.querySelector('[data-vd-feature-gallery-wrapper]');
       var strip = section.querySelector('[data-vd-feature-gallery-strip]');
@@ -503,13 +583,13 @@
 
       section.classList.add('is-enhanced');
 
-      gsap.set(cards, { autoAlpha: 1, y: 0, filter: 'blur(0px)' });
+      gsap.set(cards, { autoAlpha: 1, y: 0 });
 
       var getScrollLength = function () {
         return Math.max(strip.scrollWidth - window.innerWidth, 0);
       };
 
-      gsap.to(strip, {
+      var animation = gsap.to(strip, {
         x: function () {
           return -getScrollLength();
         },
@@ -526,10 +606,19 @@
           invalidateOnRefresh: true
         }
       });
+
+      registerCleanup(cleanups, function () {
+        if (animation.scrollTrigger) {
+          animation.scrollTrigger.kill();
+        }
+
+        animation.kill();
+        clearFeatureGalleryStyles(gsap, section, strip, cards);
+      });
     });
   }
 
-  function initNewProductBentos(gsap, ScrollTrigger, prefersReducedMotion, Flip) {
+  function initNewProductBentos(gsap, ScrollTrigger, prefersReducedMotion, Flip, cleanups) {
     gsap.utils.toArray('[data-vd-bento-section]').forEach(function (section) {
       var stage = section.querySelector('[data-vd-bento-stage]');
       var gallery = section.querySelector('[data-vd-bento-gallery]');
@@ -570,22 +659,18 @@
         0
       );
 
-      timeline.fromTo(
-        gallery,
-        {
-          filter: 'blur(0px)'
-        },
-        {
-          filter: 'blur(0px)',
-          duration: 1,
-          ease: 'none'
-        },
-        0
-      );
+      registerCleanup(cleanups, function () {
+        if (timeline.scrollTrigger) {
+          timeline.scrollTrigger.kill();
+        }
+
+        timeline.kill();
+        clearNewProductBentoStyles(gsap, section, gallery, items);
+      });
     });
   }
 
-  function initTestimonials(gsap, ScrollTrigger, prefersReducedMotion) {
+  function initTestimonials(gsap, ScrollTrigger, prefersReducedMotion, cleanups) {
     gsap.utils.toArray('[data-vd-testimonials-section]').forEach(function (section) {
       if (typeof section.__vdTestimonialsCleanup === 'function') {
         section.__vdTestimonialsCleanup();
@@ -596,9 +681,19 @@
       var cardsContainer = section.querySelector('[data-vd-testimonials-cards]');
       var source = section.querySelector('[data-vd-testimonials-judge-source]');
       var cta = section.querySelector('[data-vd-testimonials-cta]');
+      var header = section.querySelector('[data-vd-testimonials-header]');
+      var featuredShell = section.querySelector('[data-vd-testimonials-featured-shell]');
+      var featuredSource = section.querySelector('[data-vd-testimonials-featured-source]');
+      var featuredStars = section.querySelector('[data-vd-testimonials-featured-stars]');
+      var featuredProductWrap = section.querySelector('[data-vd-testimonials-featured-product-wrap]');
+      var featuredProduct = section.querySelector('[data-vd-testimonials-featured-product]');
+      var featuredQuote = section.querySelector('[data-vd-testimonials-featured-quote]');
+      var featuredAuthor = section.querySelector('[data-vd-testimonials-featured-author]');
+      var featuredDate = section.querySelector('[data-vd-testimonials-featured-date]');
       var limit = Number(section.getAttribute('data-vd-testimonials-limit')) || 10;
       var lifecycleCleanups = [];
       var interactiveCleanups = [];
+      var revealTargets = [header, featuredShell, stage].filter(Boolean);
 
       if (!stage || !viewport || !cardsContainer) return;
 
@@ -610,7 +705,8 @@
           stage,
           viewport,
           cardsContainer,
-          gsap.utils.toArray(section.querySelectorAll('[data-vd-testimonial-card]'))
+          gsap.utils.toArray(section.querySelectorAll('[data-vd-testimonial-card]')),
+          revealTargets
         );
       }
 
@@ -619,6 +715,12 @@
         runRegisteredCleanups(lifecycleCleanups);
         section.__vdTestimonialsCleanup = null;
       };
+
+      registerCleanup(cleanups, function () {
+        if (typeof section.__vdTestimonialsCleanup === 'function') {
+          section.__vdTestimonialsCleanup();
+        }
+      });
 
       function syncFromJudge() {
         var reviews = extractJudgeReviews(source, limit);
@@ -629,33 +731,165 @@
         return true;
       }
 
+      function syncFeaturedFromCard(card) {
+        if (!card || !featuredQuote || !featuredAuthor || !featuredDate || !featuredStars || !featuredSource) return;
+        var shell = card.matches('[data-vd-testimonial-shell]') ? card : card.querySelector('[data-vd-testimonial-shell]');
+        var target = card.getAttribute('data-vd-testimonial-link') || '';
+        var productText = '';
+
+        if (!shell) return;
+
+        productText = shell.getAttribute('data-vd-testimonial-product') || '';
+
+        featuredSource.textContent = shell.getAttribute('data-vd-testimonial-source-label') || 'Avis client';
+        featuredStars.innerHTML = buildTestimonialStarsMarkup(shell.getAttribute('data-vd-testimonial-rating'));
+        featuredQuote.textContent = shell.getAttribute('data-vd-testimonial-quote') || '';
+        featuredAuthor.textContent = shell.getAttribute('data-vd-testimonial-author') || '';
+        featuredDate.textContent = shell.getAttribute('data-vd-testimonial-date') || '';
+
+        if (featuredProduct && featuredProductWrap) {
+          if (!target) {
+            var inlineProductAnchor = card.querySelector('.vd-testimonials__product-link[href]');
+            target = inlineProductAnchor ? inlineProductAnchor.getAttribute('href') : '';
+          }
+
+          if (productText.length) {
+            featuredProduct.textContent = productText;
+
+            if (target) {
+              featuredProduct.href = target;
+              featuredProduct.removeAttribute('aria-disabled');
+            } else {
+              featuredProduct.removeAttribute('href');
+              featuredProduct.setAttribute('aria-disabled', 'true');
+            }
+
+            featuredProductWrap.hidden = false;
+          } else {
+            featuredProductWrap.hidden = true;
+            featuredProduct.removeAttribute('href');
+          }
+        }
+      }
+
       function mountCurrentCards() {
         clearInteractiveCarousel();
 
         var cards = gsap.utils.toArray(section.querySelectorAll('[data-vd-testimonial-card]'));
+        var cardShells = gsap.utils.toArray(section.querySelectorAll('[data-vd-testimonial-shell]'));
+        var activeIndex = 0;
 
         if (!cards.length) {
           syncTestimonialsCta(cta, null);
           return;
         }
 
-        setTestimonialsActiveState(cards, 0);
-        syncTestimonialsCta(cta, cards[0] || null);
+        if (!prefersReducedMotion) {
+          if (revealTargets.length) {
+            gsap.set(revealTargets, { autoAlpha: 1, y: 0 });
+          }
+
+          if (cards.length) {
+            gsap.set(cards, { autoAlpha: 1, y: 0 });
+          }
+
+          if (cardShells.length) {
+            gsap.set(cardShells, { clearProps: 'filter' });
+          }
+
+          var revealTimeline = gsap.timeline({
+            defaults: { ease: 'expo.out', duration: 1.15 },
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 78%',
+              once: true
+            }
+          });
+
+          if (header) {
+            revealTimeline.fromTo(
+              header,
+              { autoAlpha: 0, y: 28 },
+              { autoAlpha: 1, y: 0 },
+              0
+            );
+          }
+
+          if (featuredShell) {
+            revealTimeline.fromTo(
+              featuredShell,
+              { autoAlpha: 0, y: 36 },
+              { autoAlpha: 1, y: 0, duration: 1.2 },
+              header ? 0.08 : 0
+            );
+          }
+
+          if (cards.length) {
+            revealTimeline.fromTo(
+              cards,
+              { autoAlpha: 0, y: 34 },
+              {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.95,
+                stagger: 0.08
+              },
+              featuredShell ? 0.18 : header ? 0.08 : 0
+            );
+          }
+
+          interactiveCleanups.push(function () {
+            if (revealTimeline.scrollTrigger) {
+              revealTimeline.scrollTrigger.kill();
+            }
+
+            revealTimeline.kill();
+          });
+        }
+
+        function setActiveCard(nextIndex) {
+          var boundedIndex = Math.max(0, Math.min(cards.length - 1, nextIndex));
+
+          activeIndex = boundedIndex;
+          setTestimonialsActiveState(cards, activeIndex);
+          syncTestimonialsCta(cta, cards[activeIndex] || null);
+          syncFeaturedFromCard(cards[activeIndex] || null);
+        }
+
+        setActiveCard(0);
 
         if (prefersReducedMotion || window.innerWidth < 990 || cards.length < 3) {
+          cards.forEach(function (card, index) {
+            var onActivate = function (event) {
+              if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
+              if (event.type === 'keydown') {
+                event.preventDefault();
+              }
+
+              setActiveCard(index);
+            };
+
+            card.addEventListener('click', onActivate);
+            card.addEventListener('keydown', onActivate);
+
+            interactiveCleanups.push(function () {
+              card.removeEventListener('click', onActivate);
+              card.removeEventListener('keydown', onActivate);
+            });
+          });
+
           return;
         }
 
         section.classList.add('is-enhanced');
 
-        var focusPoint = Math.min(Math.max(viewport.clientWidth * 0.38, 320), 520);
+        var focusPoint = viewport.clientWidth * 0.5;
         var snapOffsets = cards.map(function (card) {
           return card.offsetLeft + card.offsetWidth * 0.5 - focusPoint;
         });
         var rangeStart = snapOffsets[0] || 0;
         var rangeEnd = snapOffsets[snapOffsets.length - 1] || rangeStart;
         var rangeSpan = Math.max(rangeEnd - rangeStart, 0);
-        var activeIndex = 0;
         var currentOffset = rangeStart;
         var clampOffset = function (offset) {
           return gsap.utils.clamp(rangeStart, rangeEnd, offset);
@@ -672,11 +906,8 @@
           gsap.set(cardsContainer, { x: -nextOffset });
 
           if (nextIndex !== activeIndex || !cards[activeIndex]) {
-            activeIndex = nextIndex;
-            syncTestimonialsCta(cta, cards[activeIndex] || null);
+            setActiveCard(nextIndex);
           }
-
-          setTestimonialsActiveState(cards, activeIndex);
         };
 
         if (rangeSpan < 24) {
@@ -724,14 +955,15 @@
           active: false,
           pointerId: null,
           startX: 0,
-          startOffset: rangeStart
+          startOffset: rangeStart,
+          moved: false
         };
         var onPointerDown = function (event) {
           if (typeof event.button === 'number' && event.button !== 0) {
             return;
           }
 
-          if (event.target && typeof event.target.closest === 'function' && event.target.closest('a, button')) {
+          if (event.target && typeof event.target.closest === 'function' && event.target.closest('a')) {
             return;
           }
 
@@ -739,6 +971,7 @@
           dragState.pointerId = event.pointerId;
           dragState.startX = event.clientX;
           dragState.startOffset = currentOffset;
+          dragState.moved = false;
           viewport.classList.add('is-dragging');
 
           if (typeof viewport.setPointerCapture === 'function') {
@@ -751,6 +984,9 @@
           if (!dragState.active) return;
 
           var sensitivity = rangeSpan / Math.max(viewport.clientWidth * 0.92, 1);
+          if (Math.abs(dragState.startX - event.clientX) > 5) {
+            dragState.moved = true;
+          }
           var nextOffset = dragState.startOffset + (dragState.startX - event.clientX) * sensitivity;
 
           scrollToOffset(nextOffset);
@@ -770,16 +1006,51 @@
           scrollToOffset(snapOffsets[findClosestTestimonialIndex(snapOffsets, currentOffset)]);
           dragState.pointerId = null;
         };
+        var onCardAction = function (event) {
+          var card = event.target.closest('[data-vd-testimonial-card]');
+          var inlineLink = event.target.closest('.vd-testimonials__product-link[href]');
+
+          if (!card || inlineLink) return;
+
+          if (dragState.moved) return;
+
+          var index = cards.indexOf(card);
+          if (index === -1) return;
+
+          if (cards[index] !== cards[activeIndex]) {
+            setActiveCard(index);
+            scrollToOffset(snapOffsets[index]);
+          }
+        };
+        var onCardKeydown = function (event) {
+          var card = event.target.closest('[data-vd-testimonial-card]');
+
+          if (!card) return;
+
+          if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('[data-vd-testimonial-shell]')) {
+            event.preventDefault();
+            var index = cards.indexOf(card);
+
+            if (index !== -1) {
+              setActiveCard(index);
+              scrollToOffset(snapOffsets[index]);
+            }
+          }
+        };
 
         updateOffset(rangeStart);
 
         viewport.addEventListener('pointerdown', onPointerDown);
+        cardsContainer.addEventListener('click', onCardAction);
+        cardsContainer.addEventListener('keydown', onCardKeydown);
         window.addEventListener('pointermove', onPointerMove);
         window.addEventListener('pointerup', onPointerUp);
         window.addEventListener('pointercancel', onPointerUp);
 
         interactiveCleanups.push(function () {
           viewport.removeEventListener('pointerdown', onPointerDown);
+          cardsContainer.removeEventListener('click', onCardAction);
+          cardsContainer.removeEventListener('keydown', onCardKeydown);
           window.removeEventListener('pointermove', onPointerMove);
           window.removeEventListener('pointerup', onPointerUp);
           window.removeEventListener('pointercancel', onPointerUp);
@@ -810,7 +1081,7 @@
     });
   }
 
-  function initVanilleGsap() {
+  function initVanilleGsap(forceRebuild) {
     if (!window.gsap || !window.ScrollTrigger || !window.ScrollSmoother) return;
     if (window.Shopify && window.Shopify.designMode) return;
 
@@ -818,6 +1089,13 @@
     var ScrollTrigger = window.ScrollTrigger;
     var ScrollSmoother = window.ScrollSmoother;
     var Flip = window.Flip || null;
+    var state = window.__vdGsapState || {
+      cleanups: [],
+      initialized: false,
+      allowSmoother: null,
+      isDesktop: null,
+      prefersReducedMotion: null
+    };
 
     if (Flip) {
       gsap.registerPlugin(ScrollTrigger, ScrollSmoother, Flip);
@@ -825,15 +1103,27 @@
       gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
     }
 
-    ScrollTrigger.getAll().forEach(function (trigger) {
-      trigger.kill();
-    });
+    var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var isDesktop = window.innerWidth >= 990;
+    var allowSmoother = !prefersReducedMotion && isDesktop;
+    var shouldRebuild =
+      forceRebuild ||
+      !state.initialized ||
+      state.allowSmoother !== allowSmoother ||
+      state.isDesktop !== isDesktop ||
+      state.prefersReducedMotion !== prefersReducedMotion;
+
+    window.__vdGsapState = state;
+
+    if (!shouldRebuild) {
+      ScrollTrigger.refresh();
+      return;
+    }
+
+    runRegisteredCleanups(state.cleanups);
 
     var existingSmoother = ScrollSmoother.get();
     if (existingSmoother) existingSmoother.kill();
-
-    var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var allowSmoother = !prefersReducedMotion && window.innerWidth >= 990;
 
     if (allowSmoother && document.querySelector('#smooth-wrapper') && document.querySelector('#smooth-content')) {
       ScrollSmoother.create({
@@ -852,7 +1142,7 @@
       gsap.set(headerWrapper, { clearProps: 'all' });
 
       if (!prefersReducedMotion) {
-        gsap.to(headerWrapper, {
+        var headerTween = gsap.to(headerWrapper, {
           '--vd-header-shell-height': '5.4rem',
           '--vd-header-shell-padding-x': '1.4rem',
           '--vd-header-shell-blur': '20px',
@@ -864,6 +1154,15 @@
             end: '+=180',
             scrub: true
           }
+        });
+
+        registerCleanup(state.cleanups, function () {
+          if (headerTween.scrollTrigger) {
+            headerTween.scrollTrigger.kill();
+          }
+
+          headerTween.kill();
+          gsap.set(headerWrapper, { clearProps: 'all' });
         });
       }
     }
@@ -882,8 +1181,8 @@
       if (wordsStatement.length) {
         heroTimeline.fromTo(
           wordsStatement,
-          { autoAlpha: 0, y: 24, filter: 'blur(20px)', letterSpacing: '0.18em' },
-          { autoAlpha: 1, y: 0, filter: 'blur(0px)', letterSpacing: '0.03em', duration: 1.8, stagger: 0.1 },
+          { autoAlpha: 0, y: 24, letterSpacing: '0.18em' },
+          { autoAlpha: 1, y: 0, letterSpacing: '0.03em', duration: 1.8, stagger: 0.1 },
           0
         );
       }
@@ -891,14 +1190,14 @@
       if (words.length) {
         heroTimeline.fromTo(
           words,
-          { autoAlpha: 0, y: 18, filter: 'blur(10px)', letterSpacing: '0.34em' },
-          { autoAlpha: 1, y: 0, filter: 'blur(0px)', letterSpacing: '0.18em', duration: 1.5, stagger: 0.1 },
+          { autoAlpha: 0, y: 18, letterSpacing: '0.34em' },
+          { autoAlpha: 1, y: 0, letterSpacing: '0.18em', duration: 1.5, stagger: 0.1 },
           '-=1.05'
         );
       }
 
       if (media) {
-        gsap.to(media, {
+        var heroMediaTween = gsap.to(media, {
           yPercent: -8,
           ease: 'none',
           scrollTrigger: {
@@ -908,26 +1207,38 @@
             scrub: true
           }
         });
+
+        registerCleanup(state.cleanups, function () {
+          if (heroMediaTween.scrollTrigger) {
+            heroMediaTween.scrollTrigger.kill();
+          }
+
+          heroMediaTween.kill();
+          gsap.set(media, { clearProps: 'transform' });
+        });
       }
+
+      registerCleanup(state.cleanups, function () {
+        heroTimeline.kill();
+      });
     }
 
-    initCraftStories(gsap, ScrollTrigger, prefersReducedMotion);
-    initFeatureGalleries(gsap, ScrollTrigger, prefersReducedMotion);
-    initNewProductBentos(gsap, ScrollTrigger, prefersReducedMotion, Flip);
-    initTestimonials(gsap, ScrollTrigger, prefersReducedMotion);
+    initCraftStories(gsap, ScrollTrigger, prefersReducedMotion, state.cleanups);
+    initFeatureGalleries(gsap, ScrollTrigger, prefersReducedMotion, state.cleanups);
+    initNewProductBentos(gsap, ScrollTrigger, prefersReducedMotion, Flip, state.cleanups);
+    initTestimonials(gsap, ScrollTrigger, prefersReducedMotion, state.cleanups);
 
     gsap.utils.toArray('.vd-reveal').forEach(function (section) {
       var items = section.querySelectorAll('.vd-reveal-item');
 
       if (!items.length) return;
 
-      gsap.fromTo(
+      var revealTween = gsap.fromTo(
         items,
-        { autoAlpha: 0, y: 32, filter: 'blur(20px)' },
+        { autoAlpha: 0, y: 32 },
         {
           autoAlpha: 1,
           y: 0,
-          filter: 'blur(0px)',
           duration: 1.6,
           ease: 'expo.out',
           stagger: 0.1,
@@ -937,10 +1248,19 @@
           }
         }
       );
+
+      registerCleanup(state.cleanups, function () {
+        if (revealTween.scrollTrigger) {
+          revealTween.scrollTrigger.kill();
+        }
+
+        revealTween.kill();
+        gsap.set(items, { clearProps: 'all' });
+      });
     });
 
     gsap.utils.toArray('[data-speed]').forEach(function (element) {
-      gsap.to(element, {
+      var speedTween = gsap.to(element, {
         yPercent: Number(element.getAttribute('data-speed')) * -10,
         ease: 'none',
         scrollTrigger: {
@@ -948,17 +1268,48 @@
           scrub: true
         }
       });
+
+      registerCleanup(state.cleanups, function () {
+        if (speedTween.scrollTrigger) {
+          speedTween.scrollTrigger.kill();
+        }
+
+        speedTween.kill();
+        gsap.set(element, { clearProps: 'transform' });
+      });
     });
+
+    state.allowSmoother = allowSmoother;
+    state.isDesktop = isDesktop;
+    state.prefersReducedMotion = prefersReducedMotion;
+    state.initialized = true;
+
+    ScrollTrigger.refresh();
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initVanilleGsap);
+    document.addEventListener('DOMContentLoaded', function () {
+      initVanilleGsap(true);
+    });
   } else {
-    initVanilleGsap();
+    initVanilleGsap(true);
+  }
+
+  var reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var handleReducedMotionChange = function () {
+    initVanilleGsap(true);
+  };
+
+  if (typeof reducedMotionQuery.addEventListener === 'function') {
+    reducedMotionQuery.addEventListener('change', handleReducedMotionChange);
+  } else if (typeof reducedMotionQuery.addListener === 'function') {
+    reducedMotionQuery.addListener(handleReducedMotionChange);
   }
 
   window.addEventListener('resize', function () {
     window.clearTimeout(window.__vdGsapResizeTimer);
-    window.__vdGsapResizeTimer = window.setTimeout(initVanilleGsap, 220);
+    window.__vdGsapResizeTimer = window.setTimeout(function () {
+      initVanilleGsap(false);
+    }, 220);
   });
 })();

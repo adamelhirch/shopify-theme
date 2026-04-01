@@ -115,6 +115,11 @@ p,
   padding-top: 1.4rem;
 }
 
+.vd-catalogue,
+.collection-hero {
+  padding-top: clamp(8.8rem, 10vw, 11.2rem);
+}
+
 .shopify-section-group-header-group {
   --vd-header-backdrop-opacity: 1;
   position: sticky;
@@ -5884,6 +5889,34 @@ body:has(.section-vd-hero) .header-wrapper {
 .vd-catalogue--page-flow {
   display: grid;
   gap: 3.2rem;
+  position: relative;
+}
+
+.vd-catalogue--page-flow::before,
+.vd-catalogue--page-flow::after {
+  content: "";
+  position: absolute;
+  inset: auto;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 999px;
+  filter: blur(26px);
+}
+
+.vd-catalogue--page-flow::before {
+  top: 8rem;
+  right: 6%;
+  width: 22rem;
+  height: 22rem;
+  background: radial-gradient(circle, rgba(214, 128, 43, 0.22), rgba(214, 128, 43, 0));
+}
+
+.vd-catalogue--page-flow::after {
+  left: 4%;
+  bottom: 8rem;
+  width: 28rem;
+  height: 28rem;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
 }
 
 .vd-catalogue__hero--immersive {
@@ -6047,6 +6080,10 @@ body:has(.section-vd-hero) .header-wrapper {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.6rem;
   margin-top: 3.2rem;
+}
+
+.vd-catalogue--page-flow .vd-catalogue__grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .vd-catalogue__pillars {
@@ -6255,7 +6292,8 @@ body:has(.section-vd-hero) .header-wrapper {
   }
 
   .vd-page-flow,
-  .collection-hero {
+  .collection-hero,
+  .vd-catalogue {
     padding-top: 9.8rem;
   }
 
@@ -6312,6 +6350,10 @@ body:has(.section-vd-hero) .header-wrapper {
     max-width: none;
     margin-top: 1rem;
     border-radius: 1.6rem;
+  }
+
+  .vd-catalogue--page-flow .vd-catalogue__grid {
+    grid-template-columns: 1fr;
   }
 
   .vd-new-product__gallery-wrap {

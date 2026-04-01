@@ -32,9 +32,9 @@
         "enable_filtering": true,
         "enable_sorting": true,
         "color_scheme": "scheme-3",
-        "intro_kicker": "Selection",
-        "intro_heading": "Choisir un format, une intensite, une sensation.",
-        "intro_text": "<p>Le filtre reste rapide, mais la page doit conserver une vraie desirabilite visuelle et une lecture haut de gamme du premier scroll jusqu'au panier.</p>",
+        "intro_kicker": "Sélection",
+        "intro_heading": "Choisir un format, une intensité, une sensation.",
+        "intro_text": "<p>Le filtre reste rapide, mais la page doit conserver une vraie désirabilité visuelle et une lecture haut de gamme du premier scroll jusqu’au panier.</p>",
         "primary_link_label": "Voir les recettes",
         "primary_link": "/pages/recettes",
         "secondary_link_label": "Demander conseil",
@@ -43,64 +43,10 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
-    },
-    "vd_story_grid_collection_c7F2pA": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "Formats lisibles",
-            "text": "<p>Du tube cadeau au format plus quotidien, la page collection doit aider a comprendre l'usage sans surcharger.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Origine nette",
-            "text": "<p>On rappelle d'ou vient la matiere, comment elle est suivie et pourquoi cela change vraiment le resultat.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Choix plus simple",
-            "text": "<p>La page devient un point d'entree clair pour les clients qui ne savent pas encore quel format choisir.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "Des collections pensees pour guider le choix avec calme.",
-        "text": "<p>Chaque entree catalogue doit donner assez d'information pour choisir vite, sans bruit visuel ni langage interne.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 0,
-        "padding_bottom": 28
-      }
-    },
-    "vd_testimonials_collection_b5N1sD": {
-      "type": "vd-testimonials",
-      "settings": {
-        "eyebrow": "Avis clients",
-        "heading": "La confiance doit deja etre lisible au niveau catalogue.",
-        "text": "<p>Une preuve sociale sobre pour soutenir l'exploration de gamme sans donner une impression de template ou de bloc promotionnel standard.</p>",
-        "reviews_limit": "6",
-        "button_label": "Voir les produits",
-        "button_link": "shopify://collections/vanille-bourbon",
-        "color_scheme": "scheme-3",
-        "padding_top": 8,
-        "padding_bottom": 56
-      }
     }
   },
   "order": [
     "banner",
-    "product-grid",
-    "vd_story_grid_collection_c7F2pA",
-    "vd_testimonials_collection_b5N1sD"
+    "product-grid"
   ]
 }

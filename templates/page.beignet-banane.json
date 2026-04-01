@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -5,191 +14,11 @@
       "disabled": true,
       "settings": {}
     },
-    "vd_recipe_signature_beignets": {
+    "recipe": {
       "type": "vd-recipe-signature",
-      "blocks": {
-        "ingredient_1": {
-          "type": "ingredient",
-          "settings": {
-            "quantity": "3",
-            "unit": "oeufs",
-            "title": "",
-            "note": "",
-            "badge": "",
-            "scalable": true
-          }
-        },
-        "ingredient_2": {
-          "type": "ingredient",
-          "settings": {
-            "quantity": "400",
-            "unit": "g",
-            "title": "farine T55",
-            "note": "",
-            "badge": "",
-            "scalable": true
-          }
-        },
-        "ingredient_3": {
-          "type": "ingredient",
-          "settings": {
-            "quantity": "100",
-            "unit": "g",
-            "title": "sucre",
-            "note": "",
-            "badge": "",
-            "scalable": true
-          }
-        },
-        "ingredient_4": {
-          "type": "ingredient",
-          "settings": {
-            "quantity": "1",
-            "unit": "sachet",
-            "title": "levure chimique",
-            "note": "Environ 11 g.",
-            "badge": "",
-            "scalable": true
-          }
-        },
-        "ingredient_5": {
-          "type": "ingredient",
-          "settings": {
-            "quantity": "35",
-            "unit": "cl",
-            "title": "lait",
-            "note": "",
-            "badge": "",
-            "scalable": true
-          }
-        },
-        "ingredient_6": {
-          "type": "ingredient",
-          "settings": {
-            "quantity": "2",
-            "unit": "gousses",
-            "title": "vanille Bourbon",
-            "note": "Fendues et grattées, ou 1 c. a cafe de sucre vanille Vanille Desire.",
-            "badge": "Vanille Desire",
-            "scalable": true
-          }
-        },
-        "ingredient_7": {
-          "type": "ingredient",
-          "settings": {
-            "quantity": "7",
-            "unit": "bananes",
-            "title": "bien mures",
-            "note": "Compter 6 a 8 selon la taille.",
-            "badge": "",
-            "scalable": true
-          }
-        },
-        "ingredient_8": {
-          "type": "ingredient",
-          "settings": {
-            "quantity": "",
-            "unit": "",
-            "title": "huile pour friture",
-            "note": "Arachide ou tournesol raffine.",
-            "badge": "Selon la casserole",
-            "scalable": false
-          }
-        },
-        "step_1": {
-          "type": "step",
-          "settings": {
-            "text": "Fouetter les oeufs et le sucre. Ajouter les graines de vanille ou le sucre vanille, puis melanger jusqu'a obtenir une base homogene."
-          }
-        },
-        "step_2": {
-          "type": "step",
-          "settings": {
-            "text": "Incorporer la farine et la levure, puis verser le lait progressivement jusqu'a obtenir une pate lisse, souple et nappante. Laisser reposer 20 a 30 minutes."
-          }
-        },
-        "step_3": {
-          "type": "step",
-          "settings": {
-            "text": "Eplucher les bananes, couper en rondelles ou en batonnets, puis chauffer l'huile a environ 170 a 175 degres."
-          }
-        },
-        "step_4": {
-          "type": "step",
-          "settings": {
-            "text": "Tremper les morceaux de banane dans la pate et les frire par petites quantites pour garder une belle temperature d'huile."
-          }
-        },
-        "step_5": {
-          "type": "step",
-          "settings": {
-            "text": "Cuire 2 a 3 minutes par face jusqu'a obtenir une couleur doree, puis egoutter sur papier absorbant."
-          }
-        },
-        "step_6": {
-          "type": "step",
-          "settings": {
-            "text": "Servir chaud, nature ou avec un filet de miel, et finir si besoin avec un voile de sucre vanille."
-          }
-        },
-        "tip_1": {
-          "type": "tip",
-          "settings": {
-            "title": "Pate & texture",
-            "text": "La pate doit rester nappante. Si elle est trop epaisse, detends-la avec un peu de lait. Si elle file trop, ajoute un soupcon de farine."
-          }
-        },
-        "tip_2": {
-          "type": "tip",
-          "settings": {
-            "title": "Temperature de friture",
-            "text": "Une goutte de pate doit frire tout de suite sans brunir trop vite. Travaille en petites fournees pour eviter la chute de temperature."
-          }
-        },
-        "tip_3": {
-          "type": "tip",
-          "settings": {
-            "title": "Lien produit",
-            "text": "Si la recette marche, la page doit renvoyer naturellement vers la bonne gousse, le bon sucre vanille ou la bonne collection."
-          }
-        }
-      },
-      "block_order": [
-        "ingredient_1",
-        "ingredient_2",
-        "ingredient_3",
-        "ingredient_4",
-        "ingredient_5",
-        "ingredient_6",
-        "ingredient_7",
-        "ingredient_8",
-        "step_1",
-        "step_2",
-        "step_3",
-        "step_4",
-        "step_5",
-        "step_6",
-        "tip_1",
-        "tip_2",
-        "tip_3"
-      ],
       "settings": {
-        "eyebrow": "Recette signature",
-        "heading": "Beignets de banane a la vanille",
-        "intro": "<p>Une recette maison lisible, premium et directement reliee aux bons produits Vanille Desire. La base est deja faite pour que tu puisses ensuite densifier avec tes photos ou tes videos.</p>",
-        "base_serves": 10,
-        "prep_time": "25 min",
-        "cook_time": "10 min",
-        "difficulty": "Facile",
-        "download_filename": "beignets-banane-vanille",
-        "sidebar_text": "<p>La recette ne doit pas vivre seule. Elle doit donner envie de cuisiner puis de revenir vers le bon format de vanille.</p>",
-        "featured_product": "vanille-bourbon-madagascar-3-gousses",
-        "related_collection": "vanille-bourbon",
-        "primary_label": "Voir le produit",
-        "primary_link": "",
-        "secondary_label": "Voir la collection",
-        "secondary_link": "",
-        "provenance": "<p>Recette pensee avec des gousses de vanille Bourbon de Madagascar issues d'un sourcing direct, pour garder une lecture sobre, premium et credible.</p>",
+        "recipe_slug": "beignet-banane",
+        "require_customer_access": true,
         "color_scheme": "scheme-3",
         "padding_top": 28,
         "padding_bottom": 40
@@ -198,6 +27,6 @@
   },
   "order": [
     "main",
-    "vd_recipe_signature_beignets"
+    "recipe"
   ]
 }

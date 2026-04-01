@@ -14,7 +14,7 @@
   endif
 
   assign display_title = collection.title
-  assign curation_note = 'Une lecture plus nette des formats, de la matiere et des usages.'
+  assign curation_note = 'Une lecture plus nette des formats, de la matière et des usages.'
   assign hero_detail = collection_products_count | append: ' ' | append: collection_products_label
   assign primary_visual = collection.image
   assign feature_product_primary = collection.products.first
@@ -24,19 +24,19 @@
   if collection.handle == 'all'
     assign display_title = 'Catalogue'
     assign hero_eyebrow = 'Maison'
-    assign curation_note = "Un parcours plus editorial pour entrer par la matiere, le geste et l'usage sans sensation de catalogue generique."
-    assign hero_detail = 'Selection complete de la maison'
+    assign curation_note = "Une vue d’ensemble de la maison pour comparer les usages, les intensités et les formats sans sensation de catalogue générique."
+    assign hero_detail = 'Sélection complète de la maison'
   elsif collection.handle == 'vanille-bourbon'
-    assign curation_note = 'La matiere signature: gousses, caviar, extraits et formats de cuisine ou de cadeau.'
+    assign curation_note = 'La matière signature: gousses, caviar, extraits et formats de cuisine ou de cadeau.'
     assign hero_detail = 'Gousses, extraits, caviar'
   elsif collection.handle == 'epices-madagascar'
-    assign curation_note = 'Poivres, combava, cannelle et epices de cuisine dans une lecture plus sensorielle et plus precise.'
-    assign hero_detail = 'Accords, intensites, cuisines'
+    assign curation_note = 'Poivres, combava, cannelle et épices de cuisine dans une lecture plus sensorielle et plus précise.'
+    assign hero_detail = 'Accords, intensités, cuisines'
   elsif collection.handle == 'sels-aromatises'
-    assign curation_note = "Des assemblages signatures pour la finition, l'assaisonnement et les accords plus contemporains."
+    assign curation_note = "Des assemblages signatures pour la finition, l’assaisonnement et les accords plus contemporains."
     assign hero_detail = 'Assemblages aromatiques'
   elsif collection.handle == 'huiles-essentielles'
-    assign curation_note = 'Une approche claire et responsable pour les usages externes, les precautions et la bonne orientation produit.'
+    assign curation_note = 'Une approche claire et responsable pour les usages externes, les précautions et la bonne orientation produit.'
     assign hero_detail = 'Usage externe et dilution'
   endif
 
@@ -163,7 +163,7 @@
         {% endif %}
 
         <div class="collection-hero__glass-note">
-          <span>Curation</span>
+          <span>Sélection</span>
           <p>{{ curation_note }}</p>
         </div>
       </div>
