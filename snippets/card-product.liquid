@@ -17,6 +17,8 @@
   - horizontal_quick_add: {Boolean} Changes the quick add button styles when set to true. Default: false (optional)
   - placeholder_image: {String} The placeholder image to use when no product exists. Default: 'product-apparel-2' (optional)
   - editorial_card: {Boolean} Apply the premium editorial card treatment (optional)
+  - premium_card: {Boolean} Render the modern premium card layout (optional)
+  - card_surface: {String} Surface variant for premium cards: "dark" or "light" (optional)
 
   Usage:
   {% render 'card-product', show_vendor: section.settings.show_vendor %}
@@ -59,6 +61,68 @@
       assign card_meta_label = card_product.vendor
     endif
   -%}
+  {%- if premium_card -%}
+    <article class="vd-premium-card vd-premium-card--{{ card_surface | default: 'dark' }}">
+      <a href="{{ card_product.url }}" class="vd-premium-card__link">
+        <span class="vd-premium-card__shine" aria-hidden="true"></span>
+        <span class="vd-premium-card__glow" aria-hidden="true"></span>
+        <div class="vd-premium-card__content">
+          <div class="vd-premium-card__media">
+            {%- if card_product.featured_media -%}
+              <img
+                srcset="
+                  {%- if card_product.featured_media.width >= 320 -%}{{ card_product.featured_media | image_url: width: 320 }} 320w,{%- endif -%}
+                  {%- if card_product.featured_media.width >= 480 -%}{{ card_product.featured_media | image_url: width: 480 }} 480w,{%- endif -%}
+                  {%- if card_product.featured_media.width >= 720 -%}{{ card_product.featured_media | image_url: width: 720 }} 720w,{%- endif -%}
+                  {%- if card_product.featured_media.width >= 960 -%}{{ card_product.featured_media | image_url: width: 960 }} 960w,{%- endif -%}
+                  {{ card_product.featured_media | image_url }} {{ card_product.featured_media.width }}w
+                "
+                src="{{ card_product.featured_media | image_url: width: 720 }}"
+                sizes="(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw"
+                alt="{{ card_product.featured_media.alt | escape }}"
+                class="vd-premium-card__image"
+                {% unless lazy_load == false %}
+                  loading="lazy"
+                {% endunless %}
+                width="{{ card_product.featured_media.width }}"
+                height="{{ card_product.featured_media.height }}"
+              >
+            {%- endif -%}
+            {%- if card_product.available == false -%}
+              <span class="vd-premium-card__badge">{{ 'products.product.sold_out' | t }}</span>
+            {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
+              <span class="vd-premium-card__badge">{{ 'products.product.on_sale' | t }}</span>
+            {%- endif -%}
+          </div>
+          <div class="vd-premium-card__text">
+            {%- if card_meta_label != blank -%}
+              <p class="vd-premium-card__eyebrow">{{ card_meta_label }}</p>
+            {%- endif -%}
+            <h3 class="vd-premium-card__title">{{ card_product.title | escape }}</h3>
+            {%- if show_subtitle and card_subtitle != blank -%}
+              <p class="vd-premium-card__description">{{ card_subtitle | escape }}</p>
+            {%- endif -%}
+          </div>
+          <div class="vd-premium-card__footer">
+            <div class="vd-premium-card__price">
+              {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
+            </div>
+            <span class="vd-premium-card__button" aria-hidden="true">
+              <svg height="16" width="16" viewBox="0 0 24 24">
+                <path
+                  stroke-width="2"
+                  stroke="currentColor"
+                  d="M4 12H20M12 4V20"
+                  fill="none"
+                  stroke-linecap="round"
+                ></path>
+              </svg>
+            </span>
+          </div>
+        </div>
+      </a>
+    </article>
+  {%- else -%}
   <div class="card-wrapper product-card-wrapper underline-links-hover{% if editorial_card %} card-wrapper--editorial{% endif %}">
     <div
       class="
@@ -611,6 +675,7 @@
       </div>
     </div>
   </div>
+  {%- endif -%}
 {%- else -%}
   {%- liquid
     assign ratio = 1

@@ -17,6 +17,7 @@
   assign curation_note = 'Une lecture plus nette des formats, de la matière et des usages.'
   assign collection_description_plain = collection.description | strip_html | strip
   assign hero_detail = collection_products_count | append: ' ' | append: collection_products_label
+  assign collection_count_chip = collection_products_count | append: ' ' | append: collection_products_label
   assign primary_visual = collection.image
   assign feature_product_primary = collection.products.first
   assign feature_product_secondary = collection.products[1]
@@ -109,7 +110,9 @@
 
         <div class="collection-hero__details" role="list">
           <span class="collection-hero__detail" role="listitem">{{ collection_products_count }} {{ collection_products_label }}</span>
-          <span class="collection-hero__detail" role="listitem">{{ hero_detail }}</span>
+          {%- unless hero_detail == blank or hero_detail == collection_count_chip -%}
+            <span class="collection-hero__detail" role="listitem">{{ hero_detail }}</span>
+          {%- endunless -%}
         </div>
 
         {%- if section.settings.show_collection_description and collection_description_plain != blank -%}
@@ -162,7 +165,7 @@
           </div>
         {% endif %}
 
-        {% if feature_product_secondary != blank %}
+        {% if feature_product_secondary != blank and collection.products_count > 3 %}
           <a class="collection-hero__floating-card collection-hero__floating-card--top" href="{{ feature_product_secondary.url }}">
             {% assign floating_image_top = feature_product_secondary.featured_media.preview_image | default: feature_product_secondary.featured_image %}
             {% if floating_image_top != blank %}
@@ -184,7 +187,7 @@
           </a>
         {% endif %}
 
-        {% if feature_product_tertiary != blank %}
+        {% if feature_product_tertiary != blank and collection.products_count > 4 %}
           <a class="collection-hero__floating-card collection-hero__floating-card--bottom" href="{{ feature_product_tertiary.url }}">
             {% assign floating_image_bottom = feature_product_tertiary.featured_media.preview_image | default: feature_product_tertiary.featured_image %}
             {% if floating_image_bottom != blank %}

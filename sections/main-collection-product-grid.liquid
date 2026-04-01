@@ -228,6 +228,8 @@
                   show_rating: section.settings.show_rating,
                   show_subtitle: section.settings.show_subtitle,
                   show_product_type: section.settings.show_product_type,
+                  premium_card: true,
+                  card_surface: section.settings.card_surface,
                   lazy_load: lazy_load,
                   skip_styles: skip_card_product_styles,
                   quick_add: section.settings.quick_add,
@@ -416,6 +418,22 @@
       ],
       "default": "default",
       "label": "t:sections.all.image_shape.label"
+    },
+    {
+      "type": "select",
+      "id": "card_surface",
+      "label": "Surface des vignettes",
+      "default": "dark",
+      "options": [
+        {
+          "value": "dark",
+          "label": "Sombre"
+        },
+        {
+          "value": "light",
+          "label": "Clair"
+        }
+      ]
     },
     {
       "type": "checkbox",
