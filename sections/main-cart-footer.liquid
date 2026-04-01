@@ -104,11 +104,11 @@
                 </small>
               </div>
             {%- else -%}
-              <div class="cart__ctas" {{ block.shopify_attributes }}>
+              <div class="cart__ctas vd-cart-checkout-shell" {{ block.shopify_attributes }}>
                 <button
                   type="submit"
                   id="checkout"
-                  class="cart__checkout-button button"
+                  class="cart__checkout-button button vd-cart-checkout-shell__button"
                   name="checkout"
                   {% if cart == empty %}
                     disabled
@@ -117,10 +117,13 @@
                 >
                   {{ 'sections.cart.checkout' | t }}
                 </button>
+                <a href="{{ routes.all_products_collection_url }}" class="vd-cart-checkout-shell__continue">
+                  Continuer les achats
+                </a>
               </div>
 
               {%- if additional_checkout_buttons -%}
-                <div class="cart__dynamic-checkout-buttons additional-checkout-buttons">
+                <div class="cart__dynamic-checkout-buttons additional-checkout-buttons vd-cart-checkout-shell__wallets">
                   {{ content_for_additional_checkout_buttons }}
                 </div>
               {%- endif -%}

@@ -35,13 +35,13 @@
     "featured-collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "Continuer la decouverte",
+        "title": "Continuer la découverte",
         "heading_size": "h2",
         "collection": "vanille-bourbon",
         "products_to_show": 4,
         "columns_desktop": 4,
         "color_scheme": "scheme-3",
-        "show_view_all": true,
+        "show_view_all": false,
         "swipe_on_mobile": false,
         "image_ratio": "square",
         "show_secondary_image": false,

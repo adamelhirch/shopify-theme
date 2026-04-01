@@ -8,18 +8,18 @@
 
 {%- liquid
   assign intro_kicker = section.settings.intro_kicker
-  if intro_kicker == blank
-    assign intro_kicker = 'Catalogue'
-  endif
-
   assign intro_heading = section.settings.intro_heading
-  if intro_heading == blank
-    assign intro_heading = "Choisir la bonne matière, le bon format, le bon niveau d’intensité."
-  endif
-
   assign intro_note = section.settings.intro_text
-  if intro_note == blank
-    assign intro_note = '<p>Retrouver rapidement le bon format, comparer les usages et affiner le choix sans perdre la sensation de qualité.</p>'
+  assign has_intro_shell = false
+
+  if intro_kicker != blank or intro_heading != blank or intro_note != blank
+    assign has_intro_shell = true
+  elsif section.settings.primary_link_label != blank and section.settings.primary_link != blank
+    assign has_intro_shell = true
+  elsif section.settings.secondary_link_label != blank and section.settings.secondary_link != blank
+    assign has_intro_shell = true
+  elsif section.settings.grid_note != blank
+    assign has_intro_shell = true
   endif
 -%}
 
@@ -117,43 +117,51 @@
     <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
       {{ 'component-facets.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
-      <div class="vd-collection-grid__intro{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-        <div class="vd-collection-grid__intro-copy">
-          <span class="vd-section-kicker">{{ intro_kicker }}</span>
-          <h2>{{ intro_heading }}</h2>
-          <div class="rte">
-            {{ intro_note }}
+      {%- if has_intro_shell -%}
+        <div class="vd-collection-grid__intro{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+          <div class="vd-collection-grid__intro-copy">
+            {%- if intro_kicker != blank -%}
+              <span class="vd-section-kicker">{{ intro_kicker }}</span>
+            {%- endif -%}
+            {%- if intro_heading != blank -%}
+              <h2>{{ intro_heading }}</h2>
+            {%- endif -%}
+            {%- if intro_note != blank -%}
+              <div class="rte">
+                {{ intro_note }}
+              </div>
+            {%- endif -%}
+          </div>
+          <div class="vd-collection-grid__intro-links">
+            {%- if section.settings.primary_link_label != blank or section.settings.secondary_link_label != blank -%}
+              <div class="vd-collection-grid__action-stack">
+                {%- if section.settings.primary_link_label != blank and section.settings.primary_link != blank -%}
+                  <a href="{{ section.settings.primary_link }}" class="vd-arrow-cta">
+                    <span class="vd-arrow-cta__label">{{ section.settings.primary_link_label }}</span>
+                    <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                      <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                    </svg>
+                  </a>
+                {%- endif -%}
+                {%- if section.settings.secondary_link_label != blank and section.settings.secondary_link != blank -%}
+                  <a href="{{ section.settings.secondary_link }}" class="vd-arrow-cta">
+                    <span class="vd-arrow-cta__label">{{ section.settings.secondary_link_label }}</span>
+                    <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                      <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                    </svg>
+                  </a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+            {%- if section.settings.grid_note != blank -%}
+              <div class="vd-collection-grid__curation-note">
+                <span>{{ section.settings.grid_note_eyebrow | default: 'Repères' }}</span>
+                <p>{{ section.settings.grid_note }}</p>
+              </div>
+            {%- endif -%}
           </div>
         </div>
-        <div class="vd-collection-grid__intro-links">
-          {%- if section.settings.primary_link_label != blank or section.settings.secondary_link_label != blank -%}
-            <div class="vd-collection-grid__action-stack">
-              {%- if section.settings.primary_link_label != blank and section.settings.primary_link != blank -%}
-                <a href="{{ section.settings.primary_link }}" class="vd-arrow-cta">
-                  <span class="vd-arrow-cta__label">{{ section.settings.primary_link_label }}</span>
-                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                  </svg>
-                </a>
-              {%- endif -%}
-              {%- if section.settings.secondary_link_label != blank and section.settings.secondary_link != blank -%}
-                <a href="{{ section.settings.secondary_link }}" class="vd-arrow-cta">
-                  <span class="vd-arrow-cta__label">{{ section.settings.secondary_link_label }}</span>
-                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                  </svg>
-                </a>
-              {%- endif -%}
-            </div>
-          {%- endif -%}
-          {%- if section.settings.grid_note != blank -%}
-            <div class="vd-collection-grid__curation-note">
-              <span>{{ section.settings.grid_note_eyebrow | default: 'Repères' }}</span>
-              <p>{{ section.settings.grid_note }}</p>
-            </div>
-          {%- endif -%}
-        </div>
-      </div>
+      {%- endif -%}
       {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
         <aside
           aria-labelledby="verticalTitle"

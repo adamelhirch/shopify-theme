@@ -57,8 +57,11 @@
   {%- liquid
     assign selected_variant_title = product.selected_or_first_available_variant.title
     assign product_background_video_url = ''
+    assign global_product_background_video_url = ''
     assign product_backdrop_image = section.settings.background_image
     assign has_product_backdrop = false
+    assign product_background_overlay = settings.vd_product_default_background_overlay_opacity | default: 58 | divided_by: 100.0
+    assign product_background_blur = settings.vd_product_default_background_blur | default: 12
     if selected_variant_title == 'Default Title'
       assign selected_variant_title = blank
     endif
@@ -83,6 +86,10 @@
       assign has_support_panel = true
     endif
 
+    if product_backdrop_image == blank and settings.vd_product_default_background_image != blank
+      assign product_backdrop_image = settings.vd_product_default_background_image
+    endif
+
     if section.settings.background_video != blank
       for source in section.settings.background_video.sources
         if source.mime_type == 'video/mp4'
@@ -90,6 +97,19 @@
           break
         endif
       endfor
+    endif
+
+    if product_background_video_url == blank and settings.vd_product_default_background_video != blank
+      for source in settings.vd_product_default_background_video.sources
+        if source.mime_type == 'video/mp4'
+          assign global_product_background_video_url = source.url
+          break
+        endif
+      endfor
+    endif
+
+    if product_background_video_url == blank and global_product_background_video_url != blank
+      assign product_background_video_url = global_product_background_video_url
     endif
 
     if product_backdrop_image == blank
@@ -119,7 +139,10 @@
   {%- endif -%}
 
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
-  <div class="vd-product-shell{% if has_product_backdrop %} vd-product-shell--with-backdrop{% endif %}">
+  <div
+    class="vd-product-shell{% if has_product_backdrop %} vd-product-shell--with-backdrop{% endif %}"
+    style="--vd-product-backdrop-overlay-opacity: {{ product_background_overlay }}; --vd-product-backdrop-blur: {{ product_background_blur }}px;"
+  >
     {% if has_product_backdrop %}
       <div class="vd-product-shell__backdrop" aria-hidden="true">
         {% if product_background_video_url != blank %}
