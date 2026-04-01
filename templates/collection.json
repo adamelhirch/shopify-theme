@@ -3,9 +3,19 @@
     "banner": {
       "type": "main-collection-banner",
       "settings": {
+        "eyebrow": "Collection",
         "show_collection_description": true,
         "show_collection_image": true,
-        "color_scheme": "scheme-3"
+        "color_scheme": "scheme-3",
+        "metric_primary_label": "Selection",
+        "metric_secondary_label": "Lecture",
+        "metric_secondary_value": "Formats, intensite, usages",
+        "metric_tertiary_label": "Suite",
+        "metric_tertiary_value": "Recettes, conseils, wiki",
+        "primary_link_label": "Voir les recettes",
+        "primary_link": "/pages/recettes",
+        "secondary_link_label": "Parler avec nous",
+        "secondary_link": "/pages/contact"
       }
     },
     "product-grid": {
@@ -17,9 +27,18 @@
         "show_secondary_image": false,
         "show_vendor": false,
         "show_rating": false,
+        "show_subtitle": true,
+        "show_product_type": true,
         "enable_filtering": true,
         "enable_sorting": true,
         "color_scheme": "scheme-3",
+        "intro_kicker": "Catalogue",
+        "intro_heading": "Comparer les formats sans perdre la sensation de qualite.",
+        "intro_text": "<p>Le catalogue doit rester rapide a filtrer, net a lire et suffisamment precis pour aider a choisir entre usage quotidien, cadeau ou cuisine plus exigeante.</p>",
+        "primary_link_label": "Voir les recettes",
+        "primary_link": "/pages/recettes",
+        "secondary_link_label": "Demander conseil",
+        "secondary_link": "/pages/contact",
         "columns_mobile": "2",
         "padding_top": 36,
         "padding_bottom": 36
@@ -56,8 +75,8 @@
         "pillar_3"
       ],
       "settings": {
-        "heading": "Une collection plus claire, plus premium, plus utile.",
-        "text": "<p>Avant meme de scroller dans la grille, la page doit expliquer la logique de gamme et rassurer sur le niveau de qualite.</p>",
+        "heading": "Des collections pensees pour guider le choix avec calme.",
+        "text": "<p>Chaque entree catalogue doit donner assez d'information pour choisir vite, sans bruit visuel ni langage interne.</p>",
         "color_scheme": "scheme-2",
         "padding_top": 0,
         "padding_bottom": 28
@@ -67,8 +86,8 @@
       "type": "vd-testimonials",
       "settings": {
         "eyebrow": "Avis clients",
-        "heading": "La confiance doit aussi vivre au niveau collection.",
-        "text": "<p>Une couche de preuve sociale pour soutenir les pages catalogue, pas seulement les fiches produit.</p>",
+        "heading": "La confiance doit deja etre lisible au niveau catalogue.",
+        "text": "<p>Une preuve sociale sobre pour soutenir l'exploration de gamme sans donner une impression de template ou de bloc promotionnel standard.</p>",
         "reviews_limit": "6",
         "button_label": "Voir les produits",
         "button_link": "shopify://collections/vanille-bourbon",

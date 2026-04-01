@@ -381,6 +381,24 @@ p,
   color: rgba(var(--vd-ivory), 0.68);
 }
 
+.card-information__eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  margin-bottom: 0.9rem;
+  color: rgba(var(--vd-ivory), 0.58);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.card-information__subtitle {
+  margin: 0 0 1.1rem;
+  color: rgba(var(--vd-ivory), 0.72);
+  line-height: 1.6;
+}
+
 .rich-text__wrapper,
 .image-with-text__content,
 .multicolumn-list .multicolumn-card__info {
@@ -5214,6 +5232,13 @@ body:has(.section-vd-hero) .header-wrapper {
   margin-top: 2rem;
 }
 
+.collection-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
 .collection-hero__image-container {
   overflow: hidden;
   border-radius: 0.6rem;
@@ -5266,6 +5291,54 @@ body:has(.section-vd-hero) .header-wrapper {
 .product__tax,
 .product__accordion .accordion__content {
   color: rgba(var(--vd-ivory), 0.76);
+}
+
+.product__support-shell {
+  display: grid;
+  gap: 1.4rem;
+  margin-top: 2rem;
+  padding: 1.8rem;
+  border: 1px solid rgba(var(--vd-white), 0.08);
+  border-radius: 0.8rem;
+  background:
+    linear-gradient(180deg, rgba(var(--vd-white), 0.05), rgba(var(--vd-white), 0.02)),
+    rgba(var(--vd-black-soft), 0.38);
+}
+
+.product__support-heading {
+  margin: -0.4rem 0 0;
+  color: rgb(var(--vd-ivory));
+  font-size: clamp(2rem, 2.6vw, 2.8rem);
+  line-height: 1.02;
+}
+
+.product__support-text {
+  color: rgba(var(--vd-ivory), 0.76);
+}
+
+.product__support-text p {
+  margin: 0;
+}
+
+.product__support-pills,
+.product__support-points,
+.product__support-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.product__support-pill,
+.product__support-point {
+  display: inline-flex;
+  align-items: center;
+  min-height: 3.8rem;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid rgba(var(--vd-white), 0.08);
+  border-radius: 999px;
+  background: rgba(var(--vd-white), 0.03);
+  color: rgba(var(--vd-ivory), 0.84);
+  line-height: 1.45;
 }
 
 .product__accordion details {
@@ -5818,7 +5891,9 @@ body:has(.section-vd-hero) .header-wrapper {
   .vd-page-flow__product-grid,
   .vd-catalogue__grid,
   .vd-wiki-hub__grid,
-  .vd-cart-assurance {
+  .vd-cart-assurance,
+  .product__support-points,
+  .product__support-links {
     grid-template-columns: 1fr;
   }
 
@@ -5855,6 +5930,7 @@ body:has(.section-vd-hero) .header-wrapper {
   .collection-hero__inner,
   .vd-collection-grid__intro-copy,
   .vd-collection-grid__intro-links,
+  .product__support-shell,
   .vd-catalogue__hero-panel,
   .vd-catalogue__card,
   .vd-wiki-hub__summary,

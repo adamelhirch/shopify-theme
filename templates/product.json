@@ -109,6 +109,18 @@
         "mobile_thumbnails": "hide",
         "hide_variants": true,
         "enable_video_looping": false,
+        "support_eyebrow": "Repères",
+        "support_heading": "Une lecture plus utile, plus rassurante, plus premium.",
+        "support_text": "<p>La fiche doit aider a choisir vite, faire sentir la qualite de la matiere et orienter naturellement vers les recettes, le wiki ou un conseil plus direct.</p>",
+        "support_point_1": "Usage net selon infusion, dessert, cadeau ou dosage quotidien",
+        "support_point_2": "Origine suivie et matiere selectionnee avec exigence",
+        "support_point_3": "Ponts editoriaux vers recettes, wiki et reste de la gamme",
+        "support_link_label_1": "Voir les recettes",
+        "support_link_1": "/pages/recettes",
+        "support_link_label_2": "Lire le wiki",
+        "support_link_2": "/blogs/le-wiki",
+        "support_link_label_3": "Parler avec nous",
+        "support_link_3": "/pages/contact",
         "padding_top": 36,
         "padding_bottom": 12
       }
@@ -144,8 +156,8 @@
         "pillar_3"
       ],
       "settings": {
-        "heading": "La fiche produit doit tenir sans artifices.",
-        "text": "<p>On retire les sections trop génériques et on garde une base plus dure, plus utile et plus raccord avec la direction du site.</p>",
+        "heading": "Une fiche produit qui explique, rassure et donne envie d'aller plus loin.",
+        "text": "<p>Le produit reste au centre, avec assez de contexte pour comprendre le bon usage, la qualite de la matiere et la suite naturelle du parcours.</p>",
         "color_scheme": "scheme-2",
         "padding_top": 20,
         "padding_bottom": 28
@@ -157,7 +169,6 @@
         "heading": "Ils pourraient vous plaire",
         "heading_size": "h2",
         "columns_desktop": 4,
-        "color_scheme": "scheme-1",
         "image_ratio": "square",
         "show_secondary_image": true,
         "show_vendor": false,
@@ -172,8 +183,8 @@
       "type": "vd-testimonials",
       "settings": {
         "eyebrow": "Rassurance",
-        "heading": "Le produit ne doit pas vivre seul.",
-        "text": "<p>Une derniere couche de credibilite avant la fin de page: avis, confiance et continuité de marque.</p>",
+        "heading": "La confiance se confirme jusqu'en bas de page.",
+        "text": "<p>Une couche finale de preuve sociale et de continuité de marque, sans surcharge ni ton promotionnel trop appuye.</p>",
         "reviews_limit": "6",
         "button_label": "Voir plus de produits",
         "button_link": "shopify://collections/vanille-bourbon",

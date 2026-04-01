@@ -1,6 +1,49 @@
 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
 {{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
 
+{%- liquid
+  assign collection_products_count = collection.all_products_count
+  assign collection_products_label = 'produits'
+  if collection_products_count == 1
+    assign collection_products_label = 'produit'
+  endif
+
+  assign hero_eyebrow = section.settings.eyebrow
+  if hero_eyebrow == blank
+    assign hero_eyebrow = 'Collection'
+  endif
+
+  assign metric_primary_label = section.settings.metric_primary_label
+  if metric_primary_label == blank
+    assign metric_primary_label = 'Selection'
+  endif
+
+  assign metric_primary_value = section.settings.metric_primary_value
+  if metric_primary_value == blank
+    assign metric_primary_value = collection_products_count | append: ' ' | append: collection_products_label
+  endif
+
+  assign metric_secondary_label = section.settings.metric_secondary_label
+  if metric_secondary_label == blank
+    assign metric_secondary_label = 'Lecture'
+  endif
+
+  assign metric_secondary_value = section.settings.metric_secondary_value
+  if metric_secondary_value == blank
+    assign metric_secondary_value = 'Formats, intensite, usages'
+  endif
+
+  assign metric_tertiary_label = section.settings.metric_tertiary_label
+  if metric_tertiary_label == blank
+    assign metric_tertiary_label = 'Suite'
+  endif
+
+  assign metric_tertiary_value = section.settings.metric_tertiary_value
+  if metric_tertiary_value == blank
+    assign metric_tertiary_value = 'Recettes, conseils, wiki'
+  endif
+-%}
+
 {%- style -%}
   @media screen and (max-width: 749px) {
     .collection-hero--with-image .collection-hero__inner {
@@ -12,7 +55,7 @@
 <div class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
   <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     <div class="collection-hero__text-wrapper">
-      <span class="vd-section-kicker">Collection</span>
+      <span class="vd-section-kicker">{{ hero_eyebrow }}</span>
       <h1 class="collection-hero__title">
         <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
         {{- collection.title | escape -}}
@@ -24,18 +67,39 @@
 
       <div class="collection-hero__metrics" role="list">
         <div class="collection-hero__metric" role="listitem">
-          <span>References</span>
-          <strong>{{ collection.all_products_count }}</strong>
+          <span>{{ metric_primary_label }}</span>
+          <strong>{{ metric_primary_value }}</strong>
         </div>
         <div class="collection-hero__metric" role="listitem">
-          <span>Lecture</span>
-          <strong>Formats & usages</strong>
+          <span>{{ metric_secondary_label }}</span>
+          <strong>{{ metric_secondary_value }}</strong>
         </div>
         <div class="collection-hero__metric" role="listitem">
-          <span>Suite</span>
-          <strong>Recettes & wiki</strong>
+          <span>{{ metric_tertiary_label }}</span>
+          <strong>{{ metric_tertiary_value }}</strong>
         </div>
       </div>
+
+      {%- if section.settings.primary_link_label != blank or section.settings.secondary_link_label != blank -%}
+        <div class="collection-hero__actions">
+          {%- if section.settings.primary_link_label != blank and section.settings.primary_link != blank -%}
+            <a href="{{ section.settings.primary_link }}" class="vd-arrow-cta">
+              <span class="vd-arrow-cta__label">{{ section.settings.primary_link_label }}</span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+          {%- endif -%}
+          {%- if section.settings.secondary_link_label != blank and section.settings.secondary_link != blank -%}
+            <a href="{{ section.settings.secondary_link }}" class="vd-arrow-cta">
+              <span class="vd-arrow-cta__label">{{ section.settings.secondary_link_label }}</span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
     </div>
 
     {%- if section.settings.show_collection_image and collection.image -%}
@@ -71,6 +135,12 @@
       "content": "t:sections.main-collection-banner.settings.paragraph.content"
     },
     {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Collection"
+    },
+    {
       "type": "checkbox",
       "id": "show_collection_description",
       "default": true,
@@ -87,6 +157,71 @@
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
       "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Repères"
+    },
+    {
+      "type": "text",
+      "id": "metric_primary_label",
+      "label": "Libellé repère 1",
+      "default": "Selection"
+    },
+    {
+      "type": "text",
+      "id": "metric_primary_value",
+      "label": "Valeur repère 1"
+    },
+    {
+      "type": "text",
+      "id": "metric_secondary_label",
+      "label": "Libellé repère 2",
+      "default": "Lecture"
+    },
+    {
+      "type": "text",
+      "id": "metric_secondary_value",
+      "label": "Valeur repère 2",
+      "default": "Formats, intensite, usages"
+    },
+    {
+      "type": "text",
+      "id": "metric_tertiary_label",
+      "label": "Libellé repère 3",
+      "default": "Suite"
+    },
+    {
+      "type": "text",
+      "id": "metric_tertiary_value",
+      "label": "Valeur repère 3",
+      "default": "Recettes, conseils, wiki"
+    },
+    {
+      "type": "header",
+      "content": "Liens"
+    },
+    {
+      "type": "text",
+      "id": "primary_link_label",
+      "label": "Libellé lien principal",
+      "default": "Voir les recettes"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Lien principal"
+    },
+    {
+      "type": "text",
+      "id": "secondary_link_label",
+      "label": "Libellé lien secondaire",
+      "default": "Parler avec nous"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Lien secondaire"
     }
   ]
 }

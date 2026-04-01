@@ -54,6 +54,32 @@
   {%- endif -%}
 
   {%- assign first_3d_model = product.media | where: 'media_type', 'model' | first -%}
+  {%- liquid
+    assign selected_variant_title = product.selected_or_first_available_variant.title
+    if selected_variant_title == 'Default Title'
+      assign selected_variant_title = blank
+    endif
+
+    assign product_support_text = section.settings.support_text
+    if product_support_text == blank and product.description != blank
+      assign product_support_text = product.description | strip_html | truncatewords: 22
+    endif
+
+    assign has_support_panel = false
+    if section.settings.support_heading != blank
+      assign has_support_panel = true
+    elsif product_support_text != blank
+      assign has_support_panel = true
+    elsif section.settings.support_point_1 != blank or section.settings.support_point_2 != blank or section.settings.support_point_3 != blank
+      assign has_support_panel = true
+    elsif section.settings.support_link_label_1 != blank and section.settings.support_link_1 != blank
+      assign has_support_panel = true
+    elsif section.settings.support_link_label_2 != blank and section.settings.support_link_2 != blank
+      assign has_support_panel = true
+    elsif section.settings.support_link_label_3 != blank and section.settings.support_link_3 != blank
+      assign has_support_panel = true
+    endif
+  -%}
   {%- if first_3d_model -%}
     {{ 'component-product-model.css' | asset_url | stylesheet_tag }}
     <link
@@ -485,6 +511,80 @@
                   section_id: section.id,
                   show_pickup_availability: true
                 -%}
+                {%- if has_support_panel -%}
+                  <div class="product__support-shell" {{ block.shopify_attributes }}>
+                    {%- if section.settings.support_eyebrow != blank -%}
+                      <span class="vd-section-kicker">{{ section.settings.support_eyebrow }}</span>
+                    {%- endif -%}
+
+                    {%- if section.settings.support_heading != blank -%}
+                      <h2 class="product__support-heading">{{ section.settings.support_heading }}</h2>
+                    {%- endif -%}
+
+                    {%- if product_support_text != blank -%}
+                      <div class="product__support-text rte">
+                        {{ product_support_text }}
+                      </div>
+                    {%- endif -%}
+
+                    <div class="product__support-pills" role="list">
+                      {%- if product.type != blank -%}
+                        <span class="product__support-pill" role="listitem">{{ product.type }}</span>
+                      {%- endif -%}
+                      {%- if selected_variant_title != blank -%}
+                        <span class="product__support-pill" role="listitem">{{ selected_variant_title }}</span>
+                      {%- endif -%}
+                      {%- if product.metafields.reviews.rating_count != blank and product.metafields.reviews.rating_count > 0 -%}
+                        <span class="product__support-pill" role="listitem">
+                          {{ product.metafields.reviews.rating_count }} avis
+                        </span>
+                      {%- endif -%}
+                    </div>
+
+                    {%- if section.settings.support_point_1 != blank or section.settings.support_point_2 != blank or section.settings.support_point_3 != blank -%}
+                      <div class="product__support-points" role="list">
+                        {%- if section.settings.support_point_1 != blank -%}
+                          <span class="product__support-point" role="listitem">{{ section.settings.support_point_1 }}</span>
+                        {%- endif -%}
+                        {%- if section.settings.support_point_2 != blank -%}
+                          <span class="product__support-point" role="listitem">{{ section.settings.support_point_2 }}</span>
+                        {%- endif -%}
+                        {%- if section.settings.support_point_3 != blank -%}
+                          <span class="product__support-point" role="listitem">{{ section.settings.support_point_3 }}</span>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+
+                    {%- if section.settings.support_link_label_1 != blank or section.settings.support_link_label_2 != blank or section.settings.support_link_label_3 != blank -%}
+                      <div class="product__support-links">
+                        {%- if section.settings.support_link_label_1 != blank and section.settings.support_link_1 != blank -%}
+                          <a href="{{ section.settings.support_link_1 }}" class="vd-arrow-cta">
+                            <span class="vd-arrow-cta__label">{{ section.settings.support_link_label_1 }}</span>
+                            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                            </svg>
+                          </a>
+                        {%- endif -%}
+                        {%- if section.settings.support_link_label_2 != blank and section.settings.support_link_2 != blank -%}
+                          <a href="{{ section.settings.support_link_2 }}" class="vd-arrow-cta">
+                            <span class="vd-arrow-cta__label">{{ section.settings.support_link_label_2 }}</span>
+                            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                            </svg>
+                          </a>
+                        {%- endif -%}
+                        {%- if section.settings.support_link_label_3 != blank and section.settings.support_link_3 != blank -%}
+                          <a href="{{ section.settings.support_link_3 }}" class="vd-arrow-cta">
+                            <span class="vd-arrow-cta__label">{{ section.settings.support_link_label_3 }}</span>
+                            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                            </svg>
+                          </a>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
               {%- when 'rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
                   <div class="rating-wrapper">
@@ -2238,6 +2338,79 @@
       "id": "enable_video_looping",
       "default": false,
       "label": "t:sections.main-product.settings.enable_video_looping.label"
+    },
+    {
+      "type": "header",
+      "content": "Repères produit"
+    },
+    {
+      "type": "text",
+      "id": "support_eyebrow",
+      "label": "Sur-titre",
+      "default": "Repères"
+    },
+    {
+      "type": "text",
+      "id": "support_heading",
+      "label": "Titre",
+      "default": "Une fiche plus claire pour acheter avec confiance."
+    },
+    {
+      "type": "richtext",
+      "id": "support_text",
+      "label": "Texte",
+      "default": "<p>On met en avant l'usage, la qualité de la matière et les prochains contenus utiles pour aider le client a avancer sans friction.</p>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "support_point_1",
+      "label": "Point 1",
+      "default": "Origine suivie, selection sobre et credible"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "support_point_2",
+      "label": "Point 2",
+      "default": "Formats lisibles selon vos usages"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "support_point_3",
+      "label": "Point 3",
+      "default": "Passerelles vers recettes, wiki et gamme"
+    },
+    {
+      "type": "text",
+      "id": "support_link_label_1",
+      "label": "Libellé lien 1",
+      "default": "Voir les recettes"
+    },
+    {
+      "type": "url",
+      "id": "support_link_1",
+      "label": "Lien 1"
+    },
+    {
+      "type": "text",
+      "id": "support_link_label_2",
+      "label": "Libellé lien 2",
+      "default": "Lire le wiki"
+    },
+    {
+      "type": "url",
+      "id": "support_link_2",
+      "label": "Lien 2"
+    },
+    {
+      "type": "text",
+      "id": "support_link_label_3",
+      "label": "Libellé lien 3",
+      "default": "Parler avec nous"
+    },
+    {
+      "type": "url",
+      "id": "support_link_3",
+      "label": "Lien 3"
     },
     {
       "type": "header",

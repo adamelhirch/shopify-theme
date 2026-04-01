@@ -31,6 +31,10 @@
 {%- if card_product and card_product != empty -%}
   {%- liquid
     assign ratio = 1
+    assign card_subtitle = blank
+    assign card_variant_label = card_product.selected_or_first_available_variant.title
+    assign card_meta_label = blank
+
     if card_product.featured_media and media_aspect_ratio == 'portrait'
       assign ratio = 0.8
     elsif card_product.featured_media and media_aspect_ratio == 'adapt'
@@ -38,6 +42,20 @@
     endif
     if ratio == 0 or ratio == null
       assign ratio = 1
+    endif
+
+    if card_product.metafields.descriptors.subtitle.value != blank
+      assign card_subtitle = card_product.metafields.descriptors.subtitle.value
+    endif
+
+    if card_variant_label == 'Default Title'
+      assign card_variant_label = blank
+    endif
+
+    if show_product_type and card_product.type != blank
+      assign card_meta_label = card_product.type
+    elsif show_vendor and card_product.vendor != blank
+      assign card_meta_label = card_product.vendor
     endif
   -%}
   <div class="card-wrapper product-card-wrapper underline-links-hover">
@@ -161,12 +179,20 @@
             </a>
           </h3>
           <div class="card-information">
-            {%- if show_vendor -%}
-              <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
-              <div class="caption-with-letter-spacing light">{{ card_product.vendor }}</div>
+            {%- if card_meta_label != blank or card_variant_label != blank -%}
+              <div class="card-information__eyebrow">
+                {%- if card_meta_label != blank -%}
+                  <span>{{ card_meta_label }}</span>
+                {%- endif -%}
+                {%- if card_variant_label != blank -%}
+                  <span>{{ card_variant_label }}</span>
+                {%- endif -%}
+              </div>
             {%- endif -%}
 
-            <span class="caption-large light">{{ block.settings.description | escape }}</span>
+            {%- if show_subtitle and card_subtitle != blank -%}
+              <p class="card-information__subtitle">{{ card_subtitle | escape }}</p>
+            {%- endif -%}
 
             {%- if show_rating and card_product.metafields.reviews.rating.value != blank -%}
               {% liquid
