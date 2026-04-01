@@ -117,10 +117,14 @@
                 >
                   {{ 'sections.cart.checkout' | t }}
                 </button>
-                <a href="{{ routes.all_products_collection_url }}" class="vd-cart-checkout-shell__continue">
-                  Continuer les achats
-                </a>
               </div>
+
+              <a href="{{ routes.all_products_collection_url }}" class="vd-cart-checkout-shell__continue-link">
+                <span>Continuer les achats</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </a>
 
               {%- if additional_checkout_buttons -%}
                 <div class="cart__dynamic-checkout-buttons additional-checkout-buttons vd-cart-checkout-shell__wallets">

@@ -20,8 +20,6 @@
   assign collection_count_chip = collection_products_count | append: ' ' | append: collection_products_label
   assign primary_visual = collection.image
   assign feature_product_primary = collection.products.first
-  assign feature_product_secondary = collection.products[1]
-  assign feature_product_tertiary = collection.products[2]
   assign collection_background_video_url = ''
   assign collection_backdrop_image = section.settings.background_image
   assign has_collection_backdrop = false
@@ -164,51 +162,6 @@
             >
           </div>
         {% endif %}
-
-        {% if feature_product_secondary != blank and collection.products_count > 3 %}
-          <a class="collection-hero__floating-card collection-hero__floating-card--top" href="{{ feature_product_secondary.url }}">
-            {% assign floating_image_top = feature_product_secondary.featured_media.preview_image | default: feature_product_secondary.featured_image %}
-            {% if floating_image_top != blank %}
-              {{
-                floating_image_top
-                | image_url: width: 320
-                | image_tag:
-                  class: 'collection-hero__floating-image',
-                  widths: '160, 240, 320',
-                  sizes: '18rem',
-                  loading: 'lazy',
-                  alt: feature_product_secondary.title | escape
-              }}
-            {% endif %}
-            <div class="collection-hero__floating-copy">
-              <span>{{ feature_product_secondary.type | default: 'Selection' }}</span>
-              <strong>{{ feature_product_secondary.title }}</strong>
-            </div>
-          </a>
-        {% endif %}
-
-        {% if feature_product_tertiary != blank and collection.products_count > 4 %}
-          <a class="collection-hero__floating-card collection-hero__floating-card--bottom" href="{{ feature_product_tertiary.url }}">
-            {% assign floating_image_bottom = feature_product_tertiary.featured_media.preview_image | default: feature_product_tertiary.featured_image %}
-            {% if floating_image_bottom != blank %}
-              {{
-                floating_image_bottom
-                | image_url: width: 320
-                | image_tag:
-                  class: 'collection-hero__floating-image',
-                  widths: '160, 240, 320',
-                  sizes: '18rem',
-                  loading: 'lazy',
-                  alt: feature_product_tertiary.title | escape
-              }}
-            {% endif %}
-            <div class="collection-hero__floating-copy">
-              <span>{{ feature_product_tertiary.type | default: 'Signature' }}</span>
-              <strong>{{ feature_product_tertiary.title }}</strong>
-            </div>
-          </a>
-        {% endif %}
-
       </div>
     </div>
   </div>

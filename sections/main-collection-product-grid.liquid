@@ -12,13 +12,7 @@
   assign intro_note = section.settings.intro_text
   assign has_intro_shell = false
 
-  if intro_kicker != blank or intro_heading != blank or intro_note != blank
-    assign has_intro_shell = true
-  elsif section.settings.primary_link_label != blank and section.settings.primary_link != blank
-    assign has_intro_shell = true
-  elsif section.settings.secondary_link_label != blank and section.settings.secondary_link != blank
-    assign has_intro_shell = true
-  elsif section.settings.grid_note != blank
+  if intro_heading != blank or intro_note != blank
     assign has_intro_shell = true
   endif
 -%}
