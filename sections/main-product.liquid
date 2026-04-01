@@ -655,6 +655,18 @@
                           {{- 'icon-caret.svg' | inline_asset_content -}}
                           </summary>
                         {%- endif -%}
+                        {%- unless block.settings.make_collapsible_row -%}
+                          {% if block.settings.eyebrow != blank or block.settings.text != blank %}
+                            <div class="complementary-products__intro">
+                              {% if block.settings.eyebrow != blank %}
+                                <span class="vd-section-kicker">{{ block.settings.eyebrow }}</span>
+                              {% endif %}
+                              {% if block.settings.text != blank %}
+                                <div class="complementary-products__copy rte">{{ block.settings.text }}</div>
+                              {% endif %}
+                            </div>
+                          {% endif %}
+                        {%- endunless -%}
                         <slideshow-component class="slider-mobile-gutter">
                           {%- assign number_of_slides = recommendations.products_count
                             | plus: 0.0
@@ -696,6 +708,8 @@
                                         card_product: product,
                                         media_aspect_ratio: block.settings.image_ratio,
                                         show_secondary_image: false,
+                                        show_subtitle: true,
+                                        show_product_type: true,
                                         lazy_load: false,
                                         skip_styles: skip_card_product_styles,
                                         quick_add: quick_add,
@@ -1306,6 +1320,18 @@
           "id": "block_heading",
           "default": "t:sections.main-product.blocks.complementary_products.settings.heading.default",
           "label": "t:sections.main-product.blocks.complementary_products.settings.heading.label"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Sur-titre",
+          "default": "Composer sa selection"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Texte",
+          "default": "<p>Une selection de produits a associer pour completer l'usage, construire un cadeau ou enrichir le panier sans perdre le fil de la gamme.</p>"
         },
         {
           "type": "checkbox",

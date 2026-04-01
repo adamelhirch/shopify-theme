@@ -41,8 +41,8 @@
       ],
       "settings": {
         "eyebrow": "Catalogue",
-        "heading": "Une navigation catalogue plus logique, plus tranchee, plus premium.",
-        "text": "<p>On ne veut plus d'une page de collections neutre. Elle doit orienter selon le besoin, la maturite du client et le type d'usage, avec une vraie sensation de luxe sobre.</p>",
+        "heading": "Explorer la maison par univers, usages et niveaux de lecture.",
+        "text": "<p>Le catalogue sert d'abord a bien orienter: la vanille comme coeur de maison, les epices pour prolonger les accords, puis des selections plus cadeau, plus pointues ou plus immediates.</p>",
         "primary_link_label": "Voir tous les produits",
         "primary_link": "shopify://collections/all",
         "secondary_link_label": "Aller aux recettes",
@@ -92,7 +92,7 @@
       ],
       "settings": {
         "heading": "Un catalogue qui raconte une logique avant d'empiler des cartes.",
-        "text": "<p>Cette base est faite pour etre ensuite enrichie avec vos videos, vos preuves visuelles et des niveaux de lecture plus fins.</p>",
+        "text": "<p>Chaque univers doit aider a choisir rapidement, rassurer sur la matiere et ouvrir ensuite vers les recettes, les contenus et les associations pertinentes.</p>",
         "color_scheme": "scheme-2",
         "padding_top": 0,
         "padding_bottom": 56

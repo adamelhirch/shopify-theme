@@ -39,6 +39,21 @@
             "show_gift_card_recipient": true
           }
         },
+        "complementary": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "A associer pour composer un panier plus complet",
+            "eyebrow": "Composer sa selection",
+            "text": "<p>Une selection complementaire pour prolonger l'usage du produit, construire un cadeau plus coherent ou varier les formats sans sortir de l'univers.</p>",
+            "make_collapsible_row": false,
+            "icon": "price_tag",
+            "product_list_limit": 4,
+            "products_per_page": 2,
+            "pagination_style": "counter",
+            "image_ratio": "square",
+            "enable_quick_add": false
+          }
+        },
         "description": {
           "type": "description"
         },
@@ -93,6 +108,7 @@
         "variant_picker",
         "quantity_selector",
         "buy_buttons",
+        "complementary",
         "description",
         "collapsible-row-0",
         "collapsible-row-1",

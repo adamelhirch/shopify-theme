@@ -10,7 +10,7 @@
       "settings": {
         "eyebrow": "Le Wiki",
         "heading": "Huiles essentielles & huiles naturelles",
-        "text": "<p>On repart sur une base claire: usages externes, prudence, dilution et orientation produit. L'objectif est de rendre cette page lisible sans la surcharger.</p>",
+        "text": "<p>Une lecture nette pour les usages externes, la dilution et les precautions essentielles, avec un ton responsable et une orientation produit simple.</p>",
         "primary_button_label": "Voir la collection",
         "primary_button_link": "shopify://collections/huiles-essentielles",
         "secondary_button_label": "Nous contacter",
@@ -67,9 +67,9 @@
       ],
       "settings": {
         "eyebrow": "Mode d'emploi",
-        "heading": "Une lecture plus propre pour les huiles.",
-        "text": "<p>Le but n'est pas de transformer la page en encyclopedie. Il faut d'abord rassurer, orienter et poser une base premium.</p>",
-        "summary": "Clair, responsable et plus luxe: une page qui remet l'information utile avant les vieux effets visuels.",
+        "heading": "Des reperes clairs avant tout le reste.",
+        "text": "<p>Le but est de rassurer, orienter et rappeler les bons gestes d'usage sans transformer la page en encyclopedie ou en promesse floue.</p>",
+        "summary": "Clair, responsable et premium: une page qui remet l'information utile, la precaution et le bon produit au centre.",
         "color_scheme": "scheme-3",
         "padding_top": 0,
         "padding_bottom": 28
@@ -106,8 +106,8 @@
         "pillar_3"
       ],
       "settings": {
-        "heading": "Un socle simple pour une categorie sensible.",
-        "text": "<p>Cette base evite les pages vides ou trop bricolées et laisse de la place pour un enrichissement plus expert ensuite.</p>",
+        "heading": "Un cadre net pour une categorie sensible.",
+        "text": "<p>La page doit rester accessible, exigeante et rassurante, tout en laissant une place naturelle aux contenus plus experts.</p>",
         "color_scheme": "scheme-2",
         "padding_top": 0,
         "padding_bottom": 56

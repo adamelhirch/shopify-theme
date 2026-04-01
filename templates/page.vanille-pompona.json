@@ -10,7 +10,7 @@
       "settings": {
         "eyebrow": "Le Wiki",
         "heading": "Vanille Pompona",
-        "text": "<p>Une base plus severe pour presenter la Pompona: profil aromatique, singularite, usages et passerelles vers la gamme sans retomber dans l'ancienne DA.</p>",
+        "text": "<p>Une lecture plus precise pour presenter la Pompona par profil aromatique, singularite et accords, avec une vraie tenue de marque et des passerelles nettes vers la gamme.</p>",
         "primary_button_label": "Voir les produits",
         "primary_button_link": "shopify://collections/all",
         "secondary_button_label": "Nous contacter",
@@ -67,9 +67,9 @@
       ],
       "settings": {
         "eyebrow": "Lecture produit",
-        "heading": "Une base premium pour traiter un sujet rare.",
-        "text": "<p>La Pompona merite une page nette et construite, pas un bloc decoratif brun. Cette version remet le sujet au centre.</p>",
-        "summary": "Le wiki sert ici a differencier, comparer et donner envie d'explorer plus loin la matiere.",
+        "heading": "Differencier la Pompona sans noyer le lecteur.",
+        "text": "<p>La page doit aider a comprendre ce qui distingue vraiment la Pompona, comment la travailler et dans quels accords elle prend tout son relief.</p>",
+        "summary": "Le contenu sert ici a comparer, differencier et donner envie d'explorer plus loin la matiere.",
         "color_scheme": "scheme-3",
         "padding_top": 0,
         "padding_bottom": 28
@@ -106,8 +106,8 @@
         "pillar_3"
       ],
       "settings": {
-        "heading": "Un wiki matiere, pas une page patchwork.",
-        "text": "<p>Cette base est volontairement plus dure et plus calme. Tu pourras ensuite y injecter tes vrais assets sans repartir de zero.</p>",
+        "heading": "Une page matiere, pas une page patchwork.",
+        "text": "<p>Le sujet rare gagne en force quand la lecture reste simple, tranchee et directement reliee aux usages, aux recettes et aux produits.</p>",
         "color_scheme": "scheme-2",
         "padding_top": 0,
         "padding_bottom": 56
