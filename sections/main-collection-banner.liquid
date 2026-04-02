@@ -93,12 +93,13 @@
 
 <div
   class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %}{% if has_collection_backdrop %} collection-hero--with-backdrop{% endif %} color-{{ section.settings.color_scheme }} gradient"
+  data-vd-collection-hero
   style="--collection-hero-backdrop-opacity: {{ backdrop_opacity }}; --collection-hero-backdrop-blur: {{ backdrop_blur }}px;"
 >
   {% if has_collection_backdrop %}
     <div class="collection-hero__backdrop" aria-hidden="true">
       {% if collection_background_video_url != blank %}
-        <video class="collection-hero__backdrop-media" autoplay muted loop playsinline preload="metadata">
+        <video class="collection-hero__backdrop-media" data-vd-collection-backdrop autoplay muted loop playsinline preload="metadata">
           <source src="{{ collection_background_video_url }}" type="video/mp4">
         </video>
       {% elsif collection_backdrop_image != blank %}
@@ -117,7 +118,7 @@
   {% endif %}
   <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     <div class="collection-hero__shell{% if compact_collection_hero %} collection-hero__shell--compact{% endif %}">
-      <div class="collection-hero__text-wrapper">
+      <div class="collection-hero__text-wrapper" data-vd-collection-panel>
         <span class="vd-section-kicker">{{ hero_eyebrow }}</span>
         <h1 class="collection-hero__title{% if collection.handle == 'all' %} collection-hero__title--catalog{% endif %}">
           <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>

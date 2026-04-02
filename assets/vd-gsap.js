@@ -1081,6 +1081,72 @@
     });
   }
 
+  function initCollectionHeroes(gsap, ScrollTrigger, prefersReducedMotion, cleanups) {
+    gsap.utils.toArray('[data-vd-collection-hero]').forEach(function (section) {
+      var backdrop = section.querySelector('[data-vd-collection-backdrop], .collection-hero__backdrop-media');
+      var panel = section.querySelector('[data-vd-collection-panel]');
+      var timeline;
+
+      if (!backdrop && !panel) return;
+
+      if (backdrop) {
+        gsap.set(backdrop, { clearProps: 'transform' });
+      }
+
+      if (panel) {
+        gsap.set(panel, { clearProps: 'transform,opacity' });
+      }
+
+      if (prefersReducedMotion) {
+        return;
+      }
+
+      timeline = gsap.timeline({
+        defaults: { ease: 'expo.out' },
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1
+        }
+      });
+
+      if (backdrop) {
+        timeline.fromTo(
+          backdrop,
+          { scale: 1.1, yPercent: -2 },
+          { scale: 1.02, yPercent: 4, ease: 'none' },
+          0
+        );
+      }
+
+      if (panel) {
+        timeline.fromTo(
+          panel,
+          { y: 28, autoAlpha: 0.86 },
+          { y: -8, autoAlpha: 1, ease: 'none' },
+          0
+        );
+      }
+
+      registerCleanup(cleanups, function () {
+        if (timeline.scrollTrigger) {
+          timeline.scrollTrigger.kill();
+        }
+
+        timeline.kill();
+
+        if (backdrop) {
+          gsap.set(backdrop, { clearProps: 'transform' });
+        }
+
+        if (panel) {
+          gsap.set(panel, { clearProps: 'transform,opacity' });
+        }
+      });
+    });
+  }
+
   function initVanilleGsap(forceRebuild) {
     if (!window.gsap || !window.ScrollTrigger || !window.ScrollSmoother) return;
     if (window.Shopify && window.Shopify.designMode) return;
@@ -1227,6 +1293,7 @@
     initFeatureGalleries(gsap, ScrollTrigger, prefersReducedMotion, state.cleanups);
     initNewProductBentos(gsap, ScrollTrigger, prefersReducedMotion, Flip, state.cleanups);
     initTestimonials(gsap, ScrollTrigger, prefersReducedMotion, state.cleanups);
+    initCollectionHeroes(gsap, ScrollTrigger, prefersReducedMotion, state.cleanups);
 
     gsap.utils.toArray('.vd-reveal').forEach(function (section) {
       var items = section.querySelectorAll('.vd-reveal-item');

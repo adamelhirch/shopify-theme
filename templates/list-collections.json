@@ -59,49 +59,10 @@
         "sort": "alphabetical",
         "image_ratio": "square"
       }
-    },
-    "vd_story_grid_list_collections_n9Q2uK": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "Entrer vite",
-            "text": "<p>Retrouver rapidement un cadeau, un usage quotidien, une idée pâtisserie ou une collection plus experte.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Monter en gamme",
-            "text": "<p>Une lecture précise, des visuels nets et une hiérarchie claire pour éviter l’effet grille générique.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Relier au contenu",
-            "text": "<p>Chaque univers peut mener vers les recettes, les conseils utiles et les bons contenus wiki au bon moment.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "Un catalogue qui oriente avant de multiplier les cartes.",
-        "text": "<p>Chaque univers aide à choisir rapidement, rassure sur la matière et ouvre ensuite vers les recettes, les contenus et les associations pertinentes.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 0,
-        "padding_bottom": 56
-      }
     }
   },
   "order": [
     "vd_catalogue_orbital_G7w2nC",
-    "main",
-    "vd_story_grid_list_collections_n9Q2uK"
+    "main"
   ]
 }
