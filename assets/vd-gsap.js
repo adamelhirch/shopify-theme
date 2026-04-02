@@ -1306,6 +1306,257 @@
     });
   }
 
+  function initFooterScenes(gsap, ScrollTrigger, prefersReducedMotion, cleanups) {
+    gsap.utils.toArray('[data-vd-footer-scene]').forEach(function (section) {
+      var SplitText = window.SplitText;
+      var backdrop = section.querySelector('[data-vd-footer-backdrop], .vd-footer-stage__backdrop-media');
+      var panels = gsap.utils.toArray(section.querySelectorAll('[data-vd-footer-panel]'));
+      var items = gsap.utils.toArray(section.querySelectorAll('[data-vd-footer-item]'));
+      var glows = gsap.utils.toArray(section.querySelectorAll('[data-vd-footer-glow]'));
+      var titleText = section.querySelector('[data-vd-footer-title]');
+      var socialItems = gsap.utils.toArray(section.querySelectorAll('.vd-footer-stage__social .list-social__item'));
+      var titleTargets = titleText ? [titleText] : [];
+      var titleSplit = null;
+      var titleOriginalHTML = titleText ? titleText.innerHTML : '';
+      var usedFallbackSplit = false;
+      var introTimeline;
+      var scrollTimeline;
+      var driftTimeline;
+      var moveHandler = null;
+      var leaveHandler = null;
+      var quickSetters = [];
+
+      if (!backdrop && !panels.length && !items.length) return;
+
+      if (backdrop) {
+        gsap.set(backdrop, { clearProps: 'transform,filter,opacity' });
+      }
+
+      if (panels.length) {
+        gsap.set(panels, { clearProps: 'transform,opacity,filter' });
+      }
+
+      if (items.length) {
+        gsap.set(items, { clearProps: 'transform,opacity,filter' });
+      }
+
+      if (socialItems.length) {
+        gsap.set(socialItems, { clearProps: 'transform,opacity' });
+      }
+
+      if (glows.length) {
+        gsap.set(glows, { clearProps: 'transform,opacity' });
+      }
+
+      if (!prefersReducedMotion) {
+        if (titleText && SplitText && typeof SplitText.create === 'function') {
+          titleSplit = SplitText.create(titleText, {
+            type: 'words',
+            wordsClass: 'vd-footer-word'
+          });
+
+          if (titleSplit && titleSplit.words && titleSplit.words.length) {
+            titleTargets = titleSplit.words.slice();
+          }
+        } else if (titleText) {
+          titleTargets = splitTextNodes(titleText, 'words');
+          usedFallbackSplit = titleTargets.length > 0;
+        }
+
+        introTimeline = gsap.timeline({
+          defaults: { ease: 'expo.out' },
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 82%',
+            once: true
+          }
+        });
+
+        if (panels.length) {
+          introTimeline.fromTo(
+            panels,
+            { y: 56, autoAlpha: 0, filter: 'blur(14px)' },
+            { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 1.28, stagger: 0.08 },
+            0
+          );
+        }
+
+        if (titleTargets.length) {
+          introTimeline.fromTo(
+            titleTargets,
+            { yPercent: 112, autoAlpha: 0, rotateX: -18, transformOrigin: '50% 100%' },
+            { yPercent: 0, autoAlpha: 1, rotateX: 0, duration: 1.18, stagger: 0.035 },
+            0.08
+          );
+        }
+
+        if (items.length) {
+          introTimeline.fromTo(
+            items,
+            { y: 28, autoAlpha: 0, filter: 'blur(8px)' },
+            { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 0.96, stagger: 0.05 },
+            0.16
+          );
+        }
+
+        if (socialItems.length) {
+          introTimeline.fromTo(
+            socialItems,
+            { y: 18, scale: 0.88, autoAlpha: 0 },
+            { y: 0, scale: 1, autoAlpha: 1, duration: 0.74, stagger: 0.06 },
+            0.34
+          );
+        }
+
+        if (glows.length) {
+          driftTimeline = gsap.timeline({
+            repeat: -1,
+            yoyo: true,
+            defaults: { ease: 'sine.inOut', duration: 5.2 }
+          });
+
+          if (glows[0]) {
+            driftTimeline.to(glows[0], { x: 26, y: -18, scale: 1.06, autoAlpha: 0.38 }, 0);
+          }
+
+          if (glows[1]) {
+            driftTimeline.to(glows[1], { x: -22, y: 18, scale: 0.94, autoAlpha: 0.26 }, 0);
+          }
+
+          if (glows[2]) {
+            driftTimeline.to(glows[2], { x: 14, y: 10, scale: 1.08, autoAlpha: 0.22 }, 0);
+          }
+        }
+
+        if (window.innerWidth >= 990 && panels.length) {
+          quickSetters = panels.map(function (panel, index) {
+            return {
+              xTo: gsap.quickTo(panel, 'x', { duration: 0.8, ease: 'power3.out' }),
+              yTo: gsap.quickTo(panel, 'y', { duration: 0.8, ease: 'power3.out' }),
+              depth: index + 1
+            };
+          });
+
+          moveHandler = function (event) {
+            var bounds = section.getBoundingClientRect();
+            var offsetX = (event.clientX - (bounds.left + bounds.width / 2)) / bounds.width;
+            var offsetY = (event.clientY - (bounds.top + bounds.height / 2)) / bounds.height;
+
+            quickSetters.forEach(function (entry) {
+              var strength = entry.depth === 1 ? 18 : entry.depth === 2 ? 12 : 8;
+              entry.xTo(offsetX * strength);
+              entry.yTo(offsetY * strength * 0.7);
+            });
+          };
+
+          leaveHandler = function () {
+            quickSetters.forEach(function (entry) {
+              entry.xTo(0);
+              entry.yTo(0);
+            });
+          };
+
+          section.addEventListener('pointermove', moveHandler);
+          section.addEventListener('pointerleave', leaveHandler);
+        }
+      }
+
+      scrollTimeline = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+
+      if (backdrop) {
+        scrollTimeline.fromTo(
+          backdrop,
+          { scale: 1.18, yPercent: -3 },
+          { scale: 1.06, yPercent: 4 },
+          0
+        );
+      }
+
+      if (panels.length) {
+        scrollTimeline.fromTo(
+          panels,
+          { yPercent: 2 },
+          { yPercent: -2.5, stagger: 0.04 },
+          0
+        );
+      }
+
+      if (glows.length) {
+        scrollTimeline.fromTo(
+          glows,
+          { yPercent: -2 },
+          { yPercent: 3, stagger: 0.02 },
+          0
+        );
+      }
+
+      registerCleanup(cleanups, function () {
+        if (introTimeline) {
+          if (introTimeline.scrollTrigger) {
+            introTimeline.scrollTrigger.kill();
+          }
+
+          introTimeline.kill();
+        }
+
+        if (scrollTimeline) {
+          if (scrollTimeline.scrollTrigger) {
+            scrollTimeline.scrollTrigger.kill();
+          }
+
+          scrollTimeline.kill();
+        }
+
+        if (driftTimeline) {
+          driftTimeline.kill();
+        }
+
+        if (moveHandler) {
+          section.removeEventListener('pointermove', moveHandler);
+        }
+
+        if (leaveHandler) {
+          section.removeEventListener('pointerleave', leaveHandler);
+        }
+
+        if (titleSplit) {
+          titleSplit.revert();
+          titleSplit = null;
+        } else if (usedFallbackSplit && titleText) {
+          titleText.innerHTML = titleOriginalHTML;
+        }
+
+        if (backdrop) {
+          gsap.set(backdrop, { clearProps: 'transform,filter,opacity' });
+        }
+
+        if (panels.length) {
+          gsap.set(panels, { clearProps: 'transform,opacity,filter' });
+        }
+
+        if (items.length) {
+          gsap.set(items, { clearProps: 'transform,opacity,filter' });
+        }
+
+        if (socialItems.length) {
+          gsap.set(socialItems, { clearProps: 'transform,opacity' });
+        }
+
+        if (glows.length) {
+          gsap.set(glows, { clearProps: 'transform,opacity' });
+        }
+      });
+    });
+  }
+
   function initVanilleGsap(forceRebuild) {
     if (!window.gsap || !window.ScrollTrigger || !window.ScrollSmoother) return;
     if (window.Shopify && window.Shopify.designMode) return;
@@ -1453,6 +1704,7 @@
     initNewProductBentos(gsap, ScrollTrigger, prefersReducedMotion, Flip, state.cleanups);
     initTestimonials(gsap, ScrollTrigger, prefersReducedMotion, state.cleanups);
     initCollectionHeroes(gsap, ScrollTrigger, prefersReducedMotion, state.cleanups);
+    initFooterScenes(gsap, ScrollTrigger, prefersReducedMotion, state.cleanups);
 
     gsap.utils.toArray('.vd-reveal').forEach(function (section) {
       var items = section.querySelectorAll('.vd-reveal-item');
