@@ -10246,6 +10246,8 @@ body:has(.section-vd-hero) .header-wrapper {
 }
 
 .vd-cart-purchase-shell {
+  position: relative;
+  overflow: hidden;
   display: grid;
   gap: 1.6rem;
   padding: 2.6rem;
@@ -10254,6 +10256,43 @@ body:has(.section-vd-hero) .header-wrapper {
   background: linear-gradient(180deg, rgba(14, 14, 14, 0.98) 0%, rgba(8, 8, 8, 1) 100%);
   width: min(100%, 44rem);
   margin-left: auto;
+}
+
+.vd-cart-purchase-shell--with-media .vd-cart-purchase-shell__media,
+.vd-cart-purchase-shell--with-media .vd-cart-purchase-shell__surface {
+  position: absolute;
+  inset: 0;
+}
+
+.vd-cart-purchase-shell__media {
+  overflow: hidden;
+}
+
+.vd-cart-purchase-shell__media-video,
+.vd-cart-purchase-shell__media-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.06);
+  filter: blur(var(--vd-cart-payment-blur, 16px));
+}
+
+.vd-cart-purchase-shell__surface {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(9, 9, 9, calc(var(--vd-cart-payment-opacity, 0.78) * 0.64)) 0%,
+      rgba(9, 9, 9, var(--vd-cart-payment-opacity, 0.78)) 100%
+    ),
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.08) 0%, transparent 34%);
+  backdrop-filter: saturate(116%);
+}
+
+.vd-cart-purchase-shell__content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1.6rem;
 }
 
 .vd-cart-direct-pay-shell {

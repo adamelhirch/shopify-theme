@@ -9,6 +9,11 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
+  .section-{{ section.id }}-payment-shell {
+    --vd-cart-payment-opacity: {{ section.settings.payment_media_opacity | default: 78 | divided_by: 100.0 }};
+    --vd-cart-payment-blur: {{ section.settings.payment_media_blur | default: 16 }}px;
+  }
+
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
@@ -104,7 +109,37 @@
                 </small>
               </div>
             {%- else -%}
-              <div class="vd-cart-purchase-shell" {{ block.shopify_attributes }}>
+              <div class="vd-cart-purchase-shell section-{{ section.id }}-payment-shell{% if section.settings.payment_background_video != blank or section.settings.payment_background_image != blank %} vd-cart-purchase-shell--with-media{% endif %}" {{ block.shopify_attributes }}>
+                {%- if section.settings.payment_background_video != blank or section.settings.payment_background_image != blank -%}
+                  <div class="vd-cart-purchase-shell__media" aria-hidden="true">
+                    {%- if section.settings.payment_background_video != blank -%}
+                      {{
+                        section.settings.payment_background_video
+                        | video_tag:
+                          class: 'vd-cart-purchase-shell__media-video',
+                          autoplay: true,
+                          loop: true,
+                          muted: true,
+                          controls: false,
+                          playsinline: true,
+                          image_size: '1200x'
+                      }}
+                    {%- elsif section.settings.payment_background_image != blank -%}
+                      {{
+                        section.settings.payment_background_image
+                        | image_url: width: 1600
+                        | image_tag:
+                          class: 'vd-cart-purchase-shell__media-image',
+                          widths: '480, 720, 960, 1200, 1600',
+                          sizes: '(min-width: 990px) 28vw, 92vw',
+                          loading: 'lazy',
+                          alt: section.settings.payment_background_image.alt | escape
+                      }}
+                    {%- endif -%}
+                  </div>
+                  <div class="vd-cart-purchase-shell__surface" aria-hidden="true"></div>
+                {%- endif -%}
+                <div class="vd-cart-purchase-shell__content">
                 <div class="cart__ctas vd-cart-checkout-shell">
                   <button
                     type="submit"
@@ -180,6 +215,7 @@
                     </svg>
                   </a>
                 </div>
+                </div>
               </div>
           {%- endcase -%}
         {% endfor %}
@@ -204,6 +240,40 @@
     {
       "type": "header",
       "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "header",
+      "content": "Fond paiement direct"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_background_image",
+      "label": "Image de fond"
+    },
+    {
+      "type": "video",
+      "id": "payment_background_video",
+      "label": "Vidéo Shopify de fond"
+    },
+    {
+      "type": "range",
+      "id": "payment_media_opacity",
+      "label": "Opacité du voile",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "payment_media_blur",
+      "label": "Flou du fond",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
     },    
     {
       "type": "range",

@@ -22,12 +22,17 @@
   assign feature_product_primary = collection.products.first
   assign collection_background_video_url = ''
   assign collection_backdrop_image = section.settings.background_image
+  assign metafield_eyebrow = collection.metafields.custom.hero_eyebrow.value | default: collection.metafields.custom.hero_eyebrow
+  assign metafield_note = collection.metafields.custom.hero_note.value | default: collection.metafields.custom.hero_note
+  assign metafield_detail = collection.metafields.custom.hero_detail.value | default: collection.metafields.custom.hero_detail
+  assign metafield_backdrop_image = collection.metafields.custom.hero_background_image.value | default: collection.metafields.custom.hero_background_image
+  assign metafield_backdrop_video = collection.metafields.custom.hero_background_video.value | default: collection.metafields.custom.hero_background_video
   assign has_collection_backdrop = false
   assign compact_collection_hero = false
   assign backdrop_opacity = section.settings.backdrop_opacity | divided_by: 100.0
   assign backdrop_blur = section.settings.backdrop_blur
 
-  if collection_products_count <= 2
+  if collection_products_count <= 4
     assign compact_collection_hero = true
   endif
 
@@ -61,15 +66,38 @@
     endif
   endif
 
+  if metafield_eyebrow != blank
+    assign hero_eyebrow = metafield_eyebrow
+  endif
+
+  if metafield_note != blank
+    assign curation_note = metafield_note
+  endif
+
+  if metafield_detail != blank
+    assign hero_detail = metafield_detail
+  endif
+
   if primary_visual == blank and feature_product_primary != blank
     assign primary_visual = feature_product_primary.featured_media.preview_image | default: feature_product_primary.featured_image
+  endif
+
+  if metafield_backdrop_image != blank
+    assign collection_backdrop_image = metafield_backdrop_image
   endif
 
   if collection_backdrop_image == blank
     assign collection_backdrop_image = primary_visual
   endif
 
-  if section.settings.background_video != blank
+  if metafield_backdrop_video != blank
+    for source in metafield_backdrop_video.sources
+      if source.mime_type == 'video/mp4'
+        assign collection_background_video_url = source.url
+        break
+      endif
+    endfor
+  elsif section.settings.background_video != blank
     for source in section.settings.background_video.sources
       if source.mime_type == 'video/mp4'
         assign collection_background_video_url = source.url
