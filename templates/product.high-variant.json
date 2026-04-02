@@ -55,8 +55,8 @@
           "type": "complementary",
           "settings": {
             "block_heading": "À associer",
-            "eyebrow": "Composer votre panier",
-            "text": "<p>Formats complémentaires, idées cadeau et autres produits de la maison pour prolonger l’usage ou varier les plaisirs.</p>",
+            "eyebrow": "",
+            "text": "",
             "make_collapsible_row": false,
             "icon": "price_tag",
             "product_list_limit": 4,

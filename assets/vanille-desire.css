@@ -5336,8 +5336,8 @@ body:has(.section-vd-hero) .header-wrapper {
 .collection-hero {
   position: relative;
   isolation: isolate;
-  min-height: clamp(72rem, 100vh, 108rem);
-  padding: clamp(9.4rem, 11vw, 13rem) 0 clamp(4.2rem, 6vw, 7rem);
+  min-height: clamp(58rem, 82vh, 88rem);
+  padding: clamp(9.2rem, 10vw, 11.8rem) 0 clamp(3.2rem, 4.8vw, 5.4rem);
 }
 
 .collection-hero__backdrop {
@@ -5372,17 +5372,17 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .collection-hero__shell {
   display: grid;
-  align-items: center;
+  align-items: end;
   width: min(100%, 156rem);
   margin: 0 auto;
   position: relative;
   z-index: 1;
-  min-height: clamp(64rem, 88vh, 108rem);
-  padding: clamp(3rem, 5vw, 7rem);
+  min-height: clamp(44rem, 64vh, 72rem);
+  padding: clamp(2.6rem, 4vw, 5rem);
 }
 
 .collection-hero__shell--compact {
-  min-height: clamp(56rem, 78vh, 78rem);
+  min-height: clamp(40rem, 54vh, 58rem);
 }
 
 .collection-hero__text-wrapper {
@@ -5392,8 +5392,8 @@ body:has(.section-vd-hero) .header-wrapper {
   align-content: start;
   justify-self: start;
   align-self: center;
-  width: min(100%, 54rem);
-  max-width: 54rem;
+  width: min(100%, 56rem);
+  max-width: 56rem;
   margin: 0;
   padding: clamp(3rem, 3.8vw, 5rem);
   border: 1px solid rgba(var(--vd-white), 0.08);
@@ -5420,15 +5420,19 @@ body:has(.section-vd-hero) .header-wrapper {
 .collection-hero__description {
   margin-top: 2rem;
   color: rgba(var(--vd-ivory), 0.9);
-  line-height: 1.82;
-  max-width: 42rem;
+  font-size: clamp(1.8rem, 1.3vw, 2.2rem);
+  line-height: 1.62;
+  max-width: 38rem;
 }
 
 .collection-hero__title,
 .collection-hero__title a,
 .collection-hero__title span {
   color: rgba(252, 248, 241, 1) !important;
+  font-size: clamp(4.8rem, 5vw, 7.2rem);
+  line-height: 0.96;
   text-shadow: 0 0.45rem 2.8rem rgba(0, 0, 0, 0.32);
+  text-wrap: balance;
 }
 
 .collection-hero__text-wrapper .vd-section-kicker,
@@ -5447,8 +5451,8 @@ body:has(.section-vd-hero) .header-wrapper {
 .collection-hero__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: 1.1rem 1.8rem;
+  margin-top: 2.4rem;
 }
 
 .collection-hero__detail {
@@ -5611,10 +5615,19 @@ body:has(.section-vd-hero) .header-wrapper {
   margin-bottom: 2.2rem;
 }
 
+.related-products__intro--simple {
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
 .related-products__intro-copy,
 .related-products__intro-note {
   display: grid;
   gap: 0.8rem;
+}
+
+.related-products__intro--simple .related-products__intro-copy {
+  max-width: 72rem;
 }
 
 .related-products__intro-note {

@@ -140,24 +140,22 @@
                   <div class="vd-cart-purchase-shell__surface" aria-hidden="true"></div>
                 {%- endif -%}
                 <div class="vd-cart-purchase-shell__content">
-                <div class="cart__ctas vd-cart-checkout-shell">
-                  <div class="vd-cart-checkout-shell__header">
-                    <span class="vd-cart-checkout-shell__eyebrow">Validation</span>
-                    <p class="vd-cart-checkout-shell__note">Finaliser le panier ou passer directement au paiement selon votre rythme.</p>
+                {%- unless additional_checkout_buttons -%}
+                  <div class="cart__ctas vd-cart-checkout-shell">
+                    <button
+                      type="submit"
+                      id="checkout"
+                      class="cart__checkout-button button vd-cart-checkout-shell__button"
+                      name="checkout"
+                      {% if cart == empty %}
+                        disabled
+                      {% endif %}
+                      form="cart"
+                    >
+                      {{ 'sections.cart.checkout' | t }}
+                    </button>
                   </div>
-                  <button
-                    type="submit"
-                    id="checkout"
-                    class="cart__checkout-button button vd-cart-checkout-shell__button"
-                    name="checkout"
-                    {% if cart == empty %}
-                      disabled
-                    {% endif %}
-                    form="cart"
-                  >
-                    {{ 'sections.cart.checkout' | t }}
-                  </button>
-                </div>
+                {%- endunless -%}
 
                 {%- if additional_checkout_buttons -%}
                   <div class="vd-cart-direct-pay-shell">

@@ -30,20 +30,20 @@
     {% if recommendations.performed and recommendations.products_count > 0 %}
       {%- liquid
         assign related_editorial_text = section.settings.editorial_text
-        if related_editorial_text == blank
-          assign related_editorial_text = '<p>Formats complémentaires, idées cadeau et accords de matière à retrouver sans casser la sensation de désir du produit principal.</p>'
-        endif
+        assign related_editorial_text_plain = related_editorial_text | strip_html | strip
       -%}
-      <div class="related-products__intro">
+      <div class="related-products__intro{% if related_editorial_text_plain == blank %} related-products__intro--simple{% endif %}">
         <div class="related-products__intro-copy">
           <span class="vd-section-kicker">Sélection associée</span>
           <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
             {{ section.settings.heading }}
           </h2>
         </div>
-        <div class="related-products__intro-note rte">
-          {{ related_editorial_text }}
-        </div>
+        {%- if related_editorial_text_plain != blank -%}
+          <div class="related-products__intro-note rte">
+            {{ related_editorial_text }}
+          </div>
+        {%- endif -%}
       </div>
       <ul
         class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
@@ -90,8 +90,7 @@
     {
       "type": "richtext",
       "id": "editorial_text",
-      "label": "Texte d’introduction",
-      "default": "<p>Formats complémentaires, idées cadeau et accords de matière à retrouver sans casser la sensation de désir du produit principal.</p>"
+      "label": "Texte d’introduction"
     },
     {
       "type": "select",
