@@ -7,13 +7,16 @@
 {%- endif -%}
 
 {%- liquid
+  assign show_intro_shell = section.settings.show_intro_shell
   assign intro_kicker = section.settings.intro_kicker
   assign intro_heading = section.settings.intro_heading
   assign intro_note = section.settings.intro_text
   assign has_intro_shell = false
 
-  if intro_heading != blank or intro_note != blank
-    assign has_intro_shell = true
+  if show_intro_shell
+    if intro_heading != blank or intro_note != blank
+      assign has_intro_shell = true
+    endif
   endif
 -%}
 
@@ -304,6 +307,12 @@
     {
       "type": "header",
       "content": "Introduction"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_intro_shell",
+      "label": "Afficher l'introduction de grille",
+      "default": false
     },
     {
       "type": "text",

@@ -188,28 +188,6 @@
         {%- endif -%}
       </div>
 
-      <div class="collection-hero__stage{% if compact_collection_hero %} collection-hero__stage--compact{% endif %}">
-        <div class="collection-hero__stage-glow" aria-hidden="true"></div>
-        {% if primary_visual != blank %}
-          <div class="collection-hero__visual collection-hero__visual--main media gradient">
-            <img
-              srcset="
-                {%- if primary_visual.width >= 360 -%}{{ primary_visual | image_url: width: 360 }} 360w,{%- endif -%}
-                {%- if primary_visual.width >= 535 -%}{{ primary_visual | image_url: width: 535 }} 535w,{%- endif -%}
-                {%- if primary_visual.width >= 750 -%}{{ primary_visual | image_url: width: 750 }} 750w,{%- endif -%}
-                {%- if primary_visual.width >= 1070 -%}{{ primary_visual | image_url: width: 1070 }} 1070w,{%- endif -%}
-                {%- if primary_visual.width >= 1500 -%}{{ primary_visual | image_url: width: 1500 }} 1500w,{%- endif -%}
-                {{ primary_visual | image_url }} {{ primary_visual.width }}w
-              "
-              src="{{ primary_visual | image_url: width: 1070 }}"
-              sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 120 | divided_by: 2 }}px, (min-width: 750px) calc(54vw - 10rem), calc(100vw - 4rem)"
-              alt="{{ primary_visual.alt | default: display_title | escape }}"
-              width="{{ primary_visual.width }}"
-              height="{{ primary_visual.height }}"
-            >
-          </div>
-        {% endif %}
-      </div>
     </div>
   </div>
 </div>
