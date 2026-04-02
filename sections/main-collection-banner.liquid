@@ -16,7 +16,6 @@
   assign display_title = collection.title
   assign collection_title_downcase = collection.title | downcase
   assign curation_note = ''
-  assign collection_description_plain = collection.description | strip_html | strip
   assign hero_detail = collection_products_count | append: ' ' | append: collection_products_label
   assign collection_count_chip = collection_products_count | append: ' ' | append: collection_products_label
   assign primary_visual = collection.image
@@ -41,22 +40,16 @@
   if collection.handle == 'all'
     assign display_title = 'Tous les produits'
     assign hero_eyebrow = 'Maison'
-    assign curation_note = "Comparer l’ensemble de la maison pour retrouver rapidement le bon format, le bon usage ou une idée cadeau."
     assign hero_detail = 'Sélection complète'
   elsif collection.handle == 'vanille-bourbon'
-    assign curation_note = 'La matière signature: gousses, caviar, extraits et formats de cuisine ou de cadeau.'
     assign hero_detail = 'Gousses, extraits, caviar'
   elsif collection.handle == 'epices-madagascar'
-    assign curation_note = 'Poivres, combava, cannelle et épices de cuisine pour retrouver vite le bon accord et le bon niveau d’intensité.'
     assign hero_detail = 'Accords, intensités, cuisines'
   elsif collection.handle == 'sels-aromatises'
-    assign curation_note = "Des assemblages signatures pour la finition, l’assaisonnement et les accords plus contemporains."
     assign hero_detail = 'Assemblages aromatiques'
   elsif collection.handle == 'poivre-baies'
-    assign curation_note = 'Poivres, baies rares et signatures franches pour la table, les sauces et les finitions qui demandent du caractère.'
     assign hero_detail = 'Poivres, baies, coffrets'
   elsif collection.handle == 'huiles-essentielles'
-    assign curation_note = 'Une approche claire et responsable pour les usages externes, les précautions et la bonne orientation produit.'
     assign hero_detail = 'Usage externe et dilution'
   elsif collection.handle == 'gingembre' or collection_title_downcase contains 'gingembre'
     assign curation_note = ''
