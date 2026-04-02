@@ -1,9 +1,6 @@
 {% comment %}theme-check-disable UndefinedObject{% endcomment %}
 {{ 'section-footer.css' | asset_url | stylesheet_tag }}
 {{ 'component-newsletter.css' | asset_url | stylesheet_tag }}
-{{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
-{{ 'component-list-payment.css' | asset_url | stylesheet_tag }}
-{{ 'component-list-social.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .footer {
@@ -28,216 +25,68 @@
 {%- endstyle -%}
 
 {%- liquid
-  assign has_social_icons = true
-  if settings.social_facebook_link == blank and settings.social_instagram_link == blank and settings.social_youtube_link == blank and settings.social_tiktok_link == blank and settings.social_twitter_link == blank and settings.social_pinterest_link == blank and settings.social_snapchat_link == blank and settings.social_tumblr_link == blank and settings.social_vimeo_link == blank
-    assign has_social_icons = false
-  endif
-
-  assign footer_backdrop_video_url = ''
-  if section.settings.background_video != blank
-    for source in section.settings.background_video.sources
-      if source.mime_type == 'video/mp4'
-        assign footer_backdrop_video_url = source.url
-        break
-      endif
-    endfor
-  endif
-
-  assign footer_backdrop_image = section.settings.background_image | default: settings.brand_image
-  if footer_backdrop_video_url == blank and footer_backdrop_image == blank
-    assign footer_backdrop_video_url = 'vd-hero-origin.mp4' | asset_url
-  endif
-  assign footer_has_backdrop = false
-  if footer_backdrop_video_url != blank or footer_backdrop_image != blank
-    assign footer_has_backdrop = true
-  endif
-
   assign footer_primary_link = section.settings.primary_link | default: '/collections/all'
   assign footer_secondary_link = section.settings.secondary_link | default: '/pages/contact'
-  assign footer_contact_link = section.settings.contact_link | default: '/pages/contact'
   assign footer_contact_email = shop.email | default: 'contact@vanilledesire.com'
-  assign footer_backdrop_opacity = section.settings.backdrop_opacity | divided_by: 100.0
-  assign footer_backdrop_blur = section.settings.backdrop_blur
-
-  if section.blocks.size == 9
-    assign footer_grid_class = 'grid--3-col-tablet'
-  elsif section.blocks.size > 6
-    assign footer_grid_class = 'grid--4-col-desktop'
-  elsif section.blocks.size > 4
-    assign footer_grid_class = 'grid--3-col-tablet'
+  assign footer_search_url = routes.search_url | default: '/search'
+  assign footer_shipping_url = '/policies/shipping-policy'
+  if shop.shipping_policy != blank
+    assign footer_shipping_url = shop.shipping_policy.url
+  endif
+  assign footer_refund_url = '/policies/refund-policy'
+  if shop.refund_policy != blank
+    assign footer_refund_url = shop.refund_policy.url
+  endif
+  assign footer_legal_url = '/pages/mentions-legales'
+  if pages['mentions-legales'] != blank
+    assign footer_legal_url = pages['mentions-legales'].url
   endif
 -%}
 
 <footer
   class="footer footer--scene color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
   data-vd-footer-scene
-  style="--vd-footer-backdrop-opacity: {{ footer_backdrop_opacity }}; --vd-footer-backdrop-blur: {{ footer_backdrop_blur }}px;"
 >
   <div class="vd-footer-stage">
-    {%- if footer_has_backdrop -%}
-      <div class="vd-footer-stage__backdrop" aria-hidden="true">
-        {%- if footer_backdrop_video_url != blank -%}
-          <video class="vd-footer-stage__backdrop-media" data-vd-footer-backdrop autoplay muted loop playsinline preload="metadata">
-            <source src="{{ footer_backdrop_video_url }}" type="video/mp4">
-          </video>
-        {%- elsif footer_backdrop_image != blank -%}
-          {{
-            footer_backdrop_image
-            | image_url: width: 2400
-            | image_tag:
-              class: 'vd-footer-stage__backdrop-media',
-              widths: '720, 960, 1280, 1600, 2200, 2400',
-              sizes: '100vw',
-              loading: 'lazy',
-              alt: ''
-          }}
-        {%- endif -%}
-      </div>
-    {%- endif -%}
-
-    <span class="vd-footer-stage__glow vd-footer-stage__glow--one" data-vd-footer-glow aria-hidden="true"></span>
-    <span class="vd-footer-stage__glow vd-footer-stage__glow--two" data-vd-footer-glow aria-hidden="true"></span>
-    <span class="vd-footer-stage__glow vd-footer-stage__glow--three" data-vd-footer-glow aria-hidden="true"></span>
-    <div class="vd-footer-stage__veil" aria-hidden="true"></div>
-
-    <div class="vd-footer-stage__shell page-width">
+    <div class="vd-footer-stage__shell">
       <div class="vd-footer-bento">
-        <article class="vd-footer-bento__brand vd-footer-stage__card" data-vd-footer-panel>
-          <div class="vd-footer-stage__eyebrow-row" data-vd-footer-item>
-            <span class="vd-footer-stage__eyebrow-line" aria-hidden="true"></span>
-            <span class="vd-footer-stage__eyebrow">{{ section.settings.scene_eyebrow }}</span>
-          </div>
-          <h2 class="vd-footer-stage__title" data-vd-footer-item>
-            <span class="vd-footer-stage__title-text" data-vd-footer-title>{{ section.settings.scene_heading }}</span>
-          </h2>
-          <div class="vd-footer-stage__text rte" data-vd-footer-item>{{ section.settings.scene_text }}</div>
-
-          <div class="vd-footer-stage__actions" data-vd-footer-item>
+        <article class="bento-item vd-footer-bento__brand" data-vd-footer-panel>
+          <p class="vd-footer-stage__label">Maison</p>
+          <h2 class="vd-footer-stage__title">Vanille, épices, poivres et recettes dans une même maison.</h2>
+          <p class="vd-footer-stage__text">
+            Sourcing direct à Madagascar, produits de caractère et lecture éditoriale.
+          </p>
+          <div class="vd-footer-stage__actions">
             <a href="{{ footer_primary_link }}" class="vd-arrow-cta">
-              <span class="vd-arrow-cta__label">{{ section.settings.primary_link_label }}</span>
-              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-              </svg>
+              <span class="vd-arrow-cta__label">Voir le catalogue</span>
+              <span class="vd-arrow-cta__icon" aria-hidden="true">→</span>
             </a>
-            <a href="{{ footer_secondary_link }}" class="vd-arrow-cta vd-arrow-cta--muted">
-              <span class="vd-arrow-cta__label">{{ section.settings.secondary_link_label }}</span>
-              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-              </svg>
+            <a href="{{ footer_secondary_link }}" class="vd-arrow-cta">
+              <span class="vd-arrow-cta__label">Nous contacter</span>
+              <span class="vd-arrow-cta__icon" aria-hidden="true">→</span>
             </a>
           </div>
         </article>
 
-        <nav
-          class="vd-footer-bento__nav vd-footer-stage__card"
-          aria-label="Navigation footer"
-          data-vd-footer-panel
-        >
-          {%- if section.blocks.size > 0 -%}
-            <div
-              class="vd-footer-bento__nav-grid footer__blocks-wrapper grid grid--1-col grid--2-col grid--3-col-tablet"
-              {% if settings.animations_reveal_on_scroll %}
-                data-cascade
-              {% endif %}
-            >
-              {%- for block in section.blocks -%}
-                <div
-                  class="footer-block grid__item{% if block.type == 'link_list' %} footer-block--menu{% endif %}"
-                  {{ block.shopify_attributes }}
-                >
-                  {%- if block.settings.heading != blank -%}
-                    <h2 class="footer-block__heading inline-richtext">{{- block.settings.heading -}}</h2>
-                  {%- endif -%}
-
-                  {%- case block.type -%}
-                    {%- when '@app' -%}
-                      {% render block %}
-                    {%- when 'text' -%}
-                      <div class="footer-block__details-content rte">
-                        {{ block.settings.subtext }}
-                      </div>
-                    {%- when 'link_list' -%}
-                      {%- if block.settings.menu != blank -%}
-                        <ul class="footer-block__details-content list-unstyled">
-                          {%- for link in block.settings.menu.links -%}
-                            <li>
-                              <a
-                                href="{{ link.url }}"
-                                class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}"
-                              >
-                                {{ link.title | escape }}
-                              </a>
-                            </li>
-                          {%- endfor -%}
-                        </ul>
-                      {%- endif -%}
-                    {%- when 'brand_information' -%}
-                      <div class="footer-block__brand-info">
-                        {%- if settings.brand_image != blank -%}
-                          {%- assign brand_image_height = settings.brand_image_width | divided_by: settings.brand_image.aspect_ratio -%}
-                          <div
-                            class="footer-block__image-wrapper"
-                            style="max-width: min(100%, {{ settings.brand_image_width }}px);"
-                          >
-                            {{
-                              settings.brand_image
-                              | image_url: width: 1100
-                              | image_tag:
-                                loading: 'lazy',
-                                widths: '50, 100, 150, 200, 300, 400, 550, 800, 1100',
-                                height: brand_image_height,
-                                width: settings.brand_image_width
-                            }}
-                          </div>
-                        {%- endif -%}
-                        {%- if settings.brand_headline != blank -%}
-                          <h2 class="footer-block__heading rte">{{ settings.brand_headline }}</h2>
-                        {%- endif -%}
-                        {%- if settings.brand_description != blank -%}
-                          <div class="rte">{{ settings.brand_description }}</div>
-                        {%- endif -%}
-                      </div>
-                    {%- when 'image' -%}
-                      <div class="footer-block__details-content footer-block-image {{ block.settings.alignment }}">
-                        {%- if block.settings.image != blank -%}
-                          {%- assign image_size_2x = block.settings.image_width | times: 2 | at_most: 5760 -%}
-                          <div
-                            class="footer-block__image-wrapper"
-                            style="max-width: min(100%, {{ block.settings.image_width }}px);"
-                          >
-                            <img
-                              srcset="{{ block.settings.image | image_url: width: block.settings.image_width }}, {{ block.settings.image | image_url: width: image_size_2x }} 2x"
-                              src="{{ block.settings.image | image_url: width: 760 }}"
-                              alt="{{ block.settings.image.alt | escape }}"
-                              loading="lazy"
-                              width="{{ block.settings.image.width }}"
-                              height="{{ block.settings.image.height }}"
-                            >
-                          </div>
-                        {%- else -%}
-                          {{ 'image' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
-                        {%- endif -%}
-                      </div>
-                  {%- endcase -%}
-                </div>
-              {%- endfor -%}
-            </div>
-          {%- endif -%}
+        <nav class="bento-item vd-footer-bento__explore" aria-label="Explorer" data-vd-footer-panel>
+          <p class="vd-footer-stage__label">Explorer</p>
+          <ul class="vd-footer-stage__nav-list list-unstyled" role="list">
+            <li><a href="{{ footer_search_url }}">Recherche</a></li>
+            <li><a href="{{ footer_shipping_url }}">Expédition</a></li>
+            <li><a href="{{ footer_refund_url }}">Retours</a></li>
+            <li><a href="{{ footer_legal_url }}">Mentions légales</a></li>
+          </ul>
         </nav>
 
-        <aside class="vd-footer-bento__newsletter vd-footer-stage__card" data-vd-footer-panel>
-          <div class="vd-footer-stage__panel-head">
-            <span class="vd-footer-stage__panel-kicker">{{ section.settings.newsletter_kicker }}</span>
-            <h3>{{ section.settings.newsletter_heading_shell }}</h3>
-            <div class="vd-footer-stage__panel-text rte">{{ section.settings.newsletter_text }}</div>
-          </div>
-
+        <aside class="bento-item vd-footer-bento__journal" data-vd-footer-panel>
+          <p class="vd-footer-stage__label">Journal</p>
+          <p class="vd-footer-stage__journal-text">Une correspondance rare.</p>
           {%- if section.settings.newsletter_enable -%}
-            <div class="footer-block__newsletter vd-form-shell vd-form-shell--footer vd-form-shell--footer-bento">
+            <div class="vd-footer-stage__newsletter-shell">
               {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form vd-form vd-form--newsletter' -%}
                 <input type="hidden" name="contact[tags]" value="newsletter">
-                <div class="newsletter-form__field-wrapper vd-form__stack">
-                  <div class="field vd-form__field">
+                <div class="vd-footer-stage__newsletter-line">
+                  <div class="field vd-form__field vd-form__field--line">
                     <input
                       id="NewsletterForm--{{ section.id }}"
                       type="email"
@@ -255,22 +104,17 @@
                       {% elsif form.posted_successfully? %}
                         aria-describedby="ContactFooter-success"
                       {% endif %}
-                      placeholder="{{ 'newsletter.label' | t }}"
+                      placeholder="E-mail"
                       required
                     >
-                    <label class="field__label" for="NewsletterForm--{{ section.id }}">
-                      {{ 'newsletter.label' | t }}
-                    </label>
                     <button
                       type="submit"
-                      class="newsletter-form__button field__button vd-form__submit"
+                      class="newsletter-form__button field__button vd-form__submit vd-form__submit--line"
                       name="commit"
                       id="Subscribe"
                       aria-label="{{ 'newsletter.button_label' | t }}"
                     >
-                      <span class="svg-wrapper">
-                        {{- 'icon-arrow.svg' | inline_asset_content -}}
-                      </span>
+                      <span class="vd-arrow-cta__icon" aria-hidden="true">→</span>
                     </button>
                   </div>
                   {%- if form.errors -%}
@@ -301,95 +145,23 @@
           {%- endif -%}
         </aside>
 
-        <aside class="vd-footer-bento__contact vd-footer-stage__card" data-vd-footer-panel>
-          <div class="vd-footer-stage__panel-head">
-            <span class="vd-footer-stage__panel-kicker">{{ section.settings.contact_kicker }}</span>
-            <h3>{{ section.settings.contact_heading }}</h3>
-            <div class="vd-footer-stage__panel-text rte">{{ section.settings.contact_text }}</div>
-          </div>
-
-          <div class="vd-footer-stage__contact-links">
-            <a href="{{ footer_contact_link }}" class="vd-arrow-cta">
-              <span class="vd-arrow-cta__label">{{ section.settings.contact_link_label }}</span>
-              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-              </svg>
-            </a>
+        <aside class="bento-item vd-footer-bento__contact" data-vd-footer-panel>
+          <p class="vd-footer-stage__label">Contact</p>
+          <div class="vd-footer-stage__contact-stack">
             <a href="mailto:{{ footer_contact_email }}" class="vd-footer-stage__mail">{{ footer_contact_email }}</a>
-          </div>
-
-          {%- if section.settings.show_social and has_social_icons -%}
-            <div class="vd-footer-stage__social-shell">
-              {%- render 'social-icons', class: 'footer__list-social vd-footer-stage__social' -%}
+            <div class="vd-footer-stage__social-text">
+              {%- if settings.social_instagram_link != blank -%}
+                <a href="{{ settings.social_instagram_link }}">Instagram</a>
+              {%- endif -%}
+              {%- if settings.social_tiktok_link != blank -%}
+                <a href="{{ settings.social_tiktok_link }}">TikTok</a>
+              {%- endif -%}
             </div>
-          {%- endif -%}
+          </div>
         </aside>
       </div>
-
-      <div class="vd-footer-stage__bottom vd-footer-stage__card" data-vd-footer-panel>
-        <div class="vd-footer-stage__utility">
-          <div class="footer__column footer__localization isolate">
-            {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
-              <localization-form>
-                {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
-                  <div>
-                    <h2 class="caption-large text-body" id="FooterCountryLabel">{{ 'localization.country_label' | t }}</h2>
-                    {%- render 'country-localization', localPosition: 'FooterCountry' -%}
-                  </div>
-                {%- endform -%}
-              </localization-form>
-            {%- endif -%}
-
-            {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
-              <localization-form>
-                {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
-                  <div>
-                    <h2 class="caption-large text-body" id="FooterLanguageLabel">
-                      {{ 'localization.language_label' | t }}
-                    </h2>
-                    {%- render 'language-localization', localPosition: 'FooterLanguage' -%}
-                  </div>
-                {%- endform -%}
-              </localization-form>
-            {%- endif -%}
-          </div>
-
-          <div class="footer__copyright caption">
-            <small class="copyright__content"
-              >&copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url -}}
-            </small>
-            {%- if section.settings.show_policy -%}
-              <ul class="policies list-unstyled">
-                {%- for policy in shop.policies -%}
-                  {%- if policy != blank -%}
-                    <li>
-                      <small class="copyright__content"><a href="{{ policy.url }}">{{ policy.title | escape }}</a></small>
-                    </li>
-                  {%- endif -%}
-                {%- endfor -%}
-              </ul>
-            {%- endif -%}
-          </div>
-        </div>
-
-        {%- if section.settings.payment_enable -%}
-          <div class="vd-footer-stage__payment">
-            <span class="vd-footer-stage__payment-label">{{ 'sections.footer.payment' | t }}</span>
-            <ul class="list list-payment" role="list">
-              {%- for type in shop.enabled_payment_types -%}
-                <li class="list-payment__item">
-                  {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-                </li>
-              {%- endfor -%}
-            </ul>
-          </div>
-        {%- endif -%}
-
-        {%- if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
-          <div class="footer__follow-on-shop">
-            {{ shop | login_button: action: 'follow' }}
-          </div>
-        {%- endif -%}
+      <div class="vd-footer-stage__meta">
+        <small class="copyright__content">&copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url }}</small>
       </div>
     </div>
   </div>
