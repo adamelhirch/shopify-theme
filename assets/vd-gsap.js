@@ -1308,157 +1308,27 @@
 
   function initFooterScenes(gsap, ScrollTrigger, prefersReducedMotion, cleanups) {
     gsap.utils.toArray('[data-vd-footer-scene]').forEach(function (section) {
-      var SplitText = window.SplitText;
-      var backdrop = section.querySelector('[data-vd-footer-backdrop], .vd-footer-stage__backdrop-media');
       var panels = gsap.utils.toArray(section.querySelectorAll('[data-vd-footer-panel]'));
-      var items = gsap.utils.toArray(section.querySelectorAll('[data-vd-footer-item]'));
-      var glows = gsap.utils.toArray(section.querySelectorAll('[data-vd-footer-glow]'));
-      var titleText = section.querySelector('[data-vd-footer-title]');
-      var socialItems = gsap.utils.toArray(section.querySelectorAll('.vd-footer-stage__social .list-social__item'));
-      var titleTargets = titleText ? [titleText] : [];
-      var titleSplit = null;
-      var titleOriginalHTML = titleText ? titleText.innerHTML : '';
-      var usedFallbackSplit = false;
       var introTimeline;
-      var scrollTimeline;
-      var driftTimeline;
 
-      if (!backdrop && !panels.length && !items.length) return;
+      if (!panels.length) return;
 
-      if (backdrop) {
-        gsap.set(backdrop, { clearProps: 'transform,filter,opacity' });
-      }
-
-      if (panels.length) {
-        gsap.set(panels, { clearProps: 'transform,opacity,filter' });
-      }
-
-      if (items.length) {
-        gsap.set(items, { clearProps: 'transform,opacity,filter' });
-      }
-
-      if (socialItems.length) {
-        gsap.set(socialItems, { clearProps: 'transform,opacity' });
-      }
-
-      if (glows.length) {
-        gsap.set(glows, { clearProps: 'transform,opacity' });
-      }
+      gsap.set(panels, { clearProps: 'transform,opacity' });
 
       if (!prefersReducedMotion) {
-        if (titleText && SplitText && typeof SplitText.create === 'function') {
-          titleSplit = SplitText.create(titleText, {
-            type: 'words',
-            wordsClass: 'vd-footer-word'
-          });
-
-          if (titleSplit && titleSplit.words && titleSplit.words.length) {
-            titleTargets = titleSplit.words.slice();
-          }
-        } else if (titleText) {
-          titleTargets = splitTextNodes(titleText, 'words');
-          usedFallbackSplit = titleTargets.length > 0;
-        }
-
         introTimeline = gsap.timeline({
-          defaults: { ease: 'power3.out' },
+          defaults: { ease: 'expo.out' },
           scrollTrigger: {
             trigger: section,
-            start: 'top 82%',
+            start: 'top 85%',
             once: true
           }
         });
 
-        if (panels.length) {
-          introTimeline.fromTo(
-            panels,
-            { y: 26, autoAlpha: 0, filter: 'blur(10px)' },
-            { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 0.96, stagger: 0.08 },
-            0
-          );
-        }
-
-        if (titleTargets.length) {
-          introTimeline.fromTo(
-            titleTargets,
-            { yPercent: 104, autoAlpha: 0, transformOrigin: '50% 100%' },
-            { yPercent: 0, autoAlpha: 1, duration: 0.9, stagger: 0.028 },
-            0.02
-          );
-        }
-
-        if (items.length) {
-          introTimeline.fromTo(
-            items,
-            { y: 16, autoAlpha: 0, filter: 'blur(6px)' },
-            { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 0.72, stagger: 0.04 },
-            0.12
-          );
-        }
-
-        if (socialItems.length) {
-          introTimeline.fromTo(
-            socialItems,
-            { y: 10, scale: 0.94, autoAlpha: 0 },
-            { y: 0, scale: 1, autoAlpha: 1, duration: 0.54, stagger: 0.05 },
-            0.28
-          );
-        }
-
-        if (glows.length) {
-          driftTimeline = gsap.timeline({
-            repeat: -1,
-            yoyo: true,
-            defaults: { ease: 'sine.inOut', duration: 7.2 }
-          });
-
-          if (glows[0]) {
-            driftTimeline.to(glows[0], { x: 18, y: -12, scale: 1.04, autoAlpha: 0.2 }, 0);
-          }
-
-          if (glows[1]) {
-            driftTimeline.to(glows[1], { x: -12, y: 10, scale: 0.96, autoAlpha: 0.14 }, 0);
-          }
-
-          if (glows[2]) {
-            driftTimeline.to(glows[2], { x: 8, y: 6, scale: 1.02, autoAlpha: 0.08 }, 0);
-          }
-        }
-      }
-
-      scrollTimeline = gsap.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: {
-          trigger: section,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true
-        }
-      });
-
-      if (backdrop) {
-        scrollTimeline.fromTo(
-          backdrop,
-          { scale: 1.1, yPercent: -2 },
-          { scale: 1.04, yPercent: 2.5 },
-          0
-        );
-      }
-
-      if (panels.length) {
-        scrollTimeline.fromTo(
+        introTimeline.fromTo(
           panels,
-          { yPercent: 1.2 },
-          { yPercent: -1.2, stagger: 0.02 },
-          0
-        );
-      }
-
-      if (glows.length) {
-        scrollTimeline.fromTo(
-          glows,
-          { yPercent: -1 },
-          { yPercent: 1.2, stagger: 0.02 },
+          { y: 30, autoAlpha: 0 },
+          { y: 0, autoAlpha: 1, duration: 1.2, stagger: 0.1 },
           0
         );
       }
@@ -1472,44 +1342,7 @@
           introTimeline.kill();
         }
 
-        if (scrollTimeline) {
-          if (scrollTimeline.scrollTrigger) {
-            scrollTimeline.scrollTrigger.kill();
-          }
-
-          scrollTimeline.kill();
-        }
-
-        if (driftTimeline) {
-          driftTimeline.kill();
-        }
-
-        if (titleSplit) {
-          titleSplit.revert();
-          titleSplit = null;
-        } else if (usedFallbackSplit && titleText) {
-          titleText.innerHTML = titleOriginalHTML;
-        }
-
-        if (backdrop) {
-          gsap.set(backdrop, { clearProps: 'transform,filter,opacity' });
-        }
-
-        if (panels.length) {
-          gsap.set(panels, { clearProps: 'transform,opacity,filter' });
-        }
-
-        if (items.length) {
-          gsap.set(items, { clearProps: 'transform,opacity,filter' });
-        }
-
-        if (socialItems.length) {
-          gsap.set(socialItems, { clearProps: 'transform,opacity' });
-        }
-
-        if (glows.length) {
-          gsap.set(glows, { clearProps: 'transform,opacity' });
-        }
+        gsap.set(panels, { clearProps: 'transform,opacity' });
       });
     });
   }

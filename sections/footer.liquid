@@ -101,8 +101,8 @@
     <div class="vd-footer-stage__veil" aria-hidden="true"></div>
 
     <div class="vd-footer-stage__shell page-width">
-      <div class="vd-footer-stage__top">
-        <article class="vd-footer-stage__lead" data-vd-footer-panel>
+      <div class="vd-footer-bento">
+        <article class="vd-footer-bento__brand vd-footer-stage__card" data-vd-footer-panel>
           <div class="vd-footer-stage__eyebrow-row" data-vd-footer-item>
             <span class="vd-footer-stage__eyebrow-line" aria-hidden="true"></span>
             <span class="vd-footer-stage__eyebrow">{{ section.settings.scene_eyebrow }}</span>
@@ -128,104 +128,14 @@
           </div>
         </article>
 
-        <aside class="vd-footer-stage__aside" data-vd-footer-panel>
-          <div class="vd-footer-stage__panel-head" data-vd-footer-item>
-            <span class="vd-footer-stage__panel-kicker">{{ section.settings.newsletter_kicker }}</span>
-            <h3>{{ section.settings.newsletter_heading_shell }}</h3>
-            <div class="vd-footer-stage__panel-text rte">{{ section.settings.newsletter_text }}</div>
-          </div>
-
-          {%- if section.settings.newsletter_enable -%}
-            <div class="footer-block__newsletter vd-form-shell vd-form-shell--footer vd-form-shell--footer-stage" data-vd-footer-item>
-              {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form vd-form vd-form--newsletter' -%}
-                <input type="hidden" name="contact[tags]" value="newsletter">
-                <div class="newsletter-form__field-wrapper vd-form__stack">
-                  <div class="field vd-form__field">
-                    <input
-                      id="NewsletterForm--{{ section.id }}"
-                      type="email"
-                      name="contact[email]"
-                      class="field__input"
-                      value="{{ form.email }}"
-                      aria-required="true"
-                      autocorrect="off"
-                      autocapitalize="off"
-                      autocomplete="email"
-                      {% if form.errors %}
-                        autofocus
-                        aria-invalid="true"
-                        aria-describedby="ContactFooter-error"
-                      {% elsif form.posted_successfully? %}
-                        aria-describedby="ContactFooter-success"
-                      {% endif %}
-                      placeholder="{{ 'newsletter.label' | t }}"
-                      required
-                    >
-                    <label class="field__label" for="NewsletterForm--{{ section.id }}">
-                      {{ 'newsletter.label' | t }}
-                    </label>
-                    <button
-                      type="submit"
-                      class="newsletter-form__button field__button vd-form__submit"
-                      name="commit"
-                      id="Subscribe"
-                      aria-label="{{ 'newsletter.button_label' | t }}"
-                    >
-                      <span class="svg-wrapper">
-                        {{- 'icon-arrow.svg' | inline_asset_content -}}
-                      </span>
-                    </button>
-                  </div>
-                  {%- if form.errors -%}
-                    <small class="newsletter-form__message form__message" id="ContactFooter-error">
-                      <span class="svg-wrapper">
-                        {{- 'icon-error.svg' | inline_asset_content -}}
-                      </span>
-                      {{- form.errors.translated_fields.email | capitalize }}
-                      {{ form.errors.messages.email -}}
-                    </small>
-                  {%- endif -%}
-                </div>
-                {%- if form.posted_successfully? -%}
-                  <h3
-                    class="newsletter-form__message newsletter-form__message--success form__message"
-                    id="ContactFooter-success"
-                    tabindex="-1"
-                    autofocus
-                  >
-                    <span class="svg-wrapper">
-                      {{- 'icon-success.svg' | inline_asset_content -}}
-                    </span>
-                    {{- 'newsletter.success' | t }}
-                  </h3>
-                {%- endif -%}
-              {%- endform -%}
-            </div>
-          {%- endif -%}
-
-          {%- if section.settings.show_social and has_social_icons -%}
-            <div class="vd-footer-stage__social-shell" data-vd-footer-item>
-              {%- render 'social-icons', class: 'footer__list-social vd-footer-stage__social' -%}
-            </div>
-          {%- endif -%}
-          <div class="vd-footer-stage__aside-meta" data-vd-footer-item>
-            <div class="vd-footer-stage__meta-line">
-              <span>{{ section.settings.signal_1_label }}</span>
-              <strong>{{ section.settings.signal_1_value }}</strong>
-            </div>
-            <div class="vd-footer-stage__meta-line">
-              <span>{{ section.settings.signal_3_label }}</span>
-              <strong>{{ section.settings.signal_3_value }}</strong>
-            </div>
-          </div>
-        </aside>
-      </div>
-
-      <div class="vd-footer-stage__main">
-        {%- if section.blocks.size > 0 -%}
-          <div class="vd-footer-stage__navigation" data-vd-footer-panel>
+        <nav
+          class="vd-footer-bento__nav vd-footer-stage__card"
+          aria-label="Navigation footer"
+          data-vd-footer-panel
+        >
+          {%- if section.blocks.size > 0 -%}
             <div
-              class="footer__blocks-wrapper grid grid--1-col grid--2-col grid--4-col-tablet {{ footer_grid_class }}"
+              class="vd-footer-bento__nav-grid footer__blocks-wrapper grid grid--1-col grid--2-col grid--3-col-tablet"
               {% if settings.animations_reveal_on_scroll %}
                 data-cascade
               {% endif %}
@@ -312,17 +222,93 @@
                 </div>
               {%- endfor -%}
             </div>
-          </div>
-        {%- endif -%}
+          {%- endif -%}
+        </nav>
 
-        <aside class="vd-footer-stage__meta" data-vd-footer-panel>
-          <div class="vd-footer-stage__meta-intro" data-vd-footer-item>
+        <aside class="vd-footer-bento__newsletter vd-footer-stage__card" data-vd-footer-panel>
+          <div class="vd-footer-stage__panel-head">
+            <span class="vd-footer-stage__panel-kicker">{{ section.settings.newsletter_kicker }}</span>
+            <h3>{{ section.settings.newsletter_heading_shell }}</h3>
+            <div class="vd-footer-stage__panel-text rte">{{ section.settings.newsletter_text }}</div>
+          </div>
+
+          {%- if section.settings.newsletter_enable -%}
+            <div class="footer-block__newsletter vd-form-shell vd-form-shell--footer vd-form-shell--footer-bento">
+              {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form vd-form vd-form--newsletter' -%}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <div class="newsletter-form__field-wrapper vd-form__stack">
+                  <div class="field vd-form__field">
+                    <input
+                      id="NewsletterForm--{{ section.id }}"
+                      type="email"
+                      name="contact[email]"
+                      class="field__input"
+                      value="{{ form.email }}"
+                      aria-required="true"
+                      autocorrect="off"
+                      autocapitalize="off"
+                      autocomplete="email"
+                      {% if form.errors %}
+                        autofocus
+                        aria-invalid="true"
+                        aria-describedby="ContactFooter-error"
+                      {% elsif form.posted_successfully? %}
+                        aria-describedby="ContactFooter-success"
+                      {% endif %}
+                      placeholder="{{ 'newsletter.label' | t }}"
+                      required
+                    >
+                    <label class="field__label" for="NewsletterForm--{{ section.id }}">
+                      {{ 'newsletter.label' | t }}
+                    </label>
+                    <button
+                      type="submit"
+                      class="newsletter-form__button field__button vd-form__submit"
+                      name="commit"
+                      id="Subscribe"
+                      aria-label="{{ 'newsletter.button_label' | t }}"
+                    >
+                      <span class="svg-wrapper">
+                        {{- 'icon-arrow.svg' | inline_asset_content -}}
+                      </span>
+                    </button>
+                  </div>
+                  {%- if form.errors -%}
+                    <small class="newsletter-form__message form__message" id="ContactFooter-error">
+                      <span class="svg-wrapper">
+                        {{- 'icon-error.svg' | inline_asset_content -}}
+                      </span>
+                      {{- form.errors.translated_fields.email | capitalize }}
+                      {{ form.errors.messages.email -}}
+                    </small>
+                  {%- endif -%}
+                </div>
+                {%- if form.posted_successfully? -%}
+                  <h3
+                    class="newsletter-form__message newsletter-form__message--success form__message"
+                    id="ContactFooter-success"
+                    tabindex="-1"
+                    autofocus
+                  >
+                    <span class="svg-wrapper">
+                      {{- 'icon-success.svg' | inline_asset_content -}}
+                    </span>
+                    {{- 'newsletter.success' | t }}
+                  </h3>
+                {%- endif -%}
+              {%- endform -%}
+            </div>
+          {%- endif -%}
+        </aside>
+
+        <aside class="vd-footer-bento__contact vd-footer-stage__card" data-vd-footer-panel>
+          <div class="vd-footer-stage__panel-head">
             <span class="vd-footer-stage__panel-kicker">{{ section.settings.contact_kicker }}</span>
             <h3>{{ section.settings.contact_heading }}</h3>
             <div class="vd-footer-stage__panel-text rte">{{ section.settings.contact_text }}</div>
           </div>
 
-          <div class="vd-footer-stage__contact-links" data-vd-footer-item>
+          <div class="vd-footer-stage__contact-links">
             <a href="{{ footer_contact_link }}" class="vd-arrow-cta">
               <span class="vd-arrow-cta__label">{{ section.settings.contact_link_label }}</span>
               <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
@@ -332,43 +318,15 @@
             <a href="mailto:{{ footer_contact_email }}" class="vd-footer-stage__mail">{{ footer_contact_email }}</a>
           </div>
 
-          <div class="vd-footer-stage__signals-inline" data-vd-footer-item>
-            <div class="vd-footer-stage__meta-line">
-              <span>{{ section.settings.signal_2_label }}</span>
-              <strong>{{ section.settings.signal_2_value }}</strong>
-            </div>
-            <div class="vd-footer-stage__meta-line">
-              <span>{{ section.settings.signal_1_label }}</span>
-              <strong>{{ section.settings.signal_1_value }}</strong>
-            </div>
-            <div class="vd-footer-stage__meta-line">
-              <span>{{ section.settings.signal_3_label }}</span>
-              <strong>{{ section.settings.signal_3_value }}</strong>
-            </div>
-          </div>
-
-          {%- if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
-            <div class="footer__follow-on-shop" data-vd-footer-item>
-              {{ shop | login_button: action: 'follow' }}
-            </div>
-          {%- endif -%}
-
-          {%- if section.settings.payment_enable -%}
-            <div class="vd-footer-stage__payment" data-vd-footer-item>
-              <span class="vd-footer-stage__payment-label">{{ 'sections.footer.payment' | t }}</span>
-              <ul class="list list-payment" role="list">
-                {%- for type in shop.enabled_payment_types -%}
-                  <li class="list-payment__item">
-                    {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-                  </li>
-                {%- endfor -%}
-              </ul>
+          {%- if section.settings.show_social and has_social_icons -%}
+            <div class="vd-footer-stage__social-shell">
+              {%- render 'social-icons', class: 'footer__list-social vd-footer-stage__social' -%}
             </div>
           {%- endif -%}
         </aside>
       </div>
 
-      <div class="vd-footer-stage__bottom" data-vd-footer-item>
+      <div class="vd-footer-stage__bottom vd-footer-stage__card" data-vd-footer-panel>
         <div class="vd-footer-stage__utility">
           <div class="footer__column footer__localization isolate">
             {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
@@ -413,6 +371,25 @@
             {%- endif -%}
           </div>
         </div>
+
+        {%- if section.settings.payment_enable -%}
+          <div class="vd-footer-stage__payment">
+            <span class="vd-footer-stage__payment-label">{{ 'sections.footer.payment' | t }}</span>
+            <ul class="list list-payment" role="list">
+              {%- for type in shop.enabled_payment_types -%}
+                <li class="list-payment__item">
+                  {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+
+        {%- if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
+          <div class="footer__follow-on-shop">
+            {{ shop | login_button: action: 'follow' }}
+          </div>
+        {%- endif -%}
       </div>
     </div>
   </div>
