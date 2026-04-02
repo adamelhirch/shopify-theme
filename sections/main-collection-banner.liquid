@@ -14,6 +14,7 @@
   endif
 
   assign display_title = collection.title
+  assign collection_title_downcase = collection.title | downcase
   assign curation_note = ''
   assign collection_description_plain = collection.description | strip_html | strip
   assign collection_description_words = collection_description_plain | split: ' ' | size
@@ -62,13 +63,19 @@
   elsif collection.handle == 'huiles-essentielles'
     assign curation_note = 'Une approche claire et responsable pour les usages externes, les précautions et la bonne orientation produit.'
     assign hero_detail = 'Usage externe et dilution'
+  elsif collection.handle == 'gingembre' or collection_title_downcase contains 'gingembre'
+    assign curation_note = ''
+    assign hero_detail = ''
+  elsif collection.handle == 'confiseries' or collection_title_downcase contains 'confiser'
+    assign curation_note = ''
+    assign hero_detail = ''
   endif
 
   if curation_note == blank
     if collection_description_plain != blank and collection_description_words <= 18 and description_looks_generic == false
       assign curation_note = collection_description_plain | truncatewords: 18
     else
-      assign curation_note = 'Une sélection plus lisible, centrée sur la matière, les formats et les usages.'
+      assign curation_note = ''
     endif
   endif
 
@@ -82,6 +89,16 @@
 
   if metafield_detail != blank
     assign hero_detail = metafield_detail
+  endif
+
+  assign has_secondary_detail = false
+  if hero_detail != blank and hero_detail != collection_count_chip
+    assign has_secondary_detail = true
+  endif
+
+  assign has_curation_note = false
+  if curation_note != blank
+    assign has_curation_note = true
   endif
 
   if primary_visual == blank and feature_product_primary != blank
@@ -152,18 +169,18 @@
   {% endif %}
   <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
     <div class="collection-hero__shell{% if compact_collection_hero %} collection-hero__shell--compact{% endif %}">
-      <div class="collection-hero__text-wrapper" data-vd-collection-panel>
+      <div class="collection-hero__text-wrapper{% unless has_curation_note %} collection-hero__text-wrapper--lean{% endunless %}{% unless has_secondary_detail %} collection-hero__text-wrapper--single-detail{% endunless %}" data-vd-collection-panel>
         <span class="vd-section-kicker">{{ hero_eyebrow }}</span>
         <h1 class="collection-hero__title{% if collection.handle == 'all' %} collection-hero__title--catalog{% endif %}">
           <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
           {{- display_title | escape -}}
         </h1>
 
-        <div class="collection-hero__details" role="list">
+        <div class="collection-hero__details{% unless has_secondary_detail %} collection-hero__details--single{% endunless %}" role="list">
           <span class="collection-hero__detail" role="listitem">{{ collection_products_count }} {{ collection_products_label }}</span>
-          {%- unless hero_detail == blank or hero_detail == collection_count_chip -%}
+          {%- if has_secondary_detail -%}
             <span class="collection-hero__detail" role="listitem">{{ hero_detail }}</span>
-          {%- endunless -%}
+          {%- endif -%}
         </div>
 
         {%- if curation_note != blank -%}

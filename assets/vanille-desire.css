@@ -5407,6 +5407,16 @@ body:has(.section-vd-hero) .header-wrapper {
   will-change: transform;
 }
 
+.collection-hero__text-wrapper--lean {
+  width: min(100%, 48rem);
+  max-width: 48rem;
+  padding-bottom: clamp(2.6rem, 3.2vw, 3.6rem);
+}
+
+.collection-hero__text-wrapper--single-detail {
+  gap: 0.2rem;
+}
+
 .collection-hero__backdrop::after {
   content: "";
   position: absolute;
@@ -5448,11 +5458,19 @@ body:has(.section-vd-hero) .header-wrapper {
   margin-top: 1.8rem;
 }
 
+.collection-hero__details--single {
+  margin-top: 1.5rem;
+}
+
 .collection-hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 1.1rem 1.8rem;
   margin-top: 2.4rem;
+}
+
+.collection-hero__text-wrapper--lean .collection-hero__actions {
+  margin-top: 1.8rem;
 }
 
 .collection-hero__detail {
