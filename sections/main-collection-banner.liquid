@@ -173,15 +173,19 @@
     </div>
   {% endif %}
   <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    <div class="collection-hero__shell{% if compact_collection_hero %} collection-hero__shell--compact{% endif %}{% if has_editorial_visual %} collection-hero__shell--with-visual{% endif %}">
-      <div class="collection-hero__text-wrapper{% unless has_curation_note %} collection-hero__text-wrapper--lean{% endunless %}{% unless has_secondary_detail %} collection-hero__text-wrapper--single-detail{% endunless %}" data-vd-collection-panel>
-        <span class="vd-section-kicker">{{ hero_eyebrow }}</span>
-        <h1 class="collection-hero__title{% if collection.handle == 'all' %} collection-hero__title--catalog{% endif %}">
+    <div class="collection-hero__shell{% if compact_collection_hero %} collection-hero__shell--compact{% endif %}{% if has_editorial_visual %} collection-hero__shell--with-media{% endif %}">
+      <div class="collection-hero__copy" data-vd-collection-panel>
+        <div class="collection-hero__eyebrow-row" data-vd-collection-item>
+          <span class="collection-hero__eyebrow-line" aria-hidden="true"></span>
+          <span class="collection-hero__eyebrow">{{ hero_eyebrow }}</span>
+        </div>
+
+        <h1 class="collection-hero__title{% if collection.handle == 'all' %} collection-hero__title--catalog{% endif %}" data-vd-collection-item>
           <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
           <span class="collection-hero__title-text">{{- display_title | escape -}}</span>
         </h1>
 
-        <div class="collection-hero__details{% unless has_secondary_detail %} collection-hero__details--single{% endunless %}" role="list">
+        <div class="collection-hero__details{% unless has_secondary_detail %} collection-hero__details--single{% endunless %}" role="list" data-vd-collection-item>
           <span class="collection-hero__detail" role="listitem">{{ collection_products_count }} {{ collection_products_label }}</span>
           {%- if has_secondary_detail -%}
             <span class="collection-hero__detail" role="listitem">{{ hero_detail }}</span>
@@ -189,11 +193,11 @@
         </div>
 
         {%- if curation_note != blank -%}
-          <div class="collection-hero__description rte"><p>{{ curation_note }}</p></div>
+          <div class="collection-hero__description rte" data-vd-collection-item><p>{{ curation_note }}</p></div>
         {%- endif -%}
 
         {%- if section.settings.primary_link_label != blank or section.settings.secondary_link_label != blank -%}
-          <div class="collection-hero__actions">
+          <div class="collection-hero__actions" data-vd-collection-item>
             {%- if section.settings.primary_link_label != blank and section.settings.primary_link != blank -%}
               <a href="{{ section.settings.primary_link }}" class="vd-arrow-cta">
                 <span class="vd-arrow-cta__label">{{ section.settings.primary_link_label }}</span>
@@ -214,19 +218,22 @@
         {%- endif -%}
       </div>
       {%- if has_editorial_visual -%}
-        <div class="collection-hero__visual" aria-hidden="true">
-          <div class="collection-hero__visual-frame">
+        <div class="collection-hero__media-cluster" data-vd-collection-panel>
+          <span class="collection-hero__aura collection-hero__aura--one" aria-hidden="true"></span>
+          <span class="collection-hero__aura collection-hero__aura--two" aria-hidden="true"></span>
+          <div class="collection-hero__media-shell" data-vd-collection-media aria-hidden="true">
             {{
               primary_visual
               | image_url: width: 1400
               | image_tag:
-                class: 'collection-hero__visual-image',
+                class: 'collection-hero__media-image',
                 widths: '420, 560, 720, 960, 1200, 1400',
-                sizes: '(min-width: 990px) 32vw, 78vw',
+                sizes: '(min-width: 990px) 34vw, 78vw',
                 loading: 'eager',
                 alt: ''
             }}
           </div>
+          <div class="collection-hero__media-ring" aria-hidden="true"></div>
         </div>
       {%- endif -%}
     </div>

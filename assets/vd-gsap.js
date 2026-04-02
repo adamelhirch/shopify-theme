@@ -1084,21 +1084,66 @@
   function initCollectionHeroes(gsap, ScrollTrigger, prefersReducedMotion, cleanups) {
     gsap.utils.toArray('[data-vd-collection-hero]').forEach(function (section) {
       var backdrop = section.querySelector('[data-vd-collection-backdrop], .collection-hero__backdrop-media');
-      var panel = section.querySelector('[data-vd-collection-panel]');
+      var panels = gsap.utils.toArray(section.querySelectorAll('[data-vd-collection-panel]'));
+      var items = gsap.utils.toArray(section.querySelectorAll('[data-vd-collection-item]'));
+      var media = section.querySelector('[data-vd-collection-media]');
       var timeline;
+      var introTimeline;
 
-      if (!backdrop && !panel) return;
+      if (!backdrop && !panels.length && !media) return;
 
       if (backdrop) {
         gsap.set(backdrop, { clearProps: 'transform' });
       }
 
-      if (panel) {
-        gsap.set(panel, { clearProps: 'transform,opacity' });
+      if (panels.length) {
+        gsap.set(panels, { clearProps: 'transform,opacity' });
       }
 
-      if (prefersReducedMotion) {
-        return;
+      if (items.length) {
+        gsap.set(items, { clearProps: 'transform,opacity' });
+      }
+
+      if (media) {
+        gsap.set(media, { clearProps: 'transform,opacity' });
+      }
+
+      if (!prefersReducedMotion) {
+        introTimeline = gsap.timeline({
+          defaults: { ease: 'expo.out' },
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 82%',
+            once: true
+          }
+        });
+
+        if (panels.length) {
+          introTimeline.fromTo(
+            panels,
+            { y: 42, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: 1.2, stagger: 0.08 },
+            0
+          );
+        }
+
+        if (items.length) {
+          introTimeline.fromTo(
+            items,
+            { y: 28, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: 0.9, stagger: 0.07 },
+            0.12
+          );
+        }
+
+        if (media) {
+          introTimeline.fromTo(
+            media,
+            { x: 36, y: 24, rotate: -4, scale: 0.92, autoAlpha: 0 },
+            { x: 0, y: 0, rotate: 0, scale: 1, autoAlpha: 1, duration: 1.25 },
+            0.08
+          );
+        }
       }
 
       timeline = gsap.timeline({
@@ -1114,22 +1159,39 @@
       if (backdrop) {
         timeline.fromTo(
           backdrop,
-          { scale: 1.1, yPercent: -2 },
-          { scale: 1.02, yPercent: 4, ease: 'none' },
+          { scale: 1.18, yPercent: -3 },
+          { scale: 1.08, yPercent: 4, ease: 'none' },
           0
         );
       }
 
-      if (panel) {
+      if (panels.length) {
         timeline.fromTo(
-          panel,
-          { y: 28, autoAlpha: 0.86 },
-          { y: -8, autoAlpha: 1, ease: 'none' },
+          panels,
+          { yPercent: 2 },
+          { yPercent: -3, ease: 'none', stagger: 0.04 },
+          0
+        );
+      }
+
+      if (media) {
+        timeline.fromTo(
+          media,
+          { yPercent: -2, rotate: -1.5 },
+          { yPercent: 3, rotate: 1.5, ease: 'none' },
           0
         );
       }
 
       registerCleanup(cleanups, function () {
+        if (introTimeline) {
+          if (introTimeline.scrollTrigger) {
+            introTimeline.scrollTrigger.kill();
+          }
+
+          introTimeline.kill();
+        }
+
         if (timeline.scrollTrigger) {
           timeline.scrollTrigger.kill();
         }
@@ -1140,8 +1202,16 @@
           gsap.set(backdrop, { clearProps: 'transform' });
         }
 
-        if (panel) {
-          gsap.set(panel, { clearProps: 'transform,opacity' });
+        if (panels.length) {
+          gsap.set(panels, { clearProps: 'transform,opacity' });
+        }
+
+        if (items.length) {
+          gsap.set(items, { clearProps: 'transform,opacity' });
+        }
+
+        if (media) {
+          gsap.set(media, { clearProps: 'transform,opacity' });
         }
       });
     });
