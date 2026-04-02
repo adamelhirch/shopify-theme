@@ -101,7 +101,7 @@
     <div class="vd-footer-stage__veil" aria-hidden="true"></div>
 
     <div class="vd-footer-stage__shell page-width">
-      <div class="vd-footer-stage__hero">
+      <div class="vd-footer-stage__top">
         <article class="vd-footer-stage__lead" data-vd-footer-panel>
           <div class="vd-footer-stage__eyebrow-row" data-vd-footer-item>
             <span class="vd-footer-stage__eyebrow-line" aria-hidden="true"></span>
@@ -128,7 +128,7 @@
           </div>
         </article>
 
-        <aside class="vd-footer-stage__newsletter" data-vd-footer-panel>
+        <aside class="vd-footer-stage__aside" data-vd-footer-panel>
           <div class="vd-footer-stage__panel-head" data-vd-footer-item>
             <span class="vd-footer-stage__panel-kicker">{{ section.settings.newsletter_kicker }}</span>
             <h3>{{ section.settings.newsletter_heading_shell }}</h3>
@@ -208,25 +208,20 @@
               {%- render 'social-icons', class: 'footer__list-social vd-footer-stage__social' -%}
             </div>
           {%- endif -%}
+          <div class="vd-footer-stage__aside-meta" data-vd-footer-item>
+            <div class="vd-footer-stage__meta-line">
+              <span>{{ section.settings.signal_1_label }}</span>
+              <strong>{{ section.settings.signal_1_value }}</strong>
+            </div>
+            <div class="vd-footer-stage__meta-line">
+              <span>{{ section.settings.signal_3_label }}</span>
+              <strong>{{ section.settings.signal_3_value }}</strong>
+            </div>
+          </div>
         </aside>
       </div>
 
-      <div class="vd-footer-stage__signals">
-        <article class="vd-footer-stage__signal" data-vd-footer-item>
-          <span>{{ section.settings.signal_1_label }}</span>
-          <strong>{{ section.settings.signal_1_value }}</strong>
-        </article>
-        <article class="vd-footer-stage__signal" data-vd-footer-item>
-          <span>{{ section.settings.signal_2_label }}</span>
-          <strong>{{ section.settings.signal_2_value }}</strong>
-        </article>
-        <article class="vd-footer-stage__signal" data-vd-footer-item>
-          <span>{{ section.settings.signal_3_label }}</span>
-          <strong>{{ section.settings.signal_3_value }}</strong>
-        </article>
-      </div>
-
-      <div class="vd-footer-stage__body">
+      <div class="vd-footer-stage__main">
         {%- if section.blocks.size > 0 -%}
           <div class="vd-footer-stage__navigation" data-vd-footer-panel>
             <div
@@ -320,8 +315,8 @@
           </div>
         {%- endif -%}
 
-        <aside class="vd-footer-stage__contact" data-vd-footer-panel>
-          <div class="vd-footer-stage__panel-head" data-vd-footer-item>
+        <aside class="vd-footer-stage__meta" data-vd-footer-panel>
+          <div class="vd-footer-stage__meta-intro" data-vd-footer-item>
             <span class="vd-footer-stage__panel-kicker">{{ section.settings.contact_kicker }}</span>
             <h3>{{ section.settings.contact_heading }}</h3>
             <div class="vd-footer-stage__panel-text rte">{{ section.settings.contact_text }}</div>
@@ -335,6 +330,21 @@
               </svg>
             </a>
             <a href="mailto:{{ footer_contact_email }}" class="vd-footer-stage__mail">{{ footer_contact_email }}</a>
+          </div>
+
+          <div class="vd-footer-stage__signals-inline" data-vd-footer-item>
+            <div class="vd-footer-stage__meta-line">
+              <span>{{ section.settings.signal_2_label }}</span>
+              <strong>{{ section.settings.signal_2_value }}</strong>
+            </div>
+            <div class="vd-footer-stage__meta-line">
+              <span>{{ section.settings.signal_1_label }}</span>
+              <strong>{{ section.settings.signal_1_value }}</strong>
+            </div>
+            <div class="vd-footer-stage__meta-line">
+              <span>{{ section.settings.signal_3_label }}</span>
+              <strong>{{ section.settings.signal_3_value }}</strong>
+            </div>
           </div>
 
           {%- if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}

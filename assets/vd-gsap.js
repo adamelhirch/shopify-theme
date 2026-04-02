@@ -1322,9 +1322,6 @@
       var introTimeline;
       var scrollTimeline;
       var driftTimeline;
-      var moveHandler = null;
-      var leaveHandler = null;
-      var quickSetters = [];
 
       if (!backdrop && !panels.length && !items.length) return;
 
@@ -1364,7 +1361,7 @@
         }
 
         introTimeline = gsap.timeline({
-          defaults: { ease: 'expo.out' },
+          defaults: { ease: 'power3.out' },
           scrollTrigger: {
             trigger: section,
             start: 'top 82%',
@@ -1375,8 +1372,8 @@
         if (panels.length) {
           introTimeline.fromTo(
             panels,
-            { y: 56, autoAlpha: 0, filter: 'blur(14px)' },
-            { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 1.28, stagger: 0.08 },
+            { y: 26, autoAlpha: 0, filter: 'blur(10px)' },
+            { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 0.96, stagger: 0.08 },
             0
           );
         }
@@ -1384,27 +1381,27 @@
         if (titleTargets.length) {
           introTimeline.fromTo(
             titleTargets,
-            { yPercent: 112, autoAlpha: 0, rotateX: -18, transformOrigin: '50% 100%' },
-            { yPercent: 0, autoAlpha: 1, rotateX: 0, duration: 1.18, stagger: 0.035 },
-            0.08
+            { yPercent: 104, autoAlpha: 0, transformOrigin: '50% 100%' },
+            { yPercent: 0, autoAlpha: 1, duration: 0.9, stagger: 0.028 },
+            0.02
           );
         }
 
         if (items.length) {
           introTimeline.fromTo(
             items,
-            { y: 28, autoAlpha: 0, filter: 'blur(8px)' },
-            { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 0.96, stagger: 0.05 },
-            0.16
+            { y: 16, autoAlpha: 0, filter: 'blur(6px)' },
+            { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 0.72, stagger: 0.04 },
+            0.12
           );
         }
 
         if (socialItems.length) {
           introTimeline.fromTo(
             socialItems,
-            { y: 18, scale: 0.88, autoAlpha: 0 },
-            { y: 0, scale: 1, autoAlpha: 1, duration: 0.74, stagger: 0.06 },
-            0.34
+            { y: 10, scale: 0.94, autoAlpha: 0 },
+            { y: 0, scale: 1, autoAlpha: 1, duration: 0.54, stagger: 0.05 },
+            0.28
           );
         }
 
@@ -1412,52 +1409,20 @@
           driftTimeline = gsap.timeline({
             repeat: -1,
             yoyo: true,
-            defaults: { ease: 'sine.inOut', duration: 5.2 }
+            defaults: { ease: 'sine.inOut', duration: 7.2 }
           });
 
           if (glows[0]) {
-            driftTimeline.to(glows[0], { x: 26, y: -18, scale: 1.06, autoAlpha: 0.38 }, 0);
+            driftTimeline.to(glows[0], { x: 18, y: -12, scale: 1.04, autoAlpha: 0.2 }, 0);
           }
 
           if (glows[1]) {
-            driftTimeline.to(glows[1], { x: -22, y: 18, scale: 0.94, autoAlpha: 0.26 }, 0);
+            driftTimeline.to(glows[1], { x: -12, y: 10, scale: 0.96, autoAlpha: 0.14 }, 0);
           }
 
           if (glows[2]) {
-            driftTimeline.to(glows[2], { x: 14, y: 10, scale: 1.08, autoAlpha: 0.22 }, 0);
+            driftTimeline.to(glows[2], { x: 8, y: 6, scale: 1.02, autoAlpha: 0.08 }, 0);
           }
-        }
-
-        if (window.innerWidth >= 990 && panels.length) {
-          quickSetters = panels.map(function (panel, index) {
-            return {
-              xTo: gsap.quickTo(panel, 'x', { duration: 0.8, ease: 'power3.out' }),
-              yTo: gsap.quickTo(panel, 'y', { duration: 0.8, ease: 'power3.out' }),
-              depth: index + 1
-            };
-          });
-
-          moveHandler = function (event) {
-            var bounds = section.getBoundingClientRect();
-            var offsetX = (event.clientX - (bounds.left + bounds.width / 2)) / bounds.width;
-            var offsetY = (event.clientY - (bounds.top + bounds.height / 2)) / bounds.height;
-
-            quickSetters.forEach(function (entry) {
-              var strength = entry.depth === 1 ? 18 : entry.depth === 2 ? 12 : 8;
-              entry.xTo(offsetX * strength);
-              entry.yTo(offsetY * strength * 0.7);
-            });
-          };
-
-          leaveHandler = function () {
-            quickSetters.forEach(function (entry) {
-              entry.xTo(0);
-              entry.yTo(0);
-            });
-          };
-
-          section.addEventListener('pointermove', moveHandler);
-          section.addEventListener('pointerleave', leaveHandler);
         }
       }
 
@@ -1474,8 +1439,8 @@
       if (backdrop) {
         scrollTimeline.fromTo(
           backdrop,
-          { scale: 1.18, yPercent: -3 },
-          { scale: 1.06, yPercent: 4 },
+          { scale: 1.1, yPercent: -2 },
+          { scale: 1.04, yPercent: 2.5 },
           0
         );
       }
@@ -1483,8 +1448,8 @@
       if (panels.length) {
         scrollTimeline.fromTo(
           panels,
-          { yPercent: 2 },
-          { yPercent: -2.5, stagger: 0.04 },
+          { yPercent: 1.2 },
+          { yPercent: -1.2, stagger: 0.02 },
           0
         );
       }
@@ -1492,8 +1457,8 @@
       if (glows.length) {
         scrollTimeline.fromTo(
           glows,
-          { yPercent: -2 },
-          { yPercent: 3, stagger: 0.02 },
+          { yPercent: -1 },
+          { yPercent: 1.2, stagger: 0.02 },
           0
         );
       }
@@ -1517,14 +1482,6 @@
 
         if (driftTimeline) {
           driftTimeline.kill();
-        }
-
-        if (moveHandler) {
-          section.removeEventListener('pointermove', moveHandler);
-        }
-
-        if (leaveHandler) {
-          section.removeEventListener('pointerleave', leaveHandler);
         }
 
         if (titleSplit) {
