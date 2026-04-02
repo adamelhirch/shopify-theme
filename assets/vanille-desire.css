@@ -5375,7 +5375,6 @@ body:has(.section-vd-hero) .header-wrapper {
   z-index: 1;
   min-height: calc(100svh - var(--vd-header-shell-height, 6.8rem) - 2.2rem);
   padding: clamp(3rem, 4vw, 5rem) clamp(2rem, 4vw, 5.6rem);
-  border-top: 1px solid rgba(var(--vd-white), 0.08);
   border-bottom: 1px solid rgba(var(--vd-white), 0.08);
   border-left: 0;
   border-right: 0;
