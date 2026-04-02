@@ -1364,18 +1364,15 @@
     var headerWrapper = document.querySelector('[data-vd-header-wrapper]');
 
     if (headerWrapper) {
-      var headerMenu = headerWrapper.querySelector('.header__inline-menu');
-      var headerIcons = headerWrapper.querySelector('.header__icons');
-      var headerLogo = headerWrapper.querySelector('.header__heading-logo-wrapper');
-      var headerSearch = headerWrapper.querySelector('.vd-header-inline-search form');
-      var headerUi = [headerMenu, headerIcons].filter(Boolean);
-      var headerMotionTargets = [headerLogo, headerSearch].concat(headerUi).filter(Boolean);
       gsap.set(headerWrapper, { clearProps: 'all' });
-      gsap.set(headerMotionTargets, { clearProps: 'all' });
 
       if (!prefersReducedMotion) {
-        var headerTween = gsap.timeline({
-          defaults: { ease: 'none' },
+        var headerTween = gsap.to(headerWrapper, {
+          '--vd-header-shell-height': '5.4rem',
+          '--vd-header-shell-padding-x': '1.4rem',
+          '--vd-header-shell-blur': '20px',
+          duration: 1,
+          ease: 'none',
           scrollTrigger: {
             trigger: document.documentElement,
             start: 0,
@@ -1384,58 +1381,6 @@
           }
         });
 
-        headerTween.to(
-          headerWrapper,
-          {
-            '--vd-header-shell-height': '5.25rem',
-            '--vd-header-shell-padding-x': '1.28rem',
-            '--vd-header-shell-blur': '22px',
-            y: -2,
-            duration: 1
-          },
-          0
-        );
-
-        if (headerLogo) {
-          headerTween.to(
-            headerLogo,
-            {
-              scale: 0.92,
-              y: -1,
-              filter: 'saturate(1.05)',
-              transformOrigin: '50% 50%',
-              duration: 1
-            },
-            0
-          );
-        }
-
-        if (headerUi.length) {
-          headerTween.to(
-            headerUi,
-            {
-              y: -1.5,
-              autoAlpha: 0.94,
-              duration: 1,
-              stagger: 0.02
-            },
-            0
-          );
-        }
-
-        if (headerSearch) {
-          headerTween.to(
-            headerSearch,
-            {
-              scaleX: 0.985,
-              scaleY: 0.965,
-              transformOrigin: 'right center',
-              duration: 1
-            },
-            0
-          );
-        }
-
         registerCleanup(state.cleanups, function () {
           if (headerTween.scrollTrigger) {
             headerTween.scrollTrigger.kill();
@@ -1443,7 +1388,6 @@
 
           headerTween.kill();
           gsap.set(headerWrapper, { clearProps: 'all' });
-          gsap.set(headerMotionTargets, { clearProps: 'all' });
         });
       }
     }
