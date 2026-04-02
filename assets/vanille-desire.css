@@ -5381,6 +5381,11 @@ body:has(.section-vd-hero) .header-wrapper {
   padding: clamp(2.6rem, 4vw, 5rem);
 }
 
+.collection-hero__shell--with-visual {
+  grid-template-columns: minmax(0, 0.88fr) minmax(28rem, 0.72fr);
+  gap: clamp(2.4rem, 4vw, 5.6rem);
+}
+
 .collection-hero__shell--compact {
   min-height: clamp(40rem, 54vh, 58rem);
 }
@@ -5415,6 +5420,45 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .collection-hero__text-wrapper--single-detail {
   gap: 0.2rem;
+}
+
+.collection-hero__visual {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-self: stretch;
+}
+
+.collection-hero__visual-frame {
+  position: relative;
+  width: min(100%, 42rem);
+  min-height: clamp(38rem, 52vh, 58rem);
+  border: 1px solid rgba(var(--vd-white), 0.12);
+  border-radius: 3.6rem;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(var(--vd-white), 0.08), rgba(var(--vd-white), 0.02)),
+    rgba(8, 8, 8, 0.42);
+  box-shadow: 0 3.2rem 8rem rgba(var(--vd-shadow), 0.28);
+}
+
+.collection-hero__visual-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(8, 8, 8, 0.04) 0%, rgba(8, 8, 8, 0.26) 100%),
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.18) 0%, transparent 34%);
+  pointer-events: none;
+}
+
+.collection-hero__visual-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transform: scale(1.02);
 }
 
 .collection-hero__backdrop::after {
@@ -7698,6 +7742,19 @@ body:has(.section-vd-hero) .header-wrapper {
     grid-template-columns: 1fr;
   }
 
+  .collection-hero__shell--with-visual {
+    grid-template-columns: 1fr;
+  }
+
+  .collection-hero__visual {
+    justify-content: flex-start;
+  }
+
+  .collection-hero__visual-frame {
+    width: min(100%, 32rem);
+    min-height: 34rem;
+  }
+
   .vd-catalogue__hero--immersive,
   .vd-catalogue__hero,
   .vd-wiki-hub__hero,
@@ -7835,6 +7892,12 @@ body:has(.section-vd-hero) .header-wrapper {
     min-height: clamp(52rem, 76vh, 68rem);
     align-items: end;
     padding: 1.8rem;
+  }
+
+  .collection-hero__visual-frame {
+    width: 100%;
+    min-height: 28rem;
+    border-radius: 2.4rem;
   }
 
   .collection-hero__text-wrapper {

@@ -24,6 +24,7 @@
   assign feature_product_primary = collection.products.first
   assign collection_background_video_url = ''
   assign collection_backdrop_image = section.settings.background_image
+  assign has_editorial_visual = false
   assign metafield_eyebrow = collection.metafields.custom.hero_eyebrow.value | default: collection.metafields.custom.hero_eyebrow
   assign metafield_note = collection.metafields.custom.hero_note.value | default: collection.metafields.custom.hero_note
   assign metafield_detail = collection.metafields.custom.hero_detail.value | default: collection.metafields.custom.hero_detail
@@ -105,6 +106,10 @@
     assign primary_visual = feature_product_primary.featured_media.preview_image | default: feature_product_primary.featured_image
   endif
 
+  if primary_visual != blank
+    assign has_editorial_visual = true
+  endif
+
   if metafield_backdrop_image != blank
     assign collection_backdrop_image = metafield_backdrop_image
   endif
@@ -168,7 +173,7 @@
     </div>
   {% endif %}
   <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    <div class="collection-hero__shell{% if compact_collection_hero %} collection-hero__shell--compact{% endif %}">
+    <div class="collection-hero__shell{% if compact_collection_hero %} collection-hero__shell--compact{% endif %}{% if has_editorial_visual %} collection-hero__shell--with-visual{% endif %}">
       <div class="collection-hero__text-wrapper{% unless has_curation_note %} collection-hero__text-wrapper--lean{% endunless %}{% unless has_secondary_detail %} collection-hero__text-wrapper--single-detail{% endunless %}" data-vd-collection-panel>
         <span class="vd-section-kicker">{{ hero_eyebrow }}</span>
         <h1 class="collection-hero__title{% if collection.handle == 'all' %} collection-hero__title--catalog{% endif %}">
@@ -208,7 +213,22 @@
           </div>
         {%- endif -%}
       </div>
-
+      {%- if has_editorial_visual -%}
+        <div class="collection-hero__visual" aria-hidden="true">
+          <div class="collection-hero__visual-frame">
+            {{
+              primary_visual
+              | image_url: width: 1400
+              | image_tag:
+                class: 'collection-hero__visual-image',
+                widths: '420, 560, 720, 960, 1200, 1400',
+                sizes: '(min-width: 990px) 32vw, 78vw',
+                loading: 'eager',
+                alt: ''
+            }}
+          </div>
+        </div>
+      {%- endif -%}
     </div>
   </div>
 </div>
