@@ -5409,13 +5409,7 @@ body:has(.section-vd-hero) .header-wrapper {
 }
 
 .collection-hero__shell::after {
-  content: "";
-  position: absolute;
-  inset: 1.4rem 0;
-  z-index: 0;
-  border-top: 1px solid rgba(var(--vd-white), 0.05);
-  border-bottom: 1px solid rgba(var(--vd-white), 0.05);
-  pointer-events: none;
+  display: none;
 }
 
 .collection-hero__copy {
@@ -5437,12 +5431,12 @@ body:has(.section-vd-hero) .header-wrapper {
 .collection-hero__copy::before {
   content: "";
   position: absolute;
-  inset: -5rem -16rem -5rem -4rem;
+  inset: -6rem -10rem -6rem -2rem;
   z-index: -1;
-  background:
-    radial-gradient(circle at 14% 16%, rgba(255, 255, 255, 0.07) 0%, transparent 22%),
-    linear-gradient(90deg, rgba(8, 8, 8, 0.84) 0%, rgba(8, 8, 8, 0.62) 42%, rgba(8, 8, 8, 0.16) 100%);
+  background: linear-gradient(90deg, rgba(8, 8, 8, 0.72) 0%, rgba(8, 8, 8, 0.48) 46%, rgba(8, 8, 8, 0.08) 100%);
   border-radius: 0;
+  filter: blur(24px);
+  opacity: 0.9;
   pointer-events: none;
 }
 
@@ -5510,13 +5504,7 @@ body:has(.section-vd-hero) .header-wrapper {
 }
 
 .collection-hero__media-shell::after {
-  content: "";
-  position: absolute;
-  inset: 1.4rem;
-  z-index: 1;
-  border: 1px solid rgba(var(--vd-white), 0.08);
-  border-radius: 3rem 3rem 13rem 3rem;
-  pointer-events: none;
+  display: none;
 }
 
 .collection-hero__media-image {
@@ -5535,9 +5523,7 @@ body:has(.section-vd-hero) .header-wrapper {
 }
 
 .collection-hero__media-ring {
-  inset: -2rem 2.4rem 2.6rem -2.8rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  opacity: 0.58;
+  display: none;
 }
 
 .collection-hero__aura--one {
@@ -5579,6 +5565,18 @@ body:has(.section-vd-hero) .header-wrapper {
 .collection-hero__title-text {
   display: block;
   max-width: 9.6ch;
+}
+
+.collection-hero .vd-collection-line-mask {
+  overflow: hidden;
+}
+
+.collection-hero .vd-collection-line {
+  padding-block: 0.04em;
+}
+
+.collection-hero .vd-collection-word {
+  will-change: transform, opacity;
 }
 
 .collection-hero__copy .collection-hero__description,
@@ -8938,8 +8936,8 @@ body:has(.section-vd-hero) .header-wrapper {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.085) 0%, rgba(255, 255, 255, 0.04) 100%);
   border-color: rgba(255, 255, 255, 0.18);
-  -webkit-backdrop-filter: blur(18px) saturate(118%);
-  backdrop-filter: blur(18px) saturate(118%);
+  -webkit-backdrop-filter: blur(var(--vd-header-shell-blur)) saturate(118%);
+  backdrop-filter: blur(var(--vd-header-shell-blur)) saturate(118%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.15),
     0 1rem 2.8rem rgba(0, 0, 0, 0.08);
@@ -8951,8 +8949,8 @@ body:has(.section-vd-hero) .header-wrapper {
   background:
     linear-gradient(180deg, rgba(24, 24, 24, 0.32) 0%, rgba(24, 24, 24, 0.22) 100%);
   border-color: rgba(255, 255, 255, 0.14);
-  -webkit-backdrop-filter: blur(20px) saturate(116%);
-  backdrop-filter: blur(20px) saturate(116%);
+  -webkit-backdrop-filter: blur(var(--vd-header-shell-blur)) saturate(116%);
+  backdrop-filter: blur(var(--vd-header-shell-blur)) saturate(116%);
 }
 
 .header {
@@ -8982,6 +8980,7 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .header__heading-logo-wrapper {
   width: clamp(11.2rem, 10vw, 13.6rem);
+  will-change: transform, filter;
 }
 
 .header__icons {
@@ -8989,6 +8988,7 @@ body:has(.section-vd-hero) .header-wrapper {
   justify-self: end;
   gap: 0.8rem;
   z-index: 4;
+  will-change: transform, opacity;
 }
 
 .vd-header-brand-link {
@@ -9001,6 +9001,11 @@ body:has(.section-vd-hero) .header-wrapper {
 .header__icon,
 .vd-header-secondary-menu__toggle {
   color: rgba(255, 255, 255, 0.78);
+}
+
+.header__inline-menu,
+.vd-header-inline-search form {
+  will-change: transform, opacity, filter;
 }
 
 .header__menu-item,
