@@ -1313,7 +1313,7 @@
 
       if (!panels.length) return;
 
-      gsap.set(panels, { clearProps: 'transform,opacity' });
+      gsap.set(panels, { clearProps: 'opacity,filter' });
 
       if (!prefersReducedMotion) {
         introTimeline = gsap.timeline({
@@ -1327,8 +1327,8 @@
 
         introTimeline.fromTo(
           panels,
-          { y: 30, autoAlpha: 0 },
-          { y: 0, autoAlpha: 1, duration: 1.2, stagger: 0.1 },
+          { autoAlpha: 0, filter: 'blur(10px)' },
+          { autoAlpha: 1, filter: 'blur(0px)', duration: 1.2, stagger: 0.1 },
           0
         );
       }
@@ -1342,7 +1342,7 @@
           introTimeline.kill();
         }
 
-        gsap.set(panels, { clearProps: 'transform,opacity' });
+        gsap.set(panels, { clearProps: 'opacity,filter' });
       });
     });
   }
