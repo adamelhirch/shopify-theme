@@ -8,9 +8,9 @@
     "banner": {
       "type": "vd-page-banner",
       "settings": {
-        "eyebrow": "Le Wiki",
+        "eyebrow": "Collection",
         "heading": "Huiles essentielles & huiles naturelles",
-        "text": "<p>Des repères clairs pour les usages externes, la dilution et les précautions essentielles, avec une lecture simple et responsable.</p>",
+        "text": "<p>Une lecture responsable pour les usages externes, la dilution et les précautions, avec un accès direct à la bonne famille produit.</p>",
         "primary_button_label": "Voir la collection",
         "primary_button_link": "shopify://collections/huiles-essentielles",
         "secondary_button_label": "Nous contacter",
@@ -26,90 +26,34 @@
         "padding_bottom": 8
       }
     },
-    "wiki": {
-      "type": "wiki-content",
-      "blocks": {
-        "item_1": {
-          "type": "item",
-          "settings": {
-            "kicker": "Base",
-            "title": "Comprendre les familles sans confusion",
-            "text": "<p>Ravintsara, ylang-ylang, girofle ou eucalyptus citronné: des repères concrets pour comprendre les usages avec un ton responsable.</p>",
-            "link_label": "Voir la collection",
-            "link": "shopify://collections/huiles-essentielles"
-          }
-        },
-        "item_2": {
-          "type": "item",
-          "settings": {
-            "kicker": "Prudence",
-            "title": "Dilution, diffusion, gestes d’usage",
-            "text": "<p>Une information simple, lisible et non surchargée, avec des repères de dilution et des limites d’usage évidentes.</p>",
-            "link_label": "Poser une question",
-            "link": "shopify://pages/contact"
-          }
-        },
-        "item_3": {
-          "type": "item",
-          "settings": {
-            "kicker": "Evolution",
-            "title": "Retrouver vite la bonne famille",
-            "text": "<p>Le contenu doit permettre d’aller rapidement vers la bonne huile, la bonne base ou le bon conseil selon l’usage recherché.</p>",
-            "link_label": "Voir les recettes",
-            "link": "shopify://pages/recettes"
-          }
-        }
-      },
-      "block_order": [
-        "item_1",
-        "item_2",
-        "item_3"
-      ],
+    "collection": {
+      "type": "featured-collection",
       "settings": {
-        "eyebrow": "Mode d'emploi",
-        "heading": "Des repères clairs avant tout le reste.",
-        "text": "<p>Rassurer, orienter et rappeler les bons gestes d’usage sans surcharge ni promesse floue.</p>",
-        "summary": "Clair, responsable et premium: une page qui remet l’information utile, la précaution et le bon produit au centre.",
+        "collection": "huiles-essentielles",
+        "products_to_show": 6,
+        "title": "Sélection huiles essentielles",
+        "heading_size": "h1",
+        "description": "<p>Retrouver rapidement la bonne huile ou la bonne base dans une grille lisible, puis demander conseil si nécessaire.</p>",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 3,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
         "color_scheme": "scheme-3",
-        "padding_top": 0,
-        "padding_bottom": 28
-      }
-    },
-    "story": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "Usage encadre",
-            "text": "<p>Des cas d’usage réalistes, expliqués avec prudence et sans promesse excessive.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Page evolutive",
-            "text": "<p>Chaque huile pourra ensuite recevoir son propre niveau de détail sans casser l’ensemble graphique.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Lien direct au produit",
-            "text": "<p>Retrouver vite le bon flacon, la bonne base de dilution ou le bon contact selon le besoin.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "Un cadre net pour une catégorie sensible.",
-        "text": "<p>Une page accessible, exigeante et rassurante, avec une place naturelle pour les contenus plus experts quand ils seront prêts.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 0,
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "card_surface": "dark",
+        "show_subtitle": true,
+        "show_product_type": true,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 8,
         "padding_bottom": 56
       }
     }
@@ -117,7 +61,6 @@
   "order": [
     "main",
     "banner",
-    "wiki",
-    "story"
+    "collection"
   ]
 }

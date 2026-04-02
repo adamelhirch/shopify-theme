@@ -5370,10 +5370,10 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .collection-hero__shell {
   display: grid;
-  width: min(100%, 150rem);
+  width: min(100%, 154rem);
   margin: 0 auto;
-  grid-template-columns: minmax(38rem, 0.86fr) minmax(0, 1.14fr);
-  gap: clamp(3.6rem, 5.2vw, 8rem);
+  grid-template-columns: minmax(38rem, 0.92fr) minmax(44rem, 1.08fr);
+  gap: clamp(4rem, 5vw, 8.6rem);
   align-items: center;
   position: relative;
   z-index: 1;
@@ -5381,8 +5381,8 @@ body:has(.section-vd-hero) .header-wrapper {
 }
 
 .collection-hero__shell--compact {
-  grid-template-columns: minmax(34rem, 0.92fr) minmax(26rem, 0.92fr);
-  gap: clamp(2.8rem, 4.4vw, 5.4rem);
+  grid-template-columns: minmax(34rem, 0.94fr) minmax(30rem, 0.96fr);
+  gap: clamp(3rem, 4.2vw, 5.8rem);
   min-height: clamp(42rem, 60vh, 56rem);
 }
 
@@ -5391,9 +5391,11 @@ body:has(.section-vd-hero) .header-wrapper {
   z-index: 1;
   display: grid;
   align-content: start;
-  max-width: 58rem;
+  justify-self: center;
+  width: min(100%, 62rem);
+  max-width: 62rem;
   margin: 0;
-  padding: clamp(2.8rem, 3.2vw, 4.2rem);
+  padding: clamp(3rem, 3.4vw, 4.4rem);
   border: 1px solid rgba(var(--vd-white), 0.08);
   border-radius: 3rem;
   background:
@@ -5455,6 +5457,7 @@ body:has(.section-vd-hero) .header-wrapper {
   isolation: isolate;
   display: grid;
   align-items: stretch;
+  justify-self: stretch;
 }
 
 .collection-hero__stage--compact {
@@ -5561,8 +5564,8 @@ body:has(.section-vd-hero) .header-wrapper {
   inset: 0;
   border-radius: 3rem;
   background:
-    radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.08) 0%, transparent 22%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.04), transparent 46%);
+    radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.05) 0%, transparent 20%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.025), transparent 44%);
   pointer-events: none;
 }
 

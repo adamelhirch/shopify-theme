@@ -14,7 +14,7 @@
   endif
 
   assign display_title = collection.title
-  assign curation_note = 'Une lecture plus nette des formats, de la matière et des usages.'
+  assign curation_note = ''
   assign collection_description_plain = collection.description | strip_html | strip
   assign hero_detail = collection_products_count | append: ' ' | append: collection_products_label
   assign collection_count_chip = collection_products_count | append: ' ' | append: collection_products_label
@@ -51,6 +51,14 @@
   elsif collection.handle == 'huiles-essentielles'
     assign curation_note = 'Une approche claire et responsable pour les usages externes, les précautions et la bonne orientation produit.'
     assign hero_detail = 'Usage externe et dilution'
+  endif
+
+  if curation_note == blank
+    if collection_description_plain != blank
+      assign curation_note = collection_description_plain | truncatewords: 30
+    else
+      assign curation_note = 'Une sélection plus lisible, centrée sur la matière, les formats et les usages.'
+    endif
   endif
 
   if primary_visual == blank and feature_product_primary != blank

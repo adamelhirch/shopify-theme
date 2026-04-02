@@ -8,17 +8,17 @@
     "banner": {
       "type": "vd-page-banner",
       "settings": {
-        "eyebrow": "Le Wiki",
-        "heading": "Sels aromatises de Madagascar",
-        "text": "<p>Des assemblages pensés pour la finition, l’assaisonnement et les accords sucré-salé, avec une lecture claire selon le geste et l’envie de cuisine.</p>",
+        "eyebrow": "Collection",
+        "heading": "Sels aromatisés",
+        "text": "<p>Des assemblages nets pour la finition, l’assaisonnement et les accords sucré-salé, avec une lecture simple par usage et intensité.</p>",
         "primary_button_label": "Voir la collection",
         "primary_button_link": "shopify://collections/sels-aromatises",
         "secondary_button_label": "Lire les recettes",
         "secondary_button_link": "shopify://pages/recettes",
         "metric_1_label": "Base",
-        "metric_1_value": "Camargue + Madagascar",
-        "metric_2_label": "Profil",
-        "metric_2_value": "Usage & intensité",
+        "metric_1_value": "Camargue & Madagascar",
+        "metric_2_label": "Lecture",
+        "metric_2_value": "Usages & intensités",
         "metric_3_label": "Style",
         "metric_3_value": "Précis & gourmand",
         "color_scheme": "scheme-3",
@@ -26,90 +26,34 @@
         "padding_bottom": 8
       }
     },
-    "wiki": {
-      "type": "wiki-content",
-      "blocks": {
-        "item_1": {
-          "type": "item",
-          "settings": {
-            "kicker": "Signature",
-            "title": "Vanille, combava, pili-pili, poivres",
-            "text": "<p>Chaque sel se lit d’abord par son usage: finition, cuisson douce, accord sucré-salé ou marinade courte.</p>",
-            "link_label": "Voir les produits",
-            "link": "shopify://collections/sels-aromatises"
-          }
-        },
-        "item_2": {
-          "type": "item",
-          "settings": {
-            "kicker": "Repere",
-            "title": "Des dosages simples et reproductibles",
-            "text": "<p>Quelques repères concrets pour savoir quel sel utiliser, sur quoi et en quelle quantité selon le résultat recherché.</p>",
-            "link_label": "Aller aux recettes",
-            "link": "shopify://pages/recettes"
-          }
-        },
-        "item_3": {
-          "type": "item",
-          "settings": {
-            "kicker": "Passerelle",
-            "title": "Retrouver vite le bon produit",
-            "text": "<p>Le contenu reste relié au catalogue pour revenir facilement au bon sel ou à un produit complémentaire.</p>",
-            "link_label": "Nous contacter",
-            "link": "shopify://pages/contact"
-          }
-        }
-      },
-      "block_order": [
-        "item_1",
-        "item_2",
-        "item_3"
-      ],
+    "collection": {
+      "type": "featured-collection",
       "settings": {
-        "eyebrow": "Guide de lecture",
-        "heading": "Comprendre les sels par profil aromatique et usage.",
-        "text": "<p>Des repères concrets pour distinguer les signatures, les dosages et les contextes d’usage, puis aller vers le bon produit.</p>",
-        "summary": "Des usages concrets, une hiérarchie claire et des passerelles nettes vers collection, recettes et conseil.",
+        "collection": "sels-aromatises",
+        "products_to_show": 6,
+        "title": "Sélection sels aromatisés",
+        "heading_size": "h1",
+        "description": "<p>Retrouver les assemblages maison dans une grille claire, directement liée au panier et aux usages.</p>",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 3,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
         "color_scheme": "scheme-3",
-        "padding_top": 0,
-        "padding_bottom": 28
-      }
-    },
-    "story": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "Entrer par le besoin",
-            "text": "<p>Finir une assiette, relever une marinade ou signer un dessert: des repères concrets pour choisir juste.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Monter en gamme sans bruit",
-            "text": "<p>Le luxe passe ici par la précision des repères et la tenue visuelle, pas par l’accumulation d’effets.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Prete pour la video",
-            "text": "<p>Une base prête à accueillir ensuite des démonstrations, des gestes cuisine et des médias plus immersifs.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "Des repères utiles pour cuisiner et assaisonner plus juste.",
-        "text": "<p>Une page guide pour comprendre les signatures, choisir selon le geste et prolonger naturellement vers les produits ou les recettes.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 0,
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "card_surface": "dark",
+        "show_subtitle": true,
+        "show_product_type": true,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 8,
         "padding_bottom": 56
       }
     }
@@ -117,7 +61,6 @@
   "order": [
     "main",
     "banner",
-    "wiki",
-    "story"
+    "collection"
   ]
 }
