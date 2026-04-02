@@ -5489,6 +5489,11 @@ body:has(.section-vd-hero) .header-wrapper {
   text-wrap: balance;
 }
 
+.collection-hero__title-text {
+  display: block;
+  padding-inline-start: 0.055em;
+}
+
 .collection-hero__text-wrapper .vd-section-kicker,
 .collection-hero__text-wrapper .collection-hero__description,
 .collection-hero__text-wrapper .collection-hero__description p {

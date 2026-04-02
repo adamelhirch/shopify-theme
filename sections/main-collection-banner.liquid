@@ -178,7 +178,7 @@
         <span class="vd-section-kicker">{{ hero_eyebrow }}</span>
         <h1 class="collection-hero__title{% if collection.handle == 'all' %} collection-hero__title--catalog{% endif %}">
           <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
-          {{- display_title | escape -}}
+          <span class="collection-hero__title-text">{{- display_title | escape -}}</span>
         </h1>
 
         <div class="collection-hero__details{% unless has_secondary_detail %} collection-hero__details--single{% endunless %}" role="list">
