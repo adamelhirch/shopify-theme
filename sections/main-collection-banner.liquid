@@ -32,29 +32,69 @@
   assign compact_collection_hero = false
   assign backdrop_opacity = section.settings.backdrop_opacity | divided_by: 100.0
   assign backdrop_blur = section.settings.backdrop_blur
+  assign is_all_collection = false
+  assign is_vanilla_family = false
+  assign is_spice_family = false
+  assign is_salt_family = false
+  assign is_pepper_family = false
+  assign is_oil_family = false
+  assign is_ginger_family = false
+  assign is_confectionery_family = false
+
+  if collection.handle == 'all'
+    assign is_all_collection = true
+  endif
+
+  if collection.handle == 'vanille-bourbon'
+    assign is_vanilla_family = true
+  endif
+
+  if collection.handle == 'epices-madagascar'
+    assign is_spice_family = true
+  endif
+
+  if collection.handle == 'sels' or collection.handle == 'sels-aromatises'
+    assign is_salt_family = true
+  endif
+
+  if collection.handle == 'poivre-baies'
+    assign is_pepper_family = true
+  endif
+
+  if collection.handle == 'huiles-madagascar' or collection.handle == 'huiles-essentielles'
+    assign is_oil_family = true
+  endif
+
+  if collection.handle == 'gingembre-madagascar' or collection.handle == 'gingembre' or collection_title_downcase contains 'gingembre'
+    assign is_ginger_family = true
+  endif
+
+  if collection.handle == 'confiserie' or collection.handle == 'confiseries' or collection_title_downcase contains 'confiser'
+    assign is_confectionery_family = true
+  endif
 
   if collection_products_count <= 4
     assign compact_collection_hero = true
   endif
 
-  if collection.handle == 'all'
+  if is_all_collection
     assign display_title = 'Tous les produits'
     assign hero_eyebrow = 'Maison'
     assign hero_detail = 'Sélection complète'
-  elsif collection.handle == 'vanille-bourbon'
+  elsif is_vanilla_family
     assign hero_detail = 'Gousses, extraits, caviar'
-  elsif collection.handle == 'epices-madagascar'
+  elsif is_spice_family
     assign hero_detail = 'Accords, intensités, cuisines'
-  elsif collection.handle == 'sels-aromatises'
+  elsif is_salt_family
     assign hero_detail = 'Assemblages aromatiques'
-  elsif collection.handle == 'poivre-baies'
+  elsif is_pepper_family
     assign hero_detail = 'Poivres, baies, coffrets'
-  elsif collection.handle == 'huiles-essentielles'
+  elsif is_oil_family
     assign hero_detail = 'Usage externe et dilution'
-  elsif collection.handle == 'gingembre' or collection_title_downcase contains 'gingembre'
+  elsif is_ginger_family
     assign curation_note = ''
     assign hero_detail = ''
-  elsif collection.handle == 'confiseries' or collection_title_downcase contains 'confiser'
+  elsif is_confectionery_family
     assign curation_note = ''
     assign hero_detail = ''
   endif

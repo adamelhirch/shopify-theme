@@ -21,7 +21,7 @@
         "heading": "Sels aromatisés",
         "text": "<p>Des assemblages nets pour la finition, l’assaisonnement et les accords sucré-salé, avec une lecture simple par usage et intensité.</p>",
         "primary_button_label": "Voir la collection",
-        "primary_button_link": "shopify://collections/sels-aromatises",
+        "primary_button_link": "shopify://collections/sels",
         "secondary_button_label": "Lire les recettes",
         "secondary_button_link": "shopify://pages/recettes",
         "metric_1_label": "Base",
@@ -38,7 +38,7 @@
     "collection": {
       "type": "featured-collection",
       "settings": {
-        "collection": "sels-aromatises",
+        "collection": "sels",
         "products_to_show": 6,
         "title": "Sélection sels aromatisés",
         "heading_size": "h1",

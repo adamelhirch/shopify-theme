@@ -387,7 +387,7 @@
   </section>
 {% elsif is_catalog_page %}
   {%- liquid
-    assign catalogue_handles = section.settings.catalogue_handles | default: 'vanille-bourbon,epices-madagascar,poivre-baies,sels-aromatises,huiles-essentielles'
+    assign catalogue_handles = section.settings.catalogue_handles | default: 'vanille-bourbon,epices-madagascar,poivre-baies,sels,huiles-madagascar'
     assign catalogue_handles_array = catalogue_handles | split: ','
     assign all_products_collection = collections['all']
     assign hero_collection_primary = collections['vanille-bourbon']
@@ -592,24 +592,27 @@
             assign entry_text = entry_collection.description | strip_html | truncatewords: 28
             assign entry_link_label = 'Explorer'
 
-            case handle
-              when 'vanille-bourbon'
-                assign entry_kicker = 'Signature'
-                assign entry_text = 'Gousses, extraits, caviar et formats cadeaux: le cœur de la maison, pensé pour la pâtisserie, l’infusion et les gestes de précision.'
-                assign entry_link_label = 'Entrer dans la vanille'
-              when 'epices-madagascar'
-                assign entry_kicker = 'Accords'
-                assign entry_text = 'Cannelle, combava, curry, poivres et épices de Madagascar pour prolonger la cuisine de la maison avec plus de relief.'
-                assign entry_link_label = 'Explorer les épices'
-              when 'poivre-baies'
-                assign entry_kicker = 'Sélection'
-                assign entry_text = 'Poivres, baies rares et signatures plus franches pour la table, les sauces et les finitions qui demandent du caractère.'
-                assign entry_link_label = 'Voir les poivres & baies'
-              when 'sels-aromatises'
-                assign entry_kicker = 'Assemblages'
-                assign entry_text = 'Des sels parfumés plus contemporains, pensés pour assaisonner, finir un plat ou créer des accords plus immédiats.'
-                assign entry_link_label = 'Découvrir les assemblages'
-            endcase
+            if handle == 'vanille-bourbon'
+              assign entry_kicker = 'Signature'
+              assign entry_text = 'Gousses, extraits, caviar et formats cadeaux: le cœur de la maison, pensé pour la pâtisserie, l’infusion et les gestes de précision.'
+              assign entry_link_label = 'Entrer dans la vanille'
+            elsif handle == 'epices-madagascar'
+              assign entry_kicker = 'Accords'
+              assign entry_text = 'Cannelle, combava, curry, poivres et épices de Madagascar pour prolonger la cuisine de la maison avec plus de relief.'
+              assign entry_link_label = 'Explorer les épices'
+            elsif handle == 'poivre-baies'
+              assign entry_kicker = 'Sélection'
+              assign entry_text = 'Poivres, baies rares et signatures plus franches pour la table, les sauces et les finitions qui demandent du caractère.'
+              assign entry_link_label = 'Voir les poivres & baies'
+            elsif handle == 'sels' or handle == 'sels-aromatises'
+              assign entry_kicker = 'Assemblages'
+              assign entry_text = 'Des sels parfumés pensés pour assaisonner, finir un plat ou créer des accords plus immédiats.'
+              assign entry_link_label = 'Découvrir les assemblages'
+            elsif handle == 'huiles-madagascar' or handle == 'huiles-essentielles'
+              assign entry_kicker = 'Usage'
+              assign entry_text = 'Huiles essentielles et huiles naturelles avec une lecture plus simple par famille, usage externe et dilution.'
+              assign entry_link_label = 'Voir les huiles'
+            endif
           -%}
           <article class="vd-catalogue__card" role="listitem">
             <a href="{{ entry_collection.url }}" class="vd-catalogue__card-link">
@@ -751,7 +754,7 @@
       "type": "text",
       "id": "catalogue_handles",
       "label": "Handles collections catalogue",
-      "default": "vanille-bourbon,epices-madagascar,poivre-baies,sels-aromatises,huiles-essentielles"
+      "default": "vanille-bourbon,epices-madagascar,poivre-baies,sels,huiles-madagascar"
     },
     {
       "type": "text",
