@@ -1097,15 +1097,15 @@
       }
 
       if (panels.length) {
-        gsap.set(panels, { clearProps: 'transform,opacity' });
+        gsap.set(panels, { clearProps: 'transform,opacity,filter' });
       }
 
       if (items.length) {
-        gsap.set(items, { clearProps: 'transform,opacity' });
+        gsap.set(items, { clearProps: 'transform,opacity,filter' });
       }
 
       if (media) {
-        gsap.set(media, { clearProps: 'transform,opacity' });
+        gsap.set(media, { clearProps: 'transform,opacity,filter,clipPath' });
       }
 
       if (!prefersReducedMotion) {
@@ -1121,8 +1121,8 @@
         if (panels.length) {
           introTimeline.fromTo(
             panels,
-            { y: 42, autoAlpha: 0 },
-            { y: 0, autoAlpha: 1, duration: 1.2, stagger: 0.08 },
+            { y: 52, autoAlpha: 0, filter: 'blur(12px)' },
+            { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 1.2, stagger: 0.08 },
             0
           );
         }
@@ -1130,8 +1130,8 @@
         if (items.length) {
           introTimeline.fromTo(
             items,
-            { y: 28, autoAlpha: 0 },
-            { y: 0, autoAlpha: 1, duration: 0.9, stagger: 0.07 },
+            { y: 30, autoAlpha: 0, filter: 'blur(8px)' },
+            { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 0.92, stagger: 0.07 },
             0.12
           );
         }
@@ -1139,8 +1139,25 @@
         if (media) {
           introTimeline.fromTo(
             media,
-            { x: 36, y: 24, rotate: -4, scale: 0.92, autoAlpha: 0 },
-            { x: 0, y: 0, rotate: 0, scale: 1, autoAlpha: 1, duration: 1.25 },
+            {
+              x: 44,
+              y: 32,
+              rotate: -3,
+              scale: 0.88,
+              autoAlpha: 0,
+              filter: 'blur(16px) saturate(0.8)',
+              clipPath: 'inset(12% 10% 14% 10% round 3rem)'
+            },
+            {
+              x: 0,
+              y: 0,
+              rotate: 0,
+              scale: 1,
+              autoAlpha: 1,
+              filter: 'blur(0px) saturate(1)',
+              clipPath: 'inset(0% 0% 0% 0% round 3rem)',
+              duration: 1.3
+            },
             0.08
           );
         }
@@ -1203,15 +1220,15 @@
         }
 
         if (panels.length) {
-          gsap.set(panels, { clearProps: 'transform,opacity' });
+          gsap.set(panels, { clearProps: 'transform,opacity,filter' });
         }
 
         if (items.length) {
-          gsap.set(items, { clearProps: 'transform,opacity' });
+          gsap.set(items, { clearProps: 'transform,opacity,filter' });
         }
 
         if (media) {
-          gsap.set(media, { clearProps: 'transform,opacity' });
+          gsap.set(media, { clearProps: 'transform,opacity,filter,clipPath' });
         }
       });
     });

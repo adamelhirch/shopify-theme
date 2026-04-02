@@ -17,7 +17,6 @@
   assign collection_title_downcase = collection.title | downcase
   assign curation_note = ''
   assign collection_description_plain = collection.description | strip_html | strip
-  assign collection_description_words = collection_description_plain | split: ' ' | size
   assign hero_detail = collection_products_count | append: ' ' | append: collection_products_label
   assign collection_count_chip = collection_products_count | append: ' ' | append: collection_products_label
   assign primary_visual = collection.image
@@ -32,16 +31,11 @@
   assign metafield_backdrop_video = collection.metafields.custom.hero_background_video.value | default: collection.metafields.custom.hero_background_video
   assign has_collection_backdrop = false
   assign compact_collection_hero = false
-  assign description_looks_generic = false
   assign backdrop_opacity = section.settings.backdrop_opacity | divided_by: 100.0
   assign backdrop_blur = section.settings.backdrop_blur
 
   if collection_products_count <= 4
     assign compact_collection_hero = true
-  endif
-
-  if collection_description_plain contains 'Collection'
-    assign description_looks_generic = true
   endif
 
   if collection.handle == 'all'
@@ -70,14 +64,6 @@
   elsif collection.handle == 'confiseries' or collection_title_downcase contains 'confiser'
     assign curation_note = ''
     assign hero_detail = ''
-  endif
-
-  if curation_note == blank
-    if collection_description_plain != blank and collection_description_words <= 18 and description_looks_generic == false
-      assign curation_note = collection_description_plain | truncatewords: 18
-    else
-      assign curation_note = ''
-    endif
   endif
 
   if metafield_eyebrow != blank
