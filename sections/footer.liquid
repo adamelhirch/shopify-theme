@@ -27,51 +27,92 @@
 {%- liquid
   assign footer_primary_link = section.settings.primary_link | default: '/collections/all'
   assign footer_house_url = routes.root_url
+  assign footer_wiki_url = '/blogs/le-wiki'
+  assign footer_recipes_url = '/pages/recettes'
+  assign footer_savoir_faire_url = '/pages/savoir-faire'
+  assign footer_contact_url = '/pages/contact'
+  assign footer_faq_url = '/pages/faq'
+  assign footer_vanille_url = '/collections/vanille-bourbon'
+  assign footer_epices_url = '/collections/epices-madagascar'
+  assign footer_poivres_url = '/collections/poivre-baies'
   assign footer_shipping_url = '/policies/shipping-policy'
   if shop.shipping_policy != blank
     assign footer_shipping_url = shop.shipping_policy.url
   endif
+  assign footer_refund_url = '/policies/refund-policy'
+  if shop.refund_policy != blank
+    assign footer_refund_url = shop.refund_policy.url
+  endif
+  assign footer_legal_url = '/pages/mentions-legales'
+  if pages['mentions-legales'] != blank
+    assign footer_legal_url = pages['mentions-legales'].url
+  endif
+  assign footer_terms_url = '/policies/terms-of-service'
+  if shop.terms_of_service != blank
+    assign footer_terms_url = shop.terms_of_service.url
+  endif
   assign footer_help_url = '/pages/contact'
+  assign footer_video_url = ''
+  if section.settings.background_video != blank
+    for source in section.settings.background_video.sources
+      if source.mime_type == 'video/mp4'
+        assign footer_video_url = source.url
+        break
+      endif
+    endfor
+  endif
+  assign footer_image = section.settings.background_image
 -%}
 
 <footer
-  class="footer footer--scene color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding"
+  class="footer footer--scene footer--millia color-{{ section.settings.color_scheme }} gradient"
   data-vd-footer-scene
 >
-  <div class="vd-footer-stage">
-    <div class="vd-footer-stage__shell">
-      <div class="vd-footer-bento">
-        <article class="bento-item vd-footer-bento__brand" data-vd-footer-panel>
-          <p class="vd-footer-stage__label">Maison</p>
-          <h2 class="vd-footer-stage__title">Vanille, épices, poivres et recettes dans une même maison.</h2>
-          <p class="vd-footer-stage__text">Sourcing direct à Madagascar.</p>
-        </article>
-
-        <nav class="bento-item vd-footer-bento__explore" aria-label="Explorer" data-vd-footer-panel>
-          <p class="vd-footer-stage__label">Explorer</p>
-          <ul class="vd-footer-stage__nav-list list-unstyled" role="list">
-            <li><a href="{{ footer_primary_link }}">Le Catalogue</a></li>
-            <li><a href="{{ footer_house_url }}">La Maison</a></li>
-            <li><a href="{{ footer_shipping_url }}">Expéditions</a></li>
-            <li><a href="{{ footer_help_url }}">Aide</a></li>
-          </ul>
-        </nav>
-
-        <aside class="bento-item vd-footer-bento__journal" data-vd-footer-panel>
-          <p class="vd-footer-stage__label">Journal</p>
-          <p class="vd-footer-stage__journal-text">Une correspondance rare.</p>
-          <div class="vd-footer-stage__newsletter-shell">
-            {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form vd-form vd-form--newsletter' -%}
-              <input type="hidden" name="contact[tags]" value="newsletter">
-              <div class="vd-footer-stage__newsletter-line">
-                <div class="field vd-form__field vd-form__field--line">
+  <div class="vd-footer-millia">
+    <section class="vd-footer-millia__hero">
+      <div class="vd-footer-millia__hero-media" aria-hidden="true">
+        {%- if footer_video_url != blank -%}
+          <video autoplay muted loop playsinline preload="metadata" poster="{{ 'vd-hero-origin-poster.jpg' | asset_url }}">
+            <source src="{{ footer_video_url }}" type="video/mp4">
+          </video>
+        {%- elsif footer_image != blank -%}
+          {{
+            footer_image
+            | image_url: width: 2400
+            | image_tag:
+              class: 'vd-footer-millia__hero-image',
+              widths: '720, 960, 1280, 1600, 2200, 2400',
+              sizes: '100vw',
+              loading: 'lazy',
+              alt: ''
+          }}
+        {%- else -%}
+          <img src="{{ 'vd-hero-origin-poster.jpg' | asset_url }}" alt="" class="vd-footer-millia__hero-image" loading="lazy">
+        {%- endif -%}
+      </div>
+      <div class="vd-footer-millia__hero-overlay" aria-hidden="true"></div>
+      <div class="vd-footer-millia__hero-shell">
+        <div class="vd-footer-millia__hero-copy">
+          <p class="vd-footer-millia__eyebrow" data-vd-footer-item>
+            {{ section.settings.newsletter_kicker | default: 'Journal de la maison' }}
+          </p>
+          <h2 class="vd-footer-millia__hero-title" data-vd-footer-item>
+            {{ section.settings.newsletter_heading_shell | default: 'Une correspondance rare.' }}
+          </h2>
+          <div class="vd-footer-millia__hero-text rte" data-vd-footer-item>
+            {{ section.settings.newsletter_text }}
+          </div>
+          {%- if section.settings.newsletter_enable -%}
+            <div class="vd-footer-millia__hero-form" data-vd-footer-item>
+              {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form vd-form vd-form--newsletter' -%}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <div class="vd-footer-millia__newsletter-line">
                   <input
                     id="NewsletterForm--{{ section.id }}"
                     type="email"
                     name="contact[email]"
-                    class="field__input"
+                    class="vd-footer-millia__newsletter-input"
                     value="{{ form.email }}"
-                    aria-required="true"
                     autocorrect="off"
                     autocapitalize="off"
                     autocomplete="email"
@@ -87,12 +128,11 @@
                   >
                   <button
                     type="submit"
-                    class="newsletter-form__button field__button vd-form__submit vd-form__submit--line"
+                    class="vd-footer-millia__newsletter-submit"
                     name="commit"
-                    id="Subscribe"
                     aria-label="{{ 'newsletter.button_label' | t }}"
                   >
-                    <span class="vd-arrow-cta__icon" aria-hidden="true">→</span>
+                    S'inscrire
                   </button>
                 </div>
                 {%- if form.errors -%}
@@ -104,25 +144,111 @@
                     {{ form.errors.messages.email -}}
                   </small>
                 {%- endif -%}
-              </div>
-              {%- if form.posted_successfully? -%}
-                <h3
-                  class="newsletter-form__message newsletter-form__message--success form__message"
-                  id="ContactFooter-success"
-                  tabindex="-1"
-                  autofocus
-                >
-                  <span class="svg-wrapper">
-                    {{- 'icon-success.svg' | inline_asset_content -}}
-                  </span>
-                  {{- 'newsletter.success' | t }}
-                </h3>
-              {%- endif -%}
-            {%- endform -%}
-          </div>
-        </aside>
+                {%- if form.posted_successfully? -%}
+                  <h3
+                    class="newsletter-form__message newsletter-form__message--success form__message"
+                    id="ContactFooter-success"
+                    tabindex="-1"
+                    autofocus
+                  >
+                    <span class="svg-wrapper">
+                      {{- 'icon-success.svg' | inline_asset_content -}}
+                    </span>
+                    {{- 'newsletter.success' | t }}
+                  </h3>
+                {%- endif -%}
+              {%- endform -%}
+            </div>
+          {%- endif -%}
+        </div>
       </div>
-    </div>
+    </section>
+
+    <section class="vd-footer-millia__base">
+      <div class="vd-footer-millia__crumb" data-vd-footer-item>
+        <a href="{{ routes.root_url }}">Accueil</a>
+      </div>
+      <div class="vd-footer-millia__grid">
+        <nav class="vd-footer-millia__column" aria-label="E-shop" data-vd-footer-item>
+          <h3>E-Shop</h3>
+          <ul role="list">
+            <li><a href="{{ footer_primary_link }}">Le catalogue</a></li>
+            <li><a href="{{ footer_vanille_url }}">Vanille Bourbon</a></li>
+            <li><a href="{{ footer_epices_url }}">Epices</a></li>
+            <li><a href="{{ footer_poivres_url }}">Poivres & baies</a></li>
+          </ul>
+        </nav>
+
+        <nav class="vd-footer-millia__column" aria-label="La marque" data-vd-footer-item>
+          <h3>La Marque</h3>
+          <ul role="list">
+            <li><a href="{{ footer_wiki_url }}">Le Wiki</a></li>
+            <li><a href="{{ footer_recipes_url }}">Recettes</a></li>
+            <li><a href="{{ footer_savoir_faire_url }}">Savoir-faire</a></li>
+            <li><a href="{{ footer_contact_url }}">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="vd-footer-millia__mark" data-vd-footer-item>
+          <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+            {%- if settings.logo != blank -%}
+              {%- assign footer_logo_alt = settings.logo.alt | default: shop.name | escape -%}
+              {%- assign footer_logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
+              {{
+                settings.logo
+                | image_url: width: 320
+                | image_tag:
+                  class: 'vd-footer-millia__logo',
+                  widths: '120, 160, 220, 320',
+                  width: settings.logo_width,
+                  height: footer_logo_height,
+                  alt: footer_logo_alt,
+                  loading: 'lazy'
+              }}
+            {%- else -%}
+              <img src="{{ 'vanille-desire-logo.png' | asset_url }}" alt="{{ shop.name }}" class="vd-footer-millia__logo" loading="lazy">
+            {%- endif -%}
+          </a>
+        </div>
+
+        <nav class="vd-footer-millia__column" aria-label="Aide" data-vd-footer-item>
+          <h3>Aide</h3>
+          <ul role="list">
+            <li><a href="{{ footer_faq_url }}">FAQ</a></li>
+            <li><a href="{{ footer_contact_url }}">Contact</a></li>
+            <li><a href="{{ footer_shipping_url }}">Expédition</a></li>
+            <li><a href="{{ footer_refund_url }}">Retours</a></li>
+          </ul>
+        </nav>
+
+        <nav class="vd-footer-millia__column" aria-label="Social media" data-vd-footer-item>
+          <h3>Social Media</h3>
+          <ul role="list">
+            {%- if settings.social_instagram_link != blank -%}
+              <li><a href="{{ settings.social_instagram_link }}">Instagram</a></li>
+            {%- endif -%}
+            {%- if settings.social_tiktok_link != blank -%}
+              <li><a href="{{ settings.social_tiktok_link }}">Tiktok</a></li>
+            {%- endif -%}
+            {%- if settings.social_youtube_link != blank -%}
+              <li><a href="{{ settings.social_youtube_link }}">Youtube</a></li>
+            {%- elsif settings.social_facebook_link != blank -%}
+              <li><a href="{{ settings.social_facebook_link }}">Facebook</a></li>
+            {%- endif -%}
+          </ul>
+        </nav>
+      </div>
+
+      <div class="vd-footer-millia__bottom" data-vd-footer-item>
+        <div class="vd-footer-millia__policies">
+          <a href="{{ footer_legal_url }}">Mentions légales</a>
+          <a href="{{ footer_terms_url }}">Conditions générales de vente</a>
+        </div>
+        <div class="vd-footer-millia__copyright">
+          &copy; {{ 'now' | date: '%Y' }} {{ shop.name }} - all rights reserved
+        </div>
+      </div>
+    </section>
   </div>
 </footer>
 

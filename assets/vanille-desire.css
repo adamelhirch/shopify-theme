@@ -11258,3 +11258,362 @@ body:has(.section-vd-hero) .header-wrapper {
     font-size: clamp(3rem, 9vw, 3.8rem);
   }
 }
+
+/* Footer scene v4 - Millia-inspired */
+
+.footer.footer--millia {
+  margin-top: 0;
+  padding: 0 !important;
+  background: #f4efe7;
+  color: #171512;
+  border-top: 0;
+}
+
+.footer--millia .vd-footer-millia {
+  position: relative;
+}
+
+.footer--millia .vd-footer-millia__hero {
+  position: relative;
+  overflow: hidden;
+  min-height: clamp(28rem, 34vw, 42rem);
+  background: #181512;
+}
+
+.footer--millia .vd-footer-millia__hero-media,
+.footer--millia .vd-footer-millia__hero-media video,
+.footer--millia .vd-footer-millia__hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.footer--millia .vd-footer-millia__hero-media video,
+.footer--millia .vd-footer-millia__hero-image {
+  object-fit: cover;
+}
+
+.footer--millia .vd-footer-millia__hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(35, 28, 22, 0.22) 0%, rgba(27, 22, 18, 0.2) 26%, rgba(26, 22, 18, 0.36) 100%),
+    radial-gradient(circle at 50% 24%, rgba(255, 246, 233, 0.22) 0%, transparent 34%),
+    radial-gradient(circle at 22% 78%, rgba(94, 124, 58, 0.16) 0%, transparent 28%);
+}
+
+.footer--millia .vd-footer-millia__hero-shell {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: inherit;
+  width: min(100%, 160rem);
+  margin: 0 auto;
+  padding: clamp(5rem, 7vw, 8rem) 4vw clamp(4rem, 6vw, 6rem);
+  box-sizing: border-box;
+}
+
+.footer--millia .vd-footer-millia__hero-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(100%, 96rem);
+  text-align: center;
+  color: #f6f1e8;
+}
+
+.footer--millia .vd-footer-millia__eyebrow {
+  margin: 0;
+  color: rgba(246, 241, 232, 0.88);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.footer--millia .vd-footer-millia__hero-title {
+  margin: 1.6rem 0 0;
+  max-width: 14ch;
+  color: #fffaf3;
+  font-size: clamp(3.4rem, 4.6vw, 5.8rem);
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+
+.footer--millia .vd-footer-millia__hero-text {
+  max-width: 78rem;
+  margin-top: 1.6rem;
+  color: rgba(255, 250, 243, 0.88);
+  font-size: 1.9rem;
+  line-height: 1.6;
+}
+
+.footer--millia .vd-footer-millia__hero-text p {
+  margin: 0;
+}
+
+.footer--millia .vd-footer-millia__hero-form {
+  width: min(100%, 92rem);
+  margin-top: 2.4rem;
+}
+
+.footer--millia .vd-footer-millia__newsletter-line {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2rem;
+  min-height: 7.2rem;
+  padding: 0 2.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.16);
+  -webkit-backdrop-filter: blur(18px) saturate(132%);
+  backdrop-filter: blur(18px) saturate(132%);
+}
+
+.footer--millia .vd-footer-millia__newsletter-input {
+  width: 100%;
+  min-height: 7.2rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fffaf3;
+  font-size: clamp(2rem, 2vw, 2.8rem);
+  letter-spacing: 0.02em;
+  box-shadow: none;
+}
+
+.footer--millia .vd-footer-millia__newsletter-input::placeholder {
+  color: rgba(255, 250, 243, 0.84);
+}
+
+.footer--millia .vd-footer-millia__newsletter-input:focus {
+  outline: none;
+}
+
+.footer--millia .vd-footer-millia__newsletter-submit {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 250, 243, 0.96);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 180ms ease;
+}
+
+.footer--millia .vd-footer-millia__newsletter-submit:hover,
+.footer--millia .vd-footer-millia__newsletter-submit:focus-visible {
+  opacity: 0.72;
+}
+
+.footer--millia .newsletter-form__message,
+.footer--millia .form__message {
+  margin: 1.4rem 0 0;
+  color: rgba(255, 250, 243, 0.92);
+}
+
+.footer--millia .vd-footer-millia__base {
+  width: min(100%, 160rem);
+  margin: 0 auto;
+  padding: clamp(4.4rem, 5vw, 6rem) 4vw 2.8rem;
+  box-sizing: border-box;
+}
+
+.footer--millia .vd-footer-millia__crumb {
+  margin-bottom: 5.6rem;
+}
+
+.footer--millia .vd-footer-millia__crumb a {
+  color: rgba(23, 21, 18, 0.92);
+  font-size: 1.45rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.footer--millia .vd-footer-millia__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(18rem, 24rem) minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2.4rem, 3vw, 4rem);
+  align-items: start;
+}
+
+.footer--millia .vd-footer-millia__column h3 {
+  margin: 0 0 2.8rem;
+  color: rgba(23, 21, 18, 0.96);
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.footer--millia .vd-footer-millia__column ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer--millia .vd-footer-millia__column li + li {
+  margin-top: 1.6rem;
+}
+
+.footer--millia .vd-footer-millia__column a {
+  color: rgba(23, 21, 18, 0.92);
+  font-size: 1.8rem;
+  font-weight: 400;
+  line-height: 1.55;
+  text-decoration: none;
+  transition: opacity 180ms ease;
+}
+
+.footer--millia .vd-footer-millia__column a:hover,
+.footer--millia .vd-footer-millia__column a:focus-visible,
+.footer--millia .vd-footer-millia__crumb a:hover,
+.footer--millia .vd-footer-millia__crumb a:focus-visible,
+.footer--millia .vd-footer-millia__policies a:hover,
+.footer--millia .vd-footer-millia__policies a:focus-visible {
+  opacity: 0.66;
+}
+
+.footer--millia .vd-footer-millia__mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.footer--millia .vd-footer-millia__mark a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer--millia .vd-footer-millia__logo {
+  display: block;
+  width: min(100%, 17rem);
+  height: auto;
+  object-fit: contain;
+}
+
+.footer--millia .vd-footer-millia__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding-top: 4.8rem;
+  margin-top: 5rem;
+  border-top: 1px solid rgba(23, 21, 18, 0.1);
+}
+
+.footer--millia .vd-footer-millia__policies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.8rem 3rem;
+}
+
+.footer--millia .vd-footer-millia__policies a,
+.footer--millia .vd-footer-millia__copyright {
+  color: rgba(23, 21, 18, 0.84);
+  font-size: 1.45rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 1199px) {
+  .footer--millia .vd-footer-millia__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footer--millia .vd-footer-millia__mark {
+    order: 5;
+    grid-column: 1 / -1;
+    min-height: 0;
+    padding-top: 1.2rem;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .footer--millia .vd-footer-millia__hero {
+    min-height: 30rem;
+  }
+
+  .footer--millia .vd-footer-millia__hero-shell {
+    padding: 4.4rem 1.8rem;
+  }
+
+  .footer--millia .vd-footer-millia__hero-copy {
+    width: 100%;
+  }
+
+  .footer--millia .vd-footer-millia__eyebrow {
+    font-size: 1.05rem;
+  }
+
+  .footer--millia .vd-footer-millia__hero-title {
+    max-width: 100%;
+    font-size: clamp(2.8rem, 9vw, 4rem);
+  }
+
+  .footer--millia .vd-footer-millia__hero-text {
+    font-size: 1.6rem;
+  }
+
+  .footer--millia .vd-footer-millia__hero-form {
+    width: 100%;
+  }
+
+  .footer--millia .vd-footer-millia__newsletter-line {
+    min-height: 0;
+    gap: 1rem;
+    padding: 1.4rem 1.8rem;
+    grid-template-columns: 1fr;
+  }
+
+  .footer--millia .vd-footer-millia__newsletter-input {
+    min-height: 0;
+    font-size: 1.8rem;
+  }
+
+  .footer--millia .vd-footer-millia__newsletter-submit {
+    justify-self: end;
+    font-size: 1.2rem;
+  }
+
+  .footer--millia .vd-footer-millia__base {
+    padding: 3.2rem 1.8rem 2rem;
+  }
+
+  .footer--millia .vd-footer-millia__crumb {
+    margin-bottom: 3.2rem;
+  }
+
+  .footer--millia .vd-footer-millia__grid {
+    grid-template-columns: 1fr;
+    gap: 2.8rem;
+  }
+
+  .footer--millia .vd-footer-millia__column h3 {
+    margin-bottom: 1.8rem;
+    font-size: 1.4rem;
+  }
+
+  .footer--millia .vd-footer-millia__column a {
+    font-size: 1.6rem;
+  }
+
+  .footer--millia .vd-footer-millia__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 3rem;
+    margin-top: 3rem;
+  }
+}

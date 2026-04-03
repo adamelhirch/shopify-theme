@@ -1308,7 +1308,7 @@
 
   function initFooterScenes(gsap, ScrollTrigger, prefersReducedMotion, cleanups) {
     gsap.utils.toArray('[data-vd-footer-scene]').forEach(function (section) {
-      var items = gsap.utils.toArray(section.querySelectorAll('.bento-item > *'));
+      var items = gsap.utils.toArray(section.querySelectorAll('[data-vd-footer-item]'));
       var introTimeline;
 
       if (!items.length) return;
