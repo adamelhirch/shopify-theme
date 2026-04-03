@@ -1328,7 +1328,7 @@
         introTimeline.fromTo(
           items,
           { autoAlpha: 0, filter: 'blur(10px)' },
-          { autoAlpha: 1, filter: 'blur(0px)', duration: 1, stagger: 0.08 },
+          { autoAlpha: 1, filter: 'blur(0px)', duration: 1, stagger: 0.1 },
           0
         );
       }
