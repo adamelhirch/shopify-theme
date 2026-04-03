@@ -29,7 +29,7 @@
 {% endif %}
 
 {% if is_wiki_page %}
-  {{ 'vd-wiki-hub.css' | asset_url | stylesheet_tag }}
+  {{ 'vd-wiki-page.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'vd-preview-links.js' | asset_url }}" defer="defer"></script>
 {% endif %}
 
@@ -660,109 +660,306 @@
     </div>
   </section>
 {% elsif is_wiki_page %}
-  <section class="section-{{ section.id }}-padding vd-wiki-hub color-{{ section.settings.color_scheme }}">
+  {%- liquid
+    assign wiki_intro = section.settings.wiki_text | default: page.content
+    assign wiki_summary = section.settings.wiki_summary
+    assign wiki_footer_heading = section.settings.wiki_footer_heading | default: 'Le wiki prépare la lecture, puis renvoie vers un geste, une recette ou un produit.'
+
+    assign wiki_stage_image = section.settings.wiki_hero_image
+    assign wiki_card_1_image = section.settings.wiki_card_1_image
+    assign wiki_card_2_image = section.settings.wiki_card_2_image
+    assign wiki_card_3_image = section.settings.wiki_card_3_image
+
+    assign wiki_stage_asset = 'vd-wiki-cover.jpg'
+    assign wiki_card_1_asset = 'vd-wiki-botanique.jpg'
+    assign wiki_card_2_asset = 'vd-wiki-science.jpg'
+    assign wiki_card_3_asset = 'vd-wiki-cover.jpg'
+
+    assign wiki_primary_link = section.settings.wiki_primary_link | default: '/pages/recettes'
+    assign wiki_primary_label = section.settings.wiki_primary_link_label | default: 'Voir les recettes'
+    assign wiki_secondary_link = section.settings.wiki_secondary_link | default: routes.all_products_collection_url
+    assign wiki_secondary_label = section.settings.wiki_secondary_link_label | default: 'Retour au catalogue'
+    assign wiki_footer_primary_link = section.settings.wiki_footer_primary_link | default: '/pages/recettes'
+    assign wiki_footer_primary_label = section.settings.wiki_footer_primary_link_label | default: 'Voir les recettes'
+    assign wiki_footer_secondary_link = section.settings.wiki_footer_secondary_link | default: routes.all_products_collection_url
+    assign wiki_footer_secondary_label = section.settings.wiki_footer_secondary_link_label | default: 'Retour au catalogue'
+  -%}
+
+  <section class="section-{{ section.id }}-padding vd-wiki-page color-{{ section.settings.color_scheme }}">
     <div class="page-width">
-      <div class="vd-wiki-hub__hero">
-        <div class="vd-wiki-hub__copy">
-          {% if section.settings.wiki_eyebrow != blank %}
-            <span class="vd-section-kicker">{{ section.settings.wiki_eyebrow }}</span>
-          {% endif %}
+      <div class="vd-wiki-page__shell">
+        <div class="vd-wiki-page__hero">
+          <div class="vd-wiki-page__copy">
+            {% if section.settings.wiki_eyebrow != blank %}
+              <span class="vd-section-kicker">{{ section.settings.wiki_eyebrow }}</span>
+            {% endif %}
 
-          <h1 class="vd-wiki-hub__title">{{ section.settings.wiki_heading | default: page.title }}</h1>
+            <h1 class="vd-wiki-page__title">{{ section.settings.wiki_heading | default: page.title }}</h1>
 
-          <div class="vd-wiki-hub__text rte">
-            {{ section.settings.wiki_text | default: page.content }}
+            {% if wiki_intro != blank %}
+              <div class="vd-wiki-page__lede rte">
+                {{ wiki_intro }}
+              </div>
+            {% endif %}
+
+            <div class="vd-wiki-page__chips" aria-label="Chapitres du wiki">
+              <span class="vd-wiki-page__chip">{{ section.settings.wiki_card_1_title | default: 'Botanique & matière' }}</span>
+              <span class="vd-wiki-page__chip">{{ section.settings.wiki_card_2_title | default: 'Usages & recettes' }}</span>
+              <span class="vd-wiki-page__chip">{{ section.settings.wiki_card_3_title | default: 'Conseil & orientation' }}</span>
+            </div>
+
+            <div class="vd-wiki-page__actions">
+              <a href="{{ wiki_primary_link }}" class="vd-arrow-cta" data-vd-preview-link>
+                <span class="vd-arrow-cta__label">{{ wiki_primary_label }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </a>
+              <a href="{{ wiki_secondary_link }}" class="vd-arrow-cta" data-vd-preview-link>
+                <span class="vd-arrow-cta__label">{{ wiki_secondary_label }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="vd-wiki-page__stage">
+            <div class="vd-wiki-page__media">
+              {% if wiki_stage_image != blank %}
+                {{
+                  wiki_stage_image
+                  | image_url: width: 2200
+                  | image_tag:
+                    class: 'vd-wiki-page__media-image',
+                    widths: '720, 960, 1280, 1600, 2000, 2200',
+                    sizes: '(min-width: 990px) 44vw, 100vw',
+                    loading: 'eager',
+                    alt: section.settings.wiki_heading | default: page.title | escape
+                }}
+              {% else %}
+                <img
+                  class="vd-wiki-page__media-image"
+                  src="{{ wiki_stage_asset | asset_url }}"
+                  alt="{{ section.settings.wiki_heading | default: page.title | escape }}"
+                  loading="eager"
+                  width="1201"
+                  height="800"
+                >
+              {% endif %}
+
+              <figure class="vd-wiki-page__float vd-wiki-page__float--one">
+                {% if wiki_card_1_image != blank %}
+                  {{
+                    wiki_card_1_image
+                    | image_url: width: 800
+                    | image_tag:
+                      widths: '360, 540, 720, 800',
+                      sizes: '(min-width: 990px) 12rem, 36vw',
+                      loading: 'lazy',
+                      alt: section.settings.wiki_card_1_title | escape
+                  }}
+                {% else %}
+                  <img
+                    src="{{ wiki_card_1_asset | asset_url }}"
+                    alt="{{ section.settings.wiki_card_1_title | escape }}"
+                    loading="lazy"
+                    width="576"
+                    height="768"
+                  >
+                {% endif %}
+                <figcaption>{{ section.settings.wiki_card_1_kicker | default: 'Chapitre' }}</figcaption>
+              </figure>
+
+              <figure class="vd-wiki-page__float vd-wiki-page__float--two">
+                {% if wiki_card_3_image != blank %}
+                  {{
+                    wiki_card_3_image
+                    | image_url: width: 800
+                    | image_tag:
+                      widths: '360, 540, 720, 800',
+                      sizes: '(min-width: 990px) 12rem, 36vw',
+                      loading: 'lazy',
+                      alt: section.settings.wiki_card_3_title | escape
+                  }}
+                {% else %}
+                  <img
+                    src="{{ wiki_card_3_asset | asset_url }}"
+                    alt="{{ section.settings.wiki_card_3_title | escape }}"
+                    loading="lazy"
+                    width="1201"
+                    height="800"
+                  >
+                {% endif %}
+                <figcaption>{{ section.settings.wiki_card_3_kicker | default: 'Suite' }}</figcaption>
+              </figure>
+
+              {% if wiki_summary != blank %}
+                <div class="vd-wiki-page__summary">
+                  <span>{{ section.settings.wiki_summary_eyebrow | default: 'Structure' }}</span>
+                  <p>{{ wiki_summary }}</p>
+                </div>
+              {% endif %}
+            </div>
           </div>
         </div>
 
-        <div class="vd-wiki-hub__summary">
-          <span>{{ section.settings.wiki_summary_eyebrow | default: 'Point clé' }}</span>
-          <p>{{ section.settings.wiki_summary }}</p>
-          <div class="vd-wiki-hub__summary-links">
-            <a href="{{ section.settings.wiki_primary_link | default: '/pages/recettes' }}" class="vd-arrow-cta" data-vd-preview-link>
-              <span class="vd-arrow-cta__label">{{ section.settings.wiki_primary_link_label | default: 'Voir les recettes' }}</span>
-              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-              </svg>
-            </a>
-            <a href="{{ section.settings.wiki_secondary_link | default: routes.all_products_collection_url }}" class="vd-arrow-cta" data-vd-preview-link>
-              <span class="vd-arrow-cta__label">{{ section.settings.wiki_secondary_link_label | default: 'Retour au catalogue' }}</span>
-              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-              </svg>
-            </a>
-          </div>
+        <div class="vd-wiki-page__chapter-grid" role="list">
+          <article class="vd-wiki-page__chapter" role="listitem">
+            <div class="vd-wiki-page__chapter-media">
+              {% if wiki_card_1_image != blank %}
+                {{
+                  wiki_card_1_image
+                  | image_url: width: 1400
+                  | image_tag:
+                    widths: '540, 720, 960, 1200, 1400',
+                    sizes: '(min-width: 990px) 31vw, 100vw',
+                    loading: 'lazy',
+                    alt: section.settings.wiki_card_1_title | escape
+                }}
+              {% else %}
+                <img
+                  src="{{ wiki_card_1_asset | asset_url }}"
+                  alt="{{ section.settings.wiki_card_1_title | escape }}"
+                  loading="lazy"
+                  width="576"
+                  height="768"
+                >
+              {% endif %}
+            </div>
+
+            <div class="vd-wiki-page__chapter-body">
+              <span class="vd-wiki-page__chapter-meta">Chapitre 01</span>
+              <h2 class="vd-wiki-page__chapter-title">{{ section.settings.wiki_card_1_title | default: 'Botanique & matière' }}</h2>
+              {% if section.settings.wiki_card_1_text != blank %}
+                <div class="vd-wiki-page__chapter-text rte"><p>{{ section.settings.wiki_card_1_text }}</p></div>
+              {% endif %}
+              {% if section.settings.wiki_card_1_link_label != blank %}
+                <a href="{{ section.settings.wiki_card_1_link | default: routes.all_products_collection_url }}" class="vd-arrow-cta" data-vd-preview-link>
+                  <span class="vd-arrow-cta__label">{{ section.settings.wiki_card_1_link_label }}</span>
+                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                  </svg>
+                </a>
+              {% endif %}
+            </div>
+          </article>
+
+          <article class="vd-wiki-page__chapter" role="listitem">
+            <div class="vd-wiki-page__chapter-media">
+              {% if wiki_card_2_image != blank %}
+                {{
+                  wiki_card_2_image
+                  | image_url: width: 1400
+                  | image_tag:
+                    widths: '540, 720, 960, 1200, 1400',
+                    sizes: '(min-width: 990px) 31vw, 100vw',
+                    loading: 'lazy',
+                    alt: section.settings.wiki_card_2_title | escape
+                }}
+              {% else %}
+                <img
+                  src="{{ wiki_card_2_asset | asset_url }}"
+                  alt="{{ section.settings.wiki_card_2_title | escape }}"
+                  loading="lazy"
+                  width="1024"
+                  height="768"
+                >
+              {% endif %}
+            </div>
+
+            <div class="vd-wiki-page__chapter-body">
+              <span class="vd-wiki-page__chapter-meta">Chapitre 02</span>
+              <h2 class="vd-wiki-page__chapter-title">{{ section.settings.wiki_card_2_title | default: 'Usages & recettes' }}</h2>
+              {% if section.settings.wiki_card_2_text != blank %}
+                <div class="vd-wiki-page__chapter-text rte"><p>{{ section.settings.wiki_card_2_text }}</p></div>
+              {% endif %}
+              {% if section.settings.wiki_card_2_link_label != blank %}
+                <a href="{{ section.settings.wiki_card_2_link | default: '/pages/recettes' }}" class="vd-arrow-cta" data-vd-preview-link>
+                  <span class="vd-arrow-cta__label">{{ section.settings.wiki_card_2_link_label }}</span>
+                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                  </svg>
+                </a>
+              {% endif %}
+            </div>
+          </article>
+
+          <article class="vd-wiki-page__chapter" role="listitem">
+            <div class="vd-wiki-page__chapter-media">
+              {% if wiki_card_3_image != blank %}
+                {{
+                  wiki_card_3_image
+                  | image_url: width: 1400
+                  | image_tag:
+                    widths: '540, 720, 960, 1200, 1400',
+                    sizes: '(min-width: 990px) 31vw, 100vw',
+                    loading: 'lazy',
+                    alt: section.settings.wiki_card_3_title | escape
+                }}
+              {% else %}
+                <img
+                  src="{{ wiki_card_3_asset | asset_url }}"
+                  alt="{{ section.settings.wiki_card_3_title | escape }}"
+                  loading="lazy"
+                  width="1201"
+                  height="800"
+                >
+              {% endif %}
+            </div>
+
+            <div class="vd-wiki-page__chapter-body">
+              <span class="vd-wiki-page__chapter-meta">Chapitre 03</span>
+              <h2 class="vd-wiki-page__chapter-title">{{ section.settings.wiki_card_3_title | default: 'Conseil & orientation' }}</h2>
+              {% if section.settings.wiki_card_3_text != blank %}
+                <div class="vd-wiki-page__chapter-text rte"><p>{{ section.settings.wiki_card_3_text }}</p></div>
+              {% endif %}
+              {% if section.settings.wiki_card_3_link_label != blank %}
+                <a href="{{ section.settings.wiki_card_3_link | default: '/pages/contact' }}" class="vd-arrow-cta" data-vd-preview-link>
+                  <span class="vd-arrow-cta__label">{{ section.settings.wiki_card_3_link_label }}</span>
+                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                  </svg>
+                </a>
+              {% endif %}
+            </div>
+          </article>
         </div>
-      </div>
 
-      <div class="vd-wiki-hub__grid" role="list">
-        <article class="vd-wiki-hub__card vd-wiki-hub__card--feature" role="listitem">
-          <span>{{ section.settings.wiki_card_1_kicker }}</span>
-          <h3>{{ section.settings.wiki_card_1_title }}</h3>
-          <div class="vd-wiki-hub__card-text rte">
-            <p>{{ section.settings.wiki_card_1_text }}</p>
+        <div class="vd-wiki-page__bridge">
+          <div class="vd-wiki-page__bridge-copy">
+            <span class="vd-section-kicker">{{ section.settings.wiki_footer_eyebrow | default: 'Explorer la suite' }}</span>
+            <h2 class="vd-wiki-page__bridge-title">{{ wiki_footer_heading }}</h2>
+            <div class="vd-wiki-page__bridge-text rte">
+              <p>{{ wiki_summary | default: 'Une lecture qui rassure, compare et dirige vers la bonne action: produit, recette ou conseil.' }}</p>
+            </div>
           </div>
-          {% if section.settings.wiki_card_1_link_label != blank %}
-            <a href="{{ section.settings.wiki_card_1_link | default: routes.all_products_collection_url }}" class="vd-arrow-cta" data-vd-preview-link>
-              <span class="vd-arrow-cta__label">{{ section.settings.wiki_card_1_link_label }}</span>
-              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-              </svg>
-            </a>
-          {% endif %}
-        </article>
 
-        <article class="vd-wiki-hub__card" role="listitem">
-          <span>{{ section.settings.wiki_card_2_kicker }}</span>
-          <h3>{{ section.settings.wiki_card_2_title }}</h3>
-          <div class="vd-wiki-hub__card-text rte">
-            <p>{{ section.settings.wiki_card_2_text }}</p>
+          <div class="vd-wiki-page__bridge-actions">
+            <article class="vd-wiki-page__bridge-card">
+              <span>Passerelle</span>
+              <strong>{{ section.settings.wiki_card_2_title | default: 'Usages & recettes' }}</strong>
+              <p>{{ section.settings.wiki_card_2_text | default: 'Le wiki doit pouvoir basculer très vite vers un usage concret, une recette ou un geste simple.' }}</p>
+              <a href="{{ wiki_footer_primary_link }}" class="vd-arrow-cta" data-vd-preview-link>
+                <span class="vd-arrow-cta__label">{{ wiki_footer_primary_label }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </a>
+            </article>
+
+            <article class="vd-wiki-page__bridge-card">
+              <span>Conversion</span>
+              <strong>{{ section.settings.wiki_card_1_title | default: 'Botanique & matière' }}</strong>
+              <p>{{ section.settings.wiki_card_1_text | default: 'Quand le lecteur comprend la matière, il choisit mieux et convertit plus vite vers le bon produit.' }}</p>
+              <a href="{{ wiki_footer_secondary_link }}" class="vd-arrow-cta" data-vd-preview-link>
+                <span class="vd-arrow-cta__label">{{ wiki_footer_secondary_label }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </a>
+            </article>
           </div>
-          {% if section.settings.wiki_card_2_link_label != blank %}
-            <a href="{{ section.settings.wiki_card_2_link | default: '/pages/recettes' }}" class="vd-arrow-cta" data-vd-preview-link>
-              <span class="vd-arrow-cta__label">{{ section.settings.wiki_card_2_link_label }}</span>
-              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-              </svg>
-            </a>
-          {% endif %}
-        </article>
-
-        <article class="vd-wiki-hub__card" role="listitem">
-          <span>{{ section.settings.wiki_card_3_kicker }}</span>
-          <h3>{{ section.settings.wiki_card_3_title }}</h3>
-          <div class="vd-wiki-hub__card-text rte">
-            <p>{{ section.settings.wiki_card_3_text }}</p>
-          </div>
-          {% if section.settings.wiki_card_3_link_label != blank %}
-            <a href="{{ section.settings.wiki_card_3_link | default: '/pages/contact' }}" class="vd-arrow-cta" data-vd-preview-link>
-              <span class="vd-arrow-cta__label">{{ section.settings.wiki_card_3_link_label }}</span>
-              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-              </svg>
-            </a>
-          {% endif %}
-        </article>
-      </div>
-
-      <div class="vd-wiki-hub__foot">
-        <div class="vd-wiki-hub__foot-copy">
-          <span class="vd-section-kicker">{{ section.settings.wiki_footer_eyebrow | default: 'Explorer la suite' }}</span>
-          <h2>{{ section.settings.wiki_footer_heading | default: 'Le wiki prépare la lecture, puis renvoie vers un geste, une recette ou un produit.' }}</h2>
-        </div>
-        <div class="vd-wiki-hub__foot-links">
-          <a href="{{ section.settings.wiki_footer_primary_link | default: '/pages/recettes' }}" class="vd-arrow-cta" data-vd-preview-link>
-            <span class="vd-arrow-cta__label">{{ section.settings.wiki_footer_primary_link_label | default: 'Voir les recettes' }}</span>
-            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-            </svg>
-          </a>
-          <a href="{{ section.settings.wiki_footer_secondary_link | default: routes.all_products_collection_url }}" class="vd-arrow-cta" data-vd-preview-link>
-            <span class="vd-arrow-cta__label">{{ section.settings.wiki_footer_secondary_link_label | default: 'Retour au catalogue' }}</span>
-            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-            </svg>
-          </a>
         </div>
       </div>
     </div>
@@ -952,6 +1149,11 @@
       "label": "Lien secondaire wiki"
     },
     {
+      "type": "image_picker",
+      "id": "wiki_hero_image",
+      "label": "Image hero wiki"
+    },
+    {
       "type": "text",
       "id": "wiki_card_1_kicker",
       "label": "Carte 1 sur-titre",
@@ -979,6 +1181,11 @@
       "type": "url",
       "id": "wiki_card_1_link",
       "label": "Carte 1 lien"
+    },
+    {
+      "type": "image_picker",
+      "id": "wiki_card_1_image",
+      "label": "Image carte 1"
     },
     {
       "type": "text",
@@ -1010,6 +1217,11 @@
       "label": "Carte 2 lien"
     },
     {
+      "type": "image_picker",
+      "id": "wiki_card_2_image",
+      "label": "Image carte 2"
+    },
+    {
       "type": "text",
       "id": "wiki_card_3_kicker",
       "label": "Carte 3 sur-titre",
@@ -1037,6 +1249,11 @@
       "type": "url",
       "id": "wiki_card_3_link",
       "label": "Carte 3 lien"
+    },
+    {
+      "type": "image_picker",
+      "id": "wiki_card_3_image",
+      "label": "Image carte 3"
     },
     {
       "type": "text",
