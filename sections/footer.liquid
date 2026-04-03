@@ -62,6 +62,19 @@
     endfor
   endif
   assign footer_image = section.settings.background_image
+  assign footer_journal_kicker = section.settings.newsletter_kicker | strip
+  if footer_journal_kicker == blank or footer_journal_kicker == 'Journal de la maison'
+    assign footer_journal_kicker = 'Journal'
+  endif
+  assign footer_journal_heading = section.settings.newsletter_heading_shell | strip
+  if footer_journal_heading == blank or footer_journal_heading == 'Une correspondance plus rare, pas un bruit de plus.'
+    assign footer_journal_heading = 'Recevoir les nouvelles de la maison.'
+  endif
+  assign footer_journal_text_plain = section.settings.newsletter_text | strip_html | strip
+  assign footer_journal_text = section.settings.newsletter_text
+  if footer_journal_text_plain == blank or footer_journal_text_plain == 'Nouveaux lots, éditions limitées, recettes et matières à suivre avec un rythme plus juste.'
+    assign footer_journal_text = '<p>Arrivages choisis, éditions limitées et recettes à suivre sans bruit inutile.</p>'
+  endif
 -%}
 
 <footer
@@ -94,13 +107,13 @@
       <div class="vd-footer-millia__hero-shell">
         <div class="vd-footer-millia__hero-copy">
           <p class="vd-footer-millia__eyebrow" data-vd-footer-item>
-            {{ section.settings.newsletter_kicker | default: 'Journal de la maison' }}
+            {{ footer_journal_kicker }}
           </p>
           <h2 class="vd-footer-millia__hero-title" data-vd-footer-item>
-            {{ section.settings.newsletter_heading_shell | default: 'Une correspondance rare.' }}
+            {{ footer_journal_heading }}
           </h2>
           <div class="vd-footer-millia__hero-text rte" data-vd-footer-item>
-            {{ section.settings.newsletter_text }}
+            {{ footer_journal_text }}
           </div>
           {%- if section.settings.newsletter_enable -%}
             <div class="vd-footer-millia__hero-form" data-vd-footer-item>
