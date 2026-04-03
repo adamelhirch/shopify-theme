@@ -52,3 +52,60 @@ Follow this order strictly:
   - the Git commit/branch updated
 - If the user names a new preview version in a new chat, continue with the same
   preview-first workflow automatically.
+
+## Project understanding
+
+This repository is a Shopify theme based on Dawn 15.4.1, but it should be treated
+as a premium editorial brand system for Vanille Désiré, not as a standard
+e-commerce theme.
+
+Key product understanding:
+
+- The project blends catalogue, recipes, and WIKI into one brand journey.
+- The WIKI is a navigation pillar, not a secondary blog.
+- Editorial value and conversion must coexist: content should help sell without
+  losing pedagogical value.
+- When making design or architecture choices, prefer systems that strengthen
+  catalogue + recipes + WIKI relationships rather than isolated page styling.
+
+Relevant implementation mindset:
+
+- Treat the theme as content-first and brand-first.
+- Avoid hardcoding more editorial copy when structured content, metafields, or
+  reusable settings would be more stable.
+- Prefer stable content architecture over visual tricks tied only to item order
+  or loop indexes.
+- Keep preview helpers and QA logic centralized where possible instead of
+  duplicating them across multiple scripts.
+
+## WIKI direction for future versions
+
+For WIKI-focused work such as `v1.1.6`, the priority is not only visual polish.
+It should be treated as a structuring phase.
+
+Preferred direction:
+
+- Build a clearer WIKI architecture:
+  chapter -> sub-theme -> article
+- Create explicit bridges between WIKI, products, and recipes.
+- Move semantic meaning out of visual ordering when possible.
+- Standardize article structure:
+  hero, summary, key points, anchored summary, body, linked products, linked
+  recipes, next reading
+- Prefer structured content fields for:
+  chapter, level, usage, linked product, linked recipe, primary CTA, secondary
+  CTA, cover visual
+- Keep WIKI styles and scripts as isolated as possible instead of inflating the
+  largest global assets further
+
+## Operational caution
+
+Some repository documentation or helper scripts may reference older shared QA
+theme names or theme IDs.
+
+Non-negotiable rule:
+
+- If `AGENTS.md`, `COLLABORATION.md`, scripts, and the user message disagree,
+  the user-provided active preview name + theme ID wins.
+- Before any Shopify task, confirm the exact preview version and theme ID from
+  the current user context.

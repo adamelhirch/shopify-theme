@@ -7,6 +7,20 @@
 - Shared QA theme: `QA Shared v1.1` (`181079441675`)
 - Frozen backup theme: `QA Shared v1` (`181070168331`)
 
+## Important warning
+
+Theme names and IDs in this file can become outdated.
+
+Always follow this priority order:
+
+1. Current user instruction in the active chat
+2. `AGENTS.md`
+3. Local helper scripts
+4. This file
+
+If the user gives a newer preview name or theme ID, that current preview becomes
+the source of truth immediately.
+
 ## Rules
 
 - Never implement directly on `main`.
@@ -34,7 +48,7 @@ Start local development:
 Push current local code to the shared QA theme:
 
 ```bash
-./bin/theme-push-qa.sh
+SHOPIFY_QA_THEME_ID=<current-theme-id> ./bin/theme-push-qa.sh
 ```
 
 ## Important distinction
