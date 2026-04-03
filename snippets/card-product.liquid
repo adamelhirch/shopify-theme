@@ -16,6 +16,9 @@
   - horizontal_class: {Boolean} Add a card--horizontal class if set to true. Default: false (optional)
   - horizontal_quick_add: {Boolean} Changes the quick add button styles when set to true. Default: false (optional)
   - placeholder_image: {String} The placeholder image to use when no product exists. Default: 'product-apparel-2' (optional)
+  - editorial_card: {Boolean} Apply the premium editorial card treatment (optional)
+  - premium_card: {Boolean} Render the modern premium card layout (optional)
+  - card_surface: {String} Surface variant for premium cards: "dark" or "light" (optional)
 
   Usage:
   {% render 'card-product', show_vendor: section.settings.show_vendor %}
@@ -31,6 +34,10 @@
 {%- if card_product and card_product != empty -%}
   {%- liquid
     assign ratio = 1
+    assign card_subtitle = blank
+    assign card_variant_label = card_product.selected_or_first_available_variant.title
+    assign card_meta_label = blank
+
     if card_product.featured_media and media_aspect_ratio == 'portrait'
       assign ratio = 0.8
     elsif card_product.featured_media and media_aspect_ratio == 'adapt'
@@ -39,8 +46,84 @@
     if ratio == 0 or ratio == null
       assign ratio = 1
     endif
+
+    if card_product.metafields.descriptors.subtitle.value != blank
+      assign card_subtitle = card_product.metafields.descriptors.subtitle.value
+    endif
+
+    if card_variant_label == 'Default Title'
+      assign card_variant_label = blank
+    endif
+
+    if show_product_type and card_product.type != blank
+      assign card_meta_label = card_product.type
+    elsif show_vendor and card_product.vendor != blank
+      assign card_meta_label = card_product.vendor
+    endif
   -%}
-  <div class="card-wrapper product-card-wrapper underline-links-hover">
+  {%- if premium_card -%}
+    <article class="vd-premium-card vd-premium-card--{{ card_surface | default: 'dark' }}">
+      <a href="{{ card_product.url }}" class="vd-premium-card__link">
+        <span class="vd-premium-card__shine" aria-hidden="true"></span>
+        <span class="vd-premium-card__glow" aria-hidden="true"></span>
+        <div class="vd-premium-card__content">
+          <div class="vd-premium-card__media">
+            {%- if card_product.featured_media -%}
+              <img
+                srcset="
+                  {%- if card_product.featured_media.width >= 320 -%}{{ card_product.featured_media | image_url: width: 320 }} 320w,{%- endif -%}
+                  {%- if card_product.featured_media.width >= 480 -%}{{ card_product.featured_media | image_url: width: 480 }} 480w,{%- endif -%}
+                  {%- if card_product.featured_media.width >= 720 -%}{{ card_product.featured_media | image_url: width: 720 }} 720w,{%- endif -%}
+                  {%- if card_product.featured_media.width >= 960 -%}{{ card_product.featured_media | image_url: width: 960 }} 960w,{%- endif -%}
+                  {{ card_product.featured_media | image_url }} {{ card_product.featured_media.width }}w
+                "
+                src="{{ card_product.featured_media | image_url: width: 720 }}"
+                sizes="(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw"
+                alt="{{ card_product.featured_media.alt | escape }}"
+                class="vd-premium-card__image"
+                {% unless lazy_load == false %}
+                  loading="lazy"
+                {% endunless %}
+                width="{{ card_product.featured_media.width }}"
+                height="{{ card_product.featured_media.height }}"
+              >
+            {%- endif -%}
+            {%- if card_product.available == false -%}
+              <span class="vd-premium-card__badge">{{ 'products.product.sold_out' | t }}</span>
+            {%- elsif card_product.compare_at_price > card_product.price and card_product.available -%}
+              <span class="vd-premium-card__badge">{{ 'products.product.on_sale' | t }}</span>
+            {%- endif -%}
+          </div>
+          <div class="vd-premium-card__text">
+            {%- if card_meta_label != blank -%}
+              <p class="vd-premium-card__eyebrow">{{ card_meta_label }}</p>
+            {%- endif -%}
+            <h3 class="vd-premium-card__title">{{ card_product.title | escape }}</h3>
+            {%- if show_subtitle and card_subtitle != blank -%}
+              <p class="vd-premium-card__description">{{ card_subtitle | escape }}</p>
+            {%- endif -%}
+          </div>
+          <div class="vd-premium-card__footer">
+            <div class="vd-premium-card__price">
+              {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
+            </div>
+            <span class="vd-premium-card__button" aria-hidden="true">
+              <svg height="16" width="16" viewBox="0 0 24 24">
+                <path
+                  stroke-width="2"
+                  stroke="currentColor"
+                  d="M4 12H20M12 4V20"
+                  fill="none"
+                  stroke-linecap="round"
+                ></path>
+              </svg>
+            </span>
+          </div>
+        </div>
+      </a>
+    </article>
+  {%- else -%}
+  <div class="card-wrapper product-card-wrapper underline-links-hover{% if editorial_card %} card-wrapper--editorial{% endif %}">
     <div
       class="
         card card--{{ settings.card_style }}
@@ -53,6 +136,10 @@
       "
       style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
     >
+      {% if editorial_card %}
+        <div class="vd-editorial-card__shine" aria-hidden="true"></div>
+        <div class="vd-editorial-card__glow" aria-hidden="true"></div>
+      {% endif %}
       <div
         class="card__inner {% if settings.card_style == 'standard' %}color-{{ settings.card_color_scheme }} gradient{% endif %}{% if card_product.featured_media or settings.card_style == 'standard' %} ratio{% endif %}"
         style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
@@ -161,12 +248,20 @@
             </a>
           </h3>
           <div class="card-information">
-            {%- if show_vendor -%}
-              <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
-              <div class="caption-with-letter-spacing light">{{ card_product.vendor }}</div>
+            {%- if card_meta_label != blank or card_variant_label != blank -%}
+              <div class="card-information__eyebrow">
+                {%- if card_meta_label != blank -%}
+                  <span>{{ card_meta_label }}</span>
+                {%- endif -%}
+                {%- if card_variant_label != blank -%}
+                  <span>{{ card_variant_label }}</span>
+                {%- endif -%}
+              </div>
             {%- endif -%}
 
-            <span class="caption-large light">{{ block.settings.description | escape }}</span>
+            {%- if show_subtitle and card_subtitle != blank -%}
+              <p class="card-information__subtitle">{{ card_subtitle | escape }}</p>
+            {%- endif -%}
 
             {%- if show_rating and card_product.metafields.reviews.rating.value != blank -%}
               {% liquid
@@ -204,7 +299,19 @@
               </p>
             {%- endif -%}
 
-            {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
+            <div class="card-information__footer">
+              <div class="card-information__price">
+                {% render 'price', product: card_product, price_class: '', show_compare_at_price: true %}
+              </div>
+              <span class="card-information__cta" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                  <path
+                    fill="currentColor"
+                    d="M11 4h2v6h6v2h-6v6h-2v-6H5v-2h6z"
+                  ></path>
+                </svg>
+              </span>
+            </div>
             {%- if card_product.quantity_price_breaks_configured? -%}
               {% if card_product.variants_count == 1 and quick_add == 'bulk' %}
                 {% liquid
@@ -568,6 +675,7 @@
       </div>
     </div>
   </div>
+  {%- endif -%}
 {%- else -%}
   {%- liquid
     assign ratio = 1

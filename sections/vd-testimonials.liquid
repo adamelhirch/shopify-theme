@@ -27,90 +27,22 @@
   data-vd-testimonials-section
   data-vd-testimonials-limit="{{ section.settings.reviews_limit }}"
 >
-  <div class="page-width vd-testimonials__header-shell" data-vd-testimonials-header>
-    <div class="vd-testimonials__head" data-vd-testimonials-head>
-      <div class="vd-testimonials__intro">
+  <div class="page-width vd-testimonials__header-shell">
+    <div class="vd-testimonials__head">
+      <div>
         {% if section.settings.eyebrow != blank %}
           <span class="vd-section-kicker">{{ section.settings.eyebrow }}</span>
         {% endif %}
 
         {% if section.settings.heading != blank %}
-          <h2 class="vd-testimonials__title" data-vd-testimonials-title>{{ section.settings.heading }}</h2>
+          <h2 class="vd-testimonials__title">{{ section.settings.heading }}</h2>
         {% endif %}
       </div>
 
-      <div class="vd-testimonials__aside">
-        {% if section.settings.text != blank %}
-          <div class="vd-testimonials__text rte" data-vd-testimonials-copy>{{ section.settings.text }}</div>
-        {% endif %}
-
-        <div class="vd-testimonials__trust" data-vd-testimonials-trust>
-          <span class="vd-testimonials__trust-label">
-            {% if has_judgeme_data %}
-              Judge.me
-            {% else %}
-              Apercu
-            {% endif %}
-          </span>
-
-          <div class="vd-testimonials__trust-copy">
-            <strong>{{ jdgm_reviews_rating | round: 1 }}/5</strong>
-            <span>
-              {{ jdgm_reviews_count }} avis
-              {% if has_judgeme_data %}
-                verifies
-              {% else %}
-                en exemple
-              {% endif %}
-            </span>
-          </div>
-        </div>
-      </div>
+      {% if section.settings.text != blank %}
+        <div class="vd-testimonials__text rte">{{ section.settings.text }}</div>
+      {% endif %}
     </div>
-  </div>
-
-  <div class="page-width vd-testimonials__featured-shell" data-vd-testimonials-featured-shell>
-    <article class="vd-testimonials__featured" data-vd-testimonials-featured>
-      <div class="vd-testimonials__featured-topline">
-        <span class="vd-testimonials__featured-source" data-vd-testimonials-featured-source>
-          {% if has_judgeme_data %}
-            Avis verifies
-          {% else %}
-            Avis clients
-          {% endif %}
-        </span>
-        <div class="vd-testimonials__featured-stars" data-vd-testimonials-featured-stars aria-hidden="true"></div>
-      </div>
-
-      <div class="vd-testimonials__featured-product-wrap" data-vd-testimonials-featured-product-wrap hidden>
-        <a href="#" class="vd-testimonials__featured-product-link" data-vd-testimonials-featured-product></a>
-      </div>
-
-      <blockquote class="vd-testimonials__featured-quote" data-vd-testimonials-featured-quote></blockquote>
-
-      <div class="vd-testimonials__featured-footer">
-        <div class="vd-testimonials__featured-meta">
-          <strong data-vd-testimonials-featured-author></strong>
-          <span data-vd-testimonials-featured-date></span>
-        </div>
-
-        {% if section.settings.button_label != blank %}
-          <a
-            href="{{ section.settings.button_link | default: '#' }}"
-            class="vd-arrow-cta vd-testimonials__cta"
-            data-vd-testimonials-cta
-            {% if section.settings.button_link != blank %}
-              data-vd-testimonials-static-link="true"
-            {% endif %}
-          >
-            <span class="vd-arrow-cta__label">{{ section.settings.button_label }}</span>
-            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-            </svg>
-          </a>
-        {% endif %}
-      </div>
-    </article>
   </div>
 
   <div class="vd-testimonials__stage" data-vd-testimonials-stage>
@@ -127,17 +59,7 @@
             {% endif %}
             {{ block.shopify_attributes }}
           >
-            <article
-              class="vd-testimonials__card-shell"
-              data-vd-testimonial-shell
-              tabindex="0"
-              data-vd-testimonial-rating="{{ rating }}"
-              data-vd-testimonial-author="{{ block.settings.author | escape }}"
-              data-vd-testimonial-date="{{ block.settings.location | escape }}"
-              data-vd-testimonial-product="{{ block.settings.meta | escape }}"
-              data-vd-testimonial-quote="{{ block.settings.quote | strip_html | escape }}"
-              data-vd-testimonial-source-label="{% if has_judgeme_data %}Avis verifie via Judge.me{% else %}Avis client{% endif %}"
-            >
+            <article class="vd-testimonials__card-shell">
               <div class="vd-testimonials__card-top">
                 <div class="vd-testimonials__stars" aria-hidden="true">
                   {% for i in (1..5) %}
@@ -157,7 +79,7 @@
               </div>
 
               {% if block.settings.quote != blank %}
-                <blockquote class="vd-testimonials__quote" data-vd-testimonial-quote>{{ block.settings.quote }}</blockquote>
+                <blockquote class="vd-testimonials__quote">{{ block.settings.quote }}</blockquote>
               {% endif %}
 
               <div class="vd-testimonials__meta">
@@ -179,6 +101,48 @@
           {{ shop.metafields.judgeme.featured_carousel }}
         {% endif %}
       </div>
+    </div>
+  </div>
+
+  <div class="page-width vd-testimonials__footer-shell">
+    <div class="vd-testimonials__footer">
+      <div class="vd-testimonials__trust">
+        <span class="vd-testimonials__trust-label">
+          {% if has_judgeme_data %}
+            Judge.me
+          {% else %}
+            Apercu
+          {% endif %}
+        </span>
+
+        <div class="vd-testimonials__trust-copy">
+          <strong>{{ jdgm_reviews_rating | round: 1 }}/5</strong>
+          <span>
+            {{ jdgm_reviews_count }} avis
+            {% if has_judgeme_data %}
+              verifies
+            {% else %}
+              en exemple
+            {% endif %}
+          </span>
+        </div>
+      </div>
+
+      {% if section.settings.button_label != blank %}
+        <a
+          href="{{ section.settings.button_link | default: '#' }}"
+          class="vd-arrow-cta vd-testimonials__cta"
+          data-vd-testimonials-cta
+          {% if section.settings.button_link != blank %}
+            data-vd-testimonials-static-link="true"
+          {% endif %}
+        >
+          <span class="vd-arrow-cta__label">{{ section.settings.button_label }}</span>
+          <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+            <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+          </svg>
+        </a>
+      {% endif %}
     </div>
   </div>
 </section>

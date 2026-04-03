@@ -125,6 +125,10 @@
                   show_secondary_image: section.settings.show_secondary_image,
                   show_vendor: section.settings.show_vendor,
                   show_rating: section.settings.show_rating,
+                  show_subtitle: section.settings.show_subtitle,
+                  show_product_type: section.settings.show_product_type,
+                  premium_card: true,
+                  card_surface: section.settings.card_surface,
                   skip_styles: skip_card_product_styles,
                   section_id: section.id,
                   quick_add: section.settings.quick_add
@@ -447,6 +451,34 @@
       "default": false,
       "label": "t:sections.featured-collection.settings.show_rating.label",
       "info": "t:sections.featured-collection.settings.show_rating.info"
+    },
+    {
+      "type": "select",
+      "id": "card_surface",
+      "label": "Surface des vignettes",
+      "default": "dark",
+      "options": [
+        {
+          "value": "dark",
+          "label": "Sombre"
+        },
+        {
+          "value": "light",
+          "label": "Clair"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subtitle",
+      "default": false,
+      "label": "Afficher le sous-titre"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_type",
+      "default": true,
+      "label": "Afficher la famille produit"
     },
     {
       "type": "select",

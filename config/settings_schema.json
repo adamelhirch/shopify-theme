@@ -200,6 +200,45 @@
     ]
   },
   {
+    "name": "Produits",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Fond global applique aux fiches produit quand aucun media de fond local n’est defini dans la section."
+      },
+      {
+        "type": "image_picker",
+        "id": "vd_product_default_background_image",
+        "label": "Image de fond produit globale"
+      },
+      {
+        "type": "video",
+        "id": "vd_product_default_background_video",
+        "label": "Video Shopify de fond produit globale"
+      },
+      {
+        "type": "range",
+        "id": "vd_product_default_background_overlay_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "Opacite du voile produit",
+        "default": 60
+      },
+      {
+        "type": "range",
+        "id": "vd_product_default_background_blur",
+        "min": 0,
+        "max": 32,
+        "step": 2,
+        "unit": "px",
+        "label": "Flou du fond produit",
+        "default": 12
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.animations.name",
     "settings": [
       {

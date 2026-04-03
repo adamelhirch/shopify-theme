@@ -19,7 +19,7 @@
       "settings": {
         "eyebrow": "Questions frequentes",
         "heading": "Une FAQ plus claire que defensive.",
-        "text": "<p>Le but n'est pas d'empiler des reponses administratives, mais de lever les doutes utiles sur les produits, la conservation, la livraison et les demandes professionnelles.</p>",
+        "text": "<p>Des réponses utiles sur les produits, la conservation, la livraison et les demandes professionnelles, dans une lecture simple et rassurante.</p>",
         "primary_button_label": "Voir la collection",
         "primary_button_link": "shopify://collections/vanille-bourbon",
         "secondary_button_label": "Nous contacter",
@@ -108,7 +108,7 @@
       "settings": {
         "eyebrow": "Rassurance",
         "heading": "Une FAQ qui prolonge la confiance.",
-        "text": "<p>La page doit non seulement repondre, mais aussi confirmer la tenue de marque et la qualite percue du site.</p>",
+        "text": "<p>Une page claire pour lever les doutes et prolonger la confiance autour des produits et du service.</p>",
         "reviews_limit": "6",
         "button_label": "Voir les produits",
         "button_link": "shopify://collections/vanille-bourbon",

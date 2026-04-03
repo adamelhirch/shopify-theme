@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -11,9 +20,9 @@
         "topic_1": {
           "type": "item",
           "settings": {
-            "kicker": "Lecture",
-            "title": "Nommer les produits sans perdre le client",
-            "text": "<p>Le glossaire doit clarifier les familles aromatiques, les formats et les termes techniques avec une ecriture simple, pas encyclopedique.</p>",
+            "kicker": "Repère",
+            "title": "Nommer les produits avec clarté",
+            "text": "<p>Clarifier les familles aromatiques, les formats et les termes techniques avec une écriture simple, jamais encyclopédique.</p>",
             "link_label": "Voir les produits",
             "link": "shopify://collections/all"
           }
@@ -23,7 +32,7 @@
           "settings": {
             "kicker": "Usage",
             "title": "Associer chaque terme a un geste concret",
-            "text": "<p>Un bon glossaire ne definit pas seulement. Il aide a cuisiner, choisir, doser et comparer les options de la gamme.</p>",
+            "text": "<p>Un bon glossaire aide à cuisiner, choisir, doser et comparer les options de la gamme.</p>",
             "link_label": "Aller aux recettes",
             "link": "shopify://pages/recettes"
           }
@@ -33,7 +42,7 @@
           "settings": {
             "kicker": "Evolution",
             "title": "Une base faite pour etre enrichie ensuite",
-            "text": "<p>Vous pourrez y ajouter des ancrages alphabetiques, des visuels matiere et des videos plus tard. Pour l'instant, la page retrouve une forme premium et lisible.</p>",
+            "text": "<p>Une base claire pour accueillir ensuite des repères alphabétiques, des visuels matière et des compléments plus détaillés.</p>",
             "link_label": "Nous parler",
             "link": "shopify://pages/contact"
           }
@@ -47,8 +56,8 @@
       "settings": {
         "eyebrow": "Le Wiki",
         "heading": "Glossaire des produits & usages",
-        "text": "<p>Cette page doit devenir une porte d'entree pedagogique: on definit peu, mais on definit bien, avec un style plus severe et plus haut de gamme.</p>",
-        "summary": "Le glossaire sert a rassurer et orienter. Il doit faire gagner du temps au lieu de demander un effort de lecture.",
+        "text": "<p>Une porte d’entrée pédagogique pour définir peu, mais définir juste, avec une lecture sobre et haut de gamme.</p>",
+        "summary": "Le glossaire sert à rassurer, orienter et faire gagner du temps dès la première lecture.",
         "color_scheme": "scheme-3",
         "padding_top": 20,
         "padding_bottom": 56

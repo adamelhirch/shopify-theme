@@ -1,4 +1,5 @@
 {{ 'vd-wiki-teaser.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'vd-preview-links.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'vd-wiki-teaser.js' | asset_url }}" defer="defer"></script>
 
 {% style %}
@@ -40,6 +41,16 @@
     <div class="vd-wiki-teaser__backdrop-blur" style="filter: url('#vd-wiki-motion-blur-{{ section.id }}');">
       {% for block in section.blocks limit: 3 %}
         {%- liquid
+          assign chapter_key = block.settings.chapter_key
+          if chapter_key == blank
+            assign chapter_key = 'botanique'
+            if forloop.index == 2
+              assign chapter_key = 'terroirs'
+            elsif forloop.index == 3
+              assign chapter_key = 'techniques'
+            endif
+          endif
+
           assign fallback_asset = 'vd-wiki-botanique.jpg'
           assign fallback_width = 1350
           assign fallback_height = 1800
@@ -49,11 +60,11 @@
             assign has_chapter_video = true
           endif
 
-          if forloop.index == 2
+          if chapter_key == 'terroirs'
             assign fallback_asset = 'vd-wiki-terroirs.jpg'
             assign fallback_width = 1800
             assign fallback_height = 1350
-          elsif forloop.index == 3
+          elsif chapter_key == 'techniques'
             assign fallback_asset = 'vd-wiki-science.jpg'
             assign fallback_width = 1800
             assign fallback_height = 1350
@@ -118,30 +129,43 @@
         <div class="vd-wiki-teaser__track" data-vd-wiki-track role="list">
           {% for block in section.blocks %}
             {%- liquid
-              assign chapter_key = 'botanique'
+              assign chapter_key = block.settings.chapter_key
+              if chapter_key == blank
+                assign chapter_key = 'botanique'
+                if forloop.index == 2
+                  assign chapter_key = 'terroirs'
+                elsif forloop.index == 3
+                  assign chapter_key = 'techniques'
+                endif
+              endif
+
               assign fallback_asset = 'vd-wiki-botanique.jpg'
               assign fallback_secondary = 'vd-wiki-terroirs.jpg'
               assign fallback_tertiary = 'vd-wiki-science.jpg'
               assign fallback_width = 1350
               assign fallback_height = 1800
-              assign chapter_cursor = 'Explorer'
+              assign chapter_cursor = block.settings.cursor_label
 
-              if forloop.index == 2
-                assign chapter_key = 'terroirs'
+              if chapter_key == 'terroirs'
                 assign fallback_asset = 'vd-wiki-terroirs.jpg'
                 assign fallback_secondary = 'vd-wiki-botanique.jpg'
                 assign fallback_tertiary = 'vd-wiki-science.jpg'
                 assign fallback_width = 1800
                 assign fallback_height = 1350
-                assign chapter_cursor = 'Decouvrir'
-              elsif forloop.index == 3
-                assign chapter_key = 'techniques'
+                if chapter_cursor == blank
+                  assign chapter_cursor = 'Decouvrir'
+                endif
+              elsif chapter_key == 'techniques'
                 assign fallback_asset = 'vd-wiki-science.jpg'
                 assign fallback_secondary = 'vd-wiki-botanique.jpg'
                 assign fallback_tertiary = 'vd-wiki-terroirs.jpg'
                 assign fallback_width = 1800
                 assign fallback_height = 1350
-                assign chapter_cursor = 'Observer'
+                if chapter_cursor == blank
+                  assign chapter_cursor = 'Observer'
+                endif
+              elsif chapter_cursor == blank
+                assign chapter_cursor = 'Explorer'
               endif
 
               assign slide_link_label = block.settings.link_label
@@ -189,6 +213,7 @@
                         class="vd-inline-link"
                         href="{{ block.settings.link }}"
                         data-vd-wiki-cursor-label="Entrer"
+                        data-vd-preview-link
                       >
                         {{ slide_link_label }}
                       </a>
@@ -197,8 +222,8 @@
                 </div>
 
                 <div class="vd-wiki-teaser__stage" data-vd-wiki-stage>
-                  {% case forloop.index %}
-                    {% when 1 %}
+                  {% case chapter_key %}
+                    {% when 'botanique' %}
                       <div class="vd-wiki-teaser__stage-shell vd-wiki-teaser__stage-shell--botanique" data-vd-wiki-stage-main>
                         <div class="vd-wiki-teaser__macro-frame" data-vd-wiki-video-index="{{ forloop.index0 }}">
                           {% if has_chapter_video %}
@@ -238,7 +263,7 @@
                           <div class="vd-wiki-teaser__film-grain"></div>
                         </div>
                       </div>
-                    {% when 2 %}
+                    {% when 'terroirs' %}
                       <div class="vd-wiki-teaser__stage-shell vd-wiki-teaser__stage-shell--terroirs" data-vd-wiki-stage-main>
                         <div class="vd-wiki-teaser__map-frame">
                           <div
@@ -255,7 +280,7 @@
                           </div>
                         </div>
                       </div>
-                    {% else %}
+                    {% when 'techniques' %}
                       <div class="vd-wiki-teaser__stage-shell vd-wiki-teaser__stage-shell--techniques" data-vd-wiki-stage-main>
                         <div class="vd-wiki-teaser__cinema-grid">
                           <div class="vd-wiki-teaser__cinema-frame vd-wiki-teaser__cinema-frame--hero" data-vd-wiki-video-index="{{ forloop.index0 }}">
@@ -286,6 +311,46 @@
                           </div>
                         </div>
                       </div>
+                    {% else %}
+                      <div class="vd-wiki-teaser__stage-shell vd-wiki-teaser__stage-shell--botanique" data-vd-wiki-stage-main>
+                        <div class="vd-wiki-teaser__macro-frame" data-vd-wiki-video-index="{{ forloop.index0 }}">
+                          {% if has_chapter_video %}
+                            {{
+                              block.settings.video
+                              | video_tag:
+                                class: 'vd-wiki-teaser__macro-video',
+                                autoplay: true,
+                                loop: true,
+                                muted: true,
+                                controls: false,
+                                playsinline: true,
+                                preload: 'metadata',
+                                image_size: '1800x'
+                            }}
+                          {% elsif block.settings.image != blank %}
+                            {{
+                              block.settings.image
+                              | image_url: width: 2200
+                              | image_tag:
+                                class: 'vd-wiki-teaser__macro-image',
+                                widths: '800, 1200, 1600, 2000, 2200',
+                                sizes: '(min-width: 990px) 54vw, 100vw',
+                                loading: 'lazy',
+                                alt: block.settings.image.alt | default: block.settings.title | escape
+                            }}
+                          {% else %}
+                            <img
+                              class="vd-wiki-teaser__macro-image"
+                              src="{{ fallback_asset | asset_url }}"
+                              alt="{{ block.settings.title | escape }}"
+                              loading="lazy"
+                              width="{{ fallback_width }}"
+                              height="{{ fallback_height }}"
+                            >
+                          {% endif %}
+                          <div class="vd-wiki-teaser__film-grain"></div>
+                        </div>
+                      </div>
                   {% endcase %}
                 </div>
               </div>
@@ -304,6 +369,7 @@
             {% endif %}
             class="vd-arrow-cta vd-wiki-teaser__cta-link{% if section.settings.button_link == blank %} is-disabled{% endif %}"
             data-vd-wiki-cursor-label="Explorer"
+            data-vd-preview-link
           >
             <span class="vd-arrow-cta__label">{{ section.settings.button_label }}</span>
             <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
@@ -406,6 +472,26 @@
       "limit": 3,
       "settings": [
         {
+          "type": "select",
+          "id": "chapter_key",
+          "label": "Cle chapitre",
+          "default": "botanique",
+          "options": [
+            {
+              "value": "botanique",
+              "label": "Botanique"
+            },
+            {
+              "value": "terroirs",
+              "label": "Terroirs"
+            },
+            {
+              "value": "techniques",
+              "label": "Techniques"
+            }
+          ]
+        },
+        {
           "type": "text",
           "id": "number",
           "label": "Numero",
@@ -449,6 +535,12 @@
         },
         {
           "type": "text",
+          "id": "cursor_label",
+          "label": "Libelle curseur",
+          "default": "Explorer"
+        },
+        {
+          "type": "text",
           "id": "link_label",
           "label": "Libelle lien",
           "default": "Explorer"
@@ -478,6 +570,7 @@
         {
           "type": "wiki_chapter",
           "settings": {
+            "chapter_key": "botanique",
             "number": "01",
             "category": "Botanique",
             "title": "Botanique",
@@ -490,6 +583,7 @@
         {
           "type": "wiki_chapter",
           "settings": {
+            "chapter_key": "terroirs",
             "number": "02",
             "category": "Terroirs & Crus",
             "title": "Terroirs",
@@ -502,6 +596,7 @@
         {
           "type": "wiki_chapter",
           "settings": {
+            "chapter_key": "techniques",
             "number": "03",
             "category": "Techniques",
             "title": "Le Geste",

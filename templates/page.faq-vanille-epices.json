@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -10,7 +19,7 @@
       "settings": {
         "eyebrow": "Le Wiki",
         "heading": "FAQ Vanille & epices",
-        "text": "<p>Une base FAQ plus propre, plus calme et plus premium. Le but est de lever les doutes utiles sans laisser la page repartir dans un theme visuel hors sujet.</p>",
+        "text": "<p>Des réponses utiles pour lever les doutes sur les produits, la conservation, la livraison et les demandes plus spécifiques.</p>",
         "primary_button_label": "Voir les produits",
         "primary_button_link": "shopify://collections/all",
         "secondary_button_label": "Nous contacter",
@@ -93,21 +102,21 @@
           "type": "pillar",
           "settings": {
             "title": "FAQ utile",
-            "text": "<p>Elle doit aider a acheter, pas juste exister pour le SEO ou pour faire volume.</p>"
+            "text": "<p>Une FAQ utile aide à choisir, rassure avant achat et répond simplement aux questions récurrentes.</p>"
           }
         },
         "pillar_2": {
           "type": "pillar",
           "settings": {
             "title": "Tonalite premium",
-            "text": "<p>On repond clairement, sans brutaliser l'utilisateur avec une vieille UI ou des couleurs hors DA.</p>"
+            "text": "<p>Une réponse claire, sobre et crédible, dans une lecture cohérente avec le reste de la maison.</p>"
           }
         },
         "pillar_3": {
           "type": "pillar",
           "settings": {
             "title": "Pont vers la suite",
-            "text": "<p>Produit, wiki, recette ou contact: chaque reponse doit pouvoir prolonger le parcours.</p>"
+            "text": "<p>Produit, wiki, recette ou contact: chaque réponse peut prolonger naturellement le parcours.</p>"
           }
         }
       },
@@ -117,8 +126,8 @@
         "pillar_3"
       ],
       "settings": {
-        "heading": "Une FAQ redevenue coherente avec le reste du site.",
-        "text": "<p>Cette base est plus forte visuellement et surtout beaucoup plus maintenable que les vieux blocs inline.</p>",
+        "heading": "Une FAQ cohérente avec le reste du site.",
+        "text": "<p>Une base claire pour répondre vite, rassurer et orienter ensuite vers le bon produit ou la bonne page.</p>",
         "color_scheme": "scheme-2",
         "padding_top": 20,
         "padding_bottom": 56

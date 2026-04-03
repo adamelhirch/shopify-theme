@@ -1,9 +1,16 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "vd_hero_premium_YyXL7E": {
       "type": "vd-hero",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "eyebrow": "Producteurs directs de Madagascar",
         "heading": "",
@@ -56,7 +63,6 @@
             "title": "Fecondation manuelle",
             "text": "<p>Chaque fleur est pollinisee a la main, au bon moment, avec un geste rapide et precis qui ne laisse aucune place a l'approximation.</p>",
             "image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
-            "video": "",
             "quote": "\"La saveur commence avant la gousse.\""
           }
         },
@@ -67,7 +73,6 @@
             "title": "Maturation en climat reel",
             "text": "<p>La liane evolue au rythme de Madagascar. On laisse le temps faire son travail avant toute recolte, sans acceleration ni standardisation.</p>",
             "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg",
-            "video": "",
             "quote": "\"Le temps reste notre premier allie.\""
           }
         },
@@ -78,7 +83,6 @@
             "title": "Affinage et tri final",
             "text": "<p>Echaudage, etuvage, sechage puis affinage: une suite d'etapes lentes qui construit la souplesse, la brillance et la profondeur aromatique.</p>",
             "image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
-            "video": "",
             "quote": "\"Le profil final se construit couche apres couche.\""
           }
         }
@@ -104,7 +108,6 @@
       "settings": {
         "eyebrow": "Nos produits en vedette",
         "heading": "Une galerie qui met la collection en mouvement.",
-        "text": "<p>On passe sur toute la largeur de la page avec un rail horizontal plus immersif, pour donner aux produits une lecture plus premium qu'une simple grille.</p>",
         "collection": "vanille-bourbon",
         "products_to_show": 6,
         "button_label": "Voir toute la collection",
@@ -206,8 +209,7 @@
             "detail_three": "Floraison eclair",
             "link_label": "Entrer dans le chapitre",
             "link": "shopify://blogs/le-wiki",
-            "image": "",
-            "video": ""
+            "image": ""
           }
         },
         "wiki_2": {
@@ -222,8 +224,7 @@
             "detail_three": "Altitude douce",
             "link_label": "Voir les origines",
             "link": "shopify://blogs/le-wiki",
-            "image": "",
-            "video": ""
+            "image": ""
           }
         },
         "wiki_3": {
@@ -238,8 +239,7 @@
             "detail_three": "Affinage precis",
             "link_label": "Voir les gestes",
             "link": "shopify://blogs/le-wiki",
-            "image": "",
-            "video": ""
+            "image": ""
           }
         }
       },

@@ -1,6 +1,163 @@
 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
 {{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
 
+{%- liquid
+  assign collection_products_count = collection.all_products_count
+  assign collection_products_label = 'produits'
+  if collection_products_count == 1
+    assign collection_products_label = 'produit'
+  endif
+
+  assign hero_eyebrow = section.settings.eyebrow
+  if hero_eyebrow == blank
+    assign hero_eyebrow = 'Collection'
+  endif
+
+  assign display_title = collection.title
+  assign collection_title_downcase = collection.title | downcase
+  assign curation_note = ''
+  assign hero_detail = collection_products_count | append: ' ' | append: collection_products_label
+  assign collection_count_chip = collection_products_count | append: ' ' | append: collection_products_label
+  assign primary_visual = collection.image
+  assign feature_product_primary = collection.products.first
+  assign collection_background_video_url = ''
+  assign collection_backdrop_image = section.settings.background_image
+  assign has_editorial_visual = false
+  assign metafield_eyebrow = collection.metafields.custom.hero_eyebrow.value | default: collection.metafields.custom.hero_eyebrow
+  assign metafield_note = collection.metafields.custom.hero_note.value | default: collection.metafields.custom.hero_note
+  assign metafield_detail = collection.metafields.custom.hero_detail.value | default: collection.metafields.custom.hero_detail
+  assign metafield_backdrop_image = collection.metafields.custom.hero_background_image.value | default: collection.metafields.custom.hero_background_image
+  assign metafield_backdrop_video = collection.metafields.custom.hero_background_video.value | default: collection.metafields.custom.hero_background_video
+  assign has_collection_backdrop = false
+  assign compact_collection_hero = false
+  assign backdrop_opacity = section.settings.backdrop_opacity | divided_by: 100.0
+  assign backdrop_blur = section.settings.backdrop_blur
+  assign is_all_collection = false
+  assign is_vanilla_family = false
+  assign is_spice_family = false
+  assign is_salt_family = false
+  assign is_pepper_family = false
+  assign is_oil_family = false
+  assign is_ginger_family = false
+  assign is_confectionery_family = false
+
+  if collection.handle == 'all'
+    assign is_all_collection = true
+  endif
+
+  if collection.handle == 'vanille-bourbon'
+    assign is_vanilla_family = true
+  endif
+
+  if collection.handle == 'epices-madagascar'
+    assign is_spice_family = true
+  endif
+
+  if collection.handle == 'sels' or collection.handle == 'sels-aromatises'
+    assign is_salt_family = true
+  endif
+
+  if collection.handle == 'poivre-baies'
+    assign is_pepper_family = true
+  endif
+
+  if collection.handle == 'huiles-madagascar' or collection.handle == 'huiles-essentielles'
+    assign is_oil_family = true
+  endif
+
+  if collection.handle == 'gingembre-madagascar' or collection.handle == 'gingembre' or collection_title_downcase contains 'gingembre'
+    assign is_ginger_family = true
+  endif
+
+  if collection.handle == 'confiserie' or collection.handle == 'confiseries' or collection_title_downcase contains 'confiser'
+    assign is_confectionery_family = true
+  endif
+
+  if collection_products_count <= 4
+    assign compact_collection_hero = true
+  endif
+
+  if is_all_collection
+    assign display_title = 'Tous les produits'
+    assign hero_eyebrow = 'Maison'
+    assign hero_detail = 'Sélection complète'
+  elsif is_vanilla_family
+    assign hero_detail = 'Gousses, extraits, caviar'
+  elsif is_spice_family
+    assign hero_detail = 'Accords, intensités, cuisines'
+  elsif is_salt_family
+    assign hero_detail = 'Assemblages aromatiques'
+  elsif is_pepper_family
+    assign hero_detail = 'Poivres, baies, coffrets'
+  elsif is_oil_family
+    assign hero_detail = 'Usage externe et dilution'
+  elsif is_ginger_family
+    assign curation_note = ''
+    assign hero_detail = ''
+  elsif is_confectionery_family
+    assign curation_note = ''
+    assign hero_detail = ''
+  endif
+
+  if metafield_eyebrow != blank
+    assign hero_eyebrow = metafield_eyebrow
+  endif
+
+  if metafield_note != blank
+    assign curation_note = metafield_note
+  endif
+
+  if metafield_detail != blank
+    assign hero_detail = metafield_detail
+  endif
+
+  assign has_secondary_detail = false
+  if hero_detail != blank and hero_detail != collection_count_chip
+    assign has_secondary_detail = true
+  endif
+
+  assign has_curation_note = false
+  if curation_note != blank
+    assign has_curation_note = true
+  endif
+
+  if primary_visual == blank and feature_product_primary != blank
+    assign primary_visual = feature_product_primary.featured_media.preview_image | default: feature_product_primary.featured_image
+  endif
+
+  if primary_visual != blank
+    assign has_editorial_visual = true
+  endif
+
+  if metafield_backdrop_image != blank
+    assign collection_backdrop_image = metafield_backdrop_image
+  endif
+
+  if collection_backdrop_image == blank
+    assign collection_backdrop_image = primary_visual
+  endif
+
+  if metafield_backdrop_video != blank
+    for source in metafield_backdrop_video.sources
+      if source.mime_type == 'video/mp4'
+        assign collection_background_video_url = source.url
+        break
+      endif
+    endfor
+  elsif section.settings.background_video != blank
+    for source in section.settings.background_video.sources
+      if source.mime_type == 'video/mp4'
+        assign collection_background_video_url = source.url
+        break
+      endif
+    endfor
+  endif
+
+  if collection_backdrop_image != blank or collection_background_video_url != blank
+    assign has_collection_backdrop = true
+  endif
+-%}
+
 {%- style -%}
   @media screen and (max-width: 749px) {
     .collection-hero--with-image .collection-hero__inner {
@@ -9,55 +166,96 @@
   }
 {%- endstyle -%}
 
-<div class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
-  <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    <div class="collection-hero__text-wrapper">
-      <span class="vd-section-kicker">Collection</span>
-      <h1 class="collection-hero__title">
-        <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
-        {{- collection.title | escape -}}
-      </h1>
-
-      {%- if section.settings.show_collection_description -%}
-        <div class="collection-hero__description rte">{{ collection.description }}</div>
-      {%- endif -%}
-
-      <div class="collection-hero__metrics" role="list">
-        <div class="collection-hero__metric" role="listitem">
-          <span>References</span>
-          <strong>{{ collection.all_products_count }}</strong>
-        </div>
-        <div class="collection-hero__metric" role="listitem">
-          <span>Lecture</span>
-          <strong>Formats & usages</strong>
-        </div>
-        <div class="collection-hero__metric" role="listitem">
-          <span>Suite</span>
-          <strong>Recettes & wiki</strong>
-        </div>
-      </div>
+<div
+  class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %}{% if has_collection_backdrop %} collection-hero--with-backdrop{% endif %} color-{{ section.settings.color_scheme }} gradient"
+  data-vd-collection-hero
+  style="--collection-hero-backdrop-opacity: {{ backdrop_opacity }}; --collection-hero-backdrop-blur: {{ backdrop_blur }}px;"
+>
+  {% if has_collection_backdrop %}
+    <div class="collection-hero__backdrop" aria-hidden="true">
+      {% if collection_background_video_url != blank %}
+        <video class="collection-hero__backdrop-media" data-vd-collection-backdrop autoplay muted loop playsinline preload="metadata">
+          <source src="{{ collection_background_video_url }}" type="video/mp4">
+        </video>
+      {% elsif collection_backdrop_image != blank %}
+        {{
+          collection_backdrop_image
+          | image_url: width: 2200
+          | image_tag:
+            class: 'collection-hero__backdrop-media',
+            widths: '720, 960, 1280, 1600, 2200',
+            sizes: '100vw',
+            loading: 'eager',
+            alt: ''
+        }}
+      {% endif %}
     </div>
+  {% endif %}
+  <div class="collection-hero__inner {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+    <div class="collection-hero__shell{% if compact_collection_hero %} collection-hero__shell--compact{% endif %}{% if has_editorial_visual %} collection-hero__shell--with-media{% endif %}">
+      <div class="collection-hero__copy" data-vd-collection-panel>
+        <div class="collection-hero__eyebrow-row" data-vd-collection-item>
+          <span class="collection-hero__eyebrow-line" aria-hidden="true"></span>
+          <span class="collection-hero__eyebrow">{{ hero_eyebrow }}</span>
+        </div>
 
-    {%- if section.settings.show_collection_image and collection.image -%}
-      <div class="collection-hero__image-container media gradient">
-        <img
-          srcset="
-            {%- if collection.image.width >= 165 -%}{{ collection.image | image_url: width: 165 }} 165w,{%- endif -%}
-            {%- if collection.image.width >= 360 -%}{{ collection.image | image_url: width: 360 }} 360w,{%- endif -%}
-            {%- if collection.image.width >= 535 -%}{{ collection.image | image_url: width: 535 }} 535w,{%- endif -%}
-            {%- if collection.image.width >= 750 -%}{{ collection.image | image_url: width: 750 }} 750w,{%- endif -%}
-            {%- if collection.image.width >= 1070 -%}{{ collection.image | image_url: width: 1070 }} 1070w,{%- endif -%}
-            {%- if collection.image.width >= 1500 -%}{{ collection.image | image_url: width: 1500 }} 1500w,{%- endif -%}
-            {{ collection.image | image_url }} {{ collection.image.width }}w
-          "
-          src="{{ collection.image | image_url: width: 750 }}"
-          sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px, (min-width: 750px) calc(50vw - 130px), calc(50vw - 55px)"
-          alt="{{ collection.image.alt | escape }}"
-          width="{{ collection.image.width }}"
-          height="{{ collection.image.height }}"
-        >
+        <h1 class="collection-hero__title{% if collection.handle == 'all' %} collection-hero__title--catalog{% endif %}" data-vd-collection-item>
+          <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
+          <span class="collection-hero__title-text">{{- display_title | escape -}}</span>
+        </h1>
+
+        <div class="collection-hero__details{% unless has_secondary_detail %} collection-hero__details--single{% endunless %}" role="list" data-vd-collection-item>
+          <span class="collection-hero__detail" role="listitem">{{ collection_products_count }} {{ collection_products_label }}</span>
+          {%- if has_secondary_detail -%}
+            <span class="collection-hero__detail" role="listitem">{{ hero_detail }}</span>
+          {%- endif -%}
+        </div>
+
+        {%- if curation_note != blank -%}
+          <div class="collection-hero__description rte" data-vd-collection-item><p>{{ curation_note }}</p></div>
+        {%- endif -%}
+
+        {%- if section.settings.primary_link_label != blank or section.settings.secondary_link_label != blank -%}
+          <div class="collection-hero__actions" data-vd-collection-item>
+            {%- if section.settings.primary_link_label != blank and section.settings.primary_link != blank -%}
+              <a href="{{ section.settings.primary_link }}" class="vd-arrow-cta">
+                <span class="vd-arrow-cta__label">{{ section.settings.primary_link_label }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </a>
+            {%- endif -%}
+            {%- if section.settings.secondary_link_label != blank and section.settings.secondary_link != blank -%}
+              <a href="{{ section.settings.secondary_link }}" class="vd-arrow-cta">
+                <span class="vd-arrow-cta__label">{{ section.settings.secondary_link_label }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
       </div>
-    {%- endif -%}
+      {%- if has_editorial_visual -%}
+        <div class="collection-hero__media-cluster" data-vd-collection-panel>
+          <span class="collection-hero__aura collection-hero__aura--one" aria-hidden="true"></span>
+          <span class="collection-hero__aura collection-hero__aura--two" aria-hidden="true"></span>
+          <div class="collection-hero__media-shell" data-vd-collection-media aria-hidden="true">
+            {{
+              primary_visual
+              | image_url: width: 1400
+              | image_tag:
+                class: 'collection-hero__media-image',
+                widths: '420, 560, 720, 960, 1200, 1400',
+                sizes: '(min-width: 990px) 34vw, 78vw',
+                loading: 'eager',
+                alt: ''
+            }}
+          </div>
+          <div class="collection-hero__media-ring" aria-hidden="true"></div>
+        </div>
+      {%- endif -%}
+    </div>
   </div>
 </div>
 
@@ -69,6 +267,12 @@
     {
       "type": "paragraph",
       "content": "t:sections.main-collection-banner.settings.paragraph.content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Collection"
     },
     {
       "type": "checkbox",
@@ -87,6 +291,105 @@
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
       "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Repères"
+    },
+    {
+      "type": "text",
+      "id": "metric_primary_label",
+      "label": "Libellé repère 1",
+      "default": "Selection"
+    },
+    {
+      "type": "text",
+      "id": "metric_primary_value",
+      "label": "Valeur repère 1"
+    },
+    {
+      "type": "text",
+      "id": "metric_secondary_label",
+      "label": "Libellé repère 2",
+      "default": "Lecture"
+    },
+    {
+      "type": "text",
+      "id": "metric_secondary_value",
+      "label": "Valeur repère 2",
+      "default": "Formats, intensite, usages"
+    },
+    {
+      "type": "text",
+      "id": "metric_tertiary_label",
+      "label": "Libellé repère 3",
+      "default": "Suite"
+    },
+    {
+      "type": "text",
+      "id": "metric_tertiary_value",
+      "label": "Valeur repère 3",
+      "default": "Recettes, conseils, wiki"
+    },
+    {
+      "type": "header",
+      "content": "Liens"
+    },
+    {
+      "type": "text",
+      "id": "primary_link_label",
+      "label": "Libellé lien principal",
+      "default": "Voir les recettes"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Lien principal"
+    },
+    {
+      "type": "text",
+      "id": "secondary_link_label",
+      "label": "Libellé lien secondaire",
+      "default": "Parler avec nous"
+    },
+    {
+      "type": "header",
+      "content": "Fond média"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Image de fond"
+    },
+    {
+      "type": "video",
+      "id": "background_video",
+      "label": "Vidéo Shopify de fond"
+    },
+    {
+      "type": "range",
+      "id": "backdrop_opacity",
+      "label": "Opacité du fond",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "backdrop_blur",
+      "label": "Flou du fond",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Lien secondaire"
     }
   ]
 }

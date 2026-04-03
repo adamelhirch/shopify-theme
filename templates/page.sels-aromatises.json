@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -8,108 +17,52 @@
     "banner": {
       "type": "vd-page-banner",
       "settings": {
-        "eyebrow": "Le Wiki",
-        "heading": "Sels aromatises de Madagascar",
-        "text": "<p>Une base plus nette pour presenter vos sels parfumes sans folklore ni gros blocs legacy. La page pose les familles, les usages et les premiers repères d'achat.</p>",
+        "eyebrow": "Collection",
+        "heading": "Sels aromatisés",
+        "text": "<p>Des assemblages nets pour la finition, l’assaisonnement et les accords sucré-salé, avec une lecture simple par usage et intensité.</p>",
         "primary_button_label": "Voir la collection",
-        "primary_button_link": "shopify://collections/sels-aromatises",
+        "primary_button_link": "shopify://collections/sels",
         "secondary_button_label": "Lire les recettes",
         "secondary_button_link": "shopify://pages/recettes",
         "metric_1_label": "Base",
-        "metric_1_value": "Camargue + Madagascar",
+        "metric_1_value": "Camargue & Madagascar",
         "metric_2_label": "Lecture",
-        "metric_2_value": "Usage avant folklore",
-        "metric_3_label": "But",
-        "metric_3_value": "Choisir vite",
+        "metric_2_value": "Usages & intensités",
+        "metric_3_label": "Style",
+        "metric_3_value": "Précis & gourmand",
         "color_scheme": "scheme-3",
         "padding_top": 20,
         "padding_bottom": 8
       }
     },
-    "wiki": {
-      "type": "wiki-content",
-      "blocks": {
-        "item_1": {
-          "type": "item",
-          "settings": {
-            "kicker": "Signature",
-            "title": "Vanille, combava, pili-pili, poivres",
-            "text": "<p>Chaque sel doit etre lu d'abord par son profil d'usage: finition, cuisson douce, accord sucre-sale ou marinade courte.</p>",
-            "link_label": "Voir les produits",
-            "link": "shopify://collections/sels-aromatises"
-          }
-        },
-        "item_2": {
-          "type": "item",
-          "settings": {
-            "kicker": "Repere",
-            "title": "Des dosages simples et reproductibles",
-            "text": "<p>La page pourra accueillir vos videos ensuite, mais la base doit deja dire clairement quoi utiliser, sur quoi, et en quelle quantite.</p>",
-            "link_label": "Aller aux recettes",
-            "link": "shopify://pages/recettes"
-          }
-        },
-        "item_3": {
-          "type": "item",
-          "settings": {
-            "kicker": "Passerelle",
-            "title": "Relier le wiki au catalogue",
-            "text": "<p>Le contenu ne reste pas theorique. Il doit toujours permettre de revenir au bon sel ou au bon produit complementaire.</p>",
-            "link_label": "Nous contacter",
-            "link": "shopify://pages/contact"
-          }
-        }
-      },
-      "block_order": [
-        "item_1",
-        "item_2",
-        "item_3"
-      ],
+    "collection": {
+      "type": "featured-collection",
       "settings": {
-        "eyebrow": "Guide de lecture",
-        "heading": "Une base wiki plus sobre pour les sels aromatises.",
-        "text": "<p>Vous pourrez la densifier ensuite avec demonstrations, accords et plans macro produit. Pour l'instant, elle retrouve une vraie tenue premium et une navigation logique.</p>",
-        "summary": "Le bon niveau de base: une hierarchie claire, peu de bruit, et des passerelles nettes vers achat, recette et contact.",
+        "collection": "sels",
+        "products_to_show": 6,
+        "title": "Sélection sels aromatisés",
+        "heading_size": "h1",
+        "description": "<p>Retrouver les assemblages maison dans une grille claire, directement liée au panier et aux usages.</p>",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 3,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
         "color_scheme": "scheme-3",
-        "padding_top": 0,
-        "padding_bottom": 28
-      }
-    },
-    "story": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "Entrer par le besoin",
-            "text": "<p>Finir une assiette, relever une marinade, signer un dessert: la page doit aider a choisir par usage concret.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Monter en gamme sans bruit",
-            "text": "<p>Le luxe ici passe par la precision des repères et la tenue visuelle, pas par l'accumulation d'effets.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Prete pour la video",
-            "text": "<p>Les modules futurs pourront venir enrichir cette base sans refaire toute la structure de page.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "Une page guide plutot qu'un long bloc decoratif.",
-        "text": "<p>Le wiki produit devient un appui a la vente et a la comprehension, sans casser la direction artistique globale.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 0,
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "card_surface": "dark",
+        "show_subtitle": true,
+        "show_product_type": true,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 8,
         "padding_bottom": 56
       }
     }
@@ -117,7 +70,6 @@
   "order": [
     "main",
     "banner",
-    "wiki",
-    "story"
+    "collection"
   ]
 }

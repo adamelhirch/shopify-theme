@@ -28,27 +28,40 @@
     data-product-id="{{ product.id }}"
   >
     {% if recommendations.performed and recommendations.products_count > 0 %}
-      <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
-        {{ section.settings.heading }}
-      </h2>
+      {%- liquid
+        assign related_editorial_text = section.settings.editorial_text
+        assign related_editorial_text_plain = related_editorial_text | strip_html | strip
+      -%}
+      <div class="related-products__intro{% if related_editorial_text_plain == blank %} related-products__intro--simple{% endif %}">
+        <div class="related-products__intro-copy">
+          <span class="vd-section-kicker">Sélection associée</span>
+          <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
+            {{ section.settings.heading }}
+          </h2>
+        </div>
+        {%- if related_editorial_text_plain != blank -%}
+          <div class="related-products__intro-note rte">
+            {{ related_editorial_text }}
+          </div>
+        {%- endif -%}
+      </div>
       <ul
         class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
         role="list"
       >
-        {% assign skip_card_product_styles = false %}
         {% for recommendation in recommendations.products %}
           <li class="grid__item">
             {% render 'card-product',
               card_product: recommendation,
-              media_aspect_ratio: section.settings.image_ratio,
-              image_shape: section.settings.image_shape,
-              show_secondary_image: section.settings.show_secondary_image,
               show_vendor: section.settings.show_vendor,
-              show_rating: section.settings.show_rating,
-              skip_styles: skip_card_product_styles
+              show_subtitle: true,
+              show_product_type: true,
+              premium_card: true,
+              card_surface: section.settings.card_surface,
+              lazy_load: true,
+              section_id: section.id
             %}
           </li>
-          {%- assign skip_card_product_styles = true -%}
         {% endfor %}
       </ul>
     {% endif %}
@@ -73,6 +86,11 @@
       "id": "heading",
       "default": "t:sections.related-products.settings.paragraph__1.default",
       "label": "t:sections.related-products.settings.heading.label"
+    },
+    {
+      "type": "richtext",
+      "id": "editorial_text",
+      "label": "Texte d’introduction"
     },
     {
       "type": "select",
@@ -225,6 +243,22 @@
       "default": false,
       "label": "t:sections.related-products.settings.show_rating.label",
       "info": "t:sections.related-products.settings.show_rating.info"
+    },
+    {
+      "type": "select",
+      "id": "card_surface",
+      "label": "Surface des vignettes",
+      "default": "dark",
+      "options": [
+        {
+          "value": "dark",
+          "label": "Sombre"
+        },
+        {
+          "value": "light",
+          "label": "Clair"
+        }
+      ]
     },
     {
       "type": "header",

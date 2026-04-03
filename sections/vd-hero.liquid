@@ -45,8 +45,6 @@
             loop: true,
             muted: true,
             controls: false,
-            playsinline: true,
-            preload: 'metadata',
             image_size: '2000x'
         }}
       {% elsif section.settings.external_video_url != blank %}
@@ -56,7 +54,7 @@
           loop
           muted
           playsinline
-          preload="metadata"
+          preload="auto"
           {% if section.settings.background_image != blank %}
             poster="{{ section.settings.background_image | image_url: width: 2400 }}"
           {% endif %}
@@ -70,7 +68,7 @@
           loop
           muted
           playsinline
-          preload="metadata"
+          preload="auto"
           poster="{{ 'vd-hero-origin-poster.jpg' | asset_url }}"
         >
           <source src="{{ 'vd-hero-origin.mp4' | asset_url }}" type="video/mp4">

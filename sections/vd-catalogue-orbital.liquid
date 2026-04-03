@@ -52,30 +52,30 @@
       <div class="vd-catalogue__hero-panel">
         <div class="vd-catalogue__quicklinks">
           <a href="/collections/all" class="vd-catalogue__quicklink">
-            <span>Commencer</span>
-            <strong>Voir tout le catalogue</strong>
+            <span>Catalogue</span>
+            <strong>Voir tous les produits</strong>
           </a>
           <a href="/pages/recettes" class="vd-catalogue__quicklink">
-            <span>Usage</span>
-            <strong>Entrer par les recettes</strong>
+            <span>Recettes</span>
+            <strong>Entrer par les usages</strong>
           </a>
           <a href="/pages/contact" class="vd-catalogue__quicklink">
             <span>Conseil</span>
-            <strong>Nous demander quoi choisir</strong>
+            <strong>Demander une orientation</strong>
           </a>
         </div>
         <div class="vd-catalogue__metric-list" role="list">
           <div class="vd-catalogue__metric" role="listitem">
-            <span>Navigation</span>
-            <strong>Par usage</strong>
+            <span>Maison</span>
+            <strong>Vanille, épices, poivres et sélections</strong>
           </div>
           <div class="vd-catalogue__metric" role="listitem">
-            <span>Direction</span>
-            <strong>Peu de bruit</strong>
+            <span>Choix</span>
+            <strong>Formats, usages, idées cadeau</strong>
           </div>
           <div class="vd-catalogue__metric" role="listitem">
-            <span>Palette</span>
-            <strong>Contraste net</strong>
+            <span>Suite</span>
+            <strong>Produits, recettes, contact</strong>
           </div>
         </div>
       </div>
@@ -84,6 +84,9 @@
     <div class="vd-catalogue__grid" role="list">
       {% for block in section.blocks %}
         <article class="vd-catalogue__card" role="listitem" {{ block.shopify_attributes }}>
+          {% if block.settings.collection != blank %}
+            <a href="{{ block.settings.collection.url }}" class="vd-catalogue__card-link" aria-label="{{ block.settings.title | escape }}">
+          {% endif %}
           {% if block.settings.collection != blank and block.settings.collection.featured_image != blank %}
             <div class="vd-catalogue__card-media">
               {{
@@ -112,13 +115,16 @@
           {% endif %}
 
           {% if block.settings.collection != blank %}
-            <a href="{{ block.settings.collection.url }}" class="vd-arrow-cta">
+            <span class="vd-arrow-cta">
               <span class="vd-arrow-cta__label">
                 {{ block.settings.link_label | default: 'Explorer la collection' }}
               </span>
               <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
                 <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
               </svg>
+            </span>
+          {% endif %}
+          {% if block.settings.collection != blank %}
             </a>
           {% endif %}
         </article>
@@ -143,13 +149,13 @@
       "type": "text",
       "id": "heading",
       "label": "Titre",
-      "default": "Un catalogue plus logique, plus luxe, plus orienté usage."
+      "default": "Explorer la maison par collections, usages et intensités."
     },
     {
       "type": "richtext",
       "id": "text",
       "label": "Texte",
-      "default": "<p>Cette base ne cherche pas a tout raconter. Elle doit d'abord aider a entrer vite dans le bon univers produit, avec une lecture plus nette des formats, des usages et du niveau de gamme.</p>"
+      "default": "<p>Une entrée claire pour retrouver la bonne collection, comparer les formats et passer ensuite vers les recettes, les produits ou un conseil plus direct.</p>"
     },
     {
       "type": "text",

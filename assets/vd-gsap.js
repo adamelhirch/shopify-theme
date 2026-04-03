@@ -1081,6 +1081,272 @@
     });
   }
 
+  function initCollectionHeroes(gsap, ScrollTrigger, prefersReducedMotion, cleanups) {
+    gsap.utils.toArray('[data-vd-collection-hero]').forEach(function (section) {
+      var SplitText = window.SplitText;
+      var backdrop = section.querySelector('[data-vd-collection-backdrop], .collection-hero__backdrop-media');
+      var panels = gsap.utils.toArray(section.querySelectorAll('[data-vd-collection-panel]'));
+      var items = gsap.utils.toArray(section.querySelectorAll('[data-vd-collection-item]'));
+      var introItems = items.filter(function (item) {
+        return !item.classList.contains('collection-hero__title');
+      });
+      var media = section.querySelector('[data-vd-collection-media]');
+      var titleText = section.querySelector('.collection-hero__title-text');
+      var titleTargets = titleText ? [titleText] : [];
+      var titleSplit = null;
+      var auras = gsap.utils.toArray(section.querySelectorAll('.collection-hero__aura'));
+      var timeline;
+      var introTimeline;
+      var auraTween;
+
+      if (!backdrop && !panels.length && !media) return;
+
+      if (backdrop) {
+        gsap.set(backdrop, { clearProps: 'transform' });
+      }
+
+      if (panels.length) {
+        gsap.set(panels, { clearProps: 'transform,opacity,filter' });
+      }
+
+      if (items.length) {
+        gsap.set(items, { clearProps: 'transform,opacity,filter' });
+      }
+
+      if (media) {
+        gsap.set(media, { clearProps: 'transform,opacity,filter,clipPath' });
+      }
+
+      if (auras.length) {
+        gsap.set(auras, { clearProps: 'transform,opacity' });
+      }
+
+      if (!prefersReducedMotion) {
+        if (titleText && SplitText && typeof SplitText.create === 'function') {
+          titleSplit = SplitText.create(titleText, {
+            type: 'lines,words',
+            linesClass: 'vd-collection-line',
+            wordsClass: 'vd-collection-word',
+            mask: 'lines'
+          });
+
+          if (titleSplit && titleSplit.words && titleSplit.words.length) {
+            titleTargets = titleSplit.words.slice();
+          }
+        }
+
+        introTimeline = gsap.timeline({
+          defaults: { ease: 'expo.out' },
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 82%',
+            once: true
+          }
+        });
+
+        if (panels.length) {
+          introTimeline.fromTo(
+            panels,
+            { y: 52, autoAlpha: 0, filter: 'blur(12px)' },
+            { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 1.2, stagger: 0.08 },
+            0
+          );
+        }
+
+        if (titleTargets.length) {
+          introTimeline.fromTo(
+            titleTargets,
+            { yPercent: 110, autoAlpha: 0, rotateX: -14, transformOrigin: '50% 100%' },
+            { yPercent: 0, autoAlpha: 1, rotateX: 0, duration: 1.18, stagger: 0.03 },
+            0.06
+          );
+        }
+
+        if (introItems.length) {
+          introTimeline.fromTo(
+            introItems,
+            { y: 30, autoAlpha: 0, filter: 'blur(8px)' },
+            { y: 0, autoAlpha: 1, filter: 'blur(0px)', duration: 0.92, stagger: 0.07 },
+            0.12
+          );
+        }
+
+        if (media) {
+          introTimeline.fromTo(
+            media,
+            {
+              x: 44,
+              y: 32,
+              rotate: -3,
+              scale: 0.88,
+              autoAlpha: 0,
+              filter: 'blur(16px) saturate(0.8)',
+              clipPath: 'inset(12% 10% 14% 10% round 3rem)'
+            },
+            {
+              x: 0,
+              y: 0,
+              rotate: 0,
+              scale: 1,
+              autoAlpha: 1,
+              filter: 'blur(0px) saturate(1)',
+              clipPath: 'inset(0% 0% 0% 0% round 3rem)',
+              duration: 1.3
+            },
+            0.08
+          );
+        }
+
+        if (auras.length) {
+          auraTween = gsap.timeline({
+            repeat: -1,
+            yoyo: true,
+            defaults: { ease: 'sine.inOut', duration: 4.8 }
+          });
+
+          if (auras[0]) {
+            auraTween.to(
+              auras[0],
+              { x: 22, y: -16, scale: 1.06, autoAlpha: 0.9 },
+              0
+            );
+          }
+
+          if (auras[1]) {
+            auraTween.to(
+              auras[1],
+              { x: -18, y: 14, scale: 0.94, autoAlpha: 0.72 },
+              0
+            );
+          }
+        }
+      }
+
+      timeline = gsap.timeline({
+        defaults: { ease: 'expo.out' },
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1
+        }
+      });
+
+      if (backdrop) {
+        timeline.fromTo(
+          backdrop,
+          { scale: 1.18, yPercent: -3 },
+          { scale: 1.08, yPercent: 4, ease: 'none' },
+          0
+        );
+      }
+
+      if (panels.length) {
+        timeline.fromTo(
+          panels,
+          { yPercent: 2 },
+          { yPercent: -3, ease: 'none', stagger: 0.04 },
+          0
+        );
+      }
+
+      if (media) {
+        timeline.fromTo(
+          media,
+          { yPercent: -2, rotate: -1.5 },
+          { yPercent: 3, rotate: 1.5, ease: 'none' },
+          0
+        );
+      }
+
+      registerCleanup(cleanups, function () {
+        if (introTimeline) {
+          if (introTimeline.scrollTrigger) {
+            introTimeline.scrollTrigger.kill();
+          }
+
+          introTimeline.kill();
+        }
+
+        if (timeline.scrollTrigger) {
+          timeline.scrollTrigger.kill();
+        }
+
+        timeline.kill();
+
+        if (auraTween) {
+          auraTween.kill();
+        }
+
+        if (titleSplit) {
+          titleSplit.revert();
+          titleSplit = null;
+        }
+
+        if (backdrop) {
+          gsap.set(backdrop, { clearProps: 'transform' });
+        }
+
+        if (panels.length) {
+          gsap.set(panels, { clearProps: 'transform,opacity,filter' });
+        }
+
+        if (items.length) {
+          gsap.set(items, { clearProps: 'transform,opacity,filter' });
+        }
+
+        if (media) {
+          gsap.set(media, { clearProps: 'transform,opacity,filter,clipPath' });
+        }
+
+        if (auras.length) {
+          gsap.set(auras, { clearProps: 'transform,opacity' });
+        }
+      });
+    });
+  }
+
+  function initFooterScenes(gsap, ScrollTrigger, prefersReducedMotion, cleanups) {
+    gsap.utils.toArray('[data-vd-footer-scene]').forEach(function (section) {
+      var items = gsap.utils.toArray(section.querySelectorAll('[data-vd-footer-item]'));
+      var introTimeline;
+
+      if (!items.length) return;
+
+      gsap.set(items, { clearProps: 'opacity,filter' });
+
+      if (!prefersReducedMotion) {
+        introTimeline = gsap.timeline({
+          defaults: { ease: 'power2.out' },
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 85%',
+            once: true
+          }
+        });
+
+        introTimeline.fromTo(
+          items,
+          { autoAlpha: 0, filter: 'blur(10px)' },
+          { autoAlpha: 1, filter: 'blur(0px)', duration: 1.5, stagger: 0.1 },
+          0
+        );
+      }
+
+      registerCleanup(cleanups, function () {
+        if (introTimeline) {
+          if (introTimeline.scrollTrigger) {
+            introTimeline.scrollTrigger.kill();
+          }
+
+          introTimeline.kill();
+        }
+
+        gsap.set(items, { clearProps: 'opacity,filter' });
+      });
+    });
+  }
+
   function initVanilleGsap(forceRebuild) {
     if (!window.gsap || !window.ScrollTrigger || !window.ScrollSmoother) return;
     if (window.Shopify && window.Shopify.designMode) return;
@@ -1227,6 +1493,8 @@
     initFeatureGalleries(gsap, ScrollTrigger, prefersReducedMotion, state.cleanups);
     initNewProductBentos(gsap, ScrollTrigger, prefersReducedMotion, Flip, state.cleanups);
     initTestimonials(gsap, ScrollTrigger, prefersReducedMotion, state.cleanups);
+    initCollectionHeroes(gsap, ScrollTrigger, prefersReducedMotion, state.cleanups);
+    initFooterScenes(gsap, ScrollTrigger, prefersReducedMotion, state.cleanups);
 
     gsap.utils.toArray('.vd-reveal').forEach(function (section) {
       var items = section.querySelectorAll('.vd-reveal-item');

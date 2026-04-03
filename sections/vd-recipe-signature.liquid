@@ -16,257 +16,76 @@
 {% endstyle %}
 
 {%- liquid
-  assign featured_product = section.settings.featured_product
-  assign related_collection = section.settings.related_collection
-  assign primary_link = section.settings.primary_link
-  assign secondary_link = section.settings.secondary_link
-
-  if primary_link == blank and featured_product != blank
-    assign primary_link = featured_product.url
+  assign encoded_return_to = request.path | url_encode
+  assign login_joiner = '?'
+  assign register_joiner = '?'
+  if routes.account_login_url contains '?'
+    assign login_joiner = '&'
   endif
-
-  if secondary_link == blank and related_collection != blank
-    assign secondary_link = related_collection.url
+  if routes.account_register_url contains '?'
+    assign register_joiner = '&'
   endif
+  assign login_target = routes.account_login_url | append: login_joiner | append: 'return_to=' | append: encoded_return_to
+  assign register_target = routes.account_register_url | append: register_joiner | append: 'return_to=' | append: encoded_return_to
 -%}
 
 <section
   class="section-{{ section.id }}-padding vd-recipe-signature color-{{ section.settings.color_scheme }}"
   data-vd-recipe
-  data-base-serves="{{ section.settings.base_serves }}"
-  data-download-name="{{ section.settings.download_filename | handle | default: 'recette-vanille-desire' }}"
+  data-registry-url="{{ 'vd-recipes-registry.json' | asset_url }}"
+  data-recipe-slug="{{ section.settings.recipe_slug | default: page.handle }}"
+  data-page-handle="{{ page.handle }}"
+  data-require-customer-access="{{ section.settings.require_customer_access }}"
+  data-customer-authenticated="{% if customer %}true{% else %}false{% endif %}"
+  data-customer-id="{{ customer.id }}"
+  data-customer-email="{{ customer.email | escape }}"
+  data-customer-shelf-endpoint="{{ section.settings.customer_shelf_endpoint | escape }}"
+  data-login-url="{{ login_target }}"
+  data-register-url="{{ register_target }}"
 >
+  <div class="vd-recipe-signature__media" data-vd-recipe-media aria-hidden="true"></div>
+  <div class="vd-recipe-signature__veil"></div>
+  <div class="vd-recipe-signature__glow"></div>
+
   <div class="page-width">
-    <div class="vd-recipe-signature__layout">
-      <div class="vd-recipe-signature__main">
-        <header class="vd-recipe-signature__hero">
-          <div>
-            {% if section.settings.eyebrow != blank %}
-              <span class="vd-recipe-signature__eyebrow">{{ section.settings.eyebrow }}</span>
-            {% endif %}
-
-            {% if section.settings.heading != blank %}
-              <h1 class="vd-recipe-signature__heading" data-vd-recipe-title>{{ section.settings.heading }}</h1>
-            {% endif %}
-
-            {% if section.settings.intro != blank %}
-              <div class="vd-recipe-signature__intro rte" data-vd-recipe-intro>{{ section.settings.intro }}</div>
-            {% endif %}
-
-            <div class="vd-recipe-signature__meta">
-              <span class="vd-recipe-signature__meta-item">
-                {{ section.settings.base_serves }} personnes
-              </span>
-              {% if section.settings.prep_time != blank %}
-                <span class="vd-recipe-signature__meta-item">{{ section.settings.prep_time }}</span>
-              {% endif %}
-              {% if section.settings.cook_time != blank %}
-                <span class="vd-recipe-signature__meta-item">{{ section.settings.cook_time }}</span>
-              {% endif %}
-              {% if section.settings.difficulty != blank %}
-                <span class="vd-recipe-signature__meta-item">{{ section.settings.difficulty }}</span>
-              {% endif %}
-            </div>
-          </div>
-
-          <div class="vd-recipe-signature__controls">
-            <div class="vd-recipe-signature__qty" aria-live="polite">
-              <button type="button" data-vd-recipe-minus aria-label="Diminuer les portions">−</button>
-              <label class="visually-hidden" for="VDRecipeServes-{{ section.id }}">Portions</label>
-              <input
-                id="VDRecipeServes-{{ section.id }}"
-                type="number"
-                min="1"
-                inputmode="numeric"
-                value="{{ section.settings.base_serves }}"
-                data-vd-recipe-serves
-              >
-              <button type="button" data-vd-recipe-plus aria-label="Augmenter les portions">+</button>
-            </div>
-
-            <div class="vd-recipe-signature__button-row">
-              <button type="button" class="vd-recipe-signature__ghost" data-vd-recipe-toggle>
-                Tout cocher
-              </button>
-
-              <button type="button" class="vd-recipe-signature__ghost" data-vd-recipe-copy>
-                Copier
-              </button>
-
-              <button type="button" class="vd-recipe-signature__download" data-vd-recipe-download aria-label="Télécharger la recette">
-                <svg viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160Z"></path>
-                </svg>
-                <span class="vd-recipe-signature__download-line" aria-hidden="true"></span>
-                <span class="vd-recipe-signature__download-tooltip">Télécharger</span>
-              </button>
-            </div>
-          </div>
-        </header>
-
-        <article class="vd-recipe-signature__panel">
-          <div class="vd-recipe-signature__panel-head">
-            <h2>Ingrédients</h2>
-            <span>Pour <span data-vd-recipe-serves-slot>{{ section.settings.base_serves }}</span> personnes</span>
-          </div>
-          <div class="vd-recipe-signature__panel-body">
-            <div class="vd-recipe-signature__list" role="list">
-              {% for block in section.blocks %}
-                {% if block.type != 'ingredient' %}
-                  {% continue %}
-                {% endif %}
-
-                {%- liquid
-                  assign quantity_value = block.settings.quantity | strip
-                  assign quantity_number = quantity_value | replace: ',', '.' | plus: 0
-                -%}
-
-                <label class="vd-recipe-signature__check" role="listitem" data-vd-recipe-ingredient {{ block.shopify_attributes }}>
-                  <input type="checkbox" data-vd-recipe-check>
-                  <span class="vd-recipe-signature__check-ui" aria-hidden="true"></span>
-                  <span class="vd-recipe-signature__check-copy">
-                    <strong>
-                      {% if quantity_value != blank %}
-                        <span
-                          {% if block.settings.scalable %}
-                            data-vd-recipe-base-qty="{{ quantity_value }}"
-                          {% endif %}
-                        >
-                          {{ quantity_value }}
-                        </span>
-                        {% if block.settings.unit != blank %} {{ block.settings.unit }}{% endif %}
-                      {% endif %}
-                      {% if block.settings.title != blank %}
-                        {% if quantity_value != blank %} · {% endif %}{{ block.settings.title }}
-                      {% endif %}
-                    </strong>
-                    {% if block.settings.note != blank %}
-                      <p>{{ block.settings.note }}</p>
-                    {% endif %}
-                  </span>
-                  {% if block.settings.badge != blank %}
-                    <span class="vd-recipe-signature__check-note">{{ block.settings.badge }}</span>
-                  {% endif %}
-                </label>
-              {% endfor %}
-            </div>
-          </div>
-        </article>
-
-        <article class="vd-recipe-signature__panel">
-          <div class="vd-recipe-signature__panel-head">
-            <h2>Préparation</h2>
-            <span>Cocher au fil de la recette</span>
-          </div>
-          <div class="vd-recipe-signature__panel-body">
-            <div class="vd-recipe-signature__steps" role="list">
-              {% assign step_index = 0 %}
-              {% for block in section.blocks %}
-                {% if block.type != 'step' %}
-                  {% continue %}
-                {% endif %}
-                {% assign step_index = step_index | plus: 1 %}
-
-                <label class="vd-recipe-signature__check" role="listitem" data-vd-recipe-step {{ block.shopify_attributes }}>
-                  <input type="checkbox" data-vd-recipe-check>
-                  <span class="vd-recipe-signature__check-ui" aria-hidden="true"></span>
-                  <span class="vd-recipe-signature__step-copy">
-                    <strong>Étape {{ step_index }}</strong>
-                    <p>{{ block.settings.text }}</p>
-                  </span>
-                </label>
-              {% endfor %}
-            </div>
-          </div>
-        </article>
+    <div class="vd-recipe-signature__shell" data-vd-recipe-shell>
+      <div class="vd-recipe-signature__loading">
+        <span class="vd-recipe-signature__loading-label">Chargement</span>
+        <h1>Préparation de la recette...</h1>
       </div>
-
-      <aside class="vd-recipe-signature__aside">
-        <article class="vd-recipe-signature__aside-card">
-          <span class="vd-recipe-signature__aside-kicker">Produits à utiliser</span>
-          <h3>La recette reste connectée au catalogue.</h3>
-          {% if section.settings.sidebar_text != blank %}
-            <div class="rte">{{ section.settings.sidebar_text }}</div>
-          {% endif %}
-          <div class="vd-recipe-signature__aside-actions">
-            {% if section.settings.primary_label != blank %}
-              <a
-                {% if primary_link == blank %}
-                  role="link" aria-disabled="true"
-                {% else %}
-                  href="{{ primary_link }}"
-                {% endif %}
-                class="vd-arrow-cta"
-              >
-                <span class="vd-arrow-cta__label">{{ section.settings.primary_label }}</span>
-                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                </svg>
-              </a>
-            {% endif %}
-
-            {% if section.settings.secondary_label != blank %}
-              <a
-                {% if secondary_link == blank %}
-                  role="link" aria-disabled="true"
-                {% else %}
-                  href="{{ secondary_link }}"
-                {% endif %}
-                class="vd-arrow-cta"
-              >
-                <span class="vd-arrow-cta__label">{{ section.settings.secondary_label }}</span>
-                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                </svg>
-              </a>
-            {% endif %}
-          </div>
-        </article>
-
-        {% if section.settings.provenance != blank %}
-          <article class="vd-recipe-signature__aside-card">
-            <span class="vd-recipe-signature__aside-kicker">Origine</span>
-            <h3>Madagascar, sans folklore inutile.</h3>
-            <div class="rte">{{ section.settings.provenance }}</div>
-          </article>
-        {% endif %}
-
-        {% assign tip_count = 0 %}
-        {% for block in section.blocks %}
-          {% if block.type != 'tip' %}
-            {% continue %}
-          {% endif %}
-          {% assign tip_count = tip_count | plus: 1 %}
-        {% endfor %}
-
-        {% if tip_count > 0 %}
-          <article class="vd-recipe-signature__panel">
-            <div class="vd-recipe-signature__panel-head">
-              <h2>Astuces</h2>
-              <span>Service & texture</span>
-            </div>
-            <div class="vd-recipe-signature__panel-body">
-              <div class="vd-recipe-signature__tip-list">
-                {% for block in section.blocks %}
-                  {% if block.type != 'tip' %}
-                    {% continue %}
-                  {% endif %}
-                  <details class="vd-recipe-signature__tip" {% if forloop.first %}open{% endif %} {{ block.shopify_attributes }}>
-                    <summary>{{ block.settings.title }}</summary>
-                    <div class="vd-recipe-signature__tip-content">
-                      {{ block.settings.text }}
-                    </div>
-                  </details>
-                {% endfor %}
-              </div>
-            </div>
-          </article>
-        {% endif %}
-      </aside>
     </div>
   </div>
 
   <div class="vd-recipe-signature__toast" data-vd-recipe-toast role="status" aria-live="polite"></div>
+  <script type="application/json" data-vd-recipe-editor-media>
+    [
+      {%- assign media_delimiter = '' -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'recipe_media' -%}
+          {{ media_delimiter }}
+          {%- assign block_video_url = '' -%}
+          {%- if block.settings.video != blank -%}
+            {%- for source in block.settings.video.sources -%}
+              {%- if source.mime_type == 'video/mp4' -%}
+                {%- assign block_video_url = source.url -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+          {
+            "recipe_slug": {{ block.settings.recipe_slug | strip | json }},
+            "placement": {{ block.settings.placement | json }},
+            "step_number": {{ block.settings.step_number | json }},
+            "image_url": {{ block.settings.image | image_url: width: 1800 | json }},
+            "image_alt": {{ block.settings.image.alt | default: block.settings.caption | json }},
+            "video_url": {{ block.settings.video_url | default: block_video_url | json }},
+            "caption": {{ block.settings.caption | json }}
+          }{%- assign media_delimiter = ',' -%}
+        {%- endif -%}
+      {%- endfor -%}
+    ]
+  </script>
+  <script type="application/ld+json" data-vd-recipe-schema></script>
 </section>
 
 {% schema %}
@@ -277,98 +96,22 @@
   "settings": [
     {
       "type": "text",
-      "id": "eyebrow",
-      "label": "Sur-titre",
-      "default": "Recette signature"
+      "id": "recipe_slug",
+      "label": "Slug recette",
+      "default": "beignet-banane"
+    },
+    {
+      "type": "checkbox",
+      "id": "require_customer_access",
+      "label": "Exiger un compte client pour les recettes premium",
+      "default": true
     },
     {
       "type": "text",
-      "id": "heading",
-      "label": "Titre",
-      "default": "Beignets de banane à la vanille"
-    },
-    {
-      "type": "richtext",
-      "id": "intro",
-      "label": "Introduction",
-      "default": "<p>Une base premium pour les recettes maison: lisible, actionnable et reliée aux bons produits.</p>"
-    },
-    {
-      "type": "range",
-      "id": "base_serves",
-      "min": 1,
-      "max": 24,
-      "step": 1,
-      "label": "Portions de base",
-      "default": 8
-    },
-    {
-      "type": "text",
-      "id": "prep_time",
-      "label": "Préparation",
-      "default": "25 min"
-    },
-    {
-      "type": "text",
-      "id": "cook_time",
-      "label": "Cuisson",
-      "default": "10 min"
-    },
-    {
-      "type": "text",
-      "id": "difficulty",
-      "label": "Difficulté",
-      "default": "Facile"
-    },
-    {
-      "type": "text",
-      "id": "download_filename",
-      "label": "Nom du fichier téléchargé",
-      "default": "beignets-banane-vanille"
-    },
-    {
-      "type": "richtext",
-      "id": "sidebar_text",
-      "label": "Texte colonne droite",
-      "default": "<p>Chaque recette doit pouvoir renvoyer vers le bon produit, le bon format ou la bonne collection.</p>"
-    },
-    {
-      "type": "product",
-      "id": "featured_product",
-      "label": "Produit principal"
-    },
-    {
-      "type": "collection",
-      "id": "related_collection",
-      "label": "Collection liée"
-    },
-    {
-      "type": "text",
-      "id": "primary_label",
-      "label": "CTA principal",
-      "default": "Voir le produit"
-    },
-    {
-      "type": "url",
-      "id": "primary_link",
-      "label": "Lien CTA principal"
-    },
-    {
-      "type": "text",
-      "id": "secondary_label",
-      "label": "CTA secondaire",
-      "default": "Voir la collection"
-    },
-    {
-      "type": "url",
-      "id": "secondary_link",
-      "label": "Lien CTA secondaire"
-    },
-    {
-      "type": "richtext",
-      "id": "provenance",
-      "label": "Bloc provenance",
-      "default": "<p>Recette travaillée avec des gousses de vanille Bourbon sourcées directement à Madagascar, dans une logique de goût et de traçabilité plutôt que de folklore.</p>"
+      "id": "customer_shelf_endpoint",
+      "label": "Endpoint carnet client",
+      "default": "/apps/recipes-studio/shelf",
+      "info": "App proxy Shopify ou endpoint public pour synchroniser favoris et historique."
     },
     {
       "type": "color_scheme",
@@ -399,72 +142,55 @@
   ],
   "blocks": [
     {
-      "type": "ingredient",
-      "name": "Ingrédient",
+      "type": "recipe_media",
+      "name": "Media recette",
       "settings": [
         {
           "type": "text",
-          "id": "quantity",
-          "label": "Quantité",
-          "default": "2"
+          "id": "recipe_slug",
+          "label": "Slug recette",
+          "info": "Exemple : beignet-banane"
+        },
+        {
+          "type": "select",
+          "id": "placement",
+          "label": "Placement",
+          "default": "gallery",
+          "options": [
+            { "value": "hero", "label": "Hero / fond principal" },
+            { "value": "gallery", "label": "Galerie recette" },
+            { "value": "step", "label": "Étape" }
+          ]
+        },
+        {
+          "type": "range",
+          "id": "step_number",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "label": "Numero d'etape",
+          "default": 1
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video Shopify"
         },
         {
           "type": "text",
-          "id": "unit",
-          "label": "Unité",
-          "default": "gousses"
+          "id": "video_url",
+          "label": "URL video MP4 externe",
+          "info": "Utilisee si aucune video Shopify n'est selectionnee"
         },
         {
           "type": "text",
-          "id": "title",
-          "label": "Nom",
-          "default": "Vanille Bourbon"
-        },
-        {
-          "type": "textarea",
-          "id": "note",
-          "label": "Note"
-        },
-        {
-          "type": "text",
-          "id": "badge",
-          "label": "Badge latéral"
-        },
-        {
-          "type": "checkbox",
-          "id": "scalable",
-          "label": "Ajuster avec les portions",
-          "default": true
-        }
-      ]
-    },
-    {
-      "type": "step",
-      "name": "Étape",
-      "settings": [
-        {
-          "type": "textarea",
-          "id": "text",
-          "label": "Texte",
-          "default": "Décrire ici une étape claire, utile et concise."
-        }
-      ]
-    },
-    {
-      "type": "tip",
-      "name": "Astuce",
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Titre",
-          "default": "Température"
-        },
-        {
-          "type": "textarea",
-          "id": "text",
-          "label": "Texte",
-          "default": "Ajoute ici une astuce de cuisson, de texture ou de service."
+          "id": "caption",
+          "label": "Legende"
         }
       ]
     }

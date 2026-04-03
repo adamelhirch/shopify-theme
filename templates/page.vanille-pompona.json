@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -8,108 +17,52 @@
     "banner": {
       "type": "vd-page-banner",
       "settings": {
-        "eyebrow": "Le Wiki",
+        "eyebrow": "Matière",
         "heading": "Vanille Pompona",
-        "text": "<p>Une base plus severe pour presenter la Pompona: profil aromatique, singularite, usages et passerelles vers la gamme sans retomber dans l'ancienne DA.</p>",
+        "text": "<p>Une entrée plus directe pour comparer les profils vanille, retrouver les formats de la maison et préparer une future page dédiée quand la sélection Pompona sera prête.</p>",
         "primary_button_label": "Voir les produits",
-        "primary_button_link": "shopify://collections/all",
-        "secondary_button_label": "Nous contacter",
-        "secondary_button_link": "shopify://pages/contact",
-        "metric_1_label": "Espece",
+        "primary_button_link": "shopify://collections/vanille-bourbon",
+        "secondary_button_label": "Lire les recettes",
+        "secondary_button_link": "shopify://pages/recettes",
+        "metric_1_label": "Espèce",
         "metric_1_value": "Pompona",
-        "metric_2_label": "Lecture",
-        "metric_2_value": "Profil + usage",
+        "metric_2_label": "Profil",
+        "metric_2_value": "Accords & usage",
         "metric_3_label": "Style",
-        "metric_3_value": "Editorial",
+        "metric_3_value": "Rare & généreux",
         "color_scheme": "scheme-3",
         "padding_top": 20,
         "padding_bottom": 8
       }
     },
-    "wiki": {
-      "type": "wiki-content",
-      "blocks": {
-        "item_1": {
-          "type": "item",
-          "settings": {
-            "kicker": "Profil",
-            "title": "Un caractere different de la Bourbon",
-            "text": "<p>Cette page peut poser une vraie comparaison de profil, d'intensite, d'accords et de contextes d'usage sans se perdre dans le decor.</p>",
-            "link_label": "Voir la vanille Bourbon",
-            "link": "shopify://collections/vanille-bourbon"
-          }
-        },
-        "item_2": {
-          "type": "item",
-          "settings": {
-            "kicker": "Accords",
-            "title": "Chocolat, rhum, desserts intenses",
-            "text": "<p>Le contenu doit aider a comprendre ou la Pompona excelle vraiment et comment la travailler differemment d'une planifolia.</p>",
-            "link_label": "Voir les recettes",
-            "link": "shopify://pages/recettes"
-          }
-        },
-        "item_3": {
-          "type": "item",
-          "settings": {
-            "kicker": "Suite",
-            "title": "Une page construite pour les futurs focus video",
-            "text": "<p>Vos contenus 4K pourront ensuite détailler matiere, texture et coupe de gousse sans refaire le squelette de page.</p>",
-            "link_label": "Parler sourcing",
-            "link": "shopify://pages/contact"
-          }
-        }
-      },
-      "block_order": [
-        "item_1",
-        "item_2",
-        "item_3"
-      ],
+    "collection": {
+      "type": "featured-collection",
       "settings": {
-        "eyebrow": "Lecture produit",
-        "heading": "Une base premium pour traiter un sujet rare.",
-        "text": "<p>La Pompona merite une page nette et construite, pas un bloc decoratif brun. Cette version remet le sujet au centre.</p>",
-        "summary": "Le wiki sert ici a differencier, comparer et donner envie d'explorer plus loin la matiere.",
+        "collection": "vanille-bourbon",
+        "products_to_show": 6,
+        "title": "Explorer la famille vanille",
+        "heading_size": "h1",
+        "description": "<p>En attendant une collection Pompona dédiée, cette page ramène vers les formats vanille de la maison avec une lecture nette et directement shoppable.</p>",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 3,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "link",
         "color_scheme": "scheme-3",
-        "padding_top": 0,
-        "padding_bottom": 28
-      }
-    },
-    "story": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "Rare mais lisible",
-            "text": "<p>Le ton reste accessible meme quand le sujet devient plus pointu ou plus botanique.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Comparer sans noyer",
-            "text": "<p>Une bonne page wiki aide a distinguer Pompona, Bourbon et autres profils sans transformer la lecture en fiche technique indigeste.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Shoppable",
-            "text": "<p>Le contenu editorial doit pouvoir ramener vers un produit, une recette ou une prise de contact en quelques secondes.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "Un wiki matiere, pas une page patchwork.",
-        "text": "<p>Cette base est volontairement plus dure et plus calme. Tu pourras ensuite y injecter tes vrais assets sans repartir de zero.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 0,
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "card_surface": "dark",
+        "show_subtitle": true,
+        "show_product_type": true,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 8,
         "padding_bottom": 56
       }
     }
@@ -117,7 +70,6 @@
   "order": [
     "main",
     "banner",
-    "wiki",
-    "story"
+    "collection"
   ]
 }

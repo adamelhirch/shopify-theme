@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "vd_catalogue_orbital_G7w2nC": {
@@ -8,19 +17,19 @@
           "settings": {
             "kicker": "Signature",
             "title": "Vanille Bourbon",
-            "text": "<p>Le coeur de la maison: gousses, caviar, poudre, extraits et formats d'entree ou de cadeau. C'est ici qu'on doit comprendre le mieux la marque.</p>",
+            "text": "<p>Gousses, caviar, poudre, extraits et formats cadeau: le cœur de la maison, pensé pour la pâtisserie, l’infusion et les gestes de précision.</p>",
             "collection": "vanille-bourbon",
-            "link_label": "Entrer dans l'univers"
+            "link_label": "Explorer la vanille"
           }
         },
         "collection_2": {
           "type": "entry",
           "settings": {
-            "kicker": "Extension",
+            "kicker": "Accords",
             "title": "Epices de Madagascar",
-            "text": "<p>Une lecture plus large du sourcing maison: epices aromatiques, accords et formats qui prolongent naturellement l'univers principal.</p>",
+            "text": "<p>Épices de cuisine, accords aromatiques et formats du quotidien pour prolonger la maison avec du relief et de la précision.</p>",
             "collection": "epices-madagascar",
-            "link_label": "Explorer les epices"
+            "link_label": "Explorer les épices"
           }
         },
         "collection_3": {
@@ -28,9 +37,9 @@
           "settings": {
             "kicker": "Selection",
             "title": "Poivres, baies & coffrets",
-            "text": "<p>Le catalogue doit aussi offrir des points d'entree plus rapides: idee cadeau, premier panier, ou besoins plus pointus autour des accords.</p>",
+            "text": "<p>Poivres, baies, coffrets et sélections à offrir pour composer un panier, découvrir la maison ou aller vers un besoin plus précis.</p>",
             "collection": "poivre-baies",
-            "link_label": "Voir les selections"
+            "link_label": "Voir les sélections"
           }
         }
       },
@@ -41,11 +50,11 @@
       ],
       "settings": {
         "eyebrow": "Catalogue",
-        "heading": "Une navigation catalogue plus logique, plus tranchee, plus premium.",
-        "text": "<p>On ne veut plus d'une page de collections neutre. Elle doit orienter selon le besoin, la maturite du client et le type d'usage, avec une vraie sensation de luxe sobre.</p>",
+        "heading": "Explorer la maison par univers, usages et formats.",
+        "text": "<p>La vanille comme cœur de maison, les épices pour prolonger les accords, puis des sélections pensées pour offrir, cuisiner ou découvrir plus vite.</p>",
         "primary_link_label": "Voir tous les produits",
         "primary_link": "shopify://collections/all",
-        "secondary_link_label": "Aller aux recettes",
+        "secondary_link_label": "Voir les recettes",
         "secondary_link": "shopify://pages/recettes",
         "color_scheme": "scheme-3",
         "padding_top": 20,
@@ -59,49 +68,10 @@
         "sort": "alphabetical",
         "image_ratio": "square"
       }
-    },
-    "vd_story_grid_list_collections_n9Q2uK": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "Entrer vite",
-            "text": "<p>Le client doit comprendre tout de suite ou aller: cadeau, usage quotidien, patisserie ou sourcing plus expert.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Monter en gamme",
-            "text": "<p>Le catalogue doit donner une sensation de precision, pas une impression de bazar ou de simples tuiles Shopify.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Relier au contenu",
-            "text": "<p>Chaque univers doit pouvoir renvoyer vers les bons usages, recettes ou pages de wiki pour aider a choisir.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "Un catalogue qui raconte une logique avant d'empiler des cartes.",
-        "text": "<p>Cette base est faite pour etre ensuite enrichie avec vos videos, vos preuves visuelles et des niveaux de lecture plus fins.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 0,
-        "padding_bottom": 56
-      }
     }
   },
   "order": [
     "vd_catalogue_orbital_G7w2nC",
-    "main",
-    "vd_story_grid_list_collections_n9Q2uK"
+    "main"
   ]
 }

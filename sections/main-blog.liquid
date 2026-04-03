@@ -1,6 +1,8 @@
 {{ 'component-article-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'section-main-blog.css' | asset_url | stylesheet_tag }}
+{{ 'vd-wiki-hub.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'vd-preview-links.js' | asset_url }}" defer="defer"></script>
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -22,32 +24,36 @@
 
     <div class="vd-blog-shell__head{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
       <div class="vd-blog-shell__head-copy">
-        <span class="vd-section-kicker">Edition</span>
+        <span class="vd-section-kicker">{{ section.settings.eyebrow }}</span>
         <h1 class="title--primary">{{ blog.title | escape }}</h1>
-        <p>
-          Une lecture plus construite du contenu: un article fort en ouverture, puis une grille plus lisible pour
-          continuer sans perdre la direction de marque.
-        </p>
+        {% if section.settings.intro != blank %}
+          <p>{{ section.settings.intro }}</p>
+        {% endif %}
       </div>
       <div class="vd-blog-shell__head-panel">
         <div class="vd-blog-shell__metric">
-          <span>Articles</span>
+          <span>{{ section.settings.metric_articles_label }}</span>
           <strong>{{ blog.articles_count }}</strong>
         </div>
         <div class="vd-blog-shell__metric">
-          <span>Angle</span>
-          <strong>Pedagogie produit</strong>
+          <span>{{ section.settings.metric_angle_label }}</span>
+          <strong>{{ section.settings.metric_angle_value }}</strong>
         </div>
         <div class="vd-blog-shell__metric">
-          <span>Sortie</span>
-          <strong>Recettes & catalogue</strong>
+          <span>{{ section.settings.metric_exit_label }}</span>
+          <strong>{{ section.settings.metric_exit_value }}</strong>
         </div>
       </div>
     </div>
 
     {%- if featured_article != blank -%}
+      {%- liquid
+        assign featured_chapter = featured_article.metafields.custom.wiki_chapter_label.value
+        assign featured_subtheme = featured_article.metafields.custom.wiki_subtheme_label.value
+        assign featured_level = featured_article.metafields.custom.wiki_reading_level.value
+      -%}
       <article class="vd-blog-shell__feature{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-        <a href="{{ featured_article.url }}" class="vd-blog-shell__feature-link">
+        <a href="{{ featured_article.url }}" class="vd-blog-shell__feature-link" data-vd-preview-link>
           <div class="vd-blog-shell__feature-media">
             {%- if featured_article.image and section.settings.show_image -%}
               <img
@@ -68,7 +74,20 @@
             {%- endif -%}
           </div>
           <div class="vd-blog-shell__feature-copy">
-            <span class="vd-section-kicker">A la une</span>
+            <span class="vd-section-kicker">{{ section.settings.feature_kicker }}</span>
+            {% if featured_chapter != blank or featured_subtheme != blank or featured_level != blank %}
+              <div class="vd-blog-shell__taxonomy">
+                {% if featured_chapter != blank %}
+                  <span class="vd-blog-shell__chip vd-blog-shell__chip--accent">{{ featured_chapter }}</span>
+                {% endif %}
+                {% if featured_subtheme != blank %}
+                  <span class="vd-blog-shell__chip">{{ featured_subtheme }}</span>
+                {% endif %}
+                {% if featured_level != blank %}
+                  <span class="vd-blog-shell__chip">{{ featured_level }}</span>
+                {% endif %}
+              </div>
+            {% endif %}
             <h2>{{ featured_article.title | escape }}</h2>
             <p>
               {%- if featured_article.excerpt.size > 0 -%}
@@ -79,7 +98,7 @@
             </p>
             <div class="vd-blog-shell__feature-meta">
               <span>{{ featured_article.published_at | time_tag: format: 'date' }}</span>
-              <strong>Lire l'article</strong>
+              <strong>{{ section.settings.feature_cta_label }}</strong>
             </div>
           </div>
         </a>
@@ -88,9 +107,14 @@
 
     <div class="blog-articles {% if section.settings.layout == 'collage' %}blog-articles--collage{% endif %}">
       {%- for article in blog.articles -%}
-        {%- if paginate.current_page == 1 and forloop.first -%}
-          {% continue %}
-        {%- endif -%}
+      {%- if paginate.current_page == 1 and forloop.first -%}
+        {% continue %}
+      {%- endif -%}
+      {%- liquid
+        assign article_chapter = article.metafields.custom.wiki_chapter_label.value
+        assign article_subtheme = article.metafields.custom.wiki_subtheme_label.value
+        assign article_level = article.metafields.custom.wiki_reading_level.value
+      -%}
         <div
           class="blog-articles__article article{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
           {% if settings.animations_reveal_on_scroll %}
@@ -98,15 +122,30 @@
             style="--animation-order: {{ forloop.index }};"
           {% endif %}
         >
-          {%- render 'article-card',
-            article: article,
-            media_height: section.settings.image_height,
-            media_aspect_ratio: article.image.aspect_ratio,
-            show_image: section.settings.show_image,
-            show_date: section.settings.show_date,
-            show_author: section.settings.show_author,
-            show_excerpt: true
-          -%}
+          <div class="vd-blog-shell__article-frame">
+            {% if article_chapter != blank or article_subtheme != blank or article_level != blank %}
+              <div class="vd-blog-shell__article-taxonomy">
+                {% if article_chapter != blank %}
+                  <span class="vd-blog-shell__chip vd-blog-shell__chip--accent">{{ article_chapter }}</span>
+                {% endif %}
+                {% if article_subtheme != blank %}
+                  <span class="vd-blog-shell__chip">{{ article_subtheme }}</span>
+                {% endif %}
+                {% if article_level != blank %}
+                  <span class="vd-blog-shell__chip">{{ article_level }}</span>
+                {% endif %}
+              </div>
+            {% endif %}
+            {%- render 'article-card',
+              article: article,
+              media_height: section.settings.image_height,
+              media_aspect_ratio: article.image.aspect_ratio,
+              show_image: section.settings.show_image,
+              show_date: section.settings.show_date,
+              show_author: section.settings.show_author,
+              show_excerpt: true
+            -%}
+          </div>
         </div>
       {%- endfor -%}
     </div>
@@ -123,6 +162,60 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "default": "Edition",
+      "label": "Sur-titre"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "default": "Une lecture plus construite du contenu: un article fort en ouverture, puis une grille plus lisible pour continuer sans perdre la direction de marque.",
+      "label": "Introduction"
+    },
+    {
+      "type": "text",
+      "id": "metric_articles_label",
+      "default": "Articles",
+      "label": "Libelle metrique 1"
+    },
+    {
+      "type": "text",
+      "id": "metric_angle_label",
+      "default": "Angle",
+      "label": "Libelle metrique 2"
+    },
+    {
+      "type": "text",
+      "id": "metric_angle_value",
+      "default": "Pedagogie produit",
+      "label": "Valeur metrique 2"
+    },
+    {
+      "type": "text",
+      "id": "metric_exit_label",
+      "default": "Sortie",
+      "label": "Libelle metrique 3"
+    },
+    {
+      "type": "text",
+      "id": "metric_exit_value",
+      "default": "Recettes & catalogue",
+      "label": "Valeur metrique 3"
+    },
+    {
+      "type": "text",
+      "id": "feature_kicker",
+      "default": "A la une",
+      "label": "Sur-titre article mis en avant"
+    },
+    {
+      "type": "text",
+      "id": "feature_cta_label",
+      "default": "Lire l'article",
+      "label": "Libelle CTA article mis en avant"
+    },
     {
       "type": "select",
       "id": "layout",

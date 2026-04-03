@@ -4,28 +4,29 @@
 
 - Store: `4bru0c-p4.myshopify.com`
 - Live theme: `Copie mise à jour de Motion` (`180888928523`)
-- Shared QA theme: `QA Shared v1.1` (`181079441675`)
+- Active shared preview: `QA Shared v1.1.6` (`181138194699`)
 - Frozen backup theme: `QA Shared v1` (`181070168331`)
 
 ## Rules
 
 - Never implement directly on `main`.
 - One Git branch per task.
-- One Shopify development theme per person.
-- Never share the same Shopify development theme while working in parallel.
-- Push to the shared QA theme only when a task is ready for review.
+- Shopify preview is the source of truth when the active preview name or ID is known.
+- Sync from the active Shopify preview before editing the theme locally.
+- Push to the same Shopify preview first, validate there, then commit and push Git.
 - `QA Shared v1` is frozen and restore-only.
 - Never push normal work to `QA Shared v1`.
-- The only shared preview target for routine work is `QA Shared v1.1` (`181079441675`).
-- Before any Shopify push, confirm that `./bin/theme-push-qa.sh` and the CLI output both target `181079441675`.
+- Before any Shopify push, confirm that `./bin/theme-push-qa.sh` and the CLI output both target `181138194699`.
 
 ## Daily flow
 
-1. Update the agreed Git base branch for the active delivery track.
-2. Create a dedicated branch from that base.
-3. Work locally with `shopify theme dev`.
-4. When the task is finished, push the Git branch.
-5. If the task must be visible to others in Shopify, push the code only to `QA Shared v1.1`.
+1. Identify the exact active Shopify preview theme.
+2. Pull the local theme from that preview.
+3. Create or use the dedicated Git branch for the task.
+4. Work locally from the synced preview state only.
+5. Push the changes back to the same Shopify preview.
+6. Validate on the preview itself.
+7. Commit and push the Git branch only after preview validation.
 
 ## Commands
 
@@ -44,12 +45,16 @@ Push current local code to the shared QA theme:
 Expected target:
 
 ```text
-QA Shared v1.1 (181079441675)
+QA Shared v1.1.6 (181138194699)
 ```
 
 ## Important distinction
 
 - `git push`: shares code on GitHub.
-- `theme-push-qa`: updates the current shared Shopify review theme (`QA Shared v1.1`).
+- `theme-push-qa`: updates the current shared Shopify review theme (`QA Shared v1.1.6`).
 
-Both are needed if someone else must both pull the code and refresh the shared review theme.
+For theme work, the real order is:
+
+```text
+pull preview -> edit -> push preview -> verify -> commit Git -> push Git
+```

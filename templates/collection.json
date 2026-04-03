@@ -1,11 +1,30 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "banner": {
       "type": "main-collection-banner",
       "settings": {
-        "show_collection_description": true,
+        "eyebrow": "Collection",
+        "show_collection_description": false,
         "show_collection_image": true,
-        "color_scheme": "scheme-3"
+        "color_scheme": "scheme-3",
+        "metric_primary_label": "Sélection",
+        "metric_secondary_label": "Lecture",
+        "metric_secondary_value": "Formats, intensité, usages",
+        "metric_tertiary_label": "Suite",
+        "metric_tertiary_value": "Recettes, conseils, wiki",
+        "primary_link_label": "Voir tout le catalogue",
+        "primary_link": "/collections/all",
+        "secondary_link_label": "Voir les recettes",
+        "secondary_link": "/pages/recettes"
       }
     },
     "product-grid": {
@@ -17,71 +36,28 @@
         "show_secondary_image": false,
         "show_vendor": false,
         "show_rating": false,
+        "show_subtitle": true,
+        "show_product_type": true,
         "enable_filtering": true,
         "enable_sorting": true,
         "color_scheme": "scheme-3",
+        "intro_kicker": "",
+        "intro_heading": "",
+        "intro_text": "",
+        "primary_link_label": "",
+        "primary_link": "",
+        "secondary_link_label": "",
+        "secondary_link": "",
+        "grid_note_eyebrow": "Conseil",
+        "grid_note": "",
         "columns_mobile": "2",
         "padding_top": 36,
         "padding_bottom": 36
-      }
-    },
-    "vd_story_grid_collection_c7F2pA": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "Formats lisibles",
-            "text": "<p>Du tube cadeau au format plus quotidien, la page collection doit aider a comprendre l'usage sans surcharger.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Origine nette",
-            "text": "<p>On rappelle d'ou vient la matiere, comment elle est suivie et pourquoi cela change vraiment le resultat.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Choix plus simple",
-            "text": "<p>La page devient un point d'entree clair pour les clients qui ne savent pas encore quel format choisir.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "Une collection plus claire, plus premium, plus utile.",
-        "text": "<p>Avant meme de scroller dans la grille, la page doit expliquer la logique de gamme et rassurer sur le niveau de qualite.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 0,
-        "padding_bottom": 28
-      }
-    },
-    "vd_testimonials_collection_b5N1sD": {
-      "type": "vd-testimonials",
-      "settings": {
-        "eyebrow": "Avis clients",
-        "heading": "La confiance doit aussi vivre au niveau collection.",
-        "text": "<p>Une couche de preuve sociale pour soutenir les pages catalogue, pas seulement les fiches produit.</p>",
-        "reviews_limit": "6",
-        "button_label": "Voir les produits",
-        "button_link": "shopify://collections/vanille-bourbon",
-        "color_scheme": "scheme-3",
-        "padding_top": 8,
-        "padding_bottom": 56
       }
     }
   },
   "order": [
     "banner",
-    "product-grid",
-    "vd_story_grid_collection_c7F2pA",
-    "vd_testimonials_collection_b5N1sD"
+    "product-grid"
   ]
 }
