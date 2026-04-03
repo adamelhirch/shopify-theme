@@ -11058,6 +11058,11 @@ body:has(.section-vd-hero) .header-wrapper {
   box-sizing: border-box;
 }
 
+.footer.footer--scene {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .footer--scene .vd-footer-bento {
   display: grid;
   grid-template-columns: 1.5fr 1fr 1fr;
@@ -11071,9 +11076,9 @@ body:has(.section-vd-hero) .header-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 4rem;
+  padding: 5rem;
   min-height: 100%;
-  border: 0.5px solid rgba(255, 255, 255, 0.05);
+  border: 0.3px solid rgba(255, 255, 255, 0.1);
   border-radius: 1.2rem;
   background: #000000;
   text-align: left;
@@ -11089,16 +11094,22 @@ body:has(.section-vd-hero) .header-wrapper {
 .footer--scene .vd-footer-bento__explore {
   grid-column: 2;
   grid-row: 1;
+  align-items: flex-start;
+  align-self: flex-start;
 }
 
 .footer--scene .vd-footer-bento__journal {
   grid-column: 3;
   grid-row: 1;
+  align-items: flex-start;
+  align-self: flex-start;
 }
 
 .footer--scene .vd-footer-bento__contact {
   grid-column: 1;
   grid-row: 2;
+  align-items: flex-start;
+  align-self: flex-start;
 }
 
 .footer--scene .vd-footer-stage__meta {
@@ -11114,10 +11125,10 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .footer--scene .vd-footer-stage__label {
   margin: 0 0 3rem;
-  color: rgba(245, 245, 245, 0.3);
-  font-size: 0.7rem;
+  color: rgba(245, 245, 245, 0.2);
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.4em;
   text-transform: uppercase;
 }
 
@@ -11125,10 +11136,10 @@ body:has(.section-vd-hero) .header-wrapper {
   margin: 0;
   max-width: 9ch;
   color: #f5f5f5;
-  font-size: 4.5rem;
+  font-size: clamp(3rem, 5vw, 4.5rem);
   font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.05em;
+  line-height: 0.95;
+  letter-spacing: -0.06em;
   text-wrap: balance;
 }
 
@@ -11175,7 +11186,7 @@ body:has(.section-vd-hero) .header-wrapper {
 }
 
 .footer--scene .vd-footer-stage__nav-list li:not(:last-child) {
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
 }
 
 .footer--scene .vd-footer-stage__nav-list a,
@@ -11201,6 +11212,7 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .footer--scene .vd-footer-stage__newsletter-line {
   position: relative;
+  width: 100%;
 }
 
 .footer--scene .vd-form__field--line {
@@ -11218,7 +11230,7 @@ body:has(.section-vd-hero) .header-wrapper {
 .footer--scene .vd-form__field--line .field__input {
   width: 100%;
   min-height: 0;
-  padding: 0 3.2rem 1rem 0;
+  padding: 0;
   border: 0;
   color: #f5f5f5;
   font-size: 1.1rem;
@@ -11239,15 +11251,15 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .footer--scene .vd-form__submit--line {
   position: absolute;
-  top: calc(50% - 0.5rem);
   right: 0;
-  width: 2.4rem;
-  height: 2.4rem;
+  bottom: 0;
+  width: auto;
+  height: auto;
   border: 0;
   padding: 0;
   background: transparent;
   color: rgba(245, 245, 245, 0.8);
-  transform: translateY(-50%);
+  transform: translateY(50%);
 }
 
 .footer--scene .newsletter-form__message,
@@ -11297,7 +11309,7 @@ body:has(.section-vd-hero) .header-wrapper {
   }
 
   .footer--scene .bento-item {
-    padding: 2.4rem;
+    padding: 2.8rem;
   }
 
   .footer--scene .vd-footer-stage__title {
