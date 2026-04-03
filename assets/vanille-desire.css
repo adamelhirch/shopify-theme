@@ -11063,16 +11063,20 @@ body:has(.section-vd-hero) .header-wrapper {
   grid-template-columns: 2fr 1fr 1fr;
   gap: 1rem;
   align-items: start;
+  grid-auto-rows: max-content;
 }
 
 .footer--scene .bento-item {
   position: relative;
   overflow: hidden;
   padding: 2.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  min-height: auto;
+  height: auto;
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
   border-radius: 1.2rem;
   background: #000;
   text-align: left;
+  align-self: start;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
@@ -11109,7 +11113,7 @@ body:has(.section-vd-hero) .header-wrapper {
 }
 
 .footer--scene .vd-footer-stage__label {
-  margin: 0 0 1.6rem;
+  margin: 0 0 2rem;
   color: rgba(245, 245, 245, 0.4);
   font-size: 0.65rem;
   font-weight: 600;
@@ -11122,8 +11126,9 @@ body:has(.section-vd-hero) .header-wrapper {
   max-width: 9ch;
   color: #f5f5f5;
   font-size: 3.2rem;
+  font-weight: 500;
   line-height: 1.1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.05em;
   text-wrap: balance;
 }
 
@@ -11147,12 +11152,13 @@ body:has(.section-vd-hero) .header-wrapper {
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  color: rgba(245, 245, 245, 0.8);
+  color: rgba(245, 245, 245, 0.6);
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 300;
   line-height: 1.4;
-  transition: opacity 180ms ease, color 180ms ease;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
 }
 
 .footer--scene .vd-arrow-cta__icon {
@@ -11171,12 +11177,13 @@ body:has(.section-vd-hero) .header-wrapper {
 .footer--scene .vd-footer-stage__journal-text,
 .footer--scene .vd-footer-stage__mail,
 .footer--scene .vd-footer-stage__social-text a {
-  color: rgba(245, 245, 245, 0.8);
+  color: rgba(245, 245, 245, 0.6);
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 300;
   line-height: 1.6;
-  transition: opacity 180ms ease, color 180ms ease;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
 }
 
 .footer--scene .vd-footer-stage__journal-text {
@@ -11192,22 +11199,23 @@ body:has(.section-vd-hero) .header-wrapper {
 }
 
 .footer--scene .vd-form__field--line {
-  min-height: 4.2rem;
+  min-height: 0;
   border: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 0;
   background: transparent;
   box-shadow: none;
 }
 
 .footer--scene .vd-form__field--line .field__input {
-  min-height: 4.2rem;
+  min-height: 0;
   padding: 0 3.2rem 0 0;
   border: 0;
   color: #f5f5f5;
   font-size: 0.9rem;
   background: transparent;
   box-shadow: none;
+  outline: 0;
 }
 
 .footer--scene .vd-form__field--line .field__input::placeholder {
@@ -11253,7 +11261,6 @@ body:has(.section-vd-hero) .header-wrapper {
 .footer--scene .vd-footer-stage__mail:focus-visible,
 .footer--scene .vd-footer-stage__social-text a:hover,
 .footer--scene .vd-footer-stage__social-text a:focus-visible {
-  color: #f5f5f5;
   opacity: 1;
 }
 
