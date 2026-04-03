@@ -7,11 +7,15 @@
   assign recipe_handles_csv = ',' | append: recipe_handles_normalized | append: ','
   assign is_recipe_page = false
   assign is_catalog_page = false
+  assign is_wiki_page = false
   if recipe_metafield_value != blank or recipe_handles_csv contains recipe_handle_token
     assign is_recipe_page = true
   endif
   if page.handle == 'catalogue'
     assign is_catalog_page = true
+  endif
+  if page.handle == 'wiki'
+    assign is_wiki_page = true
   endif
 -%}
 
@@ -22,6 +26,11 @@
     <script src="{{ 'vd-recipes-hub.js' | asset_url }}" defer="defer"></script>
   {% endif %}
   <script src="{{ 'vd-recipe-signature.js' | asset_url }}" defer="defer"></script>
+{% endif %}
+
+{% if is_wiki_page %}
+  {{ 'vd-wiki-hub.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'vd-preview-links.js' | asset_url }}" defer="defer"></script>
 {% endif %}
 
 {% style %}
@@ -650,6 +659,114 @@
       </div>
     </div>
   </section>
+{% elsif is_wiki_page %}
+  <section class="section-{{ section.id }}-padding vd-wiki-hub color-{{ section.settings.color_scheme }}">
+    <div class="page-width">
+      <div class="vd-wiki-hub__hero">
+        <div class="vd-wiki-hub__copy">
+          {% if section.settings.wiki_eyebrow != blank %}
+            <span class="vd-section-kicker">{{ section.settings.wiki_eyebrow }}</span>
+          {% endif %}
+
+          <h1 class="vd-wiki-hub__title">{{ section.settings.wiki_heading | default: page.title }}</h1>
+
+          <div class="vd-wiki-hub__text rte">
+            {{ section.settings.wiki_text | default: page.content }}
+          </div>
+        </div>
+
+        <div class="vd-wiki-hub__summary">
+          <span>{{ section.settings.wiki_summary_eyebrow | default: 'Point clé' }}</span>
+          <p>{{ section.settings.wiki_summary }}</p>
+          <div class="vd-wiki-hub__summary-links">
+            <a href="{{ section.settings.wiki_primary_link | default: '/pages/recettes' }}" class="vd-arrow-cta" data-vd-preview-link>
+              <span class="vd-arrow-cta__label">{{ section.settings.wiki_primary_link_label | default: 'Voir les recettes' }}</span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+            <a href="{{ section.settings.wiki_secondary_link | default: routes.all_products_collection_url }}" class="vd-arrow-cta" data-vd-preview-link>
+              <span class="vd-arrow-cta__label">{{ section.settings.wiki_secondary_link_label | default: 'Retour au catalogue' }}</span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="vd-wiki-hub__grid" role="list">
+        <article class="vd-wiki-hub__card vd-wiki-hub__card--feature" role="listitem">
+          <span>{{ section.settings.wiki_card_1_kicker }}</span>
+          <h3>{{ section.settings.wiki_card_1_title }}</h3>
+          <div class="vd-wiki-hub__card-text rte">
+            <p>{{ section.settings.wiki_card_1_text }}</p>
+          </div>
+          {% if section.settings.wiki_card_1_link_label != blank %}
+            <a href="{{ section.settings.wiki_card_1_link | default: routes.all_products_collection_url }}" class="vd-arrow-cta" data-vd-preview-link>
+              <span class="vd-arrow-cta__label">{{ section.settings.wiki_card_1_link_label }}</span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+          {% endif %}
+        </article>
+
+        <article class="vd-wiki-hub__card" role="listitem">
+          <span>{{ section.settings.wiki_card_2_kicker }}</span>
+          <h3>{{ section.settings.wiki_card_2_title }}</h3>
+          <div class="vd-wiki-hub__card-text rte">
+            <p>{{ section.settings.wiki_card_2_text }}</p>
+          </div>
+          {% if section.settings.wiki_card_2_link_label != blank %}
+            <a href="{{ section.settings.wiki_card_2_link | default: '/pages/recettes' }}" class="vd-arrow-cta" data-vd-preview-link>
+              <span class="vd-arrow-cta__label">{{ section.settings.wiki_card_2_link_label }}</span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+          {% endif %}
+        </article>
+
+        <article class="vd-wiki-hub__card" role="listitem">
+          <span>{{ section.settings.wiki_card_3_kicker }}</span>
+          <h3>{{ section.settings.wiki_card_3_title }}</h3>
+          <div class="vd-wiki-hub__card-text rte">
+            <p>{{ section.settings.wiki_card_3_text }}</p>
+          </div>
+          {% if section.settings.wiki_card_3_link_label != blank %}
+            <a href="{{ section.settings.wiki_card_3_link | default: '/pages/contact' }}" class="vd-arrow-cta" data-vd-preview-link>
+              <span class="vd-arrow-cta__label">{{ section.settings.wiki_card_3_link_label }}</span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+          {% endif %}
+        </article>
+      </div>
+
+      <div class="vd-wiki-hub__foot">
+        <div class="vd-wiki-hub__foot-copy">
+          <span class="vd-section-kicker">{{ section.settings.wiki_footer_eyebrow | default: 'Explorer la suite' }}</span>
+          <h2>{{ section.settings.wiki_footer_heading | default: 'Le wiki prépare la lecture, puis renvoie vers un geste, une recette ou un produit.' }}</h2>
+        </div>
+        <div class="vd-wiki-hub__foot-links">
+          <a href="{{ section.settings.wiki_footer_primary_link | default: '/pages/recettes' }}" class="vd-arrow-cta" data-vd-preview-link>
+            <span class="vd-arrow-cta__label">{{ section.settings.wiki_footer_primary_link_label | default: 'Voir les recettes' }}</span>
+            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+            </svg>
+          </a>
+          <a href="{{ section.settings.wiki_footer_secondary_link | default: routes.all_products_collection_url }}" class="vd-arrow-cta" data-vd-preview-link>
+            <span class="vd-arrow-cta__label">{{ section.settings.wiki_footer_secondary_link_label | default: 'Retour au catalogue' }}</span>
+            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 {% else %}
   <section class="section-{{ section.id }}-padding vd-page-flow color-{{ section.settings.color_scheme }}">
     <div class="page-width rte">
@@ -777,6 +894,183 @@
       "type": "image_picker",
       "id": "catalogue_background_image",
       "label": "Image de fond catalogue"
+    },
+    {
+      "type": "header",
+      "content": "Wiki"
+    },
+    {
+      "type": "text",
+      "id": "wiki_eyebrow",
+      "label": "Sur-titre wiki",
+      "default": "Le Wiki"
+    },
+    {
+      "type": "textarea",
+      "id": "wiki_heading",
+      "label": "Titre wiki",
+      "default": "Le grand Wiki des épices de Vanille Désiré"
+    },
+    {
+      "type": "richtext",
+      "id": "wiki_text",
+      "label": "Introduction wiki",
+      "default": "<p>Une entrée éditoriale pour comprendre la matière, le geste et les usages, puis continuer vers les recettes, les produits et les prochaines lectures de la maison.</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "wiki_summary",
+      "label": "Résumé wiki",
+      "default": "Le wiki pose les repères essentiels avant l’achat: comprendre, comparer, puis choisir la bonne suite."
+    },
+    {
+      "type": "text",
+      "id": "wiki_summary_eyebrow",
+      "label": "Sur-titre résumé wiki",
+      "default": "Structure"
+    },
+    {
+      "type": "text",
+      "id": "wiki_primary_link_label",
+      "label": "CTA principal wiki",
+      "default": "Voir les recettes"
+    },
+    {
+      "type": "url",
+      "id": "wiki_primary_link",
+      "label": "Lien principal wiki"
+    },
+    {
+      "type": "text",
+      "id": "wiki_secondary_link_label",
+      "label": "CTA secondaire wiki",
+      "default": "Retour au catalogue"
+    },
+    {
+      "type": "url",
+      "id": "wiki_secondary_link",
+      "label": "Lien secondaire wiki"
+    },
+    {
+      "type": "text",
+      "id": "wiki_card_1_kicker",
+      "label": "Carte 1 sur-titre",
+      "default": "Chapitre"
+    },
+    {
+      "type": "text",
+      "id": "wiki_card_1_title",
+      "label": "Carte 1 titre",
+      "default": "Botanique & matière"
+    },
+    {
+      "type": "textarea",
+      "id": "wiki_card_1_text",
+      "label": "Carte 1 texte",
+      "default": "Comprendre la fleur, la liane, la maturité et les premiers gestes qui conditionnent tout le profil final."
+    },
+    {
+      "type": "text",
+      "id": "wiki_card_1_link_label",
+      "label": "Carte 1 CTA",
+      "default": "Voir les produits"
+    },
+    {
+      "type": "url",
+      "id": "wiki_card_1_link",
+      "label": "Carte 1 lien"
+    },
+    {
+      "type": "text",
+      "id": "wiki_card_2_kicker",
+      "label": "Carte 2 sur-titre",
+      "default": "Passerelle"
+    },
+    {
+      "type": "text",
+      "id": "wiki_card_2_title",
+      "label": "Carte 2 titre",
+      "default": "Usages & recettes"
+    },
+    {
+      "type": "textarea",
+      "id": "wiki_card_2_text",
+      "label": "Carte 2 texte",
+      "default": "Relier la lecture aux gestes du quotidien: infusion, dosage, pâtisserie, accords salés et bonnes pratiques."
+    },
+    {
+      "type": "text",
+      "id": "wiki_card_2_link_label",
+      "label": "Carte 2 CTA",
+      "default": "Entrer par les recettes"
+    },
+    {
+      "type": "url",
+      "id": "wiki_card_2_link",
+      "label": "Carte 2 lien"
+    },
+    {
+      "type": "text",
+      "id": "wiki_card_3_kicker",
+      "label": "Carte 3 sur-titre",
+      "default": "Suite"
+    },
+    {
+      "type": "text",
+      "id": "wiki_card_3_title",
+      "label": "Carte 3 titre",
+      "default": "Conseil & orientation"
+    },
+    {
+      "type": "textarea",
+      "id": "wiki_card_3_text",
+      "label": "Carte 3 texte",
+      "default": "Le wiki doit pouvoir rassurer, orienter et renvoyer vers un bon point d’entrée quand le lecteur hésite encore."
+    },
+    {
+      "type": "text",
+      "id": "wiki_card_3_link_label",
+      "label": "Carte 3 CTA",
+      "default": "Nous contacter"
+    },
+    {
+      "type": "url",
+      "id": "wiki_card_3_link",
+      "label": "Carte 3 lien"
+    },
+    {
+      "type": "text",
+      "id": "wiki_footer_eyebrow",
+      "label": "Sur-titre bas wiki",
+      "default": "Explorer la suite"
+    },
+    {
+      "type": "text",
+      "id": "wiki_footer_heading",
+      "label": "Titre bas wiki",
+      "default": "Le wiki prépare la lecture, puis renvoie vers un geste, une recette ou un produit."
+    },
+    {
+      "type": "text",
+      "id": "wiki_footer_primary_link_label",
+      "label": "CTA bas 1 wiki",
+      "default": "Voir les recettes"
+    },
+    {
+      "type": "url",
+      "id": "wiki_footer_primary_link",
+      "label": "Lien bas 1 wiki"
+    },
+    {
+      "type": "text",
+      "id": "wiki_footer_secondary_link_label",
+      "label": "CTA bas 2 wiki",
+      "default": "Retour au catalogue"
+    },
+    {
+      "type": "url",
+      "id": "wiki_footer_secondary_link",
+      "label": "Lien bas 2 wiki"
     },
     {
       "type": "range",
