@@ -10814,9 +10814,11 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .footer--millia .vd-footer-millia__mark {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  min-height: 100%;
+  align-self: start;
+  min-height: 0;
+  padding-top: 5.1rem;
 }
 
 .footer--millia .vd-footer-millia__mark a {
@@ -10827,7 +10829,7 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .footer--millia .vd-footer-millia__logo {
   display: block;
-  width: min(100%, 17rem);
+  width: min(100%, 15.2rem);
   height: auto;
   object-fit: contain;
 }
@@ -10865,7 +10867,7 @@ body:has(.section-vd-hero) .header-wrapper {
     order: 5;
     grid-column: 1 / -1;
     min-height: 0;
-    padding-top: 1.2rem;
+    padding-top: 2rem;
   }
 }
 
@@ -10927,6 +10929,11 @@ body:has(.section-vd-hero) .header-wrapper {
   .footer--millia .vd-footer-millia__grid {
     grid-template-columns: 1fr;
     gap: 2.8rem;
+  }
+
+  .footer--millia .vd-footer-millia__mark {
+    justify-content: flex-start;
+    padding-top: 0.4rem;
   }
 
   .footer--millia .vd-footer-millia__column h3 {
