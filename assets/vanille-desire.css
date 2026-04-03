@@ -10770,9 +10770,10 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .footer--millia .vd-footer-millia__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(18rem, 24rem) minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(14rem, 18rem) minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(2.4rem, 3vw, 4rem);
   align-items: start;
+  justify-items: start;
 }
 
 .footer--millia .vd-footer-millia__column h3 {
@@ -10814,11 +10815,12 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .footer--millia .vd-footer-millia__mark {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
+  justify-self: center;
   align-self: start;
   min-height: 0;
-  padding-top: 5.1rem;
+  padding-top: 3.4rem;
 }
 
 .footer--millia .vd-footer-millia__mark a {
@@ -10829,7 +10831,7 @@ body:has(.section-vd-hero) .header-wrapper {
 
 .footer--millia .vd-footer-millia__logo {
   display: block;
-  width: min(100%, 15.2rem);
+  width: min(100%, 16.2rem);
   height: auto;
   object-fit: contain;
 }
@@ -10932,8 +10934,9 @@ body:has(.section-vd-hero) .header-wrapper {
   }
 
   .footer--millia .vd-footer-millia__mark {
-    justify-content: flex-start;
-    padding-top: 0.4rem;
+    justify-content: center;
+    justify-self: center;
+    padding-top: 0.8rem;
   }
 
   .footer--millia .vd-footer-millia__column h3 {
