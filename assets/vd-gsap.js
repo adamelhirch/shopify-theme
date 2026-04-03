@@ -1308,12 +1308,12 @@
 
   function initFooterScenes(gsap, ScrollTrigger, prefersReducedMotion, cleanups) {
     gsap.utils.toArray('[data-vd-footer-scene]').forEach(function (section) {
-      var panels = gsap.utils.toArray(section.querySelectorAll('.bento-item'));
+      var items = gsap.utils.toArray(section.querySelectorAll('.bento-item > *'));
       var introTimeline;
 
-      if (!panels.length) return;
+      if (!items.length) return;
 
-      gsap.set(panels, { clearProps: 'transform,opacity' });
+      gsap.set(items, { clearProps: 'transform,opacity' });
 
       if (!prefersReducedMotion) {
         introTimeline = gsap.timeline({
@@ -1326,9 +1326,9 @@
         });
 
         introTimeline.fromTo(
-          panels,
-          { autoAlpha: 0, y: 20 },
-          { autoAlpha: 1, y: 0, duration: 1, stagger: 0.1 },
+          items,
+          { autoAlpha: 0, y: 10 },
+          { autoAlpha: 1, y: 0, duration: 1, stagger: 0.08 },
           0
         );
       }
@@ -1342,7 +1342,7 @@
           introTimeline.kill();
         }
 
-        gsap.set(panels, { clearProps: 'transform,opacity' });
+        gsap.set(items, { clearProps: 'transform,opacity' });
       });
     });
   }
