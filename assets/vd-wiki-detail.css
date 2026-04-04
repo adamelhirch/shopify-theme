@@ -4,6 +4,7 @@
   --vd-wiki-detail-surface: rgba(10, 10, 10, 0.72);
   --vd-wiki-detail-surface-soft: rgba(255, 255, 255, 0.04);
   --vd-wiki-detail-surface-warm: rgba(18, 14, 12, 0.42);
+  --vd-wiki-detail-surface-deep: rgba(8, 8, 8, 0.82);
   --vd-wiki-detail-text: rgba(var(--vd-ivory), 0.92);
   --vd-wiki-detail-muted: rgba(var(--vd-ivory), 0.7);
   --vd-wiki-detail-shadow: 0 3rem 7rem rgba(0, 0, 0, 0.34);
@@ -42,7 +43,7 @@
 
 .vd-wiki-detail__stage {
   position: relative;
-  min-height: 108rem;
+  min-height: 118rem;
 }
 
 .vd-wiki-detail__stage-media {
@@ -75,9 +76,9 @@
 
 .vd-wiki-detail__stage-shell {
   display: grid;
-  gap: clamp(2rem, 4vw, 3rem);
+  gap: clamp(2.4rem, 4vw, 3.6rem);
   padding-top: calc(var(--header-height, 8rem) + env(safe-area-inset-top, 0px) + clamp(1rem, 2vh, 2rem));
-  padding-bottom: clamp(3rem, 7vw, 6rem);
+  padding-bottom: clamp(4rem, 8vw, 7rem);
 }
 
 .vd-wiki-detail__back {
@@ -122,6 +123,24 @@
   min-height: min(84vh, 78rem);
   padding: clamp(3.2rem, 5vw, 6rem);
   border-radius: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.vd-wiki-detail__hero-copy::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent 28%),
+    radial-gradient(circle at 86% 18%, rgba(255, 255, 255, 0.08), transparent 22%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0));
+}
+
+.vd-wiki-detail__hero-copy > * {
+  position: relative;
+  z-index: 1;
 }
 
 .vd-wiki-detail__title {
@@ -174,18 +193,11 @@
   height: auto;
 }
 
-.vd-wiki-detail__panel-card,
 .vd-wiki-detail__footer {
   display: grid;
   gap: 0.95rem;
   padding: 1.45rem;
   border-radius: 2.2rem;
-}
-
-.vd-wiki-detail__panel-card--scene {
-  background:
-    linear-gradient(180deg, rgba(var(--vd-orange), 0.09), rgba(255, 255, 255, 0.02)),
-    var(--vd-wiki-detail-surface-warm);
 }
 
 .vd-wiki-detail__eyebrow {
@@ -206,7 +218,6 @@
   background: rgba(var(--vd-orange), 0.9);
 }
 
-.vd-wiki-detail__panel-card strong,
 .vd-wiki-detail__footer-head h2 {
   color: rgb(var(--vd-ivory));
   font-family: "Cormorant Garamond", serif;
@@ -216,7 +227,6 @@
   text-wrap: balance;
 }
 
-.vd-wiki-detail__panel-card p,
 .vd-wiki-detail__footer-head p {
   margin: 0;
   color: var(--vd-wiki-detail-muted);
@@ -224,14 +234,15 @@
 }
 
 .vd-wiki-detail__footer {
-  gap: 1.4rem;
-  padding: clamp(1.6rem, 2.4vw, 2.4rem);
-  border-radius: 3rem;
+  gap: 2rem;
+  padding: clamp(2rem, 2.8vw, 2.8rem);
+  border-radius: 3.2rem;
 }
 
 .vd-wiki-detail__footer-head {
   display: grid;
   gap: 0.8rem;
+  max-width: 58rem;
 }
 
 .vd-wiki-detail__footer-head h2 {
@@ -240,14 +251,14 @@
 
 .vd-wiki-detail__scene-rail {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(1rem, 1.4vw, 1.2rem);
+  grid-template-columns: minmax(0, 1.2fr) repeat(2, minmax(0, 0.9fr));
+  gap: clamp(1rem, 1.4vw, 1.4rem);
 }
 
 .vd-wiki-detail__scene-card {
   position: relative;
   display: grid;
-  min-height: 20rem;
+  min-height: 22rem;
   overflow: hidden;
   border: 1px solid var(--vd-wiki-detail-line-strong);
   border-radius: 2.8rem;
@@ -283,8 +294,8 @@
   inset: auto 0 0;
   z-index: 1;
   display: grid;
-  gap: 0.7rem;
-  padding: 2rem 1.8rem;
+  gap: 0.8rem;
+  padding: 2.2rem 2rem;
 }
 
 .vd-wiki-detail__scene-card-copy span {
@@ -297,7 +308,7 @@
 
 .vd-wiki-detail__scene-card-copy strong {
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(2.1rem, 2.4vw, 3rem);
+  font-size: clamp(2.2rem, 2.6vw, 3.3rem);
   line-height: 0.94;
   letter-spacing: -0.05em;
 }
@@ -305,7 +316,8 @@
 .vd-wiki-detail__scene-card-copy p {
   margin: 0;
   color: rgba(var(--vd-ivory), 0.78);
-  line-height: 1.74;
+  line-height: 1.72;
+  max-width: 34rem;
 }
 
 .vd-wiki-detail__scene-card:hover .vd-wiki-detail__scene-card-media img,
@@ -315,55 +327,48 @@
 }
 
 .vd-wiki-detail__navigator {
-  position: sticky;
-  top: calc(var(--header-height, 8rem) + 1rem);
-  z-index: 4;
   display: grid;
-  gap: 0.75rem;
-  padding: 0 0 0.6rem;
-  border: 0;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
-  backdrop-filter: none;
+  gap: 1.2rem;
+  padding: clamp(1.35rem, 2vw, 1.8rem);
+  border-radius: 2.6rem;
+  border: 1px solid var(--vd-wiki-detail-line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
+    rgba(7, 7, 7, 0.56);
+  box-shadow: 0 2.2rem 4rem rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(18px);
 }
 
 .vd-wiki-detail__toc {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 0.6rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+  gap: 0.8rem 1.2rem;
   margin: 0;
   padding: 0;
   list-style: none;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.vd-wiki-detail__toc::-webkit-scrollbar {
-  display: none;
 }
 
 .vd-wiki-detail__toc .vd-wiki-article__toc-link {
   display: inline-flex;
   align-items: center;
-  min-height: 0;
-  padding: 0.2rem 0;
-  border: 0;
-  border-radius: 0;
-  background: none;
+  min-height: 4.2rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(var(--vd-ivory), 0.08);
   color: rgba(var(--vd-ivory), 0.62);
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 1rem;
   letter-spacing: -0.015em;
-  line-height: 1.3;
-  white-space: nowrap;
-  transition: color 180ms ease, opacity 180ms ease;
+  line-height: 1.45;
+  white-space: normal;
+  transition: color 180ms ease, opacity 180ms ease, border-color 180ms ease, transform 180ms ease;
 }
 
 .vd-wiki-detail__toc .vd-wiki-article__toc-link.is-active,
 .vd-wiki-detail__toc .vd-wiki-article__toc-link:hover,
 .vd-wiki-detail__toc .vd-wiki-article__toc-link:focus-visible {
   color: rgb(var(--vd-ivory));
+  border-color: rgba(var(--vd-orange), 0.48);
+  transform: translateY(-0.05rem);
 }
 
 .vd-wiki-detail__body {
@@ -371,13 +376,16 @@
 }
 
 .vd-wiki-detail__content-wrap {
-  padding: clamp(1.9rem, 2.5vw, 2.8rem);
+  padding: clamp(2.4rem, 3vw, 3.2rem);
   border-radius: 3.2rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015)),
+    rgba(8, 8, 8, 0.46);
 }
 
 .vd-wiki-detail__content {
   display: grid;
-  gap: 1.8rem;
+  gap: 2.2rem;
   color: var(--vd-wiki-detail-text);
 }
 
@@ -389,8 +397,8 @@
 .vd-wiki-detail__prologue {
   display: grid;
   gap: 1.2rem;
-  padding: clamp(1.5rem, 2vw, 1.9rem);
-  border-radius: 2.6rem;
+  padding: clamp(1.8rem, 2.1vw, 2.3rem);
+  border-radius: 2.8rem;
 }
 
 .vd-wiki-detail__prologue p:last-child {
@@ -399,9 +407,9 @@
 
 .vd-wiki-section {
   display: grid;
-  gap: 1.4rem;
-  padding: clamp(1.8rem, 2.4vw, 2.6rem);
-  border-radius: 2.8rem;
+  gap: 1.5rem;
+  padding: clamp(2rem, 2.6vw, 3rem);
+  border-radius: 3rem;
 }
 
 .vd-wiki-section__head {
@@ -425,7 +433,8 @@
 }
 
 .vd-wiki-detail__content h2 {
-  font-size: clamp(3.2rem, 4.8vw, 5.4rem);
+  font-size: clamp(3.4rem, 5vw, 5.8rem);
+  max-width: 16ch;
 }
 
 .vd-wiki-detail__content h3 {
@@ -435,8 +444,8 @@
 .vd-wiki-detail__content p,
 .vd-wiki-detail__content li {
   color: var(--vd-wiki-detail-text);
-  font-size: 1.08rem;
-  line-height: 1.95;
+  font-size: 1.12rem;
+  line-height: 2;
 }
 
 .vd-wiki-detail__content p {
@@ -462,11 +471,11 @@
 .vd-wiki-article-note {
   display: grid;
   gap: 0.8rem;
-  padding: 1.3rem 1.45rem;
-  border: 1px solid rgba(var(--vd-orange), 0.26);
-  border-radius: 2rem;
+  padding: 1.55rem 1.7rem;
+  border: 1px solid rgba(var(--vd-orange), 0.22);
+  border-radius: 2.3rem;
   background:
-    linear-gradient(180deg, rgba(var(--vd-orange), 0.12), rgba(var(--vd-orange), 0.03)),
+    linear-gradient(180deg, rgba(var(--vd-orange), 0.08), rgba(255, 255, 255, 0.015)),
     rgba(255, 255, 255, 0.01);
 }
 
@@ -496,7 +505,7 @@
 
 .vd-wiki-article-grid {
   display: grid;
-  gap: 1rem;
+  gap: 1.2rem;
 }
 
 .vd-wiki-article-grid--2 {
@@ -509,10 +518,10 @@
 
 .vd-wiki-article-card {
   display: grid;
-  gap: 0.8rem;
-  padding: 1.35rem;
+  gap: 0.9rem;
+  padding: 1.55rem;
   border: 1px solid var(--vd-wiki-detail-line);
-  border-radius: 1.8rem;
+  border-radius: 2.1rem;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)),
     rgba(255, 255, 255, 0.02);
@@ -555,9 +564,9 @@
 
 .vd-wiki-article-sources {
   display: grid;
-  gap: 0.9rem;
+  gap: 1rem;
   margin: 0;
-  padding-left: 1.4rem;
+  padding-left: 1.55rem;
 }
 
 .vd-wiki-detail__content .vd-wiki-article-sources li {
@@ -583,9 +592,8 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .vd-wiki-detail__navigator {
-    position: static;
-    top: auto;
+  .vd-wiki-detail__toc {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .vd-wiki-detail .page-width {
@@ -607,13 +615,16 @@
   }
 
   .vd-wiki-detail__scene-rail,
+  .vd-wiki-detail__toc,
   .vd-wiki-article-grid--2,
   .vd-wiki-article-grid--3 {
     grid-template-columns: 1fr;
   }
 
   .vd-wiki-detail__hero-copy,
-  .vd-wiki-detail__content-wrap {
+  .vd-wiki-detail__content-wrap,
+  .vd-wiki-detail__navigator,
+  .vd-wiki-detail__footer {
     border-radius: 2.4rem;
   }
 }
@@ -639,6 +650,11 @@
   .vd-wiki-detail__content-wrap,
   .vd-wiki-section,
   .vd-wiki-detail__prologue {
+    padding: 1.15rem;
+  }
+
+  .vd-wiki-detail__navigator,
+  .vd-wiki-detail__footer {
     padding: 1.15rem;
   }
 
