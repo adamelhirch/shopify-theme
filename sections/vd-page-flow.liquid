@@ -954,6 +954,25 @@
     assign wiki_detail_secondary_label = 'Voir les recettes'
     assign wiki_detail_collection_url = '/pages/catalogue'
     assign wiki_detail_collection_label = 'Entrer par le catalogue'
+    assign wiki_detail_media_video = ''
+    assign wiki_detail_media_image = 'vd-wiki-cover.jpg'
+    assign wiki_detail_media_poster = 'vd-wiki-cover.jpg'
+    assign wiki_detail_media_alt = 'Vanille Désiré'
+    assign wiki_detail_scene_badge = 'Lecture visuelle'
+    assign wiki_detail_scene_title = 'Comprendre la matière, voir le geste, poursuivre vers le bon usage.'
+    assign wiki_detail_scene_copy = 'Le wiki ne doit pas seulement informer. Il doit montrer, orienter et aider à choisir la bonne suite.'
+    assign wiki_detail_card_one_title = 'Le grand wiki'
+    assign wiki_detail_card_one_copy = 'Revenir à l’entrée principale du wiki.'
+    assign wiki_detail_card_one_url = '/pages/wiki'
+    assign wiki_detail_card_one_image = 'vd-wiki-cover.jpg'
+    assign wiki_detail_card_two_title = 'Recettes & accords'
+    assign wiki_detail_card_two_copy = 'Passer de la lecture au geste en cuisine.'
+    assign wiki_detail_card_two_url = '/pages/recettes'
+    assign wiki_detail_card_two_image = 'vd-wiki-techniques.jpg'
+    assign wiki_detail_card_three_title = 'Catalogue'
+    assign wiki_detail_card_three_copy = 'Voir les matières et formats disponibles.'
+    assign wiki_detail_card_three_url = '/pages/catalogue'
+    assign wiki_detail_card_three_image = 'vd-wiki-terroirs.jpg'
 
     if page.handle contains 'wiki-vanille'
       assign wiki_detail_chapter = 'Vanille'
@@ -963,6 +982,25 @@
       assign wiki_detail_primary_label = 'Voir la vanille Bourbon'
       assign wiki_detail_collection_url = '/pages/wiki-vanille-bien-choisir'
       assign wiki_detail_collection_label = 'Bien choisir sa vanille'
+      assign wiki_detail_media_video = 'vd-hero-origin.mp4'
+      assign wiki_detail_media_image = 'vd-wiki-cover.jpg'
+      assign wiki_detail_media_poster = 'vd-wiki-cover.jpg'
+      assign wiki_detail_media_alt = 'Vanille Bourbon et producteurs Vanille Désiré'
+      assign wiki_detail_scene_badge = 'Vanille Bourbon'
+      assign wiki_detail_scene_title = 'La vanille se lit comme une matière vivante: origine, conservation, usage et choix.'
+      assign wiki_detail_scene_copy = 'Chaque page doit permettre de comprendre la gousse, de comparer les usages et de rebondir vers la bonne sélection ou la bonne recette.'
+      assign wiki_detail_card_one_title = 'Conservation & préparation'
+      assign wiki_detail_card_one_copy = 'Les bons gestes pour garder une gousse souple et parfumée.'
+      assign wiki_detail_card_one_url = '/pages/wiki-vanille-conservation-preparation'
+      assign wiki_detail_card_one_image = 'vd-wiki-techniques.jpg'
+      assign wiki_detail_card_two_title = 'Bien choisir sa vanille'
+      assign wiki_detail_card_two_copy = 'Souplesse, brillance, parfum, formats et usages.'
+      assign wiki_detail_card_two_url = '/pages/wiki-vanille-bien-choisir'
+      assign wiki_detail_card_two_image = 'vd-wiki-botanique.jpg'
+      assign wiki_detail_card_three_title = 'Voir la vanille Bourbon'
+      assign wiki_detail_card_three_copy = 'Entrer directement par les gousses et les formats.'
+      assign wiki_detail_card_three_url = '/collections/vanille-bourbon'
+      assign wiki_detail_card_three_image = 'vd-wiki-cover.jpg'
     elsif page.handle contains 'wiki-epice' or page.handle == 'wiki-epices-madagascar' or page.handle == 'wiki-bienfaits-sante'
       assign wiki_detail_chapter = 'Épices'
       assign wiki_detail_focus = 'Origines, goûts & usages'
@@ -971,6 +1009,24 @@
       assign wiki_detail_primary_label = 'Voir les épices'
       assign wiki_detail_collection_url = '/pages/wiki-epices-madagascar'
       assign wiki_detail_collection_label = 'Explorer les épices'
+      assign wiki_detail_media_image = 'vd-wiki-botanique.jpg'
+      assign wiki_detail_media_poster = 'vd-wiki-botanique.jpg'
+      assign wiki_detail_media_alt = 'Épices et botanique à Madagascar'
+      assign wiki_detail_scene_badge = 'Épices rares'
+      assign wiki_detail_scene_title = 'Origines, profils aromatiques, usages et repères pour mieux choisir.'
+      assign wiki_detail_scene_copy = 'Cannelle, curcuma, gingembre, girofle ou combava: le wiki pose les bases avant d’ouvrir le catalogue et les recettes.'
+      assign wiki_detail_card_one_title = 'Épices de Madagascar'
+      assign wiki_detail_card_one_copy = 'La porte d’entrée principale de la famille.'
+      assign wiki_detail_card_one_url = '/pages/wiki-epices-madagascar'
+      assign wiki_detail_card_one_image = 'vd-wiki-botanique.jpg'
+      assign wiki_detail_card_two_title = 'Poivres & baies'
+      assign wiki_detail_card_two_copy = 'Comparer intensité, terroirs et accords.'
+      assign wiki_detail_card_two_url = '/pages/wiki-poivres-baies-madagascar'
+      assign wiki_detail_card_two_image = 'vd-wiki-terroirs.jpg'
+      assign wiki_detail_card_three_title = 'Recettes & accords'
+      assign wiki_detail_card_three_copy = 'Voir comment ces profils vivent en cuisine.'
+      assign wiki_detail_card_three_url = '/pages/wiki-recettes'
+      assign wiki_detail_card_three_image = 'vd-wiki-techniques.jpg'
     elsif page.handle contains 'wiki-poivre' or page.handle contains 'wiki-baies' or page.handle == 'wiki-poivres-baies-madagascar'
       assign wiki_detail_chapter = 'Poivres & baies'
       assign wiki_detail_focus = 'Terroirs, intensité & accords'
@@ -979,6 +1035,24 @@
       assign wiki_detail_primary_label = 'Voir les poivres & baies'
       assign wiki_detail_collection_url = '/pages/wiki-poivres-baies-madagascar'
       assign wiki_detail_collection_label = 'Explorer cette famille'
+      assign wiki_detail_media_image = 'vd-wiki-terroirs.jpg'
+      assign wiki_detail_media_poster = 'vd-wiki-terroirs.jpg'
+      assign wiki_detail_media_alt = 'Poivres et terroirs'
+      assign wiki_detail_scene_badge = 'Poivres & baies'
+      assign wiki_detail_scene_title = 'Terroirs, intensité et accords: comprendre ce qui change vraiment dans l’assiette.'
+      assign wiki_detail_scene_copy = 'Du poivre noir au voatsiperifery, le bon choix dépend du plat, du dosage et du moment d’ajout.'
+      assign wiki_detail_card_one_title = 'Poivres & baies'
+      assign wiki_detail_card_one_copy = 'Explorer la famille et ses profils.'
+      assign wiki_detail_card_one_url = '/pages/wiki-poivres-baies-madagascar'
+      assign wiki_detail_card_one_image = 'vd-wiki-terroirs.jpg'
+      assign wiki_detail_card_two_title = 'Voir les produits'
+      assign wiki_detail_card_two_copy = 'Entrer directement par les références disponibles.'
+      assign wiki_detail_card_two_url = '/collections/poivre-baies'
+      assign wiki_detail_card_two_image = 'vd-wiki-cover.jpg'
+      assign wiki_detail_card_three_title = 'Recettes & accords'
+      assign wiki_detail_card_three_copy = 'Passer à l’usage concret.'
+      assign wiki_detail_card_three_url = '/pages/wiki-recettes'
+      assign wiki_detail_card_three_image = 'vd-wiki-techniques.jpg'
     elsif page.handle contains 'wiki-sels'
       assign wiki_detail_chapter = 'Sels & mélanges'
       assign wiki_detail_focus = 'Assemblages & accords'
@@ -987,6 +1061,24 @@
       assign wiki_detail_primary_label = 'Voir les sels gourmets'
       assign wiki_detail_collection_url = '/pages/wiki-sels-melanges'
       assign wiki_detail_collection_label = 'Explorer cette famille'
+      assign wiki_detail_media_image = 'vd-wiki-science.jpg'
+      assign wiki_detail_media_poster = 'vd-wiki-science.jpg'
+      assign wiki_detail_media_alt = 'Sels, assemblages et travail de matière'
+      assign wiki_detail_scene_badge = 'Assemblages'
+      assign wiki_detail_scene_title = 'Sels gourmets, textures et mélanges: trouver le bon accord sans alourdir le plat.'
+      assign wiki_detail_scene_copy = 'Le wiki doit aider à comprendre quand un assemblage relève une matière et quand il prend trop de place.'
+      assign wiki_detail_card_one_title = 'Sels & mélanges'
+      assign wiki_detail_card_one_copy = 'Le socle de lecture de cette famille.'
+      assign wiki_detail_card_one_url = '/pages/wiki-sels-melanges'
+      assign wiki_detail_card_one_image = 'vd-wiki-science.jpg'
+      assign wiki_detail_card_two_title = 'Voir les sels gourmets'
+      assign wiki_detail_card_two_copy = 'Entrer directement par le catalogue.'
+      assign wiki_detail_card_two_url = '/collections/sels'
+      assign wiki_detail_card_two_image = 'vd-wiki-cover.jpg'
+      assign wiki_detail_card_three_title = 'Recettes & accords'
+      assign wiki_detail_card_three_copy = 'Voir les usages en cuisine.'
+      assign wiki_detail_card_three_url = '/pages/wiki-recettes'
+      assign wiki_detail_card_three_image = 'vd-wiki-techniques.jpg'
     elsif page.handle contains 'wiki-huiles'
       assign wiki_detail_chapter = 'Huiles & plantes'
       assign wiki_detail_focus = 'Usages, bienfaits & précautions'
@@ -995,6 +1087,24 @@
       assign wiki_detail_primary_label = 'Voir les huiles'
       assign wiki_detail_collection_url = '/pages/wiki-huiles-essentielles-plantes'
       assign wiki_detail_collection_label = 'Explorer cette famille'
+      assign wiki_detail_media_image = 'vd-wiki-botanique.jpg'
+      assign wiki_detail_media_poster = 'vd-wiki-botanique.jpg'
+      assign wiki_detail_media_alt = 'Plantes et huiles à Madagascar'
+      assign wiki_detail_scene_badge = 'Plantes & huiles'
+      assign wiki_detail_scene_title = 'Clarifier les usages, les limites et les précautions avant tout achat.'
+      assign wiki_detail_scene_copy = 'Cette famille du wiki doit rassurer et structurer la lecture avant l’usage, sans surpromesse.'
+      assign wiki_detail_card_one_title = 'Huiles & plantes'
+      assign wiki_detail_card_one_copy = 'Les repères utiles de la famille.'
+      assign wiki_detail_card_one_url = '/pages/wiki-huiles-essentielles-plantes'
+      assign wiki_detail_card_one_image = 'vd-wiki-botanique.jpg'
+      assign wiki_detail_card_two_title = 'Voir les huiles'
+      assign wiki_detail_card_two_copy = 'Accéder aux références disponibles.'
+      assign wiki_detail_card_two_url = '/collections/huiles-madagascar'
+      assign wiki_detail_card_two_image = 'vd-wiki-cover.jpg'
+      assign wiki_detail_card_three_title = 'Nous contacter'
+      assign wiki_detail_card_three_copy = 'Poser une question avant achat.'
+      assign wiki_detail_card_three_url = '/pages/contact'
+      assign wiki_detail_card_three_image = 'vd-wiki-terroirs.jpg'
     elsif page.handle contains 'wiki-recettes'
       assign wiki_detail_chapter = 'Recettes & accords'
       assign wiki_detail_focus = 'Gestes cuisine & inspirations'
@@ -1003,6 +1113,25 @@
       assign wiki_detail_primary_label = 'Voir les recettes'
       assign wiki_detail_collection_url = '/pages/wiki'
       assign wiki_detail_collection_label = 'Retour au wiki'
+      assign wiki_detail_media_video = 'vd-hero-origin.mp4'
+      assign wiki_detail_media_image = 'vd-wiki-techniques.jpg'
+      assign wiki_detail_media_poster = 'vd-wiki-techniques.jpg'
+      assign wiki_detail_media_alt = 'Recettes et gestes en cuisine'
+      assign wiki_detail_scene_badge = 'Cuisine & gestes'
+      assign wiki_detail_scene_title = 'Passer de la lecture à la cuisine, sans perdre la précision du produit.'
+      assign wiki_detail_scene_copy = 'Les pages recettes prolongent le wiki: gestes, dosage, accords et mise en pratique.'
+      assign wiki_detail_card_one_title = 'Recettes & accords'
+      assign wiki_detail_card_one_copy = 'Le socle de lecture cuisine.'
+      assign wiki_detail_card_one_url = '/pages/wiki-recettes'
+      assign wiki_detail_card_one_image = 'vd-wiki-techniques.jpg'
+      assign wiki_detail_card_two_title = 'Voir les recettes'
+      assign wiki_detail_card_two_copy = 'Entrer directement dans le carnet de recettes.'
+      assign wiki_detail_card_two_url = '/pages/recettes'
+      assign wiki_detail_card_two_image = 'vd-wiki-cover.jpg'
+      assign wiki_detail_card_three_title = 'Catalogue'
+      assign wiki_detail_card_three_copy = 'Revenir aux matières et produits.'
+      assign wiki_detail_card_three_url = '/pages/catalogue'
+      assign wiki_detail_card_three_image = 'vd-wiki-terroirs.jpg'
     elsif page.handle contains 'wiki-glossaire'
       assign wiki_detail_chapter = 'Glossaire'
       assign wiki_detail_focus = 'Définitions & vocabulaire'
@@ -1011,6 +1140,24 @@
       assign wiki_detail_primary_label = 'Retour au wiki'
       assign wiki_detail_collection_url = '/pages/catalogue'
       assign wiki_detail_collection_label = 'Voir le catalogue'
+      assign wiki_detail_media_image = 'vd-wiki-science.jpg'
+      assign wiki_detail_media_poster = 'vd-wiki-science.jpg'
+      assign wiki_detail_media_alt = 'Glossaire des épices'
+      assign wiki_detail_scene_badge = 'Glossaire'
+      assign wiki_detail_scene_title = 'Mots techniques, gestes et repères pour mieux lire tout le site.'
+      assign wiki_detail_scene_copy = 'Un bon glossaire ne ralentit pas la lecture: il l’éclaire et aide à faire un choix plus précis.'
+      assign wiki_detail_card_one_title = 'Glossaire des épices'
+      assign wiki_detail_card_one_copy = 'Consulter le vocabulaire clé.'
+      assign wiki_detail_card_one_url = '/pages/wiki-glossaire-epices'
+      assign wiki_detail_card_one_image = 'vd-wiki-science.jpg'
+      assign wiki_detail_card_two_title = 'Retour au wiki'
+      assign wiki_detail_card_two_copy = 'Revenir aux grandes familles.'
+      assign wiki_detail_card_two_url = '/pages/wiki'
+      assign wiki_detail_card_two_image = 'vd-wiki-cover.jpg'
+      assign wiki_detail_card_three_title = 'Voir le catalogue'
+      assign wiki_detail_card_three_copy = 'Relier les mots aux matières.'
+      assign wiki_detail_card_three_url = '/pages/catalogue'
+      assign wiki_detail_card_three_image = 'vd-wiki-terroirs.jpg'
     elsif page.handle contains 'wiki-faq'
       assign wiki_detail_chapter = 'FAQ'
       assign wiki_detail_focus = 'Réponses rapides & utiles'
@@ -1019,6 +1166,24 @@
       assign wiki_detail_primary_label = 'Retour au wiki'
       assign wiki_detail_collection_url = '/pages/contact'
       assign wiki_detail_collection_label = 'Nous contacter'
+      assign wiki_detail_media_image = 'vd-wiki-cover.jpg'
+      assign wiki_detail_media_poster = 'vd-wiki-cover.jpg'
+      assign wiki_detail_media_alt = 'FAQ vanille et épices'
+      assign wiki_detail_scene_badge = 'FAQ'
+      assign wiki_detail_scene_title = 'Lever un doute vite, puis renvoyer vers la bonne lecture ou la bonne sélection.'
+      assign wiki_detail_scene_copy = 'La FAQ sert de carrefour: réponse rapide, repère utile, puis rebond vers l’article ou le produit pertinent.'
+      assign wiki_detail_card_one_title = 'FAQ vanille & épices'
+      assign wiki_detail_card_one_copy = 'Les questions les plus fréquentes.'
+      assign wiki_detail_card_one_url = '/pages/wiki-faq-vanille-epices'
+      assign wiki_detail_card_one_image = 'vd-wiki-cover.jpg'
+      assign wiki_detail_card_two_title = 'Retour au wiki'
+      assign wiki_detail_card_two_copy = 'Explorer les grandes familles.'
+      assign wiki_detail_card_two_url = '/pages/wiki'
+      assign wiki_detail_card_two_image = 'vd-wiki-botanique.jpg'
+      assign wiki_detail_card_three_title = 'Nous contacter'
+      assign wiki_detail_card_three_copy = 'Si la réponse doit être plus précise.'
+      assign wiki_detail_card_three_url = '/pages/contact'
+      assign wiki_detail_card_three_image = 'vd-wiki-techniques.jpg'
     endif
 
     case page.handle
@@ -1048,37 +1213,40 @@
   -%}
 
   <section class="section-{{ section.id }}-padding vd-wiki-detail color-{{ section.settings.color_scheme }}">
-    <div class="page-width">
-      <article class="vd-wiki-detail__shell" data-vd-wiki-article>
-        <header class="vd-wiki-detail__hero">
-          <div class="vd-wiki-detail__hero-copy">
-            <a href="/pages/wiki" class="vd-arrow-cta vd-wiki-detail__back" data-vd-preview-link>
-              <span class="vd-arrow-cta__label">Retour au wiki</span>
-              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-              </svg>
-            </a>
-            <span class="vd-section-kicker">{{ wiki_detail_chapter }}</span>
-            <h1 class="vd-wiki-detail__title">{{ wiki_detail_title }}</h1>
-            <div class="vd-wiki-detail__lede rte">
-              <p>{{ wiki_detail_summary }}</p>
-            </div>
-            <div class="vd-wiki-detail__meta">
-              <span>{{ wiki_detail_focus }}</span>
-              <span>{{ wiki_detail_read_time }} min de lecture</span>
-            </div>
-          </div>
+    <div class="vd-wiki-detail__stage">
+      <div class="vd-wiki-detail__stage-media" aria-hidden="true" data-vd-wiki-stage>
+        {% if wiki_detail_media_video != blank %}
+          <video class="vd-wiki-detail__video" autoplay loop muted playsinline preload="metadata" poster="{{ wiki_detail_media_poster | asset_url }}">
+            <source src="{{ wiki_detail_media_video | asset_url }}" type="video/mp4">
+          </video>
+        {% else %}
+          <img class="vd-wiki-detail__poster" src="{{ wiki_detail_media_image | asset_url }}" alt="">
+        {% endif %}
+      </div>
+      <div class="vd-wiki-detail__stage-veil"></div>
+      <div class="vd-wiki-detail__stage-glow"></div>
 
-          <aside class="vd-wiki-detail__hero-panel">
-            <div class="vd-wiki-detail__panel-card">
-              <span class="vd-wiki-detail__eyebrow">Repère</span>
-              <strong>{{ wiki_detail_chapter }}</strong>
-              <p>{{ wiki_detail_note }}</p>
-            </div>
+      <div class="page-width vd-wiki-detail__stage-shell">
+        <a href="/pages/wiki" class="vd-arrow-cta vd-wiki-detail__back" data-vd-preview-link>
+          <span class="vd-arrow-cta__label">Retour au wiki</span>
+          <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+            <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+          </svg>
+        </a>
 
-            <div class="vd-wiki-detail__panel-card">
-              <span class="vd-wiki-detail__eyebrow">Poursuivre</span>
-              <div class="vd-wiki-detail__actions">
+        <article class="vd-wiki-detail__shell" data-vd-wiki-article data-vd-wiki-theme="{{ wiki_detail_chapter | handleize }}">
+          <header class="vd-wiki-detail__hero" data-vd-wiki-hero>
+            <div class="vd-wiki-detail__hero-copy" data-vd-wiki-reveal>
+              <span class="vd-section-kicker">{{ wiki_detail_chapter }}</span>
+              <h1 class="vd-wiki-detail__title" data-vd-wiki-title>{{ wiki_detail_title }}</h1>
+              <div class="vd-wiki-detail__lede rte">
+                <p>{{ wiki_detail_summary }}</p>
+              </div>
+              <div class="vd-wiki-detail__meta">
+                <span>{{ wiki_detail_focus }}</span>
+                <span>{{ wiki_detail_read_time }} min de lecture</span>
+              </div>
+              <div class="vd-wiki-detail__hero-actions">
                 <a href="{{ wiki_detail_primary_url }}" class="vd-arrow-cta" data-vd-preview-link>
                   <span class="vd-arrow-cta__label">{{ wiki_detail_primary_label }}</span>
                   <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
@@ -1091,50 +1259,134 @@
                     <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
                   </svg>
                 </a>
-                <a href="{{ wiki_detail_collection_url }}" class="vd-arrow-cta" data-vd-preview-link>
-                  <span class="vd-arrow-cta__label">{{ wiki_detail_collection_label }}</span>
-                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                  </svg>
-                </a>
               </div>
             </div>
-          </aside>
-        </header>
 
-        <script type="application/ld+json">
-          {
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": {{ wiki_detail_title | json }},
-            "description": {{ wiki_detail_summary | strip_html | strip | json }},
-            "articleSection": {{ wiki_detail_chapter | json }},
-            "inLanguage": {{ request.locale.iso_code | default: 'fr' | json }},
-            "mainEntityOfPage": {{ canonical_url | json }},
-            "author": {
-              "@type": "Organization",
-              "name": "Vanille Désiré"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "Vanille Désiré"
+            <aside class="vd-wiki-detail__hero-aside" data-vd-wiki-reveal>
+              <div class="vd-wiki-detail__panel-card">
+                <span class="vd-wiki-detail__eyebrow">Repère</span>
+                <strong>{{ wiki_detail_chapter }}</strong>
+                <p>{{ wiki_detail_note }}</p>
+              </div>
+
+              <div class="vd-wiki-detail__panel-card vd-wiki-detail__panel-card--scene">
+                <span class="vd-wiki-detail__eyebrow">{{ wiki_detail_scene_badge }}</span>
+                <strong>{{ wiki_detail_scene_title }}</strong>
+                <p>{{ wiki_detail_scene_copy }}</p>
+              </div>
+
+              <div class="vd-wiki-detail__panel-card">
+                <span class="vd-wiki-detail__eyebrow">Poursuivre</span>
+                <div class="vd-wiki-detail__actions">
+                  <a href="{{ wiki_detail_collection_url }}" class="vd-arrow-cta" data-vd-preview-link>
+                    <span class="vd-arrow-cta__label">{{ wiki_detail_collection_label }}</span>
+                    <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                      <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </aside>
+          </header>
+
+          <section class="vd-wiki-detail__scene-rail" aria-label="Navigation du chapitre">
+            <a href="{{ wiki_detail_card_one_url }}" class="vd-wiki-detail__scene-card" data-vd-preview-link data-vd-wiki-reveal>
+              <div class="vd-wiki-detail__scene-card-media">
+                <img src="{{ wiki_detail_card_one_image | asset_url }}" alt="">
+              </div>
+              <div class="vd-wiki-detail__scene-card-copy">
+                <span>{{ wiki_detail_chapter }}</span>
+                <strong>{{ wiki_detail_card_one_title }}</strong>
+                <p>{{ wiki_detail_card_one_copy }}</p>
+              </div>
+            </a>
+            <a href="{{ wiki_detail_card_two_url }}" class="vd-wiki-detail__scene-card" data-vd-preview-link data-vd-wiki-reveal>
+              <div class="vd-wiki-detail__scene-card-media">
+                <img src="{{ wiki_detail_card_two_image | asset_url }}" alt="">
+              </div>
+              <div class="vd-wiki-detail__scene-card-copy">
+                <span>Explorer</span>
+                <strong>{{ wiki_detail_card_two_title }}</strong>
+                <p>{{ wiki_detail_card_two_copy }}</p>
+              </div>
+            </a>
+            <a href="{{ wiki_detail_card_three_url }}" class="vd-wiki-detail__scene-card" data-vd-preview-link data-vd-wiki-reveal>
+              <div class="vd-wiki-detail__scene-card-media">
+                <img src="{{ wiki_detail_card_three_image | asset_url }}" alt="">
+              </div>
+              <div class="vd-wiki-detail__scene-card-copy">
+                <span>Continuer</span>
+                <strong>{{ wiki_detail_card_three_title }}</strong>
+                <p>{{ wiki_detail_card_three_copy }}</p>
+              </div>
+            </a>
+          </section>
+
+          <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "Article",
+              "headline": {{ wiki_detail_title | json }},
+              "description": {{ wiki_detail_summary | strip_html | strip | json }},
+              "articleSection": {{ wiki_detail_chapter | json }},
+              "inLanguage": {{ request.locale.iso_code | default: 'fr' | json }},
+              "mainEntityOfPage": {{ canonical_url | json }},
+              "author": {
+                "@type": "Organization",
+                "name": "Vanille Désiré"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "Vanille Désiré"
+              }
             }
-          }
-        </script>
+          </script>
 
-        <div class="vd-wiki-detail__body">
-          <aside class="vd-wiki-detail__rail">
-            <div class="vd-wiki-detail__panel-card" data-vd-wiki-toc-wrapper hidden>
-              <span class="vd-wiki-detail__eyebrow">Sommaire</span>
-              <ol class="vd-wiki-detail__toc" data-vd-wiki-toc></ol>
-            </div>
-          </aside>
-
-          <div class="vd-wiki-detail__content rte" data-vd-wiki-content>
-            {{ wiki_detail_content }}
+          <div class="vd-wiki-detail__navigator" data-vd-wiki-toc-wrapper hidden>
+            <span class="vd-wiki-detail__eyebrow">Sommaire</span>
+            <ol class="vd-wiki-detail__toc" data-vd-wiki-toc></ol>
           </div>
-        </div>
-      </article>
+
+          <div class="vd-wiki-detail__body">
+            <aside class="vd-wiki-detail__utility" data-vd-wiki-reveal>
+              <article class="vd-wiki-detail__utility-card">
+                <span class="vd-wiki-detail__eyebrow">Chapitre</span>
+                <strong>{{ wiki_detail_chapter }}</strong>
+                <p>{{ wiki_detail_note }}</p>
+              </article>
+              <article class="vd-wiki-detail__utility-card">
+                <span class="vd-wiki-detail__eyebrow">Parcours</span>
+                <div class="vd-wiki-detail__actions">
+                  <a href="{{ wiki_detail_primary_url }}" class="vd-arrow-cta" data-vd-preview-link>
+                    <span class="vd-arrow-cta__label">{{ wiki_detail_primary_label }}</span>
+                    <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                      <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                    </svg>
+                  </a>
+                  <a href="{{ wiki_detail_secondary_url }}" class="vd-arrow-cta" data-vd-preview-link>
+                    <span class="vd-arrow-cta__label">{{ wiki_detail_secondary_label }}</span>
+                    <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                      <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                    </svg>
+                  </a>
+                  <a href="{{ wiki_detail_collection_url }}" class="vd-arrow-cta" data-vd-preview-link>
+                    <span class="vd-arrow-cta__label">{{ wiki_detail_collection_label }}</span>
+                    <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                      <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                    </svg>
+                  </a>
+                </div>
+              </article>
+            </aside>
+
+            <div class="vd-wiki-detail__content-wrap" data-vd-wiki-reveal>
+              <div class="vd-wiki-detail__content rte" data-vd-wiki-content>
+                {{ wiki_detail_content }}
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 {% else %}
