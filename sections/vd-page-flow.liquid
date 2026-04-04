@@ -8,6 +8,7 @@
   assign is_recipe_page = false
   assign is_catalog_page = false
   assign is_wiki_page = false
+  assign is_wiki_detail_page = false
   if recipe_metafield_value != blank or recipe_handles_csv contains recipe_handle_token
     assign is_recipe_page = true
   endif
@@ -16,6 +17,8 @@
   endif
   if page.handle == 'wiki'
     assign is_wiki_page = true
+  elsif page.handle contains 'wiki-'
+    assign is_wiki_detail_page = true
   endif
 -%}
 
@@ -31,6 +34,10 @@
 {% if is_wiki_page %}
   {{ 'vd-wiki-page.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'vd-preview-links.js' | asset_url }}" defer="defer"></script>
+{% elsif is_wiki_detail_page %}
+  {{ 'vd-wiki-detail.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'vd-preview-links.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'vd-wiki-article.js' | asset_url }}" defer="defer"></script>
 {% endif %}
 
 {% style %}
@@ -673,6 +680,20 @@
 
     assign wiki_catalogue_link = '/pages/catalogue'
     assign wiki_recipes_link = '/pages/recettes'
+    assign wiki_feature_count = 0
+    assign wiki_category_count = 0
+    assign wiki_faq_count = 0
+
+    for block in section.blocks
+      case block.type
+        when 'wiki_feature'
+          assign wiki_feature_count = wiki_feature_count | plus: 1
+        when 'wiki_category'
+          assign wiki_category_count = wiki_category_count | plus: 1
+        when 'wiki_faq'
+          assign wiki_faq_count = wiki_faq_count | plus: 1
+      endcase
+    endfor
   -%}
 
   <section class="section-{{ section.id }}-padding vd-wiki-page color-{{ section.settings.color_scheme }}">
@@ -751,113 +772,63 @@
           </div>
 
           <div class="vd-wiki-page__featured-grid" role="list">
-            <article class="vd-wiki-page__feature" role="listitem">
-              <div class="vd-wiki-page__feature-media">
-                {% if wiki_card_1_image != blank %}
-                  {{
-                    wiki_card_1_image
-                    | image_url: width: 1600
-                    | image_tag:
-                      widths: '540, 720, 960, 1200, 1600',
-                      sizes: '(min-width: 990px) 30vw, 100vw',
-                      loading: 'lazy',
-                      alt: 'Bien choisir sa vanille'
-                  }}
-                {% else %}
-                  <img src="{{ wiki_card_1_asset | asset_url }}" alt="Bien choisir sa vanille" loading="lazy" width="576" height="768">
+            {% if wiki_feature_count > 0 %}
+              {% for block in section.blocks %}
+                {% if block.type == 'wiki_feature' %}
+                  {%- liquid
+                    assign wiki_feature_asset = wiki_card_1_asset
+                    if forloop.index == 2
+                      assign wiki_feature_asset = wiki_card_2_asset
+                    elsif forloop.index == 3
+                      assign wiki_feature_asset = wiki_card_3_asset
+                    endif
+                  -%}
+                  <article class="vd-wiki-page__feature" role="listitem" {{ block.shopify_attributes }}>
+                    <div class="vd-wiki-page__feature-media">
+                      {% if block.settings.image != blank %}
+                        {{
+                          block.settings.image
+                          | image_url: width: 1600
+                          | image_tag:
+                            widths: '540, 720, 960, 1200, 1600',
+                            sizes: '(min-width: 990px) 30vw, 100vw',
+                            loading: 'lazy',
+                            alt: block.settings.title | escape
+                        }}
+                      {% else %}
+                        <img src="{{ wiki_feature_asset | asset_url }}" alt="{{ block.settings.title | escape }}" loading="lazy" width="1201" height="800">
+                      {% endif %}
+                    </div>
+                    <div class="vd-wiki-page__feature-body">
+                      {% if block.settings.kicker != blank %}
+                        <span class="vd-wiki-page__category-kicker">{{ block.settings.kicker }}</span>
+                      {% endif %}
+                      <h3 class="vd-wiki-page__feature-title">{{ block.settings.title }}</h3>
+                      {% if block.settings.text != blank %}
+                        <div class="vd-wiki-page__feature-text rte">
+                          <p>{{ block.settings.text }}</p>
+                        </div>
+                      {% endif %}
+                      {% if block.settings.point_1 != blank or block.settings.point_2 != blank or block.settings.point_3 != blank %}
+                        <ul class="vd-wiki-page__feature-list">
+                          {% if block.settings.point_1 != blank %}<li>{{ block.settings.point_1 }}</li>{% endif %}
+                          {% if block.settings.point_2 != blank %}<li>{{ block.settings.point_2 }}</li>{% endif %}
+                          {% if block.settings.point_3 != blank %}<li>{{ block.settings.point_3 }}</li>{% endif %}
+                        </ul>
+                      {% endif %}
+                      {% if block.settings.link != blank and block.settings.link_label != blank %}
+                        <a href="{{ block.settings.link }}" class="vd-arrow-cta" data-vd-preview-link>
+                          <span class="vd-arrow-cta__label">{{ block.settings.link_label }}</span>
+                          <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                            <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                          </svg>
+                        </a>
+                      {% endif %}
+                    </div>
+                  </article>
                 {% endif %}
-              </div>
-              <div class="vd-wiki-page__feature-body">
-                <span class="vd-wiki-page__category-kicker">Guide achat</span>
-                <h3 class="vd-wiki-page__feature-title">Bien choisir sa vanille</h3>
-                <div class="vd-wiki-page__feature-text rte">
-                  <p>Gousses charnues, brillance, arômes : les critères pro pour bien acheter et comparer.</p>
-                </div>
-                <ul class="vd-wiki-page__feature-list">
-                  <li>Bourbon vs Tahiti vs Pompona</li>
-                  <li>Pièges à éviter & faux arômes</li>
-                  <li>Prix & origine : comprendre</li>
-                </ul>
-                <a href="/pages/wiki-vanille-bien-choisir" class="vd-arrow-cta" data-vd-preview-link>
-                  <span class="vd-arrow-cta__label">Lire le guide</span>
-                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                  </svg>
-                </a>
-              </div>
-            </article>
-
-            <article class="vd-wiki-page__feature" role="listitem">
-              <div class="vd-wiki-page__feature-media">
-                {% if wiki_card_2_image != blank %}
-                  {{
-                    wiki_card_2_image
-                    | image_url: width: 1600
-                    | image_tag:
-                      widths: '540, 720, 960, 1200, 1600',
-                      sizes: '(min-width: 990px) 30vw, 100vw',
-                      loading: 'lazy',
-                      alt: 'Conservation et préparation'
-                  }}
-                {% else %}
-                  <img src="{{ wiki_card_2_asset | asset_url }}" alt="Conservation et préparation" loading="lazy" width="1024" height="768">
-                {% endif %}
-              </div>
-              <div class="vd-wiki-page__feature-body">
-                <span class="vd-wiki-page__category-kicker">Techniques</span>
-                <h3 class="vd-wiki-page__feature-title">Conservation & préparation</h3>
-                <div class="vd-wiki-page__feature-text rte">
-                  <p>Tubes, bocaux, alcool, durée de vie et intensité : les bons gestes pour préserver l’arôme.</p>
-                </div>
-                <ul class="vd-wiki-page__feature-list">
-                  <li>Fendre, gratter, infuser</li>
-                  <li>Recycler les gousses</li>
-                  <li>Éviter la moisissure</li>
-                </ul>
-                <a href="/pages/wiki-vanille-conservation-preparation" class="vd-arrow-cta" data-vd-preview-link>
-                  <span class="vd-arrow-cta__label">Voir les méthodes</span>
-                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                  </svg>
-                </a>
-              </div>
-            </article>
-
-            <article class="vd-wiki-page__feature" role="listitem">
-              <div class="vd-wiki-page__feature-media">
-                {% if wiki_card_3_image != blank %}
-                  {{
-                    wiki_card_3_image
-                    | image_url: width: 1600
-                    | image_tag:
-                      widths: '540, 720, 960, 1200, 1600',
-                      sizes: '(min-width: 990px) 30vw, 100vw',
-                      loading: 'lazy',
-                      alt: 'Usages et recettes'
-                  }}
-                {% else %}
-                  <img src="{{ wiki_card_3_asset | asset_url }}" alt="Usages et recettes" loading="lazy" width="1201" height="800">
-                {% endif %}
-              </div>
-              <div class="vd-wiki-page__feature-body">
-                <span class="vd-wiki-page__category-kicker">Usages & recettes</span>
-                <h3 class="vd-wiki-page__feature-title">Pâtisserie, salé & boissons</h3>
-                <div class="vd-wiki-page__feature-text rte">
-                  <p>Glaces, crèmes, rhums, sauces et plats créatifs pour relier la lecture aux usages du quotidien.</p>
-                </div>
-                <ul class="vd-wiki-page__feature-list">
-                  <li>Sucre vanillé & extrait maison</li>
-                  <li>Accords salés : poisson, volaille</li>
-                  <li>Boissons & infusions</li>
-                </ul>
-                <a href="{{ wiki_recipes_link }}" class="vd-arrow-cta" data-vd-preview-link>
-                  <span class="vd-arrow-cta__label">S’inspirer</span>
-                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                  </svg>
-                </a>
-              </div>
-            </article>
+              {% endfor %}
+            {% endif %}
           </div>
         </section>
 
@@ -871,15 +842,29 @@
           </div>
 
           <div class="vd-wiki-page__category-grid">
-            <a href="/pages/wiki-epices-madagascar" class="vd-wiki-page__category" data-vd-preview-link><span class="vd-wiki-page__category-kicker">Épices</span><h3 class="vd-wiki-page__category-title">Épices de Madagascar</h3><p class="vd-wiki-page__category-text">Cannelle, curcuma, gingembre, girofle, combava et autres matières rares.</p><span class="vd-arrow-cta"><span class="vd-arrow-cta__label">Voir les fiches</span><svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16"><path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path></svg></span></a>
-            <a href="/pages/wiki-poivres-baies" class="vd-wiki-page__category" data-vd-preview-link><span class="vd-wiki-page__category-kicker">Poivres & baies</span><h3 class="vd-wiki-page__category-title">Poivres & baies</h3><p class="vd-wiki-page__category-text">Voatsiperifery, poivre noir, poivre blanc et baies roses.</p><span class="vd-arrow-cta"><span class="vd-arrow-cta__label">Explorer</span><svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16"><path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path></svg></span></a>
-            <a href="/pages/wiki-sels-melanges" class="vd-wiki-page__category" data-vd-preview-link><span class="vd-wiki-page__category-kicker">Sels & mélanges</span><h3 class="vd-wiki-page__category-title">Sels gourmets & mélanges</h3><p class="vd-wiki-page__category-text">Sel à la vanille, au pili-pili, au combava, poivres et baies.</p><span class="vd-arrow-cta"><span class="vd-arrow-cta__label">Parcourir</span><svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16"><path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path></svg></span></a>
-            <a href="/pages/wiki-huiles-essentielles-plantes" class="vd-wiki-page__category" data-vd-preview-link><span class="vd-wiki-page__category-kicker">Bien-être</span><h3 class="vd-wiki-page__category-title">Huiles essentielles & plantes</h3><p class="vd-wiki-page__category-text">Ylang-ylang, ravintsara, huile de coco : usages, traditions et précautions.</p><span class="vd-arrow-cta"><span class="vd-arrow-cta__label">Découvrir</span><svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16"><path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path></svg></span></a>
-            <a href="/pages/wiki-savoir-faire-producteurs" class="vd-wiki-page__category" data-vd-preview-link><span class="vd-wiki-page__category-kicker">Savoir-faire</span><h3 class="vd-wiki-page__category-title">Savoir-faire & producteurs</h3><p class="vd-wiki-page__category-text">Préparation traditionnelle, tri manuel, éthique et prix justes.</p><span class="vd-arrow-cta"><span class="vd-arrow-cta__label">Rencontrer</span><svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16"><path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path></svg></span></a>
-            <a href="/pages/wiki-bienfaits-sante" class="vd-wiki-page__category" data-vd-preview-link><span class="vd-wiki-page__category-kicker">Santé</span><h3 class="vd-wiki-page__category-title">Bienfaits & usages</h3><p class="vd-wiki-page__category-text">Antioxydants, digestion, détente, traditions et usages des épices.</p><span class="vd-arrow-cta"><span class="vd-arrow-cta__label">En savoir plus</span><svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16"><path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path></svg></span></a>
-            <a href="/pages/wiki-recettes" class="vd-wiki-page__category" data-vd-preview-link><span class="vd-wiki-page__category-kicker">Cuisine</span><h3 class="vd-wiki-page__category-title">Recettes & accords</h3><p class="vd-wiki-page__category-text">Pâtisserie, rhums arrangés, cuisine salée et boissons.</p><span class="vd-arrow-cta"><span class="vd-arrow-cta__label">Cuisiner</span><svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16"><path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path></svg></span></a>
-            <a href="/pages/wiki-glossaire-epices" class="vd-wiki-page__category" data-vd-preview-link><span class="vd-wiki-page__category-kicker">Glossaire</span><h3 class="vd-wiki-page__category-title">Glossaire des épices</h3><p class="vd-wiki-page__category-text">Mots et techniques : Bourbon, curcumine, infusion, extraction.</p><span class="vd-arrow-cta"><span class="vd-arrow-cta__label">Consulter</span><svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16"><path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path></svg></span></a>
-            <a href="/pages/wiki-faq-vanille-epices" class="vd-wiki-page__category" data-vd-preview-link><span class="vd-wiki-page__category-kicker">FAQ</span><h3 class="vd-wiki-page__category-title">Questions fréquentes</h3><p class="vd-wiki-page__category-text">Conservation, authenticité, différences de variétés et usages.</p><span class="vd-arrow-cta"><span class="vd-arrow-cta__label">Voir les réponses</span><svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16"><path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path></svg></span></a>
+            {% if wiki_category_count > 0 %}
+              {% for block in section.blocks %}
+                {% if block.type == 'wiki_category' %}
+                  <a href="{{ block.settings.link }}" class="vd-wiki-page__category" data-vd-preview-link {{ block.shopify_attributes }}>
+                    {% if block.settings.kicker != blank %}
+                      <span class="vd-wiki-page__category-kicker">{{ block.settings.kicker }}</span>
+                    {% endif %}
+                    <h3 class="vd-wiki-page__category-title">{{ block.settings.title }}</h3>
+                    {% if block.settings.text != blank %}
+                      <p class="vd-wiki-page__category-text">{{ block.settings.text }}</p>
+                    {% endif %}
+                    {% if block.settings.link_label != blank %}
+                      <span class="vd-arrow-cta">
+                        <span class="vd-arrow-cta__label">{{ block.settings.link_label }}</span>
+                        <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                          <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                        </svg>
+                      </span>
+                    {% endif %}
+                  </a>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
           </div>
         </section>
 
@@ -901,12 +886,169 @@
 
           <section class="vd-wiki-page__faq" aria-labelledby="wiki-faq-{{ section.id }}">
             <h2 class="vd-wiki-page__faq-title" id="wiki-faq-{{ section.id }}">FAQ — Vanille & épices</h2>
-            <details class="vd-wiki-page__faq-item"><summary>Comment reconnaître une gousse de vanille de qualité ?</summary><div class="vd-wiki-page__faq-answer"><p>Une belle gousse doit être souple, brillante, charnue et très parfumée. Une texture trop sèche ou cassante est souvent le signe d’une qualité moindre ou d’une mauvaise conservation.</p></div></details>
-            <details class="vd-wiki-page__faq-item"><summary>Comment conserver la vanille et les épices ?</summary><div class="vd-wiki-page__faq-answer"><p>La règle simple : à l’abri de l’air, de la chaleur et de la lumière. Pour la vanille, privilégier un contenant hermétique en verre et éviter le réfrigérateur.</p></div></details>
-            <details class="vd-wiki-page__faq-item"><summary>Qu’est-ce qui distingue la vanille Bourbon de Madagascar ?</summary><div class="vd-wiki-page__faq-answer"><p>Elle se distingue par son profil aromatique rond, gourmand et profond, ainsi que par le travail de préparation et d’affinage mené localement par les producteurs.</p></div></details>
+            {% if wiki_faq_count > 0 %}
+              {% for block in section.blocks %}
+                {% if block.type == 'wiki_faq' %}
+                  <details class="vd-wiki-page__faq-item" {{ block.shopify_attributes }}>
+                    <summary>{{ block.settings.question }}</summary>
+                    <div class="vd-wiki-page__faq-answer"><p>{{ block.settings.answer }}</p></div>
+                  </details>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
           </section>
         </div>
       </div>
+    </div>
+  </section>
+{% elsif is_wiki_detail_page %}
+  {%- liquid
+    assign wiki_detail_words = page.content | strip_html | split: ' ' | size
+    assign wiki_detail_read_time = wiki_detail_words | divided_by: 180
+    if wiki_detail_read_time < 1
+      assign wiki_detail_read_time = 1
+    endif
+
+    assign wiki_detail_summary = page.content | split: '</h1>' | last | split: '</p>' | first | strip_html | strip
+    if wiki_detail_summary == blank
+      assign wiki_detail_summary = page.content | strip_html | strip_newlines | replace: '  ', ' ' | truncatewords: 24
+    endif
+    assign wiki_detail_chapter = 'Le Wiki'
+    assign wiki_detail_focus = 'Lecture de fond'
+    assign wiki_detail_primary_url = '/pages/wiki'
+    assign wiki_detail_primary_label = 'Retour au wiki'
+    assign wiki_detail_secondary_url = '/pages/recettes'
+    assign wiki_detail_secondary_label = 'Voir les recettes'
+    assign wiki_detail_collection_url = '/pages/catalogue'
+    assign wiki_detail_collection_label = 'Entrer par le catalogue'
+
+    if page.handle contains 'wiki-vanille'
+      assign wiki_detail_chapter = 'Vanille'
+      assign wiki_detail_focus = 'Guide matière'
+      assign wiki_detail_primary_url = '/collections/vanille-bourbon'
+      assign wiki_detail_primary_label = 'Voir la vanille Bourbon'
+      assign wiki_detail_collection_url = '/pages/wiki-vanille-bien-choisir'
+      assign wiki_detail_collection_label = 'Bien choisir sa vanille'
+    elsif page.handle contains 'wiki-epice' or page.handle == 'wiki-epices-madagascar' or page.handle == 'wiki-bienfaits-sante'
+      assign wiki_detail_chapter = 'Épices'
+      assign wiki_detail_focus = 'Référence ingrédient'
+      assign wiki_detail_primary_url = '/collections/epices-madagascar'
+      assign wiki_detail_primary_label = 'Voir les épices'
+      assign wiki_detail_collection_url = '/pages/wiki-epices-madagascar'
+      assign wiki_detail_collection_label = 'Explorer les épices'
+    elsif page.handle contains 'wiki-poivre' or page.handle contains 'wiki-baies' or page.handle == 'wiki-poivres-baies-madagascar'
+      assign wiki_detail_chapter = 'Poivres & baies'
+      assign wiki_detail_focus = 'Référence terroir'
+      assign wiki_detail_primary_url = '/collections/poivre-baies'
+      assign wiki_detail_primary_label = 'Voir les poivres & baies'
+      assign wiki_detail_collection_url = '/pages/wiki-poivres-baies-madagascar'
+      assign wiki_detail_collection_label = 'Explorer cette famille'
+    elsif page.handle contains 'wiki-sels'
+      assign wiki_detail_chapter = 'Sels & mélanges'
+      assign wiki_detail_focus = 'Accords & assemblages'
+      assign wiki_detail_primary_url = '/collections/sels'
+      assign wiki_detail_primary_label = 'Voir les sels gourmets'
+      assign wiki_detail_collection_url = '/pages/wiki-sels-melanges'
+      assign wiki_detail_collection_label = 'Explorer cette famille'
+    elsif page.handle contains 'wiki-huiles'
+      assign wiki_detail_chapter = 'Huiles & plantes'
+      assign wiki_detail_focus = 'Usage & précautions'
+      assign wiki_detail_primary_url = '/collections/huiles-madagascar'
+      assign wiki_detail_primary_label = 'Voir les huiles'
+      assign wiki_detail_collection_url = '/pages/wiki-huiles-essentielles-plantes'
+      assign wiki_detail_collection_label = 'Explorer cette famille'
+    elsif page.handle contains 'wiki-recettes'
+      assign wiki_detail_chapter = 'Recettes & accords'
+      assign wiki_detail_focus = 'Cuisine & gestes'
+      assign wiki_detail_primary_url = '/pages/recettes'
+      assign wiki_detail_primary_label = 'Voir les recettes'
+      assign wiki_detail_collection_url = '/pages/wiki'
+      assign wiki_detail_collection_label = 'Retour au wiki'
+    elsif page.handle contains 'wiki-glossaire'
+      assign wiki_detail_chapter = 'Glossaire'
+      assign wiki_detail_focus = 'Vocabulaire utile'
+      assign wiki_detail_primary_url = '/pages/wiki'
+      assign wiki_detail_primary_label = 'Retour au wiki'
+      assign wiki_detail_collection_url = '/pages/catalogue'
+      assign wiki_detail_collection_label = 'Voir le catalogue'
+    elsif page.handle contains 'wiki-faq'
+      assign wiki_detail_chapter = 'FAQ'
+      assign wiki_detail_focus = 'Réponses rapides'
+      assign wiki_detail_primary_url = '/pages/wiki'
+      assign wiki_detail_primary_label = 'Retour au wiki'
+      assign wiki_detail_collection_url = '/pages/contact'
+      assign wiki_detail_collection_label = 'Nous contacter'
+    endif
+  -%}
+
+  <section class="section-{{ section.id }}-padding vd-wiki-detail color-{{ section.settings.color_scheme }}">
+    <div class="page-width">
+      <article class="vd-wiki-detail__shell" data-vd-wiki-article>
+        <header class="vd-wiki-detail__hero">
+          <div class="vd-wiki-detail__hero-copy">
+            <a href="/pages/wiki" class="vd-arrow-cta vd-wiki-detail__back" data-vd-preview-link>
+              <span class="vd-arrow-cta__label">Retour au wiki</span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+            <span class="vd-section-kicker">{{ wiki_detail_chapter }}</span>
+            <h1 class="vd-wiki-detail__title">{{ page.title }}</h1>
+            <div class="vd-wiki-detail__lede rte">
+              <p>{{ wiki_detail_summary }}</p>
+            </div>
+            <div class="vd-wiki-detail__meta">
+              <span>{{ wiki_detail_focus }}</span>
+              <span>{{ wiki_detail_read_time }} min de lecture</span>
+            </div>
+          </div>
+
+          <aside class="vd-wiki-detail__hero-panel">
+            <div class="vd-wiki-detail__panel-card">
+              <span class="vd-wiki-detail__eyebrow">Orientation</span>
+              <strong>{{ wiki_detail_chapter }}</strong>
+              <p>Un repère éditorial net pour comprendre le sujet, puis rebondir vers la bonne page du wiki, la bonne recette ou la bonne matière.</p>
+            </div>
+
+            <div class="vd-wiki-detail__panel-card">
+              <span class="vd-wiki-detail__eyebrow">Passerelles</span>
+              <div class="vd-wiki-detail__actions">
+                <a href="{{ wiki_detail_primary_url }}" class="vd-arrow-cta" data-vd-preview-link>
+                  <span class="vd-arrow-cta__label">{{ wiki_detail_primary_label }}</span>
+                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                  </svg>
+                </a>
+                <a href="{{ wiki_detail_secondary_url }}" class="vd-arrow-cta" data-vd-preview-link>
+                  <span class="vd-arrow-cta__label">{{ wiki_detail_secondary_label }}</span>
+                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                  </svg>
+                </a>
+                <a href="{{ wiki_detail_collection_url }}" class="vd-arrow-cta" data-vd-preview-link>
+                  <span class="vd-arrow-cta__label">{{ wiki_detail_collection_label }}</span>
+                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </aside>
+        </header>
+
+        <div class="vd-wiki-detail__body">
+          <aside class="vd-wiki-detail__rail">
+            <div class="vd-wiki-detail__panel-card" data-vd-wiki-toc-wrapper hidden>
+              <span class="vd-wiki-detail__eyebrow">Sommaire</span>
+              <ol class="vd-wiki-detail__toc" data-vd-wiki-toc></ol>
+            </div>
+          </aside>
+
+          <div class="vd-wiki-detail__content rte" data-vd-wiki-content>
+            {{ page.content }}
+          </div>
+        </div>
+      </article>
     </div>
   </section>
 {% else %}
@@ -1317,6 +1459,120 @@
           "type": "text",
           "id": "caption",
           "label": "Legende"
+        }
+      ]
+    },
+    {
+      "type": "wiki_feature",
+      "name": "Carte mise en avant wiki",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Sur-titre",
+          "default": "Guide achat"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Bien choisir sa vanille"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Texte",
+          "default": "Gousses charnues, brillance, arômes : les critères pro pour bien acheter et comparer."
+        },
+        {
+          "type": "text",
+          "id": "point_1",
+          "label": "Point 1",
+          "default": "Bourbon vs Tahiti vs Pompona"
+        },
+        {
+          "type": "text",
+          "id": "point_2",
+          "label": "Point 2",
+          "default": "Pièges à éviter & faux arômes"
+        },
+        {
+          "type": "text",
+          "id": "point_3",
+          "label": "Point 3",
+          "default": "Prix & origine : comprendre"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Libellé lien",
+          "default": "Lire le guide"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Lien"
+        }
+      ]
+    },
+    {
+      "type": "wiki_category",
+      "name": "Carte catégorie wiki",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Sur-titre",
+          "default": "Épices"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Épices de Madagascar"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Texte",
+          "default": "Cannelle, curcuma, gingembre, girofle, combava et autres matières rares."
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Libellé lien",
+          "default": "Explorer"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Lien"
+        }
+      ]
+    },
+    {
+      "type": "wiki_faq",
+      "name": "Question FAQ wiki",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Comment reconnaître une gousse de vanille de qualité ?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Réponse",
+          "default": "Une belle gousse doit être souple, brillante, charnue et très parfumée."
         }
       ]
     }
