@@ -477,7 +477,7 @@
           <span class="vd-section-kicker">{{ section.settings.catalogue_eyebrow | default: 'Catalogue' }}</span>
           <h1 class="vd-catalogue__title">{{ section.settings.catalogue_heading | default: 'Explorer la maison par matière, intensité et usage.' }}</h1>
           <div class="vd-catalogue__text rte">
-            {{ section.settings.catalogue_text | default: '<p>Vanille Bourbon, épices, poivres, assemblages, huiles et formats cadeau: une entrée claire pour retrouver la bonne matière, le bon usage et le bon niveau de gamme.</p>' }}
+            {{ section.settings.catalogue_text | default: '<p>Vanille Bourbon, épices, poivres, assemblages, huiles et formats cadeau : une lecture claire pour trouver le bon produit, le bon format et le bon usage.</p>' }}
           </div>
           <div class="vd-catalogue__actions">
             <a href="{{ routes.all_products_collection_url }}" class="vd-arrow-cta">
@@ -671,10 +671,8 @@
     assign wiki_stage_image = section.settings.wiki_hero_image
     assign wiki_stage_video = section.settings.wiki_hero_video
     assign wiki_stage_video_url = section.settings.wiki_hero_video_url
-    assign wiki_card_1_image = section.settings.wiki_card_1_image
-    assign wiki_card_2_image = section.settings.wiki_card_2_image
-    assign wiki_card_3_image = section.settings.wiki_card_3_image
-
+    assign wiki_primary_link = section.settings.wiki_primary_link | default: wiki_recipes_link
+    assign wiki_secondary_link = section.settings.wiki_secondary_link | default: wiki_catalogue_link
     assign wiki_stage_asset = 'vd-wiki-cover.jpg'
     assign wiki_card_1_asset = 'vd-wiki-botanique.jpg'
     assign wiki_card_2_asset = 'vd-wiki-science.jpg'
@@ -719,6 +717,21 @@
               </label>
               <button class="vd-wiki-page__search-button" type="submit">Rechercher</button>
             </form>
+
+            <div class="vd-wiki-page__hero-actions">
+              <a href="{{ wiki_primary_link }}" class="vd-arrow-cta" data-vd-preview-link>
+                <span class="vd-arrow-cta__label">{{ section.settings.wiki_primary_link_label | default: 'Voir les recettes' }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </a>
+              <a href="{{ wiki_secondary_link }}" class="vd-arrow-cta" data-vd-preview-link>
+                <span class="vd-arrow-cta__label">{{ section.settings.wiki_secondary_link_label | default: 'Voir le catalogue' }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </a>
+            </div>
           </div>
 
           <div class="vd-wiki-page__hero-stage">
@@ -759,17 +772,17 @@
             <div class="vd-wiki-page__hero-card vd-wiki-page__hero-card--summary">
               <span class="vd-wiki-page__eyebrow">{{ section.settings.wiki_summary_eyebrow | default: 'Depuis Madagascar' }}</span>
               <strong>{{ section.settings.wiki_summary_heading | default: 'Vanille Bourbon, épices rares et savoir-faire producteur.' }}</strong>
-              <p>{{ section.settings.wiki_summary | default: 'Guides d’achat, conservation, usages, recettes et repères matière pour avancer vite vers la bonne réponse.' }}</p>
+              <p>{{ section.settings.wiki_summary | default: 'Guides d’achat, conservation, usages, recettes et savoir-faire pour avancer avec des réponses claires.' }}</p>
             </div>
           </div>
         </div>
 
         <section class="vd-wiki-page__section" aria-labelledby="wiki-essentiel-{{ section.id }}">
           <div class="vd-wiki-page__section-head">
-            <span class="vd-section-kicker">Vanille</span>
-            <h2 class="vd-wiki-page__section-title" id="wiki-essentiel-{{ section.id }}">Vanille — l’essentiel</h2>
+            <span class="vd-section-kicker">{{ section.settings.wiki_essentials_eyebrow | default: 'Vanille' }}</span>
+            <h2 class="vd-wiki-page__section-title" id="wiki-essentiel-{{ section.id }}">{{ section.settings.wiki_essentials_heading | default: 'Vanille — l’essentiel' }}</h2>
             <div class="vd-wiki-page__section-text rte">
-              <p>Tout savoir sur la <strong>vanille Bourbon</strong> : reconnaître une gousse de qualité, la préparer, la conserver et l’utiliser selon vos recettes.</p>
+              {{ section.settings.wiki_essentials_text | default: '<p>Tout savoir sur la <strong>vanille Bourbon</strong> : reconnaître une gousse de qualité, la préparer, la conserver et l’utiliser selon vos recettes.</p>' }}
             </div>
           </div>
 
@@ -836,10 +849,10 @@
 
         <section class="vd-wiki-page__section" aria-labelledby="wiki-categories-{{ section.id }}">
           <div class="vd-wiki-page__section-head">
-            <span class="vd-section-kicker">Sommaire</span>
-            <h2 class="vd-wiki-page__section-title" id="wiki-categories-{{ section.id }}">Explorer toutes les catégories</h2>
+            <span class="vd-section-kicker">{{ section.settings.wiki_categories_eyebrow | default: 'Catégories' }}</span>
+            <h2 class="vd-wiki-page__section-title" id="wiki-categories-{{ section.id }}">{{ section.settings.wiki_categories_heading | default: 'Explorer toutes les catégories' }}</h2>
             <div class="vd-wiki-page__section-text rte">
-              <p>Un sommaire visuel pour accéder rapidement aux sujets encyclopédiques du wiki.</p>
+              {{ section.settings.wiki_categories_text | default: '<p>Un sommaire visuel pour accéder rapidement aux sujets encyclopédiques du wiki.</p>' }}
             </div>
           </div>
 
@@ -873,21 +886,29 @@
         <div class="vd-wiki-page__cta">
           <section class="vd-wiki-page__cta-copy">
             <span class="vd-section-kicker">{{ section.settings.wiki_footer_eyebrow | default: 'Goûter la différence' }}</span>
-            <h2 class="vd-wiki-page__cta-title">Prêt à goûter la différence ?</h2>
+            <h2 class="vd-wiki-page__cta-title">{{ section.settings.wiki_footer_heading | default: 'Prêt à goûter la différence ?' }}</h2>
             <div class="vd-wiki-page__cta-text rte">
-              <p>Découvrez nos <strong>gousses de vanille Bourbon</strong>, nos <strong>épices rares</strong> et nos <strong>sels gourmets</strong> au prix direct producteur.</p>
+              {{ section.settings.wiki_footer_text | default: '<p>Découvrez nos <strong>gousses de vanille Bourbon</strong>, nos <strong>épices rares</strong> et nos <strong>sels gourmets</strong> au prix direct producteur.</p>' }}
             </div>
-            <a href="{{ wiki_catalogue_link }}" class="vd-arrow-cta" data-vd-preview-link>
-              <span class="vd-arrow-cta__label">Accéder à la boutique</span>
+            <a href="{{ section.settings.wiki_footer_primary_link | default: wiki_catalogue_link }}" class="vd-arrow-cta" data-vd-preview-link>
+              <span class="vd-arrow-cta__label">{{ section.settings.wiki_footer_primary_link_label | default: 'Accéder à la boutique' }}</span>
               <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
                 <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
               </svg>
             </a>
-            <div class="vd-wiki-page__trust">Traçabilité totale · Qualité artisanale · Relation directe avec les producteurs de Madagascar</div>
+            {% if section.settings.wiki_footer_secondary_link_label != blank %}
+              <a href="{{ section.settings.wiki_footer_secondary_link | default: wiki_recipes_link }}" class="vd-arrow-cta" data-vd-preview-link>
+                <span class="vd-arrow-cta__label">{{ section.settings.wiki_footer_secondary_link_label }}</span>
+                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                </svg>
+              </a>
+            {% endif %}
+            <div class="vd-wiki-page__trust">{{ section.settings.wiki_footer_trust | default: 'Traçabilité totale · Qualité artisanale · Relation directe avec les producteurs de Madagascar' }}</div>
           </section>
 
           <section class="vd-wiki-page__faq" aria-labelledby="wiki-faq-{{ section.id }}">
-            <h2 class="vd-wiki-page__faq-title" id="wiki-faq-{{ section.id }}">FAQ — Vanille & épices</h2>
+            <h2 class="vd-wiki-page__faq-title" id="wiki-faq-{{ section.id }}">{{ section.settings.wiki_faq_title | default: 'FAQ — Vanille & épices' }}</h2>
             {% if wiki_faq_count > 0 %}
               {% for block in section.blocks %}
                 {% if block.type == 'wiki_faq' %}
@@ -917,7 +938,7 @@
     endif
     assign wiki_detail_chapter = 'Le Wiki'
     assign wiki_detail_focus = 'Lecture de fond'
-    assign wiki_detail_note = 'Une synthèse claire pour comprendre la matière, sécuriser le bon geste et poursuivre vers la bonne sélection.'
+    assign wiki_detail_note = 'Une synthèse claire pour comprendre le chapitre, sécuriser le bon geste et poursuivre vers la bonne sélection.'
     assign wiki_detail_primary_url = '/pages/wiki'
     assign wiki_detail_primary_label = 'Retour au wiki'
     assign wiki_detail_secondary_url = '/pages/recettes'
@@ -984,7 +1005,7 @@
     elsif page.handle contains 'wiki-faq'
       assign wiki_detail_chapter = 'FAQ'
       assign wiki_detail_focus = 'Réponses rapides & utiles'
-      assign wiki_detail_note = 'Les réponses essentielles pour lever un doute rapidement et poursuivre vers la bonne page du site.'
+      assign wiki_detail_note = 'Les réponses essentielles pour lever un doute rapidement, puis continuer vers le bon guide, le bon produit ou le bon contact.'
       assign wiki_detail_primary_url = '/pages/wiki'
       assign wiki_detail_primary_label = 'Retour au wiki'
       assign wiki_detail_collection_url = '/pages/contact'
@@ -1160,7 +1181,7 @@
       "type": "richtext",
       "id": "catalogue_text",
       "label": "Introduction catalogue",
-      "default": "<p>Vanille Bourbon, épices, poivres, assemblages, huiles et formats cadeau: une entrée claire pour retrouver la bonne matière, le bon usage et le bon niveau de gamme.</p>"
+      "default": "<p>Vanille Bourbon, épices, poivres, assemblages, huiles et formats cadeau : une lecture claire pour trouver le bon produit, le bon format et le bon usage.</p>"
     },
     {
       "type": "text",
@@ -1216,7 +1237,7 @@
       "type": "textarea",
       "id": "wiki_summary",
       "label": "Résumé wiki",
-      "default": "Guides d’achat, conservation, usages, recettes et repères matière pour avancer vite vers la bonne réponse."
+      "default": "Guides d’achat, conservation, usages, recettes et savoir-faire pour avancer avec des réponses claires."
     },
     {
       "type": "text",
@@ -1261,7 +1282,7 @@
       "type": "text",
       "id": "wiki_secondary_link_label",
       "label": "CTA secondaire wiki",
-      "default": "Retour au catalogue"
+      "default": "Voir le catalogue"
     },
     {
       "type": "url",
@@ -1275,123 +1296,63 @@
     },
     {
       "type": "text",
-      "id": "wiki_card_1_kicker",
-      "label": "Carte 1 sur-titre",
-      "default": "Chapitre"
+      "id": "wiki_essentials_eyebrow",
+      "label": "Sur-titre essentiels wiki",
+      "default": "Vanille"
     },
     {
       "type": "text",
-      "id": "wiki_card_1_title",
-      "label": "Carte 1 titre",
-      "default": "Botanique & matière"
+      "id": "wiki_essentials_heading",
+      "label": "Titre essentiels wiki",
+      "default": "Vanille — l’essentiel"
     },
     {
-      "type": "textarea",
-      "id": "wiki_card_1_text",
-      "label": "Carte 1 texte",
-      "default": "Comprendre la fleur, la liane, la maturité et les premiers gestes qui conditionnent tout le profil final."
-    },
-    {
-      "type": "text",
-      "id": "wiki_card_1_link_label",
-      "label": "Carte 1 CTA",
-      "default": "Voir les produits"
-    },
-    {
-      "type": "url",
-      "id": "wiki_card_1_link",
-      "label": "Carte 1 lien"
-    },
-    {
-      "type": "image_picker",
-      "id": "wiki_card_1_image",
-      "label": "Image carte 1"
+      "type": "richtext",
+      "id": "wiki_essentials_text",
+      "label": "Texte essentiels wiki",
+      "default": "<p>Tout savoir sur la <strong>vanille Bourbon</strong> : reconnaître une gousse de qualité, la préparer, la conserver et l’utiliser selon vos recettes.</p>"
     },
     {
       "type": "text",
-      "id": "wiki_card_2_kicker",
-      "label": "Carte 2 sur-titre",
-      "default": "Passerelle"
+      "id": "wiki_categories_eyebrow",
+      "label": "Sur-titre catégories wiki",
+      "default": "Catégories"
     },
     {
       "type": "text",
-      "id": "wiki_card_2_title",
-      "label": "Carte 2 titre",
-      "default": "Usages & recettes"
+      "id": "wiki_categories_heading",
+      "label": "Titre catégories wiki",
+      "default": "Explorer toutes les catégories"
     },
     {
-      "type": "textarea",
-      "id": "wiki_card_2_text",
-      "label": "Carte 2 texte",
-      "default": "Relier la lecture aux gestes du quotidien: infusion, dosage, pâtisserie, accords salés et bonnes pratiques."
-    },
-    {
-      "type": "text",
-      "id": "wiki_card_2_link_label",
-      "label": "Carte 2 CTA",
-      "default": "Entrer par les recettes"
-    },
-    {
-      "type": "url",
-      "id": "wiki_card_2_link",
-      "label": "Carte 2 lien"
-    },
-    {
-      "type": "image_picker",
-      "id": "wiki_card_2_image",
-      "label": "Image carte 2"
-    },
-    {
-      "type": "text",
-      "id": "wiki_card_3_kicker",
-      "label": "Carte 3 sur-titre",
-      "default": "Suite"
-    },
-    {
-      "type": "text",
-      "id": "wiki_card_3_title",
-      "label": "Carte 3 titre",
-      "default": "Conseil & orientation"
-    },
-    {
-      "type": "textarea",
-      "id": "wiki_card_3_text",
-      "label": "Carte 3 texte",
-      "default": "Le wiki doit pouvoir rassurer, orienter et renvoyer vers un bon point d’entrée quand le lecteur hésite encore."
-    },
-    {
-      "type": "text",
-      "id": "wiki_card_3_link_label",
-      "label": "Carte 3 CTA",
-      "default": "Nous contacter"
-    },
-    {
-      "type": "url",
-      "id": "wiki_card_3_link",
-      "label": "Carte 3 lien"
-    },
-    {
-      "type": "image_picker",
-      "id": "wiki_card_3_image",
-      "label": "Image carte 3"
+      "type": "richtext",
+      "id": "wiki_categories_text",
+      "label": "Texte catégories wiki",
+      "default": "<p>Un sommaire visuel pour accéder rapidement aux sujets encyclopédiques du wiki.</p>"
     },
     {
       "type": "text",
       "id": "wiki_footer_eyebrow",
       "label": "Sur-titre bas wiki",
-      "default": "Explorer la suite"
+      "default": "Goûter la différence"
     },
     {
       "type": "text",
       "id": "wiki_footer_heading",
       "label": "Titre bas wiki",
-      "default": "Le wiki prépare la lecture, puis renvoie vers un geste, une recette ou un produit."
+      "default": "Prêt à goûter la différence ?"
+    },
+    {
+      "type": "richtext",
+      "id": "wiki_footer_text",
+      "label": "Texte bas wiki",
+      "default": "<p>Découvrez nos <strong>gousses de vanille Bourbon</strong>, nos <strong>épices rares</strong> et nos <strong>sels gourmets</strong> au prix direct producteur.</p>"
     },
     {
       "type": "text",
       "id": "wiki_footer_primary_link_label",
       "label": "CTA bas 1 wiki",
-      "default": "Voir les recettes"
+      "default": "Accéder à la boutique"
     },
     {
       "type": "url",
@@ -1402,12 +1363,24 @@
       "type": "text",
       "id": "wiki_footer_secondary_link_label",
       "label": "CTA bas 2 wiki",
-      "default": "Retour au catalogue"
+      "default": "Voir les recettes"
     },
     {
       "type": "url",
       "id": "wiki_footer_secondary_link",
       "label": "Lien bas 2 wiki"
+    },
+    {
+      "type": "text",
+      "id": "wiki_footer_trust",
+      "label": "Preuve de confiance wiki",
+      "default": "Traçabilité totale · Qualité artisanale · Relation directe avec les producteurs de Madagascar"
+    },
+    {
+      "type": "text",
+      "id": "wiki_faq_title",
+      "label": "Titre FAQ wiki",
+      "default": "FAQ — Vanille & épices"
     },
     {
       "type": "range",

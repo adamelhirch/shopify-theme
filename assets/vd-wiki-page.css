@@ -143,6 +143,13 @@
   box-shadow: 0 1rem 2.2rem rgba(var(--vd-orange), 0.26);
 }
 
+.vd-wiki-page__hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem 1.5rem;
+  align-items: center;
+}
+
 .vd-wiki-page__hero-stage {
   position: relative;
   min-height: clamp(33rem, 52vw, 45rem);
@@ -187,14 +194,6 @@
   background: rgba(10, 10, 10, 0.8);
   backdrop-filter: blur(18px);
   box-shadow: 0 1.4rem 3rem rgba(0, 0, 0, 0.24);
-}
-
-.vd-wiki-page__hero-card--narrow {
-  top: 1.4rem;
-  right: 1.4rem;
-  width: min(12rem, 30%);
-  padding: 0;
-  overflow: hidden;
 }
 
 .vd-wiki-page__hero-card--summary {
@@ -411,7 +410,7 @@
 
 .vd-wiki-page__cta-copy {
   display: grid;
-  gap: 1rem;
+  gap: 1.05rem;
   padding: clamp(1.4rem, 2.8vw, 2.2rem);
 }
 
@@ -537,6 +536,10 @@
 
   .vd-wiki-page__search-button {
     width: 100%;
+  }
+
+  .vd-wiki-page__hero-actions {
+    gap: 0.9rem 1.1rem;
   }
 
   .vd-wiki-page__hero-stage {
