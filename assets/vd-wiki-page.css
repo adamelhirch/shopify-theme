@@ -39,7 +39,7 @@
 
 .vd-wiki-page__hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.06fr) minmax(26rem, 0.94fr);
+  grid-template-columns: minmax(0, 0.94fr) minmax(32rem, 1.06fr);
   gap: clamp(1.8rem, 4vw, 3.6rem);
   align-items: stretch;
 }
@@ -145,7 +145,7 @@
 
 .vd-wiki-page__hero-stage {
   position: relative;
-  min-height: clamp(28rem, 48vw, 40rem);
+  min-height: clamp(33rem, 52vw, 45rem);
   border: 1px solid var(--vd-wiki-page-line);
   border-radius: 2.4rem;
   overflow: hidden;
@@ -154,13 +154,15 @@
 }
 
 .vd-wiki-page__hero-media,
-.vd-wiki-page__hero-media img {
+.vd-wiki-page__hero-media img,
+.vd-wiki-page__hero-media video {
   display: block;
   width: 100%;
   height: 100%;
 }
 
-.vd-wiki-page__hero-media img {
+.vd-wiki-page__hero-media img,
+.vd-wiki-page__hero-media video {
   object-fit: cover;
 }
 
@@ -197,19 +199,10 @@
 
 .vd-wiki-page__hero-card--summary {
   left: 1.4rem;
-  right: 1.4rem;
   bottom: 1.4rem;
-  max-width: 20rem;
+  max-width: 24rem;
 }
 
-.vd-wiki-page__hero-card img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 0.72;
-  object-fit: cover;
-}
-
-.vd-wiki-page__hero-card figcaption,
 .vd-wiki-page__eyebrow {
   display: inline-flex;
   align-items: center;
@@ -229,23 +222,19 @@
   background: rgba(var(--vd-orange), 0.9);
 }
 
-.vd-wiki-page__hero-card figcaption {
-  padding: 0.9rem 1rem 1rem;
-}
-
 .vd-wiki-page__hero-card strong {
   color: rgb(var(--vd-ivory));
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(1.55rem, 2vw, 2rem);
-  line-height: 1.02;
+  font-size: clamp(2rem, 2.8vw, 2.8rem);
+  line-height: 0.96;
   letter-spacing: -0.04em;
 }
 
 .vd-wiki-page__hero-card p {
   margin: 0;
   color: rgba(var(--vd-ivory), 0.8);
-  font-size: 0.96rem;
-  line-height: 1.7;
+  font-size: 1rem;
+  line-height: 1.8;
 }
 
 .vd-wiki-page__section {
@@ -553,10 +542,6 @@
   .vd-wiki-page__hero-stage {
     min-height: 23rem;
     border-radius: 1.8rem;
-  }
-
-  .vd-wiki-page__hero-card--narrow {
-    display: none;
   }
 
   .vd-wiki-page__hero-card--summary {

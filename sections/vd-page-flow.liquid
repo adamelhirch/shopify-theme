@@ -669,6 +669,8 @@
 {% elsif is_wiki_page %}
   {%- liquid
     assign wiki_stage_image = section.settings.wiki_hero_image
+    assign wiki_stage_video = section.settings.wiki_hero_video
+    assign wiki_stage_video_url = section.settings.wiki_hero_video_url
     assign wiki_card_1_image = section.settings.wiki_card_1_image
     assign wiki_card_2_image = section.settings.wiki_card_2_image
     assign wiki_card_3_image = section.settings.wiki_card_3_image
@@ -704,7 +706,7 @@
             <span class="vd-section-kicker">{{ section.settings.wiki_eyebrow | default: 'Le Wiki' }}</span>
             <h1 class="vd-wiki-page__title">{{ section.settings.wiki_heading | default: 'Le grand Wiki de Vanille Désiré' }}</h1>
             <div class="vd-wiki-page__lede rte">
-              <p>Le guide de référence en français sur la <strong>vanille Bourbon de Madagascar</strong> et les <strong>épices rares</strong> : histoire, variétés, usages, conservation, bienfaits, recettes et savoir-faire des producteurs.</p>
+              {{ section.settings.wiki_text }}
             </div>
 
             <form class="vd-wiki-page__search" action="{{ routes.search_url }}" method="get" role="search" aria-label="Recherche dans le wiki">
@@ -713,7 +715,7 @@
                 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
                   <path d="M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13Zm9 15.5-4.1-4.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
-                <input id="VDWikiSearch-{{ section.id }}" type="search" name="q" placeholder="Rechercher une épice, un sujet, une question…" autocomplete="off">
+                <input id="VDWikiSearch-{{ section.id }}" type="search" name="q" placeholder="{{ section.settings.wiki_search_placeholder | escape }}" autocomplete="off">
               </label>
               <button class="vd-wiki-page__search-button" type="submit">Rechercher</button>
             </form>
@@ -721,7 +723,24 @@
 
           <div class="vd-wiki-page__hero-stage">
             <div class="vd-wiki-page__hero-media">
-              {% if wiki_stage_image != blank %}
+              {% if wiki_stage_video != blank %}
+                {{
+                  wiki_stage_video
+                  | video_tag:
+                    class: 'vd-wiki-page__media-video',
+                    autoplay: true,
+                    loop: true,
+                    muted: true,
+                    controls: false,
+                    playsinline: true,
+                    preload: 'metadata',
+                    image_size: '2000x'
+                }}
+              {% elsif wiki_stage_video_url != blank %}
+                <video class="vd-wiki-page__media-video" autoplay loop muted playsinline preload="metadata">
+                  <source src="{{ wiki_stage_video_url }}" type="video/mp4">
+                </video>
+              {% elsif wiki_stage_image != blank %}
                 {{
                   wiki_stage_image
                   | image_url: width: 2200
@@ -737,27 +756,10 @@
               {% endif %}
             </div>
 
-            <figure class="vd-wiki-page__hero-card vd-wiki-page__hero-card--narrow">
-              {% if wiki_card_1_image != blank %}
-                {{
-                  wiki_card_1_image
-                  | image_url: width: 800
-                  | image_tag:
-                    widths: '360, 540, 720, 800',
-                    sizes: '(min-width: 990px) 12rem, 28vw',
-                    loading: 'lazy',
-                    alt: 'Vanille'
-                }}
-              {% else %}
-                <img src="{{ wiki_card_1_asset | asset_url }}" alt="Vanille" loading="lazy" width="576" height="768">
-              {% endif %}
-              <figcaption>Vanille</figcaption>
-            </figure>
-
             <div class="vd-wiki-page__hero-card vd-wiki-page__hero-card--summary">
-              <span class="vd-wiki-page__eyebrow">Référence</span>
-              <strong>Vanille Bourbon, épices rares, usages et savoir-faire.</strong>
-              <p>Le guide de référence pour comparer, comprendre et rejoindre ensuite la bonne lecture, la bonne recette ou la bonne sélection.</p>
+              <span class="vd-wiki-page__eyebrow">{{ section.settings.wiki_summary_eyebrow | default: 'Depuis Madagascar' }}</span>
+              <strong>{{ section.settings.wiki_summary_heading | default: 'Vanille Bourbon, épices rares et savoir-faire producteur.' }}</strong>
+              <p>{{ section.settings.wiki_summary | default: 'Guides d’achat, conservation, usages, recettes et repères matière pour avancer vite vers la bonne réponse.' }}</p>
             </div>
           </div>
         </div>
@@ -915,6 +917,7 @@
     endif
     assign wiki_detail_chapter = 'Le Wiki'
     assign wiki_detail_focus = 'Lecture de fond'
+    assign wiki_detail_note = 'Une synthèse claire pour comprendre la matière, sécuriser le bon geste et poursuivre vers la bonne sélection.'
     assign wiki_detail_primary_url = '/pages/wiki'
     assign wiki_detail_primary_label = 'Retour au wiki'
     assign wiki_detail_secondary_url = '/pages/recettes'
@@ -924,56 +927,64 @@
 
     if page.handle contains 'wiki-vanille'
       assign wiki_detail_chapter = 'Vanille'
-      assign wiki_detail_focus = 'Guide matière'
+      assign wiki_detail_focus = 'Savoir choisir & conserver'
+      assign wiki_detail_note = 'Repères utiles sur la qualité, la conservation et les usages de la vanille Bourbon au quotidien.'
       assign wiki_detail_primary_url = '/collections/vanille-bourbon'
       assign wiki_detail_primary_label = 'Voir la vanille Bourbon'
       assign wiki_detail_collection_url = '/pages/wiki-vanille-bien-choisir'
       assign wiki_detail_collection_label = 'Bien choisir sa vanille'
     elsif page.handle contains 'wiki-epice' or page.handle == 'wiki-epices-madagascar' or page.handle == 'wiki-bienfaits-sante'
       assign wiki_detail_chapter = 'Épices'
-      assign wiki_detail_focus = 'Référence ingrédient'
+      assign wiki_detail_focus = 'Origines, goûts & usages'
+      assign wiki_detail_note = 'Origine, profil aromatique, usages et conseils de base pour mieux choisir chaque épice.'
       assign wiki_detail_primary_url = '/collections/epices-madagascar'
       assign wiki_detail_primary_label = 'Voir les épices'
       assign wiki_detail_collection_url = '/pages/wiki-epices-madagascar'
       assign wiki_detail_collection_label = 'Explorer les épices'
     elsif page.handle contains 'wiki-poivre' or page.handle contains 'wiki-baies' or page.handle == 'wiki-poivres-baies-madagascar'
       assign wiki_detail_chapter = 'Poivres & baies'
-      assign wiki_detail_focus = 'Référence terroir'
+      assign wiki_detail_focus = 'Terroirs, intensité & accords'
+      assign wiki_detail_note = 'Comprendre le caractère des poivres et baies pour trouver le bon accord, le bon dosage et la bonne intensité.'
       assign wiki_detail_primary_url = '/collections/poivre-baies'
       assign wiki_detail_primary_label = 'Voir les poivres & baies'
       assign wiki_detail_collection_url = '/pages/wiki-poivres-baies-madagascar'
       assign wiki_detail_collection_label = 'Explorer cette famille'
     elsif page.handle contains 'wiki-sels'
       assign wiki_detail_chapter = 'Sels & mélanges'
-      assign wiki_detail_focus = 'Accords & assemblages'
+      assign wiki_detail_focus = 'Assemblages & accords'
+      assign wiki_detail_note = 'Repères simples pour comprendre les mélanges, leurs usages et leurs meilleurs accords en cuisine.'
       assign wiki_detail_primary_url = '/collections/sels'
       assign wiki_detail_primary_label = 'Voir les sels gourmets'
       assign wiki_detail_collection_url = '/pages/wiki-sels-melanges'
       assign wiki_detail_collection_label = 'Explorer cette famille'
     elsif page.handle contains 'wiki-huiles'
       assign wiki_detail_chapter = 'Huiles & plantes'
-      assign wiki_detail_focus = 'Usage & précautions'
+      assign wiki_detail_focus = 'Usages, bienfaits & précautions'
+      assign wiki_detail_note = 'Une lecture claire pour comprendre les usages des plantes et huiles tout en gardant les bonnes précautions.'
       assign wiki_detail_primary_url = '/collections/huiles-madagascar'
       assign wiki_detail_primary_label = 'Voir les huiles'
       assign wiki_detail_collection_url = '/pages/wiki-huiles-essentielles-plantes'
       assign wiki_detail_collection_label = 'Explorer cette famille'
     elsif page.handle contains 'wiki-recettes'
       assign wiki_detail_chapter = 'Recettes & accords'
-      assign wiki_detail_focus = 'Cuisine & gestes'
+      assign wiki_detail_focus = 'Gestes cuisine & inspirations'
+      assign wiki_detail_note = 'Le bon angle pour passer de la lecture à la cuisine, puis vers les recettes et accords les plus pertinents.'
       assign wiki_detail_primary_url = '/pages/recettes'
       assign wiki_detail_primary_label = 'Voir les recettes'
       assign wiki_detail_collection_url = '/pages/wiki'
       assign wiki_detail_collection_label = 'Retour au wiki'
     elsif page.handle contains 'wiki-glossaire'
       assign wiki_detail_chapter = 'Glossaire'
-      assign wiki_detail_focus = 'Vocabulaire utile'
+      assign wiki_detail_focus = 'Définitions & vocabulaire'
+      assign wiki_detail_note = 'Un socle de définitions pour mieux lire les fiches, comprendre les matières et faire les bons choix.'
       assign wiki_detail_primary_url = '/pages/wiki'
       assign wiki_detail_primary_label = 'Retour au wiki'
       assign wiki_detail_collection_url = '/pages/catalogue'
       assign wiki_detail_collection_label = 'Voir le catalogue'
     elsif page.handle contains 'wiki-faq'
       assign wiki_detail_chapter = 'FAQ'
-      assign wiki_detail_focus = 'Réponses rapides'
+      assign wiki_detail_focus = 'Réponses rapides & utiles'
+      assign wiki_detail_note = 'Les réponses essentielles pour lever un doute rapidement et poursuivre vers la bonne page du site.'
       assign wiki_detail_primary_url = '/pages/wiki'
       assign wiki_detail_primary_label = 'Retour au wiki'
       assign wiki_detail_collection_url = '/pages/contact'
@@ -1005,13 +1016,13 @@
 
           <aside class="vd-wiki-detail__hero-panel">
             <div class="vd-wiki-detail__panel-card">
-              <span class="vd-wiki-detail__eyebrow">Orientation</span>
+              <span class="vd-wiki-detail__eyebrow">Repère</span>
               <strong>{{ wiki_detail_chapter }}</strong>
-              <p>Un repère éditorial net pour comprendre le sujet, puis rebondir vers la bonne page du wiki, la bonne recette ou la bonne matière.</p>
+              <p>{{ wiki_detail_note }}</p>
             </div>
 
             <div class="vd-wiki-detail__panel-card">
-              <span class="vd-wiki-detail__eyebrow">Passerelles</span>
+              <span class="vd-wiki-detail__eyebrow">Poursuivre</span>
               <div class="vd-wiki-detail__actions">
                 <a href="{{ wiki_detail_primary_url }}" class="vd-arrow-cta" data-vd-preview-link>
                   <span class="vd-arrow-cta__label">{{ wiki_detail_primary_label }}</span>
@@ -1199,19 +1210,41 @@
       "type": "richtext",
       "id": "wiki_text",
       "label": "Introduction wiki",
-      "default": "<p>Une entrée éditoriale pour comprendre la matière, le geste et les usages, puis continuer vers les recettes, les produits et les prochaines lectures de la maison.</p>"
+      "default": "<p>Le guide de référence en français sur la <strong>vanille Bourbon de Madagascar</strong> et les <strong>épices rares</strong> : histoire, variétés, usages, conservation, bienfaits, recettes et savoir-faire des producteurs.</p>"
     },
     {
       "type": "textarea",
       "id": "wiki_summary",
       "label": "Résumé wiki",
-      "default": "Le wiki pose les repères essentiels avant l’achat: comprendre, comparer, puis choisir la bonne suite."
+      "default": "Guides d’achat, conservation, usages, recettes et repères matière pour avancer vite vers la bonne réponse."
     },
     {
       "type": "text",
       "id": "wiki_summary_eyebrow",
       "label": "Sur-titre résumé wiki",
-      "default": "Structure"
+      "default": "Depuis Madagascar"
+    },
+    {
+      "type": "text",
+      "id": "wiki_summary_heading",
+      "label": "Titre résumé wiki",
+      "default": "Vanille Bourbon, épices rares et savoir-faire producteur."
+    },
+    {
+      "type": "text",
+      "id": "wiki_search_placeholder",
+      "label": "Placeholder recherche wiki",
+      "default": "Rechercher une épice, un sujet, une question..."
+    },
+    {
+      "type": "video",
+      "id": "wiki_hero_video",
+      "label": "Vidéo Shopify hero wiki"
+    },
+    {
+      "type": "text",
+      "id": "wiki_hero_video_url",
+      "label": "URL vidéo MP4 hero wiki"
     },
     {
       "type": "text",
