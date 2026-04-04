@@ -199,7 +199,6 @@
     var gsap = window.gsap;
     var title = root.querySelector('[data-vd-wiki-title]');
     var heroCopy = root.querySelector('.vd-wiki-detail__hero-copy');
-    var heroAside = root.querySelector('.vd-wiki-detail__hero-aside');
     var sceneCards = root.querySelectorAll('.vd-wiki-detail__scene-card');
     var stage = root.closest('.vd-wiki-detail') ? root.closest('.vd-wiki-detail').querySelector('[data-vd-wiki-stage]') : null;
     var revealPanels = root.querySelectorAll('.vd-wiki-detail__navigator, .vd-wiki-section, .vd-wiki-detail__prologue');
@@ -236,8 +235,7 @@
       });
     }
 
-    Array.prototype.slice
-      .call([heroCopy, heroAside])
+    Array.prototype.slice.call([heroCopy])
       .concat(Array.prototype.slice.call(sceneCards))
       .forEach(function (item) {
         if (item) {
@@ -245,7 +243,7 @@
         }
       });
 
-    gsap.from([heroCopy, heroAside], {
+    gsap.from([heroCopy], {
       y: 34,
       opacity: 0,
       duration: 0.95,
