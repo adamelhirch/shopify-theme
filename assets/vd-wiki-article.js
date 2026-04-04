@@ -90,9 +90,9 @@
 
     if (!content || !tocWrapper || !tocList) return [];
 
-    var headings = Array.prototype.slice.call(content.querySelectorAll('h2, h3')).filter(function (heading) {
+    var headings = Array.prototype.slice.call(content.querySelectorAll('h2')).filter(function (heading) {
       return heading.textContent && heading.textContent.trim();
-    });
+    }).slice(0, 8);
 
     if (!headings.length) {
       tocWrapper.hidden = true;
@@ -113,7 +113,7 @@
 
       var item = document.createElement('li');
       var link = document.createElement('a');
-      link.className = 'vd-wiki-article__toc-link' + (heading.tagName === 'H3' ? ' is-subheading' : '');
+      link.className = 'vd-wiki-article__toc-link';
       link.href = '#' + heading.id;
       link.textContent = heading.textContent.trim();
       item.appendChild(link);
@@ -202,7 +202,7 @@
     var heroAside = root.querySelector('.vd-wiki-detail__hero-aside');
     var sceneCards = root.querySelectorAll('.vd-wiki-detail__scene-card');
     var stage = root.closest('.vd-wiki-detail') ? root.closest('.vd-wiki-detail').querySelector('[data-vd-wiki-stage]') : null;
-    var revealPanels = root.querySelectorAll('.vd-wiki-detail__navigator, .vd-wiki-detail__utility-card, .vd-wiki-section, .vd-wiki-detail__prologue');
+    var revealPanels = root.querySelectorAll('.vd-wiki-detail__navigator, .vd-wiki-section, .vd-wiki-detail__prologue');
 
     if (window.ScrollTrigger && gsap.registerPlugin) {
       gsap.registerPlugin(window.ScrollTrigger);
