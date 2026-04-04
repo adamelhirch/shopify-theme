@@ -23,18 +23,61 @@
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
 
+    {%- liquid
+      assign vd_meta_title = page_title
+      assign vd_meta_description = page_description
+
+      if request.page_type == 'page'
+        case page.handle
+          when 'wiki-vanille-conservation-preparation'
+            assign vd_meta_title = 'Comment conserver des gousses de vanille | Guide pratique'
+            assign vd_meta_description = 'Comment conserver des gousses de vanille sans les dessécher ? Conseils simples, erreurs à éviter et bonnes pratiques pour garder parfum et souplesse.'
+          when 'wiki-vanille-bien-choisir'
+            assign vd_meta_title = 'Bien choisir sa vanille Bourbon | Guide achat'
+            assign vd_meta_description = 'Souplesse, brillance, parfum, format : les critères utiles pour bien choisir une gousse de vanille Bourbon selon vos recettes et votre usage.'
+          when 'wiki-epices-madagascar'
+            assign vd_meta_title = 'Épices de Madagascar | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Panorama des épices de Madagascar : profils aromatiques, usages, conservation et repères pour choisir la bonne épice.'
+          when 'wiki-poivres-baies-madagascar'
+            assign vd_meta_title = 'Poivres & baies de Madagascar | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Comprendre les différences entre poivres et baies de Madagascar : intensité, terroirs, accords et usages en cuisine.'
+          when 'wiki-sels-melanges'
+            assign vd_meta_title = 'Sels gourmets & mélanges | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Repères pour choisir un sel aromatisé ou un mélange : usages, accords, finition et cuisine du quotidien.'
+          when 'wiki-huiles-essentielles-plantes'
+            assign vd_meta_title = 'Huiles essentielles & plantes | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Repères de lecture sur les huiles essentielles et plantes : usages, précautions et orientation avant achat.'
+          when 'wiki-savoir-faire-producteurs'
+            assign vd_meta_title = 'Savoir-faire & producteurs | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Pourquoi le travail du producteur change la qualité finale de la vanille et des épices : préparation, tri, affinage et filière.'
+          when 'wiki-bienfaits-sante'
+            assign vd_meta_title = 'Bienfaits & usages des épices | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Usages traditionnels, lecture critique des bienfaits et repères sérieux pour parler santé sans surpromesse.'
+          when 'wiki-recettes'
+            assign vd_meta_title = 'Recettes & accords | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Le passage du wiki à la cuisine : dosage, infusion, pâtisserie, accords salés et recettes autour de la vanille et des épices.'
+          when 'wiki-glossaire-epices'
+            assign vd_meta_title = 'Glossaire des épices | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Le vocabulaire utile du wiki : Bourbon, infusion, caviar, affinage, extraction et autres termes clés.'
+          when 'wiki-faq-vanille-epices'
+            assign vd_meta_title = 'FAQ — Vanille & épices | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Réponses rapides sur la conservation, la qualité, les usages et les différences entre les grandes familles du wiki.'
+        endcase
+      endif
+    -%}
+
     <title>
-      {{ page_title }}
+      {{ vd_meta_title }}
       {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
       {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- unless vd_meta_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
     </title>
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
+    {% if vd_meta_description %}
+      <meta name="description" content="{{ vd_meta_description | escape }}">
     {% endif %}
 
-    {% render 'meta-tags' %}
+    {% render 'meta-tags', og_title: vd_meta_title, og_description: vd_meta_description %}
 
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>

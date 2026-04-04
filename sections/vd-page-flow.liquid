@@ -925,18 +925,27 @@
     </div>
   </section>
 {% elsif is_wiki_detail_page %}
+  {%- capture wiki_detail_override_content -%}
+    {%- render 'vd-wiki-detail-overrides', page_handle: page.handle -%}
+  {%- endcapture -%}
   {%- liquid
-    assign wiki_detail_words = page.content | strip_html | split: ' ' | size
+    assign wiki_detail_content = page.content
+    if wiki_detail_override_content != blank
+      assign wiki_detail_content = wiki_detail_override_content
+    endif
+
+    assign wiki_detail_words = wiki_detail_content | strip_html | split: ' ' | size
     assign wiki_detail_read_time = wiki_detail_words | divided_by: 180
     if wiki_detail_read_time < 1
       assign wiki_detail_read_time = 1
     endif
 
-    assign wiki_detail_summary = page.content | split: '</h1>' | last | split: '</p>' | first | strip_html | strip
+    assign wiki_detail_summary = wiki_detail_content | split: '</h1>' | last | split: '</p>' | first | strip_html | strip
     if wiki_detail_summary == blank
-      assign wiki_detail_summary = page.content | strip_html | strip_newlines | replace: '  ', ' ' | truncatewords: 24
+      assign wiki_detail_summary = wiki_detail_content | strip_html | strip_newlines | replace: '  ', ' ' | truncatewords: 24
     endif
     assign wiki_detail_chapter = 'Le Wiki'
+    assign wiki_detail_title = page.title
     assign wiki_detail_focus = 'Lecture de fond'
     assign wiki_detail_note = 'Une synthèse claire pour comprendre le chapitre, sécuriser le bon geste et poursuivre vers la bonne sélection.'
     assign wiki_detail_primary_url = '/pages/wiki'
@@ -1011,6 +1020,31 @@
       assign wiki_detail_collection_url = '/pages/contact'
       assign wiki_detail_collection_label = 'Nous contacter'
     endif
+
+    case page.handle
+      when 'wiki-vanille-conservation-preparation'
+        assign wiki_detail_title = 'Comment conserver des gousses de vanille'
+      when 'wiki-vanille-bien-choisir'
+        assign wiki_detail_title = 'Bien choisir sa vanille Bourbon'
+      when 'wiki-epices-madagascar'
+        assign wiki_detail_title = 'Épices de Madagascar'
+      when 'wiki-poivres-baies-madagascar'
+        assign wiki_detail_title = 'Poivres & baies de Madagascar'
+      when 'wiki-sels-melanges'
+        assign wiki_detail_title = 'Sels gourmets & mélanges'
+      when 'wiki-huiles-essentielles-plantes'
+        assign wiki_detail_title = 'Huiles essentielles & plantes'
+      when 'wiki-savoir-faire-producteurs'
+        assign wiki_detail_title = 'Savoir-faire & producteurs'
+      when 'wiki-bienfaits-sante'
+        assign wiki_detail_title = 'Bienfaits & usages des épices'
+      when 'wiki-recettes'
+        assign wiki_detail_title = 'Recettes & accords'
+      when 'wiki-glossaire-epices'
+        assign wiki_detail_title = 'Glossaire des épices'
+      when 'wiki-faq-vanille-epices'
+        assign wiki_detail_title = 'FAQ — Vanille & épices'
+    endcase
   -%}
 
   <section class="section-{{ section.id }}-padding vd-wiki-detail color-{{ section.settings.color_scheme }}">
@@ -1025,7 +1059,7 @@
               </svg>
             </a>
             <span class="vd-section-kicker">{{ wiki_detail_chapter }}</span>
-            <h1 class="vd-wiki-detail__title">{{ page.title }}</h1>
+            <h1 class="vd-wiki-detail__title">{{ wiki_detail_title }}</h1>
             <div class="vd-wiki-detail__lede rte">
               <p>{{ wiki_detail_summary }}</p>
             </div>
@@ -1068,6 +1102,26 @@
           </aside>
         </header>
 
+        <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": {{ wiki_detail_title | json }},
+            "description": {{ wiki_detail_summary | strip_html | strip | json }},
+            "articleSection": {{ wiki_detail_chapter | json }},
+            "inLanguage": {{ request.locale.iso_code | default: 'fr' | json }},
+            "mainEntityOfPage": {{ canonical_url | json }},
+            "author": {
+              "@type": "Organization",
+              "name": "Vanille Désiré"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Vanille Désiré"
+            }
+          }
+        </script>
+
         <div class="vd-wiki-detail__body">
           <aside class="vd-wiki-detail__rail">
             <div class="vd-wiki-detail__panel-card" data-vd-wiki-toc-wrapper hidden>
@@ -1077,7 +1131,7 @@
           </aside>
 
           <div class="vd-wiki-detail__content rte" data-vd-wiki-content>
-            {{ page.content }}
+            {{ wiki_detail_content }}
           </div>
         </div>
       </article>
