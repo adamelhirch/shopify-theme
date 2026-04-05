@@ -9,63 +9,22 @@
  */
 {
   "sections": {
+    "vd_page_flow_savoir_faire": {
+      "type": "vd-page-flow",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "padding_top": 16,
+        "padding_bottom": 8
+      }
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
       "settings": {}
-    },
-    "wiki_content_savoir_faire_J4m2xP": {
-      "type": "wiki-content",
-      "blocks": {
-        "topic_1": {
-          "type": "item",
-          "settings": {
-            "kicker": "Origine",
-            "title": "Direct Madagascar, lecture nette",
-            "text": "<p>Présenter le sourcing, la sélection et la relation terrain avec précision, sans folklore ni surcharge.</p>",
-            "link_label": "Voir la collection",
-            "link": "shopify://collections/vanille-bourbon"
-          }
-        },
-        "topic_2": {
-          "type": "item",
-          "settings": {
-            "kicker": "Methode",
-            "title": "Sélection, tri, contrôle, lisibilité",
-            "text": "<p>Rendre visibles les gestes concrets: choisir un lot, lire sa qualité, expliquer le conditionnement et donner les bons repères.</p>",
-            "link_label": "Nous contacter",
-            "link": "shopify://pages/contact"
-          }
-        },
-        "topic_3": {
-          "type": "item",
-          "settings": {
-            "kicker": "Suite",
-            "title": "Origines, gestes et matière",
-            "text": "<p>Une page pensée pour accueillir naturellement des scènes terrain, des gestes de préparation et des détails de texture.</p>",
-            "link_label": "Voir les recettes",
-            "link": "shopify://pages/recettes"
-          }
-        }
-      },
-      "block_order": [
-        "topic_1",
-        "topic_2",
-        "topic_3"
-      ],
-      "settings": {
-        "eyebrow": "Le Wiki",
-        "heading": "Savoir-faire & producteurs",
-        "text": "<p>Une page wiki qui tient la marque: angle net, peu de bruit, quelques blocs forts et une direction claire vers le produit ou la lecture suivante.</p>",
-        "summary": "Une fondation sobre, premium et facilement enrichissable pour raconter le sourcing et le travail matière.",
-        "color_scheme": "scheme-3",
-        "padding_top": 20,
-        "padding_bottom": 56
-      }
     }
   },
   "order": [
-    "main",
-    "wiki_content_savoir_faire_J4m2xP"
+    "vd_page_flow_savoir_faire",
+    "main"
   ]
 }

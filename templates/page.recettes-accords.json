@@ -9,24 +9,22 @@
  */
 {
   "sections": {
+    "vd_page_flow_recettes_accords": {
+      "type": "vd-page-flow",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "padding_top": 16,
+        "padding_bottom": 8
+      }
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
       "settings": {}
-    },
-    "recipe": {
-      "type": "vd-recipe-signature",
-      "settings": {
-        "recipe_slug": "accords-vanille-salee",
-        "require_customer_access": true,
-        "color_scheme": "scheme-3",
-        "padding_top": 28,
-        "padding_bottom": 40
-      }
     }
   },
   "order": [
-    "main",
-    "recipe"
+    "vd_page_flow_recettes_accords",
+    "main"
   ]
 }
