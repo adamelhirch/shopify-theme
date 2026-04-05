@@ -942,6 +942,8 @@
     assign wiki_detail_summary = wiki_detail_summary | replace: 'À retenir', ''
     assign wiki_detail_summary = wiki_detail_summary | replace: 'Panorama', ''
     assign wiki_detail_summary = wiki_detail_summary | replace: 'Repères', ''
+    assign wiki_detail_summary = wiki_detail_summary | replace: 'Filière', ''
+    assign wiki_detail_summary = wiki_detail_summary | replace: 'Important', ''
     assign wiki_detail_summary = wiki_detail_summary | replace: 'Passer à l’action', ''
     assign wiki_detail_summary = wiki_detail_summary | replace: 'Vocabulaire', ''
     assign wiki_detail_summary = wiki_detail_summary | replace: 'FAQ', ''
@@ -1320,6 +1322,26 @@
                     </svg>
                   </a>
                 {% endif %}
+              </div>
+            </div>
+            <div class="vd-wiki-detail__hero-visual" data-vd-wiki-reveal aria-hidden="true">
+              <div class="vd-wiki-detail__hero-frame vd-wiki-detail__hero-frame--main">
+                {% if wiki_detail_media_video != blank %}
+                  <video class="vd-wiki-detail__hero-frame-video" autoplay loop muted playsinline preload="metadata" poster="{{ wiki_detail_media_poster | asset_url }}">
+                    <source src="{{ wiki_detail_media_video | asset_url }}" type="video/mp4">
+                  </video>
+                {% else %}
+                  <img class="vd-wiki-detail__hero-frame-image" src="{{ wiki_detail_media_image | asset_url }}" alt="">
+                {% endif %}
+              </div>
+              <div class="vd-wiki-detail__hero-frame vd-wiki-detail__hero-frame--secondary">
+                <img class="vd-wiki-detail__hero-frame-image" src="{{ wiki_detail_card_one_image | asset_url }}" alt="">
+              </div>
+              <div class="vd-wiki-detail__hero-frame vd-wiki-detail__hero-frame--tertiary">
+                <img class="vd-wiki-detail__hero-frame-image" src="{{ wiki_detail_card_two_image | asset_url }}" alt="">
+              </div>
+              <div class="vd-wiki-detail__hero-frame vd-wiki-detail__hero-frame--accent">
+                <img class="vd-wiki-detail__hero-frame-image" src="{{ wiki_detail_card_three_image | asset_url }}" alt="">
               </div>
             </div>
           </header>

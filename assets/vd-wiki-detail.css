@@ -97,7 +97,10 @@
 }
 
 .vd-wiki-detail__hero {
-  display: block;
+  display: grid;
+  grid-template-columns: minmax(0, 0.98fr) minmax(32rem, 0.82fr);
+  gap: clamp(1.6rem, 2.6vw, 2.8rem);
+  align-items: end;
   min-height: min(84vh, 78rem);
 }
 
@@ -125,6 +128,71 @@
   border-radius: 4rem;
   position: relative;
   overflow: hidden;
+}
+
+.vd-wiki-detail__hero-visual {
+  position: relative;
+  min-height: min(84vh, 78rem);
+  pointer-events: none;
+}
+
+.vd-wiki-detail__hero-frame {
+  position: absolute;
+  overflow: hidden;
+  border: 1px solid var(--vd-wiki-detail-line-strong);
+  border-radius: 3.2rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.01)),
+    rgba(8, 8, 8, 0.54);
+  box-shadow: var(--vd-wiki-detail-shadow);
+  backdrop-filter: blur(14px);
+}
+
+.vd-wiki-detail__hero-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 24%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.48));
+  pointer-events: none;
+}
+
+.vd-wiki-detail__hero-frame--main {
+  inset: 0 0 0 5%;
+}
+
+.vd-wiki-detail__hero-frame--secondary {
+  top: 3%;
+  right: 10%;
+  width: clamp(14rem, 18vw, 20rem);
+  height: clamp(18rem, 24vw, 28rem);
+  transform: rotate(-5deg);
+}
+
+.vd-wiki-detail__hero-frame--tertiary {
+  left: 0;
+  bottom: 10%;
+  width: clamp(18rem, 22vw, 24rem);
+  height: clamp(22rem, 28vw, 31rem);
+  transform: rotate(4deg);
+}
+
+.vd-wiki-detail__hero-frame--accent {
+  right: 4%;
+  bottom: 2%;
+  width: clamp(12rem, 15vw, 16rem);
+  height: clamp(15rem, 20vw, 21rem);
+  transform: rotate(7deg);
+}
+
+.vd-wiki-detail__hero-frame-video,
+.vd-wiki-detail__hero-frame-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  filter: saturate(0.96) brightness(0.72);
 }
 
 .vd-wiki-detail__hero-copy::before {
@@ -157,10 +225,10 @@
 .vd-wiki-detail__lede,
 .vd-wiki-detail__lede p {
   margin: 0;
-  max-width: 82rem;
+  max-width: 68rem;
   color: var(--vd-wiki-detail-text);
-  font-size: clamp(1.22rem, 1.5vw, 1.5rem);
-  line-height: 1.9;
+  font-size: clamp(1.18rem, 1.35vw, 1.46rem);
+  line-height: 1.82;
 }
 
 .vd-wiki-detail__hero-links,
@@ -329,7 +397,7 @@
 .vd-wiki-detail__navigator {
   display: grid;
   gap: 1.2rem;
-  padding: clamp(1.35rem, 2vw, 1.8rem);
+  padding: clamp(1.6rem, 2.2vw, 2rem);
   border-radius: 2.6rem;
   border: 1px solid var(--vd-wiki-detail-line);
   background:
@@ -341,18 +409,21 @@
 
 .vd-wiki-detail__toc {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
-  gap: 0.8rem 1.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+  gap: 1rem 1.6rem;
   margin: 0;
   padding: 0;
+  counter-reset: vd-wiki-toc;
   list-style: none;
 }
 
 .vd-wiki-detail__toc .vd-wiki-article__toc-link {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  min-height: 4.2rem;
-  padding: 0.55rem 0;
+  gap: 1.2rem;
+  min-height: 5rem;
+  padding: 0.7rem 0;
   border-bottom: 1px solid rgba(var(--vd-ivory), 0.08);
   color: rgba(var(--vd-ivory), 0.62);
   text-decoration: none;
@@ -361,6 +432,15 @@
   line-height: 1.45;
   white-space: normal;
   transition: color 180ms ease, opacity 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.vd-wiki-detail__toc .vd-wiki-article__toc-link::before {
+  counter-increment: vd-wiki-toc;
+  content: counter(vd-wiki-toc, decimal-leading-zero);
+  color: rgba(var(--vd-orange), 0.92);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
 }
 
 .vd-wiki-detail__toc .vd-wiki-article__toc-link.is-active,
@@ -376,7 +456,7 @@
 }
 
 .vd-wiki-detail__content-wrap {
-  padding: clamp(2.4rem, 3vw, 3.2rem);
+  padding: clamp(2.8rem, 3.4vw, 4rem);
   border-radius: 3.2rem;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015)),
@@ -397,7 +477,7 @@
 .vd-wiki-detail__prologue {
   display: grid;
   gap: 1.2rem;
-  padding: clamp(1.8rem, 2.1vw, 2.3rem);
+  padding: clamp(2rem, 2.4vw, 2.9rem);
   border-radius: 2.8rem;
 }
 
@@ -407,14 +487,16 @@
 
 .vd-wiki-section {
   display: grid;
-  gap: 1.5rem;
-  padding: clamp(2rem, 2.6vw, 3rem);
+  grid-template-columns: minmax(22rem, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(1.8rem, 3vw, 3.6rem);
+  padding: clamp(2.2rem, 2.8vw, 3.2rem);
   border-radius: 3rem;
 }
 
 .vd-wiki-section__head {
   display: grid;
   gap: 0.8rem;
+  align-content: start;
 }
 
 .vd-wiki-section__body {
@@ -434,7 +516,7 @@
 
 .vd-wiki-detail__content h2 {
   font-size: clamp(3.4rem, 5vw, 5.8rem);
-  max-width: 16ch;
+  max-width: 11ch;
 }
 
 .vd-wiki-detail__content h3 {
@@ -444,8 +526,8 @@
 .vd-wiki-detail__content p,
 .vd-wiki-detail__content li {
   color: var(--vd-wiki-detail-text);
-  font-size: 1.12rem;
-  line-height: 2;
+  font-size: 1.08rem;
+  line-height: 1.95;
 }
 
 .vd-wiki-detail__content p {
@@ -471,7 +553,7 @@
 .vd-wiki-article-note {
   display: grid;
   gap: 0.8rem;
-  padding: 1.55rem 1.7rem;
+  padding: 1.8rem 1.9rem;
   border: 1px solid rgba(var(--vd-orange), 0.22);
   border-radius: 2.3rem;
   background:
@@ -519,7 +601,7 @@
 .vd-wiki-article-card {
   display: grid;
   gap: 0.9rem;
-  padding: 1.55rem;
+  padding: 1.7rem;
   border: 1px solid var(--vd-wiki-detail-line);
   border-radius: 2.1rem;
   background:
@@ -588,6 +670,26 @@
 }
 
 @media screen and (max-width: 1199px) {
+  .vd-wiki-detail__hero {
+    grid-template-columns: 1fr;
+  }
+
+  .vd-wiki-detail__hero-visual {
+    min-height: 54rem;
+  }
+
+  .vd-wiki-detail__hero-frame--main {
+    inset: 0;
+  }
+
+  .vd-wiki-detail__hero-frame--secondary {
+    right: 6%;
+  }
+
+  .vd-wiki-detail__hero-frame--tertiary {
+    left: 3%;
+  }
+
   .vd-wiki-detail__scene-rail {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -614,10 +716,32 @@
     min-height: 0;
   }
 
+  .vd-wiki-detail__hero-visual {
+    min-height: 38rem;
+  }
+
+  .vd-wiki-detail__hero-frame--secondary,
+  .vd-wiki-detail__hero-frame--accent {
+    display: none;
+  }
+
+  .vd-wiki-detail__hero-frame--tertiary {
+    left: auto;
+    right: 1.2rem;
+    bottom: 1.2rem;
+    width: 14rem;
+    height: 17rem;
+    transform: rotate(5deg);
+  }
+
   .vd-wiki-detail__scene-rail,
   .vd-wiki-detail__toc,
   .vd-wiki-article-grid--2,
   .vd-wiki-article-grid--3 {
+    grid-template-columns: 1fr;
+  }
+
+  .vd-wiki-section {
     grid-template-columns: 1fr;
   }
 
@@ -637,6 +761,7 @@
 
   .vd-wiki-detail__hero-copy,
   .vd-wiki-detail__panel-card,
+  .vd-wiki-detail__hero-frame,
   .vd-wiki-detail__navigator,
   .vd-wiki-detail__content-wrap,
   .vd-wiki-section,
@@ -651,6 +776,15 @@
   .vd-wiki-section,
   .vd-wiki-detail__prologue {
     padding: 1.15rem;
+  }
+
+  .vd-wiki-detail__hero-visual {
+    min-height: 28rem;
+  }
+
+  .vd-wiki-detail__hero-frame--tertiary {
+    width: 10rem;
+    height: 12rem;
   }
 
   .vd-wiki-detail__navigator,
