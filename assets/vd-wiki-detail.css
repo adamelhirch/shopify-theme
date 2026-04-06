@@ -195,6 +195,83 @@
   filter: saturate(0.96) brightness(0.72);
 }
 
+.vd-wiki-detail__shell[data-vd-wiki-handle="wiki-epices-madagascar"] .vd-wiki-detail__hero-frame--main {
+  inset: 0 2% 0 0;
+}
+
+.vd-wiki-detail__shell[data-vd-wiki-handle="wiki-epices-madagascar"] .vd-wiki-detail__hero-frame--secondary {
+  top: 5%;
+  right: 2%;
+  width: clamp(12rem, 16vw, 18rem);
+  height: clamp(15rem, 22vw, 24rem);
+  transform: rotate(6deg);
+}
+
+.vd-wiki-detail__shell[data-vd-wiki-handle="wiki-epices-madagascar"] .vd-wiki-detail__hero-frame--tertiary {
+  left: 2%;
+  bottom: 5%;
+  width: clamp(16rem, 20vw, 21rem);
+  height: clamp(20rem, 24vw, 27rem);
+  transform: rotate(-4deg);
+}
+
+.vd-wiki-detail__shell[data-vd-wiki-handle="wiki-poivres-baies-madagascar"] .vd-wiki-detail__hero-frame--main {
+  inset: 0 4% 0 1%;
+}
+
+.vd-wiki-detail__shell[data-vd-wiki-handle="wiki-poivres-baies-madagascar"] .vd-wiki-detail__hero-frame--secondary {
+  top: 7%;
+  right: 4%;
+  width: clamp(13rem, 17vw, 19rem);
+  height: clamp(16rem, 22vw, 25rem);
+  transform: rotate(-7deg);
+}
+
+.vd-wiki-detail__shell[data-vd-wiki-handle="wiki-poivres-baies-madagascar"] .vd-wiki-detail__hero-frame--accent {
+  right: 9%;
+  bottom: 7%;
+  transform: rotate(10deg);
+}
+
+.vd-wiki-detail__shell[data-vd-wiki-handle="wiki-sels-melanges"] .vd-wiki-detail__hero-frame--main {
+  inset: 0 0 4% 4%;
+}
+
+.vd-wiki-detail__shell[data-vd-wiki-handle="wiki-sels-melanges"] .vd-wiki-detail__hero-frame--secondary {
+  top: 4%;
+  right: 5%;
+  width: clamp(13rem, 16vw, 18rem);
+  height: clamp(15rem, 21vw, 22rem);
+  transform: rotate(4deg);
+}
+
+.vd-wiki-detail__shell[data-vd-wiki-handle="wiki-sels-melanges"] .vd-wiki-detail__hero-frame--tertiary {
+  left: 3%;
+  bottom: 3%;
+  width: clamp(15rem, 18vw, 19rem);
+  height: clamp(18rem, 22vw, 24rem);
+  transform: rotate(-6deg);
+}
+
+.vd-wiki-detail__shell[data-vd-wiki-handle="wiki-huiles-essentielles-plantes"] .vd-wiki-detail__hero-frame--main {
+  inset: 0 1% 0 2%;
+}
+
+.vd-wiki-detail__shell[data-vd-wiki-handle="wiki-huiles-essentielles-plantes"] .vd-wiki-detail__hero-frame--secondary {
+  top: 5%;
+  right: 5%;
+  width: clamp(12rem, 15vw, 17rem);
+  height: clamp(16rem, 20vw, 22rem);
+  transform: rotate(-4deg);
+}
+
+.vd-wiki-detail__shell[data-vd-wiki-handle="wiki-huiles-essentielles-plantes"] .vd-wiki-detail__hero-frame--accent {
+  right: 3%;
+  bottom: 4%;
+  width: clamp(11rem, 14vw, 15rem);
+  height: clamp(14rem, 18vw, 18rem);
+}
+
 .vd-wiki-detail__hero-copy::before {
   content: "";
   position: absolute;
