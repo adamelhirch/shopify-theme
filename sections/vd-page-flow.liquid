@@ -1366,6 +1366,57 @@
             }
           </script>
 
+          {% if page.handle == 'wiki-faq-vanille-epices' %}
+            <script type="application/ld+json">
+              {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": "Comment reconnaître une bonne gousse de vanille ?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Une bonne gousse de vanille doit être souple, parfumée, bien préparée et adaptée à l’usage prévu, sans se limiter à sa longueur."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Comment conserver la vanille et les épices ?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "La vanille et les épices se conservent à température ambiante, à l’abri de la lumière, de la chaleur et de l’humidité, dans un contenant propre et fermé."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Quel produit choisir pour débuter ?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Pour la vanille, un petit lot de gousses bien préparées suffit pour débuter. Pour les épices, commencez par une sélection courte et lisible correspondant à vos usages."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Les épices entières se conservent-elles mieux ?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Souvent oui : les formats entiers protègent mieux l’aromatique et permettent un dosage plus précis au dernier moment."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Comment choisir entre wiki, recettes et catalogue ?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Le wiki sert à comprendre, les recettes à passer au geste, et le catalogue à acheter quand le besoin est clarifié."
+                    }
+                  }
+                ]
+              }
+            </script>
+          {% endif %}
+
           <div class="vd-wiki-detail__navigator" data-vd-wiki-toc-wrapper hidden>
             <span class="vd-wiki-detail__eyebrow">Sommaire</span>
             <ol class="vd-wiki-detail__toc" data-vd-wiki-toc></ol>
