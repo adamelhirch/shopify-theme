@@ -116,12 +116,66 @@
         "padding_top": 12,
         "padding_bottom": 48
       }
+    },
+    "pompona_compare": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_1": {
+          "type": "column",
+          "settings": {
+            "title": "Bourbon",
+            "text": "<p>La plus simple à adopter au quotidien : ronde, gourmande, polyvalente en crème, pâtisserie et infusion.</p>",
+            "link_label": "Voir la Bourbon",
+            "link": "shopify://collections/vanille-bourbon"
+          }
+        },
+        "column_2": {
+          "type": "column",
+          "settings": {
+            "title": "Tahiti",
+            "text": "<p>Souvent perçue comme plus florale et plus parfumée, elle sert surtout de repère de style quand on compare les grandes familles de vanille.</p>",
+            "link_label": "Lire le guide",
+            "link": "shopify://pages/wiki-vanille-bien-choisir"
+          }
+        },
+        "column_3": {
+          "type": "column",
+          "settings": {
+            "title": "Pompona",
+            "text": "<p>Plus rare, plus ample et parfois plus déroutante. Cette page sert pour l’instant à situer ce profil avant une offre dédiée plus complète.</p>",
+            "link_label": "Voir les recettes",
+            "link": "shopify://pages/recettes"
+          }
+        }
+      },
+      "block_order": [
+        "column_1",
+        "column_2",
+        "column_3"
+      ],
+      "settings": {
+        "title": "Comparer les grandes familles vanille",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "columns_desktop": 3,
+        "column_alignment": "left",
+        "background_style": "none",
+        "button_label": "",
+        "button_link": "",
+        "color_scheme": "scheme-3",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 0,
+        "padding_bottom": 56
+      }
     }
   },
   "order": [
     "main",
     "banner",
     "collection",
-    "rich_text_pompona_notes"
+    "rich_text_pompona_notes",
+    "pompona_compare"
   ]
 }
