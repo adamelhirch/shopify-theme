@@ -19,17 +19,17 @@
       "settings": {
         "eyebrow": "Matière",
         "heading": "Vanille Pompona",
-        "text": "<p>Une entrée plus directe pour comparer les profils vanille, retrouver les formats de la maison et préparer une future page dédiée quand la sélection Pompona sera prête.</p>",
+        "text": "<p>La vanille Pompona se distingue par un profil plus ample, plus rare et souvent plus déroutant que la Bourbon. Cette page sert à situer cette famille, à comprendre son style et à retrouver les références vanille proches déjà disponibles chez Vanille Désiré.</p>",
         "primary_button_label": "Voir les produits",
         "primary_button_link": "shopify://collections/vanille-bourbon",
-        "secondary_button_label": "Lire les recettes",
-        "secondary_button_link": "shopify://pages/recettes",
+        "secondary_button_label": "Comparer avec Bourbon",
+        "secondary_button_link": "shopify://pages/wiki-vanille-bien-choisir",
         "metric_1_label": "Espèce",
         "metric_1_value": "Pompona",
         "metric_2_label": "Profil",
-        "metric_2_value": "Accords & usage",
+        "metric_2_value": "Large & généreux",
         "metric_3_label": "Style",
-        "metric_3_value": "Rare & généreux",
+        "metric_3_value": "Rare & expressif",
         "color_scheme": "scheme-3",
         "padding_top": 20,
         "padding_bottom": 8
@@ -42,8 +42,8 @@
         "products_to_show": 6,
         "title": "Explorer la famille vanille",
         "heading_size": "h1",
-        "description": "<p>En attendant une collection Pompona dédiée, cette page ramène vers les formats vanille de la maison avec une lecture nette et directement shoppable.</p>",
-        "show_description": false,
+        "description": "<p>En l’absence d’une collection Pompona dédiée, cette sélection permet déjà de comparer les usages, les formats et les styles de vanille les plus proches. L’idée n’est pas de simuler une offre inexistante, mais d’aider à comprendre vers quelle vanille se tourner selon le geste recherché.</p>",
+        "show_description": true,
         "description_style": "body",
         "columns_desktop": 3,
         "enable_desktop_slider": false,
@@ -65,11 +65,63 @@
         "padding_top": 8,
         "padding_bottom": 56
       }
+    },
+    "rich_text_pompona_notes": {
+      "type": "rich-text",
+      "blocks": {
+        "caption_1": {
+          "type": "caption",
+          "settings": {
+            "caption": "Repères",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "small"
+          }
+        },
+        "heading_1": {
+          "type": "heading",
+          "settings": {
+            "heading": "Comment lire la Pompona aujourd’hui",
+            "heading_size": "h1"
+          }
+        },
+        "text_1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>La Pompona est souvent recherchée pour son profil plus ample, plus atypique et parfois plus floral que la Bourbon. Comme cette famille n’est pas encore développée en collection dédiée sur le site, cette page sert de repère : comprendre son style, la comparer aux autres vanilles, puis se rabattre sur la référence la plus cohérente pour cuisiner maintenant.</p><p>Si vous cherchez une vanille simple à adopter au quotidien, la Bourbon reste l’entrée la plus directe. Si vous cherchez surtout à comparer les styles, poursuivez vers le guide <strong>Bien choisir sa vanille</strong> puis revenez ici avec une lecture plus nette des profils.</p>"
+          }
+        },
+        "button_1": {
+          "type": "button",
+          "settings": {
+            "button_label": "Lire le guide vanille",
+            "button_link": "shopify://pages/wiki-vanille-bien-choisir",
+            "button_style_secondary": true,
+            "button_label_2": "Voir les recettes",
+            "button_link_2": "shopify://pages/recettes",
+            "button_style_secondary_2": true
+          }
+        }
+      },
+      "block_order": [
+        "caption_1",
+        "heading_1",
+        "text_1",
+        "button_1"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "left",
+        "color_scheme": "scheme-3",
+        "full_width": false,
+        "padding_top": 12,
+        "padding_bottom": 48
+      }
     }
   },
   "order": [
     "main",
     "banner",
-    "collection"
+    "collection",
+    "rich_text_pompona_notes"
   ]
 }
