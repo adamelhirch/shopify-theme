@@ -19,8 +19,8 @@
       "settings": {
         "eyebrow": "Matière",
         "heading": "Vanille Pompona",
-        "text": "<p>La vanille Pompona se distingue par un profil plus ample, plus rare et souvent plus déroutant que la Bourbon. Cette page sert à situer cette famille, à comprendre son style et à retrouver les références vanille proches déjà disponibles chez Vanille Désiré.</p>",
-        "primary_button_label": "Voir les produits",
+        "text": "<p>La vanille Pompona se distingue par un profil plus ample, plus rare et souvent plus déroutant que la Bourbon. Cette page sert à situer cette famille, à comprendre son style et à retrouver les références vanille les plus cohérentes à cuisiner dès maintenant.</p>",
+        "primary_button_label": "Voir la sélection vanille",
         "primary_button_link": "shopify://collections/vanille-bourbon",
         "secondary_button_label": "Comparer avec Bourbon",
         "secondary_button_link": "shopify://pages/wiki-vanille-bien-choisir",
@@ -40,9 +40,9 @@
       "settings": {
         "collection": "vanille-bourbon",
         "products_to_show": 6,
-        "title": "Explorer la famille vanille",
+        "title": "Sélection utile pour comparer les styles",
         "heading_size": "h1",
-        "description": "<p>En l’absence d’une collection Pompona dédiée, cette sélection permet déjà de comparer les usages, les formats et les styles de vanille les plus proches. L’idée n’est pas de simuler une offre inexistante, mais d’aider à comprendre vers quelle vanille se tourner selon le geste recherché.</p>",
+        "description": "<p>Cette sélection permet déjà de comparer les usages, les formats et les styles de vanille les plus proches. L’idée est d’aider à comprendre vers quelle vanille se tourner selon le geste recherché, puis de cuisiner avec une matière lisible et bien préparée.</p>",
         "show_description": true,
         "description_style": "body",
         "columns_desktop": 3,
@@ -87,7 +87,7 @@
         "text_1": {
           "type": "text",
           "settings": {
-            "text": "<p>La Pompona est souvent recherchée pour son profil plus ample, plus atypique et parfois plus floral que la Bourbon. Comme cette famille n’est pas encore développée en collection dédiée sur le site, cette page sert de repère : comprendre son style, la comparer aux autres vanilles, puis se rabattre sur la référence la plus cohérente pour cuisiner maintenant.</p><p>Si vous cherchez une vanille simple à adopter au quotidien, la Bourbon reste l’entrée la plus directe. Si vous cherchez surtout à comparer les styles, poursuivez vers le guide <strong>Bien choisir sa vanille</strong> puis revenez ici avec une lecture plus nette des profils.</p>"
+            "text": "<p>La Pompona est souvent recherchée pour son profil plus ample, plus atypique et parfois plus floral que la Bourbon. Cette page sert de repère : comprendre son style, la comparer aux autres vanilles, puis identifier la référence la plus cohérente pour cuisiner maintenant.</p><p>Si vous cherchez une vanille simple à adopter au quotidien, la Bourbon reste l’entrée la plus directe. Si vous cherchez surtout à comparer les styles, poursuivez vers le guide <strong>Bien choisir sa vanille</strong> puis revenez ici avec une lecture plus nette des profils.</p>"
           }
         },
         "button_1": {
@@ -125,7 +125,7 @@
           "settings": {
             "title": "Bourbon",
             "text": "<p>La plus simple à adopter au quotidien : ronde, gourmande, polyvalente en crème, pâtisserie et infusion.</p>",
-            "link_label": "Voir la Bourbon",
+            "link_label": "Voir la sélection",
             "link": "shopify://collections/vanille-bourbon"
           }
         },
@@ -134,7 +134,7 @@
           "settings": {
             "title": "Tahiti",
             "text": "<p>Souvent perçue comme plus florale et plus parfumée, elle sert surtout de repère de style quand on compare les grandes familles de vanille.</p>",
-            "link_label": "Lire le guide",
+            "link_label": "Lire le repère",
             "link": "shopify://pages/wiki-vanille-bien-choisir"
           }
         },
@@ -142,7 +142,7 @@
           "type": "column",
           "settings": {
             "title": "Pompona",
-            "text": "<p>Plus rare, plus ample et parfois plus déroutante. Cette page sert pour l’instant à situer ce profil avant une offre dédiée plus complète.</p>",
+            "text": "<p>Plus rare, plus ample et parfois plus déroutante. Cette page sert à situer ce profil avant de revenir vers une vanille plus directement disponible à la cuisine.</p>",
             "link_label": "Voir les recettes",
             "link": "shopify://pages/recettes"
           }
