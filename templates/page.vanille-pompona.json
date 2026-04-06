@@ -90,6 +90,12 @@
             "text": "<p>La Pompona est souvent recherchée pour son profil plus ample, plus atypique et parfois plus floral que la Bourbon. Cette page sert de repère : comprendre son style, la comparer aux autres vanilles, puis identifier la référence la plus cohérente pour cuisiner maintenant.</p><p>Si vous cherchez une vanille simple à adopter au quotidien, la Bourbon reste l’entrée la plus directe. Si vous cherchez surtout à comparer les styles, poursuivez vers le guide <strong>Bien choisir sa vanille</strong> puis revenez ici avec une lecture plus nette des profils.</p>"
           }
         },
+        "text_2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Pour un achat immédiat, le plus cohérent reste donc de partir sur une vanille bien préparée, lisible et directement disponible sur la boutique. La Pompona sert ici à affiner le regard, pas à pousser un choix flou.</p>"
+          }
+        },
         "button_1": {
           "type": "button",
           "settings": {
@@ -106,6 +112,7 @@
         "caption_1",
         "heading_1",
         "text_1",
+        "text_2",
         "button_1"
       ],
       "settings": {
