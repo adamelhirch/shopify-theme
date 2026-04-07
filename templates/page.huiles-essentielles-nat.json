@@ -9,67 +9,22 @@
  */
 {
   "sections": {
+    "vd_page_flow_huiles": {
+      "type": "vd-page-flow",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "padding_top": 16,
+        "padding_bottom": 8
+      }
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
       "settings": {}
-    },
-    "banner": {
-      "type": "vd-page-banner",
-      "settings": {
-        "eyebrow": "Collection",
-        "heading": "Huiles essentielles & huiles naturelles",
-        "text": "<p>Une lecture responsable pour les usages externes, la dilution et les précautions, avec un accès direct à la bonne famille produit.</p>",
-        "primary_button_label": "Voir la collection",
-        "primary_button_link": "shopify://collections/huiles-madagascar",
-        "secondary_button_label": "Nous contacter",
-        "secondary_button_link": "shopify://pages/contact",
-        "metric_1_label": "Angle",
-        "metric_1_value": "Repères clairs",
-        "metric_2_label": "Focus",
-        "metric_2_value": "Usage externe",
-        "metric_3_label": "Approche",
-        "metric_3_value": "Responsable",
-        "color_scheme": "scheme-3",
-        "padding_top": 20,
-        "padding_bottom": 8
-      }
-    },
-    "collection": {
-      "type": "featured-collection",
-      "settings": {
-        "collection": "huiles-madagascar",
-        "products_to_show": 6,
-        "title": "Sélection huiles essentielles",
-        "heading_size": "h1",
-        "description": "<p>Retrouver rapidement la bonne huile ou la bonne base dans une grille lisible, puis demander conseil si nécessaire.</p>",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 3,
-        "enable_desktop_slider": false,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "link",
-        "color_scheme": "scheme-3",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": false,
-        "show_vendor": false,
-        "show_rating": false,
-        "card_surface": "dark",
-        "show_subtitle": true,
-        "show_product_type": true,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": true,
-        "padding_top": 8,
-        "padding_bottom": 56
-      }
     }
   },
   "order": [
-    "main",
-    "banner",
-    "collection"
+    "vd_page_flow_huiles",
+    "main"
   ]
 }
