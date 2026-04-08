@@ -14,43 +14,84 @@
   }
 {%- endstyle -%}
 
+{%- liquid
+  assign vd_contact_media = section.settings.feature_image
+  assign vd_contact_media_url = 'vd-wiki-cover.jpg' | asset_url
+
+  if vd_contact_media != blank
+    assign vd_contact_media_url = vd_contact_media | image_url: width: 1800
+  endif
+-%}
+
 <div class="color-{{ section.settings.color_scheme }} gradient">
-  <div class="vd-contact-section page-width section-{{ section.id }}-padding">
-    <div class="vd-contact-section__layout">
-      <div class="vd-contact-section__intro">
-        <span class="vd-section-kicker">Contact</span>
-        <h2 class="vd-contact-section__title">
+  <div class="vd-contact-page page-width section-{{ section.id }}-padding">
+    <div class="vd-contact-page__shell">
+      <div class="vd-contact-page__intro" style="--vd-contact-media: url('{{ vd_contact_media_url }}');">
+        <span class="vd-contact-page__kicker">
+          {{ section.settings.eyebrow | default: 'Contact' }}
+        </span>
+        {%- liquid
+          assign vd_contact_heading_tag = 'h1'
+          if section.settings.heading_size == 'h2'
+            assign vd_contact_heading_tag = 'h2'
+          endif
+        -%}
+        <{{ vd_contact_heading_tag }} class="vd-contact-page__heading">
           {% if section.settings.heading != blank %}
             {{ section.settings.heading }}
           {% else %}
-            Parlons produits, sourcing et projets sur-mesure.
+            Parlons produits, usages et demandes sur-mesure.
           {% endif %}
-        </h2>
-        <p class="vd-contact-section__lede">
-          Le formulaire est pret pour les demandes clients, les commandes speciales et les besoins pros. Vous pourrez
-          surtout venir enrichir cette page avec vos videos et contenus ensuite.
+        </{{ vd_contact_heading_tag }}>
+        <p class="vd-contact-page__lede">
+          {{ section.settings.lede | default: "Question produit, besoin professionnel, sourcing ou demande précise: cette page doit rassurer vite, rester élégante et mener naturellement vers la bonne suite." }}
         </p>
 
-        <div class="vd-contact-section__cards" role="list">
-          <article class="vd-contact-section__card" role="listitem">
-            <span>Reponse</span>
-            <strong>Humaine et precise</strong>
-            <p>Pas de tunnel froid: on cadre la demande, l'usage et le bon format de produit.</p>
+        <div class="vd-contact-page__actions">
+          <a href="{{ section.settings.primary_link | default: '/pages/catalogue' }}" class="vd-contact-page__link">
+            <span>{{ section.settings.primary_link_label | default: 'Voir le catalogue' }}</span>
+            <span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+          </a>
+          <a href="{{ section.settings.secondary_link | default: '/pages/wiki' }}" class="vd-contact-page__link">
+            <span>{{ section.settings.secondary_link_label | default: 'Entrer par le wiki' }}</span>
+            <span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+          </a>
+        </div>
+
+        <div class="vd-contact-page__cards" role="list">
+          <article class="vd-contact-page__card" role="listitem">
+            <span>Réponse</span>
+            <h3 class="vd-contact-page__card-title">
+              {{ section.settings.card_1_title | default: 'Directe & soignée' }}
+            </h3>
+            <p>
+              {{ section.settings.card_1_text | default: "On aide à cadrer le bon produit, le bon usage ou la bonne page à lire ensuite, sans détour inutile." }}
+            </p>
           </article>
-          <article class="vd-contact-section__card" role="listitem">
-            <span>Email</span>
-            <strong>{{ shop.email | default: 'contact@vanilledesire.com' }}</strong>
-            <p>Pour les demandes directes, collaborations et commandes professionnelles.</p>
+
+          <article class="vd-contact-page__card" role="listitem">
+            <span>E-mail</span>
+            <h3 class="vd-contact-page__card-title">
+              {{ section.settings.card_2_title | default: shop.email | default: 'contact@vanilledesire.com' }}
+            </h3>
+            <p>
+              {{ section.settings.card_2_text | default: "Pour les demandes boutique, les collaborations, les commandes récurrentes et les besoins plus spécifiques." }}
+            </p>
           </article>
-          <article class="vd-contact-section__card" role="listitem">
-            <span>Reseaux</span>
-            <strong>@vanilledesire</strong>
-            <p>Instagram et TikTok restent les bons points d'entree pour les coulisses et les usages.</p>
+
+          <article class="vd-contact-page__card" role="listitem">
+            <span>Lecture utile</span>
+            <h3 class="vd-contact-page__card-title">
+              {{ section.settings.card_3_title | default: 'Produits, wiki, recettes' }}
+            </h3>
+            <p>
+              {{ section.settings.card_3_text | default: "Le plus souvent, la meilleure réponse passe aussi par une bonne page du wiki, une recette utile ou la bonne collection." }}
+            </p>
           </article>
         </div>
       </div>
 
-      <div class="contact vd-contact-section__form-column">
+      <div class="contact vd-contact-page__form-column">
         {%- if section.settings.heading == blank -%}
           <h2 class="visually-hidden">{{ 'templates.contact.form.title' | t }}</h2>
         {%- endif -%}
@@ -60,11 +101,26 @@
             assign contact_form_class = 'isolate scroll-trigger animate--slide-in'
           endif
         -%}
-        {%- assign contact_form_class = contact_form_class | append: ' vd-form vd-form--contact vd-form-shell vd-contact-section__form-shell' -%}
+        {%- assign contact_form_class = contact_form_class | append: ' vd-form vd-form--contact vd-form-shell vd-contact-page__form-shell' -%}
         {%- form 'contact', id: 'ContactForm', class: contact_form_class -%}
-          <div class="vd-contact-section__form-head">
-            <span class="vd-contact-section__form-kicker">Formulaire</span>
-            <h3>Expliquez votre besoin, on revient vers vous rapidement.</h3>
+          <div class="vd-contact-page__form-head">
+            <span class="vd-contact-section__form-kicker">{{ section.settings.form_kicker | default: 'Formulaire' }}</span>
+            <h3 class="vd-contact-page__form-heading">
+              {{ section.settings.form_heading | default: 'Expliquez votre besoin, on revient vers vous rapidement.' }}
+            </h3>
+            <p class="vd-contact-page__form-text">
+              {{ section.settings.form_text | default: "Question sur une vanille, besoin professionnel, sourcing ou demande spéciale: plus le message est clair, plus la réponse sera utile." }}
+            </p>
+            <div class="vd-contact-page__form-meta" aria-hidden="true">
+              <div class="vd-contact-page__form-meta-item">
+                <span>Demandes</span>
+                <strong>{{ section.settings.meta_1 | default: 'Boutique & professionnels' }}</strong>
+              </div>
+              <div class="vd-contact-page__form-meta-item">
+                <span>Tonalité</span>
+                <strong>{{ section.settings.meta_2 | default: 'Claire, humaine, soignée' }}</strong>
+              </div>
+            </div>
           </div>
 
           {%- if form.posted_successfully? -%}
@@ -88,6 +144,7 @@
               </li>
             </ul>
           {%- endif -%}
+
           <div class="contact__fields vd-form__grid">
             <div class="field vd-form__field">
               <input
@@ -136,6 +193,7 @@
               {%- endif -%}
             </div>
           </div>
+
           <div class="field vd-form__field">
             <input
               type="tel"
@@ -149,6 +207,7 @@
             >
             <label class="field__label" for="ContactForm-phone">{{ 'templates.contact.form.phone' | t }}</label>
           </div>
+
           <div class="field vd-form__field">
             <textarea
               rows="10"
@@ -156,13 +215,12 @@
               class="text-area field__input"
               name="contact[{{ 'templates.contact.form.comment' | t }}]"
               placeholder="{{ 'templates.contact.form.comment' | t }}"
-            >
-              {{- form.body -}}
-            </textarea>
+            >{{- form.body -}}</textarea>
             <label class="form__label field__label" for="ContactForm-body">
               {{- 'templates.contact.form.comment' | t -}}
             </label>
           </div>
+
           <div class="contact__button">
             <button type="submit" class="button vd-form__button-submit">
               {{ 'templates.contact.form.send' | t }}
@@ -170,6 +228,26 @@
           </div>
         {%- endform -%}
       </div>
+    </div>
+
+    <div class="vd-contact-page__support" role="list">
+      <article class="vd-contact-page__support-card" role="listitem">
+        <span class="vd-contact-page__support-kicker">Boutique</span>
+        <h3>Une question produit</h3>
+        <p>Formats, usages, conservation, différence entre deux références: on vous oriente vers la bonne matière sans faire perdre de temps.</p>
+      </article>
+
+      <article class="vd-contact-page__support-card" role="listitem">
+        <span class="vd-contact-page__support-kicker">Professionnels</span>
+        <h3>Sourcing & demandes récurrentes</h3>
+        <p>Restaurants, ateliers, cadeaux, volumes, réassorts ou demandes plus spécifiques autour de Madagascar.</p>
+      </article>
+
+      <article class="vd-contact-page__support-card" role="listitem">
+        <span class="vd-contact-page__support-kicker">Avant d’écrire</span>
+        <h3><a href="/pages/wiki">Le wiki peut déjà aider</a></h3>
+        <p>Le wiki et les recettes répondent souvent aux premières questions sur la vanille, les épices, les poivres, les sels et les usages.</p>
+      </article>
     </div>
   </div>
 </div>
@@ -184,10 +262,115 @@
   },
   "settings": [
     {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Contact"
+    },
+    {
       "type": "inline_richtext",
       "id": "heading",
       "default": "t:sections.contact-form.settings.title.default",
       "label": "t:sections.contact-form.settings.title.label"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Texte d'introduction",
+      "default": "Question produit, besoin professionnel, sourcing ou demande précise: cette page doit rassurer vite, rester élégante et mener naturellement vers la bonne suite."
+    },
+    {
+      "type": "image_picker",
+      "id": "feature_image",
+      "label": "Image de fond"
+    },
+    {
+      "type": "text",
+      "id": "primary_link_label",
+      "label": "Libellé lien principal",
+      "default": "Voir le catalogue"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Lien principal"
+    },
+    {
+      "type": "text",
+      "id": "secondary_link_label",
+      "label": "Libellé lien secondaire",
+      "default": "Entrer par le wiki"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Lien secondaire"
+    },
+    {
+      "type": "text",
+      "id": "card_1_title",
+      "label": "Carte 1 titre",
+      "default": "Directe & soignée"
+    },
+    {
+      "type": "textarea",
+      "id": "card_1_text",
+      "label": "Carte 1 texte",
+      "default": "On aide à cadrer le bon produit, le bon usage ou la bonne page à lire ensuite, sans détour inutile."
+    },
+    {
+      "type": "text",
+      "id": "card_2_title",
+      "label": "Carte 2 titre",
+      "default": "contact@vanilledesire.com"
+    },
+    {
+      "type": "textarea",
+      "id": "card_2_text",
+      "label": "Carte 2 texte",
+      "default": "Pour les demandes boutique, les collaborations, les commandes récurrentes et les besoins plus spécifiques."
+    },
+    {
+      "type": "text",
+      "id": "card_3_title",
+      "label": "Carte 3 titre",
+      "default": "Produits, wiki, recettes"
+    },
+    {
+      "type": "textarea",
+      "id": "card_3_text",
+      "label": "Carte 3 texte",
+      "default": "Le plus souvent, la meilleure réponse passe aussi par une bonne page du wiki, une recette utile ou la bonne collection."
+    },
+    {
+      "type": "text",
+      "id": "form_kicker",
+      "label": "Sur-titre formulaire",
+      "default": "Formulaire"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Titre formulaire",
+      "default": "Expliquez votre besoin, on revient vers vous rapidement."
+    },
+    {
+      "type": "textarea",
+      "id": "form_text",
+      "label": "Texte formulaire",
+      "default": "Question sur une vanille, besoin professionnel, sourcing ou demande spéciale: plus le message est clair, plus la réponse sera utile."
+    },
+    {
+      "type": "text",
+      "id": "meta_1",
+      "label": "Meta 1",
+      "default": "Boutique & professionnels"
+    },
+    {
+      "type": "text",
+      "id": "meta_2",
+      "label": "Meta 2",
+      "default": "Claire, humaine, soignée"
     },
     {
       "type": "select",
@@ -221,7 +404,7 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
+      "default": "scheme-3"
     },
     {
       "type": "header",
@@ -235,7 +418,7 @@
       "step": 4,
       "unit": "px",
       "label": "t:sections.all.padding.padding_top",
-      "default": 36
+      "default": 24
     },
     {
       "type": "range",
@@ -245,7 +428,7 @@
       "step": 4,
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
+      "default": 56
     }
   ],
   "presets": [

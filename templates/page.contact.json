@@ -14,135 +14,36 @@
       "disabled": true,
       "settings": {}
     },
-    "banner": {
-      "type": "vd-page-banner",
-      "settings": {
-        "eyebrow": "Contact",
-        "heading": "Une prise de contact plus nette et plus premium.",
-        "text": "<p>Question produit, besoin professionnel, sourcing ou conseil d’usage: une page claire et rassurante pour entrer en contact simplement.</p>",
-        "primary_button_label": "Voir le catalogue",
-        "primary_button_link": "shopify://collections/all",
-        "secondary_button_label": "Lire le wiki",
-        "secondary_button_link": "shopify://pages/savoir-faire",
-        "metric_1_label": "Demandes",
-        "metric_1_value": "Boutique",
-        "metric_2_label": "Demandes",
-        "metric_2_value": "Professionnelles",
-        "metric_3_label": "Tonalite",
-        "metric_3_value": "Directe",
-        "color_scheme": "scheme-3",
-        "padding_top": 20,
-        "padding_bottom": 8
-      }
-    },
     "form": {
       "type": "contact-form",
       "settings": {
-        "heading": "Parlons de votre besoin",
+        "eyebrow": "Contact",
+        "heading": "Une page de contact à la hauteur de la maison.",
+        "lede": "Question produit, besoin professionnel, sourcing, cadeau ou simple besoin d'orientation: cette page doit rassurer vite, rester élégante et mener naturellement vers la bonne suite.",
+        "primary_link_label": "Voir le catalogue",
+        "primary_link": "shopify://pages/catalogue",
+        "secondary_link_label": "Entrer par le wiki",
+        "secondary_link": "shopify://pages/wiki",
+        "card_1_title": "Réponse directe",
+        "card_1_text": "Formats, usages, conservation, sourcing ou besoin d'orientation: on aide à trouver la bonne matière et le bon point d'entrée.",
+        "card_2_title": "contact@vanilledesire.com",
+        "card_2_text": "Le bon canal pour les demandes boutique, collaborations, besoins récurrents et prises de contact plus précises.",
+        "card_3_title": "Produits, wiki, recettes",
+        "card_3_text": "Le plus souvent, la meilleure réponse est aussi une bonne page du wiki, une recette utile ou la bonne collection.",
+        "form_kicker": "Formulaire",
+        "form_heading": "Expliquez votre besoin, on revient vers vous rapidement.",
+        "form_text": "Plus le message est clair, plus on peut orienter vers le bon produit, la bonne page ou la bonne suite sans friction inutile.",
+        "meta_1": "Boutique & professionnels",
+        "meta_2": "Clair, humain, soigné",
         "heading_size": "h1",
         "color_scheme": "scheme-3",
         "padding_top": 24,
-        "padding_bottom": 36
-      }
-    },
-    "story": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "Question produit",
-            "text": "<p>Besoin d'etre oriente vers le bon format, la bonne collection ou le bon usage.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Demande pro",
-            "text": "<p>Sourcing, volumes recurrents, coffrets ou besoins plus specifiques autour de Madagascar.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Conseil rapide",
-            "text": "<p>Un contact simple, lisible et soigné pour répondre vite sans casser la tenue de marque.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "Un point de contact à la hauteur de la maison.",
-        "text": "<p>Une page pensée pour rassurer, orienter et prolonger la qualité perçue du catalogue et des produits.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 0,
-        "padding_bottom": 32
-      }
-    },
-    "vd_testimonials_contact_n4J8kM": {
-      "type": "vd-testimonials",
-      "blocks": {
-        "testimonial_1": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"Des produits tres propres, une lecture claire du site et une vraie sensation de maison serieuse.\"",
-            "author": "Claire M.",
-            "location": "Cliente boutique",
-            "meta": "Vanille Bourbon",
-            "product_link": "shopify://collections/vanille-bourbon"
-          }
-        },
-        "testimonial_2": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"Le contact a ete simple et rapide. On comprend tout de suite qu'il y a quelqu'un derriere la marque.\"",
-            "author": "Hugo R.",
-            "location": "Demande professionnelle",
-            "meta": "Contact & sourcing",
-            "product_link": "shopify://pages/contact"
-          }
-        },
-        "testimonial_3": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"La qualite produit donne envie de revenir, et les explications rassurent sur l'origine et l'usage.\"",
-            "author": "Sarah D.",
-            "location": "Commande en ligne",
-            "meta": "Caviar de vanille",
-            "product_link": "shopify://products/caviar-vanille-bourbon-madagascar-20g"
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_1",
-        "testimonial_2",
-        "testimonial_3"
-      ],
-      "settings": {
-        "eyebrow": "Confiance",
-        "heading": "Un point de contact qui reste premium",
-        "text": "<p>Des repères utiles pour rassurer et prolonger la confiance, sans transformer la page en simple formulaire vide.</p>",
-        "reviews_limit": "6",
-        "button_label": "Voir la collection",
-        "button_link": "shopify://collections/vanille-bourbon",
-        "color_scheme": "scheme-3",
-        "padding_top": 0,
         "padding_bottom": 56
       }
     }
   },
   "order": [
     "main",
-    "banner",
-    "form",
-    "story",
-    "vd_testimonials_contact_n4J8kM"
+    "form"
   ]
 }
