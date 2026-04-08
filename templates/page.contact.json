@@ -17,6 +17,8 @@
     "form": {
       "type": "contact-form",
       "settings": {
+        "heading": "Contactez-nous",
+        "lede": "Question produit, demande pro ou besoin d'aide : écrivez-nous ici.",
         "color_scheme": "scheme-3",
         "padding_top": 24,
         "padding_bottom": 56

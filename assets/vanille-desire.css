@@ -8891,6 +8891,33 @@ body:has(.section-vd-hero) .header-wrapper {
 .menu-drawer__close-button:hover,
 .menu-drawer__close-button:focus-visible {
   background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.96);
+}
+
+.menu-drawer__menu-item:hover .svg-wrapper,
+.menu-drawer__menu-item:focus-visible .svg-wrapper,
+.menu-drawer__close-button:hover .svg-wrapper,
+.menu-drawer__close-button:focus-visible .svg-wrapper {
+  color: rgba(255, 255, 255, 0.96);
+  opacity: 1;
+}
+
+.menu-drawer .list-social__link {
+  color: rgba(255, 255, 255, 0.84);
+  opacity: 1;
+}
+
+.menu-drawer .list-social__link .svg-wrapper,
+.menu-drawer .list-social__link svg {
+  color: currentColor;
+  fill: currentColor;
+}
+
+.menu-drawer .list-social__link:hover,
+.menu-drawer .list-social__link:focus-visible {
+  color: rgba(255, 255, 255, 0.98);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
 }
 
 @media screen and (min-width: 990px) {

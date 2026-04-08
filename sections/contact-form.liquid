@@ -43,6 +43,15 @@
 
       <div class="vd-contact-page__panel">
         {%- form 'contact', id: 'ContactForm', class: contact_form_class -%}
+          <div class="vd-contact-form__intro">
+            <h2 class="vd-contact-form__title">
+              {{ section.settings.heading | default: 'Contactez-nous' }}
+            </h2>
+            <p class="vd-contact-form__lede">
+              {{ section.settings.lede | default: "Question produit, demande pro ou besoin d'aide: écrivez-nous ici." }}
+            </p>
+          </div>
+
           {%- if form.posted_successfully? -%}
             <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
               {{- 'icon-success.svg' | inline_asset_content -}}
@@ -147,6 +156,21 @@
               {{ 'templates.contact.form.send' | t }}
             </button>
           </div>
+
+          {%- if settings.social_instagram_link != blank
+            or settings.social_facebook_link != blank
+            or settings.social_tiktok_link != blank
+            or settings.social_youtube_link != blank
+            or settings.social_twitter_link != blank
+            or settings.social_pinterest_link != blank
+            or settings.social_snapchat_link != blank
+            or settings.social_tumblr_link != blank
+            or settings.social_vimeo_link != blank
+          -%}
+            <div class="vd-contact-form__social-wrap">
+              {%- render 'social-icons', class: 'vd-contact-form__social' -%}
+            </div>
+          {%- endif -%}
         {%- endform -%}
       </div>
     </div>
@@ -166,6 +190,18 @@
       "type": "image_picker",
       "id": "feature_image",
       "label": "Image"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Contactez-nous"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Texte court",
+      "default": "Question produit, demande pro ou besoin d'aide: écrivez-nous ici."
     },
     {
       "type": "color_scheme",

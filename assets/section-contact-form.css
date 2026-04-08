@@ -73,6 +73,25 @@
   width: 100%;
 }
 
+.vd-contact-form__intro {
+  margin-bottom: 2.4rem;
+}
+
+.vd-contact-form__title {
+  margin: 0;
+  color: rgb(var(--vd-ivory));
+  font-size: clamp(3.6rem, 4vw, 5.8rem);
+  line-height: 0.94;
+  letter-spacing: -0.03em;
+}
+
+.vd-contact-form__lede {
+  margin: 1.2rem 0 0;
+  color: rgba(var(--vd-ivory), 0.72);
+  font-size: 1.7rem;
+  line-height: 1.6;
+}
+
 .vd-contact-form .field {
   position: relative;
 }
@@ -126,6 +145,40 @@
   opacity: 0.92;
 }
 
+.vd-contact-form__social-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.vd-contact-form__social {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vd-contact-form__social .list-social__link {
+  color: rgba(var(--vd-ivory), 0.82);
+  padding: 0.9rem;
+  border-radius: 999px;
+}
+
+.vd-contact-form__social .list-social__link .svg-wrapper,
+.vd-contact-form__social .list-social__link svg {
+  color: currentColor;
+  fill: currentColor;
+}
+
+.vd-contact-form__social .list-social__link:hover,
+.vd-contact-form__social .list-social__link:focus-visible {
+  color: rgb(var(--vd-ivory));
+  background: rgba(255, 255, 255, 0.06);
+}
+
 @media screen and (max-width: 989px) {
   .vd-contact-page {
     width: min(100vw - 1.6rem, 186rem);
@@ -161,6 +214,10 @@
 
   .vd-contact-page__panel {
     padding: 1.8rem;
+  }
+
+  .vd-contact-form__title {
+    font-size: clamp(3.2rem, 11vw, 4.6rem);
   }
 
   .vd-contact-form textarea.field__input {
