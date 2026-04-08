@@ -372,6 +372,29 @@
       }
     }
   },
+  "flex_pdp": {
+    "section": {
+      "high_variant": {
+        "name": "High variant product"
+      }
+    },
+    "blocks": {
+      "buy_buttons": { "name": "Buy buttons" },
+      "description": { "name": "Description" },
+      "divider": { "name": "Divider" },
+      "installments": { "name": "Installments" },
+      "inventory": { "name": "Inventory" },
+      "media_gallery": { "name": "Media gallery" },
+      "pick_up": { "name": "Pickup availability" },
+      "policies": { "name": "Policies" },
+      "price": { "name": "Price" },
+      "quantity_picker": { "name": "Quantity picker" },
+      "sku": { "name": "SKU" },
+      "title": { "name": "Title" },
+      "variant_picker": { "name": "Variant picker" },
+      "vendor": { "name": "Vendor" }
+    }
+  },
   "sections": {
     "all": {
       "animation": {
@@ -3405,6 +3428,41 @@
       "presets": {
         "name": "Collapsible content"
       }
-    }
+    },
+    "advanced-content": { "name": "Advanced content" },
+    "age-verification-popup": { "name": "Age verification popup" },
+    "article-template": { "name": "Article template" },
+    "background-image-text": { "name": "Image text banner" },
+    "background-video-text": { "name": "Video text banner" },
+    "blog-posts": { "name": "Blog posts" },
+    "blog-template": { "name": "Blog template" },
+    "collection-callout": { "name": "Collection callout" },
+    "collection-return": { "name": "Collection return" },
+    "countdown": { "name": "Countdown" },
+    "fading-images": { "name": "Fading images" },
+    "faq": { "name": "FAQ" },
+    "featured-collection-switcher": { "name": "Collection switcher" },
+    "featured-collections": { "name": "Featured collections" },
+    "featured-video": { "name": "Featured video" },
+    "footer-promotions": { "name": "Footer promotions" },
+    "giftcard-header": { "name": "Gift card header" },
+    "hero-video": { "name": "Hero video" },
+    "hotspots": { "name": "Hotspots" },
+    "image-comparison": { "name": "Image comparison" },
+    "list-collections-template": { "name": "Collections list" },
+    "logo-list": { "name": "Logo list" },
+    "main-cart": { "name": "Main cart" },
+    "main-collection": { "name": "Main collection" },
+    "main-page-full-width": { "name": "Full-width page" },
+    "map": { "name": "Map" },
+    "marquee": { "name": "Marquee" },
+    "newsletter-popup": { "name": "Newsletter popup" },
+    "password-header": { "name": "Password header" },
+    "product-full-width": { "name": "Full-width product" },
+    "product-recommendations": { "name": "Product recommendations" },
+    "store-availability": { "name": "Store availability" },
+    "testimonials": { "name": "Testimonials" },
+    "text-and-image": { "name": "Text and image" },
+    "text-columns": { "name": "Text columns" }
   }
 }

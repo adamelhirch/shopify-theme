@@ -58,7 +58,10 @@
     if show_product_type and card_product.type != blank
       assign card_meta_label = card_product.type
     elsif show_vendor and card_product.vendor != blank
-      assign card_meta_label = card_product.vendor
+      capture card_meta_label
+        render 'vd-product-meta-label', product: card_product, prefer: 'vendor'
+      endcapture
+      assign card_meta_label = card_meta_label | strip
     endif
   -%}
   {%- if premium_card -%}

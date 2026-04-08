@@ -102,7 +102,13 @@
 
                     <td class="cart-item__details">
                       {%- if settings.show_vendor -%}
-                        <p class="caption-with-letter-spacing">{{ item.product.vendor }}</p>
+                        {%- capture item_vendor_label -%}
+                          {%- render 'vd-product-meta-label', product: item.product, prefer: 'vendor' -%}
+                        {%- endcapture -%}
+                        {%- assign item_vendor_label = item_vendor_label | strip -%}
+                        {%- if item_vendor_label != blank -%}
+                          <p class="caption-with-letter-spacing">{{ item_vendor_label }}</p>
+                        {%- endif -%}
                       {%- endif -%}
 
                       <a href="{{ item.url }}" class="cart-item__name h4 break">{{ item.product.title | escape }}</a>

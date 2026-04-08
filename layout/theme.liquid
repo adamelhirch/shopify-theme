@@ -103,11 +103,15 @@
     <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'gsap.min.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'scroll-trigger.min.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'scroll-smoother.min.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'flip.min.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'split-text.min.js' | asset_url }}" defer="defer"></script>
+    <script>
+      window.__vdMotionAssets = {
+        gsap: {{ 'gsap.min.js' | asset_url | json }},
+        scrollTrigger: {{ 'scroll-trigger.min.js' | asset_url | json }},
+        scrollSmoother: {{ 'scroll-smoother.min.js' | asset_url | json }},
+        flip: {{ 'flip.min.js' | asset_url | json }},
+        splitText: {{ 'split-text.min.js' | asset_url | json }}
+      };
+    </script>
     <script src="{{ 'vd-gsap.js' | asset_url }}" defer="defer"></script>
 
     {%- if settings.animations_reveal_on_scroll -%}

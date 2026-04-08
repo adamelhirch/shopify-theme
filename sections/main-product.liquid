@@ -215,12 +215,23 @@
               {%- when '@app' -%}
                 {% render block %}
               {%- when 'text' -%}
+                {%- liquid
+                  assign product_text_value = block.settings.text
+                  if product_text_value == product.vendor
+                    capture product_text_value
+                      render 'vd-product-meta-label', product: product, prefer: 'vendor', fallback: section.settings.support_eyebrow
+                    endcapture
+                    assign product_text_value = product_text_value | strip
+                  endif
+                -%}
+                {%- if product_text_value != blank -%}
                 <p
                   class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
                   {{ block.shopify_attributes }}
                 >
-                  {{- block.settings.text -}}
+                  {{- product_text_value -}}
                 </p>
+                {%- endif -%}
               {%- when 'title' -%}
                 <div class="product__title" {{ block.shopify_attributes }}>
                   <h1>{{ product.title | escape }}</h1>

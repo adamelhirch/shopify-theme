@@ -102,26 +102,11 @@
       "settings": {
         "title": "FAQ Vanille Desire"
       }
-    },
-    "vd_testimonials_faq_d3K7mQ": {
-      "type": "vd-testimonials",
-      "settings": {
-        "eyebrow": "Rassurance",
-        "heading": "Une FAQ qui prolonge la confiance.",
-        "text": "<p>Une page claire pour lever les doutes et prolonger la confiance autour des produits et du service.</p>",
-        "reviews_limit": "6",
-        "button_label": "Voir les produits",
-        "button_link": "shopify://collections/vanille-bourbon",
-        "color_scheme": "scheme-3",
-        "padding_top": 20,
-        "padding_bottom": 56
-      }
     }
   },
   "order": [
     "main",
     "vd_page_banner_faq_f9N2sT",
-    "faq",
-    "vd_testimonials_faq_d3K7mQ"
+    "faq"
   ]
 }

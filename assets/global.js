@@ -1150,7 +1150,21 @@ class ProductRecommendations extends HTMLElement {
   }
 
   loadRecommendations(productId) {
-    fetch(`${this.dataset.url}&product_id=${productId}&section_id=${this.dataset.sectionId}`)
+    const requestUrl = new URL(`${this.dataset.url}&product_id=${productId}&section_id=${this.dataset.sectionId}`, window.location.origin);
+    const previewThemeId =
+      new URLSearchParams(window.location.search).get('preview_theme_id') ||
+      (window.Shopify &&
+      window.Shopify.theme &&
+      window.Shopify.theme.role === 'unpublished' &&
+      window.Shopify.theme.id
+        ? String(window.Shopify.theme.id)
+        : '');
+
+    if (previewThemeId && !requestUrl.searchParams.get('preview_theme_id')) {
+      requestUrl.searchParams.set('preview_theme_id', previewThemeId);
+    }
+
+    fetch(requestUrl.toString())
       .then((response) => response.text())
       .then((text) => {
         const html = document.createElement('div');

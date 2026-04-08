@@ -100,16 +100,24 @@
           <div class="product-single__meta">
             <div class="product-block product-block--header">
               {%- if settings.vendor_enable -%}
-                <div class="product-single__vendor">
-                  {%- assign vendor_handle = product.vendor | handleize -%}
-                  {%- if collections[vendor_handle] != empty -%}
-                    <a href="{{ routes.collections_url }}/{{ collections[vendor_handle].handle }}">
-                      {{ collections[vendor_handle].title }}
-                    </a>
-                  {%- else -%}
-                    {{ product.vendor | link_to_vendor }}
-                  {%- endif -%}
-                </div>
+                {%- capture product_vendor_label -%}
+                  {%- render 'vd-product-meta-label', product: product, prefer: 'vendor' -%}
+                {%- endcapture -%}
+                {%- assign product_vendor_label = product_vendor_label | strip -%}
+                {%- if product_vendor_label != blank -%}
+                  <div class="product-single__vendor">
+                    {%- assign vendor_handle = product.vendor | handleize -%}
+                    {%- if product_vendor_label == product.vendor and collections[vendor_handle] != empty -%}
+                      <a href="{{ routes.collections_url }}/{{ collections[vendor_handle].handle }}">
+                        {{ collections[vendor_handle].title }}
+                      </a>
+                    {%- elsif product_vendor_label == product.vendor -%}
+                      {{ product.vendor | link_to_vendor }}
+                    {%- else -%}
+                      {{ product_vendor_label }}
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
               {%- endif -%}
 
               {%- if isModal -%}

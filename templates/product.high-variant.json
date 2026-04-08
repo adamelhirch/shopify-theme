@@ -54,9 +54,9 @@
         "complementary": {
           "type": "complementary",
           "settings": {
-            "block_heading": "À associer",
-            "eyebrow": "",
-            "text": "",
+            "block_heading": "Poursuivre la sélection",
+            "eyebrow": "Complément",
+            "text": "<p>Formats voisins, idées cadeau et produits cohérents pour prolonger l’achat sans quitter l’univers de la maison.</p>",
             "make_collapsible_row": false,
             "icon": "price_tag",
             "product_list_limit": 4,
@@ -141,8 +141,8 @@
         "support_point_3": "Passerelles utiles vers recettes, wiki et produits associés",
         "support_link_label_1": "Voir les recettes",
         "support_link_1": "/pages/recettes",
-        "support_link_label_2": "Lire le wiki",
-        "support_link_2": "/pages/wiki",
+        "support_link_label_2": "Bien choisir sa vanille",
+        "support_link_2": "/pages/wiki-vanille-bien-choisir",
         "support_link_label_3": "Parler avec nous",
         "support_link_3": "/pages/contact",
         "padding_top": 36,
@@ -181,7 +181,7 @@
       ],
       "settings": {
         "heading": "La matière, l’usage et les suites naturelles.",
-        "text": "<p>Quelques repères pour comprendre le produit, le bon format et les prolongements utiles dans la maison.</p>",
+        "text": "<p>Quelques repères pour comprendre le produit, le bon format et poursuivre vers <a href=\"/pages/wiki-vanille-bien-choisir\">le guide de choix</a>, les recettes ou des formats complémentaires.</p>",
         "color_scheme": "scheme-2",
         "padding_top": 20,
         "padding_bottom": 28
@@ -190,8 +190,9 @@
     "related-products": {
       "type": "related-products",
       "settings": {
-        "heading": "Ils pourraient vous plaire",
+        "heading": "Continuer avec la maison",
         "heading_size": "h2",
+        "editorial_text": "<p>Une suite de formats, d’accords ou d’idées cadeau pensée pour augmenter la justesse du panier, pas seulement le volume.</p>",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "color_scheme": "scheme-3",
@@ -202,26 +203,11 @@
         "padding_top": 36,
         "padding_bottom": 28
       }
-    },
-    "vd_testimonials_product_k3L8sP": {
-      "type": "vd-testimonials",
-      "settings": {
-        "eyebrow": "Rassurance",
-        "heading": "Des avis vérifiés, une confiance plus simple à lire.",
-        "text": "<p>Des retours clients utiles pour confirmer le choix, sans surjouer la promesse.</p>",
-        "reviews_limit": "6",
-        "button_label": "Voir plus de produits",
-        "button_link": "shopify://collections/vanille-bourbon",
-        "color_scheme": "scheme-3",
-        "padding_top": 12,
-        "padding_bottom": 56
-      }
     }
   },
   "order": [
     "main",
     "vd_story_grid_product_j7P2mK",
-    "related-products",
-    "vd_testimonials_product_k3L8sP"
+    "related-products"
   ]
 }

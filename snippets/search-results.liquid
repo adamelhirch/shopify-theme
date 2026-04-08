@@ -95,7 +95,13 @@
                     <div class="results-products__info">
                       <span>{{ product.title }}</span>
                       {% if settings.predictive_search_show_vendor %}
-                      <span class="grid-product__vendor">{{ product.vendor }}</span>
+                        {%- capture predictive_vendor_label -%}
+                          {%- render 'vd-product-meta-label', product: product, prefer: 'vendor' -%}
+                        {%- endcapture -%}
+                        {%- assign predictive_vendor_label = predictive_vendor_label | strip -%}
+                        {%- if predictive_vendor_label != blank -%}
+                          <span class="grid-product__vendor">{{ predictive_vendor_label }}</span>
+                        {%- endif -%}
                       {% endif %}
                       {% if settings.predictive_search_show_price %}
                         {%- if on_sale -%}

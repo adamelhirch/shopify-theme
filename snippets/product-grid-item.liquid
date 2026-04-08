@@ -152,7 +152,13 @@
       <div class="grid-product__meta">
         <div class="grid-product__title">{{ product.title }}</div>
         {%- if settings.vendor_enable -%}
-          <div class="grid-product__vendor">{{ product.vendor }}</div>
+          {%- capture product_vendor_label -%}
+            {%- render 'vd-product-meta-label', product: product, prefer: 'vendor' -%}
+          {%- endcapture -%}
+          {%- assign product_vendor_label = product_vendor_label | strip -%}
+          {%- if product_vendor_label != blank -%}
+            <div class="grid-product__vendor">{{ product_vendor_label }}</div>
+          {%- endif -%}
         {%- endif -%}
         <div class="grid-product__price">
           {%- if on_sale -%}

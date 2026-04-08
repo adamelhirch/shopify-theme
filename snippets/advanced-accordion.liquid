@@ -1,10 +1,14 @@
 <advanced-accordion data-disabled="{{ section.settings.disabled }}" class="advanced-accordion__container advanced-accordion--{{ section.settings.per_row }}-per-row">
-  <{% if section.settings.disabled %}div{% else %}details{% endif %}
-    class="advanced-accordion"
-    data-id="{{ section.id }}"
-    {% if section.settings.opened%}open{% endif%}
-  >
-    <{% if section.settings.disabled %}div{% else %}summary{% endif %} class="accordion__title">
+  {% if section.settings.disabled %}
+    <div class="advanced-accordion" data-id="{{ section.id }}">
+  {% else %}
+    <details class="advanced-accordion" data-id="{{ section.id }}" {% if section.settings.opened %}open{% endif %}>
+      <summary class="accordion__title">
+  {% endif %}
+
+    {% if section.settings.disabled %}
+      <div class="accordion__title">
+    {% endif %}
       <h2 class="h2">{{ section.settings.title }}</h2>
       {% unless section.settings.disabled == true %}
         <svg width="28px" height="16px" viewBox="0 0 28 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -16,7 +20,11 @@
         </svg>
       {% endunless %}
 
-    </{% if section.settings.disabled %}div{% else %}summary{% endif %}>
+    {% if section.settings.disabled %}
+      </div>
+    {% else %}
+      </summary>
+    {% endif %}
     <div class="accordion__content" data-accordion-block data-opened="false">
       {% for block in section.blocks %}
         <div class="accordion__content-block accordion__content-block--type-{{ block.type }} {% if section.settings.two_per_row_mobile %}two-per-row-mobile{% endif %} text-{{ block.settings.align_text }}"
@@ -88,5 +96,9 @@
         </div>
       {% endfor %}
     </div>
-  </{% if section.settings.disabled %}div{% else %}details{% endif %}>
+  {% if section.settings.disabled %}
+    </div>
+  {% else %}
+    </details>
+  {% endif %}
 </advanced-accordion>

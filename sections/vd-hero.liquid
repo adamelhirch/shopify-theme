@@ -13,7 +13,26 @@
 {% endstyle %}
 
 {%- liquid
+  assign hero_video_url = ''
+  assign hero_poster_image = section.settings.background_image
   assign has_metrics = false
+
+  if hero_poster_image == blank and section.settings.background_video.preview_image != blank
+    assign hero_poster_image = section.settings.background_video.preview_image
+  endif
+
+  if section.settings.background_video != blank
+    for source in section.settings.background_video.sources
+      if source.mime_type == 'video/mp4'
+        assign hero_video_url = source.url
+        break
+      endif
+    endfor
+  elsif section.settings.external_video_url != blank
+    assign hero_video_url = section.settings.external_video_url
+  elsif section.settings.use_demo_video
+    assign hero_video_url = 'vd-hero-origin.mp4' | asset_url
+  endif
 
   if section.settings.metric_1_value != blank and section.settings.metric_1_label != blank
     assign has_metrics = true
@@ -35,43 +54,44 @@
 
 <section class="section-{{ section.id }}-padding section-vd-hero color-{{ section.settings.color_scheme }}">
   <div class="vd-hero vd-hero--immersive">
-    <div class="vd-hero__media">
-      {% if section.settings.background_video != blank %}
+    <div class="vd-hero__media{% if hero_video_url != blank %} vd-hero__media--deferred{% endif %}">
+      {% if hero_video_url != blank and hero_poster_image != blank %}
         {{
-          section.settings.background_video
-          | video_tag:
-            class: 'vd-hero__video',
-            autoplay: true,
-            loop: true,
-            muted: true,
-            controls: false,
-            image_size: '2000x'
+          hero_poster_image
+          | image_url: width: 2400
+          | image_tag:
+            class: 'vd-hero__image',
+            widths: '750, 1100, 1500, 2000, 2400',
+            sizes: '100vw',
+            loading: 'eager'
         }}
-      {% elsif section.settings.external_video_url != blank %}
+      {% elsif hero_video_url != blank and section.settings.use_demo_video %}
+        <img
+          src="{{ 'vd-hero-origin-poster.jpg' | asset_url }}"
+          class="vd-hero__image"
+          alt=""
+          loading="eager"
+          width="2400"
+          height="1600"
+        >
+      {% endif %}
+
+      {% if hero_video_url != blank %}
         <video
           class="vd-hero__video"
           autoplay
           loop
           muted
           playsinline
-          preload="auto"
-          {% if section.settings.background_image != blank %}
-            poster="{{ section.settings.background_image | image_url: width: 2400 }}"
+          preload="none"
+          data-vd-deferred-video
+          data-video-src="{{ hero_video_url }}"
+          data-min-width="990"
+          {% if hero_poster_image != blank %}
+            poster="{{ hero_poster_image | image_url: width: 2400 }}"
           {% endif %}
         >
-          <source src="{{ section.settings.external_video_url }}" type="video/mp4">
-        </video>
-      {% elsif section.settings.use_demo_video %}
-        <video
-          class="vd-hero__video"
-          autoplay
-          loop
-          muted
-          playsinline
-          preload="auto"
-          poster="{{ 'vd-hero-origin-poster.jpg' | asset_url }}"
-        >
-          <source src="{{ 'vd-hero-origin.mp4' | asset_url }}" type="video/mp4">
+          <source data-src="{{ hero_video_url }}" type="video/mp4">
         </video>
       {% elsif section.settings.background_image != blank %}
         {{

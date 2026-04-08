@@ -116,84 +116,6 @@
         "padding_bottom": 28
       }
     },
-    "vd_testimonials_P8xR4n": {
-      "type": "vd-testimonials",
-      "blocks": {
-        "testimonial_1": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"Des gousses souples, grasses et d'une regularite rare. A l'ouverture, on comprend tout de suite qu'on est sur une vraie selection.\"",
-            "author": "Elise B.",
-            "location": "Passionnee de gastronomie",
-            "meta": "Vanille Bourbon Gourmet",
-            "product_link": ""
-          }
-        },
-        "testimonial_2": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"Le caviar est dense, propre, tres lisible en bouche. C'est exactement le type de produit qu'on veut garder sous la main en cuisine.\"",
-            "author": "Nadia R.",
-            "location": "Cuisine du quotidien",
-            "meta": "Caviar de vanille",
-            "product_link": ""
-          }
-        },
-        "testimonial_3": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"Le produit suit le discours. C'est net, precis, sans folklore ni promesse inutile. On sent une vraie rigueur dans la selection.\"",
-            "author": "Thomas V.",
-            "location": "Collectionneur d'epices",
-            "meta": "Extrait premium",
-            "product_link": ""
-          }
-        },
-        "testimonial_4": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"Les gousses sont charnues, brillantes, presque deja patissieres avant meme d'etre travaillees. Le parfum arrive avec beaucoup de calme et de fond.\"",
-            "author": "Claire M.",
-            "location": "Amatrice de patisserie",
-            "meta": "Gousses noires",
-            "product_link": ""
-          }
-        },
-        "testimonial_5": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"Ce que j'apprecie surtout, c'est la constance. D'une commande a l'autre, on retrouve la meme tenue, la meme profondeur, la meme proprete.\"",
-            "author": "Julien A.",
-            "location": "Client regulier",
-            "meta": "Selection Madagascar",
-            "product_link": ""
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_1",
-        "testimonial_2",
-        "testimonial_3",
-        "testimonial_4",
-        "testimonial_5"
-      ],
-      "settings": {
-        "eyebrow": "Avis clients",
-        "heading": "Ce qu'ils disent quand le produit tient vraiment ses promesses.",
-        "text": "<p>Une lecture plus calme, plus editoriale, pour laisser les retours parler avec la meme exigence que le reste de la home.</p>",
-        "reviews_limit": "6",
-        "button_label": "",
-        "button_link": "",
-        "color_scheme": "scheme-3",
-        "padding_top": 24,
-        "padding_bottom": 28
-      }
-    },
     "vd_wiki_grid_A2mL9d": {
       "type": "vd-wiki-grid",
       "blocks": {
@@ -265,7 +187,6 @@
     "vd_new_product_bento_KmT2rQ",
     "vd_craftsmanship_m7Kp2L",
     "vd_featured_products_v7M2Qw",
-    "vd_testimonials_P8xR4n",
     "vd_wiki_grid_A2mL9d"
   ]
 }

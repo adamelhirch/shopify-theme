@@ -27,11 +27,43 @@
     data-section-id="{{ section.id }}"
     data-product-id="{{ product.id }}"
   >
+    {%- liquid
+      assign related_editorial_text = section.settings.editorial_text
+      assign related_editorial_text_plain = related_editorial_text | strip_html | strip
+      assign related_context_blob = product.title | append: ' ' | append: product.type | append: ' ' | append: product.vendor | downcase
+      assign related_primary_label = 'Voir le catalogue'
+      assign related_primary_url = '/collections/all'
+      assign related_secondary_label = 'Lire le wiki'
+      assign related_secondary_url = '/pages/wiki'
+
+      if related_context_blob contains 'vanille'
+        assign related_primary_label = 'Voir la sélection vanille'
+        assign related_primary_url = '/collections/vanille-bourbon'
+        assign related_secondary_label = 'Bien choisir sa vanille'
+        assign related_secondary_url = '/pages/wiki-vanille-bien-choisir'
+      elsif related_context_blob contains 'poivre' or related_context_blob contains 'voatsiperifery' or related_context_blob contains 'baie'
+        assign related_primary_label = 'Voir les poivres & baies'
+        assign related_primary_url = '/collections/poivres-baies'
+        assign related_secondary_label = 'Lire le guide poivres'
+        assign related_secondary_url = '/pages/wiki-poivres-baies-madagascar'
+      elsif related_context_blob contains 'sel'
+        assign related_primary_label = 'Voir les sels & mélanges'
+        assign related_primary_url = '/collections/sels-melanges'
+        assign related_secondary_label = 'Lire le guide sels'
+        assign related_secondary_url = '/pages/wiki-sels-melanges'
+      elsif related_context_blob contains 'huile' or related_context_blob contains 'ravintsara' or related_context_blob contains 'ylang'
+        assign related_primary_label = 'Voir les plantes & huiles'
+        assign related_primary_url = '/collections/plantes-huiles'
+        assign related_secondary_label = 'Lire le guide plantes'
+        assign related_secondary_url = '/pages/wiki-huiles-essentielles-plantes'
+      elsif related_context_blob contains 'combava' or related_context_blob contains 'cannelle' or related_context_blob contains 'curcuma' or related_context_blob contains 'girofle' or related_context_blob contains 'gingembre'
+        assign related_primary_label = 'Voir les épices'
+        assign related_primary_url = '/collections/epices'
+        assign related_secondary_label = 'Lire le guide épices'
+        assign related_secondary_url = '/pages/wiki-epices-madagascar'
+      endif
+    -%}
     {% if recommendations.performed and recommendations.products_count > 0 %}
-      {%- liquid
-        assign related_editorial_text = section.settings.editorial_text
-        assign related_editorial_text_plain = related_editorial_text | strip_html | strip
-      -%}
       <div class="related-products__intro{% if related_editorial_text_plain == blank %} related-products__intro--simple{% endif %}">
         <div class="related-products__intro-copy">
           <span class="vd-section-kicker">Sélection associée</span>
@@ -64,6 +96,39 @@
           </li>
         {% endfor %}
       </ul>
+    {% elsif recommendations.performed %}
+      <div class="related-products__intro{% if related_editorial_text_plain == blank %} related-products__intro--simple{% endif %}">
+        <div class="related-products__intro-copy">
+          <span class="vd-section-kicker">Suite naturelle</span>
+          <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
+            {{ section.settings.heading }}
+          </h2>
+        </div>
+        {%- if related_editorial_text_plain != blank -%}
+          <div class="related-products__intro-note rte">
+            {{ related_editorial_text }}
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="related-products__fallback">
+        <p class="related-products__fallback-text">
+          Ce produit peut encore se prolonger par une sélection cohérente et par les bons repères de lecture, même sans recommandation automatique disponible pour l’instant.
+        </p>
+        <div class="related-products__fallback-links">
+          <a href="{{ related_primary_url }}" class="vd-arrow-cta">
+            <span class="vd-arrow-cta__label">{{ related_primary_label }}</span>
+            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+            </svg>
+          </a>
+          <a href="{{ related_secondary_url }}" class="vd-arrow-cta">
+            <span class="vd-arrow-cta__label">{{ related_secondary_label }}</span>
+            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
     {% endif %}
   </product-recommendations>
   {% if section.settings.image_shape == 'arch' %}

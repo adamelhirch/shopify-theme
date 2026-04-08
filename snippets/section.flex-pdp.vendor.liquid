@@ -17,14 +17,22 @@
 {% enddoc %}
 
 {%  liquid
+  capture vendor_label
+    render 'vd-product-meta-label', product: product, prefer: 'vendor'
+  endcapture
+  assign vendor_label = vendor_label | strip
   assign collection_handle = product.vendor | handleize
   assign collection_for_vendor = collections[collection_handle]
   assign vendor_url_default = product.vendor | url_for_vendor
   assign vendor_url = collection_for_vendor.url | default: vendor_url_default
 %}
 
-{% if product.vendor != blank and vendor_url != blank %}
-<a href="{{ vendor_url }}">
-  {%- render 'element.text', as: 'p', text: product.vendor, text_decoration: 'underline', variant: 'body-sm' -%}
-</a>
+{% if vendor_label != blank %}
+  {% if vendor_label == product.vendor and vendor_url != blank %}
+    <a href="{{ vendor_url }}">
+      {%- render 'element.text', as: 'p', text: vendor_label, text_decoration: 'underline', variant: 'body-sm' -%}
+    </a>
+  {% else %}
+    {%- render 'element.text', as: 'p', text: vendor_label, text_decoration: 'underline', variant: 'body-sm' -%}
+  {% endif %}
 {% endif %}
