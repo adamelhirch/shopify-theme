@@ -16,6 +16,10 @@
   assign hero_video_url = ''
   assign hero_poster_image = section.settings.background_image
   assign has_metrics = false
+  assign hero_title_text = section.settings.heading | strip
+  assign hero_body_text = section.settings.text | strip_html | strip
+  assign hero_semantic_title = hero_title_text
+  assign hero_semantic_text = hero_body_text
 
   if hero_poster_image == blank and section.settings.background_video.preview_image != blank
     assign hero_poster_image = section.settings.background_video.preview_image
@@ -46,24 +50,45 @@
     assign has_metrics = true
   endif
 
+  if hero_semantic_title == blank
+    assign hero_semantic_title = shop.name | append: ' | Vanille et epices de Madagascar'
+  endif
+
+  if hero_semantic_text == blank
+    capture hero_semantic_text
+      if section.settings.eyebrow != blank
+        echo section.settings.eyebrow
+        echo '. '
+      endif
+      echo 'Une selection premium de vanille et d epices de Madagascar, pensee pour la cuisine, le cadeau et les amateurs exigeants.'
+    endcapture
+    assign hero_semantic_text = hero_semantic_text | strip
+  endif
+
   assign has_aside = false
   if section.blocks.size > 0 or has_metrics
     assign has_aside = true
   endif
 -%}
 
-<section class="section-{{ section.id }}-padding section-vd-hero color-{{ section.settings.color_scheme }}">
+<section
+  class="section-{{ section.id }}-padding section-vd-hero color-{{ section.settings.color_scheme }}"
+  aria-label="{{ hero_semantic_title | escape }}"
+>
   <div class="vd-hero vd-hero--immersive">
-    <div class="vd-hero__media{% if hero_video_url != blank %} vd-hero__media--deferred{% endif %}">
+    <div class="vd-hero__media{% if hero_video_url != blank %} vd-hero__media--deferred{% endif %}" aria-hidden="true">
       {% if hero_video_url != blank and hero_poster_image != blank %}
         {{
           hero_poster_image
-          | image_url: width: 2400
+          | image_url: width: 2200
           | image_tag:
             class: 'vd-hero__image',
-            widths: '750, 1100, 1500, 2000, 2400',
+            widths: '640, 960, 1280, 1600, 1920, 2200',
             sizes: '100vw',
-            loading: 'eager'
+            loading: 'eager',
+            fetchpriority: 'high',
+            decoding: 'async',
+            alt: ''
         }}
       {% elsif hero_video_url != blank and section.settings.use_demo_video %}
         <img
@@ -87,8 +112,9 @@
           data-vd-deferred-video
           data-video-src="{{ hero_video_url }}"
           data-min-width="990"
+          aria-hidden="true"
           {% if hero_poster_image != blank %}
-            poster="{{ hero_poster_image | image_url: width: 2400 }}"
+            poster="{{ hero_poster_image | image_url: width: 2200 }}"
           {% endif %}
         >
           <source data-src="{{ hero_video_url }}" type="video/mp4">
@@ -96,12 +122,15 @@
       {% elsif section.settings.background_image != blank %}
         {{
           section.settings.background_image
-          | image_url: width: 2400
+          | image_url: width: 2200
           | image_tag:
             class: 'vd-hero__image',
-            widths: '750, 1100, 1500, 2000, 2400',
+            widths: '640, 960, 1280, 1600, 1920, 2200',
             sizes: '100vw',
-            loading: 'eager'
+            loading: 'eager',
+            fetchpriority: 'high',
+            decoding: 'async',
+            alt: ''
         }}
       {% else %}
         {{ 'hero-apparel-1' | placeholder_svg_tag: 'vd-hero__image placeholder-svg' }}
@@ -114,6 +143,10 @@
     <div class="page-width vd-hero__frame">
       <div class="vd-hero__inner{% unless has_aside %} vd-hero__inner--solo{% endunless %}">
         <div class="vd-hero__copy">
+          {% if section.settings.heading == blank %}
+            <h1 class="visually-hidden">{{ hero_semantic_title }}</h1>
+          {% endif %}
+
           {% if section.settings.heading != blank %}
             <h1 class="vd-hero__title">{{ section.settings.heading }}</h1>
           {% endif %}
@@ -126,6 +159,8 @@
 
           {% if section.settings.text != blank %}
             <div class="vd-hero__text rte">{{ section.settings.text }}</div>
+          {% elsif hero_semantic_text != blank %}
+            <p class="visually-hidden">{{ hero_semantic_text }}</p>
           {% endif %}
 
           <div class="vd-hero__actions">

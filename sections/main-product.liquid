@@ -72,53 +72,41 @@
     endif
 
     assign product_context_blob = product.title | append: ' ' | append: product.type | append: ' ' | append: product.vendor | downcase
-    assign wiki_hub_url = '/pages/wiki'
-    assign wiki_origin_url = '/pages/wiki'
-    assign wiki_usage_url = '/pages/wiki-recettes'
-    assign wiki_storage_url = '/pages/wiki-faq-vanille-epices'
+    assign wiki_hub_page = pages['wiki']
+    assign wiki_vanille_page = pages['wiki-vanille-bien-choisir']
+    assign wiki_vanille_storage_page = pages['wiki-vanille-conservation-preparation']
+    assign wiki_epices_page = pages['wiki-epices-madagascar']
+    assign wiki_poivres_page = pages['wiki-poivres-baies-madagascar']
+    assign wiki_sels_page = pages['wiki-sels-melanges']
+    assign wiki_plantes_page = pages['wiki-huiles-essentielles-plantes']
+    assign wiki_recettes_page = pages['wiki-recettes']
+    assign wiki_glossaire_page = pages['wiki-glossaire-epices']
+    assign wiki_faq_page = pages['wiki-faq-vanille-epices']
+    assign wiki_hub_url = wiki_hub_page.url | default: routes.root_url
+    assign wiki_origin_url = wiki_hub_url
+    assign wiki_usage_url = wiki_recettes_page.url | default: wiki_hub_url
+    assign wiki_storage_url = wiki_faq_page.url | default: wiki_hub_url
 
     if product_context_blob contains 'vanille'
-      assign wiki_origin_url = '/pages/wiki-vanille-bien-choisir'
-      assign wiki_usage_url = '/pages/wiki-recettes'
-      assign wiki_storage_url = '/pages/wiki-vanille-conservation-preparation'
+      assign wiki_origin_url = wiki_vanille_page.url | default: wiki_hub_url
+      assign wiki_usage_url = wiki_recettes_page.url | default: wiki_hub_url
+      assign wiki_storage_url = wiki_vanille_storage_page.url | default: wiki_hub_url
     elsif product_context_blob contains 'poivre' or product_context_blob contains 'voatsiperifery' or product_context_blob contains 'baie'
-      assign wiki_origin_url = '/pages/wiki-poivres-baies-madagascar'
-      assign wiki_usage_url = '/pages/wiki-recettes'
-      assign wiki_storage_url = '/pages/wiki-glossaire-epices'
+      assign wiki_origin_url = wiki_poivres_page.url | default: wiki_hub_url
+      assign wiki_usage_url = wiki_recettes_page.url | default: wiki_hub_url
+      assign wiki_storage_url = wiki_glossaire_page.url | default: wiki_hub_url
     elsif product_context_blob contains 'sel'
-      assign wiki_origin_url = '/pages/wiki-sels-melanges'
-      assign wiki_usage_url = '/pages/wiki-recettes'
-      assign wiki_storage_url = '/pages/wiki-glossaire-epices'
+      assign wiki_origin_url = wiki_sels_page.url | default: wiki_hub_url
+      assign wiki_usage_url = wiki_recettes_page.url | default: wiki_hub_url
+      assign wiki_storage_url = wiki_glossaire_page.url | default: wiki_hub_url
     elsif product_context_blob contains 'huile' or product_context_blob contains 'ravintsara' or product_context_blob contains 'ylang'
-      assign wiki_origin_url = '/pages/wiki-huiles-essentielles-plantes'
-      assign wiki_usage_url = '/pages/wiki-huiles-essentielles-plantes'
-      assign wiki_storage_url = '/pages/wiki-faq-vanille-epices'
+      assign wiki_origin_url = wiki_plantes_page.url | default: wiki_hub_url
+      assign wiki_usage_url = wiki_plantes_page.url | default: wiki_hub_url
+      assign wiki_storage_url = wiki_faq_page.url | default: wiki_hub_url
     elsif product_context_blob contains 'combava' or product_context_blob contains 'cannelle' or product_context_blob contains 'curcuma' or product_context_blob contains 'girofle' or product_context_blob contains 'gingembre'
-      assign wiki_origin_url = '/pages/wiki-epices-madagascar'
-      assign wiki_usage_url = '/pages/wiki-recettes'
-      assign wiki_storage_url = '/pages/wiki-glossaire-epices'
-    endif
-
-    assign support_link_1_url = section.settings.support_link_1
-    assign support_link_2_url = section.settings.support_link_2
-    assign support_link_3_url = section.settings.support_link_3
-    if support_link_2_url == '/blogs/le-wiki'
-      assign support_link_2_url = wiki_hub_url
-    endif
-
-    assign has_support_panel = false
-    if section.settings.support_heading != blank
-      assign has_support_panel = true
-    elsif product_support_text != blank
-      assign has_support_panel = true
-    elsif section.settings.support_point_1 != blank or section.settings.support_point_2 != blank or section.settings.support_point_3 != blank
-      assign has_support_panel = true
-    elsif section.settings.support_link_label_1 != blank and section.settings.support_link_1 != blank
-      assign has_support_panel = true
-    elsif section.settings.support_link_label_2 != blank and section.settings.support_link_2 != blank
-      assign has_support_panel = true
-    elsif section.settings.support_link_label_3 != blank and section.settings.support_link_3 != blank
-      assign has_support_panel = true
+      assign wiki_origin_url = wiki_epices_page.url | default: wiki_hub_url
+      assign wiki_usage_url = wiki_recettes_page.url | default: wiki_hub_url
+      assign wiki_storage_url = wiki_glossaire_page.url | default: wiki_hub_url
     endif
 
     if product_backdrop_image == blank and settings.vd_product_default_background_image != blank
@@ -182,7 +170,9 @@
       <div class="vd-product-shell__backdrop" aria-hidden="true">
         {% if product_background_video_url != blank %}
           <video class="vd-product-shell__backdrop-media" autoplay muted loop playsinline preload="metadata">
+            {% comment %}theme-check-disable RemoteAsset{% endcomment %}
             <source src="{{ product_background_video_url }}" type="video/mp4">
+            {% comment %}theme-check-enable RemoteAsset{% endcomment %}
           </video>
         {% elsif product_backdrop_image != blank %}
           {{
@@ -896,14 +886,6 @@
       </script>
       <script src="{{ 'product-model.js' | asset_url }}" defer></script>
     {%- endif -%}
-
-    {%- liquid
-      if product.selected_or_first_available_variant.featured_media
-        assign seo_media = product.selected_or_first_available_variant.featured_media
-      else
-        assign seo_media = product.featured_media
-      endif
-    -%}
 
     <script type="application/ld+json">
       {{ product | structured_data }}
