@@ -9,67 +9,22 @@
  */
 {
   "sections": {
+    "vd_page_flow_sels": {
+      "type": "vd-page-flow",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "padding_top": 16,
+        "padding_bottom": 8
+      }
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
       "settings": {}
-    },
-    "banner": {
-      "type": "vd-page-banner",
-      "settings": {
-        "eyebrow": "Collection",
-        "heading": "Sels aromatisés",
-        "text": "<p>Des assemblages nets pour la finition, l’assaisonnement et les accords sucré-salé, avec une lecture simple par usage et intensité.</p>",
-        "primary_button_label": "Voir la collection",
-        "primary_button_link": "shopify://collections/sels",
-        "secondary_button_label": "Lire les recettes",
-        "secondary_button_link": "shopify://pages/recettes",
-        "metric_1_label": "Base",
-        "metric_1_value": "Camargue & Madagascar",
-        "metric_2_label": "Lecture",
-        "metric_2_value": "Usages & intensités",
-        "metric_3_label": "Style",
-        "metric_3_value": "Précis & gourmand",
-        "color_scheme": "scheme-3",
-        "padding_top": 20,
-        "padding_bottom": 8
-      }
-    },
-    "collection": {
-      "type": "featured-collection",
-      "settings": {
-        "collection": "sels",
-        "products_to_show": 6,
-        "title": "Sélection sels aromatisés",
-        "heading_size": "h1",
-        "description": "<p>Retrouver les assemblages maison dans une grille claire, directement liée au panier et aux usages.</p>",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 3,
-        "enable_desktop_slider": false,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "link",
-        "color_scheme": "scheme-3",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": false,
-        "show_vendor": false,
-        "show_rating": false,
-        "card_surface": "dark",
-        "show_subtitle": true,
-        "show_product_type": true,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": true,
-        "padding_top": 8,
-        "padding_bottom": 56
-      }
     }
   },
   "order": [
-    "main",
-    "banner",
-    "collection"
+    "vd_page_flow_sels",
+    "main"
   ]
 }
