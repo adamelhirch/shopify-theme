@@ -8,8 +8,8 @@
     "form": {
       "type": "contact-form",
       "settings": {
-        "heading": "Contact",
-        "subtext": "<p>Questions produit, besoins professionnels, sourcing ou commandes : ecrivez-nous ici.</p>",
+        "heading": "Contactez-nous",
+        "subtext": "<p>Question produit, demande pro, partenariat ou commande : ecrivez-nous via le formulaire ci-dessous. Reponse sous 24 h ouvrees.</p>",
         "image": "shopify://shop_images/desire_gingembre.jpg",
         "show_social_icons": true,
         "heading_size": "h1",
