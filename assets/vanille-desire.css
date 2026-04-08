@@ -7480,3 +7480,206 @@ body:has(.section-vd-hero) .vd-hero__image,
 #MainContent > .shopify-section:first-child.section-vd-hero .vd-hero__image {
   filter: none !important;
 }
+
+/* Drawer, newsletter popup and contact polish */
+
+.menu-drawer,
+.menu-drawer__submenu {
+  background: rgba(10, 10, 10, 0.96) !important;
+  background-image: none !important;
+}
+
+.menu-drawer__inner-container,
+.menu-drawer__submenu .menu-drawer__inner-submenu {
+  background: transparent !important;
+}
+
+.menu-drawer__menu-item,
+.menu-drawer__close-button,
+.vd-drawer-group__title,
+.menu-drawer .link,
+.menu-drawer .menu-drawer__account {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.menu-drawer__menu-item:hover,
+.menu-drawer__menu-item:focus-visible,
+.menu-drawer__close-button:hover,
+.menu-drawer__close-button:focus-visible,
+.menu-drawer .menu-drawer__account:hover,
+.menu-drawer .menu-drawer__account:focus-visible {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.menu-drawer .localization-form .disclosure,
+.menu-drawer .localization-form .disclosure__button,
+.menu-drawer .localization-selector.link,
+.menu-drawer .localization-form select,
+.menu-drawer .localization-form option {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.menu-drawer .localization-form .disclosure__button,
+.menu-drawer .localization-form select {
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+.menu-drawer .list-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.menu-drawer .list-social__link {
+  color: rgba(255, 255, 255, 0.82) !important;
+  opacity: 1 !important;
+}
+
+.menu-drawer .list-social__link:hover,
+.menu-drawer .list-social__link:focus-visible {
+  color: #fff !important;
+}
+
+[data-section-type='newsletter-popup'] .modal__inner {
+  margin: 2rem;
+}
+
+[data-section-type='newsletter-popup'] .modal__centered-content.newsletter--has-image {
+  padding: 0;
+  border-radius: 2.4rem;
+  overflow: hidden;
+  background: #f6f2eb;
+}
+
+[data-section-type='newsletter-popup'] .newsletter-popup {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(34rem, 0.95fr);
+  min-height: 58rem;
+}
+
+[data-section-type='newsletter-popup'] .newsletter-popup.newsletter-popup--image-reversed {
+  grid-template-columns: minmax(34rem, 0.95fr) minmax(0, 1.05fr);
+}
+
+[data-section-type='newsletter-popup'] .newsletter-popup__image-wrapper {
+  display: block;
+  position: relative;
+  min-height: 100%;
+}
+
+[data-section-type='newsletter-popup'] .newsletter-popup__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+[data-section-type='newsletter-popup'] .newsletter-popup__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(2.8rem, 4vw, 5.6rem);
+  background: #f6f2eb;
+  color: #171512;
+}
+
+[data-section-type='newsletter-popup'] .newsletter-popup__content-inner {
+  width: 100%;
+  max-width: 40rem;
+}
+
+[data-section-type='newsletter-popup'] .newsletter-popup__title {
+  margin: 0;
+  color: #171512;
+  font-size: clamp(4rem, 4vw, 6.6rem);
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+}
+
+[data-section-type='newsletter-popup'] .newsletter-popup__text,
+[data-section-type='newsletter-popup'] .newsletter-popup__text p {
+  margin: 1.6rem 0 0;
+  color: rgba(23, 21, 18, 0.76);
+  font-size: 1.85rem;
+  line-height: 1.7;
+}
+
+[data-section-type='newsletter-popup'] .newsletter__input-group {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 8.8rem;
+  max-width: none;
+  margin: 2.8rem 0 0;
+  border: 1px solid rgba(23, 21, 18, 0.16);
+  background: #fffdfa;
+}
+
+[data-section-type='newsletter-popup'] .newsletter__input {
+  min-height: 6rem;
+  color: #171512;
+}
+
+[data-section-type='newsletter-popup'] .newsletter__input::placeholder {
+  color: rgba(23, 21, 18, 0.48);
+}
+
+[data-section-type='newsletter-popup'] .newsletter__input-group .btn {
+  min-height: 100%;
+  border: 0;
+  border-left: 1px solid rgba(23, 21, 18, 0.14);
+  background: #ff6620;
+  color: #fffdfa;
+}
+
+[data-section-type='newsletter-popup'] .newsletter__input-group .btn:hover,
+[data-section-type='newsletter-popup'] .newsletter__input-group .btn:focus-visible {
+  background: #171512;
+  color: #fffdfa;
+}
+
+[data-section-type='newsletter-popup'] .newsletter-popup__social {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  margin-top: 2.4rem;
+}
+
+[data-section-type='newsletter-popup'] .newsletter-popup__social .list-social__link {
+  color: #171512;
+}
+
+[data-section-type='newsletter-popup'] .newsletter-popup__social .svg-wrapper {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+[data-section-type='newsletter-popup'] .modal__close {
+  color: #171512;
+  background: transparent !important;
+}
+
+[data-section-type='newsletter-popup'] .modal__close:hover,
+[data-section-type='newsletter-popup'] .modal__close:focus-visible {
+  color: #171512;
+}
+
+@media screen and (max-width: 989px) {
+  [data-section-type='newsletter-popup'] .newsletter-popup,
+  [data-section-type='newsletter-popup'] .newsletter-popup.newsletter-popup--image-reversed {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: auto;
+  }
+
+  [data-section-type='newsletter-popup'] .newsletter-popup__image-wrapper {
+    min-height: 26rem;
+  }
+
+  [data-section-type='newsletter-popup'] .newsletter-popup__content {
+    padding: 2.4rem 2rem 2.8rem;
+  }
+
+  [data-section-type='newsletter-popup'] .newsletter__input-group {
+    grid-template-columns: minmax(0, 1fr) 7.2rem;
+  }
+}

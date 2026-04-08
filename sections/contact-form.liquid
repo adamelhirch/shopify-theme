@@ -14,43 +14,33 @@
   }
 {%- endstyle -%}
 
-<div class="color-{{ section.settings.color_scheme }} gradient">
-  <div class="vd-contact-section page-width section-{{ section.id }}-padding">
-    <div class="vd-contact-section__layout">
-      <div class="vd-contact-section__intro">
-        <span class="vd-section-kicker">Contact</span>
-        <h2 class="vd-contact-section__title">
-          {% if section.settings.heading != blank %}
-            {{ section.settings.heading }}
-          {% else %}
-            Parlons produits, sourcing et projets sur-mesure.
-          {% endif %}
-        </h2>
-        <p class="vd-contact-section__lede">
-          Le formulaire est pret pour les demandes clients, les commandes speciales et les besoins pros. Vous pourrez
-          surtout venir enrichir cette page avec vos videos et contenus ensuite.
-        </p>
-
-        <div class="vd-contact-section__cards" role="list">
-          <article class="vd-contact-section__card" role="listitem">
-            <span>Reponse</span>
-            <strong>Humaine et precise</strong>
-            <p>Pas de tunnel froid: on cadre la demande, l'usage et le bon format de produit.</p>
-          </article>
-          <article class="vd-contact-section__card" role="listitem">
-            <span>Email</span>
-            <strong>{{ shop.email | default: 'contact@vanilledesire.com' }}</strong>
-            <p>Pour les demandes directes, collaborations et commandes professionnelles.</p>
-          </article>
-          <article class="vd-contact-section__card" role="listitem">
-            <span>Reseaux</span>
-            <strong>@vanilledesire</strong>
-            <p>Instagram et TikTok restent les bons points d'entree pour les coulisses et les usages.</p>
-          </article>
+<div class="color-{{ section.settings.color_scheme }}">
+  <div class="vd-contact-section section-{{ section.id }}-padding">
+    <div class="vd-contact-section__layout{% if section.settings.image == blank %} vd-contact-section__layout--form-only{% endif %}">
+      {% if section.settings.image != blank %}
+        <div class="vd-contact-section__media">
+          {%- render 'image-element',
+            img: section.settings.image,
+            img_width: 1600,
+            widths: '720,900,1200,1440,1600',
+            sizeVariable: '50vw',
+            classes: 'vd-contact-section__media-image'
+          -%}
         </div>
-      </div>
+      {% endif %}
 
       <div class="contact vd-contact-section__form-column">
+        <div class="vd-contact-section__copy">
+          {%- if section.settings.heading != blank -%}
+            <h1 class="vd-contact-section__title">{{ section.settings.heading }}</h1>
+          {%- else -%}
+            <h1 class="vd-contact-section__title">{{ 'templates.contact.form.title' | t }}</h1>
+          {%- endif -%}
+          {%- if section.settings.subtext != blank -%}
+            <div class="vd-contact-section__lede rte">{{ section.settings.subtext }}</div>
+          {%- endif -%}
+        </div>
+
         {%- if section.settings.heading == blank -%}
           <h2 class="visually-hidden">{{ 'templates.contact.form.title' | t }}</h2>
         {%- endif -%}
@@ -62,11 +52,6 @@
         -%}
         {%- assign contact_form_class = contact_form_class | append: ' vd-form vd-form--contact vd-form-shell vd-contact-section__form-shell' -%}
         {%- form 'contact', id: 'ContactForm', class: contact_form_class -%}
-          <div class="vd-contact-section__form-head">
-            <span class="vd-contact-section__form-kicker">Formulaire</span>
-            <h3>Expliquez votre besoin, on revient vers vous rapidement.</h3>
-          </div>
-
           {%- if form.posted_successfully? -%}
             <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
               {{- 'icon-success.svg' | inline_asset_content -}}
@@ -169,6 +154,12 @@
             </button>
           </div>
         {%- endform -%}
+
+        {% if section.settings.show_social_icons %}
+          <div class="vd-contact-section__social-wrap">
+            {% render 'social-icons', class: 'vd-contact-section__social' %}
+          </div>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -188,6 +179,23 @@
       "id": "heading",
       "default": "t:sections.contact-form.settings.title.default",
       "label": "t:sections.contact-form.settings.title.label"
+    },
+    {
+      "type": "richtext",
+      "id": "subtext",
+      "default": "<p>Questions produit, besoins professionnels, sourcing ou commandes : ecrivez-nous ici.</p>",
+      "label": "Texte court"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_icons",
+      "label": "Afficher les reseaux",
+      "default": true
     },
     {
       "type": "select",

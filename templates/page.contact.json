@@ -5,135 +5,22 @@
       "disabled": true,
       "settings": {}
     },
-    "banner": {
-      "type": "vd-page-banner",
-      "settings": {
-        "eyebrow": "Contact",
-        "heading": "Une prise de contact plus nette et plus premium.",
-        "text": "<p>Que ce soit pour une question produit, un besoin professionnel, un sourcing ou un conseil d'usage, cette page doit rassurer immediatement et rester a la hauteur du reste du site.</p>",
-        "primary_button_label": "Voir le catalogue",
-        "primary_button_link": "shopify://collections/all",
-        "secondary_button_label": "Lire le wiki",
-        "secondary_button_link": "shopify://pages/savoir-faire",
-        "metric_1_label": "Demandes",
-        "metric_1_value": "Boutique",
-        "metric_2_label": "Demandes",
-        "metric_2_value": "Professionnelles",
-        "metric_3_label": "Tonalite",
-        "metric_3_value": "Directe",
-        "color_scheme": "scheme-3",
-        "padding_top": 20,
-        "padding_bottom": 8
-      }
-    },
     "form": {
       "type": "contact-form",
       "settings": {
-        "heading": "Parlons de votre besoin",
+        "heading": "Contact",
+        "subtext": "<p>Questions produit, besoins professionnels, sourcing ou commandes : ecrivez-nous ici.</p>",
+        "image": "shopify://shop_images/desire_gingembre.jpg",
+        "show_social_icons": true,
         "heading_size": "h1",
         "color_scheme": "scheme-3",
-        "padding_top": 24,
-        "padding_bottom": 36
-      }
-    },
-    "story": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "Question produit",
-            "text": "<p>Besoin d'etre oriente vers le bon format, la bonne collection ou le bon usage.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Demande pro",
-            "text": "<p>Sourcing, volumes recurrents, coffrets ou besoins plus specifiques autour de Madagascar.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Conseil rapide",
-            "text": "<p>Le contact doit rester simple, lisible et beaucoup plus engageant qu'une page formulaire vide.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "Un formulaire qui s'inscrit dans un vrai parcours de marque.",
-        "text": "<p>On ne laisse plus cette page tomber a plat. Elle devient un vrai point d'entree et de reassurance.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 0,
-        "padding_bottom": 32
-      }
-    },
-    "vd_testimonials_contact_n4J8kM": {
-      "type": "vd-testimonials",
-      "blocks": {
-        "testimonial_1": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"Des produits tres propres, une lecture claire du site et une vraie sensation de maison serieuse.\"",
-            "author": "Claire M.",
-            "location": "Cliente boutique",
-            "meta": "Vanille Bourbon",
-            "product_link": "shopify://collections/vanille-bourbon"
-          }
-        },
-        "testimonial_2": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"Le contact a ete simple et rapide. On comprend tout de suite qu'il y a quelqu'un derriere la marque.\"",
-            "author": "Hugo R.",
-            "location": "Demande professionnelle",
-            "meta": "Contact & sourcing",
-            "product_link": "shopify://pages/contact"
-          }
-        },
-        "testimonial_3": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "\"La qualite produit donne envie de revenir, et les explications rassurent sur l'origine et l'usage.\"",
-            "author": "Sarah D.",
-            "location": "Commande en ligne",
-            "meta": "Caviar de vanille",
-            "product_link": "shopify://products/caviar-vanille-bourbon-madagascar-20g"
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_1",
-        "testimonial_2",
-        "testimonial_3"
-      ],
-      "settings": {
-        "eyebrow": "Confiance",
-        "heading": "Un point de contact qui reste premium",
-        "text": "<p>Le formulaire ne doit pas etre une page blanche. Il doit rassurer, credibiliser et prolonger la qualite percue sur les produits.</p>",
-        "reviews_limit": "6",
-        "button_label": "Voir la collection",
-        "button_link": "shopify://collections/vanille-bourbon",
-        "color_scheme": "scheme-3",
-        "padding_top": 0,
-        "padding_bottom": 56
+        "padding_top": 20,
+        "padding_bottom": 28
       }
     }
   },
   "order": [
     "main",
-    "banner",
-    "form",
-    "story",
-    "vd_testimonials_contact_n4J8kM"
+    "form"
   ]
 }

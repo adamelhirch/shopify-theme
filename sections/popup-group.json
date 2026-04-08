@@ -17,7 +17,7 @@
         "reminder-block": {
           "type": "header",
           "settings": {
-            "reminder_label": "Obtenir des réductions"
+            "reminder_label": "Recevoir nos nouvelles"
           }
         }
       },
@@ -29,7 +29,7 @@
         "popup_seconds": 15,
         "popup_days": 20,
         "popup_title": "De Madagascar jusqu’à votre cuisine",
-        "popup_text": "<p>Rejoignez notre infolettre et soutenez directement nos producteurs.<br/><br/>Vous recevrez aussi des offres exclusives et nos secrets pour sublimer la vanille.</p>",
+        "popup_text": "<p>Recevez nos arrivages choisis, nos offres rares et nos meilleures idees autour de la vanille et des epices.</p>",
         "popup_image": "shopify://shop_images/desire_gingembre.jpg",
         "image_position": "left",
         "show_social_icons": true,
