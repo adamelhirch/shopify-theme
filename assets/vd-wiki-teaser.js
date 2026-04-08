@@ -34,6 +34,19 @@
     return function () {};
   }
 
+  function waitForFontsReady(timeoutMs) {
+    if (!document.fonts || !document.fonts.ready) {
+      return Promise.resolve();
+    }
+
+    return Promise.race([
+      document.fonts.ready.catch(function () {}),
+      new Promise(function (resolve) {
+        window.setTimeout(resolve, timeoutMs || 1800);
+      })
+    ]);
+  }
+
   function cleanupSection(section) {
     if (section && typeof section.__vdWikiTeaserCleanup === 'function') {
       section.__vdWikiTeaserCleanup();
@@ -482,6 +495,7 @@
       var triggers = [];
       var blurState = { value: 0 };
       var blurTween = null;
+      var pulseTween = null;
       var lastProgress = 0;
       var mainTween;
       var mainTrigger;
@@ -500,7 +514,8 @@
         }
 
         var split = SplitText.create(title, {
-          type: 'chars',
+          type: 'words,chars',
+          wordsClass: 'vd-wiki-word',
           charsClass: 'vd-wiki-char'
         });
 
@@ -786,19 +801,35 @@
     toArray((root || document).querySelectorAll('[data-vd-wiki-teaser]')).forEach(initSection);
   }
 
+  function scheduleInit(root) {
+    var scope = root || document;
+    var shouldWaitForFonts = Boolean(scope.querySelector('[data-vd-wiki-teaser]')) && window.innerWidth >= 990;
+
+    return (shouldWaitForFonts ? waitForFontsReady(2400) : Promise.resolve()).then(function () {
+      initAll(scope);
+    });
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
-      initAll(document);
+      scheduleInit(document);
     });
   } else {
-    initAll(document);
+    scheduleInit(document);
   }
 
   document.addEventListener('shopify:section:load', function (event) {
-    initAll(event.target);
+    scheduleInit(event.target);
   });
 
   document.addEventListener('shopify:section:unload', function (event) {
     toArray(event.target.querySelectorAll('[data-vd-wiki-teaser]')).forEach(cleanupSection);
+  });
+
+  window.addEventListener('vd:motion-ready', function (event) {
+    if (!event || !event.detail || !event.detail.hasGsap) return;
+    if (!document.querySelector('[data-vd-wiki-teaser]')) return;
+
+    scheduleInit(document);
   });
 })();

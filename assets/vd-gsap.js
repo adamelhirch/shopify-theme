@@ -113,6 +113,18 @@
     return window.__vdMotionAssets || {};
   }
 
+  function emitMotionReady() {
+    window.dispatchEvent(
+      new CustomEvent('vd:motion-ready', {
+        detail: {
+          hasGsap: Boolean(window.gsap),
+          hasScrollTrigger: Boolean(window.ScrollTrigger),
+          hasSplitText: Boolean(window.SplitText)
+        }
+      })
+    );
+  }
+
   function hasMotionTargets() {
     return Boolean(
       document.querySelector('.section-vd-hero') ||
@@ -120,6 +132,7 @@
         document.querySelector('[data-vd-feature-gallery]') ||
         document.querySelector('[data-vd-bento-section]') ||
         document.querySelector('[data-vd-collection-hero]') ||
+        document.querySelector('[data-vd-wiki-teaser]') ||
         document.querySelector('[data-vd-footer-scene]') ||
         document.querySelector('[data-speed]') ||
         document.querySelector('.vd-reveal')
@@ -256,7 +269,12 @@
 
     var assets = getMotionAssets();
     var desktopMotion = shouldUseDesktopMotion();
-    var needsSplitText = desktopMotion && Boolean(document.querySelector('[data-vd-collection-hero] .collection-hero__title-text'));
+    var needsSplitText =
+      desktopMotion &&
+      Boolean(
+        document.querySelector('[data-vd-collection-hero] .collection-hero__title-text') ||
+          document.querySelector('[data-vd-wiki-teaser] [data-vd-wiki-title]')
+      );
     var loadBaseMotion = loadScriptOnce('gsap', assets.gsap).then(function () {
       return loadScriptOnce('scroll-trigger', assets.scrollTrigger);
     });
@@ -286,6 +304,7 @@
       })
       .then(function () {
         initVanilleGsap(forceRebuild);
+        emitMotionReady();
         return true;
       })
       .catch(function () {
