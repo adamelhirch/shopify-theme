@@ -80,10 +80,10 @@
       {% if hero_video_url != blank and hero_poster_image != blank %}
         {{
           hero_poster_image
-          | image_url: width: 2200
+          | image_url: width: 1920
           | image_tag:
             class: 'vd-hero__image',
-            widths: '640, 960, 1280, 1600, 1920, 2200',
+            widths: '480, 720, 960, 1280, 1600, 1920',
             sizes: '100vw',
             loading: 'eager',
             fetchpriority: 'high',
@@ -113,19 +113,16 @@
           data-video-src="{{ hero_video_url }}"
           data-min-width="990"
           aria-hidden="true"
-          {% if hero_poster_image != blank %}
-            poster="{{ hero_poster_image | image_url: width: 2200 }}"
-          {% endif %}
         >
           <source data-src="{{ hero_video_url }}" type="video/mp4">
         </video>
       {% elsif section.settings.background_image != blank %}
         {{
           section.settings.background_image
-          | image_url: width: 2200
+          | image_url: width: 1920
           | image_tag:
             class: 'vd-hero__image',
-            widths: '640, 960, 1280, 1600, 1920, 2200',
+            widths: '480, 720, 960, 1280, 1600, 1920',
             sizes: '100vw',
             loading: 'eager',
             fetchpriority: 'high',

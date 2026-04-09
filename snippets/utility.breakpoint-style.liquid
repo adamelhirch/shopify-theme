@@ -9,7 +9,9 @@
   assign breakpoints = 'xs,sm,md,lg,xl' | split: ','
   assign breakpoint_values = null | default: xs: 0, sm: 576, md: 768, lg: 992, xl: 1200
   assign value_prefix = value_prefix | default: ''
+  # theme-check-disable UndefinedObject
   assign value_type = value_type | default: 'value'
+  # theme-check-enable UndefinedObject
 %}
 
 

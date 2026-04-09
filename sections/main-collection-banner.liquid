@@ -180,9 +180,6 @@
           data-vd-deferred-video
           data-video-src="{{ collection_background_video_url }}"
           data-min-width="990"
-          {% if collection_backdrop_image != blank %}
-            poster="{{ collection_backdrop_image | image_url: width: 2200 }}"
-          {% endif %}
         >
           {% comment %}theme-check-disable RemoteAsset{% endcomment %}
           <source data-src="{{ collection_background_video_url }}" type="video/mp4">
@@ -191,10 +188,10 @@
       {% elsif collection_backdrop_image != blank %}
         {{
           collection_backdrop_image
-          | image_url: width: 2200
+          | image_url: width: 1920
           | image_tag:
             class: 'collection-hero__backdrop-media',
-            widths: '720, 960, 1280, 1600, 2200',
+            widths: '640, 960, 1280, 1600, 1920',
             sizes: '100vw',
             loading: 'eager',
             alt: ''
@@ -229,7 +226,7 @@
         {%- if section.settings.primary_link_label != blank or section.settings.secondary_link_label != blank -%}
           <div class="collection-hero__actions" data-vd-collection-item>
             {%- if section.settings.primary_link_label != blank and section.settings.primary_link != blank -%}
-              <a href="{{ section.settings.primary_link }}" class="vd-arrow-cta">
+              <a href="{{ section.settings.primary_link }}" class="vd-arrow-cta" data-vd-preview-link>
                 <span class="vd-arrow-cta__label">{{ section.settings.primary_link_label }}</span>
                 <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
                   <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
@@ -237,7 +234,7 @@
               </a>
             {%- endif -%}
             {%- if section.settings.secondary_link_label != blank and section.settings.secondary_link != blank -%}
-              <a href="{{ section.settings.secondary_link }}" class="vd-arrow-cta">
+              <a href="{{ section.settings.secondary_link }}" class="vd-arrow-cta" data-vd-preview-link>
                 <span class="vd-arrow-cta__label">{{ section.settings.secondary_link_label }}</span>
                 <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
                   <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>

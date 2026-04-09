@@ -124,6 +124,7 @@
     class="section-{{ section.id }}-padding vd-recipes-hub color-{{ section.settings.color_scheme }}"
     data-vd-recipes-hub
     data-registry-url="{{ 'vd-recipes-registry.json' | asset_url }}"
+    data-recipes-page-url="{{ recettes_page_url }}"
     data-customer-authenticated="{% if customer %}true{% else %}false{% endif %}"
     data-customer-shelf-endpoint="{{ section.settings.customer_shelf_endpoint | escape }}"
     data-login-url="{{ login_target }}"
@@ -332,6 +333,7 @@
           data-registry-url="{{ 'vd-recipes-registry.json' | asset_url }}"
           data-recipe-slug=""
           data-page-handle="{{ page.handle }}"
+          data-recipes-page-url="{{ recettes_page_url }}"
           data-require-customer-access="true"
           data-customer-authenticated="{% if customer %}true{% else %}false{% endif %}"
           data-customer-id="{{ customer.id }}"
@@ -399,6 +401,7 @@
       data-registry-url="{{ 'vd-recipes-registry.json' | asset_url }}"
       data-recipe-slug="{{ recipe_metafield_value | default: page.handle }}"
       data-page-handle="{{ page.handle }}"
+      data-recipes-page-url="{{ recettes_page_url }}"
       data-require-customer-access="true"
       data-customer-authenticated="{% if customer %}true{% else %}false{% endif %}"
       data-login-url="{{ login_target }}"

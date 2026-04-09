@@ -12,11 +12,50 @@
   assign intro_heading = section.settings.intro_heading
   assign intro_note = section.settings.intro_text
   assign has_intro_shell = false
+  assign collection_context_label_1 = 'Format'
+  assign collection_context_value_1 = 'Entrer par le bon geste'
+  assign collection_context_copy_1 = 'Lire la sélection par format permet de réduire vite le doute avant achat.'
+  assign collection_context_label_2 = 'Usage'
+  assign collection_context_value_2 = 'Comprendre la matière'
+  assign collection_context_copy_2 = 'La meilleure collection reste celle qui relie clairement produit, intensité et usage.'
+  assign collection_context_label_3 = 'Suite'
+  assign collection_context_value_3 = 'Wiki, recettes, conseil'
+  assign collection_context_copy_3 = 'Après la grille, il faut une suite simple vers le bon contenu ou le bon produit.'
 
   if show_intro_shell
     if intro_heading != blank or intro_note != blank
       assign has_intro_shell = true
     endif
+  endif
+
+  if collection.handle == 'vanille-bourbon'
+    assign collection_context_value_1 = 'Gousses, extrait, poudre, coffret'
+    assign collection_context_copy_1 = 'Chaque format répond à un usage distinct: pâtisserie, infusion, quotidien ou cadeau.'
+    assign collection_context_value_2 = 'Souplesse, intensité, fréquence'
+    assign collection_context_copy_2 = 'Le bon choix se fait par geste réel et non par simple description aromatique.'
+    assign collection_context_value_3 = 'Guide de choix puis recettes'
+    assign collection_context_copy_3 = 'Le meilleur enchaînement est de comparer, comprendre, puis voir la matière en cuisine.'
+  elsif collection.handle == 'epices-madagascar'
+    assign collection_context_value_1 = 'Familles et profils'
+    assign collection_context_copy_1 = 'Comparer chaleur, fraîcheur, tension ou rondeur avant de multiplier les achats.'
+    assign collection_context_value_2 = 'Dessert, boisson, salé'
+    assign collection_context_copy_2 = 'La collection doit projeter chaque épice dans un vrai usage, pas seulement un intitulé.'
+    assign collection_context_value_3 = 'Guide épices puis recettes'
+    assign collection_context_copy_3 = 'On convertit mieux quand la lecture éditoriale précède l’accord culinaire.'
+  elsif collection.handle == 'poivre-baies'
+    assign collection_context_value_1 = 'Finition ou cuisson'
+    assign collection_context_copy_1 = 'Le bon poivre dépend souvent du moment d’ajout plus que de la couleur.'
+    assign collection_context_value_2 = 'Floraux, droits, sauvages'
+    assign collection_context_copy_2 = 'Les familles doivent être lisibles pour favoriser un panier plus juste.'
+    assign collection_context_value_3 = 'Accords puis sélection'
+    assign collection_context_copy_3 = 'Le wiki et les recettes servent ici à transformer la curiosité en achat complémentaire.'
+  elsif collection.handle == 'sels' or collection.handle == 'sels-aromatises'
+    assign collection_context_value_1 = 'Dressage et finition'
+    assign collection_context_copy_1 = 'La valeur d’un sel aromatisé se comprend par geste et par contexte de service.'
+    assign collection_context_value_2 = 'Sels, poivres, mélanges'
+    assign collection_context_copy_2 = 'La collection doit aider à arbitrer vite entre familles proches.'
+    assign collection_context_value_3 = 'Recettes et gestes'
+    assign collection_context_copy_3 = 'Un bon troisième acte donne des usages concrets juste après la grille.'
   endif
 -%}
 
@@ -42,10 +81,53 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
+  .vd-collection-grid__context {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 1.8rem 0 2.2rem;
+  }
+
+  .vd-collection-grid__context-card {
+    padding: 1.35rem 1.45rem;
+    border: 1px solid rgba(var(--color-foreground), 0.08);
+    border-radius: 1.8rem;
+    background: rgba(var(--color-background), 0.7);
+    backdrop-filter: blur(14px);
+  }
+
+  .vd-collection-grid__context-card span {
+    display: block;
+    font-size: 1rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.62;
+  }
+
+  .vd-collection-grid__context-card strong {
+    display: block;
+    margin-top: 0.8rem;
+    font-size: 1.4rem;
+    line-height: 1.3;
+  }
+
+  .vd-collection-grid__context-card p {
+    margin: 0.75rem 0 0;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    opacity: 0.8;
+  }
+
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .vd-collection-grid__context {
+      grid-template-columns: 1fr;
     }
   }
 {%- endstyle -%}
@@ -133,7 +215,7 @@
             {%- if section.settings.primary_link_label != blank or section.settings.secondary_link_label != blank -%}
               <div class="vd-collection-grid__action-stack">
                 {%- if section.settings.primary_link_label != blank and section.settings.primary_link != blank -%}
-                  <a href="{{ section.settings.primary_link }}" class="vd-arrow-cta">
+                  <a href="{{ section.settings.primary_link }}" class="vd-arrow-cta" data-vd-preview-link>
                     <span class="vd-arrow-cta__label">{{ section.settings.primary_link_label }}</span>
                     <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
                       <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
@@ -141,7 +223,7 @@
                   </a>
                 {%- endif -%}
                 {%- if section.settings.secondary_link_label != blank and section.settings.secondary_link != blank -%}
-                  <a href="{{ section.settings.secondary_link }}" class="vd-arrow-cta">
+                  <a href="{{ section.settings.secondary_link }}" class="vd-arrow-cta" data-vd-preview-link>
                     <span class="vd-arrow-cta__label">{{ section.settings.secondary_link_label }}</span>
                     <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
                       <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
@@ -159,6 +241,23 @@
           </div>
         </div>
       {%- endif -%}
+      <div class="vd-collection-grid__context{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}" role="list">
+        <article class="vd-collection-grid__context-card" role="listitem">
+          <span>{{ collection_context_label_1 }}</span>
+          <strong>{{ collection_context_value_1 }}</strong>
+          <p>{{ collection_context_copy_1 }}</p>
+        </article>
+        <article class="vd-collection-grid__context-card" role="listitem">
+          <span>{{ collection_context_label_2 }}</span>
+          <strong>{{ collection_context_value_2 }}</strong>
+          <p>{{ collection_context_copy_2 }}</p>
+        </article>
+        <article class="vd-collection-grid__context-card" role="listitem">
+          <span>{{ collection_context_label_3 }}</span>
+          <strong>{{ collection_context_value_3 }}</strong>
+          <p>{{ collection_context_copy_3 }}</p>
+        </article>
+      </div>
       {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
         <aside
           aria-labelledby="verticalTitle"

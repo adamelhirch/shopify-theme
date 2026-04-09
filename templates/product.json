@@ -140,11 +140,11 @@
         "support_point_2": "Origine suivie et sélection attentive de la matière",
         "support_point_3": "Passerelles utiles vers recettes, wiki et produits associés",
         "support_link_label_1": "Voir les recettes",
-        "support_link_1": "/pages/recettes",
+        "support_link_1": "shopify://pages/recettes",
         "support_link_label_2": "Bien choisir sa vanille",
-        "support_link_2": "/pages/wiki-vanille-bien-choisir",
+        "support_link_2": "shopify://pages/wiki-vanille-bien-choisir",
         "support_link_label_3": "Parler avec nous",
-        "support_link_3": "/pages/contact",
+        "support_link_3": "shopify://pages/contact",
         "padding_top": 36,
         "padding_bottom": 12
       }

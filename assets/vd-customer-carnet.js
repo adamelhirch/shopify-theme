@@ -46,11 +46,18 @@
       });
   }
 
-  function recipeHref(recipe) {
-    return recipe.page_url || ('/pages/recettes?recipe=' + encodeURIComponent(recipe.slug || ''));
+  function recipesHubUrl(section) {
+    var sharedNode = document.querySelector('[data-recipes-page-url]');
+    return section.getAttribute('data-recipes-page-url')
+      || (sharedNode && sharedNode.getAttribute('data-recipes-page-url'))
+      || '/pages/recettes';
   }
 
-  function cardMarkup(recipe) {
+  function recipeHref(recipe, section) {
+    return recipe.page_url || (recipesHubUrl(section) + '?recipe=' + encodeURIComponent(recipe.slug || ''));
+  }
+
+  function cardMarkup(recipe, section) {
     var cover = recipe.hero && recipe.hero.image_url;
     var metrics = [];
     if (recipe.timing && recipe.timing.total) metrics.push(recipe.timing.total);
@@ -58,7 +65,7 @@
     if (recipe.access === 'member') metrics.push('Compte client');
 
     return (
-      '<a class="vd-customer-carnet__card" href="' + escapeHtml(recipeHref(recipe)) + '">' +
+      '<a class="vd-customer-carnet__card" href="' + escapeHtml(recipeHref(recipe, section)) + '" data-vd-preview-link>' +
         '<div class="vd-customer-carnet__media"' + (cover ? ' style="background-image:url(\'' + escapeHtml(cover) + '\')"' : '') + '>' +
           (cover ? '' : '<span>Recette</span>') +
         '</div>' +
@@ -71,8 +78,10 @@
     );
   }
 
-  function renderTrack(track, recipes) {
-    track.innerHTML = recipes.map(cardMarkup).join('');
+  function renderTrack(track, recipes, section) {
+    track.innerHTML = recipes.map(function (recipe) {
+      return cardMarkup(recipe, section);
+    }).join('');
   }
 
   function init(section) {
@@ -110,13 +119,13 @@
         }).filter(Boolean);
 
         if (favoriteRecipes.length) {
-          renderTrack(favoritesTrack, favoriteRecipes);
+          renderTrack(favoritesTrack, favoriteRecipes, section);
           favoritesCount.textContent = String(favoriteRecipes.length);
           favoritesPanel.hidden = false;
         }
 
         if (historyRecipes.length) {
-          renderTrack(historyTrack, historyRecipes);
+          renderTrack(historyTrack, historyRecipes, section);
           historyCount.textContent = String(historyRecipes.length);
           historyPanel.hidden = false;
         }

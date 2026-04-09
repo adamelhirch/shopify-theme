@@ -22,7 +22,7 @@
             "point_2": "Pièges à éviter & faux arômes",
             "point_3": "Prix & origine : comprendre",
             "link_label": "Lire le guide",
-            "link": "/pages/wiki-vanille-bien-choisir"
+            "link": "shopify://pages/wiki-vanille-bien-choisir"
           }
         },
         "wiki_feature_2": {
@@ -35,7 +35,7 @@
             "point_2": "Recycler les gousses",
             "point_3": "Éviter la moisissure",
             "link_label": "Voir les méthodes",
-            "link": "/pages/wiki-vanille-conservation-preparation"
+            "link": "shopify://pages/wiki-vanille-conservation-preparation"
           }
         },
         "wiki_feature_3": {
@@ -48,7 +48,7 @@
             "point_2": "Accords salés : poisson, volaille",
             "point_3": "Boissons & infusions",
             "link_label": "S’inspirer",
-            "link": "/pages/recettes"
+            "link": "shopify://pages/recettes"
           }
         },
         "wiki_category_1": {
@@ -58,7 +58,7 @@
             "title": "Épices de Madagascar",
             "text": "Cannelle, curcuma, gingembre, girofle, combava et autres matières rares.",
             "link_label": "Voir les fiches",
-            "link": "/pages/wiki-epices-madagascar"
+            "link": "shopify://pages/wiki-epices-madagascar"
           }
         },
         "wiki_category_2": {
@@ -68,7 +68,7 @@
             "title": "Poivres & baies",
             "text": "Voatsiperifery, poivre noir, poivre blanc et baies roses.",
             "link_label": "Explorer",
-            "link": "/pages/wiki-poivres-baies-madagascar"
+            "link": "shopify://pages/wiki-poivres-baies-madagascar"
           }
         },
         "wiki_category_3": {
@@ -78,7 +78,7 @@
             "title": "Sels gourmets & mélanges",
             "text": "Sel à la vanille, au pili-pili, au combava, poivres et baies.",
             "link_label": "Parcourir",
-            "link": "/pages/wiki-sels-melanges"
+            "link": "shopify://pages/wiki-sels-melanges"
           }
         },
         "wiki_category_4": {
@@ -88,7 +88,7 @@
             "title": "Huiles essentielles & plantes",
             "text": "Ylang-ylang, ravintsara, huile de coco : usages, traditions et précautions.",
             "link_label": "Découvrir",
-            "link": "/pages/wiki-huiles-essentielles-plantes"
+            "link": "shopify://pages/wiki-huiles-essentielles-plantes"
           }
         },
         "wiki_category_5": {
@@ -98,7 +98,7 @@
             "title": "Savoir-faire & producteurs",
             "text": "Préparation traditionnelle, tri manuel, éthique et prix justes.",
             "link_label": "Rencontrer",
-            "link": "/pages/wiki-savoir-faire-producteurs"
+            "link": "shopify://pages/wiki-savoir-faire-producteurs"
           }
         },
         "wiki_category_6": {
@@ -108,7 +108,7 @@
             "title": "Bienfaits & usages",
             "text": "Antioxydants, digestion, détente, traditions et usages des épices.",
             "link_label": "En savoir plus",
-            "link": "/pages/wiki-bienfaits-sante"
+            "link": "shopify://pages/wiki-bienfaits-sante"
           }
         },
         "wiki_category_7": {
@@ -118,7 +118,7 @@
             "title": "Recettes & accords",
             "text": "Pâtisserie, rhums arrangés, cuisine salée et boissons.",
             "link_label": "Cuisiner",
-            "link": "/pages/wiki-recettes"
+            "link": "shopify://pages/wiki-recettes"
           }
         },
         "wiki_category_8": {
@@ -128,7 +128,7 @@
             "title": "Glossaire des épices",
             "text": "Mots et techniques : Bourbon, curcumine, infusion, extraction.",
             "link_label": "Consulter",
-            "link": "/pages/wiki-glossaire-epices"
+            "link": "shopify://pages/wiki-glossaire-epices"
           }
         },
         "wiki_category_9": {
@@ -138,7 +138,7 @@
             "title": "Questions fréquentes",
             "text": "Conservation, authenticité, différences de variétés et usages.",
             "link_label": "Voir les réponses",
-            "link": "/pages/wiki-faq-vanille-epices"
+            "link": "shopify://pages/wiki-faq-vanille-epices"
           }
         },
         "wiki_faq_1": {
@@ -189,9 +189,9 @@
         "wiki_search_placeholder": "Rechercher une épice, un sujet, une question...",
         "wiki_hero_video_url": "",
         "wiki_primary_link_label": "Voir les recettes",
-        "wiki_primary_link": "/pages/recettes",
+        "wiki_primary_link": "shopify://pages/recettes",
         "wiki_secondary_link_label": "Voir le catalogue",
-        "wiki_secondary_link": "/pages/catalogue",
+        "wiki_secondary_link": "shopify://pages/catalogue",
         "wiki_essentials_eyebrow": "Vanille",
         "wiki_essentials_heading": "Vanille — l’essentiel",
         "wiki_essentials_text": "<p>Tout savoir sur la <strong>vanille Bourbon</strong> : reconnaître une gousse de qualité, la préparer, la conserver et l’utiliser selon vos recettes.</p>",
@@ -202,9 +202,9 @@
         "wiki_footer_heading": "Prêt à goûter la différence ?",
         "wiki_footer_text": "<p>Découvrez nos <strong>gousses de vanille Bourbon</strong>, nos <strong>épices rares</strong> et nos <strong>sels gourmets</strong> au prix direct producteur.</p>",
         "wiki_footer_primary_link_label": "Accéder à la boutique",
-        "wiki_footer_primary_link": "/pages/catalogue",
+        "wiki_footer_primary_link": "shopify://pages/catalogue",
         "wiki_footer_secondary_link_label": "Voir les recettes",
-        "wiki_footer_secondary_link": "/pages/recettes",
+        "wiki_footer_secondary_link": "shopify://pages/recettes",
         "wiki_footer_trust": "Traçabilité totale · Qualité artisanale · Relation directe avec les producteurs de Madagascar",
         "wiki_faq_title": "FAQ — Vanille & épices",
         "padding_top": 16,

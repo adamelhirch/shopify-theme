@@ -77,9 +77,6 @@
                   preload="none"
                   data-vd-deferred-video
                   data-video-src="{{ story_background_video_url }}"
-                  {% if story_background_image != blank %}
-                    poster="{{ story_background_image | image_url: width: 1600 }}"
-                  {% endif %}
                 >
                   <source data-src="{{ story_background_video_url }}" type="video/mp4">
                 </video>

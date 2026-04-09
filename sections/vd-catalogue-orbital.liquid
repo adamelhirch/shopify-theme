@@ -12,6 +12,13 @@
   }
 {% endstyle %}
 
+{%- liquid
+  assign orbital_recipes_page = pages['recettes']
+  assign orbital_contact_page = pages['contact']
+  assign orbital_recipes_url = orbital_recipes_page.url | default: '/pages/recettes'
+  assign orbital_contact_url = orbital_contact_page.url | default: '/pages/contact'
+-%}
+
 <section class="section-{{ section.id }}-padding vd-catalogue color-{{ section.settings.color_scheme }}">
   <div class="page-width">
     <div class="vd-catalogue__hero">
@@ -51,15 +58,15 @@
 
       <div class="vd-catalogue__hero-panel">
         <div class="vd-catalogue__quicklinks">
-          <a href="/collections/all" class="vd-catalogue__quicklink">
+          <a href="{{ routes.all_products_collection_url }}" class="vd-catalogue__quicklink">
             <span>Catalogue</span>
             <strong>Voir tous les produits</strong>
           </a>
-          <a href="/pages/recettes" class="vd-catalogue__quicklink">
+          <a href="{{ orbital_recipes_url }}" class="vd-catalogue__quicklink" data-vd-preview-link>
             <span>Recettes</span>
             <strong>Entrer par les usages</strong>
           </a>
-          <a href="/pages/contact" class="vd-catalogue__quicklink">
+          <a href="{{ orbital_contact_url }}" class="vd-catalogue__quicklink" data-vd-preview-link>
             <span>Conseil</span>
             <strong>Demander une orientation</strong>
           </a>

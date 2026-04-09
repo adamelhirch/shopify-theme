@@ -144,9 +144,6 @@
                         data-vd-deferred-video
                         data-video-src="{{ cart_payment_video_url }}"
                         data-min-width="750"
-                        {% if cart_payment_video_poster != blank %}
-                          poster="{{ cart_payment_video_poster | image_url: width: 1600 }}"
-                        {% endif %}
                       >
                         {% comment %}theme-check-disable RemoteAsset{% endcomment %}
                         <source data-src="{{ cart_payment_video_url }}" type="video/mp4">

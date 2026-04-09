@@ -23,8 +23,10 @@
   {%- assign history_metafield_value = history_metafield.value | default: history_metafield -%}
   {%- assign account_wiki_page = pages['wiki'] -%}
   {%- assign account_contact_page = pages['contact'] -%}
+  {%- assign account_recipes_page = pages['recettes'] -%}
   {%- assign account_wiki_url = account_wiki_page.url | default: '/pages/wiki' -%}
   {%- assign account_contact_url = account_contact_page.url | default: '/pages/contact' -%}
+  {%- assign account_recipes_url = account_recipes_page.url | default: '/pages/recettes' -%}
   <div class="vd-customer-shell">
     <div class="vd-customer-shell__header">
       <div>
@@ -67,6 +69,7 @@
         class="vd-customer-card vd-customer-card--wide"
         data-vd-customer-carnet
         data-registry-url="{{ 'vd-recipes-registry.json' | asset_url }}"
+        data-recipes-page-url="{{ account_recipes_url }}"
         data-customer-id="{{ customer.id }}"
         data-customer-email="{{ customer.email | escape }}"
         data-customer-shelf-endpoint="{{ section.settings.customer_shelf_endpoint | escape }}"

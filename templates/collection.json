@@ -22,9 +22,9 @@
         "metric_tertiary_label": "Suite",
         "metric_tertiary_value": "Recettes, conseils, wiki",
         "primary_link_label": "Voir tout le catalogue",
-        "primary_link": "/collections/all",
+        "primary_link": "shopify://collections/all",
         "secondary_link_label": "Voir les recettes",
-        "secondary_link": "/pages/recettes"
+        "secondary_link": "shopify://pages/recettes"
       }
     },
     "product-grid": {
@@ -46,9 +46,9 @@
         "intro_heading": "Trouver la bonne vanille doit rester simple, même dans une sélection exigeante.",
         "intro_text": "<p>Comparer les formats, lire les usages et poursuivre vers le guide complet sans rompre la sensation de calme du catalogue.</p>",
         "primary_link_label": "Bien choisir sa vanille",
-        "primary_link": "/pages/wiki-vanille-bien-choisir",
+        "primary_link": "shopify://pages/wiki-vanille-bien-choisir",
         "secondary_link_label": "Voir les recettes",
-        "secondary_link": "/pages/recettes",
+        "secondary_link": "shopify://pages/recettes",
         "grid_note_eyebrow": "Lecture",
         "grid_note": "Gousses, extraits, poudres et coffrets: utilisez les filtres pour aller directement vers le bon format.",
         "columns_mobile": "2",

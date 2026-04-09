@@ -101,6 +101,10 @@
     assign product_support_link_1 = section.settings.support_link_1
     assign product_support_link_2 = section.settings.support_link_2
     assign product_support_link_3 = section.settings.support_link_3
+    assign generic_support_text = '<p>Une fiche pensée pour retrouver le bon format, comprendre la matière et poursuivre naturellement vers les recettes ou le reste de la gamme.</p>'
+    assign generic_support_point_1 = 'Formats lisibles selon l’infusion, la pâtisserie, le quotidien ou le cadeau'
+    assign generic_support_point_2 = 'Origine suivie et sélection attentive de la matière'
+    assign generic_support_point_3 = 'Passerelles utiles vers recettes, wiki et produits associés'
     assign product_support_link_label_1_default = 'Voir les recettes'
     assign product_support_link_label_2_default = 'Explorer le wiki'
     assign product_support_link_label_3_default = 'Parler avec nous'
@@ -114,27 +118,87 @@
       assign wiki_usage_url = wiki_recettes_page.url | default: wiki_hub_url
       assign wiki_storage_url = wiki_vanille_storage_page.url | default: wiki_hub_url
       assign product_support_link_label_2_default = 'Bien choisir sa vanille'
+      if product_support_text == blank or product_support_text == generic_support_text
+        assign product_support_text = '<p>Comparer les gousses, la souplesse, l’intensité et le bon format avant d’acheter. La fiche doit aider à arbitrer entre cuisine, infusion, usage quotidien et idée cadeau.</p>'
+      endif
+      if product_support_point_1 == blank or product_support_point_1 == generic_support_point_1
+        assign product_support_point_1 = 'Souplesse, taille et intensité lisibles avant achat'
+      endif
+      if product_support_point_2 == blank or product_support_point_2 == generic_support_point_2
+        assign product_support_point_2 = 'Comparer usage pâtissier, infusion, quotidien ou coffret'
+      endif
+      if product_support_point_3 == blank or product_support_point_3 == generic_support_point_3
+        assign product_support_point_3 = 'Prolonger immédiatement vers guide, recettes et formats voisins'
+      endif
     elsif product_context_blob contains 'poivre' or product_context_blob contains 'voatsiperifery' or product_context_blob contains 'baie'
       assign wiki_origin_url = wiki_poivres_page.url | default: wiki_hub_url
       assign wiki_usage_url = wiki_recettes_page.url | default: wiki_hub_url
       assign wiki_storage_url = wiki_glossaire_page.url | default: wiki_hub_url
       assign product_support_link_label_2_default = 'Lire le guide poivres'
+      if product_support_text == blank or product_support_text == generic_support_text
+        assign product_support_text = '<p>La bonne lecture se joue ici sur l’intensité, le moment d’ajout et les accords possibles. La fiche doit aider à projeter le produit sur une vraie cuisine, pas seulement sur une note aromatique.</p>'
+      endif
+      if product_support_point_1 == blank or product_support_point_1 == generic_support_point_1
+        assign product_support_point_1 = 'Choisir entre finition, cuisson et profil aromatique'
+      endif
+      if product_support_point_2 == blank or product_support_point_2 == generic_support_point_2
+        assign product_support_point_2 = 'Distinguer droits, floraux, sauvages ou plus résineux'
+      endif
+      if product_support_point_3 == blank or product_support_point_3 == generic_support_point_3
+        assign product_support_point_3 = 'Basculer vite vers guide poivres, recettes et suite cohérente'
+      endif
     elsif product_context_blob contains 'sel'
       assign wiki_origin_url = wiki_sels_page.url | default: wiki_hub_url
       assign wiki_usage_url = wiki_recettes_page.url | default: wiki_hub_url
       assign wiki_storage_url = wiki_glossaire_page.url | default: wiki_hub_url
       assign product_support_link_label_2_default = 'Lire le guide sels'
+      if product_support_text == blank or product_support_text == generic_support_text
+        assign product_support_text = '<p>Un bon sel aromatisé se vend par geste, par contexte et par simplicité d’usage. La fiche doit rendre immédiate la question du bon moment d’ajout et de la bonne association.</p>'
+      endif
+      if product_support_point_1 == blank or product_support_point_1 == generic_support_point_1
+        assign product_support_point_1 = 'Comprendre finition, dressage et usage quotidien'
+      endif
+      if product_support_point_2 == blank or product_support_point_2 == generic_support_point_2
+        assign product_support_point_2 = 'Comparer sels, poivres et mélanges proches sans confusion'
+      endif
+      if product_support_point_3 == blank or product_support_point_3 == generic_support_point_3
+        assign product_support_point_3 = 'Voir tout de suite les gestes, accords et relais utiles'
+      endif
     elsif product_context_blob contains 'huile' or product_context_blob contains 'ravintsara' or product_context_blob contains 'ylang'
       assign wiki_origin_url = wiki_plantes_page.url | default: wiki_hub_url
       assign wiki_usage_url = wiki_plantes_page.url | default: wiki_hub_url
       assign wiki_storage_url = wiki_faq_page.url | default: wiki_hub_url
       assign product_support_link_label_1_default = 'Voir les usages'
       assign product_support_link_label_2_default = 'Lire le guide plantes'
+      if product_support_text == blank or product_support_text == generic_support_text
+        assign product_support_text = '<p>Ici, la clarté doit porter sur l’usage, les précautions et la bonne compréhension de la matière. La fiche accompagne d’abord la lecture avant de pousser l’achat complémentaire.</p>'
+      endif
+      if product_support_point_1 == blank or product_support_point_1 == generic_support_point_1
+        assign product_support_point_1 = 'Clarifier dilution, usage et cadre d’utilisation'
+      endif
+      if product_support_point_2 == blank or product_support_point_2 == generic_support_point_2
+        assign product_support_point_2 = 'Distinguer plantes, huiles et attentes réelles'
+      endif
+      if product_support_point_3 == blank or product_support_point_3 == generic_support_point_3
+        assign product_support_point_3 = 'Garder une sortie immédiate vers guide et contact'
+      endif
     elsif product_context_blob contains 'combava' or product_context_blob contains 'cannelle' or product_context_blob contains 'curcuma' or product_context_blob contains 'girofle' or product_context_blob contains 'gingembre'
       assign wiki_origin_url = wiki_epices_page.url | default: wiki_hub_url
       assign wiki_usage_url = wiki_recettes_page.url | default: wiki_hub_url
       assign wiki_storage_url = wiki_glossaire_page.url | default: wiki_hub_url
       assign product_support_link_label_2_default = 'Lire le guide épices'
+      if product_support_text == blank or product_support_text == generic_support_text
+        assign product_support_text = '<p>Une épice se vend mieux quand l’usage, l’intensité et les accords deviennent lisibles tout de suite. La fiche doit aider à choisir la bonne famille avant d’ajouter un second produit au panier.</p>'
+      endif
+      if product_support_point_1 == blank or product_support_point_1 == generic_support_point_1
+        assign product_support_point_1 = 'Lire chaleur, tension, fraîcheur ou rondeur'
+      endif
+      if product_support_point_2 == blank or product_support_point_2 == generic_support_point_2
+        assign product_support_point_2 = 'Projeter l’épice sur dessert, boisson ou cuisine salée'
+      endif
+      if product_support_point_3 == blank or product_support_point_3 == generic_support_point_3
+        assign product_support_point_3 = 'Relier la fiche au guide épices et aux recettes d’usage'
+      endif
     endif
 
     if product_support_link_label_1 == blank
@@ -231,9 +295,6 @@
             data-vd-deferred-video
             data-video-src="{{ product_background_video_url }}"
             data-min-width="990"
-            {% if product_backdrop_image != blank %}
-              poster="{{ product_backdrop_image | image_url: width: 2200 }}"
-            {% endif %}
           >
             {% comment %}theme-check-disable RemoteAsset{% endcomment %}
             <source data-src="{{ product_background_video_url }}" type="video/mp4">
@@ -242,10 +303,10 @@
         {% elsif product_backdrop_image != blank %}
           {{
             product_backdrop_image
-            | image_url: width: 2200
+            | image_url: width: 1920
             | image_tag:
               class: 'vd-product-shell__backdrop-media',
-              widths: '720, 960, 1280, 1600, 2200',
+              widths: '640, 960, 1280, 1600, 1920',
               sizes: '100vw',
               loading: 'eager',
               alt: ''

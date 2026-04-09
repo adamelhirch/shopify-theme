@@ -48,6 +48,11 @@
     }
   }
 
+  function defaultRecipesPageUrl() {
+    var node = document.querySelector('[data-vd-recipes-hub][data-recipes-page-url], [data-vd-recipe][data-recipes-page-url], [data-recipes-page-url]');
+    return (node && node.getAttribute('data-recipes-page-url')) || '/pages/recettes';
+  }
+
   function recipeSearchText(recipe) {
     return normalize(
       [
@@ -248,7 +253,7 @@
   }
 
   function recipeHref(recipe) {
-    var baseUrl = recipe.page_url || ('/pages/recettes?recipe=' + encodeURIComponent(recipe.slug || ''));
+    var baseUrl = recipe.page_url || (defaultRecipesPageUrl() + '?recipe=' + encodeURIComponent(recipe.slug || ''));
     return appendPreviewThemeId(baseUrl);
   }
 

@@ -1,3 +1,4 @@
+{% comment %}theme-check-disable UnclosedHTMLElement{% endcomment %}
 {% for sub_link in links %}
   {% if sub_link.url == '#' %}{% continue %}{% endif %}
 
@@ -18,3 +19,4 @@
     </a>
   </li>
 {%- endfor -%}
+{% comment %}theme-check-enable UnclosedHTMLElement{% endcomment %}

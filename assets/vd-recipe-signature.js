@@ -89,6 +89,50 @@
     return node;
   }
 
+  function getPreviewThemeId() {
+    var fromQuery = new URLSearchParams(window.location.search).get('preview_theme_id');
+    if (fromQuery) return fromQuery;
+
+    var shopifyTheme = window.Shopify && window.Shopify.theme;
+    if (shopifyTheme && shopifyTheme.role === 'unpublished' && shopifyTheme.id) {
+      return String(shopifyTheme.id);
+    }
+
+    return '';
+  }
+
+  function appendPreviewThemeId(url) {
+    if (!url) return url;
+
+    var previewThemeId = getPreviewThemeId();
+    if (!previewThemeId) return url;
+
+    try {
+      var resolvedUrl = new URL(url, window.location.origin);
+      if (!resolvedUrl.searchParams.get('preview_theme_id')) {
+        resolvedUrl.searchParams.set('preview_theme_id', previewThemeId);
+      }
+
+      return resolvedUrl.origin === window.location.origin
+        ? resolvedUrl.pathname + resolvedUrl.search + resolvedUrl.hash
+        : resolvedUrl.toString();
+    } catch (error) {
+      return url;
+    }
+  }
+
+  function recipesHubUrl(section) {
+    var sharedNode = document.querySelector('[data-vd-recipe][data-recipes-page-url], [data-recipes-page-url]');
+    return (section && section.getAttribute('data-recipes-page-url'))
+      || (sharedNode && sharedNode.getAttribute('data-recipes-page-url'))
+      || '/pages/recettes';
+  }
+
+  function recipePageUrl(section, recipe) {
+    var baseUrl = recipe.page_url || (recipesHubUrl(section) + '?recipe=' + encodeURIComponent(recipe.slug || ''));
+    return appendPreviewThemeId(baseUrl);
+  }
+
   function productRoleLabel(value) {
     var map = {
       essentiel: 'Essentiel',
@@ -629,7 +673,7 @@
 
     return '<article class="vd-recipe-signature__related"><div class="vd-recipe-signature__panel-head"><div><span class="vd-recipe-signature__panel-kicker">À poursuivre</span><h2>Continuer la lecture dans le même univers.</h2></div></div><div class="vd-recipe-signature__related-grid">' +
       items.map(function (entry) {
-        return '<a class="vd-recipe-signature__related-card" href="' + escapeHtml(appendPreviewThemeId((entry.page_url || ('/pages/recettes?recipe=' + encodeURIComponent(entry.slug || ''))))) + '" data-vd-preview-link><span>' + escapeHtml(entry.category || 'Recette') + '</span><strong>' + escapeHtml(entry.title) + '</strong><p>' + escapeHtml(entry.summary || entry.subtitle || '') + '</p></a>';
+        return '<a class="vd-recipe-signature__related-card" href="' + escapeHtml(recipePageUrl(document.querySelector('[data-vd-recipe]'), entry)) + '" data-vd-preview-link><span>' + escapeHtml(entry.category || 'Recette') + '</span><strong>' + escapeHtml(entry.title) + '</strong><p>' + escapeHtml(entry.summary || entry.subtitle || '') + '</p></a>';
       }).join('') +
     '</div></article>';
   }
@@ -741,8 +785,8 @@
         return '<span class="vd-recipe-signature__meta-item">' + escapeHtml(metric) + '</span>';
       })
       .join('');
-    var productUrl = recipe.product && recipe.product.handle ? '/products/' + recipe.product.handle : '';
-    var collectionUrl = recipe.product && recipe.product.collection_handle ? '/collections/' + recipe.product.collection_handle : '';
+    var productUrl = recipe.product && recipe.product.handle ? appendPreviewThemeId('/products/' + recipe.product.handle) : '';
+    var collectionUrl = recipe.product && recipe.product.collection_handle ? appendPreviewThemeId('/collections/' + recipe.product.collection_handle) : '';
     var previewIngredients = (recipe.ingredient_groups || [])
       .slice(0, 1)
       .map(function (group) {
@@ -1877,38 +1921,6 @@
 
     if (!normalized) return '';
     return normalized.replace(/\/+$/, '') || '/';
-  }
-
-  function getPreviewThemeId() {
-    var fromQuery = new URLSearchParams(window.location.search).get('preview_theme_id');
-    if (fromQuery) return fromQuery;
-
-    var shopifyTheme = window.Shopify && window.Shopify.theme;
-    if (shopifyTheme && shopifyTheme.role === 'unpublished' && shopifyTheme.id) {
-      return String(shopifyTheme.id);
-    }
-
-    return '';
-  }
-
-  function appendPreviewThemeId(url) {
-    if (!url) return url;
-
-    var previewThemeId = getPreviewThemeId();
-    if (!previewThemeId) return url;
-
-    try {
-      var resolvedUrl = new URL(url, window.location.origin);
-      if (!resolvedUrl.searchParams.get('preview_theme_id')) {
-        resolvedUrl.searchParams.set('preview_theme_id', previewThemeId);
-      }
-
-      return resolvedUrl.origin === window.location.origin
-        ? resolvedUrl.pathname + resolvedUrl.search + resolvedUrl.hash
-        : resolvedUrl.toString();
-    } catch (error) {
-      return url;
-    }
   }
 
   function preservePreviewLinks(scope) {
