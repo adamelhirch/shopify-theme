@@ -37,22 +37,6 @@
     assign collection_context_copy_2 = 'Le bon choix se fait par geste réel et non par simple description aromatique.'
     assign collection_context_value_3 = 'Guide de choix puis recettes'
     assign collection_context_copy_3 = 'Le meilleur enchaînement est de comparer, comprendre, puis voir la matière en cuisine.'
-  elsif collection.handle == 'epices-madagascar'
-    assign show_collection_context = true
-    assign collection_context_value_1 = 'Familles et profils'
-    assign collection_context_copy_1 = 'Comparer chaleur, fraîcheur, tension ou rondeur avant de multiplier les achats.'
-    assign collection_context_value_2 = 'Dessert, boisson, salé'
-    assign collection_context_copy_2 = 'La collection doit projeter chaque épice dans un vrai usage, pas seulement un intitulé.'
-    assign collection_context_value_3 = 'Guide épices puis recettes'
-    assign collection_context_copy_3 = 'On convertit mieux quand la lecture éditoriale précède l’accord culinaire.'
-  elsif collection.handle == 'poivre-baies'
-    assign show_collection_context = true
-    assign collection_context_value_1 = 'Finition ou cuisson'
-    assign collection_context_copy_1 = 'Le bon poivre dépend souvent du moment d’ajout plus que de la couleur.'
-    assign collection_context_value_2 = 'Floraux, droits, sauvages'
-    assign collection_context_copy_2 = 'Les familles doivent être lisibles pour favoriser un panier plus juste.'
-    assign collection_context_value_3 = 'Accords puis sélection'
-    assign collection_context_copy_3 = 'Le wiki et les recettes servent ici à transformer la curiosité en achat complémentaire.'
   else
     assign has_intro_shell = false
   endif
