@@ -403,6 +403,26 @@
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+          {%- if request.page_type == 'page' and page.handle == 'wiki-vanille-conservation-preparation' -%}
+            <style>
+              body .content-for-layout .vdw-keep {
+                display: none !important;
+              }
+
+              .vd-page-injected-shell {
+                padding: clamp(12px, 2vw, 24px) 0 0;
+              }
+
+              .vd-page-injected-shell .page-width {
+                max-width: 128rem;
+              }
+            </style>
+            <div class="vd-page-injected-shell">
+              <div class="page-width">
+                {% render 'vd-wiki-page-conservation' %}
+              </div>
+            </div>
+          {%- endif -%}
           {{ content_for_layout }}
         </main>
 

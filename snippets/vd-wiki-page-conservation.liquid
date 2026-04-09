@@ -1,0 +1,710 @@
+{%- liquid
+  assign wiki_choose_page = pages['wiki-vanille-bien-choisir']
+  assign wiki_recipes_page = pages['recettes']
+  assign wiki_faq_page = pages['wiki-faq-vanille-epices']
+  assign wiki_catalogue_page = pages['catalogue']
+  assign wiki_recycler_page = pages['wiki-recycler-gousse-vanille']
+  assign wiki_dosage_page = pages['wiki-dosage-vanille']
+  assign wiki_choose_url = wiki_choose_page.url | default: '/pages/wiki-vanille-bien-choisir'
+  assign wiki_recipes_url = wiki_recipes_page.url | default: '/pages/recettes'
+  assign wiki_faq_url = wiki_faq_page.url | default: '/pages/wiki-faq-vanille-epices'
+  assign wiki_catalogue_url = wiki_catalogue_page.url | default: '/pages/catalogue'
+  assign wiki_recycler_url = wiki_recycler_page.url | default: '/pages/wiki-recycler-gousse-vanille'
+  assign wiki_dosage_url = wiki_dosage_page.url | default: '/pages/wiki-dosage-vanille'
+-%}
+
+<section class="vdw-keep-clean" aria-labelledby="vdw-keep-clean-title">
+  <style>
+    .vdw-keep-clean {
+      --ink: #171511;
+      --sub: #4d473e;
+      --muted: #6f685d;
+      --bg: #fbf6ee;
+      --paper: #fffdf8;
+      --line: rgba(23, 21, 17, 0.08);
+      --accent: #d4a373;
+      --accent-soft: rgba(212, 163, 115, 0.12);
+      --good: #6e7b59;
+      --warn: #b3633f;
+      color: var(--ink);
+      background: linear-gradient(180deg, #fffdf9 0%, var(--bg) 100%);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: clamp(20px, 3vw, 42px);
+      box-shadow: 0 22px 54px rgba(23, 21, 17, 0.06);
+    }
+
+    .vdw-keep-clean * {
+      box-sizing: border-box;
+    }
+
+    .vdw-keep-clean .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-bottom: 0.8rem;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .vdw-keep-clean .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.55;
+    }
+
+    .vdw-keep-clean h1,
+    .vdw-keep-clean h2,
+    .vdw-keep-clean h3 {
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    .vdw-keep-clean h1 {
+      margin: 0;
+      font-size: clamp(2.1rem, 4.7vw, 3.6rem);
+      line-height: 1.02;
+      max-width: 13ch;
+    }
+
+    .vdw-keep-clean p,
+    .vdw-keep-clean li {
+      color: var(--sub);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .vdw-keep-clean .hero {
+      display: grid;
+      gap: 1.4rem;
+      margin-bottom: 1.9rem;
+    }
+
+    .vdw-keep-clean .lead {
+      max-width: 76ch;
+      margin: 0;
+      font-size: 1.06rem;
+    }
+
+    .vdw-keep-clean .summary-note {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 1.1rem 1.15rem;
+    }
+
+    .vdw-keep-clean .summary-note strong {
+      display: block;
+      margin-bottom: 0.45rem;
+      color: var(--ink);
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .vdw-keep-clean .quick-grid,
+    .vdw-keep-clean .cards,
+    .vdw-keep-clean .mini-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .vdw-keep-clean .quick-grid {
+      margin: 1.35rem 0 2rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .vdw-keep-clean .cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 1rem;
+    }
+
+    .vdw-keep-clean .mini-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 1rem;
+    }
+
+    .vdw-keep-clean .card,
+    .vdw-keep-clean .panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 1rem 1rem 1.05rem;
+    }
+
+    .vdw-keep-clean .visual-band {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: 1.25fr 0.95fr;
+      margin: 1.4rem 0 0.6rem;
+    }
+
+    .vdw-keep-clean .visual-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 250px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #201712;
+      color: #f9f4ec;
+    }
+
+    .vdw-keep-clean .visual-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.42;
+    }
+
+    .vdw-keep-clean .visual-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(23, 21, 17, 0.12), rgba(23, 21, 17, 0.84));
+    }
+
+    .vdw-keep-clean .visual-copy {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 0.9rem;
+      align-content: end;
+      min-height: 100%;
+      padding: clamp(18px, 3vw, 28px);
+    }
+
+    .vdw-keep-clean .visual-copy h2,
+    .vdw-keep-clean .visual-copy h3,
+    .vdw-keep-clean .visual-copy p {
+      color: inherit;
+      margin: 0;
+    }
+
+    .vdw-keep-clean .visual-kicker {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.78;
+      font-weight: 700;
+    }
+
+    .vdw-keep-clean .card h3,
+    .vdw-keep-clean .panel h3 {
+      margin: 0 0 0.45rem;
+      font-size: 1.03rem;
+    }
+
+    .vdw-keep-clean .panel--good {
+      border-color: rgba(110, 123, 89, 0.35);
+      background: linear-gradient(180deg, rgba(110, 123, 89, 0.06), rgba(255, 255, 255, 0.95));
+    }
+
+    .vdw-keep-clean .panel--warn {
+      border-color: rgba(179, 99, 63, 0.34);
+      background: linear-gradient(180deg, rgba(179, 99, 63, 0.06), rgba(255, 255, 255, 0.95));
+    }
+
+    .vdw-keep-clean .panel ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+
+    .vdw-keep-clean .panel li + li {
+      margin-top: 0.35rem;
+    }
+
+    .vdw-keep-clean .section {
+      margin-top: 2rem;
+    }
+
+    .vdw-keep-clean .section h2 {
+      margin: 0 0 0.6rem;
+      font-size: clamp(1.45rem, 2.6vw, 2rem);
+    }
+
+    .vdw-keep-clean .steps {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 1rem;
+    }
+
+    .vdw-keep-clean .step {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1rem;
+    }
+
+    .vdw-keep-clean .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      margin-bottom: 0.75rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--ink);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .vdw-keep-clean .step h3 {
+      font-size: 1rem;
+      margin: 0 0 0.35rem;
+    }
+
+    .vdw-keep-clean .table-shell {
+      margin-top: 1rem;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--paper);
+    }
+
+    .vdw-keep-clean table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 580px;
+    }
+
+    .vdw-keep-clean th,
+    .vdw-keep-clean td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .vdw-keep-clean th {
+      color: var(--ink);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .vdw-keep-clean tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .vdw-keep-clean details {
+      margin-top: 0.85rem;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 0.95rem 1rem;
+    }
+
+    .vdw-keep-clean summary {
+      cursor: pointer;
+      list-style: none;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .vdw-keep-clean summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .vdw-keep-clean details[open] {
+      border-color: rgba(212, 163, 115, 0.45);
+    }
+
+    .vdw-keep-clean details .details-body {
+      margin-top: 0.85rem;
+    }
+
+    .vdw-keep-clean .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .vdw-keep-clean .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      min-height: 48px;
+      padding: 0.8rem 1.1rem;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.18s ease, background 0.18s ease;
+    }
+
+    .vdw-keep-clean .cta--primary {
+      background: var(--accent);
+      color: #23160f;
+    }
+
+    .vdw-keep-clean .cta--secondary {
+      background: var(--paper);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .vdw-keep-clean .cta:hover {
+      transform: translateY(-1px);
+    }
+
+    .vdw-keep-clean .footnote {
+      margin-top: 1.2rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media screen and (max-width: 989px) {
+      .vdw-keep-clean .quick-grid,
+      .vdw-keep-clean .cards,
+      .vdw-keep-clean .mini-grid,
+      .vdw-keep-clean .steps,
+      .vdw-keep-clean .visual-band {
+        grid-template-columns: 1fr;
+      }
+
+      .vdw-keep-clean h1 {
+        max-width: none;
+      }
+    }
+  </style>
+
+  <div class="hero">
+    <span class="eyebrow">Wiki · Vanille</span>
+    <h1 id="vdw-keep-clean-title">Conserver, préparer et prolonger une belle gousse de vanille</h1>
+    <p class="lead">La bonne conservation tient à peu de choses: un contenant propre et hermétique, une température stable, aucune condensation, et des gestes sobres au moment de l’infusion. Le but n’est pas seulement d’éviter qu’une gousse sèche, mais de garder sa souplesse, sa netteté aromatique et sa sécurité d’usage jusqu’à la dernière utilisation.</p>
+    <div class="summary-note">
+      <strong>L’essentiel</strong>
+      <p>Conservez la vanille entière dans un bocal en verre bien fermé, à l’abri de la lumière, de la chaleur et de l’humidité. Évitez le réfrigérateur. Au moindre doute entre givre et moisissure, on ne prend pas de risque: une gousse suspecte se jette.</p>
+    </div>
+  </div>
+
+  <div class="visual-band" aria-label="Repères visuels sur la conservation de la vanille">
+    <article class="visual-card">
+      <img src="{{ 'vd-wiki-techniques.jpg' | asset_url }}" alt="" loading="lazy" width="1201" height="800">
+      <div class="visual-copy">
+        <span class="visual-kicker">Repère de base</span>
+        <h2>Une belle gousse se garde dans le calme</h2>
+        <p>Obscurité, verre, température stable et peu d’air inutile: la conservation repose surtout sur un environnement régulier, pas sur des gestes compliqués.</p>
+      </div>
+    </article>
+    <article class="visual-card">
+      <img src="{{ 'vd-wiki-cover.jpg' | asset_url }}" alt="" loading="lazy" width="1201" height="800">
+      <div class="visual-copy">
+        <span class="visual-kicker">À retenir</span>
+        <h3>La vraie erreur: le froid et la condensation</h3>
+        <p>Le réfrigérateur n’aide pas la vanille à mieux vieillir. Il la fragilise surtout par les chocs hygrométriques et le risque fongique.</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="quick-grid">
+    <div class="card">
+      <h3>Température</h3>
+      <p>Une plage calme autour de 15 à 20&nbsp;°C reste idéale. Le vrai danger n’est pas seulement la chaleur, mais les variations brutales et la condensation.</p>
+    </div>
+    <div class="card">
+      <h3>Contenant</h3>
+      <p>Le verre hermétique reste le plus sûr. Il ne retient pas les odeurs parasites et limite mieux l’oxydation qu’un sachet trop ouvert ou un plastique souple.</p>
+    </div>
+    <div class="card">
+      <h3>Humidité</h3>
+      <p>La vanille a besoin de rester souple, pas humide. On cherche une gousse brillante et vivante, jamais mouillée ni condensée.</p>
+    </div>
+    <div class="card">
+      <h3>Rythme d’aération</h3>
+      <p>Ouvrir le bocal une à deux minutes par mois suffit à vérifier l’état du lot et à laisser partir une humidité résiduelle éventuelle.</p>
+    </div>
+  </div>
+
+  <section class="section" aria-labelledby="vdw-home-storage-title">
+    <h2 id="vdw-home-storage-title">À la maison: le bon protocole de conservation</h2>
+    <p>Une gousse bien préparée peut se garder plusieurs mois si l’environnement reste stable. Le réflexe le plus simple est de limiter l’air inutile, de laisser les gousses entières jusqu’à l’usage, et de ne pas les promener entre cuisine chaude, frigo et plan de travail humide.</p>
+
+    <div class="mini-grid">
+      <div class="panel panel--good">
+        <h3>À faire</h3>
+        <ul>
+          <li>Utiliser un bocal en verre hermétique proportionné au stock.</li>
+          <li>Ranger le bocal dans un placard sec, sombre et tempéré.</li>
+          <li>Contrôler souplesse, odeur et absence de condensation une fois par mois.</li>
+          <li>Garder les gousses entières jusqu’au moment de les fendre.</li>
+        </ul>
+      </div>
+      <div class="panel panel--warn">
+        <h3>À éviter</h3>
+        <ul>
+          <li>Le réfrigérateur et le congélateur.</li>
+          <li>Les sachets ouverts longtemps ou les contenants trop grands.</li>
+          <li>Les sources de chaleur directes: four, radiateur, soleil, plaque.</li>
+          <li>Les manipulations répétées avec des mains humides.</li>
+        </ul>
+      </div>
+    </div>
+
+    <details>
+      <summary>Pourquoi le froid est une mauvaise idée</summary>
+      <div class="details-body">
+        <p>Le froid ne protège pas mieux la vanille chez soi. Il fige une partie du relief aromatique et surtout crée de la condensation dès que l’on ouvre puis referme le contenant. Cette humidité libre favorise le développement fongique, ce qui compte bien plus qu’un simple dessèchement.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Ce que l’on cherche réellement à préserver</summary>
+      <div class="details-body">
+        <p>Une bonne conservation cherche à garder trois choses ensemble: la souplesse de la gousse, la netteté de l’odeur et une surface saine. Une gousse peut encore sentir la vanille tout en devenant trop sèche, ou au contraire rester molle parce qu’elle a pris de l’humidité. Le bon diagnostic ne se fait jamais sur un seul critère.</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="section" aria-labelledby="vdw-diagnostic-title">
+    <h2 id="vdw-diagnostic-title">Givre ou moisissure: le diagnostic qui compte vraiment</h2>
+    <p>Le point le plus important à expliquer clairement est ici. Une gousse de grande qualité peut présenter un givre de vanilline. À l’inverse, une moisissure rend la gousse impropre à la consommation. La nuance doit être simple à lire, sans folklore ni hésitation.</p>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Givre</h3>
+        <p>Le givre est sec, fin, cristallin, presque scintillant à la lumière. Il accompagne une odeur nette de vanille et traduit une belle concentration aromatique.</p>
+      </div>
+      <div class="card">
+        <h3>Moisissure</h3>
+        <p>La moisissure est mate, cotonneuse ou poudreuse. L’odeur devient terreuse, humide, fermée, parfois franchement désagréable.</p>
+      </div>
+      <div class="card">
+        <h3>Règle de sécurité</h3>
+        <p>En cas de doute, on ne gratte pas, on ne “sauve” pas la gousse, on ne la cuit pas pour compenser. On la jette entière.</p>
+      </div>
+    </div>
+
+    <details>
+      <summary>Pourquoi une gousse moisie doit être jetée</summary>
+      <div class="details-body">
+        <p>Les moisissures ne restent pas toujours en surface. Même si la tache visible paraît limitée, une contamination plus profonde peut déjà être présente. La cuisson ne constitue pas une solution de sécurité. Pour un produit aussi concentré et aussi fibreux, le bon réflexe reste l’élimination complète du morceau suspect.</p>
+      </div>
+    </details>
+
+    <div class="table-shell" role="region" aria-label="Différences entre givre et moisissure">
+      <table>
+        <thead>
+          <tr>
+            <th>Critère</th>
+            <th>Givre</th>
+            <th>Moisissure</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Aspect</td>
+            <td>Cristaux fins, secs, brillants</td>
+            <td>Duvet ou dépôt mat, poudreux ou cotonneux</td>
+          </tr>
+          <tr>
+            <td>Odeur</td>
+            <td>Vanille nette et intense</td>
+            <td>Humide, terreuse, cave, renfermé</td>
+          </tr>
+          <tr>
+            <td>Décision</td>
+            <td>Rien à corriger</td>
+            <td>Ne pas consommer, jeter la gousse</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="vdw-prepare-title">
+    <h2 id="vdw-prepare-title">Préparer et infuser sans perdre le parfum</h2>
+    <p>La préparation doit rester simple. Une belle gousse se fend dans la longueur, s’ouvre délicatement, puis se gratte pour récupérer les grains. L’enveloppe ne se jette pas: elle continue à parfumer une base chaude, un sucre ou un extrait maison.</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step-number">1</span>
+        <h3>Fendre</h3>
+        <p>Ouvrez la gousse dans la longueur avec une lame fine, sans couper entièrement la base.</p>
+      </div>
+      <div class="step">
+        <span class="step-number">2</span>
+        <h3>Gratter</h3>
+        <p>Récupérez les grains avec le dos du couteau, du haut vers le bas, en gardant l’enveloppe.</p>
+      </div>
+      <div class="step">
+        <span class="step-number">3</span>
+        <h3>Infuser</h3>
+        <p>Dans le lait ou la crème, travaillez autour de 80&nbsp;°C, sans longue ébullition, pour garder plus de finesse.</p>
+      </div>
+      <div class="step">
+        <span class="step-number">4</span>
+        <h3>Réutiliser</h3>
+        <p>L’enveloppe peut encore parfumer un sirop, un sucre, une compote ou un alcool d’extraction.</p>
+      </div>
+    </div>
+
+    <details>
+      <summary>Infusion à chaud ou à froid: que choisir ?</summary>
+      <div class="details-body">
+        <p>L’infusion chaude donne en général le résultat le plus lisible et le plus rapide. Une macération à froid sur 24 à 48 heures peut être intéressante pour des préparations plus fines, plus lactées ou plus florales, mais elle reste moins intense. Pour la plupart des usages maison, le chaud maîtrisé reste le meilleur point d’entrée.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Température d’infusion: le bon ordre de grandeur</summary>
+      <div class="details-body">
+        <p>Pour la plupart des crèmes, laits et bases pâtissières, on vise une chaleur haute mais calme, autour de 80&nbsp;°C, sans longue ébullition. L’idée n’est pas de “cuire” la vanille, mais de lui laisser le temps d’ouvrir son relief aromatique dans un support gras ou lacté.</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="section" aria-labelledby="vdw-dry-title">
+    <h2 id="vdw-dry-title">Rattraper une gousse sèche</h2>
+    <p>Une gousse dure n’est pas forcément perdue. Elle a souvent surtout perdu de l’eau, pas tout son arôme. L’idée est de lui rendre un peu de souplesse avant usage, sans la cuire brutalement.</p>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Lait tiède</h3>
+        <p>Quelques dizaines de minutes dans un lait tiédi permettent souvent de retrouver une coupe plus souple pour une recette.</p>
+      </div>
+      <div class="card">
+        <h3>Vapeur douce</h3>
+        <p>Un court passage au-dessus d’une vapeur légère peut suffire pour l’assouplir juste avant de la fendre.</p>
+      </div>
+      <div class="card">
+        <h3>Changer d’usage</h3>
+        <p>Si elle reste rigide, mieux vaut l’orienter vers un sucre, un sirop ou un extrait plutôt que forcer un usage de pâtisserie fine.</p>
+      </div>
+    </div>
+
+    <details>
+      <summary>Quand ne pas chercher à la réhydrater</summary>
+      <div class="details-body">
+        <p>Si la gousse a perdu presque toute son odeur, si sa surface paraît douteuse ou si sa texture est devenue très cassante depuis longtemps, mieux vaut ne pas forcer un retour vers un usage noble. On la redirige vers une poudre ou un alcool, ou on l’écarte si sa salubrité n’est plus certaine.</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="section" aria-labelledby="vdw-recycle-title">
+    <h2 id="vdw-recycle-title">Donner une seconde vie aux gousses utilisées</h2>
+    <p>Une gousse déjà grattée garde beaucoup d’intérêt. La logique la plus rentable et la plus propre consiste à prévoir sa deuxième vie dès la première recette.</p>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Sucre vanillé</h3>
+        <p>Le réflexe le plus simple pour le quotidien. On laisse diffuser lentement dans un pot de sucre bien fermé.</p>
+      </div>
+      <div class="card">
+        <h3>Extrait perpétuel</h3>
+        <p>Les gousses s’accumulent dans un alcool neutre ou un rhum pour construire un extrait de plus en plus dense.</p>
+      </div>
+      <div class="card">
+        <h3>Poudre maison</h3>
+        <p>Une gousse complètement sèche peut être réduite en poudre pour biscuits, yaourts, compotes ou pâtes sucrées.</p>
+      </div>
+    </div>
+
+    <details>
+      <summary>Ce qui explique cette “seconde vie”</summary>
+      <div class="details-body">
+        <p>Le parfum ne se trouve pas seulement dans les grains. L’enveloppe conserve encore une partie des composés aromatiques issus du curage et de l’affinage. C’est ce qui rend le recyclage des gousses logique en cuisine et économiquement très intéressant sur une belle matière.</p>
+      </div>
+    </details>
+
+    <div class="table-shell" role="region" aria-label="Idées de réutilisation des gousses de vanille">
+      <table>
+        <thead>
+          <tr>
+            <th>Seconde vie</th>
+            <th>Geste</th>
+            <th>Délai utile</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Sucre vanillé</td>
+            <td>Gousse sèche dans un pot de sucre</td>
+            <td>3 à 4 semaines</td>
+          </tr>
+          <tr>
+            <td>Extrait maison</td>
+            <td>Macération dans vodka ou rhum</td>
+            <td>Plusieurs mois</td>
+          </tr>
+          <tr>
+            <td>Poudre</td>
+            <td>Séchage complet puis mixage fin</td>
+            <td>Immédiat après broyage</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="vdw-deep-title">
+    <h2 id="vdw-deep-title">Pour aller plus loin sans alourdir la lecture</h2>
+    <p>La partie visible reste volontairement directe. Les points ci-dessous servent surtout à donner de la profondeur éditoriale, du maillage interne et des réponses longues aux requêtes précises.</p>
+
+    <details>
+      <summary>Origine de la méthode: de la fleur sacrée au geste d’Edmond Albius</summary>
+      <div class="details-body">
+        <p>La vanille est d’abord une plante sacrée des Totonaques du golfe du Mexique. Son passage en Europe au XVIe siècle n’a pas suffi à lancer une culture mondiale, car la plante dépendait de sa pollinisation naturelle. La bascule historique vient en 1841 quand Edmond Albius, à La Réunion, formalise la pollinisation manuelle encore pratiquée aujourd’hui. C’est ce geste qui rendra ensuite possible l’essor de la filière à Madagascar.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Pourquoi la préparation compte autant que l’origine</summary>
+      <div class="details-body">
+        <p>Une gousse fraîchement récoltée ne sent presque pas la vanille. Son parfum naît du curage: échaudage, étuvage, séchage puis affinage. Le procédé Bourbon transforme les précurseurs aromatiques de la gousse verte en notes plus rondes, plus profondes et plus persistantes. Quand on parle de conservation, on parle donc aussi de protéger ce long travail de préparation.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Ce que vise la longue traîne SEO sur cette page</summary>
+      <div class="details-body">
+        <p>Cette page doit pouvoir répondre à des recherches comme “comment conserver une gousse de vanille”, “vanille au frigo ou non”, “givre ou moisissure vanille”, “réhydrater une gousse de vanille”, ou “réutiliser une gousse déjà grattée”. C’est pour cela que certains repères plus techniques restent repliés, afin de garder une page lisible tout en couvrant des intentions de recherche plus fines.</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="section" aria-labelledby="vdw-faq-title">
+    <h2 id="vdw-faq-title">FAQ essentielle</h2>
+
+    <details>
+      <summary>Combien de temps peut-on garder une gousse de vanille ?</summary>
+      <div class="details-body">
+        <p>Plusieurs mois sans difficulté si la gousse était bien préparée au départ et si le stockage reste stable. Le meilleur indicateur n’est pas la date, mais l’état réel: souplesse, odeur, surface saine.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Faut-il absolument un tube en verre ?</summary>
+      <div class="details-body">
+        <p>Pas absolument, mais un contenant en verre hermétique reste la solution la plus fiable. Il protège mieux l’arôme, évite les odeurs parasites et facilite le contrôle visuel.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Quand faut-il arrêter de réutiliser une gousse ?</summary>
+      <div class="details-body">
+        <p>Quand elle ne sent presque plus rien ou quand sa structure devient trop fatiguée pour l’usage visé. Même là, elle peut encore finir dans un sucre ou un alcool si elle reste saine.</p>
+      </div>
+    </details>
+  </section>
+
+  <div class="cta-row">
+    <a href="{{ wiki_choose_url }}" class="cta cta--primary" data-vd-preview-link>Lire aussi : bien choisir sa vanille</a>
+    <a href="{{ wiki_recipes_url }}" class="cta cta--secondary" data-vd-preview-link>Voir les recettes</a>
+    <a href="{{ wiki_dosage_url }}" class="cta cta--secondary" data-vd-preview-link>Voir le dosage</a>
+    <a href="{{ wiki_recycler_url }}" class="cta cta--secondary" data-vd-preview-link>Recycler une gousse</a>
+    <a href="{{ wiki_faq_url }}" class="cta cta--secondary" data-vd-preview-link>Ouvrir la FAQ</a>
+    <a href="{{ wiki_catalogue_url }}" class="cta cta--secondary" data-vd-preview-link>Retour au catalogue</a>
+  </div>
+
+  <p class="footnote">Ce guide garde volontairement la partie la plus utile en lecture directe. Les points plus techniques servent surtout à renforcer la compréhension, le maillage interne et le trafic longue traîne, sans alourdir la navigation principale.</p>
+</section>
