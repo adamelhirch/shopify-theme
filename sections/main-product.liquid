@@ -84,11 +84,12 @@
     assign wiki_faq_page = pages['wiki-faq-vanille-epices']
     assign recipes_page = pages['recettes']
     assign contact_page = pages['contact']
+    assign recipes_hub_url = recipes_page.url | default: '/pages/recettes'
     assign wiki_hub_url = wiki_hub_page.url | default: routes.root_url
     assign wiki_origin_url = wiki_hub_url
-    assign wiki_usage_url = wiki_recettes_page.url | default: wiki_hub_url
+    assign wiki_usage_url = recipes_hub_url
     assign wiki_storage_url = wiki_faq_page.url | default: wiki_hub_url
-    assign recipes_page_url = recipes_page.url | default: '/pages/recettes'
+    assign recipes_page_url = recipes_hub_url
     assign contact_page_url = contact_page.url | default: '/pages/contact'
     assign product_support_kicker = section.settings.support_eyebrow | strip
     assign product_support_heading = section.settings.support_heading | strip
@@ -115,7 +116,7 @@
 
     if product_context_blob contains 'vanille'
       assign wiki_origin_url = wiki_vanille_page.url | default: wiki_hub_url
-      assign wiki_usage_url = wiki_recettes_page.url | default: wiki_hub_url
+      assign wiki_usage_url = recipes_hub_url
       assign wiki_storage_url = wiki_vanille_storage_page.url | default: wiki_hub_url
       assign product_support_link_label_2_default = 'Bien choisir sa vanille'
       if product_support_text == blank or product_support_text == generic_support_text
@@ -132,7 +133,7 @@
       endif
     elsif product_context_blob contains 'poivre' or product_context_blob contains 'voatsiperifery' or product_context_blob contains 'baie'
       assign wiki_origin_url = wiki_poivres_page.url | default: wiki_hub_url
-      assign wiki_usage_url = wiki_recettes_page.url | default: wiki_hub_url
+      assign wiki_usage_url = recipes_hub_url
       assign wiki_storage_url = wiki_glossaire_page.url | default: wiki_hub_url
       assign product_support_link_label_2_default = 'Lire le guide poivres'
       if product_support_text == blank or product_support_text == generic_support_text
@@ -149,7 +150,7 @@
       endif
     elsif product_context_blob contains 'sel'
       assign wiki_origin_url = wiki_sels_page.url | default: wiki_hub_url
-      assign wiki_usage_url = wiki_recettes_page.url | default: wiki_hub_url
+      assign wiki_usage_url = recipes_hub_url
       assign wiki_storage_url = wiki_glossaire_page.url | default: wiki_hub_url
       assign product_support_link_label_2_default = 'Lire le guide sels'
       if product_support_text == blank or product_support_text == generic_support_text
@@ -184,7 +185,7 @@
       endif
     elsif product_context_blob contains 'combava' or product_context_blob contains 'cannelle' or product_context_blob contains 'curcuma' or product_context_blob contains 'girofle' or product_context_blob contains 'gingembre'
       assign wiki_origin_url = wiki_epices_page.url | default: wiki_hub_url
-      assign wiki_usage_url = wiki_recettes_page.url | default: wiki_hub_url
+      assign wiki_usage_url = recipes_hub_url
       assign wiki_storage_url = wiki_glossaire_page.url | default: wiki_hub_url
       assign product_support_link_label_2_default = 'Lire le guide épices'
       if product_support_text == blank or product_support_text == generic_support_text
