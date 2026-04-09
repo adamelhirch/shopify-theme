@@ -15,6 +15,13 @@
   }
 {% endstyle %}
 
+{%- liquid
+  assign wiki_content_contact_page = pages['contact']
+  assign wiki_content_recipes_page = pages['recettes']
+  assign wiki_content_contact_url = wiki_content_contact_page.url | default: '/pages/contact'
+  assign wiki_content_recipes_url = wiki_content_recipes_page.url | default: '/pages/recettes'
+-%}
+
 <section class="section-{{ section.id }}-padding vd-wiki-hub color-{{ section.settings.color_scheme }}">
   <div class="page-width">
     <div class="vd-wiki-hub__hero">
@@ -42,7 +49,7 @@
               <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
             </svg>
           </a>
-          <a href="{{ section.settings.secondary_link | default: '/pages/contact' }}" class="vd-arrow-cta" data-vd-preview-link>
+          <a href="{{ section.settings.secondary_link | default: wiki_content_contact_url }}" class="vd-arrow-cta" data-vd-preview-link>
             <span class="vd-arrow-cta__label">{{ section.settings.secondary_link_label | default: 'Nous contacter' }}</span>
             <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
               <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
@@ -77,7 +84,7 @@
         <h2>{{ section.settings.footer_heading | default: 'Retrouver les produits, les recettes et les bons points d’entrée.' }}</h2>
       </div>
       <div class="vd-wiki-hub__foot-links">
-        <a href="{{ section.settings.footer_primary_link | default: '/pages/recettes' }}" class="vd-arrow-cta" data-vd-preview-link>
+        <a href="{{ section.settings.footer_primary_link | default: wiki_content_recipes_url }}" class="vd-arrow-cta" data-vd-preview-link>
           <span class="vd-arrow-cta__label">{{ section.settings.footer_primary_link_label | default: 'Voir les recettes' }}</span>
           <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
             <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>

@@ -20,6 +20,58 @@
   elsif page.handle contains 'wiki-' or page.handle == 'vanille-pompona'
     assign is_wiki_detail_page = true
   endif
+
+  assign catalogue_page = pages['catalogue']
+  assign wiki_index_page = pages['wiki']
+  assign recettes_page = pages['recettes']
+  assign contact_page = pages['contact']
+  assign wiki_vanille_page = pages['wiki-vanille-bien-choisir']
+  assign wiki_vanille_storage_page = pages['wiki-vanille-conservation-preparation']
+  assign wiki_vanille_pompona_page = pages['wiki-vanille-pompona']
+  assign wiki_epices_page = pages['wiki-epices-madagascar']
+  assign wiki_poivres_page = pages['wiki-poivres-baies-madagascar']
+  assign wiki_sels_page = pages['wiki-sels-melanges']
+  assign wiki_plantes_page = pages['wiki-huiles-essentielles-plantes']
+  assign wiki_recettes_page = pages['wiki-recettes']
+  assign wiki_glossaire_page = pages['wiki-glossaire-epices']
+  assign wiki_faq_page = pages['wiki-faq-vanille-epices']
+  assign wiki_dosage_page = pages['wiki-dosage-vanille']
+  assign wiki_recycler_page = pages['wiki-recycler-gousse-vanille']
+  assign wiki_combava_page = pages['wiki-combava-madagascar']
+  assign wiki_poivre_quel_plat_page = pages['wiki-poivre-quel-plat']
+  assign wiki_sel_quel_plat_page = pages['wiki-sel-aromatise-quel-plat']
+
+  assign vanille_collection = collections['vanille-bourbon']
+  assign epices_collection = collections['epices-madagascar']
+  assign poivres_collection = collections['poivre-baies']
+  assign sels_collection = collections['sels']
+  assign huiles_collection = collections['huiles-madagascar']
+
+  assign catalogue_page_url = catalogue_page.url | default: routes.all_products_collection_url
+  assign wiki_index_page_url = wiki_index_page.url | default: '/pages/wiki'
+  assign recettes_page_url = recettes_page.url | default: '/pages/recettes'
+  assign contact_page_url = contact_page.url | default: '/pages/contact'
+  assign wiki_vanille_page_url = wiki_vanille_page.url | default: '/pages/wiki-vanille-bien-choisir'
+  assign wiki_vanille_storage_page_url = wiki_vanille_storage_page.url | default: '/pages/wiki-vanille-conservation-preparation'
+  assign wiki_vanille_pompona_page_url = wiki_vanille_pompona_page.url | default: '/pages/wiki-vanille-pompona'
+  assign wiki_epices_page_url = wiki_epices_page.url | default: '/pages/wiki-epices-madagascar'
+  assign wiki_poivres_page_url = wiki_poivres_page.url | default: '/pages/wiki-poivres-baies-madagascar'
+  assign wiki_sels_page_url = wiki_sels_page.url | default: '/pages/wiki-sels-melanges'
+  assign wiki_plantes_page_url = wiki_plantes_page.url | default: '/pages/wiki-huiles-essentielles-plantes'
+  assign wiki_recettes_page_url = wiki_recettes_page.url | default: '/pages/wiki-recettes'
+  assign wiki_glossaire_page_url = wiki_glossaire_page.url | default: '/pages/wiki-glossaire-epices'
+  assign wiki_faq_page_url = wiki_faq_page.url | default: '/pages/wiki-faq-vanille-epices'
+  assign wiki_dosage_page_url = wiki_dosage_page.url | default: '/pages/wiki-dosage-vanille'
+  assign wiki_recycler_page_url = wiki_recycler_page.url | default: '/pages/wiki-recycler-gousse-vanille'
+  assign wiki_combava_page_url = wiki_combava_page.url | default: '/pages/wiki-combava-madagascar'
+  assign wiki_poivre_quel_plat_page_url = wiki_poivre_quel_plat_page.url | default: '/pages/wiki-poivre-quel-plat'
+  assign wiki_sel_quel_plat_page_url = wiki_sel_quel_plat_page.url | default: '/pages/wiki-sel-aromatise-quel-plat'
+
+  assign vanille_collection_url = vanille_collection.url | default: '/collections/vanille-bourbon'
+  assign epices_collection_url = epices_collection.url | default: '/collections/epices-madagascar'
+  assign poivres_collection_url = poivres_collection.url | default: '/collections/poivre-baies'
+  assign sels_collection_url = sels_collection.url | default: '/collections/sels'
+  assign huiles_collection_url = huiles_collection.url | default: '/collections/huiles-madagascar'
 -%}
 
 {% if page.handle == 'recettes' or is_recipe_page %}
@@ -670,15 +722,15 @@
     assign wiki_stage_image = section.settings.wiki_hero_image
     assign wiki_stage_video = section.settings.wiki_hero_video
     assign wiki_stage_video_url = section.settings.wiki_hero_video_url
-    assign wiki_primary_link = section.settings.wiki_primary_link | default: wiki_recipes_link
-    assign wiki_secondary_link = section.settings.wiki_secondary_link | default: wiki_catalogue_link
     assign wiki_stage_asset = 'vd-wiki-cover.jpg'
     assign wiki_card_1_asset = 'vd-wiki-botanique.jpg'
     assign wiki_card_2_asset = 'vd-wiki-science.jpg'
     assign wiki_card_3_asset = 'vd-wiki-cover.jpg'
 
-    assign wiki_catalogue_link = '/pages/catalogue'
-    assign wiki_recipes_link = '/pages/recettes'
+    assign wiki_catalogue_link = catalogue_page_url
+    assign wiki_recipes_link = recettes_page_url
+    assign wiki_primary_link = section.settings.wiki_primary_link | default: wiki_recipes_link
+    assign wiki_secondary_link = section.settings.wiki_secondary_link | default: wiki_catalogue_link
     assign wiki_feature_count = 0
     assign wiki_category_count = 0
     assign wiki_faq_count = 0
@@ -927,6 +979,10 @@
   {%- capture wiki_detail_override_content -%}
     {%- render 'vd-wiki-detail-overrides', page_handle: page.handle -%}
   {%- endcapture -%}
+  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-vanille-conservation-preparation', wiki_vanille_storage_page_url | replace: '/pages/wiki-vanille-bien-choisir', wiki_vanille_page_url | replace: '/pages/wiki-poivres-baies-madagascar', wiki_poivres_page_url | replace: '/pages/wiki-sels-melanges', wiki_sels_page_url | replace: '/pages/wiki-huiles-essentielles-plantes', wiki_plantes_page_url | replace: '/pages/wiki-glossaire-epices', wiki_glossaire_page_url -%}
+  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-faq-vanille-epices', wiki_faq_page_url | replace: '/pages/wiki-dosage-vanille', wiki_dosage_page_url | replace: '/pages/wiki-recycler-gousse-vanille', wiki_recycler_page_url | replace: '/pages/wiki-combava-madagascar', wiki_combava_page_url | replace: '/pages/wiki-poivre-quel-plat', wiki_poivre_quel_plat_page_url | replace: '/pages/wiki-sel-aromatise-quel-plat', wiki_sel_quel_plat_page_url -%}
+  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-vanille-pompona', wiki_vanille_pompona_page_url | replace: '/pages/wiki-recettes', wiki_recettes_page_url | replace: '/pages/wiki-epices-madagascar', wiki_epices_page_url | replace: '/pages/wiki', wiki_index_page_url | replace: '/pages/recettes', recettes_page_url | replace: '/pages/catalogue', catalogue_page_url | replace: '/pages/contact', contact_page_url -%}
+  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/collections/vanille-bourbon', vanille_collection_url | replace: '/collections/epices-madagascar', epices_collection_url | replace: '/collections/poivre-baies', poivres_collection_url | replace: '/collections/sels', sels_collection_url | replace: '/collections/huiles-madagascar', huiles_collection_url -%}
   {%- liquid
     assign wiki_detail_content = page.content
     if wiki_detail_override_content != blank
@@ -949,11 +1005,11 @@
     assign wiki_detail_summary = wiki_detail_summary | strip
     assign wiki_detail_chapter = 'Le Wiki'
     assign wiki_detail_title = page.title
-    assign wiki_detail_primary_url = '/pages/wiki'
+    assign wiki_detail_primary_url = wiki_index_page_url
     assign wiki_detail_primary_label = 'Retour au wiki'
-    assign wiki_detail_secondary_url = '/pages/recettes'
+    assign wiki_detail_secondary_url = recettes_page_url
     assign wiki_detail_secondary_label = 'Voir les recettes'
-    assign wiki_detail_collection_url = '/pages/catalogue'
+    assign wiki_detail_collection_url = catalogue_page_url
     assign wiki_detail_collection_label = 'Entrer par le catalogue'
       assign wiki_detail_media_video = ''
     assign wiki_detail_media_image = 'vd-wiki-cover.jpg'
@@ -961,15 +1017,15 @@
     assign wiki_detail_media_alt = 'Vanille Désiré'
     assign wiki_detail_card_one_title = 'Retour au wiki'
     assign wiki_detail_card_one_copy = 'Revenir à l’entrée principale.'
-    assign wiki_detail_card_one_url = '/pages/wiki'
+    assign wiki_detail_card_one_url = wiki_index_page_url
     assign wiki_detail_card_one_image = 'vd-wiki-cover.jpg'
     assign wiki_detail_card_two_title = 'Recettes & accords'
     assign wiki_detail_card_two_copy = 'Voir les usages concrets en cuisine.'
-    assign wiki_detail_card_two_url = '/pages/recettes'
+    assign wiki_detail_card_two_url = recettes_page_url
     assign wiki_detail_card_two_image = 'vd-wiki-techniques.jpg'
     assign wiki_detail_card_three_title = 'Catalogue'
     assign wiki_detail_card_three_copy = 'Voir les matières et formats.'
-    assign wiki_detail_card_three_url = '/pages/catalogue'
+    assign wiki_detail_card_three_url = catalogue_page_url
     assign wiki_detail_card_three_image = 'vd-wiki-terroirs.jpg'
 
     if page.handle contains 'wiki-vanille' or page.handle == 'vanille-pompona'
@@ -1429,7 +1485,7 @@
       <div class="vd-wiki-detail__stage-glow"></div>
 
       <div class="page-width vd-wiki-detail__stage-shell">
-        <a href="/pages/wiki" class="vd-arrow-cta vd-wiki-detail__back" data-vd-preview-link>
+        <a href="{{ wiki_index_page_url }}" class="vd-arrow-cta vd-wiki-detail__back" data-vd-preview-link>
           <span class="vd-arrow-cta__label">Retour au wiki</span>
           <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
             <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
