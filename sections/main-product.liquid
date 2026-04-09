@@ -169,9 +169,22 @@
     {% if has_product_backdrop %}
       <div class="vd-product-shell__backdrop" aria-hidden="true">
         {% if product_background_video_url != blank %}
-          <video class="vd-product-shell__backdrop-media" autoplay muted loop playsinline preload="metadata">
+          <video
+            class="vd-product-shell__backdrop-media"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="none"
+            data-vd-deferred-video
+            data-video-src="{{ product_background_video_url }}"
+            data-min-width="990"
+            {% if product_backdrop_image != blank %}
+              poster="{{ product_backdrop_image | image_url: width: 2200 }}"
+            {% endif %}
+          >
             {% comment %}theme-check-disable RemoteAsset{% endcomment %}
-            <source src="{{ product_background_video_url }}" type="video/mp4">
+            <source data-src="{{ product_background_video_url }}" type="video/mp4">
             {% comment %}theme-check-enable RemoteAsset{% endcomment %}
           </video>
         {% elsif product_backdrop_image != blank %}
@@ -742,6 +755,7 @@
                                 {% endif %}
                               >
                                 <ul class="list-unstyled" role="list">
+                                  {% comment %}theme-check-disable UndefinedObject{% endcomment %}
                                   {%- for product in recommendations.products
                                     limit: block.settings.products_per_page
                                     offset: continue
@@ -768,6 +782,7 @@
                                     </li>
                                     {%- assign skip_card_product_styles = true -%}
                                   {%- endfor -%}
+                                  {% comment %}theme-check-enable UndefinedObject{% endcomment %}
                                 </ul>
                               </div>
                             {%- endfor -%}

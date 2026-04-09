@@ -25,16 +25,23 @@
 {%- endstyle -%}
 
 {%- liquid
-  assign footer_primary_link = section.settings.primary_link | default: '/collections/all'
-  assign footer_house_url = routes.root_url
-  assign footer_wiki_url = '/blogs/le-wiki'
-  assign footer_recipes_url = '/pages/recettes'
-  assign footer_savoir_faire_url = '/pages/savoir-faire'
-  assign footer_contact_url = '/pages/contact'
-  assign footer_faq_url = '/pages/faq'
-  assign footer_vanille_url = '/collections/vanille-bourbon'
-  assign footer_epices_url = '/collections/epices-madagascar'
-  assign footer_poivres_url = '/collections/poivre-baies'
+  assign footer_wiki_blog = blogs['le-wiki']
+  assign footer_contact_page = pages['contact']
+  assign footer_faq_page = pages['faq']
+  assign footer_recipes_page = pages['recettes']
+  assign footer_savoir_faire_page = pages['savoir-faire']
+  assign footer_vanille_collection = collections['vanille-bourbon']
+  assign footer_epices_collection = collections['epices-madagascar']
+  assign footer_poivres_collection = collections['poivre-baies']
+  assign footer_primary_link = section.settings.primary_link | default: routes.all_products_collection_url
+  assign footer_wiki_url = footer_wiki_blog.url | default: '/blogs/le-wiki'
+  assign footer_recipes_url = footer_recipes_page.url | default: '/pages/recettes'
+  assign footer_savoir_faire_url = footer_savoir_faire_page.url | default: '/pages/savoir-faire'
+  assign footer_contact_url = footer_contact_page.url | default: '/pages/contact'
+  assign footer_faq_url = footer_faq_page.url | default: '/pages/faq'
+  assign footer_vanille_url = footer_vanille_collection.url | default: '/collections/vanille-bourbon'
+  assign footer_epices_url = footer_epices_collection.url | default: '/collections/epices-madagascar'
+  assign footer_poivres_url = footer_poivres_collection.url | default: '/collections/poivre-baies'
   assign footer_shipping_url = '/policies/shipping-policy'
   if shop.shipping_policy != blank
     assign footer_shipping_url = shop.shipping_policy.url
@@ -51,7 +58,6 @@
   if shop.terms_of_service != blank
     assign footer_terms_url = shop.terms_of_service.url
   endif
-  assign footer_help_url = '/pages/contact'
   assign footer_video_url = ''
   if section.settings.background_video != blank
     for source in section.settings.background_video.sources
@@ -85,8 +91,20 @@
     <section class="vd-footer-millia__hero">
       <div class="vd-footer-millia__hero-media" aria-hidden="true">
         {%- if footer_video_url != blank -%}
-          <video autoplay muted loop playsinline preload="metadata" poster="{{ 'vd-hero-origin-poster.jpg' | asset_url }}">
-            <source src="{{ footer_video_url }}" type="video/mp4">
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="none"
+            data-vd-deferred-video
+            data-video-src="{{ footer_video_url }}"
+            data-min-width="990"
+            poster="{% if footer_image != blank %}{{ footer_image | image_url: width: 2400 }}{% else %}{{ 'vd-hero-origin-poster.jpg' | asset_url }}{% endif %}"
+          >
+            {% comment %}theme-check-disable RemoteAsset{% endcomment %}
+            <source data-src="{{ footer_video_url }}" type="video/mp4">
+            {% comment %}theme-check-enable RemoteAsset{% endcomment %}
           </video>
         {%- elsif footer_image != blank -%}
           {{

@@ -133,9 +133,16 @@
         document.querySelector('[data-vd-bento-section]') ||
         document.querySelector('[data-vd-collection-hero]') ||
         document.querySelector('[data-vd-wiki-teaser]') ||
-        document.querySelector('[data-vd-footer-scene]') ||
-        document.querySelector('[data-speed]') ||
         document.querySelector('.vd-reveal')
+    );
+  }
+
+  function hasSmootherTargets() {
+    return Boolean(
+      document.querySelector('[data-vd-craft-story]') ||
+        document.querySelector('[data-vd-feature-gallery]') ||
+        document.querySelector('[data-vd-bento-section]') ||
+        document.querySelector('[data-vd-wiki-teaser]')
     );
   }
 
@@ -247,15 +254,54 @@
 
     if (!deferredVideos.length) return;
 
-    var start = function () {
-      deferredVideos.forEach(activateDeferredVideo);
+    var eagerVideos = [];
+    var observedVideos = [];
+
+    deferredVideos.forEach(function (video) {
+      if (video.getAttribute('data-vd-video-mounted') === 'true') return;
+
+      if (video.getAttribute('data-vd-video-load') === 'idle') {
+        eagerVideos.push(video);
+      } else {
+        observedVideos.push(video);
+      }
+    });
+
+    var startEager = function () {
+      eagerVideos.forEach(activateDeferredVideo);
     };
 
-    if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(start, { timeout: 1500 });
-    } else {
-      window.setTimeout(start, 320);
+    if (eagerVideos.length) {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(startEager, { timeout: 1500 });
+      } else {
+        window.setTimeout(startEager, 320);
+      }
     }
+
+    if (!observedVideos.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      window.setTimeout(function () {
+        observedVideos.forEach(activateDeferredVideo);
+      }, 420);
+      return;
+    }
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          observer.unobserve(entry.target);
+          activateDeferredVideo(entry.target);
+        });
+      },
+      { rootMargin: '240px 0px' }
+    );
+
+    observedVideos.forEach(function (video) {
+      observer.observe(video);
+    });
   }
 
   function bootstrapVanilleGsap(forceRebuild) {
@@ -866,7 +912,7 @@
 
     var prefersReducedMotion = isReducedMotionPreferred();
     var isDesktop = window.innerWidth >= 990;
-    var allowSmoother = Boolean(ScrollSmoother) && !prefersReducedMotion && isDesktop;
+    var allowSmoother = Boolean(ScrollSmoother) && !prefersReducedMotion && isDesktop && hasSmootherTargets();
     var shouldRebuild =
       forceRebuild ||
       !state.initialized ||
@@ -1018,26 +1064,6 @@
 
         revealTween.kill();
         gsap.set(items, { clearProps: 'all' });
-      });
-    });
-
-    gsap.utils.toArray('[data-speed]').forEach(function (element) {
-      var speedTween = gsap.to(element, {
-        yPercent: Number(element.getAttribute('data-speed')) * -10,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: element,
-          scrub: true
-        }
-      });
-
-      registerCleanup(state.cleanups, function () {
-        if (speedTween.scrollTrigger) {
-          speedTween.scrollTrigger.kill();
-        }
-
-        speedTween.kill();
-        gsap.set(element, { clearProps: 'transform' });
       });
     });
 

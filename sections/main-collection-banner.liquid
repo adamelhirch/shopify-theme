@@ -116,11 +116,6 @@
     assign has_secondary_detail = true
   endif
 
-  assign has_curation_note = false
-  if curation_note != blank
-    assign has_curation_note = true
-  endif
-
   if primary_visual == blank and feature_product_primary != blank
     assign primary_visual = feature_product_primary.featured_media.preview_image | default: feature_product_primary.featured_image
   endif
@@ -174,8 +169,24 @@
   {% if has_collection_backdrop %}
     <div class="collection-hero__backdrop" aria-hidden="true">
       {% if collection_background_video_url != blank %}
-        <video class="collection-hero__backdrop-media" data-vd-collection-backdrop autoplay muted loop playsinline preload="metadata">
-          <source src="{{ collection_background_video_url }}" type="video/mp4">
+        <video
+          class="collection-hero__backdrop-media"
+          data-vd-collection-backdrop
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="none"
+          data-vd-deferred-video
+          data-video-src="{{ collection_background_video_url }}"
+          data-min-width="990"
+          {% if collection_backdrop_image != blank %}
+            poster="{{ collection_backdrop_image | image_url: width: 2200 }}"
+          {% endif %}
+        >
+          {% comment %}theme-check-disable RemoteAsset{% endcomment %}
+          <source data-src="{{ collection_background_video_url }}" type="video/mp4">
+          {% comment %}theme-check-enable RemoteAsset{% endcomment %}
         </video>
       {% elsif collection_backdrop_image != blank %}
         {{
