@@ -36,10 +36,10 @@
   assign wiki_recettes_page_url = wiki_recettes_page.url | default: '/pages/wiki-recettes'
   assign wiki_glossaire_page_url = wiki_glossaire_page.url | default: '/pages/wiki-glossaire-epices'
   assign wiki_faq_page_url = wiki_faq_page.url | default: '/pages/wiki-faq-vanille-epices'
-  assign wiki_dosage_page_url = wiki_dosage_page.url | default: '/pages/wiki-dosage-vanille'
-  assign wiki_recycler_page_url = wiki_recycler_page.url | default: '/pages/wiki-recycler-gousse-vanille'
-  assign wiki_poivre_quel_plat_page_url = wiki_poivre_quel_plat_page.url | default: '/pages/wiki-poivre-quel-plat'
-  assign wiki_sel_quel_plat_page_url = wiki_sel_quel_plat_page.url | default: '/pages/wiki-sel-aromatise-quel-plat'
+  assign wiki_dosage_page_url = wiki_dosage_page.url | default: wiki_storage_page_url
+  assign wiki_recycler_page_url = wiki_recycler_page.url | default: wiki_storage_page_url
+  assign wiki_poivre_quel_plat_page_url = wiki_poivre_quel_plat_page.url | default: wiki_poivres_page_url
+  assign wiki_sel_quel_plat_page_url = wiki_sel_quel_plat_page.url | default: wiki_sels_page_url
   assign wiki_vanille_collection_url = wiki_vanille_collection.url | default: '/collections/vanille-bourbon'
   assign wiki_epices_collection_url = wiki_epices_collection.url | default: '/collections/epices-madagascar'
   assign wiki_poivres_collection_url = wiki_poivres_collection.url | default: '/collections/poivre-baies'

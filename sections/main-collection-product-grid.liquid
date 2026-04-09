@@ -12,7 +12,7 @@
   assign intro_heading = section.settings.intro_heading
   assign intro_note = section.settings.intro_text
   assign has_intro_shell = false
-  assign show_collection_context = true
+  assign show_collection_context = false
   assign collection_context_label_1 = 'Format'
   assign collection_context_value_1 = 'Entrer par le bon geste'
   assign collection_context_copy_1 = 'Lire la sélection par format permet de réduire vite le doute avant achat.'
@@ -30,6 +30,7 @@
   endif
 
   if collection.handle == 'vanille-bourbon'
+    assign show_collection_context = true
     assign collection_context_value_1 = 'Gousses, extrait, poudre, coffret'
     assign collection_context_copy_1 = 'Chaque format répond à un usage distinct: pâtisserie, infusion, quotidien ou cadeau.'
     assign collection_context_value_2 = 'Souplesse, intensité, fréquence'
@@ -37,6 +38,7 @@
     assign collection_context_value_3 = 'Guide de choix puis recettes'
     assign collection_context_copy_3 = 'Le meilleur enchaînement est de comparer, comprendre, puis voir la matière en cuisine.'
   elsif collection.handle == 'epices-madagascar'
+    assign show_collection_context = true
     assign collection_context_value_1 = 'Familles et profils'
     assign collection_context_copy_1 = 'Comparer chaleur, fraîcheur, tension ou rondeur avant de multiplier les achats.'
     assign collection_context_value_2 = 'Dessert, boisson, salé'
@@ -44,24 +46,15 @@
     assign collection_context_value_3 = 'Guide épices puis recettes'
     assign collection_context_copy_3 = 'On convertit mieux quand la lecture éditoriale précède l’accord culinaire.'
   elsif collection.handle == 'poivre-baies'
+    assign show_collection_context = true
     assign collection_context_value_1 = 'Finition ou cuisson'
     assign collection_context_copy_1 = 'Le bon poivre dépend souvent du moment d’ajout plus que de la couleur.'
     assign collection_context_value_2 = 'Floraux, droits, sauvages'
     assign collection_context_copy_2 = 'Les familles doivent être lisibles pour favoriser un panier plus juste.'
     assign collection_context_value_3 = 'Accords puis sélection'
     assign collection_context_copy_3 = 'Le wiki et les recettes servent ici à transformer la curiosité en achat complémentaire.'
-  elsif collection.handle == 'sels' or collection.handle == 'sels-aromatises'
+  else
     assign has_intro_shell = false
-    assign show_collection_context = false
-  elsif collection.handle == 'huiles-madagascar' or collection.handle == 'huiles-essentielles'
-    assign has_intro_shell = false
-    assign show_collection_context = false
-  elsif collection.handle == 'gingembre-madagascar' or collection.handle == 'gingembre'
-    assign has_intro_shell = false
-    assign show_collection_context = false
-  elsif collection.handle == 'confiserie' or collection.handle == 'confiseries'
-    assign has_intro_shell = false
-    assign show_collection_context = false
   endif
 -%}
 

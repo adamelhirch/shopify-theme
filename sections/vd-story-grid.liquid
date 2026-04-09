@@ -26,8 +26,10 @@
   assign story_vanille_url = story_vanille_page.url | default: '/pages/wiki-vanille-bien-choisir'
 
   if request.page_type == 'collection'
-    if collection.handle == 'sels' or collection.handle == 'sels-aromatises' or collection.handle == 'huiles-madagascar' or collection.handle == 'huiles-essentielles' or collection.handle == 'gingembre-madagascar' or collection.handle == 'gingembre' or collection.handle == 'confiserie' or collection.handle == 'confiseries'
-      assign render_story_grid = false
+    assign render_story_grid = false
+
+    if collection.handle == 'vanille-bourbon' or collection.handle == 'epices-madagascar' or collection.handle == 'poivre-baies'
+      assign render_story_grid = true
     endif
   endif
 -%}

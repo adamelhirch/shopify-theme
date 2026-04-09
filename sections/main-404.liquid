@@ -14,7 +14,15 @@
   (function () {
     var redirectMap = {
       '/pages/faq': '/pages/wiki-faq-vanille-epices',
-      '/pages/savoir-faire': '/pages/wiki-savoir-faire-producteurs'
+      '/pages/savoir-faire': '/pages/wiki-savoir-faire-producteurs',
+      '/pages/le-wiki': '/pages/wiki',
+      '/pages/wiki-bien-choisir-vanille': '/pages/wiki-vanille-bien-choisir',
+      '/pages/wiki-vanille-tahiti': '/pages/wiki-vanille-bien-choisir',
+      '/pages/wiki-dosage-vanille': '/pages/wiki-vanille-conservation-preparation',
+      '/pages/wiki-recycler-gousse-vanille': '/pages/wiki-vanille-conservation-preparation',
+      '/pages/wiki-combava-madagascar': '/pages/wiki-epices-madagascar',
+      '/pages/wiki-poivre-quel-plat': '/pages/wiki-poivres-baies-madagascar',
+      '/pages/wiki-sel-aromatise-quel-plat': '/pages/wiki-sels-melanges'
     };
     var currentPath = window.location.pathname;
     var nextPath = redirectMap[currentPath];
