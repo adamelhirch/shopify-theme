@@ -12,6 +12,7 @@
   assign intro_heading = section.settings.intro_heading
   assign intro_note = section.settings.intro_text
   assign has_intro_shell = false
+  assign show_collection_context = true
   assign collection_context_label_1 = 'Format'
   assign collection_context_value_1 = 'Entrer par le bon geste'
   assign collection_context_copy_1 = 'Lire la sélection par format permet de réduire vite le doute avant achat.'
@@ -50,12 +51,17 @@
     assign collection_context_value_3 = 'Accords puis sélection'
     assign collection_context_copy_3 = 'Le wiki et les recettes servent ici à transformer la curiosité en achat complémentaire.'
   elsif collection.handle == 'sels' or collection.handle == 'sels-aromatises'
-    assign collection_context_value_1 = 'Dressage et finition'
-    assign collection_context_copy_1 = 'La valeur d’un sel aromatisé se comprend par geste et par contexte de service.'
-    assign collection_context_value_2 = 'Sels, poivres, mélanges'
-    assign collection_context_copy_2 = 'La collection doit aider à arbitrer vite entre familles proches.'
-    assign collection_context_value_3 = 'Recettes et gestes'
-    assign collection_context_copy_3 = 'Un bon troisième acte donne des usages concrets juste après la grille.'
+    assign has_intro_shell = false
+    assign show_collection_context = false
+  elsif collection.handle == 'huiles-madagascar' or collection.handle == 'huiles-essentielles'
+    assign has_intro_shell = false
+    assign show_collection_context = false
+  elsif collection.handle == 'gingembre-madagascar' or collection.handle == 'gingembre'
+    assign has_intro_shell = false
+    assign show_collection_context = false
+  elsif collection.handle == 'confiserie' or collection.handle == 'confiseries'
+    assign has_intro_shell = false
+    assign show_collection_context = false
   endif
 -%}
 
@@ -241,23 +247,25 @@
           </div>
         </div>
       {%- endif -%}
-      <div class="vd-collection-grid__context{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}" role="list">
-        <article class="vd-collection-grid__context-card" role="listitem">
-          <span>{{ collection_context_label_1 }}</span>
-          <strong>{{ collection_context_value_1 }}</strong>
-          <p>{{ collection_context_copy_1 }}</p>
-        </article>
-        <article class="vd-collection-grid__context-card" role="listitem">
-          <span>{{ collection_context_label_2 }}</span>
-          <strong>{{ collection_context_value_2 }}</strong>
-          <p>{{ collection_context_copy_2 }}</p>
-        </article>
-        <article class="vd-collection-grid__context-card" role="listitem">
-          <span>{{ collection_context_label_3 }}</span>
-          <strong>{{ collection_context_value_3 }}</strong>
-          <p>{{ collection_context_copy_3 }}</p>
-        </article>
-      </div>
+      {%- if show_collection_context -%}
+        <div class="vd-collection-grid__context{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}" role="list">
+          <article class="vd-collection-grid__context-card" role="listitem">
+            <span>{{ collection_context_label_1 }}</span>
+            <strong>{{ collection_context_value_1 }}</strong>
+            <p>{{ collection_context_copy_1 }}</p>
+          </article>
+          <article class="vd-collection-grid__context-card" role="listitem">
+            <span>{{ collection_context_label_2 }}</span>
+            <strong>{{ collection_context_value_2 }}</strong>
+            <p>{{ collection_context_copy_2 }}</p>
+          </article>
+          <article class="vd-collection-grid__context-card" role="listitem">
+            <span>{{ collection_context_label_3 }}</span>
+            <strong>{{ collection_context_value_3 }}</strong>
+            <p>{{ collection_context_copy_3 }}</p>
+          </article>
+        </div>
+      {%- endif -%}
       {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
         <aside
           aria-labelledby="verticalTitle"
