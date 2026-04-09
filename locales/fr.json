@@ -37,7 +37,15 @@
         "tiktok": "TikTok"
       }
     },
+    "accessibility": {
+      "close_modal": "Fermer la fenetre"
+    },
     "continue_shopping": "Continuer les achats",
+    "newsletter_form": {
+      "newsletter_confirmation": "Merci de votre inscription.",
+      "newsletter_email": "E-mail",
+      "submit": "S'inscrire"
+    },
     "pagination": {
       "label": "Pagination",
       "page": "Page {{ number }}",
@@ -74,6 +82,7 @@
   "accessibility": {
     "skip_to_text": "Ignorer et passer au contenu",
     "close": "Fermer",
+    "close_modal": "Fermer la fenetre",
     "unit_price_separator": "par",
     "vendor": "Fournisseur :",
     "error": "Erreur",

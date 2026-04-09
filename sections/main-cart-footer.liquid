@@ -26,9 +26,10 @@
   assign cart_footer_wiki_page = pages['wiki']
   assign cart_footer_contact_page = pages['contact']
   assign cart_footer_faq_page = pages['faq']
+  assign cart_footer_faq_fallback_page = pages['wiki-faq-vanille-epices']
   assign cart_footer_wiki_url = cart_footer_wiki_page.url | default: '/pages/wiki'
   assign cart_footer_contact_url = cart_footer_contact_page.url | default: '/pages/contact'
-  assign cart_footer_faq_url = cart_footer_faq_page.url | default: '/pages/faq'
+  assign cart_footer_faq_url = cart_footer_faq_page.url | default: cart_footer_faq_fallback_page.url | default: '/pages/wiki-faq-vanille-epices'
   assign cart_payment_video_url = ''
   assign cart_payment_video_poster = section.settings.payment_background_image
 

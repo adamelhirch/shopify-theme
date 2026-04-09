@@ -10,6 +10,23 @@
   }
 </style>
 
+<script>
+  (function () {
+    var redirectMap = {
+      '/pages/faq': '/pages/wiki-faq-vanille-epices',
+      '/pages/savoir-faire': '/pages/wiki-savoir-faire-producteurs'
+    };
+    var currentPath = window.location.pathname;
+    var nextPath = redirectMap[currentPath];
+
+    if (!nextPath) return;
+
+    var nextUrl = new URL(nextPath, window.location.origin);
+    if (window.location.search) nextUrl.search = window.location.search;
+    window.location.replace(nextUrl.toString());
+  })();
+</script>
+
 <div class="template-404 vd-404 page-width page-margin">
   <div class="vd-404__shell">
     <div class="vd-404__copy">
