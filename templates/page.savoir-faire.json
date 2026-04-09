@@ -11,80 +11,8 @@
   "sections": {
     "vd_page_flow_savoir_faire": {
       "type": "vd-page-flow",
-      "blocks": {
-        "editorial_pillar_1": {
-          "type": "editorial_pillar",
-          "settings": {
-            "kicker": "Récolte",
-            "title": "Lire la matière à partir du bon moment",
-            "text": "La qualité commence avant la boutique : maturité, coupe, premier tri et niveau d’attention donné au lot dès l’origine."
-          }
-        },
-        "editorial_pillar_2": {
-          "type": "editorial_pillar",
-          "settings": {
-            "kicker": "Préparation",
-            "title": "Montrer ce que change l’affinage",
-            "text": "Échaudage, séchage, affinage, repos et surveillance expliquent une part décisive de la texture, de la souplesse et du parfum final."
-          }
-        },
-        "editorial_pillar_3": {
-          "type": "editorial_pillar",
-          "settings": {
-            "kicker": "Tri",
-            "title": "Relier la sélection à l’usage final",
-            "text": "Le bon conditionnement et le bon tri servent à préserver la lisibilité du produit jusqu’au geste de cuisine ou d’assaisonnement."
-          }
-        },
-        "editorial_proof_1": {
-          "type": "editorial_proof",
-          "settings": {
-            "label": "Filière",
-            "value": "Récolte, préparation, tri, conditionnement",
-            "text": "Le travail réel se lit dans une chaîne de gestes précis plutôt que dans un storytelling décoratif."
-          }
-        },
-        "editorial_proof_2": {
-          "type": "editorial_proof",
-          "settings": {
-            "label": "Lecture",
-            "value": "Souplesse, netteté, régularité",
-            "text": "Ce sont ces éléments qui permettent de juger si un produit tient sa promesse au-delà de l’origine affichée."
-          }
-        },
-        "editorial_proof_3": {
-          "type": "editorial_proof",
-          "settings": {
-            "label": "But",
-            "value": "Mieux comprendre avant d’acheter",
-            "text": "Le savoir-faire n’est utile que s’il aide ensuite à mieux choisir, mieux conserver et mieux utiliser la matière."
-          }
-        }
-      },
-      "block_order": [
-        "editorial_pillar_1",
-        "editorial_pillar_2",
-        "editorial_pillar_3",
-        "editorial_proof_1",
-        "editorial_proof_2",
-        "editorial_proof_3"
-      ],
       "settings": {
         "color_scheme": "scheme-3",
-        "editorial_eyebrow": "Savoir-faire",
-        "editorial_heading": "Du geste producteur à la lecture finale du produit.",
-        "editorial_intro": "<p>Le savoir-faire compte moins comme décor que comme chaîne de décisions concrètes : récolte, préparation, affinage, tri, conditionnement et capacité à garder un produit lisible jusqu’à son usage final.</p><p>Cette page sert à rendre ces étapes plus compréhensibles, pour que la qualité ne repose pas sur des mots vagues mais sur des repères plus tangibles.</p>",
-        "editorial_secondary_text": "<p>Notre approche consiste à relier le produit à ce qui le rend cohérent : le geste, la régularité, la préparation et la manière dont ces éléments se retrouvent ensuite dans la souplesse, l’intensité, la netteté ou l’usage culinaire.</p>",
-        "editorial_trust_label": "Ce que cette page doit montrer",
-        "editorial_trust_text": "Récolte · Préparation · Affinage · Tri · Conditionnement",
-        "editorial_primary_link_label": "Voir le catalogue",
-        "editorial_primary_link": "shopify://pages/catalogue",
-        "editorial_secondary_link_label": "Parcourir le wiki",
-        "editorial_secondary_link": "shopify://pages/wiki",
-        "editorial_pillars_eyebrow": "Repères",
-        "editorial_pillars_heading": "Les gestes qui changent vraiment le résultat",
-        "editorial_proofs_eyebrow": "Lecture",
-        "editorial_proofs_heading": "Ce qu’il faut regarder derrière le mot savoir-faire",
         "padding_top": 16,
         "padding_bottom": 8
       }

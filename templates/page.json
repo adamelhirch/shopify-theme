@@ -161,54 +161,6 @@
             "question": "Qu’est-ce qui distingue la vanille Bourbon de Madagascar ?",
             "answer": "Elle se distingue par son profil aromatique rond, gourmand et profond, ainsi que par le travail de préparation et d’affinage mené localement par les producteurs."
           }
-        },
-        "editorial_pillar_1": {
-          "type": "editorial_pillar",
-          "settings": {
-            "kicker": "Sélection",
-            "title": "Rendre le produit plus lisible avant achat",
-            "text": "Formats, intensité, usage et geste servent d’abord à clarifier le choix, pas à habiller artificiellement la matière."
-          }
-        },
-        "editorial_pillar_2": {
-          "type": "editorial_pillar",
-          "settings": {
-            "kicker": "Geste",
-            "title": "Relier la matière à son travail réel",
-            "text": "Récolte, préparation, affinage, tri et conditionnement comptent autant que l’origine brute quand on cherche une vraie régularité."
-          }
-        },
-        "editorial_pillar_3": {
-          "type": "editorial_pillar",
-          "settings": {
-            "kicker": "Usage",
-            "title": "Aider à cuisiner et choisir plus justement",
-            "text": "Le wiki, le catalogue et les recettes servent à prolonger l’achat par des repères concrets plutôt que par du discours décoratif."
-          }
-        },
-        "editorial_proof_1": {
-          "type": "editorial_proof",
-          "settings": {
-            "label": "Matières",
-            "value": "Vanille, épices, poivres, sels, huiles",
-            "text": "Une sélection volontairement plus courte pour garder de la cohérence entre lecture éditoriale, usage et achat."
-          }
-        },
-        "editorial_proof_2": {
-          "type": "editorial_proof",
-          "settings": {
-            "label": "Méthode",
-            "value": "Catalogue, wiki, recettes",
-            "text": "Trois surfaces complémentaires pour comprendre, comparer puis passer au bon geste sans rupture de ton."
-          }
-        },
-        "editorial_proof_3": {
-          "type": "editorial_proof",
-          "settings": {
-            "label": "Ligne",
-            "value": "Moins de bruit, plus de justesse",
-            "text": "Un minimalisme utile, construit pour faire monter la lisibilité et la confiance sans diluer le produit."
-          }
         }
       },
       "block_order": [
@@ -226,30 +178,10 @@
         "wiki_category_9",
         "wiki_faq_1",
         "wiki_faq_2",
-        "wiki_faq_3",
-        "editorial_pillar_1",
-        "editorial_pillar_2",
-        "editorial_pillar_3",
-        "editorial_proof_1",
-        "editorial_proof_2",
-        "editorial_proof_3"
+        "wiki_faq_3"
       ],
       "settings": {
         "color_scheme": "scheme-3",
-        "editorial_eyebrow": "Maison",
-        "editorial_heading": "Une maison construite autour de matières lisibles, de gestes justes et d’une lecture claire du produit.",
-        "editorial_intro": "<p>Vanille Désiré s’est construite autour d’une idée simple : proposer moins de références, mais les rendre plus compréhensibles avant achat. Vanille Bourbon, épices, poivres, sels et huiles sont lus par leur matière, leur usage et le geste qui les rend utiles.</p><p>Nous cherchons moins l’effet de vitrine que la régularité des lots, la qualité réelle de préparation et une expérience plus calme pour choisir juste.</p>",
-        "editorial_secondary_text": "<p>Notre ligne reste volontairement sobre : rendre le produit plus lisible, relier la sélection au travail producteur et aider à prolonger l’achat par des usages concrets. Le minimalisme n’est pas ici un vide, mais une manière de laisser la matière tenir sa place.</p>",
-        "editorial_trust_label": "Notre ligne",
-        "editorial_trust_text": "Sélection courte · Lecture claire du produit · Référence directe à Madagascar",
-        "editorial_primary_link_label": "Explorer le catalogue",
-        "editorial_primary_link": "shopify://pages/catalogue",
-        "editorial_secondary_link_label": "Lire le wiki",
-        "editorial_secondary_link": "shopify://pages/wiki",
-        "editorial_pillars_eyebrow": "Repères",
-        "editorial_pillars_heading": "Ce qui structure la maison",
-        "editorial_proofs_eyebrow": "Lecture",
-        "editorial_proofs_heading": "Ce que nous rendons plus clair",
         "wiki_text": "<p>Le guide de référence en français sur la <strong>vanille Bourbon de Madagascar</strong>, les <strong>épices rares</strong>, les usages, la conservation et le savoir-faire des producteurs.</p>",
         "wiki_summary": "Guides de conservation, usages, recettes et savoir-faire pour avancer avec des réponses claires.",
         "wiki_summary_eyebrow": "Depuis Madagascar",
