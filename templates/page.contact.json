@@ -16,9 +16,45 @@
     },
     "form": {
       "type": "contact-form",
+      "blocks": {
+        "reason_1": {
+          "type": "contact_reason",
+          "settings": {
+            "label": "Produit",
+            "title": "Conseil avant achat",
+            "text": "Comparer un format, vérifier un usage, comprendre une intensité ou choisir la bonne référence avant commande."
+          }
+        },
+        "reason_2": {
+          "type": "contact_reason",
+          "settings": {
+            "label": "Professionnel",
+            "title": "Demande récurrente ou sourcing",
+            "text": "Formats, approvisionnement, cadeaux, événements ou besoins plus réguliers autour de la sélection."
+          }
+        },
+        "reason_3": {
+          "type": "contact_reason",
+          "settings": {
+            "label": "Maison",
+            "title": "Question marque ou partenariat",
+            "text": "Collaboration, presse, contenu ou sujet spécifique autour de l’univers Vanille Désiré."
+          }
+        }
+      },
+      "block_order": [
+        "reason_1",
+        "reason_2",
+        "reason_3"
+      ],
       "settings": {
-        "heading": "Contactez-nous",
-        "lede": "Question produit, demande pro, partenariat ou commande : écrivez-nous via le formulaire ci-dessous. Réponse sous 24 h ouvrées.",
+        "heading": "Parler produit, projet ou besoin précis.",
+        "lede": "Question produit, demande professionnelle, partenariat, cadeau ou commande : écrivez-nous ici pour obtenir une réponse claire et utile.",
+        "response_label": "Réponse",
+        "response_note": "Réponse humaine sous 24 h ouvrées pour les questions produit, usages, demandes pro et besoins plus précis.",
+        "support_label": "Accompagnement",
+        "support_note": "Le formulaire convient aussi aux demandes récurrentes, cadeaux, partenariats et besoins plus cadrés autour de la sélection.",
+        "reasons_heading": "Motifs de contact",
         "color_scheme": "scheme-3",
         "padding_top": 24,
         "padding_bottom": 56

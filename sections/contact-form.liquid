@@ -6,10 +6,88 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
+  .vd-contact-form__notes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem;
+    margin: 0 0 1.8rem;
+  }
+
+  .vd-contact-form__note {
+    padding: 1.35rem 1.4rem;
+    border: 1px solid rgba(var(--color-foreground), 0.08);
+    border-radius: 1.8rem;
+    background: rgba(var(--color-background), 0.7);
+    backdrop-filter: blur(12px);
+  }
+
+  .vd-contact-form__note span {
+    display: block;
+    margin-bottom: 0.55rem;
+    font-size: 1rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.62;
+  }
+
+  .vd-contact-form__note p {
+    margin: 0;
+    font-size: 1.35rem;
+    line-height: 1.7;
+  }
+
+  .vd-contact-form__reasons {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 0 0 2rem;
+  }
+
+  .vd-contact-form__reason {
+    padding: 1.35rem 1.4rem;
+    border-radius: 1.8rem;
+    border: 1px solid rgba(var(--color-foreground), 0.08);
+    background: rgba(var(--color-background), 0.68);
+  }
+
+  .vd-contact-form__reason-label {
+    display: block;
+    margin-bottom: 0.65rem;
+    font-size: 1rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.58;
+  }
+
+  .vd-contact-form__reason h3 {
+    margin: 0 0 0.65rem;
+    font-size: 1.8rem;
+    line-height: 1.3;
+  }
+
+  .vd-contact-form__reason p {
+    margin: 0;
+    font-size: 1.3rem;
+    line-height: 1.65;
+    opacity: 0.82;
+  }
+
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .vd-contact-form__reasons {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .vd-contact-form__notes {
+      grid-template-columns: 1fr;
     }
   }
 {%- endstyle -%}
@@ -26,6 +104,13 @@
   if settings.animations_reveal_on_scroll
     assign contact_form_class = contact_form_class | append: ' scroll-trigger animate--slide-in'
   endif
+
+  assign contact_reason_count = 0
+  for block in section.blocks
+    if block.type == 'contact_reason'
+      assign contact_reason_count = contact_reason_count | plus: 1
+    endif
+  endfor
 -%}
 
 <section class="color-{{ section.settings.color_scheme }} section-{{ section.id }}-padding">
@@ -51,6 +136,43 @@
               {{ section.settings.lede | default: 'Question produit, demande pro, partenariat ou commande : écrivez-nous via le formulaire ci-dessous. Réponse sous 24 h ouvrées.' }}
             </p>
           </div>
+
+          {% if section.settings.response_note != blank or section.settings.support_note != blank %}
+            <div class="vd-contact-form__notes" aria-label="Repères de contact">
+              {% if section.settings.response_note != blank %}
+                <article class="vd-contact-form__note">
+                  <span>{{ section.settings.response_label | default: 'Réponse' }}</span>
+                  <p>{{ section.settings.response_note }}</p>
+                </article>
+              {% endif %}
+              {% if section.settings.support_note != blank %}
+                <article class="vd-contact-form__note">
+                  <span>{{ section.settings.support_label | default: 'Accompagnement' }}</span>
+                  <p>{{ section.settings.support_note }}</p>
+                </article>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {% if contact_reason_count > 0 %}
+            <div class="vd-contact-form__reasons" role="list" aria-label="{{ section.settings.reasons_heading | default: 'Motifs de contact' }}">
+              {% for block in section.blocks %}
+                {% if block.type == 'contact_reason' %}
+                  <article class="vd-contact-form__reason" role="listitem" {{ block.shopify_attributes }}>
+                    {% if block.settings.label != blank %}
+                      <span class="vd-contact-form__reason-label">{{ block.settings.label }}</span>
+                    {% endif %}
+                    {% if block.settings.title != blank %}
+                      <h3>{{ block.settings.title }}</h3>
+                    {% endif %}
+                    {% if block.settings.text != blank %}
+                      <p>{{ block.settings.text }}</p>
+                    {% endif %}
+                  </article>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
 
           {%- if form.posted_successfully? -%}
             <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
@@ -204,6 +326,36 @@
       "default": "Question produit, demande pro, partenariat ou commande : écrivez-nous via le formulaire ci-dessous. Réponse sous 24 h ouvrées."
     },
     {
+      "type": "text",
+      "id": "response_label",
+      "label": "Libellé note 1",
+      "default": "Réponse"
+    },
+    {
+      "type": "textarea",
+      "id": "response_note",
+      "label": "Note 1",
+      "default": "Réponse humaine sous 24 h ouvrées pour les demandes produit, sourcing, coffrets et besoins récurrents."
+    },
+    {
+      "type": "text",
+      "id": "support_label",
+      "label": "Libellé note 2",
+      "default": "Accompagnement"
+    },
+    {
+      "type": "textarea",
+      "id": "support_note",
+      "label": "Note 2",
+      "default": "Le formulaire convient aussi aux demandes professionnelles, cadeaux, partenariats ou besoins plus précis autour des usages."
+    },
+    {
+      "type": "text",
+      "id": "reasons_heading",
+      "label": "Titre implicite des cartes",
+      "default": "Motifs de contact"
+    },
+    {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
@@ -232,6 +384,33 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "contact_reason",
+      "name": "Motif de contact",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Sur-titre",
+          "default": "Produit"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Conseil avant achat"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Texte",
+          "default": "Comparer un format, comprendre un usage ou vérifier la bonne référence avant commande."
+        }
+      ]
     }
   ],
   "presets": [
