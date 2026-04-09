@@ -1,3 +1,51 @@
+{%- liquid
+  assign wiki_catalogue_page = pages['catalogue']
+  assign wiki_index_page = pages['wiki']
+  assign wiki_recipes_page = pages['recettes']
+  assign wiki_contact_page = pages['contact']
+  assign wiki_vanille_page = pages['wiki-vanille-bien-choisir']
+  assign wiki_storage_page = pages['wiki-vanille-conservation-preparation']
+  assign wiki_pompona_page = pages['wiki-vanille-pompona']
+  assign wiki_epices_page = pages['wiki-epices-madagascar']
+  assign wiki_poivres_page = pages['wiki-poivres-baies-madagascar']
+  assign wiki_sels_page = pages['wiki-sels-melanges']
+  assign wiki_recettes_page = pages['wiki-recettes']
+  assign wiki_glossaire_page = pages['wiki-glossaire-epices']
+  assign wiki_faq_page = pages['wiki-faq-vanille-epices']
+  assign wiki_dosage_page = pages['wiki-dosage-vanille']
+  assign wiki_recycler_page = pages['wiki-recycler-gousse-vanille']
+  assign wiki_poivre_quel_plat_page = pages['wiki-poivre-quel-plat']
+  assign wiki_sel_quel_plat_page = pages['wiki-sel-aromatise-quel-plat']
+
+  assign wiki_vanille_collection = collections['vanille-bourbon']
+  assign wiki_epices_collection = collections['epices-madagascar']
+  assign wiki_poivres_collection = collections['poivre-baies']
+  assign wiki_sels_collection = collections['sels']
+  assign wiki_huiles_collection = collections['huiles-madagascar']
+
+  assign wiki_catalogue_page_url = wiki_catalogue_page.url | default: routes.all_products_collection_url
+  assign wiki_index_page_url = wiki_index_page.url | default: '/pages/wiki'
+  assign wiki_recipes_hub_url = wiki_recipes_page.url | default: '/pages/recettes'
+  assign wiki_contact_page_url = wiki_contact_page.url | default: '/pages/contact'
+  assign wiki_vanille_page_url = wiki_vanille_page.url | default: '/pages/wiki-vanille-bien-choisir'
+  assign wiki_storage_page_url = wiki_storage_page.url | default: '/pages/wiki-vanille-conservation-preparation'
+  assign wiki_pompona_page_url = wiki_pompona_page.url | default: '/pages/wiki-vanille-pompona'
+  assign wiki_epices_page_url = wiki_epices_page.url | default: '/pages/wiki-epices-madagascar'
+  assign wiki_poivres_page_url = wiki_poivres_page.url | default: '/pages/wiki-poivres-baies-madagascar'
+  assign wiki_sels_page_url = wiki_sels_page.url | default: '/pages/wiki-sels-melanges'
+  assign wiki_recettes_page_url = wiki_recettes_page.url | default: '/pages/wiki-recettes'
+  assign wiki_glossaire_page_url = wiki_glossaire_page.url | default: '/pages/wiki-glossaire-epices'
+  assign wiki_faq_page_url = wiki_faq_page.url | default: '/pages/wiki-faq-vanille-epices'
+  assign wiki_dosage_page_url = wiki_dosage_page.url | default: '/pages/wiki-dosage-vanille'
+  assign wiki_recycler_page_url = wiki_recycler_page.url | default: '/pages/wiki-recycler-gousse-vanille'
+  assign wiki_poivre_quel_plat_page_url = wiki_poivre_quel_plat_page.url | default: '/pages/wiki-poivre-quel-plat'
+  assign wiki_sel_quel_plat_page_url = wiki_sel_quel_plat_page.url | default: '/pages/wiki-sel-aromatise-quel-plat'
+  assign wiki_vanille_collection_url = wiki_vanille_collection.url | default: '/collections/vanille-bourbon'
+  assign wiki_epices_collection_url = wiki_epices_collection.url | default: '/collections/epices-madagascar'
+  assign wiki_poivres_collection_url = wiki_poivres_collection.url | default: '/collections/poivre-baies'
+  assign wiki_sels_collection_url = wiki_sels_collection.url | default: '/collections/sels'
+  assign wiki_huiles_collection_url = wiki_huiles_collection.url | default: '/collections/huiles-madagascar'
+-%}
 {%- case page_handle -%}
   {%- when 'wiki-vanille-conservation-preparation' -%}
     <div class="vd-wiki-article-note">
@@ -101,9 +149,9 @@
     <p>Si vous cuisinez à la maison, démarrez avec un petit format pour comparer la souplesse, la coupe et l’intensité aromatique. Pour les usages réguliers, les ateliers ou la restauration, un format plus généreux offre souvent un meilleur coût par gousse et une meilleure continuité d’usage.</p>
 
     <div class="vd-wiki-article-links">
-      <a href="/collections/vanille-bourbon" data-vd-preview-link>Voir les gousses de vanille Bourbon</a>
-      <a href="/pages/catalogue" data-vd-preview-link>Voir le catalogue</a>
-      <a href="/pages/wiki-vanille-bien-choisir" data-vd-preview-link>Lire aussi : bien choisir sa vanille</a>
+      <a href="{{ wiki_vanille_collection_url }}" data-vd-preview-link>Voir les gousses de vanille Bourbon</a>
+      <a href="{{ wiki_catalogue_page_url }}" data-vd-preview-link>Voir le catalogue</a>
+      <a href="{{ wiki_vanille_page_url }}" data-vd-preview-link>Lire aussi : bien choisir sa vanille</a>
     </div>
 
     <h2>Sources &amp; lectures utiles</h2>
@@ -214,10 +262,10 @@
     <p>Si vous découvrez la vanille en gousse, démarrez par un format simple à ouvrir et à utiliser. Si vous avez déjà un rythme de cuisine plus soutenu, passez directement sur un lot plus généreux pour lisser le coût et garder une vraie continuité de qualité dans vos préparations.</p>
 
     <div class="vd-wiki-article-links">
-      <a href="/collections/vanille-bourbon" data-vd-preview-link>Voir la sélection vanille Bourbon</a>
-      <a href="/pages/catalogue" data-vd-preview-link>Explorer les formats</a>
-      <a href="/pages/wiki-faq-vanille-epices" data-vd-preview-link>Voir les questions fréquentes</a>
-      <a href="/pages/wiki-vanille-conservation-preparation" data-vd-preview-link>Lire aussi : conservation & préparation</a>
+      <a href="{{ wiki_vanille_collection_url }}" data-vd-preview-link>Voir la sélection vanille Bourbon</a>
+      <a href="{{ wiki_catalogue_page_url }}" data-vd-preview-link>Explorer les formats</a>
+      <a href="{{ wiki_faq_page_url }}" data-vd-preview-link>Voir les questions fréquentes</a>
+      <a href="{{ wiki_storage_page_url }}" data-vd-preview-link>Lire aussi : conservation & préparation</a>
     </div>
 
     <h2>Sources &amp; lectures utiles</h2>
@@ -301,10 +349,10 @@
     <p>Le plus logique est de poursuivre vers <strong>Bien choisir sa vanille</strong>, puis vers la sélection de <strong>vanille Bourbon</strong> si vous cherchez une matière directement utilisable.</p>
 
     <div class="vd-wiki-article-links">
-      <a href="/pages/wiki-vanille-bien-choisir" data-vd-preview-link>Lire : bien choisir sa vanille</a>
-      <a href="/collections/vanille-bourbon" data-vd-preview-link>Voir la vanille Bourbon</a>
-      <a href="/pages/wiki-vanille-conservation-preparation" data-vd-preview-link>Voir conservation & préparation</a>
-      <a href="/pages/recettes" data-vd-preview-link>Voir les recettes</a>
+      <a href="{{ wiki_vanille_page_url }}" data-vd-preview-link>Lire : bien choisir sa vanille</a>
+      <a href="{{ wiki_vanille_collection_url }}" data-vd-preview-link>Voir la vanille Bourbon</a>
+      <a href="{{ wiki_storage_page_url }}" data-vd-preview-link>Voir conservation & préparation</a>
+      <a href="{{ wiki_recipes_hub_url }}" data-vd-preview-link>Voir les recettes</a>
     </div>
 
     <h2>Sources &amp; lectures utiles</h2>
@@ -379,10 +427,10 @@
     <p>Le bon enchaînement est souvent <strong>Bien choisir sa vanille</strong>, puis <strong>Vanille Pompona</strong> pour comparer, avant de revenir vers la sélection la plus cohérente à acheter aujourd’hui.</p>
 
     <div class="vd-wiki-article-links">
-      <a href="/pages/wiki-vanille-bien-choisir" data-vd-preview-link>Lire : bien choisir sa vanille</a>
-      <a href="/pages/wiki-vanille-pompona" data-vd-preview-link>Comparer avec Pompona</a>
-      <a href="/collections/vanille-bourbon" data-vd-preview-link>Voir la vanille Bourbon</a>
-      <a href="/pages/recettes" data-vd-preview-link>Voir les recettes</a>
+      <a href="{{ wiki_vanille_page_url }}" data-vd-preview-link>Lire : bien choisir sa vanille</a>
+      <a href="{{ wiki_pompona_page_url }}" data-vd-preview-link>Comparer avec Pompona</a>
+      <a href="{{ wiki_vanille_collection_url }}" data-vd-preview-link>Voir la vanille Bourbon</a>
+      <a href="{{ wiki_recipes_hub_url }}" data-vd-preview-link>Voir les recettes</a>
     </div>
 
     <h2>Sources &amp; lectures utiles</h2>
@@ -522,10 +570,10 @@
     <p>Si vous voulez comparer des intensités et des finitions, poursuivez vers <strong>Poivres & baies</strong>. Si votre besoin touche surtout l’assaisonnement final, allez vers <strong>Sels & mélanges</strong>. Si vous voulez passer tout de suite à l’usage, ouvrez les <strong>recettes & accords</strong>.</p>
 
     <div class="vd-wiki-article-links">
-      <a href="/collections/epices-madagascar" data-vd-preview-link>Voir les épices</a>
-      <a href="/pages/wiki-poivres-baies-madagascar" data-vd-preview-link>Explorer les poivres & baies</a>
-      <a href="/pages/wiki-recettes" data-vd-preview-link>Voir les recettes & accords</a>
-      <a href="/pages/wiki-glossaire-epices" data-vd-preview-link>Lire le glossaire</a>
+      <a href="{{ wiki_epices_collection_url }}" data-vd-preview-link>Voir les épices</a>
+      <a href="{{ wiki_poivres_page_url }}" data-vd-preview-link>Explorer les poivres & baies</a>
+      <a href="{{ wiki_recettes_page_url }}" data-vd-preview-link>Voir les recettes & accords</a>
+      <a href="{{ wiki_glossaire_page_url }}" data-vd-preview-link>Lire le glossaire</a>
     </div>
 
     <h2>Sources &amp; lectures utiles</h2>
@@ -666,10 +714,10 @@
     </div>
 
     <div class="vd-wiki-article-links">
-      <a href="/collections/poivre-baies" data-vd-preview-link>Voir les poivres & baies</a>
-      <a href="/pages/recettes" data-vd-preview-link>Voir les recettes</a>
-      <a href="/pages/wiki-epices-madagascar" data-vd-preview-link>Retour aux épices</a>
-      <a href="/pages/wiki-sels-melanges" data-vd-preview-link>Comparer avec les sels & mélanges</a>
+      <a href="{{ wiki_poivres_collection_url }}" data-vd-preview-link>Voir les poivres & baies</a>
+      <a href="{{ wiki_recipes_hub_url }}" data-vd-preview-link>Voir les recettes</a>
+      <a href="{{ wiki_epices_page_url }}" data-vd-preview-link>Retour aux épices</a>
+      <a href="{{ wiki_sels_page_url }}" data-vd-preview-link>Comparer avec les sels & mélanges</a>
     </div>
 
     <h2>Sources &amp; lectures utiles</h2>
@@ -787,10 +835,10 @@
     <p>Un sel aromatisé haut de gamme ne doit pas encourager à saler plus, mais à assaisonner mieux. Les repères de santé publique restent clairs sur la modération du sodium&nbsp;: l’intérêt d’un beau sel ou d’un bel assemblage tient justement dans la précision du geste, la finesse de la finition et la capacité à donner du goût avec moins d’à-peu-près.</p>
 
     <div class="vd-wiki-article-links">
-      <a href="/collections/sels" data-vd-preview-link>Voir les sels gourmets</a>
-      <a href="/pages/wiki-recettes" data-vd-preview-link>Voir les usages en cuisine</a>
-      <a href="/pages/wiki-epices-madagascar" data-vd-preview-link>Revenir au panorama des épices</a>
-      <a href="/pages/wiki-poivres-baies-madagascar" data-vd-preview-link>Comparer avec les poivres & baies</a>
+      <a href="{{ wiki_sels_collection_url }}" data-vd-preview-link>Voir les sels gourmets</a>
+      <a href="{{ wiki_recettes_page_url }}" data-vd-preview-link>Voir les usages en cuisine</a>
+      <a href="{{ wiki_epices_page_url }}" data-vd-preview-link>Revenir au panorama des épices</a>
+      <a href="{{ wiki_poivres_page_url }}" data-vd-preview-link>Comparer avec les poivres & baies</a>
     </div>
 
     <h2>Lectures utiles</h2>
@@ -890,8 +938,8 @@
     <p>La destination produit, les limites d’usage, le format et les précautions. C’est ce qui doit guider la lecture avant même le parfum ou l’origine.</p>
 
     <div class="vd-wiki-article-links">
-      <a href="/collections/huiles-madagascar" data-vd-preview-link>Voir les huiles & plantes</a>
-      <a href="/pages/contact" data-vd-preview-link>Nous contacter</a>
+      <a href="{{ wiki_huiles_collection_url }}" data-vd-preview-link>Voir les huiles & plantes</a>
+      <a href="{{ wiki_contact_page_url }}" data-vd-preview-link>Nous contacter</a>
     </div>
     <h2>Sources &amp; lectures utiles</h2>
     <ul class="vd-wiki-article-sources">
@@ -1005,10 +1053,10 @@
     <h2>Si vous voulez prolonger cette lecture par un achat utile</h2>
     <p>Le plus cohérent est de regarder ensuite des références où la matière et la préparation restent lisibles. Inutile d’ouvrir tout le catalogue&nbsp;: mieux vaut comparer quelques lots maison bien documentés, puis revenir au wiki si un doute subsiste sur le geste ou le stockage.</p>
     <div class="vd-wiki-article-links">
-      <a href="/collections/vanille-bourbon" data-vd-preview-link>Voir les vanilles les plus lisibles</a>
-      <a href="/collections/epices-madagascar" data-vd-preview-link>Comparer les épices maison</a>
-      <a href="/pages/wiki-faq-vanille-epices" data-vd-preview-link>Voir la FAQ</a>
-      <a href="/pages/contact" data-vd-preview-link>Poser une question</a>
+      <a href="{{ wiki_vanille_collection_url }}" data-vd-preview-link>Voir les vanilles les plus lisibles</a>
+      <a href="{{ wiki_epices_collection_url }}" data-vd-preview-link>Comparer les épices maison</a>
+      <a href="{{ wiki_faq_page_url }}" data-vd-preview-link>Voir la FAQ</a>
+      <a href="{{ wiki_contact_page_url }}" data-vd-preview-link>Poser une question</a>
     </div>
     <h2>Lectures utiles</h2>
     <ul class="vd-wiki-article-sources">
@@ -1089,10 +1137,10 @@
     <p>Dans la plupart des cas, le meilleur réflexe reste de revenir au goût, à l’usage culinaire et à la lisibilité de la matière. Si vous voulez acheter sans vous disperser, choisissez d’abord des références nettes, bien expliquées et faciles à cuisiner plutôt que des promesses trop chargées.</p>
 
     <div class="vd-wiki-article-links">
-      <a href="/collections/epices-madagascar" data-vd-preview-link>Voir les épices les plus faciles à lire</a>
-      <a href="/collections/vanille-bourbon" data-vd-preview-link>Revenir à la vanille Bourbon</a>
-      <a href="/pages/wiki-recettes" data-vd-preview-link>Voir les usages en cuisine</a>
-      <a href="/pages/wiki-faq-vanille-epices" data-vd-preview-link>Voir les questions fréquentes</a>
+      <a href="{{ wiki_epices_collection_url }}" data-vd-preview-link>Voir les épices les plus faciles à lire</a>
+      <a href="{{ wiki_vanille_collection_url }}" data-vd-preview-link>Revenir à la vanille Bourbon</a>
+      <a href="{{ wiki_recettes_page_url }}" data-vd-preview-link>Voir les usages en cuisine</a>
+      <a href="{{ wiki_faq_page_url }}" data-vd-preview-link>Voir les questions fréquentes</a>
     </div>
     <h2>Sources &amp; lectures utiles</h2>
     <ul class="vd-wiki-article-sources">
@@ -1286,11 +1334,11 @@
     <p>Le wiki n’a pas vocation à vous laisser seul au moment d’acheter. Si vous cherchez une première matière fiable pour passer à l’action, partez sur une vanille Bourbon bien préparée, quelques épices nettes ou un poivre lisible à la finition. Ce sont souvent les références les plus simples à comprendre et les plus rentables en cuisine maison.</p>
 
     <div class="vd-wiki-article-links">
-      <a href="/pages/recettes" data-vd-preview-link>Ouvrir les recettes</a>
-      <a href="/collections/vanille-bourbon" data-vd-preview-link>Voir la vanille pour cuisiner</a>
-      <a href="/collections/epices-madagascar" data-vd-preview-link>Explorer les épices</a>
-      <a href="/pages/wiki-vanille-conservation-preparation" data-vd-preview-link>Voir la préparation de la vanille</a>
-      <a href="/collections/poivre-baies" data-vd-preview-link>Voir les poivres & baies</a>
+      <a href="{{ wiki_recipes_hub_url }}" data-vd-preview-link>Ouvrir les recettes</a>
+      <a href="{{ wiki_vanille_collection_url }}" data-vd-preview-link>Voir la vanille pour cuisiner</a>
+      <a href="{{ wiki_epices_collection_url }}" data-vd-preview-link>Explorer les épices</a>
+      <a href="{{ wiki_storage_page_url }}" data-vd-preview-link>Voir la préparation de la vanille</a>
+      <a href="{{ wiki_poivres_collection_url }}" data-vd-preview-link>Voir les poivres & baies</a>
     </div>
 
     <h2>Lecture utile avant de cuisiner</h2>
@@ -1414,11 +1462,11 @@
     <p>Un lecteur qui comprend vraiment les mots du WIKI choisit plus vite la bonne référence. Dès qu’un terme vous bloque sur une fiche produit, revenez ici, clarifiez le vocabulaire, puis retournez vers une sélection plus précise au lieu d’acheter au hasard.</p>
 
     <div class="vd-wiki-article-links">
-      <a href="/pages/wiki" data-vd-preview-link>Retour au wiki</a>
-      <a href="/pages/wiki-vanille-bien-choisir" data-vd-preview-link>Bien choisir sa vanille</a>
-      <a href="/pages/wiki-vanille-conservation-preparation" data-vd-preview-link>Conservation & préparation</a>
-      <a href="/collections/vanille-bourbon" data-vd-preview-link>Voir la vanille Bourbon</a>
-      <a href="/collections/epices-madagascar" data-vd-preview-link>Explorer les épices</a>
+      <a href="{{ wiki_index_page_url }}" data-vd-preview-link>Retour au wiki</a>
+      <a href="{{ wiki_vanille_page_url }}" data-vd-preview-link>Bien choisir sa vanille</a>
+      <a href="{{ wiki_storage_page_url }}" data-vd-preview-link>Conservation & préparation</a>
+      <a href="{{ wiki_vanille_collection_url }}" data-vd-preview-link>Voir la vanille Bourbon</a>
+      <a href="{{ wiki_epices_collection_url }}" data-vd-preview-link>Explorer les épices</a>
     </div>
 
     <h2>Lectures liées</h2>
@@ -1498,11 +1546,11 @@
     <p>La meilleure sortie n’est pas forcément le catalogue entier. Si votre besoin est déjà assez net, allez plutôt vers la famille de produits correspondante&nbsp;: vanille pour la pâtisserie, poivres pour la finition, sels pour l’assaisonnement rapide, ou épices pour construire une base plus large.</p>
 
     <div class="vd-wiki-article-links">
-      <a href="/collections/vanille-bourbon" data-vd-preview-link>Voir la vanille Bourbon</a>
-      <a href="/collections/poivre-baies" data-vd-preview-link>Voir les poivres & baies</a>
-      <a href="/collections/sels" data-vd-preview-link>Voir les sels gourmets</a>
-      <a href="/pages/wiki-recettes" data-vd-preview-link>Voir les recettes</a>
-      <a href="/pages/wiki-glossaire-epices" data-vd-preview-link>Ouvrir le glossaire</a>
+      <a href="{{ wiki_vanille_collection_url }}" data-vd-preview-link>Voir la vanille Bourbon</a>
+      <a href="{{ wiki_poivres_collection_url }}" data-vd-preview-link>Voir les poivres & baies</a>
+      <a href="{{ wiki_sels_collection_url }}" data-vd-preview-link>Voir les sels gourmets</a>
+      <a href="{{ wiki_recettes_page_url }}" data-vd-preview-link>Voir les recettes</a>
+      <a href="{{ wiki_glossaire_page_url }}" data-vd-preview-link>Ouvrir le glossaire</a>
     </div>
 
     <h2>Sources &amp; lectures utiles</h2>
@@ -1568,10 +1616,10 @@
     <p>Quand la recette paraît lourde, “plate” malgré l’intensité, ou que le reste de l’accord disparaît. Une belle vanille doit soutenir, pas tout effacer.</p>
 
     <div class="vd-wiki-article-links">
-      <a href="/collections/vanille-bourbon" data-vd-preview-link>Voir la vanille Bourbon</a>
-      <a href="/pages/wiki-vanille-bien-choisir" data-vd-preview-link>Bien choisir sa vanille</a>
-      <a href="/pages/wiki-recycler-gousse-vanille" data-vd-preview-link>Recycler une gousse déjà utilisée</a>
-      <a href="/pages/recettes" data-vd-preview-link>Voir les recettes</a>
+      <a href="{{ wiki_vanille_collection_url }}" data-vd-preview-link>Voir la vanille Bourbon</a>
+      <a href="{{ wiki_vanille_page_url }}" data-vd-preview-link>Bien choisir sa vanille</a>
+      <a href="{{ wiki_recycler_page_url }}" data-vd-preview-link>Recycler une gousse déjà utilisée</a>
+      <a href="{{ wiki_recipes_hub_url }}" data-vd-preview-link>Voir les recettes</a>
     </div>
 
     <h2>Sources &amp; lectures utiles</h2>
@@ -1632,10 +1680,10 @@
     <p>Parce qu’une infusion ne retire pas tout d’un coup. Une partie de l’aromatique reste dans la gousse, surtout si l’extraction de départ a été courte ou douce.</p>
 
     <div class="vd-wiki-article-links">
-      <a href="/pages/wiki-dosage-vanille" data-vd-preview-link>Voir le dosage vanille</a>
-      <a href="/pages/wiki-vanille-conservation-preparation" data-vd-preview-link>Conservation & préparation</a>
-      <a href="/collections/vanille-bourbon" data-vd-preview-link>Voir la vanille Bourbon</a>
-      <a href="/pages/recettes" data-vd-preview-link>Voir les recettes</a>
+      <a href="{{ wiki_dosage_page_url }}" data-vd-preview-link>Voir le dosage vanille</a>
+      <a href="{{ wiki_storage_page_url }}" data-vd-preview-link>Conservation & préparation</a>
+      <a href="{{ wiki_vanille_collection_url }}" data-vd-preview-link>Voir la vanille Bourbon</a>
+      <a href="{{ wiki_recipes_hub_url }}" data-vd-preview-link>Voir les recettes</a>
     </div>
 
     <h2>Sources &amp; lectures utiles</h2>
@@ -1688,10 +1736,10 @@
     <p>Le plus logique est de comparer ensuite les épices disponibles puis de passer aux recettes où le combava est déjà dosé dans un contexte concret.</p>
 
     <div class="vd-wiki-article-links">
-      <a href="/collections/epices-madagascar" data-vd-preview-link>Voir les épices</a>
-      <a href="/pages/wiki-epices-madagascar" data-vd-preview-link>Retour au panorama des épices</a>
-      <a href="/pages/wiki-sel-aromatise-quel-plat" data-vd-preview-link>Comparer avec les sels aromatisés</a>
-      <a href="/pages/recettes" data-vd-preview-link>Voir les recettes</a>
+      <a href="{{ wiki_epices_collection_url }}" data-vd-preview-link>Voir les épices</a>
+      <a href="{{ wiki_epices_page_url }}" data-vd-preview-link>Retour au panorama des épices</a>
+      <a href="{{ wiki_sel_quel_plat_page_url }}" data-vd-preview-link>Comparer avec les sels aromatisés</a>
+      <a href="{{ wiki_recipes_hub_url }}" data-vd-preview-link>Voir les recettes</a>
     </div>
 
     <h2>Sources &amp; lectures utiles</h2>
@@ -1737,10 +1785,10 @@
     <p>Quand vous cherchez une finition plus immédiate, plus salée et plus construite, sans devoir gérer séparément poivre, sel et autres touches aromatiques.</p>
 
     <div class="vd-wiki-article-links">
-      <a href="/collections/poivre-baies" data-vd-preview-link>Voir les poivres & baies</a>
-      <a href="/pages/wiki-poivres-baies-madagascar" data-vd-preview-link>Retour au panorama des poivres</a>
-      <a href="/pages/wiki-sel-aromatise-quel-plat" data-vd-preview-link>Comparer avec les sels aromatisés</a>
-      <a href="/pages/recettes" data-vd-preview-link>Voir les recettes</a>
+      <a href="{{ wiki_poivres_collection_url }}" data-vd-preview-link>Voir les poivres & baies</a>
+      <a href="{{ wiki_poivres_page_url }}" data-vd-preview-link>Retour au panorama des poivres</a>
+      <a href="{{ wiki_sel_quel_plat_page_url }}" data-vd-preview-link>Comparer avec les sels aromatisés</a>
+      <a href="{{ wiki_recipes_hub_url }}" data-vd-preview-link>Voir les recettes</a>
     </div>
 
     <h2>Sources &amp; lectures utiles</h2>
@@ -1786,10 +1834,10 @@
     <p>Quand vous voulez surtout une tension poivrée, une chaleur sèche ou une finition sans apport salin supplémentaire.</p>
 
     <div class="vd-wiki-article-links">
-      <a href="/collections/sels" data-vd-preview-link>Voir les sels gourmets</a>
-      <a href="/pages/wiki-sels-melanges" data-vd-preview-link>Retour à Sels & mélanges</a>
-      <a href="/pages/wiki-poivre-quel-plat" data-vd-preview-link>Comparer avec les poivres</a>
-      <a href="/pages/recettes" data-vd-preview-link>Voir les recettes</a>
+      <a href="{{ wiki_sels_collection_url }}" data-vd-preview-link>Voir les sels gourmets</a>
+      <a href="{{ wiki_sels_page_url }}" data-vd-preview-link>Retour à Sels & mélanges</a>
+      <a href="{{ wiki_poivre_quel_plat_page_url }}" data-vd-preview-link>Comparer avec les poivres</a>
+      <a href="{{ wiki_recipes_hub_url }}" data-vd-preview-link>Voir les recettes</a>
     </div>
 
     <h2>Sources &amp; lectures utiles</h2>

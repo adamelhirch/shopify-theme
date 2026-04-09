@@ -149,7 +149,7 @@
       assign product_support_link_label_3 = product_support_link_label_3_default
     endif
 
-    if product_support_link_1 == blank or product_support_link_1 == '/pages/recettes'
+    if product_support_link_1 == blank or product_support_link_1 == '/pages/recettes' or product_support_link_1 == '/pages/wiki-recettes'
       assign product_support_link_1 = wiki_usage_url | default: recipes_page_url
     endif
 

@@ -21,6 +21,10 @@
   {%- assign favorites_metafield_value = favorites_metafield.value | default: favorites_metafield -%}
   {%- assign history_metafield = customer.metafields.vd.recipe_history -%}
   {%- assign history_metafield_value = history_metafield.value | default: history_metafield -%}
+  {%- assign account_wiki_page = pages['wiki'] -%}
+  {%- assign account_contact_page = pages['contact'] -%}
+  {%- assign account_wiki_url = account_wiki_page.url | default: '/pages/wiki' -%}
+  {%- assign account_contact_url = account_contact_page.url | default: '/pages/contact' -%}
   <div class="vd-customer-shell">
     <div class="vd-customer-shell__header">
       <div>
@@ -228,6 +232,27 @@
         <a href="{{ routes.account_addresses_url }}" class="button button--secondary">
           {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
         </a>
+
+        <div class="vd-customer-quicklinks">
+          <a href="{{ routes.all_products_collection_url }}" class="vd-arrow-cta">
+            <span class="vd-arrow-cta__label">Revenir au catalogue</span>
+            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+            </svg>
+          </a>
+          <a href="{{ account_wiki_url }}" class="vd-arrow-cta" data-vd-preview-link>
+            <span class="vd-arrow-cta__label">Explorer le wiki</span>
+            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+            </svg>
+          </a>
+          <a href="{{ account_contact_url }}" class="vd-arrow-cta" data-vd-preview-link>
+            <span class="vd-arrow-cta__label">Parler avec nous</span>
+            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -258,6 +283,12 @@
   .vd-customer-carnet__cards {
     display: grid;
     gap: 1rem;
+  }
+
+  .vd-customer-quicklinks {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.6rem;
   }
 
   .vd-customer-carnet__card {

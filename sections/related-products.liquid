@@ -12,10 +12,64 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
+  .related-products__context {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.8rem;
+  }
+
+  .related-products__context-card {
+    padding: 1.2rem 1.4rem;
+    border: 1px solid rgba(var(--color-foreground), 0.08);
+    border-radius: 1.8rem;
+    background: rgba(var(--color-background), 0.72);
+    backdrop-filter: blur(14px);
+  }
+
+  .related-products__context-card span {
+    display: block;
+    font-size: 1rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.64;
+  }
+
+  .related-products__context-card strong {
+    display: block;
+    margin-top: 0.8rem;
+    font-size: 1.45rem;
+    line-height: 1.25;
+  }
+
+  .related-products__context-card p {
+    margin: 0.7rem 0 0;
+    font-size: 1.28rem;
+    line-height: 1.55;
+    opacity: 0.78;
+  }
+
+  .related-products__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.8rem;
+  }
+
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .related-products__context {
+      grid-template-columns: 1fr;
+    }
+
+    .related-products__actions {
+      flex-direction: column;
     }
   }
 {%- endstyle -%}
@@ -50,6 +104,15 @@
       assign related_secondary_url = wiki_hub_page.url | default: '/pages/wiki'
       assign related_tertiary_label = 'Demander conseil'
       assign related_tertiary_url = contact_page.url | default: '/pages/contact'
+      assign related_context_one_label = 'Parcours'
+      assign related_context_one_value = 'Catalogue + guide'
+      assign related_context_one_copy = 'Poursuivre entre produit, lecture et usage sans casser le rythme.'
+      assign related_context_two_label = 'Usage'
+      assign related_context_two_value = 'Choisir, cuisiner, offrir'
+      assign related_context_two_copy = 'Le bon format se comprend autant par le besoin que par la matière.'
+      assign related_context_three_label = 'Accompagnement'
+      assign related_context_three_value = 'Conseil si besoin'
+      assign related_context_three_copy = 'Quand la question devient précise, il faut une sortie simple vers le conseil.'
 
       if related_context_blob contains 'vanille'
         assign related_primary_label = 'Voir la sélection vanille'
@@ -58,6 +121,12 @@
         assign related_secondary_url = wiki_vanille_page.url | default: related_secondary_url
         assign related_tertiary_label = 'Voir les recettes'
         assign related_tertiary_url = recipes_page.url | default: '/pages/recettes'
+        assign related_context_one_value = 'Infusion, pâtisserie, cadeau'
+        assign related_context_one_copy = 'La suite la plus rentable consiste à comparer format, souplesse et usage réel.'
+        assign related_context_two_value = 'Bourbon la plus lisible'
+        assign related_context_two_copy = 'Le wiki sert ici de guide d’achat, pas seulement de lecture éditoriale.'
+        assign related_context_three_value = 'Recettes pour passer à l’usage'
+        assign related_context_three_copy = 'On réduit le doute en montrant immédiatement comment la matière se cuisine.'
       elsif related_context_blob contains 'poivre' or related_context_blob contains 'voatsiperifery' or related_context_blob contains 'baie'
         assign related_primary_label = 'Voir les poivres & baies'
         assign related_primary_url = poivres_collection.url | default: routes.all_products_collection_url
@@ -65,6 +134,12 @@
         assign related_secondary_url = wiki_poivres_page.url | default: related_secondary_url
         assign related_tertiary_label = 'Voir les recettes'
         assign related_tertiary_url = recipes_page.url | default: '/pages/recettes'
+        assign related_context_one_value = 'Finition ou cuisson'
+        assign related_context_one_copy = 'Le bon prochain achat dépend surtout du moment d’ajout et de l’intensité cherchée.'
+        assign related_context_two_value = 'Comparer les familles'
+        assign related_context_two_copy = 'Poivres droits, floraux ou plus sauvages ne se vendent pas de la même manière.'
+        assign related_context_three_value = 'Accords en cuisine'
+        assign related_context_three_copy = 'Les recettes servent ici à projeter la matière sur un vrai plat.'
       elsif related_context_blob contains 'sel'
         assign related_primary_label = 'Voir les sels & mélanges'
         assign related_primary_url = sels_collection.url | default: routes.all_products_collection_url
@@ -72,6 +147,12 @@
         assign related_secondary_url = wiki_sels_page.url | default: related_secondary_url
         assign related_tertiary_label = 'Voir les recettes'
         assign related_tertiary_url = recipes_page.url | default: '/pages/recettes'
+        assign related_context_one_value = 'Finitions rapides'
+        assign related_context_one_copy = 'Le bon sel aromatisé doit simplifier le dressage sans alourdir la lecture.'
+        assign related_context_two_value = 'Sels ou poivres ?'
+        assign related_context_two_copy = 'La comparaison éditoriale aide à arbitrer plus vite entre familles proches.'
+        assign related_context_three_value = 'Gestes concrets'
+        assign related_context_three_copy = 'Le passage par les recettes rassure sur le dosage et le moment d’ajout.'
       elsif related_context_blob contains 'huile' or related_context_blob contains 'ravintsara' or related_context_blob contains 'ylang'
         assign related_primary_label = 'Voir les plantes & huiles'
         assign related_primary_url = plantes_collection.url | default: routes.all_products_collection_url
@@ -79,6 +160,12 @@
         assign related_secondary_url = wiki_plantes_page.url | default: related_secondary_url
         assign related_tertiary_label = 'Demander conseil'
         assign related_tertiary_url = contact_page.url | default: '/pages/contact'
+        assign related_context_one_value = 'Lecture plus experte'
+        assign related_context_one_copy = 'Ici, la suite doit clarifier l’usage avant de pousser l’achat complémentaire.'
+        assign related_context_two_value = 'Plantes et fonctions'
+        assign related_context_two_copy = 'Le wiki sert à distinguer les matières et à éviter les confusions d’usage.'
+        assign related_context_three_value = 'Question directe'
+        assign related_context_three_copy = 'Le contact doit rester visible pour les besoins plus sensibles ou spécifiques.'
       elsif related_context_blob contains 'combava' or related_context_blob contains 'cannelle' or related_context_blob contains 'curcuma' or related_context_blob contains 'girofle' or related_context_blob contains 'gingembre'
         assign related_primary_label = 'Voir les épices'
         assign related_primary_url = epices_collection.url | default: routes.all_products_collection_url
@@ -86,6 +173,12 @@
         assign related_secondary_url = wiki_epices_page.url | default: related_secondary_url
         assign related_tertiary_label = 'Voir les recettes'
         assign related_tertiary_url = recipes_page.url | default: '/pages/recettes'
+        assign related_context_one_value = 'Accords et intensité'
+        assign related_context_one_copy = 'La prochaine étape doit aider à choisir entre tension, chaleur, rondeur ou fraîcheur.'
+        assign related_context_two_value = 'Panorama de famille'
+        assign related_context_two_copy = 'Le guide épices devient ici un vrai outil d’orientation avant la relance panier.'
+        assign related_context_three_value = 'Voir en cuisine'
+        assign related_context_three_copy = 'Les recettes servent à transformer une curiosité en usage plausible.'
       endif
     -%}
     {% if recommendations.performed and recommendations.products_count > 0 %}
@@ -101,6 +194,23 @@
             {{ related_editorial_text }}
           </div>
         {%- endif -%}
+      </div>
+      <div class="related-products__context" role="list">
+        <article class="related-products__context-card" role="listitem">
+          <span>{{ related_context_one_label }}</span>
+          <strong>{{ related_context_one_value }}</strong>
+          <p>{{ related_context_one_copy }}</p>
+        </article>
+        <article class="related-products__context-card" role="listitem">
+          <span>{{ related_context_two_label }}</span>
+          <strong>{{ related_context_two_value }}</strong>
+          <p>{{ related_context_two_copy }}</p>
+        </article>
+        <article class="related-products__context-card" role="listitem">
+          <span>{{ related_context_three_label }}</span>
+          <strong>{{ related_context_three_value }}</strong>
+          <p>{{ related_context_three_copy }}</p>
+        </article>
       </div>
       <ul
         class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
@@ -121,6 +231,28 @@
           </li>
         {% endfor %}
       </ul>
+      <div class="related-products__actions">
+        <a href="{{ related_primary_url }}" class="vd-arrow-cta" data-vd-preview-link>
+          <span class="vd-arrow-cta__label">{{ related_primary_label }}</span>
+          <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+            <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+          </svg>
+        </a>
+        <a href="{{ related_secondary_url }}" class="vd-arrow-cta" data-vd-preview-link>
+          <span class="vd-arrow-cta__label">{{ related_secondary_label }}</span>
+          <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+            <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+          </svg>
+        </a>
+        {%- if related_tertiary_url != blank and related_tertiary_label != blank and related_tertiary_url != related_primary_url and related_tertiary_url != related_secondary_url -%}
+          <a href="{{ related_tertiary_url }}" class="vd-arrow-cta" data-vd-preview-link>
+            <span class="vd-arrow-cta__label">{{ related_tertiary_label }}</span>
+            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+            </svg>
+          </a>
+        {%- endif -%}
+      </div>
     {% elsif recommendations.performed %}
       <div class="related-products__intro{% if related_editorial_text_plain == blank %} related-products__intro--simple{% endif %}">
         <div class="related-products__intro-copy">
@@ -134,6 +266,23 @@
             {{ related_editorial_text }}
           </div>
         {%- endif -%}
+      </div>
+      <div class="related-products__context" role="list">
+        <article class="related-products__context-card" role="listitem">
+          <span>{{ related_context_one_label }}</span>
+          <strong>{{ related_context_one_value }}</strong>
+          <p>{{ related_context_one_copy }}</p>
+        </article>
+        <article class="related-products__context-card" role="listitem">
+          <span>{{ related_context_two_label }}</span>
+          <strong>{{ related_context_two_value }}</strong>
+          <p>{{ related_context_two_copy }}</p>
+        </article>
+        <article class="related-products__context-card" role="listitem">
+          <span>{{ related_context_three_label }}</span>
+          <strong>{{ related_context_three_value }}</strong>
+          <p>{{ related_context_three_copy }}</p>
+        </article>
       </div>
       <div class="related-products__fallback">
         <p class="related-products__fallback-text">

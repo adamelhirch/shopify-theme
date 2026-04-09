@@ -11,10 +11,76 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
+  .vd-cart-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(24rem, 0.95fr);
+    gap: 2rem;
+    margin-bottom: 2.4rem;
+  }
+
+  .vd-cart-intro__copy,
+  .vd-cart-intro__panel,
+  .vd-cart-empty-state {
+    padding: 1.8rem 2rem;
+    border: 1px solid rgba(var(--color-foreground), 0.08);
+    border-radius: 2.2rem;
+    background: rgba(var(--color-background), 0.72);
+    backdrop-filter: blur(14px);
+  }
+
+  .vd-cart-intro__copy p,
+  .vd-cart-empty-state p {
+    margin: 1rem 0 0;
+    max-width: 60ch;
+    line-height: 1.65;
+    opacity: 0.8;
+  }
+
+  .vd-cart-intro__panel {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .vd-cart-intro__metric {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .vd-cart-intro__metric span {
+    font-size: 1rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.62;
+  }
+
+  .vd-cart-intro__metric strong {
+    font-size: 1.45rem;
+    line-height: 1.25;
+  }
+
+  .vd-cart-empty-state__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.6rem;
+  }
+
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .vd-cart-intro {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .vd-cart-empty-state__actions {
+      flex-direction: column;
     }
   }
 {%- endstyle -%}
@@ -25,17 +91,76 @@
 
 <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
 
+{%- liquid
+  assign cart_wiki_page = pages['wiki']
+  assign cart_contact_page = pages['contact']
+  assign cart_recipes_page = pages['recettes']
+  assign cart_wiki_url = cart_wiki_page.url | default: '/pages/wiki'
+  assign cart_contact_url = cart_contact_page.url | default: '/pages/contact'
+  assign cart_recipes_url = cart_recipes_page.url | default: '/pages/recettes'
+-%}
+
 <cart-items class="vd-cart-shell gradient color-{{ section.settings.color_scheme }} isolate{% if cart == empty %} is-empty{% else %} section-{{ section.id }}-padding{% endif %}">
   <div class="page-width">
     <div class="title-wrapper-with-link">
       <h1 class="title title--primary">{{ 'sections.cart.title' | t }}</h1>
     </div>
+    <div class="vd-cart-intro">
+      <div class="vd-cart-intro__copy">
+        <span class="vd-section-kicker">Panier</span>
+        <h2 class="h3">Une dernière lecture claire avant l’achat.</h2>
+        <p>
+          Le panier doit confirmer le niveau de la maison: matières lisibles, réassurance immédiate et passerelles utiles si
+          tu veux encore comparer, comprendre ou demander un conseil avant paiement.
+        </p>
+      </div>
+      <div class="vd-cart-intro__panel" role="list">
+        <div class="vd-cart-intro__metric" role="listitem">
+          <span>Articles</span>
+          <strong>{{ cart.item_count }}</strong>
+        </div>
+        <div class="vd-cart-intro__metric" role="listitem">
+          <span>Références</span>
+          <strong>{{ cart.items.size }}</strong>
+        </div>
+        <div class="vd-cart-intro__metric" role="listitem">
+          <span>Suite utile</span>
+          <strong>Wiki, recettes, conseil</strong>
+        </div>
+      </div>
+    </div>
 
     <div class="cart__warnings">
-      <h1 class="cart__empty-text">{{ 'sections.cart.empty' | t }}</h1>
-      <a href="{{ routes.all_products_collection_url }}" class="button">
-        {{ 'general.continue_shopping' | t }}
-      </a>
+      <div class="vd-cart-empty-state">
+        <h2 class="cart__empty-text">{{ 'sections.cart.empty' | t }}</h2>
+        <p>
+          Le panier est vide pour l’instant. Tu peux repartir par le catalogue, entrer par le wiki pour mieux choisir, ou
+          passer par les recettes pour remonter vers la bonne matière.
+        </p>
+        <div class="vd-cart-empty-state__actions">
+          <a href="{{ routes.all_products_collection_url }}" class="button">
+            {{ 'general.continue_shopping' | t }}
+          </a>
+          <a href="{{ cart_wiki_url }}" class="vd-arrow-cta" data-vd-preview-link>
+            <span class="vd-arrow-cta__label">Explorer le wiki</span>
+            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+            </svg>
+          </a>
+          <a href="{{ cart_recipes_url }}" class="vd-arrow-cta" data-vd-preview-link>
+            <span class="vd-arrow-cta__label">Voir les recettes</span>
+            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+            </svg>
+          </a>
+          <a href="{{ cart_contact_url }}" class="vd-arrow-cta" data-vd-preview-link>
+            <span class="vd-arrow-cta__label">Demander conseil</span>
+            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
 
       {%- if shop.customer_accounts_enabled and customer == null -%}
         <h2 class="cart__login-title">{{ 'sections.cart.login.title' | t }}</h2>

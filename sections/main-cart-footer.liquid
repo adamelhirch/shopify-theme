@@ -22,6 +22,27 @@
   }
 {%- endstyle -%}
 
+{%- liquid
+  assign cart_footer_wiki_page = pages['wiki']
+  assign cart_footer_contact_page = pages['contact']
+  assign cart_footer_faq_page = pages['faq']
+  assign cart_footer_wiki_url = cart_footer_wiki_page.url | default: '/pages/wiki'
+  assign cart_footer_contact_url = cart_footer_contact_page.url | default: '/pages/contact'
+  assign cart_footer_faq_url = cart_footer_faq_page.url | default: '/pages/faq'
+  assign cart_payment_video_url = ''
+  assign cart_payment_video_poster = section.settings.payment_background_image
+
+  if section.settings.payment_background_video != blank
+    assign cart_payment_video_poster = section.settings.payment_background_video.preview_image | default: cart_payment_video_poster
+    for source in section.settings.payment_background_video.sources
+      if source.mime_type == 'video/mp4'
+        assign cart_payment_video_url = source.url
+        break
+      endif
+    endfor
+  endif
+-%}
+
 <div
   class="vd-cart-shell gradient color-{{ section.settings.color_scheme }}{% if cart == empty %} is-empty{% endif %}"
   id="main-cart-footer"
@@ -112,18 +133,25 @@
               <div class="vd-cart-purchase-shell section-{{ section.id }}-payment-shell{% if section.settings.payment_background_video != blank or section.settings.payment_background_image != blank %} vd-cart-purchase-shell--with-media{% endif %}" {{ block.shopify_attributes }}>
                 {%- if section.settings.payment_background_video != blank or section.settings.payment_background_image != blank -%}
                   <div class="vd-cart-purchase-shell__media" aria-hidden="true">
-                    {%- if section.settings.payment_background_video != blank -%}
-                      {{
-                        section.settings.payment_background_video
-                        | video_tag:
-                          class: 'vd-cart-purchase-shell__media-video',
-                          autoplay: true,
-                          loop: true,
-                          muted: true,
-                          controls: false,
-                          playsinline: true,
-                          image_size: '1200x'
-                      }}
+                    {%- if cart_payment_video_url != blank -%}
+                      <video
+                        class="vd-cart-purchase-shell__media-video"
+                        autoplay
+                        loop
+                        muted
+                        playsinline
+                        preload="none"
+                        data-vd-deferred-video
+                        data-video-src="{{ cart_payment_video_url }}"
+                        data-min-width="750"
+                        {% if cart_payment_video_poster != blank %}
+                          poster="{{ cart_payment_video_poster | image_url: width: 1600 }}"
+                        {% endif %}
+                      >
+                        {% comment %}theme-check-disable RemoteAsset{% endcomment %}
+                        <source data-src="{{ cart_payment_video_url }}" type="video/mp4">
+                        {% comment %}theme-check-enable RemoteAsset{% endcomment %}
+                      </video>
                     {%- elsif section.settings.payment_background_image != blank -%}
                       {{
                         section.settings.payment_background_image
@@ -216,6 +244,46 @@
                       <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
                     </svg>
                   </a>
+                </div>
+                <div class="vd-cart-assurance" role="list">
+                  <article class="vd-cart-assurance__card" role="listitem">
+                    <div class="vd-cart-assurance__payment-visual">
+                      <div class="vd-cart-assurance__payment-left" aria-hidden="true">
+                        <div class="vd-cart-assurance__payment-card">
+                          <div class="vd-cart-assurance__payment-line"></div>
+                          <div class="vd-cart-assurance__payment-dots"></div>
+                        </div>
+                        <div class="vd-cart-assurance__payment-slip">
+                          <div class="vd-cart-assurance__payment-slip-top"></div>
+                          <div class="vd-cart-assurance__payment-slip-screen">€</div>
+                          <div class="vd-cart-assurance__payment-slip-grid"></div>
+                        </div>
+                      </div>
+                      <div class="vd-cart-assurance__payment-right">
+                        <strong>Paiement fluide et lisible</strong>
+                        <span>Checkout natif Shopify, total clair, wallet disponible quand il est pertinent.</span>
+                      </div>
+                    </div>
+                  </article>
+                  <article class="vd-cart-assurance__card vd-cart-assurance__card--shipping" role="listitem">
+                    <div class="vd-cart-assurance__truck" aria-hidden="true">
+                      <div class="vd-cart-assurance__truck-body"></div>
+                      <div class="vd-cart-assurance__truck-cabin"></div>
+                      <div class="vd-cart-assurance__truck-wheel vd-cart-assurance__truck-wheel--front"></div>
+                      <div class="vd-cart-assurance__truck-wheel vd-cart-assurance__truck-wheel--rear"></div>
+                      <div class="vd-cart-assurance__truck-road"></div>
+                    </div>
+                    <div class="vd-cart-assurance__copy">
+                      <strong>Besoin d’un repère avant de payer ?</strong>
+                      <span>
+                        <a href="{{ cart_footer_wiki_url }}" data-vd-preview-link>Le wiki</a>,
+                        <a href="{{ cart_footer_faq_url }}" data-vd-preview-link>la FAQ</a>
+                        et
+                        <a href="{{ cart_footer_contact_url }}" data-vd-preview-link>le contact</a>
+                        restent visibles jusqu’au bout.
+                      </span>
+                    </div>
+                  </article>
                 </div>
                 </div>
               </div>
