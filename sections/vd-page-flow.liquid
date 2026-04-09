@@ -990,6 +990,7 @@
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-faq-vanille-epices', wiki_faq_page_url | replace: '/pages/wiki-dosage-vanille', wiki_dosage_page_url | replace: '/pages/wiki-recycler-gousse-vanille', wiki_recycler_page_url | replace: '/pages/wiki-combava-madagascar', wiki_combava_page_url | replace: '/pages/wiki-poivre-quel-plat', wiki_poivre_quel_plat_page_url | replace: '/pages/wiki-sel-aromatise-quel-plat', wiki_sel_quel_plat_page_url -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-vanille-pompona', wiki_vanille_pompona_page_url | replace: '/pages/wiki-recettes', wiki_recettes_page_url | replace: '/pages/wiki-epices-madagascar', wiki_epices_page_url | replace: '/pages/wiki', wiki_index_page_url | replace: '/pages/recettes', recettes_page_url | replace: '/pages/catalogue', catalogue_page_url | replace: '/pages/contact', contact_page_url -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/collections/vanille-bourbon', vanille_collection_url | replace: '/collections/epices-madagascar', epices_collection_url | replace: '/collections/poivre-baies', poivres_collection_url | replace: '/collections/sels', sels_collection_url | replace: '/collections/huiles-madagascar', huiles_collection_url -%}
+  {% comment %}theme-check-disable UnusedAssign{% endcomment %}
   {%- liquid
     assign wiki_detail_content = page.content
     if wiki_detail_override_content != blank
@@ -1475,6 +1476,7 @@
       endif
     endif
   -%}
+  {% comment %}theme-check-enable UnusedAssign{% endcomment %}
 
   <section class="section-{{ section.id }}-padding vd-wiki-detail color-{{ section.settings.color_scheme }}">
     <div class="vd-wiki-detail__stage">

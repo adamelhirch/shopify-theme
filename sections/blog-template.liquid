@@ -14,7 +14,7 @@
             <select id="BlogTagFilter">
               <option value="/blogs/{{ blog.handle }}">All</option>
               {%- for tag in blog.all_tags -%}
-                {% if tag contains "_" %}{%- assign tag_starts_with = tag | slice: 0 -%}{% if tag_starts_with == "_" %}{% if tag_count %}{%- assign tag_count = tag_count | minus: 1 | at_least: 0 -%}{% endif %}{% continue %}{% endif %}{% endif %}
+                {% if tag contains "_" %}{%- assign tag_starts_with = tag | slice: 0 -%}{% if tag_starts_with == "_" %}{% continue %}{% endif %}{% endif %}
                 <option value="/blogs/{{ blog.handle }}/tagged/{{ tag | handleize }}" {% if current_tags contains tag %}selected{% endif %}>{{ tag }}</option>
               {%- endfor -%}
             </select>
@@ -53,7 +53,7 @@
               {%- assign first_item = true -%}
               {%- if section.settings.blog_show_tags and article.tags.size > 0 -%}
                 {%- for tag in article.tags -%}
-                  {% if tag contains "_" %}{%- assign tag_starts_with = tag | slice: 0 -%}{% if tag_starts_with == "_" %}{% if tag_count %}{%- assign tag_count = tag_count | minus: 1 | at_least: 0 -%}{% endif %}{% continue %}{% endif %}{% endif %}
+                  {% if tag contains "_" %}{%- assign tag_starts_with = tag | slice: 0 -%}{% if tag_starts_with == "_" %}{% continue %}{% endif %}{% endif %}
                   {%- unless first_item -%} &middot; {%- endunless -%}
                   {%- assign first_item = false -%}
                   <a href="{{ blog.url }}/tagged/{{ tag | handle }}">

@@ -72,8 +72,6 @@
     %}
 
     {%- for block in section.blocks -%}
-      {%- assign block_index = forloop.index -%}
-
       {%- case block.type -%}
       {%- when 'collection_description' -%}
         {%- if collection.description != blank -%}
@@ -135,11 +133,10 @@
       "description": {{ collection.description | strip_html | json }},
     {% endif %}
     {% if page_image %}
-      {% assign image_size = page_image.width | append: 'x' %}
       "image": {
         "@type": "ImageObject",
         "height": {{ page_image.height | json }},
-        "url": {{ page_image | img_url: image_size | prepend: "https:" | json }},
+        "url": {{ page_image | image_url: width: page_image.width | prepend: "https:" | json }},
         "width": {{ page_image.width | json }}
       },
     {% endif %}

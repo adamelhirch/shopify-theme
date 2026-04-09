@@ -13,7 +13,10 @@
       <div class="article__date">
         {% if section.settings.blog_show_tags and article.tags.size > 0 %}
           {%- for tag in article.tags -%}
-            {% if tag contains "_" %}{%- assign tag_starts_with = tag | slice: 0 -%}{% if tag_starts_with == "_" %}{% if tag_count %}{%- assign tag_count = tag_count | minus: 1 | at_least: 0 -%}{% endif %}{% continue %}{% endif %}{% endif %}
+            {% if tag contains "_" %}
+              {%- assign tag_starts_with = tag | slice: 0 -%}
+              {% if tag_starts_with == "_" %}{% continue %}{% endif %}
+            {% endif %}
             <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a> &middot;
           {%- endfor -%}
         {% endif %}
@@ -163,26 +166,24 @@
     "description": {{ article.excerpt | strip_html | json }},
   {% endif %}
   {% if article.image %}
-    {% assign image_size = article.image.width | append: 'x' %}
     "image": [
-      {{ article | img_url: image_size | prepend: "https:" | json }}
+      {{ article.image | image_url: width: article.image.width | prepend: "https:" | json }}
     ],
   {% endif %}
   "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
   "dateModified": {{ article.updated_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
   "dateCreated": {{ article.created_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
-  "author": {
+    "author": {
     "@type": "Person",
     "name": {{ article.author | json }}
   },
   "publisher": {
     "@type": "Organization",
     {% if page_image %}
-      {% assign image_size = page_image.width | append: 'x' %}
       "logo": {
         "@type": "ImageObject",
         "height": {{ page_image.height | json }},
-        "url": {{ page_image | img_url: image_size | prepend: "https:" | json }},
+        "url": {{ page_image | image_url: width: page_image.width | prepend: "https:" | json }},
         "width": {{ page_image.width | json }}
       },
     {% endif %}

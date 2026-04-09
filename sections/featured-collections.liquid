@@ -1,8 +1,8 @@
 {%- liquid
-  assign isEmpty = true
+  assign is_empty = true
 
   if section.blocks.size > 0
-    assign isEmpty = false
+    assign is_empty = false
   endif
 -%}
 
@@ -27,18 +27,18 @@
           ## If we do end up updating the products_per_row snippet, should also update the image_element + sizes_explicit snippets
           when 'square-small'
             assign grid_item_width = 'medium-up--one-quarter small--one-half collection--square-small'
-            assign sizeVariable = 'medium-up--one-quarter'
+            assign size_variable = 'medium-up--one-quarter'
             assign fallback = 'small--one-half'
           when 'wide'
             assign grid_item_width = 'medium-up--one-half collection--wide'
-            assign sizeVariable = 'medium-up--one-half'
+            assign size_variable = 'medium-up--one-half'
           when 'tall'
             assign grid_item_width = 'medium-up--one-quarter small--one-half collection--tall'
-            assign sizeVariable = 'medium-up--one-quarter'
+            assign size_variable = 'medium-up--one-quarter'
             assign fallback = 'small--one-half'
           when 'square-large'
             assign grid_item_width = 'medium-up--one-half collection--square-large'
-            assign sizeVariable = 'medium-up--one-half'
+            assign size_variable = 'medium-up--one-half'
         endcase
         assign background_position = block.settings.focal_point
       -%}
@@ -47,12 +47,12 @@
           collection: collection,
           gridView: grid_item_width,
           background_position: background_position,
-          sizeVariable: sizeVariable,
+          sizeVariable: size_variable,
           fallback: fallback,
       -%}
     {%- endfor -%}
 
-    {% if isEmpty %}
+    {% if is_empty %}
       <div class="page-width">
         <div class="grid">
           <div class="grid__item">

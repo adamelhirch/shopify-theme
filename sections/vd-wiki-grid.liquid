@@ -143,16 +143,12 @@
               endif
 
               assign fallback_asset = 'vd-wiki-botanique.jpg'
-              assign fallback_secondary = 'vd-wiki-terroirs.jpg'
-              assign fallback_tertiary = 'vd-wiki-science.jpg'
               assign fallback_width = 1350
               assign fallback_height = 1800
               assign chapter_cursor = block.settings.cursor_label
 
               if chapter_key == 'terroirs'
                 assign fallback_asset = 'vd-wiki-terroirs.jpg'
-                assign fallback_secondary = 'vd-wiki-botanique.jpg'
-                assign fallback_tertiary = 'vd-wiki-science.jpg'
                 assign fallback_width = 1800
                 assign fallback_height = 1350
                 if chapter_cursor == blank
@@ -160,8 +156,6 @@
                 endif
               elsif chapter_key == 'techniques'
                 assign fallback_asset = 'vd-wiki-science.jpg'
-                assign fallback_secondary = 'vd-wiki-botanique.jpg'
-                assign fallback_tertiary = 'vd-wiki-terroirs.jpg'
                 assign fallback_width = 1800
                 assign fallback_height = 1350
                 if chapter_cursor == blank

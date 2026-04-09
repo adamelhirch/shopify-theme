@@ -41,6 +41,7 @@
   https://shopify.dev/api/liquid/filters#image_url
 {%- endcomment -%}
 
+{% comment %}theme-check-disable RemoteAsset{% endcomment %}
 {% liquid
   assign classes = classes | escape
   assign alt = alt | escape
@@ -161,13 +162,13 @@
 
   {% comment %} Photoswipe images {% endcomment %}
   {% if type == 'photoswipe' %}
-    {% assign widthsArray = widths | split: ',' %}
+    {% assign widths_array = widths | split: ',' %}
     {% capture img_widths %}
-      {% for width in widthsArray %}
+      {% for width in widths_array %}
        {{ media | image_url: width: width }} {{ width | append: 'w' }},
       {% endfor %}
     {% endcapture %}
-    {% assign img_width = widthsArray | last | strip %}
+    {% assign img_width = widths_array | last | strip %}
     {% assign img_height = img_width | divided_by: img.aspect_ratio %}
     {% assign photoswipe_src = img | image_url: width: product_zoom_size, format: format %}
 
@@ -191,3 +192,4 @@
     }}
   {% endif %}
 </is-land>
+{% comment %}theme-check-enable RemoteAsset{% endcomment %}

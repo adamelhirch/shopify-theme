@@ -55,6 +55,7 @@
   -%}
 
   <div data-product-image-main class="product-image-main">
+    {% comment %}theme-check-disable UnusedAssign{% endcomment %}
     {%- liquid
       assign media_aspect_ratio = media.aspect_ratio
       assign media_width = media.width
@@ -65,6 +66,7 @@
         assign media_height = media.preview_image.height
       endif
     -%}
+    {% comment %}theme-check-enable UnusedAssign{% endcomment %}
 
     {%- if media.media_type == 'model' -%}
       {%- liquid
@@ -86,9 +88,11 @@
         {%- assign media_aspect_ratio = media.preview_image.aspect_ratio -%}
       {%- endif -%}
       <div class="image-wrap{% if has_video and video_modal == false %} hide{% endif %}" style="height: 0; padding-bottom: {{ 100 | divided_by: media_aspect_ratio }}%;">
+        {% comment %}theme-check-disable UnusedAssign{% endcomment %}
         {%- capture image_classes -%}
           {% if product_zoom_enable %}photoswipe__image{% endif %}
         {%- endcapture -%}
+        {% comment %}theme-check-enable UnusedAssign{% endcomment %}
 
         {%- render 'image-element',
           img: media.preview_image,
@@ -145,7 +149,9 @@
             {% if video_looping %}loop{% endif %}
             controls
             controlsList="nodownload"
+            {% comment %}theme-check-disable DeprecatedFilter{% endcomment %}
             poster="{{ media.preview_image | img_url: product_image_size }}"
+            {% comment %}theme-check-enable DeprecatedFilter{% endcomment %}
             class="hide product-video-mp4-sound">
             {%- for source in media.sources -%}
               {% comment %}theme-check-disable RemoteAsset{% endcomment %}
@@ -183,7 +189,9 @@
                 {% if video_style == 'muted' %}muted{% endif %}
                 {% if video_style == 'unmuted' %}controls{% endif %}
                 controlsList="nodownload"
+                {% comment %}theme-check-disable DeprecatedFilter{% endcomment %}
                 poster="{{ media.preview_image | img_url: product_image_size }}"
+                {% comment %}theme-check-enable DeprecatedFilter{% endcomment %}
                 data-image-count="{{ product.media.size }}"
                 data-video-type="{{ video_type }}"
                 data-video-style="{{ video_style }}"

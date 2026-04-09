@@ -86,10 +86,12 @@
                       endif
                     -%}
 
+                    {% comment %}theme-check-disable UnclosedHTMLElement{% endcomment %}
                     {%- if create_new_column -%}
                       {%- assign columns = columns | plus: 1 -%}
                       </div><div class="megamenu__col appear-animation appear-delay-{{ forloop.index }}">
                     {%- endif -%}
+                    {% comment %}theme-check-enable UnclosedHTMLElement{% endcomment %}
 
                     <div class="megamenu__col-title">
                       <a href="{{ childlink.url }}" class="site-nav__dropdown-link site-nav__dropdown-link--top-level site-nav__dropdown-link--mega">

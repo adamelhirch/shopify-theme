@@ -38,14 +38,14 @@
 
             {% liquid
               if block.settings.image_mask != 'none'
-                assign paddingValue = block.settings.image_width
+                assign padding_value = block.settings.image_width
               else
-                assign paddingValue = block.settings.image_width | divided_by: block.settings.image.aspect_ratio
+                assign padding_value = block.settings.image_width | divided_by: block.settings.image.aspect_ratio
               endif
             %}
 
             {%- if block.settings.image != blank -%}
-              <div class="image-wrap content-block__image {% if block.settings.image_mask != 'none' %}svg-mask svg-mask--{{ block.settings.image_mask }}{% endif %}" style="display: inline-block; width: {{ block.settings.image_width }}%; margin-bottom: 20px; height: 0; padding-bottom: {{ paddingValue }}% !important;">
+              <div class="image-wrap content-block__image {% if block.settings.image_mask != 'none' %}svg-mask svg-mask--{{ block.settings.image_mask }}{% endif %}" style="display: inline-block; width: {{ block.settings.image_width }}%; margin-bottom: 20px; height: 0; padding-bottom: {{ padding_value }}% !important;">
                 {%- liquid
                   if section.settings.two_per_row_mobile
                     assign fallback = '50vw'

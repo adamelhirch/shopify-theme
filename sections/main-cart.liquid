@@ -57,9 +57,9 @@
               <div data-subtotal>{{ cart.total_price | money }}</div>
             </div>
 
-            {%- assign cartTotalDiscounts = cart.total_discounts | money -%}
+            {%- assign cart_total_discounts = cart.total_discounts | money -%}
             <div class="cart__item-row cart__savings {% unless cart.total_discounts > 0%} hide{% endunless %}" data-savings>
-              {{ 'cart.general.savings_html' | t: savings: cartTotalDiscounts }}
+              {{ 'cart.general.savings_html' | t: savings: cart_total_discounts }}
             </div>
 
             <div class="cart__item-row ajaxcart__note">

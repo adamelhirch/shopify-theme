@@ -151,13 +151,13 @@
     }}
   {% endif %}
 {% elsif type == 'photoswipe' %}
-  {% assign widthsArray = widths | split: ',' %}
+  {% assign widths_array = widths | split: ',' %}
   {%- capture img_widths -%}
-    {% for width in widthsArray %}
+    {% for width in widths_array %}
       {{ media | image_url: width: width }} {{ width | append: 'w' }},
     {% endfor %}
   {%- endcapture -%}
-  {% assign img_width = widthsArray | last | strip %}
+  {% assign img_width = widths_array | last | strip %}
   {% assign img_height = img_width | divided_by: img.aspect_ratio %}
   <img src="{{ img | image_url: width: img_width }}"
     width="{{ img_width }}"
@@ -176,7 +176,9 @@
   {% if host == 'theme' %}
     {% assign img_src = asset | asset_url %}
   {% else %}
+    {% comment %}theme-check-disable RemoteAsset{% endcomment %}
     {% assign img_src = asset | shopify_asset_url %}
+    {% comment %}theme-check-enable RemoteAsset{% endcomment %}
   {% endif %}
   {%- capture img_widths -%}
     {% if host == 'theme' %}
@@ -187,6 +189,7 @@
       {{ asset | asset_img_url: '1080x' }} 1080w
     {% endif %}
   {%- endcapture -%}
+  {% comment %}theme-check-disable RemoteAsset{% endcomment %}
   <img src="{{ img_src }}"
        width="{{ img_width }}"
        height="{{ img_height }}"
@@ -197,6 +200,7 @@
        {% if data-name and data-value %}data-{{ data-name }}="{{ data-value }}"{% endif %}
        sizes="{{ sizes }}"
   >
+  {% comment %}theme-check-enable RemoteAsset{% endcomment %}
 {% endif %}
 
 </image-element>

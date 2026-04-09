@@ -7,24 +7,11 @@
 - per_row
 {% endcomment %}
 
-{% liquid
-  if collection.products
-      assign count = collection.products_count
-      assign count_label = 'collections.general.items_with_count'
-  endif
-
-  if collection.results
-      assign count = collection.results_count
-      assign count_label = 'general.search.result_count'
-  endif
-%}
-
 <div class="grid grid--uniform{% if mobile_flush_grid %} small--grid--flush{% endif %}">
   {%- liquid
     assign have_sidebar = false
     assign tag_count = 0
     assign tag_limit = 7
-    assign have_extra_tags = false
   -%}
 
   {%- if collection_subnav_style == 'inline' -%}
@@ -44,12 +31,12 @@
 
     {%- if have_sidebar -%}
       {%- liquid
-        capture gridView
+        capture grid_view
           render 'products_per_row', products_per_row: per_row, style: 'fractions'
         endcapture
       -%}
       <aside class="sidebar">
-        <div class="grid__item {{ gridView }} grid__item--{{ section.id }}">
+        <div class="grid__item {{ grid_view }} grid__item--{{ section.id }}">
           <ul class="tags tags--vertical">
             {%- if linklists.main-menu.levels > 0 -%}
               {%- for link in linklists.main-menu.links -%}
@@ -68,9 +55,6 @@
                 {%- endif -%}
               {%- endfor -%}
 
-              {%- if have_extra_tags -%}
-                </div>
-              {%- endif -%}
             {%- endif -%}
           </ul>
 

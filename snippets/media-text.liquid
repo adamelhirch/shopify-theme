@@ -155,8 +155,8 @@
               {%- liquid
                 assign sizes = section.settings.media_width | append: 'vw'
 
-                assign imageWidth = section.settings.media_width | times: 1
-                if imageWidth >= 50
+                assign image_width = section.settings.media_width | times: 1
+                if image_width >= 50
                   assign loading = section.settings.lazyload_images
                 else
                   assign loading = true

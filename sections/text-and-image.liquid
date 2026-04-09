@@ -33,15 +33,15 @@
                 <div class="image-wrap {% if section.settings.image_mask != 'none' %}svg-mask svg-mask--{{ section.settings.image_mask }}{% endif %}" style="height: 0; padding-bottom: {{ 100 | divided_by: section.settings.image.aspect_ratio }}%;">
                   {%- liquid
                     if section.settings.image2 == blank
-                      assign sizeVariable = section.settings.image_width | append: 'vw'
+                      assign size_variable = section.settings.image_width | append: 'vw'
                       assign fallback = '100vw'
                     else
-                      assign sizeVariable = 'calc(0.4 * 50vw)'
+                      assign size_variable = 'calc(0.4 * 50vw)'
                       assign fallback = '40vw'
                     endif
 
-                    assign imageWidth = section.settings.image_width | times: 1
-                    if imageWidth >= 50
+                    assign image_width_value = section.settings.image_width | times: 1
+                    if image_width_value >= 50
                       assign loading = section.settings.lazyload_images
                     else
                       assign loading = true
@@ -51,7 +51,7 @@
                     img: section.settings.image,
                     widths: '180, 360, 540, 750, 900, 1080',
                     loading: loading,
-                    sizeVariable: sizeVariable,
+                    sizeVariable: size_variable,
                     fallback: fallback,
                     classes: 'feature-row__image',
                   -%}
@@ -65,17 +65,17 @@
                 <div class="image-wrap {% if section.settings.image2_mask != 'none' %}svg-mask svg-mask--{{ section.settings.image2_mask }}{% endif %}" style="height: 0; padding-bottom: {{ 100 | divided_by: section.settings.image2.aspect_ratio }}%;">
                   {%- liquid
                     if section.settings.image == blank
-                      assign sizeVariable = section.settings.image_width | append: 'vw'
+                      assign size_variable = section.settings.image_width | append: 'vw'
                       assign fallback = '100vw'
                     else
-                      assign sizeVariable = 'calc(0.6 * 50vw)'
+                      assign size_variable = 'calc(0.6 * 50vw)'
                       assign fallback = '60vw'
                     endif
                   -%}
                   {%- render 'image-element',
                     img: section.settings.image2,
                     widths: '180, 360, 540, 750, 900, 1080',
-                    sizeVariable: sizeVariable,
+                    sizeVariable: size_variable,
                     fallback: fallback,
                     classes: 'feature-row__image',
                   -%}
