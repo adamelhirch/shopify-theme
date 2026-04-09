@@ -38,7 +38,7 @@
       }
     },
     "accessibility": {
-      "close_modal": "Fermer la fenetre"
+      "close_modal": "Fermer la fenêtre"
     },
     "continue_shopping": "Continuer les achats",
     "newsletter_form": {
@@ -82,7 +82,7 @@
   "accessibility": {
     "skip_to_text": "Ignorer et passer au contenu",
     "close": "Fermer",
-    "close_modal": "Fermer la fenetre",
+    "close_modal": "Fermer la fenêtre",
     "unit_price_separator": "par",
     "vendor": "Fournisseur :",
     "error": "Erreur",
