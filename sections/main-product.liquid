@@ -9,11 +9,22 @@
     data-zoom-on-hover
   {% endif %}
 >
+  {%- liquid
+    assign has_rating_block = false
+    for block in section.blocks
+      if block.type == 'rating'
+        assign has_rating_block = true
+        break
+      endif
+    endfor
+  -%}
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
-  {{ 'component-rating.css' | asset_url | stylesheet_tag }}
+  {%- if has_rating_block -%}
+    {{ 'component-rating.css' | asset_url | stylesheet_tag }}
+  {%- endif -%}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
 
   {% unless product.has_only_default_variant %}

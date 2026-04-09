@@ -104,16 +104,24 @@
     <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
-    <script>
-      window.__vdMotionAssets = {
-        gsap: {{ 'gsap.min.js' | asset_url | json }},
-        scrollTrigger: {{ 'scroll-trigger.min.js' | asset_url | json }},
-        scrollSmoother: {{ 'scroll-smoother.min.js' | asset_url | json }},
-        flip: {{ 'flip.min.js' | asset_url | json }},
-        splitText: {{ 'split-text.min.js' | asset_url | json }}
-      };
-    </script>
-    <script src="{{ 'vd-gsap.js' | asset_url }}" defer="defer"></script>
+    {%- liquid
+      assign vd_load_motion_runtime = false
+      if request.page_type == 'index' or request.page_type == 'collection' or request.page_type == 'page'
+        assign vd_load_motion_runtime = true
+      endif
+    -%}
+    {%- if vd_load_motion_runtime -%}
+      <script>
+        window.__vdMotionAssets = {
+          gsap: {{ 'gsap.min.js' | asset_url | json }},
+          scrollTrigger: {{ 'scroll-trigger.min.js' | asset_url | json }},
+          scrollSmoother: {{ 'scroll-smoother.min.js' | asset_url | json }},
+          flip: {{ 'flip.min.js' | asset_url | json }},
+          splitText: {{ 'split-text.min.js' | asset_url | json }}
+        };
+      </script>
+      <script src="{{ 'vd-gsap.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
 
     {%- if settings.animations_reveal_on_scroll -%}
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
@@ -338,8 +346,7 @@
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'vanille-desire.css' | asset_url | stylesheet_tag }}
-    {{ 'cookie-banner.css' | asset_url | stylesheet_tag }}
-    {{ 'component-vd-form-card.css' | asset_url | stylesheet_tag }}
+    <link rel="stylesheet" href="{{ 'cookie-banner.css' | asset_url }}" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
@@ -362,7 +369,7 @@
     {%- endunless -%}
 
     {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
-      {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
+      <link rel="stylesheet" href="{{ 'component-localization-form.css' | asset_url }}" media="print" onload="this.media='all'">
       <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 

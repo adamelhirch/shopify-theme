@@ -168,7 +168,9 @@
                   width: settings.logo_width,
                   alt: logo_alt,
                   sizes: sizes,
-                  preload: true
+                  loading: 'eager',
+                  fetchpriority: 'high',
+                  decoding: 'async'
                 }}
               </div>
             {%- else -%}
@@ -217,7 +219,9 @@
                   width: settings.logo_width,
                   alt: logo_alt,
                   sizes: sizes,
-                  preload: true
+                  loading: 'eager',
+                  fetchpriority: 'high',
+                  decoding: 'async'
                 }}
               </div>
             {%- else -%}
