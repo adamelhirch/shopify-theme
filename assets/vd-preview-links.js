@@ -2,6 +2,8 @@
   if (window.__vdPreviewLinksBooted) return;
   window.__vdPreviewLinksBooted = true;
 
+  var LINK_SELECTOR = 'a[href]';
+
   function getPreviewThemeId() {
     var fromQuery = new URLSearchParams(window.location.search).get('preview_theme_id');
     if (fromQuery) return fromQuery;
@@ -34,10 +36,26 @@
     }
   }
 
+  function shouldPreservePreviewLink(link) {
+    if (!link || link.getAttribute('data-vd-preview-link') === 'ignore') return false;
+
+    var href = (link.getAttribute('href') || '').trim();
+    if (!href) return false;
+    if (href.charAt(0) === '#') return false;
+    if (/^(mailto:|tel:|javascript:)/i.test(href)) return false;
+
+    try {
+      var resolvedUrl = new URL(href, window.location.origin);
+      return resolvedUrl.origin === window.location.origin;
+    } catch (error) {
+      return false;
+    }
+  }
+
   function preservePreviewLinks(scope) {
-    Array.prototype.forEach.call((scope || document).querySelectorAll('[data-vd-preview-link]'), function (link) {
+    Array.prototype.forEach.call((scope || document).querySelectorAll(LINK_SELECTOR), function (link) {
+      if (!shouldPreservePreviewLink(link)) return;
       var href = link.getAttribute('href');
-      if (!href) return;
       link.setAttribute('href', appendPreviewThemeId(href));
     });
   }

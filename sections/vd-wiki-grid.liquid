@@ -93,12 +93,14 @@
           {% elsif block.settings.image != blank %}
             {{
               block.settings.image
-              | image_url: width: 2400
+              | image_url: width: 1800
               | image_tag:
                 class: 'vd-wiki-teaser__backdrop-image',
-                widths: '900, 1200, 1600, 2000, 2400',
+                widths: '640, 900, 1200, 1600, 1800',
                 sizes: '100vw',
-                loading: 'eager',
+                loading: 'lazy',
+                fetchpriority: 'low',
+                decoding: 'async',
                 alt: block.settings.image.alt | default: block.settings.title | escape
             }}
           {% else %}
@@ -106,7 +108,9 @@
               class="vd-wiki-teaser__backdrop-image"
               src="{{ fallback_asset | asset_url }}"
               alt=""
-              loading="eager"
+              loading="lazy"
+              decoding="async"
+              fetchpriority="low"
               width="{{ fallback_width }}"
               height="{{ fallback_height }}"
             >
@@ -242,12 +246,14 @@
                           {% elsif block.settings.image != blank %}
                             {{
                               block.settings.image
-                              | image_url: width: 2200
+                              | image_url: width: 1800
                               | image_tag:
                                 class: 'vd-wiki-teaser__macro-image',
-                                widths: '800, 1200, 1600, 2000, 2200',
+                                widths: '640, 900, 1200, 1600, 1800',
                                 sizes: '(min-width: 990px) 54vw, 100vw',
                                 loading: 'lazy',
+                                fetchpriority: 'low',
+                                decoding: 'async',
                                 alt: block.settings.image.alt | default: block.settings.title | escape
                             }}
                           {% else %}
@@ -256,6 +262,8 @@
                               src="{{ fallback_asset | asset_url }}"
                               alt="{{ block.settings.title | escape }}"
                               loading="lazy"
+                              decoding="async"
+                              fetchpriority="low"
                               width="{{ fallback_width }}"
                               height="{{ fallback_height }}"
                             >
@@ -303,6 +311,8 @@
                                 src="{{ fallback_asset | asset_url }}"
                                 alt="{{ block.settings.title | escape }}"
                                 loading="lazy"
+                                decoding="async"
+                                fetchpriority="low"
                                 width="1800"
                                 height="1350"
                               >
@@ -330,12 +340,14 @@
                           {% elsif block.settings.image != blank %}
                             {{
                               block.settings.image
-                              | image_url: width: 2200
+                              | image_url: width: 1800
                               | image_tag:
                                 class: 'vd-wiki-teaser__macro-image',
-                                widths: '800, 1200, 1600, 2000, 2200',
+                                widths: '640, 900, 1200, 1600, 1800',
                                 sizes: '(min-width: 990px) 54vw, 100vw',
                                 loading: 'lazy',
+                                fetchpriority: 'low',
+                                decoding: 'async',
                                 alt: block.settings.image.alt | default: block.settings.title | escape
                             }}
                           {% else %}
@@ -344,6 +356,8 @@
                               src="{{ fallback_asset | asset_url }}"
                               alt="{{ block.settings.title | escape }}"
                               loading="lazy"
+                              decoding="async"
+                              fetchpriority="low"
                               width="{{ fallback_width }}"
                               height="{{ fallback_height }}"
                             >

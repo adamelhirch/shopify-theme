@@ -249,6 +249,48 @@
     video.addEventListener('canplay', revealVideo, { once: true });
   }
 
+  function getDeferredVideoDelay(video) {
+    var delay = Number(video && video.getAttribute('data-vd-video-delay'));
+    return Number.isFinite(delay) && delay > 0 ? delay : 0;
+  }
+
+  function runWhenWindowLoaded(callback) {
+    if (document.readyState === 'complete') {
+      callback();
+      return;
+    }
+
+    window.addEventListener('load', callback, { once: true });
+  }
+
+  function scheduleDeferredVideoActivation(video) {
+    var delay = getDeferredVideoDelay(video);
+
+    var activate = function () {
+      if (delay > 0) {
+        window.setTimeout(function () {
+          activateDeferredVideo(video);
+        }, delay);
+        return;
+      }
+
+      activateDeferredVideo(video);
+    };
+
+    if (video.getAttribute('data-vd-video-load') === 'idle') {
+      runWhenWindowLoaded(function () {
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(activate, { timeout: Math.max(1800, delay || 0) });
+        } else {
+          window.setTimeout(activate, Math.max(320, delay));
+        }
+      });
+      return;
+    }
+
+    activate();
+  }
+
   function initDeferredHeroMedia() {
     var deferredVideos = Array.prototype.slice.call(document.querySelectorAll('[data-vd-deferred-video]'));
 
@@ -267,16 +309,12 @@
       }
     });
 
-    var startEager = function () {
-      eagerVideos.forEach(activateDeferredVideo);
+    var startIdle = function () {
+      eagerVideos.forEach(scheduleDeferredVideoActivation);
     };
 
     if (eagerVideos.length) {
-      if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(startEager, { timeout: 1500 });
-      } else {
-        window.setTimeout(startEager, 320);
-      }
+      startIdle();
     }
 
     if (!observedVideos.length) return;
