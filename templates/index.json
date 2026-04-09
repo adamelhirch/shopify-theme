@@ -17,9 +17,9 @@
         "text": "",
         "show_scroll_indicator": true,
         "scroll_label": "Glisser vers le bas",
-        "external_video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "external_video_url": "",
         "background_image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
-        "use_demo_video": false,
+        "use_demo_video": true,
         "media_overlay_opacity": 10,
         "button_label": "",
         "button_link": "",
@@ -130,7 +130,7 @@
             "detail_two": "Pollinisation manuelle",
             "detail_three": "Floraison eclair",
             "link_label": "Entrer dans le chapitre",
-            "link": "shopify://blogs/le-wiki",
+            "link": "shopify://pages/wiki",
             "image": ""
           }
         },
@@ -145,7 +145,7 @@
             "detail_two": "Humidite elevee",
             "detail_three": "Altitude douce",
             "link_label": "Voir les origines",
-            "link": "shopify://blogs/le-wiki",
+            "link": "shopify://pages/wiki",
             "image": ""
           }
         },
@@ -160,7 +160,7 @@
             "detail_two": "Sechage lent",
             "detail_three": "Affinage precis",
             "link_label": "Voir les gestes",
-            "link": "shopify://blogs/le-wiki",
+            "link": "shopify://pages/wiki",
             "image": ""
           }
         }
@@ -175,7 +175,7 @@
         "heading": "Un codex digital pour la matiere, les terroirs et le geste.",
         "text": "<p>Trois chapitres plein ecran. Plus d'espace, plus de rythme, plus de credibilite editoriale.</p>",
         "button_label": "Explorer le wiki",
-        "button_link": "shopify://blogs/le-wiki",
+        "button_link": "shopify://pages/wiki",
         "color_scheme": "scheme-3",
         "padding_top": 18,
         "padding_bottom": 30

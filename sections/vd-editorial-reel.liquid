@@ -48,12 +48,14 @@
                 loop
                 muted
                 playsinline
-                preload="auto"
+                preload="metadata"
                 {% if block.settings.image != blank %}
                   poster="{{ block.settings.image | image_url: width: 1800 }}"
                 {% endif %}
               >
+                {% comment %}theme-check-disable RemoteAsset{% endcomment %}
                 <source src="{{ block.settings.external_video_url }}" type="video/mp4">
+                {% comment %}theme-check-enable RemoteAsset{% endcomment %}
               </video>
             {% elsif block.settings.image != blank %}
               {{

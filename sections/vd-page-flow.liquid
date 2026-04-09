@@ -85,10 +85,8 @@
 
 {% if is_wiki_page %}
   {{ 'vd-wiki-page.css' | asset_url | stylesheet_tag }}
-  <script src="{{ 'vd-preview-links.js' | asset_url }}" defer="defer"></script>
 {% elsif is_wiki_detail_page %}
   {{ 'vd-wiki-detail.css' | asset_url | stylesheet_tag }}
-  <script src="{{ 'vd-preview-links.js' | asset_url }}" defer="defer"></script>
 {% endif %}
 
 {% style %}
@@ -146,7 +144,9 @@
         }}
       {% elsif section.settings.recipes_video_url != blank %}
         <video class="vd-recipes-hub__video" autoplay loop muted playsinline preload="metadata">
+          {% comment %}theme-check-disable RemoteAsset{% endcomment %}
           <source src="{{ section.settings.recipes_video_url }}" type="video/mp4">
+          {% comment %}theme-check-enable RemoteAsset{% endcomment %}
         </video>
       {% elsif section.settings.recipes_background_image != blank %}
         {{
@@ -509,7 +509,9 @@
             playsinline
             preload="metadata"
           >
+            {% comment %}theme-check-disable RemoteAsset{% endcomment %}
             <source src="{{ catalogue_background_video_url }}" type="video/mp4">
+            {% comment %}theme-check-enable RemoteAsset{% endcomment %}
           </video>
         {% elsif catalogue_backdrop_image != blank %}
           {{
@@ -805,7 +807,9 @@
                 }}
               {% elsif wiki_stage_video_url != blank %}
                 <video class="vd-wiki-page__media-video" autoplay loop muted playsinline preload="metadata">
+                  {% comment %}theme-check-disable RemoteAsset{% endcomment %}
                   <source src="{{ wiki_stage_video_url }}" type="video/mp4">
+                  {% comment %}theme-check-enable RemoteAsset{% endcomment %}
                 </video>
               {% elsif wiki_stage_image != blank %}
                 {{
@@ -1243,7 +1247,6 @@
       assign wiki_detail_collection_label = ''
       assign wiki_detail_media_image = 'vd-wiki-cover.jpg'
       assign wiki_detail_media_poster = 'vd-wiki-cover.jpg'
-      assign wiki_detail_media_alt = 'FAQ vanille et épices'
       assign wiki_detail_card_one_title = 'Retour au wiki'
       assign wiki_detail_card_one_copy = 'Explorer les grandes familles.'
       assign wiki_detail_card_one_url = wiki_index_page_url
