@@ -1,10 +1,10 @@
 {%- liquid
-  capture gridView
+  capture grid_view
     render 'products_per_row', products_per_row: per_row, style: 'fractions'
   endcapture
 
   # These assignments have no effect if a sizes parameter is passed in
-  assign sizeVariable = gridView
+  assign size_variable = grid_view
   if fallback != blank
     assign fallback = fallback
   else
@@ -34,7 +34,7 @@
   endif
 -%}
 
-<div class="grid__item grid-product {{ gridView }} {% if settings.quick_shop_enable and product.variants_count <= 250 %} grid-product__has-quick-shop{% endif %}" data-aos="row-of-{{ per_row }}" data-product-handle="{{ product.handle }}" data-product-id="{{ product.id }}">
+<div class="grid__item grid-product {{ grid_view }} {% if settings.quick_shop_enable and product.variants_count <= 250 %} grid-product__has-quick-shop{% endif %}" data-aos="row-of-{{ per_row }}" data-product-handle="{{ product.handle }}" data-product-id="{{ product.id }}">
   <div class="grid-product__content">
     {%- if has_custom_label -%}
       <div class="grid-product__tag grid-product__tag--custom">
@@ -66,15 +66,15 @@
     {%- endif -%}
 
     {%- liquid
-      assign imageRatio = settings.product_grid_image_size
+      assign image_ratio = settings.product_grid_image_size
       assign fixed_aspect_ratio = false
-      unless imageRatio == 'natural'
+      unless image_ratio == 'natural'
         assign fixed_aspect_ratio = true
       endunless
 
       if image_style == 'circle'
         assign fixed_aspect_ratio = true
-        assign imageRatio = 'square'
+        assign image_ratio = 'square'
       endif
 
     -%}
@@ -95,7 +95,7 @@
                 img: preview_image,
                 classes: image_classes,
                 sizes: sizes,
-                sizeVariable: sizeVariable,
+                sizeVariable: size_variable,
                 fallback: fallback,
                 widths: '360, 540, 720, 900, 1080',
               -%}
@@ -117,7 +117,7 @@
               {%- render 'image-element',
                 img: preview_image,
                 sizes: sizes,
-                sizeVariable: sizeVariable,
+                sizeVariable: size_variable,
                 fallback: fallback,
                 classes: image_classes,
                 widths: '180, 360, 540, 720, 900, 1080',
@@ -141,7 +141,7 @@
               img: second_image,
               classes: image_classes,
               sizes: sizes,
-              sizeVariable: sizeVariable,
+              sizeVariable: size_variable,
               fallback: fallback,
               widths: '360, 540, 720, 1000',
             -%}

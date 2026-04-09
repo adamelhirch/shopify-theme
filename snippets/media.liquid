@@ -148,7 +148,9 @@
             poster="{{ media.preview_image | img_url: product_image_size }}"
             class="hide product-video-mp4-sound">
             {%- for source in media.sources -%}
+              {% comment %}theme-check-disable RemoteAsset{% endcomment %}
               <source src="{{ source.url }}" type="{{ source.mime_type }}">
+              {% comment %}theme-check-enable RemoteAsset{% endcomment %}
             {%- endfor -%}
             Your browser does not support the video tag.
           </video>
@@ -188,7 +190,9 @@
                 id="ProductVideo-{{ section_id }}-{{ loopIndex }}"
                 class="product__video">
                 {%- for source in media.sources -%}
+                  {% comment %}theme-check-disable RemoteAsset{% endcomment %}
                   <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                  {% comment %}theme-check-enable RemoteAsset{% endcomment %}
                 {%- endfor -%}
                 Your browser does not support the video tag.
               </video>

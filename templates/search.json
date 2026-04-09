@@ -18,7 +18,7 @@
         "primary_button_label": "Voir tous les produits",
         "primary_button_link": "shopify://collections/all",
         "secondary_button_label": "Explorer le wiki",
-        "secondary_button_link": "shopify://blogs/le-wiki",
+        "secondary_button_link": "shopify://pages/wiki",
         "metric_1_label": "Resultat",
         "metric_1_value": "Plus net",
         "metric_2_label": "Usage",

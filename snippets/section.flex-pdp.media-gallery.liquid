@@ -1,3 +1,4 @@
+{% comment %}theme-check-disable UndefinedObject{% endcomment %}
 {% doc %}
   Copyright © 2025 Archetype Themes LP. All rights reserved.
 
@@ -37,7 +38,6 @@
 
 {%- capture id -%}{% render 'utility.id', prefix: 'media-gallery' %}{%- endcapture -%}
 
-{%- assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
 {%- assign group = 'product-gallery-' | append: id -%}
 
 {% capture main_gallery %}
@@ -184,8 +184,6 @@
     assign is_reverse = true
   endif
 
-  assign gallery_classes = 'media-gallery media-gallery--' | append: thumbnail_position
-  assign gallery_attributes = 'id="' | append: id | append: '" data-media-gallery'
 %}
 
 {% capture gallery_content %}

@@ -1,3 +1,4 @@
+{% comment %}theme-check-disable UndefinedObject{% endcomment %}
 {% doc %}
   Renders product form error messages that automatically display based on form events.
   
@@ -85,7 +86,7 @@
 {% endunless %}
 
 <product-form-messages 
-  class="hide"
+  class="hide{% if classlist != blank %} {{ classlist }}{% endif %}"
   data-form-id="{{ id }}"
   data-error="{{ slot_error }}"
   data-success="{{ slot_success }}"

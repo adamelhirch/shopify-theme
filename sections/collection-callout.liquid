@@ -1,9 +1,9 @@
 {%- liquid
   assign collection = collections[section.settings.collection]
-  assign isEmpty = false
+  assign is_empty = false
 
   if section.settings.collection == blank
-    assign isEmpty = true
+    assign is_empty = true
   endif
 -%}
 
@@ -13,21 +13,18 @@
   <div class="feature-row feature-row--small-none">
 
     <div class="feature-row__item feature-row__callout-image">
-      <div class="callout-images{% if isEmpty %} blank-state{% endif %}" data-aos="collection-callout">
-        {%- if isEmpty -%}
+      <div class="callout-images{% if is_empty %} blank-state{% endif %}" data-aos="collection-callout">
+        {%- if is_empty -%}
+          <div class="callout-image-centered">
           {%- for i in (1..5) -%}
             {%- capture current -%}{% cycle 1, 2, 3, 4, 5, 6 %}{%- endcapture -%}
-            {%- if forloop.index == 1 -%}
-              <div class="callout-image-centered">
-            {%- endif -%}
-              <div class="callout-image callout-image--{{ forloop.index }}">
-                {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
-              </div>
-            {%- if forloop.last -%}
-              </div>
-            {%- endif -%}
+            <div class="callout-image callout-image--{{ forloop.index }}">
+              {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
           {%- endfor -%}
+          </div>
         {%- else -%}
+          <div class="callout-image-centered">
           {%- for product in collection.products limit: 5 -%}
             {%- liquid
               case forloop.index
@@ -35,60 +32,53 @@
                   assign callout_image_size_small = '280x'
                   assign callout_image_size_medium = '360x'
                   assign callout_image_size_large = '560x'
-                  assign sizeVariable = '280px'
+                  assign size_variable = '280px'
                   assign fallback = '140px'
                 when 2
                   assign callout_image_size_small = '180x'
                   assign callout_image_size_medium = '234x'
                   assign callout_image_size_large = '360x'
-                  assign sizeVariable = '180px'
+                  assign size_variable = '180px'
                   assign fallback = '90px'
                 when 3
                   assign callout_image_size_small = '160x'
                   assign callout_image_size_medium = '208x'
                   assign callout_image_size_large = '320x'
-                  assign sizeVariable = '160px'
+                  assign size_variable = '160px'
                   assign fallback = '80px'
                 when 4
                   assign callout_image_size_small = '200x'
                   assign callout_image_size_medium = '260x'
                   assign callout_image_size_large = '400x'
-                  assign sizeVariable = '200px'
+                  assign size_variable = '200px'
                   assign fallback = '100px'
                 when 5
                   assign callout_image_size_small = '100x'
                   assign callout_image_size_medium = '130x'
                   assign callout_image_size_large = '200x'
-                  assign sizeVariable = '100px'
+                  assign size_variable = '100px'
                   assign fallback = '50px'
               endcase
             -%}
 
-            {%- if forloop.index == 1 -%}
-              <div class="callout-image-centered">
-            {%- endif -%}
+            {%- capture widths -%}
+              {{ callout_image_size_small | remove: 'x' | append: 'w' }},
+              {{ callout_image_size_medium | remove: 'x' | append: 'w' }},
+              {{ callout_image_size_large | remove: 'x' | append: 'w' }}
+            {%- endcapture -%}
 
-              {%- capture widths -%}
-                {{ callout_image_size_small | remove: 'x' | append: 'w' }},
-                {{ callout_image_size_medium | remove: 'x' | append: 'w' }},
-                {{ callout_image_size_large | remove: 'x' | append: 'w' }}
-              {%- endcapture -%}
+            {%- assign classes = 'callout-image callout-image--' | append: forloop.index -%}
 
-              {%- assign classes = 'callout-image callout-image--' | append: forloop.index -%}
-
-              {%- render 'image-element',
-                img: product,
-                alt: product.title,
-                classes: classes,
-                widths: widths,
-                sizeVariable: sizeVariable,
-                fallback: fallback,
-              -%}
-
-            {%- if forloop.last -%}
-              </div>
-            {%- endif -%}
+            {%- render 'image-element',
+              img: product,
+              alt: product.title,
+              classes: classes,
+              widths: widths,
+              sizeVariable: size_variable,
+              fallback: fallback,
+            -%}
           {%- endfor -%}
+          </div>
         {%- endif -%}
       </div>
     </div>
