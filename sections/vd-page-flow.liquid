@@ -840,7 +840,7 @@
         </aside>
 
         <div class="vd-wiki-page__main">
-          <header class="vd-wiki-page__hero">
+          <header class="vd-wiki-page__hero" id="wiki-overview-{{ section.id }}">
             <div class="vd-wiki-page__hero-copy">
               <nav class="vd-wiki-page__breadcrumbs" aria-label="Fil d'Ariane">
                 <a href="{{ routes.root_url }}" data-vd-preview-link>Accueil</a>
@@ -851,6 +851,11 @@
               <h1 class="vd-wiki-page__title">{{ section.settings.wiki_heading | default: 'Le grand Wiki de Vanille Désiré' }}</h1>
               <div class="vd-wiki-page__lede rte">
                 {{ section.settings.wiki_text }}
+              </div>
+              <div class="vd-wiki-page__hero-kpis" aria-label="Repères du wiki">
+                <span class="vd-wiki-page__hero-kpi">{{ wiki_feature_count }} guides à la une</span>
+                <span class="vd-wiki-page__hero-kpi">{{ wiki_index_count }} entrées indexées</span>
+                <span class="vd-wiki-page__hero-kpi">Navigation par familles</span>
               </div>
             </div>
 
@@ -1076,6 +1081,16 @@
               {% endif %}
             </section>
           </div>
+
+          <aside class="vd-wiki-page__anchors" aria-label="Sur cette page">
+            <span class="vd-wiki-page__anchors-title">Sur cette page</span>
+            <nav class="vd-wiki-page__anchors-links">
+              <a href="#wiki-overview-{{ section.id }}">Vue d’ensemble</a>
+              <a href="#wiki-essentiel-{{ section.id }}">À la une</a>
+              <a href="#wiki-categories-{{ section.id }}">Familles</a>
+              <a href="#wiki-faq-{{ section.id }}">FAQ</a>
+            </nav>
+          </aside>
         </div>
       </div>
     </div>
