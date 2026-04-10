@@ -1207,3 +1207,126 @@ body:has(.vd-wiki-page) .header__icon {
     position: static !important;
   }
 }
+
+/* Readability pass: stronger editorial hierarchy on the wiki hub */
+
+.vd-wiki-page__shell {
+  gap: 1.55rem !important;
+}
+
+.vd-wiki-page__rail-brand {
+  display: block !important;
+}
+
+.vd-wiki-page__rail-brand span {
+  display: block !important;
+  margin-bottom: 0.18rem;
+  color: #6b3612 !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: none !important;
+}
+
+.vd-wiki-page__rail-brand strong {
+  font-size: clamp(2.15rem, 1.95vw, 2.55rem) !important;
+  line-height: 0.96 !important;
+}
+
+.vd-wiki-page__rail-home,
+.vd-wiki-page__rail-links a,
+.vd-wiki-page__anchors-links a {
+  font-size: 0.98rem !important;
+  line-height: 1.46 !important;
+}
+
+.vd-wiki-page__rail-label,
+.vd-wiki-page__anchors-title {
+  font-size: 0.88rem !important;
+}
+
+.vd-wiki-page__hero {
+  grid-template-columns: minmax(0, 1.08fr) minmax(20rem, 0.74fr) !important;
+  gap: 1.3rem 2.1rem !important;
+  padding: 1.45rem 1.55rem !important;
+}
+
+.vd-wiki-page__title {
+  max-width: 10ch !important;
+  font-size: clamp(3.5rem, 3.95vw, 4.8rem) !important;
+  line-height: 0.97 !important;
+}
+
+.vd-wiki-page__lede,
+.vd-wiki-page__lede p,
+.vd-wiki-page__section-text,
+.vd-wiki-page__section-text p,
+.vd-wiki-page__feature-text,
+.vd-wiki-page__feature-text p,
+.vd-wiki-page__category-text,
+.vd-wiki-page__cta-text,
+.vd-wiki-page__cta-text p,
+.vd-wiki-page__faq-answer p {
+  font-size: 1.08rem !important;
+  line-height: 1.8 !important;
+}
+
+.vd-wiki-page__hero-kpi,
+.vd-wiki-page__badge,
+.vd-wiki-page__category-kicker,
+.vd-wiki-page__trust {
+  font-size: 0.86rem !important;
+}
+
+.vd-wiki-page__navigator a {
+  font-size: 0.96rem !important;
+  line-height: 1.42 !important;
+}
+
+.vd-wiki-page__section-head {
+  grid-template-columns: minmax(18rem, 19rem) minmax(0, 1fr) !important;
+}
+
+.vd-wiki-page__section-title,
+.vd-wiki-page__cta-title,
+.vd-wiki-page__faq-title {
+  font-size: clamp(2.45rem, 2.5vw, 3.15rem) !important;
+  line-height: 1.03 !important;
+}
+
+.vd-wiki-page__feature-title,
+.vd-wiki-page__category-title {
+  font-size: 1.35rem !important;
+  line-height: 1.25 !important;
+}
+
+.vd-wiki-page__feature-body,
+.vd-wiki-page__category {
+  padding: 1.25rem !important;
+}
+
+@media screen and (max-width: 989px) {
+  .vd-wiki-page__hero,
+  .vd-wiki-page__section-head {
+    grid-template-columns: 1fr !important;
+  }
+
+  .vd-wiki-page__title {
+    max-width: 11ch !important;
+    font-size: clamp(2.8rem, 9.5vw, 4rem) !important;
+  }
+
+  .vd-wiki-page__lede,
+  .vd-wiki-page__lede p,
+  .vd-wiki-page__section-text,
+  .vd-wiki-page__section-text p,
+  .vd-wiki-page__feature-text,
+  .vd-wiki-page__feature-text p,
+  .vd-wiki-page__category-text,
+  .vd-wiki-page__cta-text,
+  .vd-wiki-page__cta-text p,
+  .vd-wiki-page__faq-answer p {
+    font-size: 1rem !important;
+    line-height: 1.7 !important;
+  }
+}
