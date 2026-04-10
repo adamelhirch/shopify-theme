@@ -44,7 +44,7 @@
 -%}
 
 <div
-  class="vd-cart-shell gradient color-{{ section.settings.color_scheme }}{% if cart == empty %} is-empty{% endif %}"
+  class="vd-cart-shell color-{{ section.settings.color_scheme }}{% if cart == empty %} is-empty{% endif %}"
   id="main-cart-footer"
   data-id="{{ section.id }}"
 >
@@ -130,40 +130,7 @@
                 </small>
               </div>
             {%- else -%}
-              <div class="vd-cart-purchase-shell section-{{ section.id }}-payment-shell{% if section.settings.payment_background_video != blank or section.settings.payment_background_image != blank %} vd-cart-purchase-shell--with-media{% endif %}" {{ block.shopify_attributes }}>
-                {%- if section.settings.payment_background_video != blank or section.settings.payment_background_image != blank -%}
-                  <div class="vd-cart-purchase-shell__media" aria-hidden="true">
-                    {%- if cart_payment_video_url != blank -%}
-                      <video
-                        class="vd-cart-purchase-shell__media-video"
-                        autoplay
-                        loop
-                        muted
-                        playsinline
-                        preload="none"
-                        data-vd-deferred-video
-                        data-video-src="{{ cart_payment_video_url }}"
-                        data-min-width="750"
-                      >
-                        {% comment %}theme-check-disable RemoteAsset{% endcomment %}
-                        <source data-src="{{ cart_payment_video_url }}" type="video/mp4">
-                        {% comment %}theme-check-enable RemoteAsset{% endcomment %}
-                      </video>
-                    {%- elsif section.settings.payment_background_image != blank -%}
-                      {{
-                        section.settings.payment_background_image
-                        | image_url: width: 1600
-                        | image_tag:
-                          class: 'vd-cart-purchase-shell__media-image',
-                          widths: '480, 720, 960, 1200, 1600',
-                          sizes: '(min-width: 990px) 28vw, 92vw',
-                          loading: 'lazy',
-                          alt: section.settings.payment_background_image.alt | escape
-                      }}
-                    {%- endif -%}
-                  </div>
-                  <div class="vd-cart-purchase-shell__surface" aria-hidden="true"></div>
-                {%- endif -%}
+              <div class="vd-cart-purchase-shell section-{{ section.id }}-payment-shell" {{ block.shopify_attributes }}>
                 <div class="vd-cart-purchase-shell__content">
                 {%- unless additional_checkout_buttons -%}
                   <div class="cart__ctas vd-cart-checkout-shell">
@@ -184,36 +151,6 @@
 
                 {%- if additional_checkout_buttons -%}
                   <div class="vd-cart-direct-pay-shell">
-                    <button
-                      type="button"
-                      class="vd-transaction vd-cart-direct-pay-trigger"
-                      data-cart-wallet-trigger
-                      aria-label="Payer maintenant"
-                    >
-                      <div class="vd-transaction__left" aria-hidden="true">
-                        <div class="vd-transaction__card">
-                          <div class="vd-transaction__card-line"></div>
-                          <div class="vd-transaction__buttons"></div>
-                        </div>
-                        <div class="vd-transaction__post">
-                          <div class="vd-transaction__post-line"></div>
-                          <div class="vd-transaction__screen">
-                            <div class="vd-transaction__currency">€</div>
-                          </div>
-                          <div class="vd-transaction__numbers"></div>
-                          <div class="vd-transaction__numbers-line2"></div>
-                        </div>
-                      </div>
-                      <div class="vd-transaction__right">
-                        <div class="vd-transaction__label-wrap">
-                          <span class="vd-transaction__label">Payer maintenant</span>
-                        </div>
-                        <svg viewBox="0 0 451.846 451.847" class="vd-transaction__arrow" aria-hidden="true">
-                          <path d="M345.441 248.292 151.154 442.573c-12.359 12.365-32.397 12.365-44.75 0-12.354-12.354-12.354-32.391 0-44.744L278.318 225.92 106.409 54.017c-12.354-12.359-12.354-32.394 0-44.748 12.354-12.359 32.391-12.359 44.75 0l194.287 194.284c6.177 6.18 9.262 14.271 9.262 22.366 0 8.099-3.091 16.196-9.267 22.373z"></path>
-                        </svg>
-                      </div>
-                    </button>
-
                     <div class="cart__dynamic-checkout-buttons additional-checkout-buttons vd-cart-checkout-shell__wallets">
                       {{ content_for_additional_checkout_buttons }}
                     </div>
