@@ -111,28 +111,27 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 
 .vd-wiki-page__shell {
   display: grid;
-  grid-template-columns: minmax(15.75rem, 17.5rem) minmax(0, 1fr);
-  gap: 1rem;
+  grid-template-columns: minmax(14.4rem, 15.8rem) minmax(0, 1fr);
+  gap: 0.8rem;
   padding-top: calc(var(--header-height, 8rem) + env(safe-area-inset-top, 0px) + 0.75rem);
   padding-bottom: clamp(2rem, 4vw, 3.2rem);
 }
 
 .vd-wiki-page__main {
   display: grid;
-  gap: 1rem;
+  gap: 0.8rem;
   min-width: 0;
 }
 
 .vd-wiki-page__rail,
 .vd-wiki-page__hero,
-.vd-wiki-page__navigator,
 .vd-wiki-page__section,
 .vd-wiki-page__cta-copy,
 .vd-wiki-page__faq {
   border: 1px solid var(--vd-wiki-page-line);
-  border-radius: 1.6rem;
+  border-radius: 1.2rem;
   background: var(--vd-wiki-page-surface);
-  box-shadow: var(--vd-wiki-page-shadow);
+  box-shadow: none;
 }
 
 .vd-wiki-page__rail {
@@ -140,8 +139,8 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
   top: calc(var(--header-height, 8rem) + 0.75rem);
   align-self: start;
   display: grid;
-  gap: 0.7rem;
-  padding: 1rem;
+  gap: 0.55rem;
+  padding: 0.7rem 0.7rem 0.8rem;
 }
 
 .vd-wiki-page__rail-head {
@@ -167,7 +166,7 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 .vd-wiki-page__rail-brand strong {
   color: var(--vd-wiki-page-text);
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(2rem, 2vw, 2.6rem);
+  font-size: clamp(1.8rem, 1.85vw, 2.25rem);
   line-height: 0.95;
   letter-spacing: -0.05em;
 }
@@ -180,10 +179,10 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
   display: flex;
   align-items: center;
   gap: 0.7rem;
-  min-height: 3.15rem;
-  padding: 0 0.85rem;
+  min-height: 2.75rem;
+  padding: 0 0.75rem;
   border: 1px solid rgba(113, 70, 31, 0.16);
-  border-radius: 0.9rem;
+  border-radius: 0.82rem;
   background: rgba(248, 243, 236, 0.98);
 }
 
@@ -200,7 +199,7 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
   outline: 0;
   background: transparent;
   color: var(--vd-wiki-page-text);
-  font-size: 0.98rem;
+  font-size: 0.86rem;
 }
 
 .vd-wiki-page__rail-search-field input::placeholder {
@@ -218,9 +217,9 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 }
 
 .vd-wiki-page__rail-home {
-  padding: 0.62rem 0.74rem;
+  padding: 0.52rem 0.66rem;
   color: rgb(83, 51, 24);
-  font-size: 0.88rem;
+  font-size: 0.8rem;
   font-weight: 700;
 }
 
@@ -239,8 +238,8 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 
 .vd-wiki-page__rail-group {
   display: grid;
-  gap: 0.28rem;
-  padding-top: 0.45rem;
+  gap: 0.18rem;
+  padding-top: 0.32rem;
   border-top: 1px solid rgba(112, 80, 42, 0.1);
 }
 
@@ -248,11 +247,11 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
   display: flex;
   align-items: center;
   gap: 0.56rem;
-  padding: 0.44rem 0.72rem;
+  padding: 0.38rem 0.56rem;
   color: rgb(83, 51, 24);
-  font-size: 0.88rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  border-radius: 0.76rem;
+  border-radius: 0.62rem;
 }
 
 .vd-wiki-page__rail-label::before {
@@ -265,17 +264,17 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 
 .vd-wiki-page__rail-links {
   display: grid;
-  gap: 0.14rem;
-  padding-left: 0.35rem;
+  gap: 0.05rem;
+  padding-left: 0.18rem;
 }
 
 .vd-wiki-page__rail-links a {
-  padding: 0.52rem 0.72rem 0.52rem 1.35rem;
+  padding: 0.42rem 0.54rem 0.42rem 1rem;
   border-left: 2px solid transparent;
   color: rgba(88, 56, 29, 0.84);
-  font-size: 0.79rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.28;
 }
 
 .vd-wiki-page__rail-links a:hover,
@@ -286,9 +285,9 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 
 .vd-wiki-page__hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.16fr) minmax(19rem, 0.84fr);
-  gap: 0.9rem;
-  padding: 1.35rem 1.45rem;
+  grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.9fr);
+  gap: 0.75rem;
+  padding: 1rem 1.08rem;
 }
 
 .vd-wiki-page__hero-copy,
@@ -299,7 +298,7 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 }
 
 .vd-wiki-page__hero-copy {
-  gap: 0.68rem;
+  gap: 0.52rem;
   min-width: 0;
 }
 
@@ -334,11 +333,11 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 
 .vd-wiki-page__title {
   margin: 0;
-  max-width: 12ch;
+  max-width: 10ch;
   color: var(--vd-wiki-page-text);
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(3rem, 3.7vw, 4.7rem);
-  line-height: 0.92;
+  font-size: clamp(2.7rem, 3.15vw, 4.15rem);
+  line-height: 0.94;
   letter-spacing: -0.065em;
   text-wrap: balance;
 }
@@ -346,73 +345,22 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 .vd-wiki-page__lede,
 .vd-wiki-page__lede p {
   margin: 0;
-  max-width: 49rem;
+  max-width: 42rem;
   color: var(--vd-wiki-page-muted);
-  font-size: 0.97rem;
-  line-height: 1.76;
-}
-
-.vd-wiki-page__hero-strip {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
-  margin-top: 0.45rem;
-}
-
-.vd-wiki-page__hero-strip-item {
-  display: grid;
-  gap: 0.38rem;
-  align-content: start;
-  min-height: 8.7rem;
-  padding: 0.95rem 1rem;
-  border: 1px solid rgba(112, 80, 42, 0.12);
-  border-radius: 1rem;
-  background: rgba(255, 250, 243, 0.84);
-  color: var(--vd-wiki-page-text);
-  text-decoration: none;
-  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
-}
-
-.vd-wiki-page__hero-strip-item:hover,
-.vd-wiki-page__hero-strip-item:focus-visible {
-  transform: translateY(-0.08rem);
-  border-color: rgba(var(--vd-orange), 0.3);
-  background: rgba(255, 252, 246, 0.96);
-}
-
-.vd-wiki-page__hero-strip-item span {
-  color: rgba(94, 68, 44, 0.66);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.vd-wiki-page__hero-strip-item strong {
-  color: var(--vd-wiki-page-text);
-  font-family: "Cormorant Garamond", serif;
-  font-size: 1.45rem;
-  line-height: 1.02;
-  letter-spacing: -0.03em;
-}
-
-.vd-wiki-page__hero-strip-item p {
-  margin: 0;
-  color: var(--vd-wiki-page-muted);
-  font-size: 0.84rem;
-  line-height: 1.58;
+  font-size: 0.9rem;
+  line-height: 1.66;
 }
 
 .vd-wiki-page__hero-stage {
-  gap: 0.8rem;
+  gap: 0.58rem;
   min-width: 0;
 }
 
 .vd-wiki-page__hero-card {
-  gap: 0.8rem;
-  padding: 1.1rem 1.15rem;
+  gap: 0.58rem;
+  padding: 0.88rem 0.92rem;
   border: 1px solid rgba(112, 80, 42, 0.12);
-  border-radius: 1.25rem;
+  border-radius: 1rem;
   background: rgba(255, 250, 244, 0.92);
 }
 
@@ -437,16 +385,16 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 .vd-wiki-page__hero-card strong {
   color: var(--vd-wiki-page-text);
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(2rem, 2.1vw, 2.8rem);
-  line-height: 0.98;
+  font-size: clamp(1.75rem, 1.8vw, 2.35rem);
+  line-height: 1;
   letter-spacing: -0.045em;
 }
 
 .vd-wiki-page__hero-card p {
   margin: 0;
   color: var(--vd-wiki-page-muted);
-  font-size: 0.95rem;
-  line-height: 1.72;
+  font-size: 0.86rem;
+  line-height: 1.58;
 }
 
 .vd-wiki-page__meta {
@@ -482,20 +430,20 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 .vd-wiki-page__badge {
   display: inline-flex;
   align-items: center;
-  min-height: 2rem;
-  padding: 0.3rem 0.7rem;
+  min-height: 1.8rem;
+  padding: 0.22rem 0.56rem;
   border: 1px solid rgba(240, 172, 92, 0.4);
   border-radius: 999px;
   background: rgba(255, 244, 226, 0.95);
   color: rgb(128, 81, 29);
-  font-size: 0.74rem;
+  font-size: 0.67rem;
   font-weight: 700;
 }
 
 .vd-wiki-page__hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.9rem 1.35rem;
+  gap: 0.55rem 1rem;
   align-items: center;
 }
 
@@ -508,22 +456,22 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 }
 
 .vd-wiki-page .vd-arrow-cta__label {
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
 .vd-wiki-page .vd-arrow-cta__icon {
-  width: 3.05rem;
+  width: 2.55rem;
   height: 0.9rem;
   fill: currentColor;
 }
 
 .vd-wiki-page__hero-media {
   position: relative;
-  min-height: 13.2rem;
-  border-radius: 1.35rem;
+  min-height: 10.8rem;
+  border-radius: 1rem;
   overflow: hidden;
   background: var(--vd-wiki-page-stage);
 }
@@ -554,8 +502,12 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
   display: flex;
   flex-wrap: nowrap;
   gap: 0.45rem;
-  padding: 0 1.2rem;
-  border-radius: 1.2rem;
+  padding: 0 0.15rem;
+  border: 0;
+  border-bottom: 1px solid rgba(112, 80, 42, 0.12);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -566,10 +518,10 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 
 .vd-wiki-page__navigator a {
   flex: 0 0 auto;
-  padding: 0.95rem 0.12rem 0.78rem;
+  padding: 0.82rem 0.12rem 0.64rem;
   border-bottom: 2px solid transparent;
   color: rgba(94, 68, 44, 0.72);
-  font-size: 0.78rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-decoration: none;
@@ -585,8 +537,8 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 
 .vd-wiki-page__section {
   display: grid;
-  gap: 1.35rem;
-  padding: 1.4rem;
+  gap: 1.1rem;
+  padding: 1.15rem;
 }
 
 .vd-wiki-page__section-head {
@@ -600,7 +552,7 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
   max-width: 11ch;
   color: var(--vd-wiki-page-text);
   font-family: "Cormorant Garamond", serif;
-  font-size: clamp(2.5rem, 3vw, 3.9rem);
+  font-size: clamp(2.15rem, 2.45vw, 3.2rem);
   line-height: 0.96;
   letter-spacing: -0.055em;
 }
@@ -641,7 +593,7 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 }
 
 .vd-wiki-page__feature-media {
-  min-height: 12rem;
+  min-height: 10.2rem;
   background: var(--vd-wiki-page-stage);
 }
 
@@ -658,8 +610,8 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 
 .vd-wiki-page__feature-body {
   display: grid;
-  gap: 0.8rem;
-  padding: 1.05rem 1.1rem 1.15rem;
+  gap: 0.62rem;
+  padding: 0.92rem 0.95rem 1rem;
 }
 
 .vd-wiki-page__category-kicker {
@@ -689,7 +641,7 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 }
 
 .vd-wiki-page__feature-title {
-  font-size: clamp(2rem, 2.2vw, 2.7rem);
+  font-size: clamp(1.6rem, 1.8vw, 2.2rem);
 }
 
 .vd-wiki-page__feature-text,
@@ -722,12 +674,12 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 .vd-wiki-page__category {
   gap: 0.8rem;
   align-content: start;
-  min-height: 14rem;
-  padding: 1.15rem 1.15rem 1.2rem;
+  min-height: 12.2rem;
+  padding: 0.95rem 0.95rem 1rem;
 }
 
 .vd-wiki-page__category-title {
-  font-size: clamp(1.9rem, 2.1vw, 2.5rem);
+  font-size: clamp(1.6rem, 1.8vw, 2rem);
 }
 
 .vd-wiki-page__cta {
@@ -822,10 +774,6 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 
   .vd-wiki-page__hero-media {
     min-height: 12.5rem;
-  }
-
-  .vd-wiki-page__hero-strip {
-    grid-template-columns: 1fr;
   }
 
   .vd-wiki-page__featured-grid,
