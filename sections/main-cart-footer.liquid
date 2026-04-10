@@ -155,20 +155,6 @@
                       {{ content_for_additional_checkout_buttons }}
                     </div>
                   </div>
-
-                  <script>
-                    (() => {
-                      const shell = document.currentScript.previousElementSibling;
-                      if (!shell) return;
-                      const trigger = shell.querySelector('[data-cart-wallet-trigger]');
-                      if (!trigger || trigger.dataset.paymentBound === 'true') return;
-                      trigger.dataset.paymentBound = 'true';
-                      trigger.addEventListener('click', () => {
-                        const liveButton = shell.querySelector('.shopify-payment-button__button, .shopify-payment-button__button--unbranded, .shopify-payment-button [role="button"], .shopify-cleanslate [role="button"], .shopify-cleanslate button');
-                        if (liveButton) liveButton.click();
-                      });
-                    })();
-                  </script>
                 {%- endif -%}
 
                 <div class="vd-cart-checkout-shell__foot">
@@ -178,46 +164,6 @@
                       <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
                     </svg>
                   </a>
-                </div>
-                <div class="vd-cart-assurance" role="list">
-                  <article class="vd-cart-assurance__card" role="listitem">
-                    <div class="vd-cart-assurance__payment-visual">
-                      <div class="vd-cart-assurance__payment-left" aria-hidden="true">
-                        <div class="vd-cart-assurance__payment-card">
-                          <div class="vd-cart-assurance__payment-line"></div>
-                          <div class="vd-cart-assurance__payment-dots"></div>
-                        </div>
-                        <div class="vd-cart-assurance__payment-slip">
-                          <div class="vd-cart-assurance__payment-slip-top"></div>
-                          <div class="vd-cart-assurance__payment-slip-screen">€</div>
-                          <div class="vd-cart-assurance__payment-slip-grid"></div>
-                        </div>
-                      </div>
-                      <div class="vd-cart-assurance__payment-right">
-                        <strong>Paiement fluide et lisible</strong>
-                        <span>Checkout natif Shopify, total clair, wallet disponible quand il est pertinent.</span>
-                      </div>
-                    </div>
-                  </article>
-                  <article class="vd-cart-assurance__card vd-cart-assurance__card--shipping" role="listitem">
-                    <div class="vd-cart-assurance__truck" aria-hidden="true">
-                      <div class="vd-cart-assurance__truck-body"></div>
-                      <div class="vd-cart-assurance__truck-cabin"></div>
-                      <div class="vd-cart-assurance__truck-wheel vd-cart-assurance__truck-wheel--front"></div>
-                      <div class="vd-cart-assurance__truck-wheel vd-cart-assurance__truck-wheel--rear"></div>
-                      <div class="vd-cart-assurance__truck-road"></div>
-                    </div>
-                    <div class="vd-cart-assurance__copy">
-                      <strong>Besoin d’un repère avant de payer ?</strong>
-                      <span>
-                        <a href="{{ cart_footer_wiki_url }}" data-vd-preview-link>Le wiki</a>,
-                        <a href="{{ cart_footer_faq_url }}" data-vd-preview-link>la FAQ</a>
-                        et
-                        <a href="{{ cart_footer_contact_url }}" data-vd-preview-link>le contact</a>
-                        restent visibles jusqu’au bout.
-                      </span>
-                    </div>
-                  </article>
                 </div>
                 </div>
               </div>
