@@ -41,63 +41,24 @@
         "enable_filtering": true,
         "enable_sorting": true,
         "color_scheme": "scheme-3",
-        "show_intro_shell": true,
-        "intro_kicker": "Repères",
-        "intro_heading": "Trouver la bonne vanille doit rester simple, même dans une sélection exigeante.",
-        "intro_text": "<p>Comparer les formats, lire les usages et poursuivre vers le guide complet sans rompre la sensation de calme du catalogue.</p>",
-        "primary_link_label": "Bien choisir sa vanille",
-        "primary_link": "shopify://pages/wiki-vanille-bien-choisir",
-        "secondary_link_label": "Voir les recettes",
-        "secondary_link": "shopify://pages/recettes",
-        "grid_note_eyebrow": "Lecture",
-        "grid_note": "Gousses, extraits, poudres et coffrets: utilisez les filtres pour aller directement vers le bon format.",
+        "show_intro_shell": false,
+        "intro_kicker": "",
+        "intro_heading": "",
+        "intro_text": "",
+        "primary_link_label": "",
+        "primary_link": "",
+        "secondary_link_label": "",
+        "secondary_link": "",
+        "grid_note_eyebrow": "",
+        "grid_note": "",
         "columns_mobile": "2",
         "padding_top": 36,
         "padding_bottom": 36
-      }
-    },
-    "vd_story_grid_collection_MVP": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "Quel format choisir ?",
-            "text": "<p>Gousses, extrait, poudre ou coffret: chaque forme répond à un geste précis. <a href=\"/pages/wiki-vanille-bien-choisir\">Lire le guide complet</a>.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Quelle intensité, quel usage ?",
-            "text": "<p>Infusion lente, pâtisserie, usage quotidien ou cadeau: la bonne lecture se fait par intensité, fréquence et contexte d’usage.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Offrir, conserver, prolonger",
-            "text": "<p>Après le choix, il reste les bons gestes: offrir avec justesse, conserver sans perdre l’arôme et poursuivre vers les recettes ou le wiki.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "Choisir la matière, comprendre l’usage, poursuivre naturellement.",
-        "text": "<p>Le catalogue reste volontairement sobre. Ces repères prolongent la lecture après la grille pour aider au bon choix sans alourdir l’expérience.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 28,
-        "padding_bottom": 48
       }
     }
   },
   "order": [
     "banner",
-    "product-grid",
-    "vd_story_grid_collection_MVP"
+    "product-grid"
   ]
 }
