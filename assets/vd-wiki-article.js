@@ -85,22 +85,34 @@
 
   function buildToc(root) {
     var content = root.querySelector('[data-vd-wiki-content]');
-    var tocWrapper = root.querySelector('[data-vd-wiki-toc-wrapper]');
-    var tocList = root.querySelector('[data-vd-wiki-toc]');
+    var tocLists = Array.prototype.slice.call(
+      root.querySelectorAll('[data-vd-wiki-toc], [data-vd-wiki-toc-alt]')
+    ).map(function (list) {
+      return {
+        list: list,
+        wrapper: list.closest('[data-vd-wiki-toc-wrapper], [data-vd-wiki-toc-wrapper-alt]')
+      };
+    }).filter(function (entry) {
+      return entry.wrapper && entry.list;
+    });
 
-    if (!content || !tocWrapper || !tocList) return [];
+    if (!content || !tocLists.length) return [];
 
     var headings = Array.prototype.slice.call(content.querySelectorAll('h2')).filter(function (heading) {
       return heading.textContent && heading.textContent.trim();
     }).slice(0, 8);
 
     if (!headings.length) {
-      tocWrapper.hidden = true;
+      tocLists.forEach(function (entry) {
+        entry.wrapper.hidden = true;
+      });
       return [];
     }
 
     var seenIds = {};
-    tocList.innerHTML = '';
+    tocLists.forEach(function (entry) {
+      entry.list.innerHTML = '';
+    });
 
     headings.forEach(function (heading) {
       var baseId = slugify(heading.textContent) || 'section';
@@ -112,15 +124,18 @@
       }
 
       var item = document.createElement('li');
-      var link = document.createElement('a');
-      link.className = 'vd-wiki-article__toc-link';
-      link.href = '#' + heading.id;
-      link.textContent = heading.textContent.trim();
-      item.appendChild(link);
-      tocList.appendChild(item);
+      tocLists.forEach(function (entry) {
+        var itemClone = item.cloneNode(false);
+        var link = document.createElement('a');
+        link.className = 'vd-wiki-article__toc-link';
+        link.href = '#' + heading.id;
+        link.textContent = heading.textContent.trim();
+        itemClone.appendChild(link);
+        entry.list.appendChild(itemClone);
+        entry.wrapper.hidden = false;
+      });
     });
 
-    tocWrapper.hidden = false;
     return headings;
   }
 

@@ -1580,6 +1580,7 @@
     assign wiki_detail_is_knowledge_layout = true
     assign wiki_detail_meta_label = 'Guide pratique'
     assign wiki_detail_meta_read_time = '8 min de lecture'
+    assign wiki_detail_meta_author = 'Équipe Vanille Désiré'
     assign wiki_detail_breadcrumb_section_label = wiki_detail_chapter
     assign wiki_detail_breadcrumb_section_url = wiki_index_page_url
     assign wiki_detail_meta_badge_one = wiki_detail_chapter
@@ -1687,6 +1688,38 @@
         assign wiki_detail_show_collection = true
       endif
     endif
+
+    assign wiki_detail_meta_date_source = page.published_at | default: 'now'
+    assign wiki_detail_meta_day = wiki_detail_meta_date_source | date: '%-d'
+    assign wiki_detail_meta_year = wiki_detail_meta_date_source | date: '%Y'
+    assign wiki_detail_meta_month_number = wiki_detail_meta_date_source | date: '%-m'
+    case wiki_detail_meta_month_number
+      when '1'
+        assign wiki_detail_meta_month = 'janvier'
+      when '2'
+        assign wiki_detail_meta_month = 'février'
+      when '3'
+        assign wiki_detail_meta_month = 'mars'
+      when '4'
+        assign wiki_detail_meta_month = 'avril'
+      when '5'
+        assign wiki_detail_meta_month = 'mai'
+      when '6'
+        assign wiki_detail_meta_month = 'juin'
+      when '7'
+        assign wiki_detail_meta_month = 'juillet'
+      when '8'
+        assign wiki_detail_meta_month = 'août'
+      when '9'
+        assign wiki_detail_meta_month = 'septembre'
+      when '10'
+        assign wiki_detail_meta_month = 'octobre'
+      when '11'
+        assign wiki_detail_meta_month = 'novembre'
+      when '12'
+        assign wiki_detail_meta_month = 'décembre'
+    endcase
+    assign wiki_detail_meta_date = wiki_detail_meta_day | append: ' ' | append: wiki_detail_meta_month | append: ' ' | append: wiki_detail_meta_year
   -%}
   {% comment %}theme-check-enable UnusedAssign{% endcomment %}
 
@@ -1723,15 +1756,18 @@
                     <span>Wiki</span>
                     <strong>Vanille & épices</strong>
                   </a>
-                  <a href="{{ wiki_index_page_url }}" class="vd-wiki-detail__rail-search" data-vd-preview-link>
-                    <span class="vd-wiki-detail__rail-search-icon" aria-hidden="true">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                        <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.7"></circle>
-                        <path d="M16 16 21 21" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path>
-                      </svg>
-                    </span>
-                    <span>Voir l’index du wiki</span>
-                  </a>
+                  <form class="vd-wiki-detail__rail-search" action="{{ routes.search_url }}" method="get" role="search" aria-label="Recherche dans le wiki">
+                    <input type="hidden" name="type" value="page">
+                    <label class="vd-wiki-detail__rail-search-label" for="VDWikiDetailSearch-{{ section.id }}">
+                      <span class="vd-wiki-detail__rail-search-icon" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                          <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.7"></circle>
+                          <path d="M16 16 21 21" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path>
+                        </svg>
+                      </span>
+                      <input id="VDWikiDetailSearch-{{ section.id }}" type="search" name="q" placeholder="Rechercher..." autocomplete="off">
+                    </label>
+                  </form>
                 </div>
 
                 <a href="{{ wiki_index_page_url }}" class="vd-wiki-detail__rail-home" data-vd-preview-link>Accueil</a>
@@ -1798,6 +1834,7 @@
               </aside>
 
               <div class="vd-wiki-detail__knowledge-main">
+                <div class="vd-wiki-detail__article-column">
           {% endif %}
 
           <header class="vd-wiki-detail__hero vd-wiki-detail__hero--lite">
@@ -1812,16 +1849,33 @@
                 </nav>
                 <div class="vd-wiki-detail__hero-grid">
                   <div class="vd-wiki-detail__hero-main">
-                    <span class="vd-section-kicker">{{ wiki_detail_chapter }}</span>
                     <h1 class="vd-wiki-detail__title" data-vd-wiki-title>{{ wiki_detail_title }}</h1>
-                  </div>
-                  <div class="vd-wiki-detail__hero-side">
-                    <div class="vd-wiki-detail__lede rte">
-                      <p>{{ wiki_detail_summary }}</p>
-                    </div>
-                    <div class="vd-wiki-detail__meta" aria-label="Métadonnées article">
-                      <span class="vd-wiki-detail__meta-item">{{ wiki_detail_meta_label }}</span>
-                      <span class="vd-wiki-detail__meta-item">{{ wiki_detail_meta_read_time }}</span>
+                    <div class="vd-wiki-detail__hero-meta-bar">
+                      <div class="vd-wiki-detail__meta" aria-label="Métadonnées article">
+                        <span class="vd-wiki-detail__meta-item vd-wiki-detail__meta-item--date">{{ wiki_detail_meta_date }}</span>
+                        <span class="vd-wiki-detail__meta-item vd-wiki-detail__meta-item--author">{{ wiki_detail_meta_author }}</span>
+                        <span class="vd-wiki-detail__meta-item vd-wiki-detail__meta-item--readtime">{{ wiki_detail_meta_read_time }}</span>
+                      </div>
+                      <div class="vd-wiki-detail__hero-actions" aria-label="Actions article">
+                        <button type="button" class="vd-wiki-detail__hero-action" aria-label="Imprimer l’article">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                            <path d="M7 9V4h10v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 14h10v6H7z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </button>
+                        <button type="button" class="vd-wiki-detail__hero-action" aria-label="Ajouter aux favoris">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                            <path d="M7 4.5h10a1 1 0 0 1 1 1V21l-6-3-6 3V5.5a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </button>
+                        <button type="button" class="vd-wiki-detail__hero-action" aria-label="Partager l’article">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+                            <path d="M14 6a3 3 0 1 0-2.83-4H11a3 3 0 0 0 .17 1L8.91 7.1a3 3 0 0 0-1.91-.6 3 3 0 1 0 1.91 5.4l2.28 4.1A3 3 0 0 0 11 17a3 3 0 1 0 .17 1h.01a3 3 0 0 0-.17-1l2.26-4.07A3 3 0 1 0 14 6Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </button>
+                        <span class="vd-wiki-detail__hero-action-label">Partager</span>
+                      </div>
                     </div>
                     <div class="vd-wiki-detail__badges" aria-label="Thèmes liés">
                       {% if wiki_detail_meta_badge_one != blank %}
@@ -1834,6 +1888,12 @@
                         <span class="vd-wiki-detail__badge">{{ wiki_detail_meta_badge_three }}</span>
                       {% endif %}
                     </div>
+                  </div>
+                  <div class="vd-wiki-detail__hero-side">
+                    <div class="vd-wiki-detail__lede rte">
+                      <p>{{ wiki_detail_summary }}</p>
+                    </div>
+                    <span class="vd-wiki-detail__article-kind">{{ wiki_detail_meta_label }}</span>
                   </div>
                 </div>
               {% else %}
@@ -1960,6 +2020,13 @@
           </div>
 
           {% if wiki_detail_is_knowledge_layout %}
+                </div>
+                <aside class="vd-wiki-detail__page-aside" aria-label="Sur cette page">
+                  <nav class="vd-wiki-detail__page-toc" aria-labelledby="wiki-page-toc-title-{{ section.id }}" data-vd-wiki-toc-wrapper-alt hidden>
+                    <span class="vd-wiki-detail__page-toc-title" id="wiki-page-toc-title-{{ section.id }}">Sur cette page</span>
+                    <ol class="vd-wiki-detail__page-toc-list" data-vd-wiki-toc-alt></ol>
+                  </nav>
+                </aside>
               </div>
             </div>
           {% endif %}
