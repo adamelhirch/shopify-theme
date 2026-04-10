@@ -12,6 +12,34 @@
       .trim();
   }
 
+  function getCompactTocLabel(root, headingText) {
+    var pageHandle = root && root.getAttribute ? root.getAttribute('data-vd-wiki-handle') : '';
+    var text = String(headingText || '').trim();
+
+    if (!text) return text;
+
+    if (pageHandle === 'wiki-vanille-conservation-preparation') {
+      var conservationMap = {
+        'Comment conserver des gousses de vanille au quotidien': 'Conserver',
+        'Les erreurs qui abîment la vanille': 'Erreurs',
+        'Combien de temps se gardent des gousses de vanille ?': 'Durée',
+        'Préparer la vanille sans gâcher la préparation': 'Préparer',
+        'Recycler une gousse déjà utilisée': 'Recycler',
+        'Ce que montrent les sources techniques sur la conservation': 'Sources',
+        'Questions fréquentes sur la conservation de la vanille': 'FAQ',
+        'Choisir la bonne vanille selon votre besoin': 'Choisir'
+      };
+
+      if (conservationMap[text]) return conservationMap[text];
+    }
+
+    var words = text.split(/\s+/).filter(Boolean);
+
+    if (words.length <= 3) return text;
+
+    return words.slice(0, 3).join(' ');
+  }
+
   function sectionizeContent(content) {
     if (!content || content.dataset.vdWikiSectionized === 'true') return;
 
@@ -118,6 +146,8 @@
       var baseId = slugify(heading.textContent) || 'section';
       var nextIndex = (seenIds[baseId] || 0) + 1;
       seenIds[baseId] = nextIndex;
+      var fullLabel = heading.textContent.trim();
+      var compactLabel = getCompactTocLabel(root, fullLabel);
 
       if (!heading.id) {
         heading.id = nextIndex > 1 ? baseId + '-' + nextIndex : baseId;
@@ -129,7 +159,7 @@
         var link = document.createElement('a');
         link.className = 'vd-wiki-article__toc-link';
         link.href = '#' + heading.id;
-        link.textContent = heading.textContent.trim();
+        link.textContent = entry.list.hasAttribute('data-vd-wiki-toc-alt') ? fullLabel : compactLabel;
         itemClone.appendChild(link);
         entry.list.appendChild(itemClone);
         entry.wrapper.hidden = false;
