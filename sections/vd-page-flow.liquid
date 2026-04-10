@@ -1086,9 +1086,9 @@
       assign wiki_detail_collection_url = ''
       assign wiki_detail_collection_label = ''
       assign wiki_detail_media_video = ''
-      assign wiki_detail_media_image = 'vd-wiki-cover.jpg'
-      assign wiki_detail_media_poster = 'vd-wiki-cover.jpg'
-      assign wiki_detail_media_alt = 'Vanille Bourbon et producteurs Vanille Désiré'
+      assign wiki_detail_media_image = 'vd-wiki-botanique.jpg'
+      assign wiki_detail_media_poster = 'vd-wiki-botanique.jpg'
+      assign wiki_detail_media_alt = 'Orchidée de vanille et culture à Madagascar'
       assign wiki_detail_card_one_title = 'Voir la vanille Bourbon'
       assign wiki_detail_card_one_copy = 'Accéder directement aux gousses et formats.'
       assign wiki_detail_card_one_url = vanille_collection_url
@@ -1867,6 +1867,13 @@
             </div>
             <ol class="vd-wiki-detail__toc" data-vd-wiki-toc></ol>
           </nav>
+
+          {% if wiki_detail_is_knowledge_layout and wiki_detail_media_image != blank %}
+            <figure class="vd-wiki-detail__hero-media">
+              <img src="{{ wiki_detail_media_image | asset_url }}" alt="{{ wiki_detail_media_alt | escape }}" loading="lazy" width="1440" height="840">
+              <figcaption>{{ wiki_detail_media_alt }}</figcaption>
+            </figure>
+          {% endif %}
 
           <script type="application/ld+json">
             {

@@ -1624,3 +1624,144 @@ body:has(.vd-wiki-page) .vd-header-inline-search form {
     font-size: clamp(3.3rem, 12vw, 4.6rem) !important;
   }
 }
+
+/* Hub copy pass: strip the faux landing shell and start from the category explorer layout */
+.vd-wiki-page__anchors,
+.vd-wiki-page__rail,
+.vd-wiki-page__hero,
+.vd-wiki-page__navigator,
+.vd-wiki-page__main > .vd-wiki-page__section:first-of-type {
+  display: none !important;
+}
+
+.vd-wiki-page__shell {
+  grid-template-columns: minmax(0, 112rem) !important;
+  max-width: 112rem !important;
+  margin: 0 auto !important;
+  padding-top: calc(var(--header-height, 8rem) + 1.2rem) !important;
+}
+
+.vd-wiki-page__main {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+
+.vd-wiki-page__main > .vd-wiki-page__section:nth-of-type(2) {
+  order: 1 !important;
+}
+
+.vd-wiki-page__main > .vd-wiki-page__section:nth-of-type(3) {
+  order: 2 !important;
+}
+
+.vd-wiki-page__section {
+  padding: 2.6rem 0 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(120, 92, 58, 0.12) !important;
+  border-radius: 0 !important;
+}
+
+.vd-wiki-page__section-head {
+  display: grid !important;
+  grid-template-columns: 18rem minmax(0, 1fr) !important;
+  grid-template-areas:
+    "kicker title"
+    "text title" !important;
+  align-items: start !important;
+  gap: 1.1rem 4rem !important;
+  max-width: none !important;
+  margin-bottom: 2.4rem !important;
+}
+
+.vd-wiki-page__section-head .vd-section-kicker {
+  grid-area: kicker !important;
+  align-self: start !important;
+  margin-top: 0.7rem !important;
+}
+
+.vd-wiki-page__section-title {
+  grid-area: title !important;
+  max-width: 7.2ch !important;
+  color: #263548 !important;
+  font-size: clamp(4.8rem, 5vw, 6.6rem) !important;
+  line-height: 0.88 !important;
+  letter-spacing: -0.055em !important;
+}
+
+.vd-wiki-page__section-text,
+.vd-wiki-page__section-text p {
+  grid-area: text !important;
+  max-width: 24rem !important;
+  color: #415063 !important;
+  font-size: 1.14rem !important;
+  line-height: 1.78 !important;
+}
+
+.vd-wiki-page__category-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 1.6rem !important;
+}
+
+.vd-wiki-page__category {
+  min-height: 14.6rem !important;
+  padding: 1.7rem 1.6rem 1.8rem !important;
+  border-radius: 0 !important;
+  background: #fffefb !important;
+  border: 1px solid rgba(120, 92, 58, 0.12) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.vd-wiki-page__category:hover,
+.vd-wiki-page__category:focus-visible {
+  transform: none !important;
+  background: #fffefb !important;
+}
+
+.vd-wiki-page__category-kicker {
+  margin-bottom: 1rem !important;
+}
+
+.vd-wiki-page__category-title {
+  font-size: 1.65rem !important;
+  line-height: 1.18 !important;
+  letter-spacing: -0.035em !important;
+}
+
+.vd-wiki-page__category-text {
+  max-width: 33rem !important;
+  font-size: 1rem !important;
+  line-height: 1.7 !important;
+  color: #415063 !important;
+}
+
+.vd-wiki-page__faq {
+  padding-top: 2.4rem !important;
+}
+
+.vd-wiki-page__faq-item summary {
+  font-size: 1rem !important;
+}
+
+@media screen and (max-width: 989px) {
+  .vd-wiki-page__section-head {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "kicker"
+      "title"
+      "text" !important;
+    gap: 1rem !important;
+  }
+
+  .vd-wiki-page__section-title,
+  .vd-wiki-page__section-text,
+  .vd-wiki-page__section-text p {
+    max-width: none !important;
+  }
+
+  .vd-wiki-page__category-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
