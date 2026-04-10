@@ -362,8 +362,12 @@
 
       var content = root.querySelector('[data-vd-wiki-content]');
       if (!content) return;
+      var detail = root.closest('.vd-wiki-detail');
+      var isKnowledgeLayout = detail && detail.getAttribute('data-vd-wiki-layout') === 'knowledge';
 
-      sectionizeContent(content);
+      if (!isKnowledgeLayout) {
+        sectionizeContent(content);
+      }
       var headings = buildToc(root);
       setupScrollSpy(root, headings);
       setupRevealObservers(root);
