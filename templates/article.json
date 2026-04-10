@@ -43,48 +43,9 @@
         "content"
       ],
       "settings": {}
-    },
-    "vd_story_grid_article_b2N6sR": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "Lire puis agir",
-            "text": "<p>La fin d'article doit renvoyer vers une prochaine lecture ou vers un produit coherent.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Rester dans l'univers",
-            "text": "<p>On garde le meme ton, la meme matiere visuelle et la meme exigence que sur les pages commerciales.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Suite naturelle",
-            "text": "<p>Wiki, recettes, sourcing et produits doivent s'enchainer proprement sans rupture visuelle.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "Une sortie de lecture plus construite.",
-        "text": "<p>La page article n'est plus une impasse. Elle referme proprement la lecture et ouvre vers la suite.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 28,
-        "padding_bottom": 56
-      }
     }
   },
   "order": [
-    "main",
-    "vd_story_grid_article_b2N6sR"
+    "main"
   ]
 }

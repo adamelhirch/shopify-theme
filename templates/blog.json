@@ -9,27 +9,6 @@
  */
 {
   "sections": {
-    "vd_page_banner_blog_a7L3vD": {
-      "type": "vd-page-banner",
-      "settings": {
-        "eyebrow": "Le Wiki",
-        "heading": "Un blog plus editorial, plus clair, plus proche du produit.",
-        "text": "<p>Le contenu doit soutenir la conversion sans perdre sa valeur pedagogique. On garde donc une vraie lecture magazine, avec une entree immediate vers les usages, l'origine et les formats a acheter.</p>",
-        "primary_button_label": "Voir la collection",
-        "primary_button_link": "shopify://collections/vanille-bourbon",
-        "secondary_button_label": "Nous contacter",
-        "secondary_button_link": "shopify://pages/contact",
-        "metric_1_label": "Angle",
-        "metric_1_value": "Pedagogique",
-        "metric_2_label": "But",
-        "metric_2_value": "Rassurer",
-        "metric_3_label": "Suite",
-        "metric_3_value": "Shoppable",
-        "color_scheme": "scheme-3",
-        "padding_top": 20,
-        "padding_bottom": 8
-      }
-    },
     "main": {
       "type": "main-blog",
       "settings": {
@@ -41,49 +20,9 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
-    },
-    "vd_story_grid_blog_v6H2mN": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "Origine",
-            "text": "<p>Remettre le terroir, les producteurs et la selection au centre du discours.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Usage",
-            "text": "<p>Transformer le blog en ressource pratique: dosage, infusion, accords et conservation.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Passerelle produit",
-            "text": "<p>Chaque contenu doit pouvoir renvoyer simplement vers la bonne collection ou le bon format.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "Le contenu ne doit plus vivre en dehors du catalogue.",
-        "text": "<p>Le wiki devient un vrai bras editorial de la marque, avec la meme qualite percue que les pages produit.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 0,
-        "padding_bottom": 56
-      }
     }
   },
   "order": [
-    "vd_page_banner_blog_a7L3vD",
-    "main",
-    "vd_story_grid_blog_v6H2mN"
+    "main"
   ]
 }
