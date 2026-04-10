@@ -1,10 +1,10 @@
 {%- liquid
-  capture gridView
+  capture grid_view
     render 'products_per_row', products_per_row: per_row, style: 'fractions'
   endcapture
 
   # These assignments have no effect if a sizes parameter is passed in
-  assign sizeVariable = gridView
+  assign size_variable = grid_view
   if fallback != blank
     assign fallback = fallback
   else
@@ -12,7 +12,7 @@
   endif
 -%}
 
-<div class="grid__item grid-search {{ gridView }}">
+<div class="grid__item grid-search {{ grid_view }}">
   <div class="grid-search__page">
     <a href="{{ item.url }}" class="grid-search__page-link">
       <span class="grid-search__page-content">
@@ -24,7 +24,7 @@
             alt: item.title,
             widths: '180, 360, 540',
             sizes: sizes,
-            sizeVariable: sizeVariable,
+            sizeVariable: size_variable,
             fallback: fallback,
           -%}
         {%- endif -%}

@@ -47,8 +47,8 @@
     {%- endif -%}
     "image": {
       "@type": "ImageObject",
-      "url": "https:{{ product.featured_media.preview_image | img_url: '1024x1024' }}",
-      "image": "https:{{ product.featured_media.preview_image | img_url: '1024x1024' }}",
+      "url": {{ product.featured_media.preview_image | image_url: width: 1024 | prepend: 'https:' | json }},
+      "image": {{ product.featured_media.preview_image | image_url: width: 1024 | prepend: 'https:' | json }},
       "name": {{ product.title | json }},
       "width": 1024,
       "height": 1024

@@ -13,7 +13,30 @@
 {% endstyle %}
 
 {%- liquid
+  assign hero_video_url = ''
+  assign hero_poster_image = section.settings.background_image
   assign has_metrics = false
+  assign hero_title_text = section.settings.heading | strip
+  assign hero_body_text = section.settings.text | strip_html | strip
+  assign hero_semantic_title = hero_title_text
+  assign hero_semantic_text = hero_body_text
+
+  if hero_poster_image == blank and section.settings.background_video.preview_image != blank
+    assign hero_poster_image = section.settings.background_video.preview_image
+  endif
+
+  if section.settings.background_video != blank
+    for source in section.settings.background_video.sources
+      if source.mime_type == 'video/mp4'
+        assign hero_video_url = source.url
+        break
+      endif
+    endfor
+  elsif section.settings.external_video_url != blank
+    assign hero_video_url = section.settings.external_video_url
+  elsif section.settings.use_demo_video
+    assign hero_video_url = 'vd-hero-origin.mp4' | asset_url
+  endif
 
   if section.settings.metric_1_value != blank and section.settings.metric_1_label != blank
     assign has_metrics = true
@@ -27,63 +50,86 @@
     assign has_metrics = true
   endif
 
+  if hero_semantic_title == blank
+    assign hero_semantic_title = shop.name | append: ' | Vanille et epices de Madagascar'
+  endif
+
+  if hero_semantic_text == blank
+    capture hero_semantic_text
+      if section.settings.eyebrow != blank
+        echo section.settings.eyebrow
+        echo '. '
+      endif
+      echo 'Une selection premium de vanille et d epices de Madagascar, pensee pour la cuisine, le cadeau et les amateurs exigeants.'
+    endcapture
+    assign hero_semantic_text = hero_semantic_text | strip
+  endif
+
   assign has_aside = false
   if section.blocks.size > 0 or has_metrics
     assign has_aside = true
   endif
 -%}
 
-<section class="section-{{ section.id }}-padding section-vd-hero color-{{ section.settings.color_scheme }}">
+<section
+  class="section-{{ section.id }}-padding section-vd-hero color-{{ section.settings.color_scheme }}"
+  aria-label="{{ hero_semantic_title | escape }}"
+>
   <div class="vd-hero vd-hero--immersive">
-    <div class="vd-hero__media">
-      {% if section.settings.background_video != blank %}
+    <div class="vd-hero__media{% if hero_video_url != blank %} vd-hero__media--deferred{% endif %}" aria-hidden="true">
+      {% if hero_video_url != blank and hero_poster_image != blank %}
         {{
-          section.settings.background_video
-          | video_tag:
-            class: 'vd-hero__video',
-            autoplay: true,
-            loop: true,
-            muted: true,
-            controls: false,
-            playsinline: true,
-            preload: 'metadata',
-            image_size: '2000x'
+          hero_poster_image
+          | image_url: width: 1920
+          | image_tag:
+            class: 'vd-hero__image',
+            widths: '480, 720, 960, 1280, 1600, 1920',
+            sizes: '100vw',
+            loading: 'eager',
+            fetchpriority: 'high',
+            decoding: 'async',
+            alt: ''
         }}
-      {% elsif section.settings.external_video_url != blank %}
+      {% elsif hero_video_url != blank and section.settings.use_demo_video %}
+        <img
+          src="{{ 'vd-hero-origin-poster.jpg' | asset_url }}"
+          class="vd-hero__image"
+          alt=""
+          loading="eager"
+          width="2400"
+          height="1600"
+        >
+      {% endif %}
+
+      {% if hero_video_url != blank %}
         <video
           class="vd-hero__video"
           autoplay
           loop
           muted
           playsinline
-          preload="metadata"
-          {% if section.settings.background_image != blank %}
-            poster="{{ section.settings.background_image | image_url: width: 2400 }}"
-          {% endif %}
+          preload="none"
+          data-vd-deferred-video
+          data-video-src="{{ hero_video_url }}"
+          data-vd-video-load="idle"
+          data-vd-video-delay="2400"
+          data-min-width="990"
+          aria-hidden="true"
         >
-          <source src="{{ section.settings.external_video_url }}" type="video/mp4">
-        </video>
-      {% elsif section.settings.use_demo_video %}
-        <video
-          class="vd-hero__video"
-          autoplay
-          loop
-          muted
-          playsinline
-          preload="metadata"
-          poster="{{ 'vd-hero-origin-poster.jpg' | asset_url }}"
-        >
-          <source src="{{ 'vd-hero-origin.mp4' | asset_url }}" type="video/mp4">
+          <source data-src="{{ hero_video_url }}" type="video/mp4">
         </video>
       {% elsif section.settings.background_image != blank %}
         {{
           section.settings.background_image
-          | image_url: width: 2400
+          | image_url: width: 1920
           | image_tag:
             class: 'vd-hero__image',
-            widths: '750, 1100, 1500, 2000, 2400',
+            widths: '480, 720, 960, 1280, 1600, 1920',
             sizes: '100vw',
-            loading: 'eager'
+            loading: 'eager',
+            fetchpriority: 'high',
+            decoding: 'async',
+            alt: ''
         }}
       {% else %}
         {{ 'hero-apparel-1' | placeholder_svg_tag: 'vd-hero__image placeholder-svg' }}
@@ -96,6 +142,10 @@
     <div class="page-width vd-hero__frame">
       <div class="vd-hero__inner{% unless has_aside %} vd-hero__inner--solo{% endunless %}">
         <div class="vd-hero__copy">
+          {% if section.settings.heading == blank %}
+            <h1 class="visually-hidden">{{ hero_semantic_title }}</h1>
+          {% endif %}
+
           {% if section.settings.heading != blank %}
             <h1 class="vd-hero__title">{{ section.settings.heading }}</h1>
           {% endif %}
@@ -108,6 +158,8 @@
 
           {% if section.settings.text != blank %}
             <div class="vd-hero__text rte">{{ section.settings.text }}</div>
+          {% elsif hero_semantic_text != blank %}
+            <p class="visually-hidden">{{ hero_semantic_text }}</p>
           {% endif %}
 
           <div class="vd-hero__actions">

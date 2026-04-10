@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.footer.name",
   "type": "footer",
@@ -16,14 +25,14 @@
           "type": "text",
           "settings": {
             "heading": "Maison",
-            "subtext": "<p>Vanille Desire selectionne des gousses, extraits et epices de Madagascar en lien direct avec les producteurs, dans une lecture plus editoriale que folklorique.</p>"
+            "subtext": "<p>Vanille Désiré sélectionne des gousses, extraits et épices de Madagascar en lien direct avec les producteurs, dans une lecture plus éditoriale que folklorique.</p>"
           }
         },
         "footer-2": {
           "type": "text",
           "settings": {
             "heading": "Contact",
-            "subtext": "<p>Instagram<br>@vanilledesire</p><p>Questions, commandes speciales et collaborations via la page contact.</p>"
+            "subtext": "<p>Instagram<br>@vanilledesire</p><p>Questions, commandes spéciales et collaborations via la page contact.</p>"
           }
         }
       },
@@ -35,7 +44,6 @@
       "settings": {
         "color_scheme": "scheme-2",
         "newsletter_enable": true,
-        "newsletter_heading": "Entrer dans l'univers Vanille Desire",
         "enable_follow_on_shop": false,
         "show_social": true,
         "enable_country_selector": false,

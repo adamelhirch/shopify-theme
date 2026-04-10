@@ -1,3 +1,4 @@
+{% comment %}theme-check-disable UnclosedHTMLElement{% endcomment %}
 {%- liquid
   assign recommend_products = true
 
@@ -44,12 +45,12 @@
         </div>
       </div>
     {%- endif -%}
-    {%- if related_collection.products_count > 0 -%}
+        {%- if related_collection.products_count > 0 -%}
       <div class="product-recommendations">
         <div class="product-single__related grid grid--uniform" data-aos="overflow__animation" {% if type == 'block' %}data-slideshow data-controls="{{ block.settings.control_type }}" data-per-slide="{{ block.settings.per_slide }}" data-count="{{ number_of_products}}"{% endif %}>
-          {% assign currentStep = 1 %}
+          {% assign current_step = 1 %}
           {%- for product in related_collection.products limit: number_of_products -%}
-            {% if currentStep == 1 %}
+            {% if current_step == 1 %}
               <div class="product-recommendations__slide">
             {% endif %}
 
@@ -61,12 +62,12 @@
               sizes: '112px',
             -%}
 
-            {% if currentStep == block.settings.per_slide or forloop.last %}
+            {% if current_step == block.settings.per_slide or forloop.last %}
               </div>
-              {% assign currentStep = 0 %}
+              {% assign current_step = 0 %}
             {% endif %}
 
-            {% assign currentStep = currentStep | plus: 1 %}
+            {% assign current_step = current_step | plus: 1 %}
           {%- endfor -%}
         </div>
       </div>

@@ -23,31 +23,105 @@
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
 
+    {%- liquid
+      assign vd_meta_title = page_title
+      assign vd_meta_description = page_description
+
+      if request.page_type == 'page'
+        case page.handle
+          when 'wiki-vanille-conservation-preparation'
+            assign vd_meta_title = 'Comment conserver des gousses de vanille | Guide pratique'
+            assign vd_meta_description = 'Comment conserver des gousses de vanille sans les dessécher ? Conseils simples, erreurs à éviter et bonnes pratiques pour garder parfum et souplesse.'
+          when 'wiki-vanille-bien-choisir'
+            assign vd_meta_title = 'Bien choisir sa vanille Bourbon | Guide achat'
+            assign vd_meta_description = 'Souplesse, brillance, parfum, format : les critères utiles pour bien choisir une gousse de vanille Bourbon selon vos recettes et votre usage.'
+          when 'wiki-epices-madagascar'
+            assign vd_meta_title = 'Épices de Madagascar | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Panorama des épices de Madagascar : profils aromatiques, usages, conservation et repères pour choisir la bonne épice.'
+          when 'wiki-poivres-baies-madagascar'
+            assign vd_meta_title = 'Poivres & baies de Madagascar | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Comprendre les différences entre poivres et baies de Madagascar : intensité, terroirs, accords et usages en cuisine.'
+          when 'wiki-sels-melanges'
+            assign vd_meta_title = 'Sels gourmets & mélanges | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Repères pour choisir un sel aromatisé ou un mélange : usages, accords, finition et cuisine du quotidien.'
+          when 'wiki-huiles-essentielles-plantes'
+            assign vd_meta_title = 'Huiles essentielles & plantes | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Repères de lecture sur les huiles essentielles et plantes : usages, précautions et orientation avant achat.'
+          when 'wiki-savoir-faire-producteurs'
+            assign vd_meta_title = 'Savoir-faire & producteurs | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Pourquoi le travail du producteur change la qualité finale de la vanille et des épices : préparation, tri, affinage et filière.'
+          when 'wiki-bienfaits-sante'
+            assign vd_meta_title = 'Bienfaits & usages des épices | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Usages traditionnels, lecture critique des bienfaits et repères sérieux pour parler santé sans surpromesse.'
+          when 'wiki-recettes'
+            assign vd_meta_title = 'Recettes & accords | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Le passage du wiki à la cuisine : dosage, infusion, pâtisserie, accords salés et recettes autour de la vanille et des épices.'
+          when 'wiki-glossaire-epices'
+            assign vd_meta_title = 'Glossaire des épices | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Le vocabulaire utile du wiki : Bourbon, infusion, caviar, affinage, extraction et autres termes clés.'
+          when 'wiki-faq-vanille-epices'
+            assign vd_meta_title = 'FAQ — Vanille & épices | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Réponses rapides sur la conservation, la qualité, les usages et les différences entre les grandes familles du wiki.'
+          when 'wiki-dosage-vanille'
+            assign vd_meta_title = 'Quel dosage de vanille selon la recette ? | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Combien de vanille utiliser dans une crème, un lait, un sirop ou un gâteau ? Repères simples de dosage pour cuisiner juste.'
+          when 'wiki-recycler-gousse-vanille'
+            assign vd_meta_title = 'Recycler une gousse de vanille déjà utilisée | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Sucre vanillé, sirop, compote, lait ou dessert : comment réutiliser une gousse de vanille déjà infusée sans la gaspiller.'
+          when 'wiki-vanille-tahiti'
+            assign vd_meta_title = 'Vanille Tahiti : comment la choisir et l’utiliser ? | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Profil floral, desserts, fruits, dosage et différence avec la Bourbon : repères clairs pour comprendre la vanille Tahiti.'
+          when 'wiki-combava-madagascar'
+            assign vd_meta_title = 'Comment utiliser le combava en cuisine ? | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Comment doser le combava sur un poisson, des légumes, du coco ou un dessert ? Repères concrets pour garder un accord net.'
+          when 'wiki-poivre-quel-plat'
+            assign vd_meta_title = 'Quel poivre choisir selon le plat ? | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Poivre noir, blanc ou sauvage : comment choisir selon la viande, le poisson, les légumes, le chocolat ou la finition.'
+          when 'wiki-sel-aromatise-quel-plat'
+            assign vd_meta_title = 'Quel sel aromatisé choisir selon le plat ? | Le Wiki Vanille Désiré'
+            assign vd_meta_description = 'Légumes, œufs, poissons, viandes ou desserts : repères pour choisir un sel aromatisé selon l’usage et le bon moment d’ajout.'
+        endcase
+      endif
+    -%}
+
     <title>
-      {{ page_title }}
+      {{ vd_meta_title }}
       {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
       {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- unless vd_meta_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
     </title>
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
+    {% if vd_meta_description %}
+      <meta name="description" content="{{ vd_meta_description | escape }}">
     {% endif %}
 
-    {% render 'meta-tags' %}
+    {% render 'meta-tags', og_title: vd_meta_title, og_description: vd_meta_description %}
 
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'vd-preview-links.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'gsap.min.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'scroll-trigger.min.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'scroll-smoother.min.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'flip.min.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'split-text.min.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'vd-gsap.js' | asset_url }}" defer="defer"></script>
+    {%- liquid
+      assign vd_load_motion_runtime = false
+      if request.page_type == 'index' or request.page_type == 'collection' or request.page_type == 'page'
+        assign vd_load_motion_runtime = true
+      endif
+    -%}
+    {%- if vd_load_motion_runtime -%}
+      <script>
+        window.__vdMotionAssets = {
+          gsap: {{ 'gsap.min.js' | asset_url | json }},
+          scrollTrigger: {{ 'scroll-trigger.min.js' | asset_url | json }},
+          scrollSmoother: {{ 'scroll-smoother.min.js' | asset_url | json }},
+          flip: {{ 'flip.min.js' | asset_url | json }},
+          splitText: {{ 'split-text.min.js' | asset_url | json }}
+        };
+      </script>
+      <script src="{{ 'vd-gsap.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
 
     {%- if settings.animations_reveal_on_scroll -%}
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
@@ -272,8 +346,7 @@
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'vanille-desire.css' | asset_url | stylesheet_tag }}
-    {{ 'cookie-banner.css' | asset_url | stylesheet_tag }}
-    {{ 'component-vd-form-card.css' | asset_url | stylesheet_tag }}
+    <link rel="stylesheet" href="{{ 'cookie-banner.css' | asset_url }}" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
@@ -296,7 +369,7 @@
     {%- endunless -%}
 
     {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
-      {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
+      <link rel="stylesheet" href="{{ 'component-localization-form.css' | asset_url }}" media="print" onload="this.media='all'">
       <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 

@@ -9,6 +9,11 @@
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
+  .section-{{ section.id }}-payment-shell {
+    --vd-cart-payment-opacity: {{ section.settings.payment_media_opacity | default: 78 | divided_by: 100.0 }};
+    --vd-cart-payment-blur: {{ section.settings.payment_media_blur | default: 16 }}px;
+  }
+
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
@@ -17,8 +22,29 @@
   }
 {%- endstyle -%}
 
+{%- liquid
+  assign cart_footer_wiki_page = pages['wiki']
+  assign cart_footer_contact_page = pages['contact']
+  assign cart_footer_faq_page = pages['faq']
+  assign cart_footer_wiki_url = cart_footer_wiki_page.url | default: '/pages/wiki'
+  assign cart_footer_contact_url = cart_footer_contact_page.url | default: '/pages/contact'
+  assign cart_footer_faq_url = cart_footer_faq_page.url | default: '/pages/faq'
+  assign cart_payment_video_url = ''
+  assign cart_payment_video_poster = section.settings.payment_background_image
+
+  if section.settings.payment_background_video != blank
+    assign cart_payment_video_poster = section.settings.payment_background_video.preview_image | default: cart_payment_video_poster
+    for source in section.settings.payment_background_video.sources
+      if source.mime_type == 'video/mp4'
+        assign cart_payment_video_url = source.url
+        break
+      endif
+    endfor
+  endif
+-%}
+
 <div
-  class="vd-cart-shell gradient color-{{ section.settings.color_scheme }}{% if cart == empty %} is-empty{% endif %}"
+  class="vd-cart-shell color-{{ section.settings.color_scheme }}{% if cart == empty %} is-empty{% endif %}"
   id="main-cart-footer"
   data-id="{{ section.id }}"
 >
@@ -104,65 +130,89 @@
                 </small>
               </div>
             {%- else -%}
-              <div class="cart__ctas" {{ block.shopify_attributes }}>
-                <button
-                  type="submit"
-                  id="checkout"
-                  class="cart__checkout-button button"
-                  name="checkout"
-                  {% if cart == empty %}
-                    disabled
-                  {% endif %}
-                  form="cart"
-                >
-                  {{ 'sections.cart.checkout' | t }}
-                </button>
-              </div>
+              <div class="vd-cart-purchase-shell section-{{ section.id }}-payment-shell" {{ block.shopify_attributes }}>
+                <div class="vd-cart-purchase-shell__content">
+                {%- unless additional_checkout_buttons -%}
+                  <div class="cart__ctas vd-cart-checkout-shell">
+                    <button
+                      type="submit"
+                      id="checkout"
+                      class="cart__checkout-button button vd-cart-checkout-shell__button"
+                      name="checkout"
+                      {% if cart == empty %}
+                        disabled
+                      {% endif %}
+                      form="cart"
+                    >
+                      {{ 'sections.cart.checkout' | t }}
+                    </button>
+                  </div>
+                {%- endunless -%}
 
-              {%- if additional_checkout_buttons -%}
-                <div class="cart__dynamic-checkout-buttons additional-checkout-buttons">
-                  {{ content_for_additional_checkout_buttons }}
+                {%- if additional_checkout_buttons -%}
+                  <div class="vd-cart-direct-pay-shell">
+                    <button
+                      type="button"
+                      class="vd-transaction vd-cart-direct-pay-trigger"
+                      data-cart-wallet-trigger
+                      aria-label="Payer maintenant"
+                    >
+                      <div class="vd-transaction__left" aria-hidden="true">
+                        <div class="vd-transaction__card">
+                          <div class="vd-transaction__card-line"></div>
+                          <div class="vd-transaction__buttons"></div>
+                        </div>
+                        <div class="vd-transaction__post">
+                          <div class="vd-transaction__post-line"></div>
+                          <div class="vd-transaction__screen">
+                            <div class="vd-transaction__currency">€</div>
+                          </div>
+                          <div class="vd-transaction__numbers"></div>
+                          <div class="vd-transaction__numbers-line2"></div>
+                        </div>
+                      </div>
+                      <div class="vd-transaction__right">
+                        <div class="vd-transaction__label-wrap">
+                          <span class="vd-transaction__label">Payer maintenant</span>
+                        </div>
+                        <svg viewBox="0 0 451.846 451.847" class="vd-transaction__arrow" aria-hidden="true">
+                          <path d="M345.441 248.292 151.154 442.573c-12.359 12.365-32.397 12.365-44.75 0-12.354-12.354-12.354-32.391 0-44.744L278.318 225.92 106.409 54.017c-12.354-12.359-12.354-32.394 0-44.748 12.354-12.359 32.391-12.359 44.75 0l194.287 194.284c6.177 6.18 9.262 14.271 9.262 22.366 0 8.099-3.091 16.196-9.267 22.373z"></path>
+                        </svg>
+                      </div>
+                    </button>
+
+                    <div class="cart__dynamic-checkout-buttons additional-checkout-buttons vd-cart-checkout-shell__wallets">
+                      {{ content_for_additional_checkout_buttons }}
+                    </div>
+                  </div>
+
+                  <script>
+                    (() => {
+                      const shell = document.currentScript.previousElementSibling;
+                      if (!shell) return;
+                      const trigger = shell.querySelector('[data-cart-wallet-trigger]');
+                      if (!trigger || trigger.dataset.paymentBound === 'true') return;
+                      trigger.dataset.paymentBound = 'true';
+                      trigger.addEventListener('click', () => {
+                        const liveButton = shell.querySelector('.shopify-payment-button__button, .shopify-payment-button__button--unbranded, .shopify-payment-button [role="button"], .shopify-cleanslate [role="button"], .shopify-cleanslate button');
+                        if (liveButton) liveButton.click();
+                      });
+                    })();
+                  </script>
+                {%- endif -%}
+
+                <div class="vd-cart-checkout-shell__foot">
+                  <a href="{{ routes.all_products_collection_url }}" class="vd-cart-checkout-shell__continue-link">
+                    <span>Continuer les achats</span>
+                    <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                      <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                    </svg>
+                  </a>
                 </div>
-              {%- endif -%}
+                </div>
+              </div>
           {%- endcase -%}
         {% endfor %}
-
-        <div class="vd-cart-assurance" aria-label="Réassurance panier">
-          <article class="vd-cart-assurance__card vd-cart-assurance__card--payment">
-            <div class="vd-cart-assurance__payment-visual" aria-hidden="true">
-              <div class="vd-cart-assurance__payment-left">
-                <div class="vd-cart-assurance__payment-card">
-                  <span class="vd-cart-assurance__payment-line"></span>
-                  <span class="vd-cart-assurance__payment-dots"></span>
-                </div>
-                <div class="vd-cart-assurance__payment-slip">
-                  <span class="vd-cart-assurance__payment-slip-top"></span>
-                  <span class="vd-cart-assurance__payment-slip-screen">€</span>
-                  <span class="vd-cart-assurance__payment-slip-grid"></span>
-                </div>
-              </div>
-              <div class="vd-cart-assurance__payment-right">
-                <strong>Paiement sécurisé</strong>
-                <span>Checkout propre, rapide et rassurant.</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="vd-cart-assurance__card vd-cart-assurance__card--shipping">
-            <div class="vd-cart-assurance__truck" aria-hidden="true">
-              <div class="vd-cart-assurance__truck-body">
-                <span class="vd-cart-assurance__truck-cabin"></span>
-              </div>
-              <div class="vd-cart-assurance__truck-wheel vd-cart-assurance__truck-wheel--front"></div>
-              <div class="vd-cart-assurance__truck-wheel vd-cart-assurance__truck-wheel--rear"></div>
-              <span class="vd-cart-assurance__truck-road"></span>
-            </div>
-            <div class="vd-cart-assurance__copy">
-              <strong>Expédition soignée</strong>
-              <span>Préparation rapide, protection propre, suivi simple.</span>
-            </div>
-          </article>
-        </div>
 
         <div id="cart-errors"></div>
       </div>
@@ -184,6 +234,40 @@
     {
       "type": "header",
       "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "header",
+      "content": "Fond paiement direct"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_background_image",
+      "label": "Image de fond"
+    },
+    {
+      "type": "video",
+      "id": "payment_background_video",
+      "label": "Vidéo Shopify de fond"
+    },
+    {
+      "type": "range",
+      "id": "payment_media_opacity",
+      "label": "Opacité du voile",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "payment_media_blur",
+      "label": "Flou du fond",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
     },    
     {
       "type": "range",

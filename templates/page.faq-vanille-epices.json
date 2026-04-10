@@ -1,134 +1,30 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
+    "vd_page_flow_faq": {
+      "type": "vd-page-flow",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "padding_top": 16,
+        "padding_bottom": 8
+      }
+    },
     "main": {
       "type": "main-page",
       "disabled": true,
       "settings": {}
-    },
-    "banner": {
-      "type": "vd-page-banner",
-      "settings": {
-        "eyebrow": "Le Wiki",
-        "heading": "FAQ Vanille & epices",
-        "text": "<p>Une base FAQ plus propre, plus calme et plus premium. Le but est de lever les doutes utiles sans laisser la page repartir dans un theme visuel hors sujet.</p>",
-        "primary_button_label": "Voir les produits",
-        "primary_button_link": "shopify://collections/all",
-        "secondary_button_label": "Nous contacter",
-        "secondary_button_link": "shopify://pages/contact",
-        "metric_1_label": "Questions",
-        "metric_1_value": "Produits",
-        "metric_2_label": "Questions",
-        "metric_2_value": "Livraison",
-        "metric_3_label": "Questions",
-        "metric_3_value": "Conservation",
-        "color_scheme": "scheme-3",
-        "padding_top": 20,
-        "padding_bottom": 8
-      }
-    },
-    "faq": {
-      "type": "faq",
-      "blocks": {
-        "faq_1": {
-          "type": "rich-text",
-          "settings": {
-            "title": "Produits & lecture de gamme",
-            "text": "<p>Les questions a traiter en priorite pour aider a choisir et rassurer avant achat.</p>",
-            "align_text": "left"
-          }
-        },
-        "faq_2": {
-          "type": "question",
-          "settings": {
-            "title": "Quelle difference entre gousse, poudre, extrait et caviar de vanille ?",
-            "text": "<p>La gousse reste le format brut le plus polyvalent. La poudre est pratique dans les melanges secs. L'extrait sert a aller vite dans les bases liquides. Le caviar est un format pret a l'emploi ideal pour les cremes, les finitions et les recettes premium.</p>"
-          }
-        },
-        "faq_3": {
-          "type": "question",
-          "settings": {
-            "title": "Comment savoir quel format choisir pour mon usage ?",
-            "text": "<p>Il faut surtout raisonner par geste: infusion, dosage rapide, finition, cadeau ou production plus reguliere. Le catalogue et les pages wiki ont ete repenses pour mieux orienter ce choix, et vous pouvez aussi nous contacter pour une recommandation directe.</p>"
-          }
-        },
-        "faq_4": {
-          "type": "rich-text",
-          "settings": {
-            "title": "Conservation & commande",
-            "text": "<p>Les points qui bloquent souvent au moment d'acheter ou juste apres reception.</p>",
-            "align_text": "left"
-          }
-        },
-        "faq_5": {
-          "type": "question",
-          "settings": {
-            "title": "Comment conserver correctement la vanille et les epices ?",
-            "text": "<p>Dans un contenant hermetique, a l'abri de la chaleur, de l'air et de la lumiere. On evite le refrigerateur. Le but est de conserver la souplesse, la fraicheur aromatique et la regularite du produit dans le temps.</p>"
-          }
-        },
-        "faq_6": {
-          "type": "question",
-          "settings": {
-            "title": "Puis-je vous contacter pour une demande professionnelle ou un besoin specifique ?",
-            "text": "<p>Oui. Que ce soit pour du sourcing, un besoin recurrent, un coffret ou un usage plus expert, la page contact a ete retravaillee pour accueillir ce type de demande de facon beaucoup plus propre.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "faq_1",
-        "faq_2",
-        "faq_3",
-        "faq_4",
-        "faq_5",
-        "faq_6"
-      ],
-      "settings": {
-        "title": "FAQ Vanille et epices"
-      }
-    },
-    "story": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "FAQ utile",
-            "text": "<p>Elle doit aider a acheter, pas juste exister pour le SEO ou pour faire volume.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Tonalite premium",
-            "text": "<p>On repond clairement, sans brutaliser l'utilisateur avec une vieille UI ou des couleurs hors DA.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Pont vers la suite",
-            "text": "<p>Produit, wiki, recette ou contact: chaque reponse doit pouvoir prolonger le parcours.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "Une FAQ redevenue coherente avec le reste du site.",
-        "text": "<p>Cette base est plus forte visuellement et surtout beaucoup plus maintenable que les vieux blocs inline.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 20,
-        "padding_bottom": 56
-      }
     }
   },
   "order": [
-    "main",
-    "banner",
-    "faq",
-    "story"
+    "vd_page_flow_faq",
+    "main"
   ]
 }

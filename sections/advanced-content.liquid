@@ -43,8 +43,8 @@
               {%- if block.settings.image != blank -%}
                 <div class="image-wrap" style="height: 0; padding-bottom: {{ 100 | divided_by: block.settings.image.aspect_ratio }}%;">
                   {%- liquid
-                    assign blockWidth = block.settings.width | remove: '%' | times: 1
-                    if forloop.index == 1 and blockWidth >= 50
+                    assign block_width_value = block.settings.width | remove: '%' | times: 1
+                    if forloop.index == 1 and block_width_value >= 50
                       assign loading = section.settings.lazyload_images
                     else
                       assign loading = true

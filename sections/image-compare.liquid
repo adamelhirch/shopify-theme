@@ -1,6 +1,6 @@
 {%- liquid
   assign height = section.settings.height
-  assign bgBrightness = section.settings.color | brightness_difference: '#000'
+  assign bg_brightness = section.settings.color | brightness_difference: '#000'
 -%}
 
 {% style %}
@@ -19,7 +19,7 @@
       background-color: {{ section.settings.color }};
     }
 
-    {% if bgBrightness < 125 %}
+    {% if bg_brightness < 125 %}
       .comparison-{{ section.id }} .comparison__button svg {
         fill: #fff;
       }

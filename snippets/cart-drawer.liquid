@@ -147,7 +147,13 @@
 
                         <td class="cart-item__details" role="cell" headers="CartDrawer-ColumnProduct">
                           {%- if settings.show_vendor -%}
-                            <p class="caption-with-letter-spacing light">{{ item.product.vendor }}</p>
+                            {%- capture item_vendor_label -%}
+                              {%- render 'vd-product-meta-label', product: item.product, prefer: 'vendor' -%}
+                            {%- endcapture -%}
+                            {%- assign item_vendor_label = item_vendor_label | strip -%}
+                            {%- if item_vendor_label != blank -%}
+                              <p class="caption-with-letter-spacing light">{{ item_vendor_label }}</p>
+                            {%- endif -%}
                           {%- endif -%}
 
                           <a href="{{ item.url }}" class="cart-item__name h4 break">
@@ -561,11 +567,14 @@
 
         <!-- CTAs -->
 
-        <div class="cart__ctas" {{ block.shopify_attributes }}>
+        <div class="cart__ctas vd-cart-drawer__ctas" {{ block.shopify_attributes }}>
+          <a href="{{ routes.cart_url }}" class="vd-cart-drawer__link">
+            Voir le panier
+          </a>
           <button
             type="submit"
             id="CartDrawer-Checkout"
-            class="cart__checkout-button button"
+            class="cart__checkout-button button vd-cart-drawer__checkout"
             name="checkout"
             form="CartDrawer-Form"
             {% if cart == empty %}
@@ -573,6 +582,9 @@
             {% endif %}
           >
             {{ 'sections.cart.checkout' | t }}
+          </button>
+          <button type="button" class="vd-cart-drawer__continue" onclick="this.closest('cart-drawer').close()">
+            Continuer les achats
           </button>
         </div>
       </div>

@@ -18,7 +18,7 @@
   data-test-mode="{{ request.design_mode }}">
   <div class="modal__inner">
     <div class="modal__centered medium-up--text-center">
-      <div class="modal__centered-content {% if section.settings.popup_image != blank %}newsletter--has-image{% endif %}">
+      <div class="modal__centered-content vd-newsletter-popup-shell {% if section.settings.popup_image != blank %}newsletter--has-image{% endif %}">
 
         <div class="newsletter newsletter-popup {% if section.settings.image_position == 'right' %}newsletter-popup--image-reversed{% endif %}">
           {% if section.settings.popup_image != blank %}
@@ -34,11 +34,11 @@
 
           <div class="newsletter-popup__content">
             {%- if section.settings.popup_title != blank -%}
-              <h2>{{ section.settings.popup_title }}</h2>
+              <h2 class="newsletter-popup__title">{{ section.settings.popup_title }}</h2>
             {%- endif -%}
 
             {%- if section.settings.popup_text != blank -%}
-              <div class="rte">
+              <div class="rte newsletter-popup__text">
                 {{ section.settings.popup_text }}
               </div>
             {%- endif -%}
@@ -56,7 +56,7 @@
             {% endif %}
 
             {% if section.settings.show_social_icons %}
-              {% render 'social-icons', additional_classes: 'inline-list' %}
+              {% render 'social-icons', class: 'newsletter-popup__social' %}
             {% endif %}
           </div>
         </div>

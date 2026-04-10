@@ -6,6 +6,20 @@
   {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
 
+{%- liquid
+  assign show_intro_shell = section.settings.show_intro_shell
+  assign intro_kicker = section.settings.intro_kicker
+  assign intro_heading = section.settings.intro_heading
+  assign intro_note = section.settings.intro_text
+  assign has_intro_shell = false
+
+  if show_intro_shell
+    if intro_heading != blank or intro_note != blank
+      assign has_intro_shell = true
+    endif
+  endif
+-%}
+
 {%- unless section.settings.quick_add == 'none' -%}
   {{ 'quick-add.css' | asset_url | stylesheet_tag }}
 {%- endunless -%}
@@ -34,9 +48,10 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
 {%- endstyle -%}
 
-<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
+<div class="section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}">
   {%- paginate collection.products by section.settings.products_per_page -%}
     {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
     {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
@@ -100,30 +115,51 @@
     <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
       {{ 'component-facets.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
-      <div class="vd-collection-grid__intro{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-        <div class="vd-collection-grid__intro-copy">
-          <span class="vd-section-kicker">Selection</span>
-          <h2>Une grille plus lisible pour comparer sans bruit.</h2>
-          <p>
-            Le client doit pouvoir filtrer vite, comprendre les formats et rester dans une lecture premium, meme dans
-            une page catalogue dense.
-          </p>
+      {%- if has_intro_shell -%}
+        <div class="vd-collection-grid__intro{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+          <div class="vd-collection-grid__intro-copy">
+            {%- if intro_kicker != blank -%}
+              <span class="vd-section-kicker">{{ intro_kicker }}</span>
+            {%- endif -%}
+            {%- if intro_heading != blank -%}
+              <h2>{{ intro_heading }}</h2>
+            {%- endif -%}
+            {%- if intro_note != blank -%}
+              <div class="rte">
+                {{ intro_note }}
+              </div>
+            {%- endif -%}
+          </div>
+          <div class="vd-collection-grid__intro-links">
+            {%- if section.settings.primary_link_label != blank or section.settings.secondary_link_label != blank -%}
+              <div class="vd-collection-grid__action-stack">
+                {%- if section.settings.primary_link_label != blank and section.settings.primary_link != blank -%}
+                  <a href="{{ section.settings.primary_link }}" class="vd-arrow-cta" data-vd-preview-link>
+                    <span class="vd-arrow-cta__label">{{ section.settings.primary_link_label }}</span>
+                    <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                      <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                    </svg>
+                  </a>
+                {%- endif -%}
+                {%- if section.settings.secondary_link_label != blank and section.settings.secondary_link != blank -%}
+                  <a href="{{ section.settings.secondary_link }}" class="vd-arrow-cta" data-vd-preview-link>
+                    <span class="vd-arrow-cta__label">{{ section.settings.secondary_link_label }}</span>
+                    <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                      <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                    </svg>
+                  </a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+            {%- if section.settings.grid_note != blank -%}
+              <div class="vd-collection-grid__curation-note">
+                <span>{{ section.settings.grid_note_eyebrow | default: 'Repères' }}</span>
+                <p>{{ section.settings.grid_note }}</p>
+              </div>
+            {%- endif -%}
+          </div>
         </div>
-        <div class="vd-collection-grid__intro-links">
-          <a href="/pages/recettes" class="vd-arrow-cta">
-            <span class="vd-arrow-cta__label">Entrer par les recettes</span>
-            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-            </svg>
-          </a>
-          <a href="/pages/contact" class="vd-arrow-cta">
-            <span class="vd-arrow-cta__label">Demander conseil</span>
-            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-            </svg>
-          </a>
-        </div>
-      </div>
+      {%- endif -%}
       {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
         <aside
           aria-labelledby="verticalTitle"
@@ -194,13 +230,17 @@
                     media_aspect_ratio: section.settings.image_ratio,
                     image_shape: section.settings.image_shape,
                     show_secondary_image: section.settings.show_secondary_image,
-                    show_vendor: section.settings.show_vendor,
-                    show_rating: section.settings.show_rating,
-                    lazy_load: lazy_load,
-                    skip_styles: skip_card_product_styles,
-                    quick_add: section.settings.quick_add,
-                    section_id: section.id
-                  %}
+                  show_vendor: section.settings.show_vendor,
+                  show_rating: section.settings.show_rating,
+                  show_subtitle: section.settings.show_subtitle,
+                  show_product_type: section.settings.show_product_type,
+                  premium_card: true,
+                  card_surface: section.settings.card_surface,
+                  lazy_load: lazy_load,
+                  skip_styles: skip_card_product_styles,
+                  quick_add: section.settings.quick_add,
+                  section_id: section.id
+                %}
                 </li>
                 {%- assign skip_card_product_styles = true -%}
               {%- endfor -%}
@@ -267,6 +307,68 @@
     },
     {
       "type": "header",
+      "content": "Introduction"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_intro_shell",
+      "label": "Afficher l'introduction de grille",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "intro_kicker",
+      "label": "Sur-titre",
+      "default": "Catalogue"
+    },
+    {
+      "type": "text",
+      "id": "intro_heading",
+      "label": "Titre",
+      "default": "Trouver le bon produit doit rester simple, meme dans une gamme exigeante."
+    },
+    {
+      "type": "richtext",
+      "id": "intro_text",
+      "label": "Texte",
+      "default": "<p>Retrouver rapidement le bon format, comparer les usages et affiner le choix sans perdre la sensation de qualité.</p>"
+    },
+    {
+      "type": "text",
+      "id": "primary_link_label",
+      "label": "Libellé lien principal",
+      "default": "Voir les recettes"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Lien principal"
+    },
+    {
+      "type": "text",
+      "id": "secondary_link_label",
+      "label": "Libellé lien secondaire",
+      "default": "Demander conseil"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Lien secondaire"
+    },
+    {
+      "type": "text",
+      "id": "grid_note_eyebrow",
+      "label": "Sur-titre note",
+      "default": "Sélection"
+    },
+    {
+      "type": "textarea",
+      "id": "grid_note",
+      "label": "Note latérale",
+      "default": "Des filtres utiles pour comparer rapidement les formats et aller droit au bon produit."
+    },
+    {
+      "type": "header",
       "content": "t:sections.main-collection-product-grid.settings.header__3.content"
     },
     {
@@ -330,6 +432,22 @@
       "label": "t:sections.all.image_shape.label"
     },
     {
+      "type": "select",
+      "id": "card_surface",
+      "label": "Surface des vignettes",
+      "default": "dark",
+      "options": [
+        {
+          "value": "dark",
+          "label": "Sombre"
+        },
+        {
+          "value": "light",
+          "label": "Clair"
+        }
+      ]
+    },
+    {
       "type": "checkbox",
       "id": "show_secondary_image",
       "default": false,
@@ -347,6 +465,18 @@
       "default": false,
       "label": "t:sections.main-collection-product-grid.settings.show_rating.label",
       "info": "t:sections.main-collection-product-grid.settings.show_rating.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subtitle",
+      "default": true,
+      "label": "Afficher le sous-titre produit"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_type",
+      "default": true,
+      "label": "Afficher le type de produit"
     },
     {
       "type": "select",

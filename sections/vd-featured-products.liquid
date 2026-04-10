@@ -73,7 +73,10 @@
 
               assign card_eyebrow = block.settings.eyebrow
               if card_eyebrow == blank
-                assign card_eyebrow = card_product.vendor
+                capture card_eyebrow
+                  render 'vd-product-meta-label', product: card_product, prefer: 'vendor', fallback: section.settings.eyebrow
+                endcapture
+                assign card_eyebrow = card_eyebrow | strip
               endif
 
               assign card_description = block.settings.description
@@ -101,7 +104,6 @@
                             muted: true,
                             controls: false,
                             playsinline: true,
-                            preload: 'metadata',
                             image_size: '1200x'
                         }}
                       {% elsif media_source == 'custom_image' and custom_image != blank %}
@@ -158,6 +160,10 @@
               style="--vd-feature-media-fit: contain; --vd-feature-media-padding: 2rem;"
             >
               <a href="{{ product.url }}" class="vd-feature-card__link">
+                {%- capture product_eyebrow -%}
+                  {%- render 'vd-product-meta-label', product: product, prefer: 'vendor', fallback: section.settings.eyebrow -%}
+                {%- endcapture -%}
+                {%- assign product_eyebrow = product_eyebrow | strip -%}
                 <div class="vd-feature-card__media">
                   <div class="vd-feature-card__media-inner">
                     {% if product.featured_image != blank %}
@@ -179,7 +185,9 @@
 
                 <div class="vd-feature-card__body">
                   <div class="vd-feature-card__topline">
-                    <span>{{ product.vendor }}</span>
+                    {%- if product_eyebrow != blank -%}
+                      <span>{{ product_eyebrow }}</span>
+                    {%- endif -%}
                     <strong>{{ product.price | money_without_trailing_zeros }}</strong>
                   </div>
 

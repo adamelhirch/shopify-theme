@@ -1,0 +1,4547 @@
+{
+  "generated_at": "2026-04-01T09:47:55Z",
+  "recipes": [
+    {
+      "slug": "gateau-pomme-vanille-cannelle",
+      "status": "approved",
+      "access": "free",
+      "title": "Gâteau pomme vanille cannelle",
+      "page_url": "/pages/gateau-pomme-vanille-cannelle",
+      "eyebrow": "Recette facile",
+      "subtitle": "Une pomme fondante, un crumble court, une vanille très lisible dans un gâteau simple.",
+      "summary": "Un gâteau aux pommes moelleux, parfumé à la vanille Bourbon et à la cannelle, facile à refaire pour le goûter ou le dessert.",
+      "description": "Une pâte tendre, des pommes fondantes et une belle note de vanille pour un gâteau simple à partager.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "intermédiaire",
+        "label": "Intermédiaire"
+      },
+      "timing": {
+        "prep": "20 min",
+        "cook": "45 min",
+        "rest": "15 min",
+        "total": "1 h 20"
+      },
+      "serves": 8,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Nature Madagascar"
+      },
+      "search_terms": [
+        "gâteau pomme vanille",
+        "apple crumb cake vanille",
+        "cannelle madagascar",
+        "dessert pomme vanille"
+      ],
+      "tags": [
+        "dessert",
+        "gâteau",
+        "pomme",
+        "vanille",
+        "cannelle",
+        "recette facile"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "desserts-a-la-vanille"
+      ],
+      "product": {
+        "handle": "vanille-bourbon-madagascar-3-gousses",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "vanille-bourbon-madagascar-3-gousses",
+          "cannelle-madagascar-pot-verre-40g",
+          "sucre-vanille-bourbon-madagascar-60g"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la selection",
+        "note": "La gousse structure la pomme, la cannelle signe la cuisson et le sucre vanille aide la finition du crumble sans surcharge.",
+        "bundle_title": "Le trio pour un gâteau aux pommes bien parfumé.",
+        "bundle_summary": "Gousse, cannelle et sucre vanillé pour garder une pâtisserie simple, précise et très agréable au service."
+      },
+      "products": [
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "cannelle-madagascar-pot-verre-40g",
+          "role": "assaisonnement",
+          "selection_label": "Ajouter en assaisonnement"
+        },
+        {
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Base gâteau",
+          "items": [
+            {
+              "id": "beurre",
+              "quantity": "110",
+              "unit": "g",
+              "name": "beurre souple"
+            },
+            {
+              "id": "sucre",
+              "quantity": "110",
+              "unit": "g",
+              "name": "sucre blond"
+            },
+            {
+              "id": "oeufs",
+              "quantity": "2",
+              "name": "oeufs"
+            },
+            {
+              "id": "farine",
+              "quantity": "180",
+              "unit": "g",
+              "name": "farine"
+            },
+            {
+              "id": "levure",
+              "quantity": "1.5",
+              "unit": "c. a cafe",
+              "name": "levure chimique"
+            },
+            {
+              "id": "lait",
+              "quantity": "6",
+              "unit": "cl",
+              "name": "lait"
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "name": "gousse de vanille Bourbon"
+            }
+          ]
+        },
+        {
+          "title": "Pommes et crumble",
+          "items": [
+            {
+              "id": "pommes",
+              "quantity": "3",
+              "name": "pommes a cuire"
+            },
+            {
+              "id": "cannelle",
+              "quantity": "1",
+              "unit": "c. a cafe",
+              "name": "cannelle de Madagascar"
+            },
+            {
+              "id": "farine-crumble",
+              "quantity": "60",
+              "unit": "g",
+              "name": "farine"
+            },
+            {
+              "id": "beurre-crumble",
+              "quantity": "45",
+              "unit": "g",
+              "name": "beurre froid"
+            },
+            {
+              "id": "sucre-vanille",
+              "quantity": "2",
+              "unit": "c. a soupe",
+              "name": "sucre vanille Bourbon"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "base",
+          "title": "Monter la pâte vanille",
+          "duration": "8 min",
+          "highlight": "Base",
+          "body": "Travaillez beurre et sucre, ajoutez les oeufs, puis farine, levure, lait et graines de vanille jusqu’à une masse souple."
+        },
+        {
+          "id": "pommes",
+          "title": "Preparer les pommes",
+          "duration": "5 min",
+          "highlight": "Fruit",
+          "body": "Epluchez, tranchez et enrobez légèrement les pommes de cannelle pour une lecture plus nette à la cuisson."
+        },
+        {
+          "id": "crumble",
+          "title": "Former le dessus sable",
+          "duration": "4 min",
+          "highlight": "Texture",
+          "body": "Sablez farine, beurre froid et sucre vanille pour obtenir un dessus court et croustillant."
+        },
+        {
+          "id": "cuire",
+          "title": "Cuire jusqu’à cœur fondant",
+          "duration": "45 min",
+          "highlight": "Cuisson",
+          "body": "Coulez la pâte, posez les pommes puis le crumble et cuisez jusqu’à cœur pris et surface dorée."
+        },
+        {
+          "id": "repos",
+          "title": "Laisser retomber avant coupe",
+          "duration": "15 min",
+          "highlight": "Service",
+          "body": "Laissez reposer pour que les jus de pomme se stabilisent et que la coupe reste propre."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Pommes",
+          "body": "Choisissez une pomme qui tient bien la cuisson pour garder de vraies strates."
+        },
+        {
+          "title": "Dessus",
+          "body": "Le crumble doit rester irregulier pour mieux capter la coloration."
+        }
+      ],
+      "seo": {
+        "title": "Gâteau pomme vanille cannelle | Vanille Désiré",
+        "description": "Gâteau pomme vanille cannelle: une base maison simple avec gousse de vanille Bourbon et finition crumble.",
+        "keywords": [
+          "gâteau pomme vanille",
+          "apple crumb cake vanille",
+          "recette pomme cannelle vanille",
+          "dessert vanille madagascar"
+        ],
+        "body_sections": [
+          {
+            "title": "Ce que vous allez retrouver",
+            "body": "Une base moelleuse, des pommes fondantes et une vanille bien présente, soutenue par une touche de cannelle."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Ne surchargez pas en pommes et ne sablez pas trop finement le dessus, sinon la structure s’écrase."
+          },
+          {
+            "title": "Service",
+            "body": "Servez tiède avec une crème crue ou seule pour garder une lecture nette du fruit et de la vanille."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on le faire la veille ?",
+            "answer": "Oui, il tient bien, surtout si vous le rechauffez légèrement avant service."
+          },
+          {
+            "question": "Peut-on remplacer la gousse par du sucre vanille seulement ?",
+            "answer": "Oui, mais la gousse reste ce qui donne la profondeur la plus nette à la pomme."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Apple Crumb Cake",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Apple_Crumb_Cake",
+          "license": "CC BY-SA 4.0",
+          "note": "Base adaptée avec vanille Bourbon et cannelle de Madagascar."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-28T13:29:36Z"
+    },
+    {
+      "slug": "riz-lait-vanille-agrumes",
+      "status": "approved",
+      "access": "free",
+      "title": "Riz au lait vanille agrumes",
+      "page_url": "/pages/riz-lait-vanille-agrumes",
+      "eyebrow": "Recette facile",
+      "subtitle": "Une crème souple, une vanille ronde et juste assez d’agrumes pour alléger la fin de bouche.",
+      "summary": "Un riz au lait ample et crémeux, tenu par la vanille puis réveillé par les zestes pour rester doux, propre et très facile à servir.",
+      "description": "On cherche ici un dessert de maison très rassurant, mais avec plus d’air et plus de tenue qu’un riz au lait lourd. La vanille construit le fond, les agrumes allègent la finale.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "15 min",
+        "cook": "40 min",
+        "rest": "20 min",
+        "total": "1 h 15"
+      },
+      "serves": 6,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Crème souple, vanille ronde, agrumes légers.",
+        "image_alt": "Bol de riz au lait à la vanille avec zestes d’agrumes en finition."
+      },
+      "search_terms": [
+        "riz au lait vanille",
+        "riz au lait citron",
+        "dessert vanille facile",
+        "riz pudding vanille"
+      ],
+      "tags": [
+        "dessert",
+        "riz au lait",
+        "vanille",
+        "agrumes",
+        "recette facile"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "desserts-a-la-vanille"
+      ],
+      "product": {
+        "handle": "vanille-bourbon-madagascar-3-gousses",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "vanille-bourbon-madagascar-3-gousses",
+          "sucre-vanille-bourbon-madagascar-60g",
+          "caviar-vanille-bourbon-madagascar-20g"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la sélection",
+        "note": "La gousse tient l’infusion, le sucre vanillé arrondit le dessert et le caviar peut signer le bol au dernier moment pour une finition plus précieuse.",
+        "bundle_title": "La sélection pour un riz au lait de maison très soigné.",
+        "bundle_summary": "Infuser, arrondir puis finir proprement pour obtenir un dessert crémeux, lumineux et très agréable à servir froid ou tiède."
+      },
+      "products": [
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "infusion",
+          "selection_label": "Ajouter en infusion"
+        },
+        {
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
+        },
+        {
+          "handle": "caviar-vanille-bourbon-madagascar-20g",
+          "role": "signature",
+          "selection_label": "Garder dans la sélection"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Base crémeuse",
+          "items": [
+            {
+              "id": "riz",
+              "quantity": "180",
+              "unit": "g",
+              "name": "riz rond à dessert",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "lait",
+              "quantity": "900",
+              "unit": "ml",
+              "name": "lait entier",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "creme",
+              "quantity": "150",
+              "unit": "ml",
+              "name": "crème liquide entière",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "sucre",
+              "quantity": "90",
+              "unit": "g",
+              "name": "sucre",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "unit": "",
+              "name": "gousse de vanille Bourbon",
+              "scalable": true,
+              "badge": "Produit VD"
+            },
+            {
+              "id": "orange",
+              "quantity": "1",
+              "unit": "",
+              "name": "orange non traitée",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "citron",
+              "quantity": "1",
+              "unit": "",
+              "name": "citron non traité",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "sel",
+              "quantity": "1",
+              "unit": "pincée",
+              "name": "sel fin",
+              "scalable": false,
+              "badge": ""
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "infuser",
+          "title": "Chauffer le lait avec la vanille",
+          "duration": "8 min",
+          "highlight": "Infusion",
+          "body": "Faites chauffer le lait et la crème avec la gousse fendue, ses graines et quelques zestes d’orange et de citron."
+        },
+        {
+          "id": "cuire",
+          "title": "Cuire le riz doucement",
+          "duration": "30 min",
+          "highlight": "Cuisson",
+          "body": "Ajoutez le riz et laissez cuire à feu doux en remuant régulièrement jusqu’à obtenir une texture souple et crémeuse."
+        },
+        {
+          "id": "ajuster",
+          "title": "Sucrer et ajuster la texture",
+          "duration": "5 min",
+          "highlight": "Texture",
+          "body": "Ajoutez le sucre et une pincée de sel en fin de cuisson, puis ajustez avec un peu de lait si besoin."
+        },
+        {
+          "id": "servir",
+          "title": "Finir et servir",
+          "duration": "2 min",
+          "highlight": "Service",
+          "body": "Servez tiède ou froid avec un peu de sucre vanillé et, si vous le souhaitez, une pointe de caviar vanille."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Cuisson",
+          "body": "Gardez une cuisson douce pour éviter qu’une peau épaisse ou un goût trop cuit ne prenne le dessus."
+        },
+        {
+          "title": "Finition",
+          "body": "Les agrumes doivent juste réveiller le dessert, jamais couvrir la vanille."
+        }
+      ],
+      "seo": {
+        "title": "Riz au lait vanille agrumes | Vanille Désiré",
+        "description": "Recette de riz au lait à la vanille et aux agrumes, crémeux, simple et très agréable à servir tiède ou froid.",
+        "keywords": [
+          "riz au lait vanille",
+          "dessert vanille facile",
+          "riz au lait agrumes",
+          "riz pudding maison"
+        ],
+        "body_sections": [
+          {
+            "title": "Ce qui fait l’équilibre",
+            "body": "La vanille apporte le fond, les zestes éclairent le dessert et le riz garde une texture douce, simple et très rassurante."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Ne poussez pas trop la cuisson et ne forcez pas sur les agrumes. Le dessert doit rester rond, crémeux et très lisible."
+          },
+          {
+            "title": "Service",
+            "body": "Servez tiède, frais ou bien refroidi, avec une finition légère pour garder une lecture nette de la vanille."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on le faire la veille ?",
+            "answer": "Oui, il se tient très bien au frais et peut être détendu avec un peu de lait avant service."
+          },
+          {
+            "question": "Peut-on supprimer la crème ?",
+            "answer": "Oui, mais la crème aide à garder un résultat plus rond et plus soyeux."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Rice with Milk (Arroz con Leche)",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Rice_with_Milk_(Arroz_con_Leche)",
+          "license": "CC BY-SA 4.0",
+          "note": "Base ouverte adaptée avec vraie infusion vanille et une finition agrumes plus légère."
+        },
+        {
+          "title": "Great British Chefs: Vanilla rice pudding with poached pears",
+          "url": "https://www.greatbritishchefs.com/recipes/rice-pudding-pears-recipe",
+          "license": "",
+          "note": "Référence technique utilisée pour confirmer la cuisson progressive, la texture soyeuse et le service soigné."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-29T13:00:00Z"
+    },
+    {
+      "slug": "patate-douce-rotie-vanille-combava",
+      "status": "approved",
+      "access": "free",
+      "title": "Patate douce rôtie vanille combava",
+      "page_url": "/pages/patate-douce-rotie-vanille-combava",
+      "eyebrow": "Recette facile",
+      "subtitle": "Une chair fondante, des bords bien rôtis et une vanille fine qui reste clairement du côté salé du plat.",
+      "summary": "Des patates douces rôties, brillantes et fondantes, relevées de vanille et de combava pour un accompagnement très distinctif mais facile à aimer.",
+      "description": "La vanille agit ici comme une note de fond. Elle arrondit la patate douce, tandis que le combava garde le plat tendu, plus frais et beaucoup plus lisible à table.",
+      "category": "Sale",
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "15 min",
+        "cook": "30 min",
+        "rest": "0 min",
+        "total": "45 min"
+      },
+      "serves": 4,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Bords rôtis, cœur fondant, finale fraîche.",
+        "image_alt": "Patates douces rôties à la vanille et au combava dans un plat de service."
+      },
+      "search_terms": [
+        "patate douce vanille",
+        "patate douce combava",
+        "vanille salée facile",
+        "accompagnement vanille"
+      ],
+      "tags": [
+        "salé",
+        "patate douce",
+        "vanille",
+        "combava",
+        "recette facile"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "vanille-salée"
+      ],
+      "product": {
+        "handle": "poudre-combava-sauvage-madagascar-20g",
+        "collection_handle": "",
+        "required_handles": [
+          "poudre-combava-sauvage-madagascar-20g",
+          "vanille-bourbon-madagascar-3-gousses",
+          "cannelle-madagascar-pot-verre-40g"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la sélection",
+        "note": "Le combava apporte l’élan, la vanille adoucit la patate douce et la cannelle aide à garder une épice plus enveloppante que sucrée.",
+        "bundle_title": "La sélection pour une garniture salée très élégante.",
+        "bundle_summary": "Vanille, combava et épice douce pour garder une assiette salée nette, fondante et vraiment mémorable."
+      },
+      "products": [
+        {
+          "handle": "poudre-combava-sauvage-madagascar-20g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
+        },
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "structure",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "cannelle-madagascar-pot-verre-40g",
+          "role": "épice douce",
+          "selection_label": "Ajouter l’épice douce"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Légumes rôtis",
+          "items": [
+            {
+              "id": "patate-douce",
+              "quantity": "900",
+              "unit": "g",
+              "name": "patates douces",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "huile",
+              "quantity": "3",
+              "unit": "c. à soupe",
+              "name": "huile neutre",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "unit": "",
+              "name": "gousse de vanille Bourbon",
+              "scalable": true,
+              "badge": "Produit VD"
+            },
+            {
+              "id": "combava",
+              "quantity": "0.5",
+              "unit": "c. à café",
+              "name": "poudre de combava",
+              "scalable": false,
+              "badge": "Produit VD"
+            },
+            {
+              "id": "cannelle",
+              "quantity": "0.25",
+              "unit": "c. à café",
+              "name": "cannelle de Madagascar",
+              "scalable": false,
+              "badge": "Produit VD"
+            },
+            {
+              "id": "sel",
+              "quantity": "1",
+              "unit": "c. à café",
+              "name": "sel fin",
+              "scalable": false,
+              "badge": ""
+            },
+            {
+              "id": "poivre",
+              "quantity": "2",
+              "unit": "pincées",
+              "name": "poivre noir",
+              "scalable": false,
+              "badge": ""
+            },
+            {
+              "id": "orange",
+              "quantity": "1",
+              "unit": "",
+              "name": "orange non traitée",
+              "scalable": true,
+              "badge": ""
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "tailler",
+          "title": "Préparer les patates douces",
+          "duration": "8 min",
+          "highlight": "Base",
+          "body": "Pelez et coupez les patates douces en quartiers ou en gros cubes pour garder du fondant après cuisson."
+        },
+        {
+          "id": "assaisonner",
+          "title": "Ajouter vanille, huile et épices",
+          "duration": "5 min",
+          "highlight": "Assaisonnement",
+          "body": "Mélangez l’huile avec les graines de vanille, une pointe de cannelle, le sel et le poivre, puis enrobez les morceaux."
+        },
+        {
+          "id": "rotir",
+          "title": "Rôtir jusqu’à caramélisation",
+          "duration": "30 min",
+          "highlight": "Four",
+          "body": "Faites rôtir en remuant une fois pour obtenir des bords bien colorés et un coeur fondant."
+        },
+        {
+          "id": "finir",
+          "title": "Finir au combava et au zeste",
+          "duration": "2 min",
+          "highlight": "Finition",
+          "body": "Ajoutez le combava et un peu de zeste d’orange juste avant de servir pour garder la fraîcheur."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Dosage",
+          "body": "Gardez la vanille légère : elle doit accompagner le légume, pas le faire basculer côté dessert."
+        },
+        {
+          "title": "Service",
+          "body": "Servez avec volaille, poisson grillé ou un yaourt salé aux herbes."
+        }
+      ],
+      "seo": {
+        "title": "Patate douce rôtie vanille combava | Vanille Désiré",
+        "description": "Recette de patate douce rôtie à la vanille et au combava, simple, parfumée et parfaite pour accompagner une table salée.",
+        "keywords": [
+          "patate douce vanille",
+          "vanille salée",
+          "combava patate douce",
+          "accompagnement vanille"
+        ],
+        "body_sections": [
+          {
+            "title": "Ce qui fait l’équilibre",
+            "body": "La patate douce apporte le fondant, la vanille arrondit la cuisson et le combava garde l’assiette nerveuse et fraîche."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "N’ajoutez pas trop de vanille ni trop de combava. Le plat doit rester net, végétal et très simple à lire en bouche."
+          },
+          {
+            "title": "Service",
+            "body": "Servez chaud, seul ou en accompagnement, avec une herbe fraîche, un yaourt salé ou un jus court."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on préparer la recette à l’avance ?",
+            "answer": "Oui, vous pouvez rôtir les patates douces en avance puis refaire la finition au moment du service."
+          },
+          {
+            "question": "Le combava est-il obligatoire ?",
+            "answer": "Il apporte une vraie fraîcheur, mais un peu de zeste d’orange peut dépanner."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Orange-Glazed Sweet Potatoes",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Orange-Glazed_Sweet_Potatoes",
+          "license": "CC BY-SA 4.0",
+          "note": "Base ouverte retravaillée en version moins sucrée et plus salée, avec vanille et combava."
+        },
+        {
+          "title": "Great British Chefs: Sweet potato chaat by Atul Kochhar",
+          "url": "https://www.greatbritishchefs.com/recipes/sweet-potato-chaat-recipe",
+          "license": "",
+          "note": "Référence technique pour la cuisson rôtie, la gestion des épices et la finition fraîche sur patate douce."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-29T12:00:00Z"
+    },
+    {
+      "slug": "scones-vanille-sucre",
+      "status": "approved",
+      "access": "free",
+      "title": "Scones vanille et sucre vanillé",
+      "page_url": "/pages/scones-vanille-sucre",
+      "eyebrow": "Recette facile",
+      "subtitle": "Une belle hauteur, une mie tendre et une vanille douce qui accompagne beurre, crème ou confiture sans prendre toute la place.",
+      "summary": "Des scones chauds, dorés et faciles à refaire, avec une vanille propre qui rend le brunch plus soigné sans compliquer le geste.",
+      "description": "On garde un format très simple, mais on pousse la précision sur la texture et la finition pour obtenir un scone qui s’ouvre bien, se tartine bien et reste élégant même servi nature.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "20 min",
+        "cook": "12 min",
+        "rest": "0 min",
+        "total": "32 min"
+      },
+      "serves": 8,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Brunch clair, mie chaude, vanille douce.",
+        "image_alt": "Scones dorés à la vanille servis encore tièdes."
+      },
+      "search_terms": [
+        "scones vanille",
+        "brunch vanille",
+        "gouter vanille",
+        "scones faciles"
+      ],
+      "tags": [
+        "dessert",
+        "petit-déjeuner",
+        "scones",
+        "vanille",
+        "recette facile"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "petits-dejeuners-a-la-vanille"
+      ],
+      "product": {
+        "handle": "sucre-vanille-bourbon-madagascar-60g",
+        "collection_handle": "",
+        "required_handles": [
+          "sucre-vanille-bourbon-madagascar-60g",
+          "vanille-bourbon-madagascar-3-gousses"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la sélection",
+        "note": "La gousse donne l’ossature aromatique, et le sucre vanillé porte la dernière touche au moment du service ou de l’ouverture du scone.",
+        "bundle_title": "La sélection pour un brunch de maison très soigné.",
+        "bundle_summary": "Une vanille douce, une finition nette et juste ce qu’il faut pour servir des scones simples mais vraiment tenus."
+      },
+      "products": [
+        {
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "base aromatique",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "signature",
+          "selection_label": "Garder dans la sélection"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Pâte à scones",
+          "items": [
+            {
+              "id": "farine",
+              "quantity": "300",
+              "unit": "g",
+              "name": "farine",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "levure",
+              "quantity": "2",
+              "unit": "c. à café",
+              "name": "levure chimique",
+              "scalable": false,
+              "badge": ""
+            },
+            {
+              "id": "sel",
+              "quantity": "1",
+              "unit": "pincée",
+              "name": "sel fin",
+              "scalable": false,
+              "badge": ""
+            },
+            {
+              "id": "sucre-vanille",
+              "quantity": "40",
+              "unit": "g",
+              "name": "sucre vanillé Bourbon",
+              "scalable": true,
+              "badge": "Produit VD"
+            },
+            {
+              "id": "beurre",
+              "quantity": "75",
+              "unit": "g",
+              "name": "beurre froid",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "oeuf",
+              "quantity": "1",
+              "unit": "",
+              "name": "oeuf",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "creme",
+              "quantity": "12",
+              "unit": "cl",
+              "name": "crème liquide entière",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "vanille",
+              "quantity": "0.5",
+              "unit": "",
+              "name": "gousse de vanille Bourbon",
+              "scalable": true,
+              "badge": "Produit VD"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "sabler",
+          "title": "Sabler la pâte",
+          "duration": "6 min",
+          "highlight": "Texture",
+          "body": "Mélangez farine, levure, sel et sucre vanillé, puis sablez avec le beurre froid du bout des doigts."
+        },
+        {
+          "id": "lier",
+          "title": "Ajouter l’oeuf, la crème et la vanille",
+          "duration": "5 min",
+          "highlight": "Pâte",
+          "body": "Ajoutez l’oeuf, la crème et les graines de vanille. Mélangez juste assez pour former une pâte souple."
+        },
+        {
+          "id": "decouper",
+          "title": "Former et détailler",
+          "duration": "6 min",
+          "highlight": "Forme",
+          "body": "Abaissez la pâte sans trop la travailler, puis détaillez des scones épais pour garder une belle hauteur."
+        },
+        {
+          "id": "cuire",
+          "title": "Cuire jusqu’à coloration",
+          "duration": "12 min",
+          "highlight": "Four",
+          "body": "Dorez légèrement à la crème et cuisez jusqu’à obtenir des scones gonflés et bien dorés."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Geste",
+          "body": "Travaillez peu la pâte pour garder une mie légère et friable."
+        },
+        {
+          "title": "Service",
+          "body": "Servez-les encore tièdes avec beurre, crème épaisse ou confiture légère."
+        }
+      ],
+      "seo": {
+        "title": "Scones vanille et sucre vanillé | Vanille Désiré",
+        "description": "Recette de scones à la vanille et au sucre vanillé, simple, rapide et parfaite pour le brunch ou le goûter.",
+        "keywords": [
+          "scones vanille",
+          "brunch vanille",
+          "sucre vanillé bourbon",
+          "recette scones facile"
+        ],
+        "body_sections": [
+          {
+            "title": "Ce que vous allez retrouver",
+            "body": "Des scones tendres et dorés, avec une vanille discrète mais très agréable, faciles à servir avec des accompagnements simples."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Une pâte trop travaillée ou trop humide donne des scones plats. Gardez un geste bref et une pâte encore souple."
+          },
+          {
+            "title": "Service",
+            "body": "Ils sont meilleurs le jour même, encore tièdes, avec une confiture de fruits rouges ou un peu de beurre salé."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on les préparer sans crème ?",
+            "answer": "Oui, mais la crème apporte une mie plus fondante et plus régulière."
+          },
+          {
+            "question": "Peut-on ajouter des raisins ?",
+            "answer": "Oui, en petite quantité pour garder la vanille bien lisible."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Plain Scones",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Plain_Scones",
+          "license": "CC BY-SA 4.0",
+          "note": "Base ouverte adaptée avec sucre vanillé et vanille Bourbon."
+        },
+        {
+          "title": "Great British Chefs: Fruit scones by William Drabble",
+          "url": "https://www.greatbritishchefs.com/recipes/fruit-scone-recipe",
+          "license": "",
+          "note": "Référence technique pour la texture, la hauteur et la cuisson courte des scones."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-29T12:00:00Z"
+    },
+    {
+      "slug": "madeleines-vanille-bourbon",
+      "status": "approved",
+      "access": "free",
+      "title": "Madeleines vanille Bourbon",
+      "page_url": "/pages/madeleines-vanille-bourbon",
+      "eyebrow": "Recette facile",
+      "subtitle": "Une bosse légère, un beurre net et une vanille Bourbon qui reste claire jusque dans la finale.",
+      "summary": "Des madeleines dorées, souples au cœur et très propres en bouche, pensées pour le goûter, le café ou une table de maison soignée.",
+      "description": "La pâte reste simple, le geste reste précis, et la vanille entre pour allonger le beurre sans alourdir la bouchée. Une très belle base pour un goûter de maison plus élégant.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "20 min",
+        "cook": "10 min",
+        "rest": "30 min",
+        "total": "1 h"
+      },
+      "serves": 12,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Coque dorée, cœur souple, vanille claire.",
+        "image_alt": "Madeleines dorées à la vanille Bourbon sur une assiette claire."
+      },
+      "search_terms": [
+        "madeleines vanille",
+        "madeleine bourbon",
+        "gouter vanille",
+        "petit gateau vanille"
+      ],
+      "tags": [
+        "dessert",
+        "goûter",
+        "madeleine",
+        "vanille",
+        "recette facile"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "petits-dejeuners-a-la-vanille",
+        "desserts-a-la-vanille"
+      ],
+      "product": {
+        "handle": "vanille-bourbon-madagascar-3-gousses",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "vanille-bourbon-madagascar-3-gousses",
+          "sucre-vanille-bourbon-madagascar-60g"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la sélection",
+        "note": "La gousse parfume la pâte avec plus de relief, tandis que le sucre vanillé aide à garder une finition douce et régulière.",
+        "bundle_title": "La sélection pour des madeleines du jour très nettes.",
+        "bundle_summary": "Le minimum juste pour signer la pâte, garder le beurre lisible et finir sur une vanille douce, jamais lourde."
+      },
+      "products": [
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "structure",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Pâte à madeleines",
+          "items": [
+            {
+              "id": "oeufs",
+              "quantity": "3",
+              "unit": "",
+              "name": "oeufs",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "sucre",
+              "quantity": "120",
+              "unit": "g",
+              "name": "sucre",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "farine",
+              "quantity": "140",
+              "unit": "g",
+              "name": "farine",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "levure",
+              "quantity": "1",
+              "unit": "c. à café",
+              "name": "levure chimique",
+              "scalable": false,
+              "badge": ""
+            },
+            {
+              "id": "beurre",
+              "quantity": "130",
+              "unit": "g",
+              "name": "beurre fondu",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "unit": "",
+              "name": "gousse de vanille Bourbon",
+              "scalable": true,
+              "badge": "Produit VD"
+            },
+            {
+              "id": "sel",
+              "quantity": "1",
+              "unit": "pincée",
+              "name": "sel fin",
+              "scalable": false,
+              "badge": ""
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "fouetter",
+          "title": "Monter les oeufs et le sucre",
+          "duration": "6 min",
+          "highlight": "Base",
+          "body": "Fouettez les oeufs, le sucre et le sel jusqu’à obtenir une texture plus claire et mousseuse."
+        },
+        {
+          "id": "assembler",
+          "title": "Ajouter farine, levure et beurre",
+          "duration": "8 min",
+          "highlight": "Texture",
+          "body": "Incorporez la farine et la levure, puis versez le beurre fondu et les graines de vanille. Mélangez juste assez pour obtenir une pâte lisse."
+        },
+        {
+          "id": "reposer",
+          "title": "Laisser reposer la pâte",
+          "duration": "30 min",
+          "highlight": "Repos",
+          "body": "Placez la pâte au frais pour aider la bosse à se former à la cuisson."
+        },
+        {
+          "id": "cuire",
+          "title": "Cuire les madeleines",
+          "duration": "10 min",
+          "highlight": "Four",
+          "body": "Remplissez les moules aux trois quarts et cuisez jusqu’à obtenir des bords dorés et un centre souple."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Repos",
+          "body": "Même un repos court améliore le bombé et la tenue des madeleines."
+        },
+        {
+          "title": "Finition",
+          "body": "Un voile de sucre vanillé juste après cuisson garde un parfum net sans alourdir la pâte."
+        }
+      ],
+      "seo": {
+        "title": "Madeleines vanille Bourbon | Vanille Désiré",
+        "description": "Recette de madeleines à la vanille Bourbon, légères, beurrées et très simples à refaire pour le goûter.",
+        "keywords": [
+          "madeleines vanille",
+          "goûter vanille bourbon",
+          "petits gâteaux vanille",
+          "recette madeleine facile"
+        ],
+        "body_sections": [
+          {
+            "title": "Ce qui fait la différence",
+            "body": "La pâte reste simple, mais la vanille Bourbon apporte une vraie longueur et rend la madeleine plus gourmande sans la charger."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Ne remplissez pas trop les moules et ne poussez pas trop la cuisson. Une madeleine trop sèche perd tout son charme."
+          },
+          {
+            "title": "Service",
+            "body": "Servez-les tièdes ou le jour même avec un café, un thé ou un fruit frais."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on préparer la pâte la veille ?",
+            "answer": "Oui, la pâte peut reposer au frais plusieurs heures avant cuisson."
+          },
+          {
+            "question": "Faut-il absolument une gousse ?",
+            "answer": "La gousse donne le meilleur résultat, mais un bon sucre vanillé peut compléter la recette."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Madeleines",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Madeleines",
+          "license": "CC BY-SA 4.0",
+          "note": "Base ouverte adaptée avec vanille Bourbon et finition Vanille Désiré."
+        },
+        {
+          "title": "Great British Chefs: Madeleines by Tom Aikens",
+          "url": "https://www.greatbritishchefs.com/recipes/madeleines-recipe",
+          "license": "",
+          "note": "Référence technique utilisée pour confirmer la cuisson courte, la texture légère et le service tiède."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-29T12:00:00Z"
+    },
+    {
+      "slug": "gateau-ananas-renverse-vanille",
+      "status": "approved",
+      "access": "free",
+      "title": "Gâteau ananas renverse vanille",
+      "page_url": "/pages/gateau-ananas-renverse-vanille",
+      "eyebrow": "Recette facile",
+      "subtitle": "Un caramel net, un ananas juteux, une vanille qui reste au premier plan.",
+      "summary": "Un gâteau renversé à l’ananas, brillant et généreux, relevé de vanille Bourbon.",
+      "description": "Des tranches d’ananas caramélisées, une pâte souple et une vanille nette pour un dessert facile à partager.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "15 min",
+        "cook": "40 min",
+        "rest": "15 min",
+        "total": "1 h 10"
+      },
+      "serves": 8,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Nature Madagascar"
+      },
+      "search_terms": [
+        "ananas vanille",
+        "gâteau renverse",
+        "dessert tropical vanille",
+        "ananas rôti"
+      ],
+      "tags": [
+        "dessert",
+        "ananas",
+        "vanille",
+        "goûter",
+        "recette facile"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "desserts-a-la-vanille"
+      ],
+      "product": {
+        "handle": "sucre-vanille-bourbon-madagascar-60g",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "sucre-vanille-bourbon-madagascar-60g",
+          "vanille-bourbon-madagascar-3-gousses",
+          "poivre-sauvage-voatsiperifery-sachet-50g-madagascar"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la selection",
+        "note": "Le sucre vanille aide le caramel, la gousse garde la profondeur, et une pointe de poivre sauvage peut moderniser le final.",
+        "bundle_title": "La sélection pour un gâteau renversé généreux.",
+        "bundle_summary": "Vanille, sucre vanillé et pointe poivrée pour un dessert très lisible malgré le caramel et le fruit."
+      },
+      "products": [
+        {
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
+        },
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "poivre-sauvage-voatsiperifery-sachet-50g-madagascar",
+          "role": "assaisonnement",
+          "selection_label": "Ajouter en assaisonnement"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Fond ananas",
+          "items": [
+            {
+              "id": "ananas",
+              "quantity": "1",
+              "name": "ananas"
+            },
+            {
+              "id": "sucre-vanille",
+              "quantity": "40",
+              "unit": "g",
+              "name": "sucre vanille Bourbon"
+            },
+            {
+              "id": "beurre",
+              "quantity": "30",
+              "unit": "g",
+              "name": "beurre"
+            }
+          ]
+        },
+        {
+          "title": "Pate",
+          "items": [
+            {
+              "id": "farine",
+              "quantity": "180",
+              "unit": "g",
+              "name": "farine"
+            },
+            {
+              "id": "oeufs",
+              "quantity": "2",
+              "name": "oeufs"
+            },
+            {
+              "id": "lait",
+              "quantity": "12",
+              "unit": "cl",
+              "name": "lait"
+            },
+            {
+              "id": "sucre",
+              "quantity": "90",
+              "unit": "g",
+              "name": "sucre"
+            },
+            {
+              "id": "beurre-pate",
+              "quantity": "70",
+              "unit": "g",
+              "name": "beurre fondu"
+            },
+            {
+              "id": "levure",
+              "quantity": "1",
+              "unit": "c. a cafe",
+              "name": "levure chimique"
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "name": "gousse de vanille Bourbon"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "caramel",
+          "title": "Former un fond brillant",
+          "duration": "8 min",
+          "highlight": "Fond",
+          "body": "Faites fondre beurre et sucre vanille, puis posez les tranches d ananas dans le moule ou la poele allant au four."
+        },
+        {
+          "id": "pate",
+          "title": "Monter une pate simple",
+          "duration": "7 min",
+          "highlight": "Base",
+          "body": "Melangez oeufs, sucre, farine, levure, lait et beurre fondu. Ajoutez la vanille en graines en fin de melange."
+        },
+        {
+          "id": "cuisson",
+          "title": "Cuire jusqu’au renversement propre",
+          "duration": "40 min",
+          "highlight": "Cuisson",
+          "body": "Versez sur l’ananas puis cuisez jusqu a obtenir un gâteau pris, doré et encore souple au centre."
+        },
+        {
+          "id": "retourner",
+          "title": "Retourner encore tiède",
+          "duration": "5 min",
+          "highlight": "Service",
+          "body": "Attendez quelques minutes seulement avant de retourner pour garder le nappage brillant."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Ananas",
+          "body": "Egouttez bien si vous travaillez un fruit en boite."
+        },
+        {
+          "title": "Final",
+          "body": "Une micro-râpure de poivre sauvage au service peut faire grimper la recette sans la durcir."
+        }
+      ],
+      "seo": {
+        "title": "Gâteau ananas renverse vanille | Vanille Désiré",
+        "description": "Gâteau ananas renversé vanille, simple, brillant et très agréable à partager au dessert.",
+        "keywords": [
+          "gâteau ananas vanille",
+          "pineapple upside down cake vanille",
+          "dessert tropical vanille"
+        ],
+        "body_sections": [
+          {
+            "title": "Pourquoi cette recette fonctionne",
+            "body": "L’ananas fait le jus et le sucre vanille évite un caramel trop plat."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "N attendez pas trop pour retourner le gâteau sinon le fond colle davantage."
+          },
+          {
+            "title": "Conservation et service",
+            "body": "Le gâteau peut se servir tiede avec un simple yaourt ou une crème fouettée peu sucrée."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on utiliser de l’ananas frais ?",
+            "answer": "Oui, et c est meme préférable si vous voulez une texture moins humide."
+          },
+          {
+            "question": "Peut-on ajouter un poivre de finition ?",
+            "answer": "Oui, en très petite quantite juste avant le service."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Pineapple Upside-Down Cake in a Skillet",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Pineapple_Upside-Down_Cake_in_a_Skillet",
+          "license": "CC BY-SA 4.0",
+          "note": "Base adaptée avec des repères simplifiés pour cuisiner sereinement."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-28T13:16:27Z"
+    },
+    {
+      "slug": "genoise-vanille-levee",
+      "status": "approved",
+      "access": "member",
+      "title": "Génoise vanille levée",
+      "page_url": "/pages/genoise-vanille-levee",
+      "eyebrow": "Recette signature",
+      "subtitle": "Une mie aérienne, levée en douceur, avec une vanille plus présente qu’un simple biscuit.",
+      "summary": "Une génoise légère et aérée, avec une fermentation douce et une vanille bien présente.",
+      "description": "Une base souple et élégante pour monter un dessert, un shortcake ou un gâteau de brunch.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "signature",
+        "label": "Signature"
+      },
+      "timing": {
+        "prep": "20 min",
+        "cook": "35 min",
+        "rest": "1 h 30",
+        "total": "2 h 25"
+      },
+      "serves": 8,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Nature Madagascar"
+      },
+      "search_terms": [
+        "génoise vanille",
+        "sponge cake vanille",
+        "génoise levée",
+        "gâteau vanille"
+      ],
+      "tags": [
+        "dessert",
+        "génoise",
+        "vanille",
+        "signature",
+        "recette signature"
+      ],
+      "collections": [
+        "recettes-premium",
+        "desserts-a-la-vanille"
+      ],
+      "product": {
+        "handle": "extrait-vanille-bourbon-madagascar-20ml",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "extrait-vanille-bourbon-madagascar-20ml",
+          "vanille-bourbon-madagascar-3-gousses",
+          "sucre-vanille-bourbon-madagascar-60g"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la selection",
+        "note": "L extrait cale la pâte, la gousse affine le parfum, et le sucre vanille peut servir à la finition ou au sirop de punchage.",
+        "bundle_title": "La sélection pour une génoise plus habillée.",
+        "bundle_summary": "Extrait, gousse et sucre vanillé pour garder une mie légère, régulière et très propre au goût."
+      },
+      "products": [
+        {
+          "handle": "extrait-vanille-bourbon-madagascar-20ml",
+          "role": "ajustement",
+          "selection_label": "Ajouter en finition"
+        },
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Pate levée",
+          "items": [
+            {
+              "id": "farine",
+              "quantity": "320",
+              "unit": "g",
+              "name": "farine"
+            },
+            {
+              "id": "lait",
+              "quantity": "24",
+              "unit": "cl",
+              "name": "lait tiède"
+            },
+            {
+              "id": "levure",
+              "quantity": "7",
+              "unit": "g",
+              "name": "levure boulangere seche"
+            },
+            {
+              "id": "sucre",
+              "quantity": "70",
+              "unit": "g",
+              "name": "sucre"
+            },
+            {
+              "id": "beurre",
+              "quantity": "60",
+              "unit": "g",
+              "name": "beurre fondu"
+            },
+            {
+              "id": "oeufs",
+              "quantity": "2",
+              "name": "oeufs"
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "unit": "c. a cafe",
+              "name": "extrait de vanille Bourbon"
+            },
+            {
+              "id": "sel",
+              "quantity": "1",
+              "unit": "pincee",
+              "name": "sel fin",
+              "scalable": false
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "demarrer",
+          "title": "Lancer la fermentation",
+          "duration": "10 min",
+          "highlight": "Base",
+          "body": "Melangez lait tiède, levure et un peu de sucre. Laissez mousser avant de joindre le reste des ingredients."
+        },
+        {
+          "id": "petrir",
+          "title": "Former une pate souple",
+          "duration": "8 min",
+          "highlight": "Texture",
+          "body": "Ajoutez farine, oeufs, beurre, sel et vanille. Travaillez juste assez pour obtenir une pâte lisse et souple."
+        },
+        {
+          "id": "lever",
+          "title": "Laisser lever doucement",
+          "duration": "1 h 30",
+          "highlight": "Temps",
+          "body": "Laissez lever en moule ou cercle jusqu a obtenir une masse aérée et visiblement detendue."
+        },
+        {
+          "id": "cuire",
+          "title": "Cuire sans casser la levure",
+          "duration": "35 min",
+          "highlight": "Cuisson",
+          "body": "Enfournez à four froid ou peu préchauffé selon votre four pour laisser un dernier temps de pousse et obtenir une mie plus fine."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Pousse",
+          "body": "Une levée trop chaude rend la texture plus grossiere."
+        },
+        {
+          "title": "Usage",
+          "body": "Cette base se tient très bien pour un shortcake, un biscuit imbibe ou un dessert de brunch."
+        }
+      ],
+      "seo": {
+        "title": "Génoise vanille levée | Vanille Désiré",
+        "description": "Génoise vanille levée, aérée et généreuse, pour desserts à la vanille plus techniques.",
+        "keywords": [
+          "génoise vanille",
+          "vanilla sponge cake",
+          "gâteau leve vanille",
+          "dessert premium vanille"
+        ],
+        "body_sections": [
+          {
+            "title": "Pourquoi cette recette fonctionne",
+            "body": "La levure donne une mie plus ample et la vanille est plus stable que dans un biscuit minute."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Un lait trop chaud fatigue la levure et une cuisson trop vive ferme la mie."
+          },
+          {
+            "title": "Conservation et service",
+            "body": "Cette génoise se conserve bien filmee et peut etre repunchée avec un sirop vanille."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on la faire avec uniquement une gousse ?",
+            "answer": "Oui, mais l extrait donne un calibrage plus pratique dans la pâte levée."
+          },
+          {
+            "question": "Peut-on en faire une base de layer cake ?",
+            "answer": "Oui, à condition de bien laisser reposer avant de trancher."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Yeasted Vanilla Sponge Cake",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Yeasted_Vanilla_Sponge_Cake",
+          "license": "CC BY-SA 4.0",
+          "note": "Base resserrée pour une réalisation plus claire à la maison."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-28T13:16:27Z"
+    },
+    {
+      "slug": "carrot-cake-vanille-cannelle",
+      "status": "approved",
+      "access": "free",
+      "title": "Carrot cake vanille cannelle",
+      "page_url": "/pages/carrot-cake-vanille-cannelle",
+      "eyebrow": "Recette facile",
+      "subtitle": "Une pate souple, epicee juste ce qu il faut, avec une vanille qui reste claire.",
+      "summary": "Un carrot cake fondant, peu sucré, avec une belle note de cannelle et de vanille.",
+      "description": "Un cake moelleux, parfumé sans lourdeur, à servir nature ou avec un glaçage léger.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "intermédiaire",
+        "label": "Intermédiaire"
+      },
+      "timing": {
+        "prep": "20 min",
+        "cook": "50 min",
+        "rest": "30 min",
+        "total": "1 h 40"
+      },
+      "serves": 8,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Nature Madagascar"
+      },
+      "search_terms": [
+        "carrot cake",
+        "gâteau carotte",
+        "vanille",
+        "cannelle",
+        "dessert epice"
+      ],
+      "tags": [
+        "dessert",
+        "carotte",
+        "vanille",
+        "cannelle",
+        "cake",
+        "recette facile"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "desserts-a-la-vanille"
+      ],
+      "product": {
+        "handle": "cannelle-madagascar-pot-verre-40g",
+        "collection_handle": "épices-de-madagascar",
+        "required_handles": [
+          "cannelle-madagascar-pot-verre-40g",
+          "extrait-vanille-bourbon-madagascar-20ml",
+          "vanille-bourbon-madagascar-3-gousses"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la selection",
+        "note": "La cannelle structure l ensemble, l extrait cale l appareil, et la gousse peut revenir dans le glaçage ou la finition.",
+        "bundle_title": "La sélection pour un carrot cake plus fin.",
+        "bundle_summary": "Cannelle, vanille et correction finale pour un gâteau moelleux, épicé juste ce qu’il faut."
+      },
+      "products": [
+        {
+          "handle": "cannelle-madagascar-pot-verre-40g",
+          "role": "assaisonnement",
+          "selection_label": "Ajouter en assaisonnement"
+        },
+        {
+          "handle": "extrait-vanille-bourbon-madagascar-20ml",
+          "role": "ajustement",
+          "selection_label": "Ajouter en finition"
+        },
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Cake",
+          "items": [
+            {
+              "id": "carottes",
+              "quantity": "225",
+              "unit": "g",
+              "name": "carottes rapees"
+            },
+            {
+              "id": "farine",
+              "quantity": "225",
+              "unit": "g",
+              "name": "farine"
+            },
+            {
+              "id": "beurre",
+              "quantity": "150",
+              "unit": "g",
+              "name": "beurre fondu"
+            },
+            {
+              "id": "cassonade",
+              "quantity": "180",
+              "unit": "g",
+              "name": "cassonade"
+            },
+            {
+              "id": "cannelle",
+              "quantity": "2",
+              "unit": "c. a cafe",
+              "name": "cannelle de Madagascar"
+            },
+            {
+              "id": "levure",
+              "quantity": "1.5",
+              "unit": "c. a cafe",
+              "name": "levure chimique"
+            },
+            {
+              "id": "oeuf",
+              "quantity": "2",
+              "name": "oeufs"
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "unit": "c. a cafe",
+              "name": "extrait de vanille Bourbon"
+            }
+          ]
+        },
+        {
+          "title": "Finition optionnelle",
+          "items": [
+            {
+              "id": "fromage",
+              "quantity": "120",
+              "unit": "g",
+              "name": "fromage frais"
+            },
+            {
+              "id": "sucre-glace",
+              "quantity": "60",
+              "unit": "g",
+              "name": "sucre glace"
+            },
+            {
+              "id": "graines",
+              "quantity": "0.5",
+              "unit": "gousse",
+              "name": "graines de vanille"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "base",
+          "title": "Monter la base chaude et epicee",
+          "duration": "8 min",
+          "highlight": "Base",
+          "body": "Melangez beurre, sucre, cannelle et farine. Ajoutez ensuite les oeufs battus puis les carottes rapees."
+        },
+        {
+          "id": "ajuster",
+          "title": "Ajuster la vanille",
+          "duration": "3 min",
+          "highlight": "Arome",
+          "body": "Versez l extrait de vanille puis rectifiez si besoin avec un peu plus de cannelle selon le profil recherche."
+        },
+        {
+          "id": "cuisson",
+          "title": "Cuire jusqu’au cœur souple",
+          "duration": "50 min",
+          "highlight": "Cuisson",
+          "body": "Cuisez en moule chemise jusqu’à obtenir une mie prise mais encore moelleuse."
+        },
+        {
+          "id": "finition",
+          "title": "Finir légèrement",
+          "duration": "10 min",
+          "highlight": "Finition",
+          "body": "Laissez refroidir puis pochez un glaçage très sobre au fromage frais et vanille si vous voulez une lecture plus patissiere."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Equilibre",
+          "body": "Le carrot cake doit rester moelleux et epice, pas saturer en sucre."
+        },
+        {
+          "title": "Glaçage",
+          "body": "Restez leger sur la finition pour garder la cannelle et la vanille lisibles."
+        }
+      ],
+      "seo": {
+        "title": "Carrot cake vanille cannelle | Vanille Désiré",
+        "description": "Carrot cake vanille cannelle, plus net et moins lourd, avec les épices Vanille Désiré.",
+        "keywords": [
+          "carrot cake vanille",
+          "gâteau carotte cannelle",
+          "dessert epice vanille",
+          "recette vanille desire"
+        ],
+        "body_sections": [
+          {
+            "title": "Pourquoi cette recette fonctionne",
+            "body": "La carotte apporte le moelleux, la cannelle dessine la recette et la vanille adoucit le final."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Trop de glaçage ou de sucre masque vite la signature épices-vanille."
+          },
+          {
+            "title": "Conservation et service",
+            "body": "Le cake se tient très bien au frais et gagne même en lisibilité aromatique après quelques heures."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on faire ce carrot cake sans glaçage ?",
+            "answer": "Oui, il tient très bien nu, avec juste une finition sucre vanille ou graines de vanille."
+          },
+          {
+            "question": "Peut-on ajouter des noix ?",
+            "answer": "Oui, mais en petite quantite pour garder une lecture aromatique propre."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Carrot Cake I",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Carrot_Cake_I",
+          "license": "CC BY-SA 4.0",
+          "note": "Base adaptée et rééquilibrée pour une lecture plus claire en cuisine."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-28T13:16:27Z"
+    },
+    {
+      "slug": "banana-bread-vanille-cannelle",
+      "status": "approved",
+      "access": "free",
+      "title": "Banana bread vanille cannelle",
+      "page_url": "/pages/banana-bread-vanille-cannelle",
+      "eyebrow": "Recette facile",
+      "subtitle": "Une mie souple, une banane nette, une vanille chaude sans lourdeur.",
+      "summary": "Un banana bread moelleux à la vanille et à la cannelle, parfait pour utiliser des bananes bien mûres.",
+      "description": "Une mie tendre, une belle tenue à la découpe et une vanille qui accompagne la banane sans l’écraser.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "15 min",
+        "cook": "50 min",
+        "rest": "20 min",
+        "total": "1 h 25"
+      },
+      "serves": 8,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Nature Madagascar"
+      },
+      "search_terms": [
+        "banana bread",
+        "cake banane",
+        "vanille bourbon",
+        "cannelle madagascar",
+        "goûter vanille"
+      ],
+      "tags": [
+        "dessert",
+        "cake",
+        "banane",
+        "vanille",
+        "cannelle",
+        "recette facile"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "desserts-a-la-vanille"
+      ],
+      "product": {
+        "handle": "vanille-bourbon-madagascar-3-gousses",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "vanille-bourbon-madagascar-3-gousses",
+          "cannelle-madagascar-pot-verre-40g",
+          "sucre-vanille-bourbon-madagascar-60g"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la selection",
+        "note": "La gousse donne la structure, la cannelle signe le cake et le sucre vanille aide la finition sans refaire toute la base.",
+        "bundle_title": "Le trio pour un banana bread moelleux.",
+        "bundle_summary": "Une sélection simple pour garder la banane généreuse, la cannelle douce et la vanille bien en place."
+      },
+      "products": [
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "cannelle-madagascar-pot-verre-40g",
+          "role": "assaisonnement",
+          "selection_label": "Ajouter en assaisonnement"
+        },
+        {
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Base",
+          "items": [
+            {
+              "id": "bananes",
+              "quantity": "3",
+              "name": "bananes bien mures"
+            },
+            {
+              "id": "beurre",
+              "quantity": "120",
+              "unit": "g",
+              "name": "beurre fondu"
+            },
+            {
+              "id": "oeufs",
+              "quantity": "2",
+              "name": "oeufs"
+            },
+            {
+              "id": "sucre",
+              "quantity": "90",
+              "unit": "g",
+              "name": "cassonade"
+            },
+            {
+              "id": "farine",
+              "quantity": "220",
+              "unit": "g",
+              "name": "farine"
+            },
+            {
+              "id": "bicarbonate",
+              "quantity": "1",
+              "unit": "c. a cafe",
+              "name": "bicarbonate"
+            },
+            {
+              "id": "sel",
+              "quantity": "1",
+              "unit": "pincee",
+              "name": "sel fin",
+              "scalable": false
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "name": "gousse de vanille Bourbon"
+            },
+            {
+              "id": "cannelle",
+              "quantity": "1",
+              "unit": "c. a cafe",
+              "name": "cannelle de Madagascar"
+            }
+          ]
+        },
+        {
+          "title": "Finition",
+          "items": [
+            {
+              "id": "sucre-vanille",
+              "quantity": "1",
+              "unit": "c. a soupe",
+              "name": "sucre vanille Bourbon",
+              "scalable": false
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "ecraser",
+          "title": "Ecraser les bananes et ouvrir la vanille",
+          "duration": "5 min",
+          "highlight": "Base",
+          "body": "Écrasez les bananes, grattez la gousse et mélangez pulpe, graines et beurre fondu encore tiède."
+        },
+        {
+          "id": "monter",
+          "title": "Structurer l appareil",
+          "duration": "5 min",
+          "highlight": "Texture",
+          "body": "Ajoutez oeufs, sucre, farine, bicarbonate, sel et cannelle. Melangez juste assez pour obtenir une pâte homogène."
+        },
+        {
+          "id": "cuire",
+          "title": "Cuire sans desscher",
+          "duration": "50 min",
+          "highlight": "Cuisson",
+          "body": "Versez en moule chemise, poudrez légèrement de sucre vanille puis cuisez jusqu’à ce que le cœur soit pris mais encore moelleux."
+        },
+        {
+          "id": "reposer",
+          "title": "Laisser retomber doucement",
+          "duration": "20 min",
+          "highlight": "Service",
+          "body": "Laissez reposer avant de trancher pour garder une mie souple et une vanille mieux lisible."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Banane",
+          "body": "Plus la banane est mure, plus vous pouvez reduire le sucre."
+        },
+        {
+          "title": "Cuisson",
+          "body": "Arretez des que là lame sort avec quelques miettes humides."
+        }
+      ],
+      "seo": {
+        "title": "Banana bread vanille cannelle | Vanille Désiré",
+        "description": "Banana bread vanille cannelle: une recette facile, moelleuse et bien orientée produits Vanille Désiré.",
+        "keywords": [
+          "banana bread vanille",
+          "cake banane cannelle",
+          "recette banane vanille",
+          "goûter vanille madagascar"
+        ],
+        "body_sections": [
+          {
+            "title": "Pourquoi cette recette fonctionne",
+            "body": "La banane fait le moelleux, la cannelle donne le relief, et la gousse de vanille garde la signature aromatique."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Ne travaillez pas trop la pâte et ne surcuisez pas le cake, sinon la mie se tasse."
+          },
+          {
+            "title": "Conservation et service",
+            "body": "Le banana bread tient bien deux jours filme. Rechauffez légèrement pour reveiller la vanille."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on remplacer la gousse par de l extrait ?",
+            "answer": "Oui, mais gardez si possible un peu de graines ou de sucre vanille en finition pour une presence plus nette."
+          },
+          {
+            "question": "Peut-on ajouter des noix ?",
+            "answer": "Oui, en petite quantite, pour ne pas prendre le dessus sur la vanille et la cannelle."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Banana Bread I",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Banana_Bread_I",
+          "license": "CC BY-SA 4.0",
+          "note": "Base adaptée et rééquilibrée autour des produits Vanille Désiré."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-28T13:16:27Z"
+    },
+    {
+      "slug": "crevettes-curry-vanille",
+      "title": "Crevettes curry et vanille",
+      "status": "approved",
+      "access": "member",
+      "page_url": "/pages/crevettes-curry-vanille",
+      "eyebrow": "Recette signature",
+      "subtitle": "Une sauce courte, crémeuse et précise pour napper les crevettes sans couvrir la vanille.",
+      "summary": "Des crevettes nappées d’une sauce curry-vanille courte, crémeuse et très parfumée.",
+      "description": "Les crevettes sont snackées rapidement puis enrobées d’une sauce douce et épicée, avec une vanille bien tenue.",
+      "category": "Sale",
+      "serves": 4,
+      "difficulty": {
+        "value": "intermédiaire",
+        "label": "Intermédiaire"
+      },
+      "timing": {
+        "prep": "20 min",
+        "cook": "12 min",
+        "rest": "0 min",
+        "total": "32 min"
+      },
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "https://cdn.shopify.com/s/files/1/0927/2911/4891/files/curry-de-madagascar-pot-a-épices-40g-3640036.png?v=1757013025",
+        "ambient_label": "Cuisine signature"
+      },
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "search_terms": [
+        "crevettes curry vanille",
+        "recette salée vanille",
+        "crevettes madagascar",
+        "sauce vanille curry"
+      ],
+      "tags": [
+        "sale",
+        "crevettes",
+        "curry",
+        "vanille",
+        "signature"
+      ],
+      "collections": [
+        "recettes-premium",
+        "vanille-salée"
+      ],
+      "product": {
+        "handle": "curry-madagascar-pot-épices-40g",
+        "collection_handle": "",
+        "required_handles": [
+          "curry-madagascar-pot-épices-40g",
+          "extrait-vanille-bourbon-madagascar-20ml",
+          "vanille-bourbon-madagascar-3-gousses"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la selection",
+        "note": "La gousse donne le fond, l extrait aide a corriger la sauce juste avant service.",
+        "bundle_title": "La sélection pour une sauce curry-vanille courte.",
+        "bundle_summary": "Base aromatique, infusion et ajustement final pour une sauce crémeuse qui reste parfaitement lisible."
+      },
+      "products": [
+        {
+          "handle": "curry-madagascar-pot-épices-40g",
+          "role": "base aromatique",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "extrait-vanille-bourbon-madagascar-20ml",
+          "role": "ajustement",
+          "selection_label": "Ajouter en finition"
+        },
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "infusion",
+          "selection_label": "Ajouter en infusion"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Base salée",
+          "items": [
+            {
+              "id": "crevettes",
+              "quantity": "600",
+              "unit": "g",
+              "name": "crevettes crues decortiquees"
+            },
+            {
+              "id": "echalote",
+              "quantity": "1",
+              "unit": "",
+              "name": "echalote ciselee"
+            },
+            {
+              "id": "beurre",
+              "quantity": "20",
+              "unit": "g",
+              "name": "beurre"
+            },
+            {
+              "id": "crème",
+              "quantity": "25",
+              "unit": "cl",
+              "name": "crème liquide"
+            },
+            {
+              "id": "curry",
+              "quantity": "1",
+              "unit": "c. a cafe",
+              "name": "curry de Madagascar",
+              "scalable": false
+            },
+            {
+              "id": "vanille",
+              "quantity": "0.5",
+              "unit": "",
+              "name": "gousse de vanille",
+              "scalable": false
+            },
+            {
+              "id": "extrait",
+              "quantity": "3",
+              "unit": "gouttes",
+              "name": "extrait de vanille",
+              "scalable": false
+            },
+            {
+              "id": "sel",
+              "quantity": "2",
+              "unit": "pinces",
+              "name": "sel fin",
+              "scalable": false
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "snacker",
+          "title": "Snacker les crevettes",
+          "duration": "4 min",
+          "highlight": "Cuisson vive",
+          "body": "Saisissez les crevettes rapidement pour les colorer sans les dessecher. Reserve-les aussitôt."
+        },
+        {
+          "id": "monter-sauce",
+          "title": "Monter la sauce courte",
+          "duration": "6 min",
+          "highlight": "Sauce",
+          "body": "Faites suer l’échalote, ajoutez crème, curry et vanille, puis laissez réduire légèrement jusqu’à obtenir une sauce courte et nappante."
+        },
+        {
+          "id": "assembler",
+          "title": "Assembler et corriger",
+          "duration": "2 min",
+          "highlight": "Finale",
+          "body": "Remettez les crevettes dans la sauce, ajoutez quelques gouttes d extrait de vanille et servez immediatement."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Sauce",
+          "body": "La sauce doit rester courte et claire. Une réduction excessive écrase la vanille."
+        },
+        {
+          "title": "Cuisson",
+          "body": "Les crevettes n ont besoin que de très peu de temps. La sauce termine la cuisson."
+        }
+      ],
+      "seo": {
+        "title": "Crevettes curry et vanille | Vanille Désiré",
+        "description": "Recette de crevettes curry et vanille, crémeuse, parfumée et idéale pour découvrir la vanille en salé.",
+        "keywords": [
+          "crevettes curry vanille",
+          "vanille cuisine salée",
+          "recette crevettes vanille",
+          "curry madagascar vanille"
+        ],
+        "body_sections": [
+          {
+            "title": "Pourquoi cette recette fonctionne",
+            "body": "Le curry donne le socle chaud, la vanille arrondit la sauce, et les crevettes gardent une lecture marine nette."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Ne surchargez ni le curry ni la vanille. Le plat doit rester bref, pas devenir une sauce épaisse et confuse."
+          },
+          {
+            "title": "Conservation et service",
+            "body": "C est un plat à servir minute. Vous pouvez preparer la base de sauce en amont, puis finir avec les crevettes au dernier moment."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on utiliser seulement de l extrait de vanille ?",
+            "answer": "Oui, mais la demi-gousse apporte une base plus ample. L extrait sert surtout a ajuster la finale."
+          },
+          {
+            "question": "Quel curry choisir pour ce plat ?",
+            "answer": "Un curry chaud mais pas trop agressif, capable de rester derriere la crevette et la vanille."
+          }
+        ]
+      },
+      "submitted_at": "2026-03-28T11:01:08Z",
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Keralan Prawns",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Keralan_Prawns",
+          "license": "CC BY-SA 4.0",
+          "note": "Structure ouverte adaptée pour une lecture salée à la vanille Désiré."
+        }
+      ]
+    },
+    {
+      "slug": "carottes-roties-vanille-combava",
+      "title": "Carottes rôties vanille et combava",
+      "status": "approved",
+      "access": "free",
+      "page_url": "/pages/carottes-roties-vanille-combava",
+      "eyebrow": "Recette facile",
+      "subtitle": "Des carottes rôties brillantes, avec une vanille discrète et un combava très frais.",
+      "summary": "Des carottes rôties, relevées de vanille et de combava, pour un accompagnement lumineux.",
+      "description": "Les carottes gardent de la tenue, la vanille apporte de la rondeur et le combava réveille l’ensemble.",
+      "category": "Sale",
+      "serves": 4,
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "15 min",
+        "cook": "30 min",
+        "rest": "0 min",
+        "total": "45 min"
+      },
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "https://cdn.shopify.com/s/files/1/0927/2911/4891/files/combava-sauvage-en-poudre-20g.png?v=1757156322",
+        "ambient_label": "Cuisine salée"
+      },
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "search_terms": [
+        "carottes rôties vanille",
+        "vanille salée facile",
+        "combava carottes",
+        "recette vanille legumes"
+      ],
+      "tags": [
+        "sale",
+        "legumes",
+        "vanille",
+        "combava",
+        "accès libre"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "vanille-salée"
+      ],
+      "product": {
+        "handle": "poudre-combava-sauvage-madagascar-20g",
+        "collection_handle": "",
+        "required_handles": [
+          "poudre-combava-sauvage-madagascar-20g",
+          "vanille-bourbon-madagascar-3-gousses",
+          "sel-parfume-au-combava"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la selection",
+        "note": "Le combava aide a garder la recette lumineuse et très lisible en bouche.",
+        "bundle_title": "La sélection pour une assiette salée lumineuse.",
+        "bundle_summary": "Combava, vanille et assaisonnement maison pour garder le plat vif, net et très élégant."
+      },
+      "products": [
+        {
+          "handle": "poudre-combava-sauvage-madagascar-20g",
+          "role": "accent",
+          "selection_label": "Ajouter en accent"
+        },
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "structure",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "sel-parfume-au-combava",
+          "role": "assaisonnement",
+          "selection_label": "Ajouter en assaisonnement"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Base salée",
+          "items": [
+            {
+              "id": "carottes",
+              "quantity": "800",
+              "unit": "g",
+              "name": "carottes",
+              "note": "plutot petites ou moyennes"
+            },
+            {
+              "id": "huile",
+              "quantity": "2",
+              "unit": "c. a soupe",
+              "name": "huile d olive",
+              "scalable": false
+            },
+            {
+              "id": "beurre",
+              "quantity": "20",
+              "unit": "g",
+              "name": "beurre"
+            },
+            {
+              "id": "vanille",
+              "quantity": "0.5",
+              "unit": "",
+              "name": "gousse de vanille",
+              "scalable": false
+            },
+            {
+              "id": "combava",
+              "quantity": "2",
+              "unit": "pinces",
+              "name": "poudre de combava",
+              "scalable": false
+            },
+            {
+              "id": "sel",
+              "quantity": "3",
+              "unit": "pinces",
+              "name": "sel parfume au combava",
+              "scalable": false
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "tailler",
+          "title": "Preparer les carottes",
+          "duration": "8 min",
+          "highlight": "Mise en place",
+          "body": "Épluchez puis coupez les carottes en deux ou en quatre selon leur taille pour garder une cuisson régulière."
+        },
+        {
+          "id": "rôtir",
+          "title": "Rotir doucement",
+          "duration": "25 min",
+          "highlight": "Cuisson",
+          "body": "Faites revenir les carottes avec huile et beurre. Ajoutez la vanille en cours de cuisson pour parfumer sans sucrer le profil."
+        },
+        {
+          "id": "assaisonner",
+          "title": "Assaisonner en finale",
+          "duration": "2 min",
+          "highlight": "Finition",
+          "body": "Hors du feu, ajoutez une touche de poudre de combava et le sel parfumé. Goutez, puis servez aussitôt."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Vanille salée",
+          "body": "Restez toujours sous le seuil du dessert: la vanille doit soutenir, jamais dominer."
+        },
+        {
+          "title": "Combava",
+          "body": "Une pincee suffit. Le but est d apporter de l elevation, pas de saturer la recette."
+        }
+      ],
+      "seo": {
+        "title": "Carottes rôties vanille et combava | Vanille Désiré",
+        "description": "Recette salée de carottes rôties à la vanille et au combava, facile et idéale pour découvrir la vanille autrement.",
+        "keywords": [
+          "carottes vanille combava",
+          "recette salée vanille",
+          "vanille legumes rôtis",
+          "combava madagascar cuisine"
+        ],
+        "body_sections": [
+          {
+            "title": "Pourquoi cette recette fonctionne",
+            "body": "La carotte, douce mais vegetale, absorbe bien une note vanille si elle est maintenue dans un dosage très fin."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "N ajoutez ni trop de vanille ni trop de combava. Le plat doit rester vegetal et sale, jamais patissier."
+          },
+          {
+            "title": "Conservation et service",
+            "body": "Ces carottes peuvent se tenir quelques heures puis etre rechauffees doucement. Faites la finition combava à la fin."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Avec quels legumes tester la vanille en salé ?",
+            "answer": "Carotte, courge, panais et patate douce sont de bons points d entrée."
+          },
+          {
+            "question": "Pourquoi associer vanille et combava ?",
+            "answer": "Le combava releve la lecture et évite que la vanille paraisse trop ronde ou trop patissiere."
+          }
+        ]
+      },
+      "submitted_at": "2026-03-28T11:01:08Z",
+      "sources": [
+
+      ]
+    },
+    {
+      "slug": "ananas-roti-vanille-poivre-sauvage",
+      "title": "Ananas rôti vanille et poivre sauvage",
+      "status": "approved",
+      "access": "free",
+      "page_url": "/pages/ananas-roti-vanille-poivre-sauvage",
+      "eyebrow": "Recette facile",
+      "subtitle": "Un ananas juteux, une vanille ronde et une finale poivrée qui réveille le dessert.",
+      "summary": "De l’ananas rôti, une vanille ronde et une pointe de poivre sauvage pour un dessert vif.",
+      "description": "L’ananas est saisi puis glacé légèrement pour garder du jus, du relief et une finale épicée.",
+      "category": "Desserts",
+      "serves": 4,
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "15 min",
+        "cook": "12 min",
+        "rest": "0 min",
+        "total": "27 min"
+      },
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "https://cdn.shopify.com/s/files/1/0927/2911/4891/files/poivre-sauvage-de-madagascar-sachet-50g.jpg?v=1744385230",
+        "ambient_label": "Dessert minute"
+      },
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "search_terms": [
+        "ananas rôti",
+        "vanille poivre sauvage",
+        "dessert ananas facile",
+        "voatsiperifery dessert"
+      ],
+      "tags": [
+        "dessert",
+        "ananas",
+        "vanille",
+        "poivre sauvage",
+        "accès libre"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "accords-fruites"
+      ],
+      "product": {
+        "handle": "poivre-sauvage-voatsiperifery-sachet-50g-madagascar",
+        "collection_handle": "",
+        "required_handles": [
+          "poivre-sauvage-voatsiperifery-sachet-50g-madagascar",
+          "vanille-bourbon-madagascar-3-gousses",
+          "sucre-vanille-bourbon-madagascar-60g"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la selection",
+        "note": "Le poivre sauvage apporte ici une vraie longueur et une finale plus vive.",
+        "bundle_title": "La sélection pour un dessert minute très vif.",
+        "bundle_summary": "Vanille, poivre sauvage et finition sucrée pour garder l’ananas juteux et très lisible."
+      },
+      "products": [
+        {
+          "handle": "poivre-sauvage-voatsiperifery-sachet-50g-madagascar",
+          "role": "signature",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "structure",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Cuisson minute",
+          "items": [
+            {
+              "id": "ananas",
+              "quantity": "1",
+              "unit": "",
+              "name": "ananas mur mais ferme"
+            },
+            {
+              "id": "beurre",
+              "quantity": "20",
+              "unit": "g",
+              "name": "beurre"
+            },
+            {
+              "id": "sucre",
+              "quantity": "30",
+              "unit": "g",
+              "name": "sucre roux"
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "unit": "",
+              "name": "gousse de vanille"
+            },
+            {
+              "id": "poivre",
+              "quantity": "4",
+              "unit": "tours",
+              "name": "poivre sauvage voatsiperifery",
+              "scalable": false
+            },
+            {
+              "id": "sucre-vanille",
+              "quantity": "1",
+              "unit": "c. a cafe",
+              "name": "sucre vanille Bourbon",
+              "scalable": false
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "tailler",
+          "title": "Tailler et assaisonner",
+          "duration": "6 min",
+          "highlight": "Base",
+          "body": "Pelez l’ananas, detaillez-le en quartiers epais puis preparez la gousse de vanille."
+        },
+        {
+          "id": "rôtir",
+          "title": "Rotir à la poele",
+          "duration": "8 min",
+          "highlight": "Cuisson",
+          "body": "Saisissez l’ananas au beurre avec le sucre. Ajoutez la vanille et laissez glacer doucement jusqu à obtenir une surface brillante."
+        },
+        {
+          "id": "finir",
+          "title": "Finir au poivre",
+          "duration": "2 min",
+          "highlight": "Signature",
+          "body": "Ajoutez le poivre sauvage au dernier moment puis terminez par un voile de sucre vanille. Servez tout de suite."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Poivre",
+          "body": "Le voatsiperifery doit etre ajoute hors du feu ou presque, sinon il perd son relief floral."
+        },
+        {
+          "title": "Texture",
+          "body": "Gardez des morceaux epais pour ne pas transformer l’ananas en compote."
+        }
+      ],
+      "seo": {
+        "title": "Ananas rôti vanille et poivre sauvage | Vanille Désiré",
+        "description": "Recette d’ananas rôti à la vanille et au poivre sauvage de Madagascar, rapide, parfumée et très simple à servir.",
+        "keywords": [
+          "ananas rôti vanille",
+          "poivre sauvage dessert",
+          "dessert ananas madagascar",
+          "voatsiperifery vanille"
+        ],
+        "body_sections": [
+          {
+            "title": "Pourquoi cette recette fonctionne",
+            "body": "L’ananas supporte bien la vanille et accepte un poivre de finition à condition de rester en cuisson courte."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Si l’ananas est trop finement coupe ou trop cuit, il perd toute sa tenue. Le poivre ne doit pas cuire longtemps."
+          },
+          {
+            "title": "Conservation et service",
+            "body": "Cette recette se sert idéalement minute. Vous pouvez toutefois preparer l’ananas en amont et refaire la finition à la demande."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Quel poivre utiliser avec l’ananas rôti ?",
+            "answer": "Le voatsiperifery est ideal car il apporte un relief plus floral et plus long en bouche."
+          },
+          {
+            "question": "Peut-on faire cette recette sans sucre vanille ?",
+            "answer": "Oui, mais il donne une petite attaque finale très utile pour faire le lien entre fruit et épices."
+          }
+        ]
+      },
+      "submitted_at": "2026-03-28T11:01:08Z",
+      "sources": [
+
+      ]
+    },
+    {
+      "slug": "cake-vanille-cannelle-madagascar",
+      "title": "Cake moelleux vanille cannelle",
+      "status": "approved",
+      "access": "free",
+      "page_url": "/pages/cake-vanille-cannelle-madagascar",
+      "eyebrow": "Recette facile",
+      "subtitle": "Un cake simple, très lisible, parfait pour retrouver une vanille douce dans une pâtisserie du quotidien.",
+      "summary": "Un cake moelleux à la vanille et à la cannelle, simple à préparer et facile à refaire.",
+      "description": "Une mie régulière, une vanille souple et juste ce qu’il faut de cannelle pour un gâteau du quotidien.",
+      "category": "Desserts",
+      "serves": 8,
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "15 min",
+        "cook": "45 min",
+        "rest": "15 min",
+        "total": "1 h 15"
+      },
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "https://cdn.shopify.com/s/files/1/0927/2911/4891/files/cannelle_madagascar_pot_en_verre_40g.png?v=1757159368",
+        "ambient_label": "Pause gourmande"
+      },
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "search_terms": [
+        "cake vanille",
+        "recette facile vanille",
+        "cake cannelle vanille",
+        "dessert maison simple"
+      ],
+      "tags": [
+        "dessert",
+        "cake",
+        "vanille",
+        "cannelle",
+        "accès libre"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "desserts-a-la-vanille"
+      ],
+      "product": {
+        "handle": "vanille-bourbon-madagascar-3-gousses",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "vanille-bourbon-madagascar-3-gousses",
+          "cannelle-madagascar-pot-verre-40g",
+          "pack-patisserie-decouverte-vanille-bourbon-madagascar"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la collection",
+        "note": "Une recette simple pour retrouver la gousse et les essentiels de pâtisserie.",
+        "bundle_title": "Le duo essentiel pour un cake de maison.",
+        "bundle_summary": "Une sélection simple pour retrouver la vanille, la cannelle et le bon niveau de gourmandise."
+      },
+      "products": [
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "cannelle-madagascar-pot-verre-40g",
+          "role": "assaisonnement",
+          "selection_label": "Ajouter en assaisonnement"
+        },
+        {
+          "handle": "pack-patisserie-decouverte-vanille-bourbon-madagascar",
+          "role": "pack",
+          "selection_label": "Ajouter le coffret"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Appareil",
+          "items": [
+            {
+              "id": "beurre",
+              "quantity": "140",
+              "unit": "g",
+              "name": "beurre doux fondu"
+            },
+            {
+              "id": "sucre",
+              "quantity": "140",
+              "unit": "g",
+              "name": "sucre"
+            },
+            {
+              "id": "oeufs",
+              "quantity": "3",
+              "unit": "",
+              "name": "oeufs"
+            },
+            {
+              "id": "farine",
+              "quantity": "180",
+              "unit": "g",
+              "name": "farine T55"
+            },
+            {
+              "id": "levure",
+              "quantity": "1",
+              "unit": "c. a cafe",
+              "name": "levure chimique",
+              "scalable": false
+            },
+            {
+              "id": "lait",
+              "quantity": "6",
+              "unit": "cl",
+              "name": "lait entier"
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "unit": "",
+              "name": "gousse de vanille Bourbon",
+              "badge": "Produit VD"
+            },
+            {
+              "id": "cannelle",
+              "quantity": "0.5",
+              "unit": "c. a cafe",
+              "name": "cannelle de Madagascar",
+              "scalable": false
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "monter",
+          "title": "Melanger les bases",
+          "duration": "6 min",
+          "highlight": "Base",
+          "body": "Fouettez les oeufs et le sucre, puis ajoutez le beurre fondu, la vanille et le lait."
+        },
+        {
+          "id": "incorporer",
+          "title": "Ajouter les poudres",
+          "duration": "4 min",
+          "highlight": "Texture",
+          "body": "Incorporez farine, levure et cannelle sans trop travailler la pâte. Elle doit rester souple et brillante."
+        },
+        {
+          "id": "cuire",
+          "title": "Cuire le cake",
+          "duration": "45 min",
+          "highlight": "Cuisson",
+          "body": "Versez en moule et cuisez jusqu’à ce qu’une lame ressorte presque sèche. Laissez tiédir avant de trancher."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Mie",
+          "body": "Ne surmélangez pas apres la farine pour garder une mie fine et moelleuse."
+        },
+        {
+          "title": "Signature",
+          "body": "Ajoutez une pointe de sucre vanille en sortie de four si vous voulez une attaque plus gourmande."
+        }
+      ],
+      "seo": {
+        "title": "Cake moelleux vanille cannelle | Vanille Désiré",
+        "description": "Cake à la vanille et à la cannelle, moelleux, simple et très agréable à refaire pour le goûter ou le matin.",
+        "keywords": [
+          "cake vanille facile",
+          "cake cannelle vanille",
+          "recette dessert vanille simple",
+          "gousse vanille patisserie"
+        ],
+        "body_sections": [
+          {
+            "title": "Pourquoi cette recette fonctionne",
+            "body": "La cannelle reste volontairement discrete pour soutenir la vanille sans la couvrir."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Un four trop fort ou une pâte trop battue sèche la mie et fait disparaître le moelleux."
+          },
+          {
+            "title": "Conservation et service",
+            "body": "Le cake se garde très bien 24 à 48 h filmé. Il peut aussi servir de base pour un petit-déjeuner ou un goûter haut de gamme."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on remplacer la gousse par du sucre vanille ?",
+            "answer": "Oui, mais la gousse apporte une profondeur plus nette et plus naturelle."
+          },
+          {
+            "question": "Quelle cannelle utiliser dans un cake à la vanille ?",
+            "answer": "Une cannelle douce, en petite quantite, pour laisser la vanille mener le profil."
+          }
+        ]
+      },
+      "submitted_at": "2026-03-28T11:01:08Z",
+      "sources": [
+
+      ]
+    },
+    {
+      "slug": "creme-brulee-vanille-bourbon",
+      "title": "Crème brûlée à la vanille Bourbon",
+      "status": "approved",
+      "access": "member",
+      "page_url": "/pages/creme-brulee-vanille-bourbon",
+      "eyebrow": "Recette signature",
+      "subtitle": "Crème dense, sucre net, vanille profonde et service impeccable.",
+      "summary": "Une crème brûlée à la vanille Bourbon, onctueuse dessous et bien cassante sur le dessus.",
+      "description": "Une crème riche et lisse, une cuisson douce et une fine couche caramélisée à casser à la cuillère.",
+      "category": "Desserts",
+      "serves": 6,
+      "difficulty": {
+        "value": "intermédiaire",
+        "label": "Intermédiaire"
+      },
+      "timing": {
+        "prep": "20 min",
+        "cook": "45 min",
+        "rest": "4 h",
+        "total": "5 h 05"
+      },
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "https://cdn.shopify.com/s/files/1/0927/2911/4891/files/E11A88B1-E739-4644-A613-07CE5A404014.png?v=1757499275",
+        "ambient_label": "Atelier dessert"
+      },
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "search_terms": [
+        "crème brûlée",
+        "recette vanille bourbon",
+        "dessert crème vanille",
+        "comment utiliser gousse vanille"
+      ],
+      "tags": [
+        "dessert",
+        "crème brûlée",
+        "vanille",
+        "signature"
+      ],
+      "collections": [
+        "recettes-premium",
+        "desserts-a-la-vanille"
+      ],
+      "product": {
+        "handle": "vanille-bourbon-madagascar-3-gousses",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "vanille-bourbon-madagascar-3-gousses",
+          "caviar-vanille-bourbon-madagascar-20g",
+          "pack-patisserie-premium-vanille-bourbon-madagascar"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la collection",
+        "note": "La gousse fait le coeur aromatique, le caviar peut signer la finition, et le pack simplifie l achat.",
+        "bundle_title": "La sélection pour une crème brûlée maison.",
+        "bundle_summary": "Le coeur aromatique, la finition et le coffret pour refaire la recette avec une vraie lecture de la vanille."
+      },
+      "products": [
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "caviar-vanille-bourbon-madagascar-20g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
+        },
+        {
+          "handle": "pack-patisserie-premium-vanille-bourbon-madagascar",
+          "role": "pack",
+          "selection_label": "Ajouter le coffret"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Appareil",
+          "items": [
+            {
+              "id": "crème",
+              "quantity": "75",
+              "unit": "cl",
+              "name": "crème liquide entiere"
+            },
+            {
+              "id": "jaunes",
+              "quantity": "6",
+              "unit": "",
+              "name": "jaunes d oeufs"
+            },
+            {
+              "id": "sucre",
+              "quantity": "90",
+              "unit": "g",
+              "name": "sucre"
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "unit": "",
+              "name": "gousse de vanille Bourbon",
+              "badge": "Produit VD"
+            }
+          ]
+        },
+        {
+          "title": "Finition",
+          "items": [
+            {
+              "id": "cassonade",
+              "quantity": "60",
+              "unit": "g",
+              "name": "cassonade",
+              "note": "pour caraméliser"
+            },
+            {
+              "id": "caviar",
+              "quantity": "0.5",
+              "unit": "c. a cafe",
+              "name": "caviar de vanille",
+              "scalable": false
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "infusion",
+          "title": "Infuser la crème",
+          "duration": "10 min",
+          "highlight": "Infusion",
+          "body": "Chauffez la crème avec la gousse de vanille ouverte et grattee. Laissez infuser hors du feu pour obtenir un parfum profond et propre."
+        },
+        {
+          "id": "appareil",
+          "title": "Monter l appareil",
+          "duration": "6 min",
+          "highlight": "Base",
+          "body": "Melangez les jaunes et le sucre sans trop blanchir, puis versez la crème infusee en filet. Ecumez si besoin pour une texture plus nette."
+        },
+        {
+          "id": "cuisson",
+          "title": "Cuire doucement",
+          "duration": "45 min",
+          "highlight": "Cuisson",
+          "body": "Versez en ramequins et cuisez au bain-marie. Les crèmes doivent trembler légèrement au centre à la sortie du four."
+        },
+        {
+          "id": "carameliser",
+          "title": "Bruler juste avant service",
+          "duration": "4 min",
+          "highlight": "Service",
+          "body": "Refroidissez completement, saupoudrez de cassonade puis caramelisez. Ajoutez un soupçon de caviar seulement si vous voulez une signature plus evidente."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Cuisson",
+          "body": "Une crème trop cuite devient granuleuse. Arretez des que le centre tremble encore un peu."
+        },
+        {
+          "title": "Caramel",
+          "body": "Brulez au dernier moment pour garder une vraie cassure nette à la cuillere."
+        }
+      ],
+      "seo": {
+        "title": "Crème brûlée à la vanille Bourbon | Vanille Désiré",
+        "description": "Recette de crème brûlée à la vanille Bourbon avec cuisson douce, cassant net et vraie lecture de la gousse.",
+        "keywords": [
+          "crème brûlée vanille",
+          "recette crème brûlée bourbon",
+          "gousse de vanille crème brûlée",
+          "dessert premium vanille"
+        ],
+        "body_sections": [
+          {
+            "title": "Pourquoi cette recette fonctionne",
+            "body": "La crème est infusee avant d etre melangee, ce qui donne une vanille plus profonde et moins plate."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Ne faites pas bouillir la crème et ne laissez pas les ramequins trop longtemps au four. Une cuisson trop forte casse la texture."
+          },
+          {
+            "title": "Conservation et service",
+            "body": "Gardez les crèmes au froid et brulez-les à la demande pour conserver le contraste crèmeux-croquant."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on preparer les crèmes la veille ?",
+            "answer": "Oui, c’est même idéal. Gardez seulement la caramélisation pour le dernier moment."
+          },
+          {
+            "question": "Quelle vanille choisir pour une crème brûlée ?",
+            "answer": "Une gousse Bourbon souple et bien grasse donne une infusion plus ample et plus régulière."
+          }
+        ]
+      },
+      "submitted_at": "2026-03-28T11:01:08Z",
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Crème Brûlée I",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Cr%C3%A8me_Br%C3%BBl%C3%A9e_I",
+          "license": "CC BY-SA 4.0",
+          "note": "Base ouverte adaptée pour la version Vanille Désiré."
+        }
+      ]
+    },
+    {
+      "slug": "riz-lait-tonka-vanille",
+      "status": "approved",
+      "access": "member",
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-27T13:00:00Z",
+      "title": "Riz au lait tonka vanille",
+      "page_url": "/pages/riz-lait-tonka-vanille",
+      "eyebrow": "Recette signature",
+      "subtitle": "Une crème de riz ronde, vanille lisible, finale tonka bien tenue.",
+      "summary": "Un riz au lait crémeux, infusé à la vanille et à la tonka, à servir tiède ou froid.",
+      "description": "Le lait infuse doucement pour donner un dessert ample, crémeux et très réconfortant.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "15 min",
+        "cook": "35 min",
+        "rest": "30 min",
+        "total": "1 h 20"
+      },
+      "serves": 6,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "https://cdn.shopify.com/s/files/1/0927/2911/4891/files/caviar_fond_anthracite_et_logo.jpg?v=1757768251",
+        "ambient_label": "Madagascar"
+      },
+      "search_terms": [
+        "riz au lait",
+        "tonka",
+        "vanille bourbon",
+        "dessert crèmeux",
+        "riz au lait maison"
+      ],
+      "product": {
+        "handle": "caviar-vanille-bourbon-madagascar-20g",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "caviar-vanille-bourbon-madagascar-20g",
+          "vanille-bourbon-madagascar-3-gousses",
+          "extrait-vanille-bourbon-madagascar-20ml"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la collection",
+        "note": "Le caviar donne une finition precise, la gousse structure l infusion, et l extrait aide a recalibrer au service.",
+        "bundle_title": "Le trio pour un riz au lait bien tenu.",
+        "bundle_summary": "Infusion, finition et ajustement final pour garder un dessert crémeux, rond et très régulier."
+      },
+      "ingredient_groups": [
+        {
+          "title": "Base crèmeuse",
+          "items": [
+            {
+              "id": "riz-rond",
+              "quantity": "180",
+              "unit": "g",
+              "name": "riz rond",
+              "note": "type dessert",
+              "badge": "Base"
+            },
+            {
+              "id": "lait",
+              "quantity": "1",
+              "unit": "l",
+              "name": "lait entier"
+            },
+            {
+              "id": "crème",
+              "quantity": "20",
+              "unit": "cl",
+              "name": "crème liquide"
+            },
+            {
+              "id": "sucre",
+              "quantity": "80",
+              "unit": "g",
+              "name": "sucre"
+            },
+            {
+              "id": "gousse",
+              "quantity": "1",
+              "unit": "",
+              "name": "gousse de vanille Bourbon"
+            },
+            {
+              "id": "tonka",
+              "quantity": "0.25",
+              "unit": "",
+              "name": "feve tonka",
+              "note": "rape très finement",
+              "scalable": false
+            },
+            {
+              "id": "sel",
+              "quantity": "1",
+              "unit": "pincee",
+              "name": "sel fin",
+              "scalable": false
+            }
+          ]
+        },
+        {
+          "title": "Finition",
+          "items": [
+            {
+              "id": "caviar",
+              "quantity": "1",
+              "unit": "c. a cafe",
+              "name": "caviar de vanille",
+              "badge": "Produit VD",
+              "scalable": false
+            },
+            {
+              "id": "extrait",
+              "quantity": "3",
+              "unit": "gouttes",
+              "name": "extrait de vanille",
+              "scalable": false
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "infuser",
+          "title": "Infuser le lait",
+          "duration": "8 min",
+          "highlight": "Infusion",
+          "body": "Chauffez le lait avec la crème, la gousse fendue et une pincee de sel. Coupez le feu des les premiers frissons et laissez infuser quelques minutes.",
+          "media_caption": "Une infusion douce donne une vanille ample sans cuisson agressive."
+        },
+        {
+          "id": "verser-riz",
+          "title": "Cuire le riz lentement",
+          "duration": "30 min",
+          "highlight": "Cuisson",
+          "body": "Ajoutez le riz et le sucre, puis cuisez à feu doux en remuant très régulièrement. Le grain doit cuire sans casser et le fond rester crémeux.",
+          "media_caption": "Cherchez une texture qui nappe la spatule."
+        },
+        {
+          "id": "ajuster",
+          "title": "Finir et ajuster",
+          "duration": "5 min",
+          "highlight": "Finition",
+          "body": "Retirez la gousse, ajoutez un soupçon de tonka rapee puis rectifiez avec le caviar et quelques gouttes d extrait. Laissez reposer avant de servir.",
+          "media_caption": "La tonka doit rester en soutien, pas prendre la recette."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Texture",
+          "body": "Le riz au lait doit paraître légèrement trop souple a chaud, il se tend en refroidissant."
+        },
+        {
+          "title": "Vanille",
+          "body": "Faites la structure avec la gousse et la precision finale avec le caviar ou l extrait."
+        }
+      ],
+      "seo": {
+        "title": "Riz au lait tonka vanille | Vanille Désiré",
+        "description": "Recette de riz au lait tonka vanille, crèmeux, élégant et facile à refaire avec les produits Vanille Désiré.",
+        "keywords": [
+          "riz au lait vanille",
+          "recette tonka vanille",
+          "dessert crèmeux vanille",
+          "riz au lait bourbon"
+        ],
+        "body_sections": [
+          {
+            "title": "Pourquoi cette recette fonctionne",
+            "body": "La vanille est posee en infusion longue, puis reajustee en finition. Cela donne une lecture plus nette qu une simple cuisson de gousse dans le lait."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Ne cuisez pas trop vite et ne forcez pas sur la tonka. Le riz doit rester rond, crèmeux et lisible."
+          },
+          {
+            "title": "Conservation et service",
+            "body": "Servez tiède ou froid, avec un léger rappel de caviar juste avant d envoyer si vous voulez une finition plus marquée."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on faire ce riz au lait sans tonka ?",
+            "answer": "Oui, la recette tient deja très bien avec la vanille seule. La tonka reste une nuance."
+          },
+          {
+            "question": "Pourquoi ajouter du caviar en fin de recette ?",
+            "answer": "Il renforce la presence aromatique sans faire recuire la vanille."
+          }
+        ]
+      },
+      "tags": [
+        "dessert",
+        "vanille",
+        "riz au lait",
+        "tonka",
+        "signature"
+      ],
+      "collections": [
+        "recettes-premium",
+        "desserts-a-la-vanille"
+      ],
+      "products": [
+        {
+          "handle": "caviar-vanille-bourbon-madagascar-20g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
+        },
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "infusion",
+          "selection_label": "Ajouter en infusion"
+        },
+        {
+          "handle": "extrait-vanille-bourbon-madagascar-20ml",
+          "role": "ajustement",
+          "selection_label": "Ajouter en finition"
+        }
+      ],
+      "sources": [
+
+      ]
+    },
+    {
+      "slug": "accords-vanille-salee",
+      "status": "approved",
+      "access": "free",
+      "submitted_by": {
+        "name": "Vanille Désiré Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-27T12:10:00Z",
+      "title": "Accords salés à la vanille",
+      "page_url": "/pages/recettes-accords",
+      "eyebrow": "Guide cuisine",
+      "subtitle": "Poisson, beurre, legumes et sauces ou la vanille joue en fond.",
+      "summary": "Des pistes concrètes pour marier la vanille avec poissons, légumes, sauces et cuissons salées.",
+      "description": "Trois familles d’accords pour utiliser la vanille dans une cuisine salée contemporaine avec justesse.",
+      "category": "Guides",
+      "difficulty": {
+        "value": "intermédiaire",
+        "label": "Intermédiaire"
+      },
+      "timing": {
+        "prep": "Lecture",
+        "cook": "",
+        "rest": "",
+        "total": "6 min"
+      },
+      "serves": 1,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Accords"
+      },
+      "search_terms": [
+        "vanille salée",
+        "accords",
+        "poisson",
+        "legumes",
+        "beurre",
+        "sauce"
+      ],
+      "product": {
+        "handle": "vanille-bourbon-madagascar-3-gousses",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "vanille-bourbon-madagascar-3-gousses",
+          "caviar-vanille-bourbon-madagascar-20g",
+          "extrait-vanille-bourbon-madagascar-20ml"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la collection",
+        "note": "Guide pratique pour découvrir les accords salés autour de la vanille.",
+        "bundle_title": "La sélection pour explorer la vanille salée.",
+        "bundle_summary": "Quelques repères maison pour entrer dans le salé avec une vanille discrète, précise et facile à doser."
+      },
+      "ingredient_groups": [
+        {
+          "title": "Supports qui repondent bien",
+          "items": [
+            {
+              "id": "beurre",
+              "quantity": "30",
+              "unit": "g",
+              "name": "beurre doux",
+              "note": "Pour sauces courtes, glaçages et emulsions.",
+              "scalable": true,
+              "badge": "Base"
+            },
+            {
+              "id": "poisson-blanc",
+              "quantity": "2",
+              "unit": "filets",
+              "name": "poisson blanc",
+              "note": "Cabillaud, maigre ou saint-pierre.",
+              "scalable": true,
+              "badge": "Mer"
+            },
+            {
+              "id": "carotte",
+              "quantity": "4",
+              "unit": "",
+              "name": "carottes ou legumes racines",
+              "note": "Une cuisson douce supporte bien la vanille.",
+              "scalable": true,
+              "badge": "Legumes"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "beurre-blanc",
+          "title": "Commencer par le beurre et les sauces courtes",
+          "body": "Infuser un petit morceau de gousse dans un beurre monte, une crème reduite ou un jus court. La vanille doit rester en fond et ne jamais dominer le sel ni l'acidite.",
+          "duration": "2 min",
+          "highlight": "Fond"
+        },
+        {
+          "id": "chair-blanche",
+          "title": "Associer aux chairs blanches et poissons nets",
+          "body": "La vanille fonctionne mieux avec des chairs douces, un poisson blanc, des coquillages ou une volaille peu marquee. Restez sur des cuissons simples et des assaisonnements propres.",
+          "duration": "2 min",
+          "highlight": "Equilibre"
+        },
+        {
+          "id": "legumes",
+          "title": "Finir avec les legumes doux et racines",
+          "body": "Carotte, patate douce, courge ou panais acceptent une infusion courte. Travaillez plutot sur le beurre, le lait ou le jus de cuisson que sur la pulpe brute.",
+          "duration": "2 min",
+          "highlight": "Cuisson douce"
+        }
+      ],
+      "tips": [
+        {
+          "title": "Dosage",
+          "body": "Commencez toujours en dessous de votre intuition. En sale, la vanille doit signer l'assiette, pas la parfumer de façon frontale."
+        },
+        {
+          "title": "Support gras",
+          "body": "Le gras court, le beurre et certaines sauces crèmees sont les meilleurs vehicules pour diffuser la vanille sans lourdeur."
+        },
+        {
+          "title": "Acidite",
+          "body": "Gardez une pointe d'acidite ou de sel franc pour éviter toute sensation trop dessert dans l'assiette."
+        }
+      ],
+      "seo": {
+        "title": "Accords salés à la vanille",
+        "description": "Guide cuisine pour travailler la vanille dans une cuisine salée.",
+        "keywords": [
+          "vanille salée",
+          "accords vanille poisson",
+          "comment utiliser la vanille en cuisine salée",
+          "vanille et legumes"
+        ],
+        "body_sections": [
+          {
+            "title": "Ou la vanille fonctionne vraiment en sale",
+            "body": "La vanille donne les meilleurs résultats lorsqu'elle soutient un beurre, une sauce courte, un jus ou un produit a chair douce. Elle doit rester en arriere-plan, jamais sucrer la perception du plat."
+          },
+          {
+            "title": "Les meilleurs produits pour commencer",
+            "body": "Poissons blancs, coquillages, volailles douces, carottes, courges et panais sont de bons points d'entrée. Ce sont des supports lisibles qui acceptent une infusion fine."
+          },
+          {
+            "title": "Le bon geste en cuisine",
+            "body": "Commencez toujours avec une petite quantite de vanille et goutez très tot. Un support gras ou crèmeux aide a diffuser l'aromatique de façon plus naturelle qu'une cuisson brute."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Avec quels plats salés associer la vanille ?",
+            "answer": "La vanille fonctionne surtout avec les sauces courtes, les beurres montes, les chairs blanches, certains coquillages et les legumes doux."
+          },
+          {
+            "question": "Pourquoi la vanille peut sembler trop dessert en salé ?",
+            "answer": "C'est souvent un probleme de dosage ou d'equilibre. Il faut conserver du sel, de l'acidite et une lecture nette du produit principal."
+          },
+          {
+            "question": "Faut-il utiliser gousse, extrait ou caviar en salé ?",
+            "answer": "La gousse est idéale pour une infusion fine, l'extrait pour ajuster très légèrement une sauce, et le caviar pour des usages plus directs ou precis."
+          }
+        ]
+      },
+      "tags": [
+
+      ],
+      "collections": [
+
+      ],
+      "products": [
+
+      ],
+      "sources": [
+
+      ]
+    },
+    {
+      "slug": "beignet-banane",
+      "status": "approved",
+      "access": "member",
+      "submitted_by": {
+        "name": "Vanille Désiré Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-27T12:00:00Z",
+      "title": "Beignets de banane à la vanille",
+      "page_url": "/pages/beignet-banane",
+      "eyebrow": "Recette signature",
+      "subtitle": "Friture nette, coeur fondant, vanille lisible sans surcharge.",
+      "summary": "Des beignets de banane croustillants dehors, fondants dedans, relevés d’une vanille bien nette.",
+      "description": "Une base maison précise pour obtenir des beignets de banane croustillants à l'extérieur, moelleux au centre, avec une vanille bien tenue.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "25 min",
+        "cook": "10 min",
+        "rest": "20 min",
+        "total": "55 min"
+      },
+      "serves": 10,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "https://cdn.shopify.com/s/files/1/0000/0000/files/vanille_bourbon_accueil.jpg",
+        "ambient_label": "Madagascar"
+      },
+      "search_terms": [
+        "banane",
+        "beignet",
+        "dessert",
+        "vanille",
+        "friture",
+        "croustillant",
+        "gourmand"
+      ],
+      "product": {
+        "handle": "vanille-bourbon-madagascar-3-gousses",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "vanille-bourbon-madagascar-3-gousses",
+          "sucre-vanille-bourbon-madagascar-60g",
+          "extrait-vanille-bourbon-madagascar-20ml"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la selection",
+        "note": "La gousse pose la structure, l extrait aide l appareil, et le sucre vanille peut finir les beignets a chaud.",
+        "bundle_title": "La sélection pour des beignets gourmands et nets.",
+        "bundle_summary": "Tout ce qu’il faut pour garder la banane au centre, avec une vanille lisible et une finition propre."
+      },
+      "ingredient_groups": [
+        {
+          "title": "Base",
+          "items": [
+            {
+              "id": "oeufs",
+              "quantity": "3",
+              "unit": "oeufs",
+              "name": "oeufs",
+              "note": "",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "farine",
+              "quantity": "400",
+              "unit": "g",
+              "name": "farine T55",
+              "note": "",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "sucre",
+              "quantity": "100",
+              "unit": "g",
+              "name": "sucre",
+              "note": "",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "levure",
+              "quantity": "1",
+              "unit": "sachet",
+              "name": "levure chimique",
+              "note": "Environ 11 g.",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "lait",
+              "quantity": "35",
+              "unit": "cl",
+              "name": "lait",
+              "note": "",
+              "scalable": true,
+              "badge": ""
+            }
+          ]
+        },
+        {
+          "title": "Parfum et finition",
+          "items": [
+            {
+              "id": "vanille",
+              "quantity": "2",
+              "unit": "gousses",
+              "name": "vanille Bourbon",
+              "note": "Fendues et grattees, ou 1 c. a cafe de sucre vanille.",
+              "scalable": true,
+              "badge": "VD"
+            },
+            {
+              "id": "bananes",
+              "quantity": "7",
+              "unit": "bananes",
+              "name": "bien mures",
+              "note": "Compter 6 a 8 selon la taille.",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "huile",
+              "quantity": "",
+              "unit": "",
+              "name": "huile pour friture",
+              "note": "Arachide ou tournesol raffine.",
+              "scalable": false,
+              "badge": "Selon la casserole"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "base-sucrée",
+          "title": "Battre la base sucrée",
+          "body": "Fouetter les oeufs et le sucre. Ajouter les graines de vanille ou le sucre vanille, puis melanger jusqu'a obtenir une base homogene.",
+          "duration": "4 min",
+          "highlight": "Base"
+        },
+        {
+          "id": "pate",
+          "title": "Obtenir une pâte nappante",
+          "body": "Incorporer la farine et la levure, puis verser le lait progressivement jusqu'à obtenir une pâte lisse, souple et nappante. Laisser reposer 20 à 30 minutes.",
+          "duration": "8 min",
+          "highlight": "Texture"
+        },
+        {
+          "id": "friture",
+          "title": "Preparer la friture",
+          "body": "Éplucher les bananes, couper en rondelles ou en bâtonnets, puis chauffer l’huile à environ 170 à 175 degrés.",
+          "duration": "6 min",
+          "highlight": "170-175 C"
+        },
+        {
+          "id": "plonger",
+          "title": "Enrober et plonger",
+          "body": "Tremper les morceaux de banane dans la pâte et les frire par petites quantités pour garder une belle temperature d'huile.",
+          "duration": "5 min",
+          "highlight": "Petites fournees"
+        },
+        {
+          "id": "dorer",
+          "title": "Colorer puis egoutter",
+          "body": "Cuire 2 a 3 minutes par face jusqu’à obtenir une couleur dorée, puis egoutter sur papier absorbant.",
+          "duration": "6 min",
+          "highlight": "Dore"
+        },
+        {
+          "id": "servir",
+          "title": "Finir et servir",
+          "body": "Servir chaud, nature ou avec un filet de miel, et finir si besoin avec un voile de sucre vanille.",
+          "duration": "3 min",
+          "highlight": "Service"
+        }
+      ],
+      "tips": [
+        {
+          "title": "Pate & texture",
+          "body": "La pâte doit rester nappante. Si elle est trop épaisse, detendez-la avec un peu de lait. Si elle file trop, ajoutez un soupçon de farine."
+        },
+        {
+          "title": "Temperature de friture",
+          "body": "Une goutte de pâte doit frire tout de suite sans brunir trop vite. Travaillez en petites fournees pour éviter la chute de temperature."
+        },
+        {
+          "title": "Dressage",
+          "body": "Servez au moment ou les beignets sont encore très legers, avec un voile de sucre ou une pointe de miel."
+        }
+      ],
+      "seo": {
+        "title": "Beignets de banane à la vanille",
+        "description": "Recette de beignets de banane à la vanille Bourbon, simple, rapide et fluide à suivre.",
+        "keywords": [
+          "beignets de banane",
+          "recette vanille bourbon",
+          "dessert banane vanille",
+          "recette gousse de vanille"
+        ],
+        "body_sections": [
+          {
+            "title": "Pourquoi cette recette fonctionne",
+            "body": "La pâte reste volontairement simple pour laisser la banane et la vanille s'exprimer sans lourdeur. La friture courte garde une coque fine, tandis que la banane apporte le fondant."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Une huile trop froide donne des beignets gras, et une pate trop épaisse masque le fruit. Travaillez en petites fournees et gardez une texture nappante."
+          },
+          {
+            "title": "Conservation et service",
+            "body": "Les beignets sont meilleurs à la minute. Si besoin, gardez-les quelques instants sur grille dans un four doux avant de servir avec sucre vanille, miel ou une crème très légère."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on remplacer la gousse de vanille dans les beignets de banane ?",
+            "answer": "Oui. Un sucre vanille de bonne qualite ou un peu d'extrait naturel peut depanner, mais la gousse garde un parfum plus net et plus élégant."
+          },
+          {
+            "question": "Comment savoir si l'huile est a bonne temperature ?",
+            "answer": "Une petite goutte de pâte doit remonter rapidement et frire sans brunir trop vite. Visez une huile autour de 170 a 175 degres."
+          },
+          {
+            "question": "Quelle banane choisir pour cette recette ?",
+            "answer": "Choisissez des bananes bien mures mais encore fermes. Elles apportent le moelleux sans se defaire completement dans la friture."
+          }
+        ]
+      },
+      "tags": [
+
+      ],
+      "collections": [
+
+      ],
+      "products": [
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
+        },
+        {
+          "handle": "extrait-vanille-bourbon-madagascar-20ml",
+          "role": "ajustement",
+          "selection_label": "Ajouter en finition"
+        }
+      ],
+      "sources": [
+
+      ]
+    },
+    {
+      "slug": "pancakes-vanille-sucre",
+      "status": "approved",
+      "access": "free",
+      "title": "Pancakes vanille sucre",
+      "page_url": "/pages/pancakes-vanille-sucre",
+      "eyebrow": "Recette facile",
+      "subtitle": "Une pâte courte, une vanille nette, une finition sucre vanille bien propre.",
+      "summary": "Des pancakes moelleux à la vanille, faciles à refaire pour le petit-déjeuner ou le brunch.",
+      "description": "Des pancakes peu sucrés, servis bien chauds, avec une vanille nette du premier au dernier morceau.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "10 min",
+        "cook": "12 min",
+        "rest": "5 min",
+        "total": "27 min"
+      },
+      "serves": 4,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Nature Madagascar"
+      },
+      "search_terms": [
+        "pancakes vanille",
+        "petit-déjeuner vanille",
+        "sucre vanille",
+        "pancake facile"
+      ],
+      "tags": [
+        "dessert",
+        "petit-déjeuner",
+        "pancake",
+        "vanille",
+        "recette facile"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "petits-dejeuners-a-la-vanille"
+      ],
+      "product": {
+        "handle": "sucre-vanille-bourbon-madagascar-60g",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "sucre-vanille-bourbon-madagascar-60g",
+          "extrait-vanille-bourbon-madagascar-20ml",
+          "vanille-bourbon-madagascar-3-gousses"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la selection",
+        "note": "Le sucre vanille pose la finition, l extrait securise la regularite et la gousse permet une version plus signature quand vous voulez monter en gamme.",
+        "bundle_title": "Le nécessaire pour des pancakes bien finis.",
+        "bundle_summary": "Sucre vanillé, extrait et gousse pour une pâte du matin très simple mais vraiment soignée."
+      },
+      "products": [
+        {
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
+        },
+        {
+          "handle": "extrait-vanille-bourbon-madagascar-20ml",
+          "role": "ajustement",
+          "selection_label": "Ajouter en finition"
+        },
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Pate",
+          "items": [
+            {
+              "id": "farine",
+              "quantity": "200",
+              "unit": "g",
+              "name": "farine"
+            },
+            {
+              "id": "levure",
+              "quantity": "2",
+              "unit": "c. a cafe",
+              "name": "levure chimique"
+            },
+            {
+              "id": "sel",
+              "quantity": "1",
+              "unit": "pincee",
+              "name": "sel fin",
+              "scalable": false
+            },
+            {
+              "id": "oeuf",
+              "quantity": "1",
+              "name": "oeuf"
+            },
+            {
+              "id": "lait",
+              "quantity": "25",
+              "unit": "cl",
+              "name": "lait"
+            },
+            {
+              "id": "beurre",
+              "quantity": "30",
+              "unit": "g",
+              "name": "beurre fondu"
+            },
+            {
+              "id": "extrait",
+              "quantity": "1",
+              "unit": "c. a cafe",
+              "name": "extrait de vanille Bourbon"
+            }
+          ]
+        },
+        {
+          "title": "Finition",
+          "items": [
+            {
+              "id": "sucre-vanille",
+              "quantity": "1",
+              "unit": "a 2",
+              "name": "c. a soupe de sucre vanille Bourbon"
+            },
+            {
+              "id": "gousse",
+              "quantity": "0.5",
+              "name": "gousse de vanille Bourbon",
+              "note": "optionnel, pour les graines au dressage"
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "melanger-sec",
+          "title": "Melanger la base seche",
+          "duration": "3 min",
+          "highlight": "Base",
+          "body": "Assemblez farine, levure et sel sans trop travailler pour garder des pancakes souples."
+        },
+        {
+          "id": "assembler",
+          "title": "Monter la pâte vanille",
+          "duration": "4 min",
+          "highlight": "Texture",
+          "body": "Fouettez oeuf, lait, beurre fondu et extrait de vanille, puis versez sur le sec. Melangez juste assez pour effacer les poches de farine."
+        },
+        {
+          "id": "reposer",
+          "title": "Laisser se detendre",
+          "duration": "5 min",
+          "highlight": "Repos",
+          "body": "Laissez la pâte reposer quelques minutes pour une texture plus régulière à la cuisson."
+        },
+        {
+          "id": "cuire",
+          "title": "Cuire et finir au sucre vanille",
+          "duration": "12 min",
+          "highlight": "Cuisson",
+          "body": "Cuisez par petites louches sur une poele légèrement graissee. Saupoudrez de sucre vanille et de quelques graines avant de servir chaud."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Pate",
+          "body": "Une pâte encore légèrement grumeleuse donne des pancakes plus moelleux."
+        },
+        {
+          "title": "Service",
+          "body": "Servez aussitôt pour garder le contraste entre bords dorés et coeur souple."
+        }
+      ],
+      "seo": {
+        "title": "Pancakes vanille sucre | Vanille Désiré",
+        "description": "Pancakes vanille faciles à refaire, avec sucre vanille Bourbon et finition très lisible.",
+        "keywords": [
+          "pancakes vanille",
+          "recette pancake facile",
+          "sucre vanille bourbon",
+          "petit-déjeuner vanille"
+        ],
+        "body_sections": [
+          {
+            "title": "Pourquoi on l’aime",
+            "body": "La vanille trouve naturellement sa place dans une pâte du matin simple, légère et rapide à refaire."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Ne fouettez pas trop et ne cuisez pas sur feu trop fort, sinon les pancakes se dessèchent avant d’être cuits à cœur."
+          },
+          {
+            "title": "Service et variations",
+            "body": "Ajoutez fruits frais ou beurre sale, mais gardez une finition légère pour laisser la vanille passer."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on remplacer l extrait par une gousse ?",
+            "answer": "Oui, comptez environ une demi-gousse pour cette quantite de pate."
+          },
+          {
+            "question": "Peut-on preparer la pâte en avance ?",
+            "answer": "Oui, mais pas trop longtemps: faites-la dans l heure pour garder une bonne levée."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Pancake",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Pancake",
+          "license": "CC BY-SA 4.0",
+          "note": "Base adaptée pour mettre la vanille Bourbon et le sucre vanille au premier plan."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-28T13:29:36Z"
+    },
+    {
+      "slug": "muffins-avoine-raisin-vanille",
+      "status": "approved",
+      "access": "free",
+      "title": "Muffins avoine raisin vanille",
+      "page_url": "/pages/muffins-avoine-raisin-vanille",
+      "eyebrow": "Recette facile",
+      "subtitle": "Des muffins moelleux, céréaliers, avec une vanille qui prolonge le raisin sans lourdeur.",
+      "summary": "Des muffins moelleux à l’avoine et au raisin, relevés d’une pointe de vanille et de cannelle.",
+      "description": "Une pâte simple, un cœur souple et juste assez de raisins pour un petit-déjeuner ou un goûter facile.",
+      "category": "Desserts",
+      "difficulty": {
+        "value": "facile",
+        "label": "Facile"
+      },
+      "timing": {
+        "prep": "15 min",
+        "cook": "20 min",
+        "rest": "10 min",
+        "total": "45 min"
+      },
+      "serves": 8,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Nature Madagascar"
+      },
+      "search_terms": [
+        "muffins vanille",
+        "muffins avoine raisins",
+        "petit-déjeuner vanille",
+        "muffins cannelle"
+      ],
+      "tags": [
+        "dessert",
+        "muffin",
+        "avoine",
+        "raisin",
+        "vanille",
+        "recette facile"
+      ],
+      "collections": [
+        "recettes-gratuites",
+        "petits-dejeuners-a-la-vanille"
+      ],
+      "product": {
+        "handle": "vanille-bourbon-madagascar-3-gousses",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "vanille-bourbon-madagascar-3-gousses",
+          "cannelle-madagascar-pot-verre-40g",
+          "sucre-vanille-bourbon-madagascar-60g"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la selection",
+        "note": "La gousse donne la signature, la cannelle soutient l avoine et le sucre vanille permet une finition courte en sortie de four.",
+        "bundle_title": "La sélection pour des muffins du matin très nets.",
+        "bundle_summary": "Une base simple pour porter l’avoine, le raisin et une vanille légère qui reste bien présente."
+      },
+      "products": [
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "essentiel",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "cannelle-madagascar-pot-verre-40g",
+          "role": "assaisonnement",
+          "selection_label": "Ajouter en assaisonnement"
+        },
+        {
+          "handle": "sucre-vanille-bourbon-madagascar-60g",
+          "role": "finition",
+          "selection_label": "Ajouter en finition"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Base",
+          "items": [
+            {
+              "id": "farine-complete",
+              "quantity": "140",
+              "unit": "g",
+              "name": "farine complete"
+            },
+            {
+              "id": "avoine",
+              "quantity": "120",
+              "unit": "g",
+              "name": "flocons d avoine"
+            },
+            {
+              "id": "sucre",
+              "quantity": "75",
+              "unit": "g",
+              "name": "sucre blond"
+            },
+            {
+              "id": "levure",
+              "quantity": "2",
+              "unit": "c. a cafe",
+              "name": "levure chimique"
+            },
+            {
+              "id": "oeuf",
+              "quantity": "1",
+              "name": "oeuf"
+            },
+            {
+              "id": "lait",
+              "quantity": "18",
+              "unit": "cl",
+              "name": "lait"
+            },
+            {
+              "id": "huile",
+              "quantity": "6",
+              "unit": "cl",
+              "name": "huile neutre"
+            },
+            {
+              "id": "raisins",
+              "quantity": "90",
+              "unit": "g",
+              "name": "raisins secs"
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "name": "gousse de vanille Bourbon"
+            },
+            {
+              "id": "cannelle",
+              "quantity": "0.5",
+              "unit": "c. a cafe",
+              "name": "cannelle de Madagascar"
+            }
+          ]
+        },
+        {
+          "title": "Finition",
+          "items": [
+            {
+              "id": "sucre-vanille",
+              "quantity": "1",
+              "unit": "c. a soupe",
+              "name": "sucre vanille Bourbon",
+              "scalable": false
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "preparer",
+          "title": "Assembler sec et humide séparément",
+          "duration": "5 min",
+          "highlight": "Base",
+          "body": "Melangez farine, avoine, sucre, levure et cannelle d’un côté. Fouettez oeuf, lait, huile et graines de vanille de l autre."
+        },
+        {
+          "id": "monter",
+          "title": "Former une pâte courte",
+          "duration": "4 min",
+          "highlight": "Texture",
+          "body": "Reunissez les deux masses sans trop travailler, puis incorporez les raisins pour garder une mie légère."
+        },
+        {
+          "id": "cuire",
+          "title": "Cuire jusqu’aux bords dorés",
+          "duration": "20 min",
+          "highlight": "Cuisson",
+          "body": "Repartissez en moules beurrés, poudrez légèrement de sucre vanille et cuisez jusqu’à coloration nette."
+        },
+        {
+          "id": "reposer",
+          "title": "Stabiliser avant service",
+          "duration": "10 min",
+          "highlight": "Service",
+          "body": "Laissez tiédir sur grille pour garder des bords propres et une texture moelleuse."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Avoine",
+          "body": "L’avoine boit vite: ne laissez pas la pâte attendre trop longtemps avant cuisson."
+        },
+        {
+          "title": "Raisin",
+          "body": "Vous pouvez gonfler les raisins dans un peu d’eau tiède pour une texture plus souple."
+        }
+      ],
+      "seo": {
+        "title": "Muffins avoine raisin vanille | Vanille Désiré",
+        "description": "Muffins avoine raisin vanille : une recette facile, moelleuse et parfaite pour le petit-déjeuner ou le goûter.",
+        "keywords": [
+          "muffins avoine vanille",
+          "muffins raisin cannelle",
+          "recette muffins facile",
+          "petit-déjeuner vanille"
+        ],
+        "body_sections": [
+          {
+            "title": "Lecture gustative",
+            "body": "L’avoine donne la base, le raisin amène la rondeur et la vanille garde la ligne aromatique."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Ne surmélangez pas la pâte, sinon les muffins deviennent compacts."
+          },
+          {
+            "title": "Conservation",
+            "body": "Ils tiennent bien 24 heures en boite, puis peuvent etre rechauffes très légèrement."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on remplacer les raisins ?",
+            "answer": "Oui, par des des de pomme ou un peu de poire, en gardant une garniture discrete."
+          },
+          {
+            "question": "Peut-on les faire sans cannelle ?",
+            "answer": "Oui, mais elle aide ici a allonger la vanille et l avoine."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Raisin Oatmeal Muffins",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Raisin_Oatmeal_Muffins",
+          "license": "CC BY-SA 4.0",
+          "note": "Base adaptée avec vanille Bourbon et cannelle de Madagascar."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-28T13:29:36Z"
+    },
+    {
+      "slug": "volaille-rotie-vanille-jus-court",
+      "status": "approved",
+      "access": "member",
+      "title": "Volaille rôtie vanille et jus court",
+      "page_url": "/pages/volaille-rotie-vanille-jus-court",
+      "eyebrow": "Recette signature",
+      "subtitle": "Une peau bien rôtie, un jus court brillant et une vanille discrète qui reste pleinement du côté du plat.",
+      "summary": "Une volaille de maison servie avec un jus court à la vanille, plus longue en bouche, plus brillante au service et très facile à aimer à table.",
+      "description": "Toute la recette repose sur la justesse. La cuisson reste classique, puis la vanille arrive seulement dans le jus pour donner plus de profondeur sans tirer le plat vers le dessert.",
+      "category": "Sale",
+      "difficulty": {
+        "value": "signature",
+        "label": "Signature"
+      },
+      "timing": {
+        "prep": "20 min",
+        "cook": "1 h 10",
+        "rest": "15 min",
+        "total": "1 h 45"
+      },
+      "serves": 4,
+      "hero": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
+        "image_url": "",
+        "ambient_label": "Peau rôtie, jus court, vanille discrète.",
+        "image_alt": "Volaille rôtie découpée avec un jus court à la vanille."
+      },
+      "search_terms": [
+        "volaille vanille",
+        "poulet rôti vanille",
+        "jus court vanille",
+        "recette salée vanille"
+      ],
+      "tags": [
+        "salé",
+        "volaille",
+        "vanille",
+        "plat signature",
+        "compte client"
+      ],
+      "collections": [
+        "recettes-premium",
+        "vanille-salée"
+      ],
+      "product": {
+        "handle": "vanille-bourbon-madagascar-3-gousses",
+        "collection_handle": "vanille-bourbon",
+        "required_handles": [
+          "vanille-bourbon-madagascar-3-gousses",
+          "poivre-sauvage-voatsiperifery-sachet-50g-madagascar",
+          "extrait-vanille-bourbon-madagascar-20ml"
+        ],
+        "primary_label": "Voir le produit",
+        "secondary_label": "Voir la sélection",
+        "note": "La gousse parfume le jus avec plus de précision, le poivre sauvage porte la finale et l’extrait reste une correction légère, utile en toute fin.",
+        "bundle_title": "La sélection pour une volaille rôtie vraiment signée.",
+        "bundle_summary": "Un trio précis pour donner du relief au jus, garder la peau bien rôtie et poser une vanille salée nette, sans effet gadget."
+      },
+      "products": [
+        {
+          "handle": "vanille-bourbon-madagascar-3-gousses",
+          "role": "infusion",
+          "selection_label": "Ajouter en infusion"
+        },
+        {
+          "handle": "poivre-sauvage-voatsiperifery-sachet-50g-madagascar",
+          "role": "signature",
+          "selection_label": "Garder dans la sélection"
+        },
+        {
+          "handle": "extrait-vanille-bourbon-madagascar-20ml",
+          "role": "ajustement",
+          "selection_label": "Ajouter en finition"
+        }
+      ],
+      "ingredient_groups": [
+        {
+          "title": "Volaille et jus",
+          "items": [
+            {
+              "id": "volaille",
+              "quantity": "1",
+              "unit": "",
+              "name": "petit poulet fermier",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "beurre",
+              "quantity": "40",
+              "unit": "g",
+              "name": "beurre",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "huile",
+              "quantity": "1",
+              "unit": "c. à soupe",
+              "name": "huile neutre",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "echalote",
+              "quantity": "2",
+              "unit": "",
+              "name": "échalotes",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "bouillon",
+              "quantity": "20",
+              "unit": "cl",
+              "name": "bouillon de volaille",
+              "scalable": true,
+              "badge": ""
+            },
+            {
+              "id": "vanille",
+              "quantity": "1",
+              "unit": "",
+              "name": "gousse de vanille Bourbon",
+              "scalable": true,
+              "badge": "Produit VD"
+            },
+            {
+              "id": "poivre",
+              "quantity": "4",
+              "unit": "pincées",
+              "name": "poivre sauvage",
+              "scalable": false,
+              "badge": "Produit VD"
+            },
+            {
+              "id": "sel",
+              "quantity": "1",
+              "unit": "c. à café",
+              "name": "sel fin",
+              "scalable": false,
+              "badge": ""
+            },
+            {
+              "id": "citron",
+              "quantity": "0.5",
+              "unit": "",
+              "name": "citron",
+              "scalable": true,
+              "badge": ""
+            }
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "id": "assaisonner",
+          "title": "Assaisonner la volaille",
+          "duration": "10 min",
+          "highlight": "Base",
+          "body": "Salez la volaille, huilez-la légèrement et laissez-la revenir à température ambiante pendant que le four chauffe."
+        },
+        {
+          "id": "rotir",
+          "title": "Rôtir jusqu’à peau dorée",
+          "duration": "1 h",
+          "highlight": "Four",
+          "body": "Faites rôtir la volaille jusqu’à ce que la peau soit bien colorée et que le jus qui s’écoule soit clair."
+        },
+        {
+          "id": "jus",
+          "title": "Monter le jus court",
+          "duration": "12 min",
+          "highlight": "Sauce",
+          "body": "Faites suer les échalotes, déglacez au bouillon, ajoutez la gousse de vanille et réduisez pour obtenir un jus court, brillant et net."
+        },
+        {
+          "id": "servir",
+          "title": "Laisser reposer puis servir",
+          "duration": "15 min",
+          "highlight": "Service",
+          "body": "Laissez reposer la volaille avant de la découper, puis nappez légèrement avec le jus et finissez au poivre sauvage."
+        }
+      ],
+      "tips": [
+        {
+          "title": "Vanille",
+          "body": "La vanille ne doit jamais dominer le jus. Travaillez-la comme une note de fond, pas comme une saveur principale."
+        },
+        {
+          "title": "Jus",
+          "body": "Gardez un jus court, pas une sauce lourde. C’est ce qui maintient le plat élégant."
+        }
+      ],
+      "seo": {
+        "title": "Volaille rôtie vanille et jus court | Vanille Désiré",
+        "description": "Recette de volaille rôtie à la vanille avec jus court, pour découvrir une assiette salée nette, généreuse et très élégante.",
+        "keywords": [
+          "volaille vanille",
+          "poulet rôti vanille",
+          "jus court vanille",
+          "recette salée signature"
+        ],
+        "body_sections": [
+          {
+            "title": "Pourquoi cette recette reste juste",
+            "body": "La cuisson de la volaille reste classique. Toute la différence vient du jus, où la vanille apporte seulement de la longueur et plus de relief."
+          },
+          {
+            "title": "Erreurs à éviter",
+            "body": "Ne faites pas un jus trop réduit, ni trop parfumé. Le plat doit rester salé, clair et très lisible à table."
+          },
+          {
+            "title": "Service",
+            "body": "Servez avec des légumes rôtis, une purée courte ou quelques pommes de terre grenailles pour garder un ensemble simple."
+          }
+        ],
+        "faq": [
+          {
+            "question": "Peut-on utiliser seulement de l’extrait ?",
+            "answer": "Oui, mais à très petite dose. La gousse donne un résultat plus fin et plus stable dans le jus."
+          },
+          {
+            "question": "La recette marche-t-elle avec des suprêmes ?",
+            "answer": "Oui, mais il faudra raccourcir la cuisson et surveiller encore plus la jutosité."
+          }
+        ]
+      },
+      "sources": [
+        {
+          "title": "Wikibooks Cookbook:Roast Chicken",
+          "url": "https://en.wikibooks.org/wiki/Cookbook:Roast_Chicken",
+          "license": "CC BY-SA 4.0",
+          "note": "Base ouverte utilisée pour la cuisson de la volaille entière et les repères de repos."
+        },
+        {
+          "title": "Great British Chefs: Roast chicken with cider and sage by Martin Wishart",
+          "url": "https://www.greatbritishchefs.com/recipes/roast-chicken-recipe-cider-sage",
+          "license": "",
+          "note": "Référence technique pour l’idée de jus de cuisson court, la gestion du rôtissage et le service d’une volaille maison plus soignée."
+        }
+      ],
+      "submitted_by": {
+        "name": "VD Editorial Studio",
+        "type": "internal"
+      },
+      "submitted_at": "2026-03-29T13:00:00Z"
+    }
+  ]
+}

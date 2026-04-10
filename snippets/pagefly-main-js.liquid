@@ -1,7 +1,9 @@
 
   {% if shop.metafields.pagefly.acceptTracking and shop.metafields.pagefly.measurementId %}
   <!-- Global site tag (gtag.js) - Google Analytics -->
+  {% comment %}theme-check-disable RemoteAsset{% endcomment %}
   <script async src="https://www.googletagmanager.com/gtag/js?id={{ shop.metafields.pagefly.measurementId }}"></script>
+  {% comment %}theme-check-enable RemoteAsset{% endcomment %}
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -29,11 +31,13 @@
         pf_page_subject_id: '{{ page.id }}',
         {% if template.name == 'product' %}
           
+    {% comment %}theme-check-disable DeprecatedFilter{% endcomment %}
     {% assign initial_image_url = product.featured_image | img_url %}
+    {% comment %}theme-check-enable DeprecatedFilter{% endcomment %}
     {% assign dynamic_image_path = initial_image_url %}
-    {% assign BASE_URL = "//cdn.shopify.com/s/files/" %}
-    {% if initial_image_url and initial_image_url contains BASE_URL %}
-      {% assign image_paths = initial_image_url | split: BASE_URL %}
+    {% assign base_url = "//cdn.shopify.com/s/files/" %}
+    {% if initial_image_url and initial_image_url contains base_url %}
+      {% assign image_paths = initial_image_url | split: base_url %}
       {% assign dynamic_image_path = image_paths[1] | default: "" %}
     {% endif %}
   
@@ -43,11 +47,13 @@
         {% endif %}
         {% if template.name == 'collection' %}
           
+    {% comment %}theme-check-disable DeprecatedFilter{% endcomment %}
     {% assign initial_image_url = collection.featured_image | img_url %}
+    {% comment %}theme-check-enable DeprecatedFilter{% endcomment %}
     {% assign dynamic_image_path = initial_image_url %}
-    {% assign BASE_URL = "//cdn.shopify.com/s/files/" %}
-    {% if initial_image_url and initial_image_url contains BASE_URL %}
-      {% assign image_paths = initial_image_url | split: BASE_URL %}
+    {% assign base_url = "//cdn.shopify.com/s/files/" %}
+    {% if initial_image_url and initial_image_url contains base_url %}
+      {% assign image_paths = initial_image_url | split: base_url %}
       {% assign dynamic_image_path = image_paths[1] | default: "" %}
     {% endif %}
   

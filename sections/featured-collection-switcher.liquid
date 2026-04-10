@@ -4,9 +4,9 @@
   assign collection1 = collections[section.settings.collection1]
   assign collection2 = collections[section.settings.collection2]
 
-  assign emptyState = false
+  assign empty_state = false
   if collection1.empty? and collection2.empty?
-    assign emptyState = true
+    assign empty_state = true
   endif
 -%}
 
@@ -42,7 +42,7 @@
           </h3>
         {%- endunless -%}
 
-        {%- if emptyState -%}
+        {%- if empty_state -%}
           {%- for i in (1..2) -%}
             <h3 class="collection-switcher__title">
               <a href="#"
@@ -58,7 +58,7 @@
   {% endif %}
 
   {%- liquid
-    capture gridView
+    capture grid_view
       render 'products_per_row', products_per_row: per_row, style: 'fractions'
     endcapture
   -%}
@@ -112,7 +112,7 @@
       </div>
     {%- endunless -%}
 
-    {%- if emptyState -%}
+    {%- if empty_state -%}
       {%- for i in (1..2) -%}
         <div id="collection{{i}}-{{ section.id }}" class="collection-switcher__collection{% if i == 2 %} hide{% endif %}">
           <div
@@ -120,7 +120,7 @@
             class="grid"
             data-per-row="{{ per_row }}">
             {%- for i in (1..per_row) -%}
-              <div class="grid__item grid-product {{ gridView }}" data-aos="row-of-{{ per_row }}">
+              <div class="grid__item grid-product {{ grid_view }}" data-aos="row-of-{{ per_row }}">
                 <div class="grid-product__content">
                   <a href="#" class="grid-product__link">
                     <div class="grid-product__image-mask">

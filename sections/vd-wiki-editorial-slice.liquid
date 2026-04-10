@@ -1,0 +1,353 @@
+<section class="vd-wiki-editorial-slice" data-section-id="{{ section.id }}">
+  <div class="page-width">
+    <div class="vd-wiki-editorial-slice__shell{% if section.settings.image != blank %} has-media{% endif %}">
+      <div class="vd-wiki-editorial-slice__intro">
+        {% if section.settings.eyebrow != blank %}
+          <span class="vd-wiki-editorial-slice__eyebrow">{{ section.settings.eyebrow }}</span>
+        {% endif %}
+
+        {% if section.settings.title != blank %}
+          <h2 class="vd-wiki-editorial-slice__title">{{ section.settings.title }}</h2>
+        {% endif %}
+
+        {% if section.settings.body != blank %}
+          <div class="vd-wiki-editorial-slice__body rte">
+            {{ section.settings.body }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.link_label != blank and section.settings.link != blank %}
+          <a class="vd-wiki-editorial-slice__cta" href="{{ section.settings.link }}">
+            <span>{{ section.settings.link_label }}</span>
+          </a>
+        {% endif %}
+      </div>
+
+      {% if section.settings.image != blank %}
+        <figure class="vd-wiki-editorial-slice__media">
+          {{ section.settings.image | image_url: width: 1600 | image_tag: loading: 'lazy', widths: '480, 720, 960, 1280, 1600', class: 'vd-wiki-editorial-slice__image' }}
+          {% if section.settings.caption != blank %}
+            <figcaption>{{ section.settings.caption }}</figcaption>
+          {% endif %}
+        </figure>
+      {% endif %}
+    </div>
+
+    {% if section.blocks.size > 0 %}
+      <div class="vd-wiki-editorial-slice__grid">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'card' %}
+              <article class="vd-wiki-editorial-slice__card" {{ block.shopify_attributes }}>
+                {% if block.settings.kicker != blank %}
+                  <span class="vd-wiki-editorial-slice__card-kicker">{{ block.settings.kicker }}</span>
+                {% endif %}
+                {% if block.settings.title != blank %}
+                  <h3 class="vd-wiki-editorial-slice__card-title">{{ block.settings.title }}</h3>
+                {% endif %}
+                {% if block.settings.text != blank %}
+                  <p class="vd-wiki-editorial-slice__card-text">{{ block.settings.text }}</p>
+                {% endif %}
+              </article>
+            {% when 'link' %}
+              <a class="vd-wiki-editorial-slice__link" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>
+                <span>{{ block.settings.label }}</span>
+              </a>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  <style>
+    [data-section-id="{{ section.id }}"] {
+      background: #f6f0e4;
+      color: #314155;
+    }
+
+    [data-section-id="{{ section.id }}"] .page-width {
+      max-width: min(172rem, calc(100vw - 2.4rem));
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__shell {
+      display: grid;
+      gap: 2.8rem;
+      padding: 4rem 0 0;
+      border-top: 1px solid rgba(120, 92, 58, 0.18);
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__shell.has-media {
+      grid-template-columns: minmax(0, 44rem) minmax(0, 1fr);
+      align-items: start;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__eyebrow,
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__card-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      color: #8a4b11;
+      font-size: 0.84rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__eyebrow::before,
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__card-kicker::before {
+      content: "";
+      width: 2rem;
+      height: 1px;
+      background: rgba(233, 112, 43, 0.92);
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__title,
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__card-title {
+      margin: 0;
+      color: #243548;
+      font-family: "Cormorant Garamond", serif;
+      letter-spacing: -0.045em;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__title {
+      margin-top: 1.2rem;
+      font-size: clamp(3.6rem, 3.8vw, 5.6rem);
+      line-height: 0.94;
+      max-width: 10ch;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__body,
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__body p,
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__card-text {
+      font-size: 1.18rem;
+      line-height: 1.78;
+      color: #415063;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__body {
+      margin-top: 1.6rem;
+      max-width: 44rem;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__body p:last-child {
+      margin-bottom: 0;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__cta,
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__link {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 1.7rem;
+      color: #8a4b11;
+      font-size: 0.94rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__cta::after,
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__link::after {
+      content: "";
+      width: 3.4rem;
+      height: 1px;
+      margin-left: 1rem;
+      background: currentColor;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__media {
+      margin: 0;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__image {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1.45 / 1;
+      object-fit: cover;
+      border: 1px solid rgba(120, 92, 58, 0.12);
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__media figcaption {
+      margin-top: 1rem;
+      color: #64748b;
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      margin-top: 2.2rem;
+      border: 1px solid rgba(120, 92, 58, 0.12);
+      background: #fffefb;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__card,
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__link {
+      min-height: 100%;
+      padding: 1.8rem 1.9rem;
+      border-right: 1px solid rgba(120, 92, 58, 0.12);
+      background: #fffefb;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__grid > *:nth-child(3n) {
+      border-right: 0;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__card-title {
+      margin-top: 1rem;
+      font-size: 1.8rem;
+      line-height: 1.12;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__card-text {
+      margin: 1rem 0 0;
+      font-size: 1.06rem;
+      line-height: 1.74;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__link {
+      justify-content: space-between;
+      margin-top: 0;
+      font-size: 0.92rem;
+    }
+
+    [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__link::after {
+      width: 2.4rem;
+    }
+
+    @media screen and (max-width: 989px) {
+      [data-section-id="{{ section.id }}"] .page-width {
+        max-width: calc(100vw - 1.6rem);
+      }
+
+      [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__shell,
+      [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__shell.has-media {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+        padding-top: 2.8rem;
+      }
+
+      [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__title {
+        max-width: none;
+        font-size: clamp(3.2rem, 10vw, 4.6rem);
+      }
+
+      [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__body,
+      [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__body p {
+        font-size: 1.08rem;
+      }
+
+      [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__grid {
+        grid-template-columns: 1fr;
+      }
+
+      [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__card,
+      [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__link {
+        border-right: 0;
+        border-bottom: 1px solid rgba(120, 92, 58, 0.12);
+      }
+
+      [data-section-id="{{ section.id }}"] .vd-wiki-editorial-slice__grid > *:last-child {
+        border-bottom: 0;
+      }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Wiki editorial slice",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Sur-titre",
+      "default": "Chapitre"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Section wiki editable"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Texte",
+      "default": "<p>Ajoutez ici une introduction claire, utile et éditoriale pour la partie du wiki que vous voulez enrichir manuellement.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Légende image"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Libellé du lien principal",
+      "default": "Voir le guide"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Lien principal"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Carte texte",
+      "settings": [
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Sur-titre",
+          "default": "Repère"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre",
+          "default": "Sous-partie wiki"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Texte",
+          "default": "Ajoutez ici un résumé court, lisible et utile."
+        }
+      ]
+    },
+    {
+      "type": "link",
+      "name": "Lien wiki",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Libellé",
+          "default": "Voir la suite"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Lien"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wiki editorial slice"
+    }
+  ]
+}
+{% endschema %}

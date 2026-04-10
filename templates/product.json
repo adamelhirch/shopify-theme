@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -11,7 +20,8 @@
           }
         },
         "title": {
-          "type": "title"
+          "type": "title",
+          "settings": {}
         },
         "caption": {
           "type": "text",
@@ -21,7 +31,8 @@
           }
         },
         "price": {
-          "type": "price"
+          "type": "price",
+          "settings": {}
         },
         "variant_picker": {
           "type": "variant_picker",
@@ -30,7 +41,8 @@
           }
         },
         "quantity_selector": {
-          "type": "quantity_selector"
+          "type": "quantity_selector",
+          "settings": {}
         },
         "buy_buttons": {
           "type": "buy_buttons",
@@ -39,42 +51,54 @@
             "show_gift_card_recipient": true
           }
         },
-        "description": {
-          "type": "description"
+        "complementary": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "Poursuivre la sélection",
+            "eyebrow": "Complément",
+            "text": "<p>Formats voisins, idées cadeau et produits cohérents pour prolonger l’achat sans quitter l’univers de la maison.</p>",
+            "make_collapsible_row": false,
+            "icon": "price_tag",
+            "product_list_limit": 4,
+            "products_per_page": 2,
+            "pagination_style": "counter",
+            "image_ratio": "square",
+            "enable_quick_add": false
+          }
         },
         "collapsible-row-0": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Sélection à Madagascar",
+            "heading": "Origine & sélection",
             "icon": "map_pin",
-            "content": "<p>Nous sélectionnons uniquement des épices et vanilles Bourbon de Madagascar de la plus haute qualité, récoltées à la main et préparées selon un savoir-faire ancestral.</p>",
+            "content": "<p>Une sélection suivie à Madagascar, avec une attention portée à la matière, à la préparation et à la tenue aromatique.</p>",
             "page": ""
           }
         },
         "collapsible-row-1": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Soutien aux Producteurs Locaux",
+            "heading": "Usages & formats",
             "icon": "plant",
-            "content": "<p>Chaque achat contribue directement à soutenir les familles productrices à Madagascar, en assurant un revenu juste et durable.</p>",
+            "content": "<p>Selon le format, le produit peut convenir à l’infusion, à la pâtisserie, au dosage quotidien ou à une idée cadeau plus soignée.</p>",
             "page": ""
           }
         },
         "collapsible-row-2": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Livraison Rapide & Sûre",
+            "heading": "Préparation & conservation",
             "icon": "truck",
-            "content": "<p>Vos commandes sont soigneusement emballées et expédiées rapidement, pour préserver toute la fraîcheur et l'arôme de nos produits.</p>",
+            "content": "<p>Conserver à l’abri de la chaleur et de l’humidité, puis utiliser selon le dosage adapté à votre cuisine et à vos habitudes.</p>",
             "page": ""
           }
         },
         "collapsible-row-3": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Une question ?",
+            "heading": "Besoin d’un conseil ?",
             "icon": "question_mark",
-            "content": "<p>Besoin d'un conseil ou d'une précision sur un produit ? Nous restons disponibles pour vous orienter selon vos usages et vos attentes.</p>",
+            "content": "<p>Nous pouvons vous orienter selon l’usage recherché, le niveau d’intensité attendu ou le format le plus adapté.</p>",
             "page": ""
           }
         },
@@ -93,7 +117,7 @@
         "variant_picker",
         "quantity_selector",
         "buy_buttons",
-        "description",
+        "complementary",
         "collapsible-row-0",
         "collapsible-row-1",
         "collapsible-row-2",
@@ -101,92 +125,50 @@
         "share"
       ],
       "settings": {
-        "color_scheme": "scheme-3",
         "enable_sticky_info": true,
-        "gallery_layout": "stacked",
+        "color_scheme": "scheme-3",
         "media_size": "large",
         "constrain_to_viewport": true,
+        "gallery_layout": "stacked",
         "mobile_thumbnails": "hide",
         "hide_variants": true,
         "enable_video_looping": false,
+        "support_eyebrow": "",
+        "support_heading": "",
+        "support_text": "",
+        "support_point_1": "",
+        "support_point_2": "",
+        "support_point_3": "",
+        "support_link_label_1": "",
+        "support_link_1": "",
+        "support_link_label_2": "",
+        "support_link_2": "",
+        "support_link_label_3": "",
+        "support_link_3": "",
         "padding_top": 36,
         "padding_bottom": 12
-      }
-    },
-    "vd_story_grid_product_j7P2mK": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "Usage lisible",
-            "text": "<p>La fiche doit aider a comprendre vite si ce format est fait pour l'infusion, le dosage quotidien, le cadeau ou une patisserie plus exigeante.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Origine suivie",
-            "text": "<p>On rappelle la selection a Madagascar, le tri et la tenue de la matiere sans tomber dans un discours folklorique ou bavard.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Suite logique",
-            "text": "<p>Apres la fiche, il faut pouvoir basculer naturellement vers la collection, le wiki ou les produits complementaires.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "La fiche produit doit tenir sans artifices.",
-        "text": "<p>On retire les sections trop génériques et on garde une base plus dure, plus utile et plus raccord avec la direction du site.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 20,
-        "padding_bottom": 28
       }
     },
     "related-products": {
       "type": "related-products",
       "settings": {
-        "heading": "Ils pourraient vous plaire",
+        "heading": "",
         "heading_size": "h2",
+        "editorial_text": "",
         "columns_desktop": 4,
-        "color_scheme": "scheme-1",
+        "columns_mobile": "2",
+        "color_scheme": "scheme-3",
         "image_ratio": "square",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
-        "columns_mobile": "2",
-        "color_scheme": "scheme-3",
         "padding_top": 36,
         "padding_bottom": 28
-      }
-    },
-    "vd_testimonials_product_k3L8sP": {
-      "type": "vd-testimonials",
-      "settings": {
-        "eyebrow": "Rassurance",
-        "heading": "Le produit ne doit pas vivre seul.",
-        "text": "<p>Une derniere couche de credibilite avant la fin de page: avis, confiance et continuité de marque.</p>",
-        "reviews_limit": "6",
-        "button_label": "Voir plus de produits",
-        "button_link": "shopify://collections/vanille-bourbon",
-        "color_scheme": "scheme-3",
-        "padding_top": 12,
-        "padding_bottom": 56
       }
     }
   },
   "order": [
     "main",
-    "vd_story_grid_product_j7P2mK",
-    "related-products",
-    "vd_testimonials_product_k3L8sP"
+    "related-products"
   ]
 }

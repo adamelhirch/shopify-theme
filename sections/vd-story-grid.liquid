@@ -12,26 +12,95 @@
   }
 {% endstyle %}
 
+{%- liquid
+  assign story_catalogue_page = pages['catalogue']
+  assign story_contact_page = pages['contact']
+  assign story_recipes_page = pages['recettes']
+  assign story_wiki_page = pages['wiki']
+  assign story_vanille_page = pages['wiki-vanille-bien-choisir']
+  assign story_catalogue_url = story_catalogue_page.url | default: routes.all_products_collection_url
+  assign story_contact_url = story_contact_page.url | default: '/pages/contact'
+  assign story_recipes_url = story_recipes_page.url | default: '/pages/recettes'
+  assign story_wiki_url = story_wiki_page.url | default: '/pages/wiki'
+  assign story_vanille_url = story_vanille_page.url | default: '/pages/wiki-vanille-bien-choisir'
+-%}
+{%- assign story_intro_text = section.settings.text | replace: '/pages/wiki-vanille-bien-choisir', story_vanille_url | replace: '/pages/recettes', story_recipes_url | replace: '/pages/catalogue', story_catalogue_url | replace: '/pages/contact', story_contact_url | replace: '/pages/wiki', story_wiki_url -%}
+
 <section class="section-{{ section.id }}-padding vd-story color-{{ section.settings.color_scheme }}">
   <div class="page-width">
     <div class="vd-story__head">
       {% if section.settings.heading != blank %}
         <h2>{{ section.settings.heading }}</h2>
       {% endif %}
-      {% if section.settings.text != blank %}
-        <div class="rte">{{ section.settings.text }}</div>
+      {% if story_intro_text != blank %}
+        <div class="rte">{{ story_intro_text }}</div>
       {% endif %}
     </div>
 
     <div class="vd-story__grid">
       {% for block in section.blocks %}
-        <article class="vd-story-card" {{ block.shopify_attributes }}>
+        {%- liquid
+          assign story_background_video_url = ''
+          assign story_background_image = block.settings.background_image
+          assign story_media_index = forloop.index0
+          assign story_block_text = block.settings.text
+
+          if block.settings.background_video != blank
+            for source in block.settings.background_video.sources
+              if source.mime_type == 'video/mp4'
+                assign story_background_video_url = source.url
+                break
+              endif
+            endfor
+          endif
+
+          if story_background_image == blank and product != blank and product.media[story_media_index] != blank
+            assign story_background_image = product.media[story_media_index].preview_image | default: product.media[story_media_index]
+          endif
+
+          if story_background_image == blank and product != blank and product.featured_media != blank
+            assign story_background_image = product.featured_media.preview_image | default: product.featured_image
+          endif
+
+        -%}
+        {%- assign story_block_text = story_block_text | replace: '/pages/wiki-vanille-bien-choisir', story_vanille_url | replace: '/pages/recettes', story_recipes_url | replace: '/pages/catalogue', story_catalogue_url | replace: '/pages/contact', story_contact_url | replace: '/pages/wiki', story_wiki_url -%}
+        <article class="vd-story-card vd-story-card--{{ forloop.index }}{% if story_background_video_url != blank or story_background_image != blank %} vd-story-card--immersive{% endif %}" {{ block.shopify_attributes }}>
+          {% if story_background_video_url != blank or story_background_image != blank %}
+            <div class="vd-story-card__media" aria-hidden="true">
+              {% if story_background_video_url != blank %}
+                <video
+                  class="vd-story-card__video"
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="none"
+                  data-vd-deferred-video
+                  data-video-src="{{ story_background_video_url }}"
+                >
+                  <source data-src="{{ story_background_video_url }}" type="video/mp4">
+                </video>
+              {% elsif story_background_image != blank %}
+                {{
+                  story_background_image
+                  | image_url: width: 1600
+                  | image_tag:
+                    class: 'vd-story-card__image',
+                    widths: '480, 720, 960, 1280, 1600',
+                    sizes: '(min-width: 990px) 33vw, 100vw',
+                    loading: 'lazy',
+                    alt: ''
+                }}
+              {% endif %}
+            </div>
+            <div class="vd-story-card__veil" aria-hidden="true"></div>
+          {% endif %}
           <span class="vd-story-card__index">{{ forloop.index }}</span>
           {% if block.settings.title != blank %}
             <h3 class="vd-story-card__title">{{ block.settings.title }}</h3>
           {% endif %}
-          {% if block.settings.text != blank %}
-            <div class="rte">{{ block.settings.text }}</div>
+          {% if story_block_text != blank %}
+            <div class="rte">{{ story_block_text }}</div>
           {% endif %}
         </article>
       {% endfor %}
@@ -101,6 +170,16 @@
           "id": "text",
           "label": "Texte",
           "default": "<p>Une lecture claire des provenances, des usages et du niveau d’intensité attendu.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Image ou GIF de fond"
+        },
+        {
+          "type": "video",
+          "id": "background_video",
+          "label": "Vidéo Shopify de fond"
         }
       ]
     }

@@ -82,9 +82,9 @@
     --colorSmallImageBg: {{ settings.color_small_image_bg | default: "#eee" }};
     --colorLargeImageBg: {{ settings.color_large_image_bg | default: "#1c1d1d" }};
 
-    --urlIcoSelect: url({{ 'ico-select.svg' | asset_url | split: '?' | first }});
-    --urlIcoSelectFooter: url({{ 'ico-select-footer.svg' | asset_url | split: '?' | first }});
-    --urlIcoSelectWhite: url({{ 'ico-select-white.svg' | asset_url | split: '?' | first }});
+    --urlIcoSelect: url({{ 'vd-ico-select.svg' | asset_url | split: '?' | first }});
+    --urlIcoSelectFooter: url({{ 'vd-ico-select-footer.svg' | asset_url | split: '?' | first }});
+    --urlIcoSelectWhite: url({{ 'vd-ico-select-white.svg' | asset_url | split: '?' | first }});
 
     --urlButtonArrowPng: url({{ 'button-arrow.png' | asset_url | split: '?' | first }});
     --urlButtonArrow2xPng: url({{ 'button-arrow-2x.png' | asset_url | split: '?' | first }});
@@ -105,16 +105,16 @@
   {% comment %}
     Scrims (fade on top of images)
   {% endcomment %}
-  {%- assign colorImage1Alpha = settings.color_image_1_opacity | divided_by: 100.0 -%}
-  {%- assign colorImage2Alpha = settings.color_image_2_opacity | divided_by: 100.0 -%}
+  {%- assign color_image_1_alpha = settings.color_image_1_opacity | divided_by: 100.0 -%}
+  {%- assign color_image_2_alpha = settings.color_image_2_opacity | divided_by: 100.0 -%}
   .collection-hero__content:before,
   .hero__image-wrapper:before,
   .hero__media:before {
-    background-image: linear-gradient(to bottom, {{ settings.color_image_2 | color_modify: 'alpha', colorImage2Alpha }} 0%, {{ settings.color_image_2 | color_modify: 'alpha', colorImage2Alpha }} 40%, {{ settings.color_image_1 | color_modify: 'alpha', colorImage1Alpha }} 100%);
+    background-image: linear-gradient(to bottom, {{ settings.color_image_2 | color_modify: 'alpha', color_image_2_alpha }} 0%, {{ settings.color_image_2 | color_modify: 'alpha', color_image_2_alpha }} 40%, {{ settings.color_image_1 | color_modify: 'alpha', color_image_1_alpha }} 100%);
   }
 
   .skrim__item-content .skrim__overlay:after {
-    background-image: linear-gradient(to bottom, {{ settings.color_image_2 | color_modify: 'alpha', colorImage2Alpha }} 30%, {{ settings.color_image_1 | color_modify: 'alpha', colorImage1Alpha }} 100%);
+    background-image: linear-gradient(to bottom, {{ settings.color_image_2 | color_modify: 'alpha', color_image_2_alpha }} 30%, {{ settings.color_image_1 | color_modify: 'alpha', color_image_1_alpha }} 100%);
   }
 
   .placeholder-content {

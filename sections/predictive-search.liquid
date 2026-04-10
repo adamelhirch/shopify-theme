@@ -157,10 +157,16 @@
                     {%- endif -%}
                     <div class="predictive-search__item-content{% unless settings.predictive_search_show_vendor or settings.predictive_search_show_price %} predictive-search__item-content--centered{% endunless %}">
                       {%- if settings.predictive_search_show_vendor -%}
-                        <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
-                        <div class="predictive-search__item-vendor caption-with-letter-spacing">
-                          {{ product.vendor }}
-                        </div>
+                        {%- capture predictive_vendor_label -%}
+                          {%- render 'vd-product-meta-label', product: product, prefer: 'vendor' -%}
+                        {%- endcapture -%}
+                        {%- assign predictive_vendor_label = predictive_vendor_label | strip -%}
+                        {%- if predictive_vendor_label != blank -%}
+                          <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
+                          <div class="predictive-search__item-vendor caption-with-letter-spacing">
+                            {{ predictive_vendor_label }}
+                          </div>
+                        {%- endif -%}
                       {%- endif -%}
                       <p class="predictive-search__item-heading h5">{{ product.title | escape }}</p>
                       {%- if settings.predictive_search_show_price -%}

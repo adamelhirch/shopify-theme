@@ -1,4 +1,5 @@
 {{ 'customer.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'vd-customer-carnet.js' | asset_url }}" defer="defer"></script>
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -16,13 +17,23 @@
 
 <div class="customer account section-{{ section.id }}-padding">
   {%- assign latest_order = customer.orders.first -%}
+  {%- assign favorites_metafield = customer.metafields.vd.recipe_favorites -%}
+  {%- assign favorites_metafield_value = favorites_metafield.value | default: favorites_metafield -%}
+  {%- assign history_metafield = customer.metafields.vd.recipe_history -%}
+  {%- assign history_metafield_value = history_metafield.value | default: history_metafield -%}
+  {%- assign account_wiki_page = pages['wiki'] -%}
+  {%- assign account_contact_page = pages['contact'] -%}
+  {%- assign account_recipes_page = pages['recettes'] -%}
+  {%- assign account_wiki_url = account_wiki_page.url | default: '/pages/wiki' -%}
+  {%- assign account_contact_url = account_contact_page.url | default: '/pages/contact' -%}
+  {%- assign account_recipes_url = account_recipes_page.url | default: '/pages/recettes' -%}
   <div class="vd-customer-shell">
     <div class="vd-customer-shell__header">
       <div>
         <p class="vd-customer-shell__eyebrow">Espace client</p>
         <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
         <p class="vd-customer-shell__lede">
-          Une lecture plus directe pour suivre les commandes, les statuts et les adresses sans passer par des ecrans neutres.
+          Une lecture plus directe pour suivre les commandes, les statuts et les adresses sans passer par des écrans neutres.
         </p>
       </div>
       <div class="vd-customer-shell__links">
@@ -48,12 +59,53 @@
         <strong>{{ customer.addresses_count }}</strong>
       </div>
       <div class="vd-customer-shell__metric" role="listitem">
-        <span class="vd-customer-shell__metric-label">Derniere commande</span>
+        <span class="vd-customer-shell__metric-label">Dernière commande</span>
         <strong>{% if latest_order %}{{ latest_order.name }}{% else %}Aucune{% endif %}</strong>
       </div>
     </div>
 
     <div class="vd-customer-dashboard">
+      <div
+        class="vd-customer-card vd-customer-card--wide"
+        data-vd-customer-carnet
+        data-registry-url="{{ 'vd-recipes-registry.json' | asset_url }}"
+        data-recipes-page-url="{{ account_recipes_url }}"
+        data-customer-id="{{ customer.id }}"
+        data-customer-email="{{ customer.email | escape }}"
+        data-customer-shelf-endpoint="{{ section.settings.customer_shelf_endpoint | escape }}"
+      >
+        <div class="vd-customer-card__head">
+          <p class="vd-customer-card__kicker">Carnet recette</p>
+          <h2>Vos recettes sauvegardées dans le compte Shopify</h2>
+          <p>Le compte peut maintenant porter un vrai carnet persistant pour vos favoris et vos reprises de recettes.</p>
+        </div>
+        <div class="vd-customer-carnet__grid">
+          <section class="vd-customer-carnet__panel" data-vd-customer-favorites-panel hidden>
+            <div class="vd-customer-carnet__panel-head">
+              <strong>Favoris</strong>
+              <span data-vd-customer-favorites-count>0</span>
+            </div>
+            <div class="vd-customer-carnet__cards" data-vd-customer-favorites-track></div>
+          </section>
+          <section class="vd-customer-carnet__panel" data-vd-customer-history-panel hidden>
+            <div class="vd-customer-carnet__panel-head">
+              <strong>Reprendre</strong>
+              <span data-vd-customer-history-count>0</span>
+            </div>
+            <div class="vd-customer-carnet__cards" data-vd-customer-history-track></div>
+          </section>
+        </div>
+        <div class="vd-customer-carnet__empty" data-vd-customer-carnet-empty>
+          Le carnet persistant est encore vide.
+        </div>
+        <script type="application/json" data-vd-customer-favorites>
+          {{ favorites_metafield_value | json }}
+        </script>
+        <script type="application/json" data-vd-customer-history>
+          {{ history_metafield_value | json }}
+        </script>
+      </div>
+
       <div class="vd-customer-card vd-customer-card--wide">
         <div class="vd-customer-card__head">
           <p class="vd-customer-card__kicker">{{ 'customer.orders.title' | t }}</p>
@@ -173,7 +225,7 @@
         <div class="vd-customer-card__head">
           <p class="vd-customer-card__kicker">{{ 'customer.account.details' | t }}</p>
           <h2>Adresse principale</h2>
-          <p>La base utile pour relancer vite une commande ou verifier une livraison.</p>
+          <p>La base utile pour relancer vite une commande ou vérifier une livraison.</p>
         </div>
 
         <div class="vd-customer-address">
@@ -183,10 +235,131 @@
         <a href="{{ routes.account_addresses_url }}" class="button button--secondary">
           {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
         </a>
+
+        <div class="vd-customer-quicklinks">
+          <a href="{{ routes.all_products_collection_url }}" class="vd-arrow-cta">
+            <span class="vd-arrow-cta__label">Revenir au catalogue</span>
+            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+            </svg>
+          </a>
+          <a href="{{ account_wiki_url }}" class="vd-arrow-cta" data-vd-preview-link>
+            <span class="vd-arrow-cta__label">Explorer le wiki</span>
+            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+            </svg>
+          </a>
+          <a href="{{ account_contact_url }}" class="vd-arrow-cta" data-vd-preview-link>
+            <span class="vd-arrow-cta__label">Parler avec nous</span>
+            <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+              <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+{%- style -%}
+  .vd-customer-carnet__grid {
+    display: grid;
+    gap: 1.6rem;
+    margin-top: 1.2rem;
+  }
+
+  .vd-customer-carnet__panel {
+    padding: 1.6rem;
+    border: 1px solid rgba(16, 16, 16, 0.08);
+    border-radius: 2rem;
+    background: rgba(255, 255, 255, 0.72);
+  }
+
+  .vd-customer-carnet__panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .vd-customer-carnet__cards {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .vd-customer-quicklinks {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.6rem;
+  }
+
+  .vd-customer-carnet__card {
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr);
+    gap: 1rem;
+    text-decoration: none;
+    color: inherit;
+    padding: 1rem;
+    border-radius: 1.8rem;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(16, 16, 16, 0.08);
+  }
+
+  .vd-customer-carnet__media {
+    min-height: 10rem;
+    border-radius: 1.2rem;
+    background:
+      linear-gradient(145deg, rgba(211, 224, 203, 0.64), rgba(235, 226, 214, 0.72));
+    background-size: cover;
+    background-position: center;
+    display: grid;
+    place-items: center;
+    color: rgba(17, 17, 17, 0.5);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .vd-customer-carnet__body {
+    display: grid;
+    align-content: center;
+    gap: 0.5rem;
+  }
+
+  .vd-customer-carnet__body strong,
+  .vd-customer-carnet__panel-head strong {
+    color: rgb(17, 17, 17);
+  }
+
+  .vd-customer-carnet__body p,
+  .vd-customer-carnet__empty {
+    margin: 0;
+    color: rgba(17, 17, 17, 0.68);
+  }
+
+  .vd-customer-carnet__meta {
+    font-size: 1.2rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(17, 17, 17, 0.46);
+  }
+
+  .vd-customer-carnet__empty {
+    margin-top: 1.2rem;
+    padding: 1.2rem 1.4rem;
+    border-radius: 1.6rem;
+    background: rgba(255, 255, 255, 0.54);
+    border: 1px dashed rgba(16, 16, 16, 0.1);
+  }
+
+  @media screen and (min-width: 990px) {
+    .vd-customer-carnet__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+{%- endstyle -%}
 
 {% schema %}
 {
@@ -215,6 +388,13 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
+    },
+    {
+      "type": "text",
+      "id": "customer_shelf_endpoint",
+      "label": "Endpoint carnet client",
+      "default": "/apps/recipes-studio/shelf",
+      "info": "App proxy Shopify ou endpoint public pour synchroniser favoris et historique."
     }
   ]
 }

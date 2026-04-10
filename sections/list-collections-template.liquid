@@ -2,7 +2,7 @@
   assign per_row = section.settings.grid
   assign paginate_by = per_row | times: 7
 
-  capture gridView
+  capture grid_view
     assign per_row = per_row | times: 1
     if section.settings.display_type == 'selected' and section.blocks.size < per_row
       assign products_per_row = section.blocks.size
@@ -13,7 +13,7 @@
   endcapture
 
   # NOTE: Section uses a unique helper class for grid
-  assign grid_item_width = gridView | append: ' collection--square-small'
+  assign grid_item_width = grid_view | append: ' collection--square-small'
 -%}
 
 {%- paginate collections by paginate_by -%}
@@ -42,17 +42,17 @@
       -%}
       {% if section.settings.sort == 'products_low' or section.settings.sort == 'date' or section.settings.sort == 'alphabetical' %}
         {%- for collection in collections -%}
-          {%- render 'collection-grid-item', collection: collection, gridView: grid_item_width, sizeVariable: gridView, fallback: 'variable' -%}
+          {%- render 'collection-grid-item', collection: collection, gridView: grid_item_width, sizeVariable: grid_view, fallback: 'variable' -%}
         {%- endfor -%}
       {% else %}
         {%- for collection in collections reversed -%}
-          {%- render 'collection-grid-item', collection: collection, gridView: grid_item_width, sizeVariable: gridView, fallback: 'variable' -%}
+          {%- render 'collection-grid-item', collection: collection, gridView: grid_item_width, sizeVariable: grid_view, fallback: 'variable' -%}
         {%- endfor -%}
       {% endif %}
     {% else %}
       {%- for block in section.blocks -%}
         {%- assign collection = collections[block.settings.collection] -%}
-        {%- render 'collection-grid-item', block: block, collection: collection, gridView: grid_item_width, sizeVariable: gridView, fallback: 'variable' -%}
+        {%- render 'collection-grid-item', block: block, collection: collection, gridView: grid_item_width, sizeVariable: grid_view, fallback: 'variable' -%}
       {%- endfor -%}
     {% endif %}
   </div>

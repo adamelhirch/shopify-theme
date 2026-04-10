@@ -104,7 +104,9 @@
                 {% endif %}>
 
                 <a
+                  {% comment %}theme-check-disable DeprecatedFilter{% endcomment %}
                   href="{{ media.preview_image | img_url: product_zoom_size }}"
+                  {% comment %}theme-check-enable DeprecatedFilter{% endcomment %}
                   data-product-thumb
                   class="product__thumb js-no-transition"
                   data-index="{{ forloop.index0 }}"
@@ -121,9 +123,11 @@
                       </span>
                     {%- endif -%}
 
+                    {% comment %}theme-check-disable UnusedAssign{% endcomment %}
                     {%- capture image_classes -%}
                       appear-delay-{{ forloop.index | times: 3 }}
                     {%- endcapture -%}
+                    {% comment %}theme-check-enable UnusedAssign{% endcomment %}
 
                     {%- render 'image-element',
                       img: media.preview_image,

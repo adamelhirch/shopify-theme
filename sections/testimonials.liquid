@@ -3,7 +3,6 @@
     background-color: {{ section.settings.color_background }};
     color: {{ section.settings.color_text }};
   }
-}
 {%- endstyle -%}
 
 <div
@@ -59,16 +58,16 @@
                       >
                         {%- liquid
                           if section.settings.round_images
-                            assign sizeVariable = '65px'
+                            assign size_variable = '65px'
                           else
-                            assign sizeVariable = '142px'
+                            assign size_variable = '142px'
                           endif
 
-                          assign fallback = sizeVariable
+                          assign fallback = size_variable
                         -%}
                         {%- render 'image-element',
                           img: block.settings.image,
-                          sizeVariable: sizeVariable,
+                          sizeVariable: size_variable,
                           fallback: fallback,
                           widths: '180, 360, 540, 720',
                         -%}

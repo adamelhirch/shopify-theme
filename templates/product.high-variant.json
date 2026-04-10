@@ -10,130 +10,165 @@
 {
   "sections": {
     "main": {
-      "type": "main-product-high-variant",
+      "type": "main-product",
       "blocks": {
+        "vendor": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
         "title": {
-          "type": "_section-flex-pdp-title",
+          "type": "title",
           "settings": {}
         },
-        "vendor": {
-          "type": "_section-flex-pdp-vendor",
-          "settings": {}
+        "caption": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.metafields.descriptors.subtitle.value }}",
+            "text_style": "subtitle"
+          }
         },
         "price": {
-          "type": "_section-flex-pdp-price",
-          "settings": {}
-        },
-        "installments": {
-          "type": "_section-flex-pdp-installments",
-          "disabled": true,
-          "settings": {}
-        },
-        "divider": {
-          "type": "_section-flex-pdp-divider",
+          "type": "price",
           "settings": {}
         },
         "variant_picker": {
-          "type": "_section-flex-pdp-variant-picker",
-          "settings": {}
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button"
+          }
         },
-        "quantity_picker": {
-          "type": "_section-flex-pdp-quantity-picker",
+        "quantity_selector": {
+          "type": "quantity_selector",
           "settings": {}
         },
         "buy_buttons": {
-          "type": "_section-flex-pdp-buy-buttons",
-          "settings": {}
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
         },
-        "pick_up": {
-          "type": "_section-flex-pdp-pick-up",
-          "disabled": true,
-          "settings": {}
+        "complementary": {
+          "type": "complementary",
+          "settings": {
+            "block_heading": "Poursuivre la sélection",
+            "eyebrow": "Complément",
+            "text": "<p>Formats voisins, idées cadeau et produits cohérents pour prolonger l’achat sans quitter l’univers de la maison.</p>",
+            "make_collapsible_row": false,
+            "icon": "price_tag",
+            "product_list_limit": 4,
+            "products_per_page": 2,
+            "pagination_style": "counter",
+            "image_ratio": "square",
+            "enable_quick_add": false
+          }
         },
-        "description": {
-          "type": "_section-flex-pdp-description",
-          "settings": {}
+        "collapsible-row-0": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Origine & sélection",
+            "icon": "map_pin",
+            "content": "<p>Une sélection suivie à Madagascar, avec une attention portée à la matière, à la préparation et à la tenue aromatique.</p>",
+            "page": ""
+          }
         },
-        "gallery": {
-          "type": "_section-flex-pdp-media-gallery",
-          "settings": {}
+        "collapsible-row-1": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Usages & formats",
+            "icon": "plant",
+            "content": "<p>Selon le format, le produit peut convenir à l’infusion, à la pâtisserie, au dosage quotidien ou à une idée cadeau plus soignée.</p>",
+            "page": ""
+          }
+        },
+        "collapsible-row-2": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Préparation & conservation",
+            "icon": "truck",
+            "content": "<p>Conserver à l’abri de la chaleur et de l’humidité, puis utiliser selon le dosage adapté à votre cuisine et à vos habitudes.</p>",
+            "page": ""
+          }
+        },
+        "collapsible-row-3": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Besoin d’un conseil ?",
+            "icon": "question_mark",
+            "content": "<p>Nous pouvons vous orienter selon l’usage recherché, le niveau d’intensité attendu ou le format le plus adapté.</p>",
+            "page": ""
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Partager"
+          }
         }
       },
       "block_order": [
-        "title",
         "vendor",
+        "title",
+        "caption",
         "price",
-        "installments",
-        "divider",
         "variant_picker",
-        "quantity_picker",
+        "quantity_selector",
         "buy_buttons",
-        "pick_up",
-        "description"
+        "complementary",
+        "collapsible-row-0",
+        "collapsible-row-1",
+        "collapsible-row-2",
+        "collapsible-row-3",
+        "share"
       ],
-      "settings": {}
-    },
-    "sub": {
-      "type": "product-full-width",
-      "disabled": true,
-      "settings": {}
-    },
-    "product-recommendations": {
-      "type": "product-recommendations",
-      "settings": {}
-    },
-    "collection-return": {
-      "type": "collection-return",
-      "settings": {}
-    },
-    "background-image-text": {
-      "type": "background-image-text",
       "settings": {
-        "parallax": false
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-3",
+        "media_size": "large",
+        "constrain_to_viewport": true,
+        "gallery_layout": "stacked",
+        "mobile_thumbnails": "hide",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "support_eyebrow": "",
+        "support_heading": "",
+        "support_text": "",
+        "support_point_1": "",
+        "support_point_2": "",
+        "support_point_3": "",
+        "support_link_label_1": "",
+        "support_link_1": "",
+        "support_link_label_2": "",
+        "support_link_2": "",
+        "support_link_label_3": "",
+        "support_link_3": "",
+        "padding_top": 36,
+        "padding_bottom": 12
       }
     },
-    "text-and-image": {
-      "type": "text-and-image",
-      "settings": {}
-    },
-    "text-and-image2": {
-      "type": "text-and-image",
+    "related-products": {
+      "type": "related-products",
       "settings": {
-        "layout": "left"
+        "heading": "",
+        "heading_size": "h2",
+        "editorial_text": "",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-3",
+        "image_ratio": "square",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "padding_top": 36,
+        "padding_bottom": 28
       }
-    },
-    "testimonials": {
-      "type": "testimonials",
-      "blocks": {
-        "testimonials-0": {
-          "type": "testimonial",
-          "settings": {}
-        },
-        "testimonials-1": {
-          "type": "testimonial",
-          "settings": {}
-        },
-        "testimonials-2": {
-          "type": "testimonial",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "testimonials-0",
-        "testimonials-1",
-        "testimonials-2"
-      ],
-      "settings": {}
     }
   },
   "order": [
     "main",
-    "sub",
-    "background-image-text",
-    "text-and-image",
-    "text-and-image2",
-    "testimonials",
-    "product-recommendations",
-    "collection-return"
+    "related-products"
   ]
 }

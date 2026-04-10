@@ -16,13 +16,18 @@
 
 {%- liquid
   assign uses_custom_page_flow = false
+  assign hide_native_page_content = false
 
-  if page.handle == 'qui-sommes-nous' or page.handle == 'recettes' or page.handle == 'contact'
+  if page.handle == 'qui-sommes-nous' or page.handle == 'recettes' or page.handle == 'contact' or page.handle == 'catalogue' or page.handle == 'wiki' or page.handle contains 'wiki-'
     assign uses_custom_page_flow = true
+  endif
+
+  if page.handle contains 'wiki-' or uses_custom_page_flow and page.content == blank
+    assign hide_native_page_content = true
   endif
 -%}
 
-{% unless uses_custom_page_flow and page.content == blank %}
+{% unless hide_native_page_content %}
   <div class="page-width page-width--narrow section-{{ section.id }}-padding{% if uses_custom_page_flow %} vd-page-prose-shell{% endif %}">
     {% unless uses_custom_page_flow %}
       <h1 class="main-page-title page-title h0{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">

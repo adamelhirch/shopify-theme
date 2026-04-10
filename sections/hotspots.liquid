@@ -1,4 +1,4 @@
-{% assign bgBrightness = section.settings.hotspot_color | brightness_difference: '#fff' %}
+{% assign bg_brightness = section.settings.hotspot_color | brightness_difference: '#fff' %}
 {% style %}
   {% for block in section.blocks %}
     @keyframes pulse {
@@ -14,7 +14,7 @@
     }
 
     .{{ section.id }} .hotspot__button--{{ block.id }}:hover {
-      {% if bgBrightness < 125 %}
+      {% if bg_brightness < 125 %}
         background-color: {{ section.settings.hotspot_color | color_darken: 10 }};
       {% else %}
         background-color: {{ section.settings.hotspot_color | color_lighten: 10 }};
@@ -23,7 +23,7 @@
   {% endfor %}
 
   .{{ section.id }} .hotspot__button path {
-    {% if bgBrightness < 125 %}
+    {% if bg_brightness < 125 %}
       stroke: #000 !important;
     {% else %}
       stroke: #fff !important;
@@ -31,7 +31,7 @@
   }
 
   .{{ section.id }} .hotspot__button circle {
-    {% if bgBrightness < 125 %}
+    {% if bg_brightness < 125 %}
       fill: #000 !important;
     {% else %}
       fill: #fff !important;
@@ -39,7 +39,7 @@
   }
 {% endstyle %}
 
-<div class="index-section {{ section.id }} {{ bgBrightness }}">
+<div class="index-section {{ section.id }} {{ bg_brightness }}">
   {% if section.settings.title != blank %}
     <div class="page-width">
       <h2 class="hotspots__title {{ section.settings.heading_size }} text-{{ section.settings.heading_position }}">{{ section.settings.title }}</h2>
@@ -66,14 +66,14 @@
       <div class="hotspots__buttons">
         {% for block in section.blocks %}
           <button class="hotspot__button hotspot__button--{{ block.id}}" data-button="{{ block.id }}">
-            {% assign buttonStyle = section.settings.hotspot_style %}
-            {% if buttonStyle == 'dot' %}
+            {% assign button_style = section.settings.hotspot_style %}
+            {% if button_style == 'dot' %}
               <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-dot" viewBox="0 0 12 12"><circle cx="6" cy="6" r="6" fill="currentColor"/></svg>
-            {% elsif buttonStyle == 'plus' %}
+            {% elsif button_style == 'plus' %}
               <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-plus" viewBox="0 0 20 20"><path fill="#444" d="M17.409 8.929h-6.695V2.258c0-.566-.506-1.029-1.071-1.029s-1.071.463-1.071 1.029v6.671H1.967C1.401 8.929.938 9.435.938 10s.463 1.071 1.029 1.071h6.605V17.7c0 .566.506 1.029 1.071 1.029s1.071-.463 1.071-1.029v-6.629h6.695c.566 0 1.029-.506 1.029-1.071s-.463-1.071-1.029-1.071z"/></svg>
-            {% elsif buttonStyle == 'bag' %}
+            {% elsif button_style == 'bag' %}
               <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-bag" viewBox="0 0 64 64"><path d="M25 26c0-15.79 3.57-20 8-20s8 4.21 8 20"/><path d="M14.74 18h36.51l3.59 36.73h-43.7z"/></svg>
-            {% elsif buttonStyle == 'tag' %}
+            {% elsif button_style == 'tag' %}
               <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-tag" viewBox="0 0 64 64"><path d="m46.69 10.34-10.55.07-25.8 25.8 17.45 17.45 25.8-25.8.07-10.55-6.97-6.97z"/><circle cx="43.95" cy="20.05" r="3.53"/><path d="M14.4 32.15 31.85 49.6"/></svg>
             {% endif %}
           </button>
