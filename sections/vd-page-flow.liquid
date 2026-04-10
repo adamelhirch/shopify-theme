@@ -840,7 +840,7 @@
         </aside>
 
         <div class="vd-wiki-page__main">
-          <header class="vd-wiki-page__hero" id="wiki-overview-{{ section.id }}">
+          <header class="vd-wiki-page__hero vd-wiki-page__hero--single" id="wiki-overview-{{ section.id }}">
             <div class="vd-wiki-page__hero-copy">
               <nav class="vd-wiki-page__breadcrumbs" aria-label="Fil d'Ariane">
                 <a href="{{ routes.root_url }}" data-vd-preview-link>Accueil</a>
@@ -852,31 +852,12 @@
               <div class="vd-wiki-page__lede rte">
                 {{ section.settings.wiki_text }}
               </div>
-              <div class="vd-wiki-page__hero-kpis" aria-label="Repères du wiki">
-                <span class="vd-wiki-page__hero-kpi">{{ wiki_feature_count }} guides à la une</span>
-                <span class="vd-wiki-page__hero-kpi">{{ wiki_index_count }} entrées indexées</span>
-                <span class="vd-wiki-page__hero-kpi">Navigation par familles</span>
-              </div>
-            </div>
-
-            <div class="vd-wiki-page__hero-stage">
-              <div class="vd-wiki-page__hero-card vd-wiki-page__hero-card--summary">
-                <span class="vd-wiki-page__eyebrow">{{ section.settings.wiki_summary_eyebrow | default: 'Depuis Madagascar' }}</span>
-                <strong>{{ section.settings.wiki_summary_heading | default: 'Vanille Bourbon, épices rares et savoir-faire producteur.' }}</strong>
-                <p>{{ section.settings.wiki_summary | default: 'Guides de conservation, usages, recettes et savoir-faire pour avancer avec des réponses claires.' }}</p>
-
+              <div class="vd-wiki-page__hero-row">
                 <div class="vd-wiki-page__meta" aria-label="Métadonnées du wiki">
                   <span class="vd-wiki-page__meta-item">Base de connaissances</span>
                   <span class="vd-wiki-page__meta-item">{{ wiki_feature_count }} guides à la une</span>
                   <span class="vd-wiki-page__meta-item">{{ wiki_index_count }} entrées indexées</span>
                 </div>
-
-                <div class="vd-wiki-page__badges" aria-label="Thèmes couverts">
-                  <span class="vd-wiki-page__badge">Vanille Bourbon</span>
-                  <span class="vd-wiki-page__badge">Épices premium</span>
-                  <span class="vd-wiki-page__badge">Accords & préparation</span>
-                </div>
-
                 <div class="vd-wiki-page__hero-actions">
                   <a href="{{ wiki_primary_link }}" class="vd-arrow-cta" data-vd-preview-link>
                     <span class="vd-arrow-cta__label">{{ section.settings.wiki_primary_link_label | default: 'Voir les recettes' }}</span>
@@ -892,41 +873,10 @@
                   </a>
                 </div>
               </div>
-
-              <div class="vd-wiki-page__hero-media">
-                {% if wiki_stage_video != blank %}
-                  {{
-                    wiki_stage_video
-                    | video_tag:
-                      class: 'vd-wiki-page__media-video',
-                      autoplay: true,
-                      loop: true,
-                      muted: true,
-                      controls: false,
-                      playsinline: true,
-                      preload: 'metadata',
-                      image_size: '2000x'
-                  }}
-                {% elsif wiki_stage_video_url != blank %}
-                  <video class="vd-wiki-page__media-video" autoplay loop muted playsinline preload="metadata">
-                    {% comment %}theme-check-disable RemoteAsset{% endcomment %}
-                    <source src="{{ wiki_stage_video_url }}" type="video/mp4">
-                    {% comment %}theme-check-enable RemoteAsset{% endcomment %}
-                  </video>
-                {% elsif wiki_stage_image != blank %}
-                  {{
-                    wiki_stage_image
-                    | image_url: width: 2200
-                    | image_tag:
-                      class: 'vd-wiki-page__media-image',
-                      widths: '720, 960, 1280, 1600, 2000, 2200',
-                      sizes: '(min-width: 990px) 33vw, 100vw',
-                      loading: 'eager',
-                      alt: 'Le grand Wiki de Vanille Désiré'
-                  }}
-                {% else %}
-                  <img class="vd-wiki-page__media-image" src="{{ wiki_stage_asset | asset_url }}" alt="Le grand Wiki de Vanille Désiré" loading="eager" width="1201" height="800">
-                {% endif %}
+              <div class="vd-wiki-page__badges" aria-label="Thèmes couverts">
+                <span class="vd-wiki-page__badge">Vanille Bourbon</span>
+                <span class="vd-wiki-page__badge">Épices premium</span>
+                <span class="vd-wiki-page__badge">Accords & préparation</span>
               </div>
             </div>
           </header>
@@ -1043,32 +993,12 @@
             </div>
           </section>
 
-          <div class="vd-wiki-page__cta">
-            <section class="vd-wiki-page__cta-copy">
-              <span class="vd-section-kicker">{{ section.settings.wiki_footer_eyebrow | default: 'Goûter la différence' }}</span>
-              <h2 class="vd-wiki-page__cta-title">{{ section.settings.wiki_footer_heading | default: 'Prêt à goûter la différence ?' }}</h2>
-              <div class="vd-wiki-page__cta-text rte">
-                {{ section.settings.wiki_footer_text | default: '<p>Découvrez nos <strong>gousses de vanille Bourbon</strong>, nos <strong>épices rares</strong> et nos <strong>sels gourmets</strong> au prix direct producteur.</p>' }}
-              </div>
-              <a href="{{ section.settings.wiki_footer_primary_link | default: wiki_catalogue_link }}" class="vd-arrow-cta" data-vd-preview-link>
-                <span class="vd-arrow-cta__label">{{ section.settings.wiki_footer_primary_link_label | default: 'Accéder à la boutique' }}</span>
-                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                </svg>
-              </a>
-              {% if section.settings.wiki_footer_secondary_link_label != blank %}
-                <a href="{{ section.settings.wiki_footer_secondary_link | default: wiki_recipes_link }}" class="vd-arrow-cta" data-vd-preview-link>
-                  <span class="vd-arrow-cta__label">{{ section.settings.wiki_footer_secondary_link_label }}</span>
-                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                  </svg>
-                </a>
-              {% endif %}
-              <div class="vd-wiki-page__trust">{{ section.settings.wiki_footer_trust | default: 'Traçabilité totale · Qualité artisanale · Relation directe avec les producteurs de Madagascar' }}</div>
-            </section>
-
-            <section class="vd-wiki-page__faq" aria-labelledby="wiki-faq-{{ section.id }}">
-              <h2 class="vd-wiki-page__faq-title" id="wiki-faq-{{ section.id }}">{{ section.settings.wiki_faq_title | default: 'FAQ — Vanille & épices' }}</h2>
+          <section class="vd-wiki-page__section vd-wiki-page__section--faq" aria-labelledby="wiki-faq-{{ section.id }}">
+            <div class="vd-wiki-page__section-head">
+              <span class="vd-section-kicker">Ressources</span>
+              <h2 class="vd-wiki-page__section-title" id="wiki-faq-{{ section.id }}">{{ section.settings.wiki_faq_title | default: 'Questions fréquentes' }}</h2>
+            </div>
+            <section class="vd-wiki-page__faq">
               {% if wiki_faq_count > 0 %}
                 {% for block in section.blocks %}
                   {% if block.type == 'wiki_faq' %}
@@ -1080,7 +1010,7 @@
                 {% endfor %}
               {% endif %}
             </section>
-          </div>
+          </section>
 
           <aside class="vd-wiki-page__anchors" aria-label="Sur cette page">
             <span class="vd-wiki-page__anchors-title">Sur cette page</span>
