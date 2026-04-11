@@ -3314,3 +3314,22 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
   color: rgba(43, 30, 18, 0.98) !important;
   background: rgba(255, 255, 255, 0.36) !important;
 }
+
+body:has(.vd-wiki-page) .header,
+body:has(.vd-wiki-page) .header-wrapper .header {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
+  align-items: center !important;
+}
+
+body:has(.vd-wiki-page) .header__heading {
+  display: flex !important;
+  grid-column: 2 !important;
+  justify-self: center !important;
+  margin: 0 auto !important;
+  z-index: 4 !important;
+}
+
+body:has(.vd-wiki-page) .header__heading-link,
+body:has(.vd-wiki-page) .header__heading-logo-wrapper {
+  margin: 0 auto !important;
+}

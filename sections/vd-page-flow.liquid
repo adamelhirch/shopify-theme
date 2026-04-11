@@ -1636,7 +1636,7 @@
     assign wiki_detail_is_knowledge_layout = true
     assign wiki_detail_meta_label = 'Guide pratique'
     assign wiki_detail_meta_read_time = '8 min de lecture'
-    assign wiki_detail_meta_author = 'Équipe Vanille Désiré'
+    assign wiki_detail_meta_author = ''
     assign wiki_detail_breadcrumb_section_label = wiki_detail_chapter
     assign wiki_detail_breadcrumb_section_url = wiki_index_page_url
     assign wiki_detail_meta_badge_one = wiki_detail_chapter
@@ -1913,9 +1913,9 @@
                   </div>
                   <div class="vd-wiki-detail__hero-row">
                     <div class="vd-wiki-detail__meta" aria-label="Métadonnées article">
-                      <span class="vd-wiki-detail__meta-item vd-wiki-detail__meta-item--date">{{ wiki_detail_meta_date }}</span>
-                      <span class="vd-wiki-detail__meta-item vd-wiki-detail__meta-item--author">{{ wiki_detail_meta_author }}</span>
-                      <span class="vd-wiki-detail__meta-item vd-wiki-detail__meta-item--readtime">{{ wiki_detail_meta_read_time }}</span>
+                      {% if wiki_detail_meta_read_time != blank %}
+                        <span class="vd-wiki-detail__meta-item vd-wiki-detail__meta-item--readtime">{{ wiki_detail_meta_read_time }}</span>
+                      {% endif %}
                     </div>
                     <div class="vd-wiki-detail__hero-actions" aria-label="Actions article">
                       <button type="button" class="vd-wiki-detail__hero-action" aria-label="Imprimer l’article">

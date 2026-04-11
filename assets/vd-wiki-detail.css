@@ -7170,3 +7170,68 @@ body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) [data-vd-wiki-content
     grid-template-columns: 1fr !important;
   }
 }
+
+/* Final wiki detail header harmonization: same readable header on every wiki article */
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header-wrapper .header {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
+  align-items: center !important;
+}
+
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header__heading {
+  display: flex !important;
+  grid-column: 2 !important;
+  justify-self: center !important;
+  margin: 0 auto !important;
+  z-index: 4 !important;
+}
+
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header__heading-link,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header__heading-logo-wrapper {
+  margin: 0 auto !important;
+}
+
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header__menu-item,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .list-menu__item--link,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header__active-menu-item,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-header-secondary-menu__toggle,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-header-inline-search__input,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-header-inline-search__input::placeholder,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-header-inline-search__icon,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header__icon,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header__icon .icon,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header__icon .svg-wrapper,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header__icon--cart .icon,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header__menu-item .icon-caret,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-header-secondary-menu__toggle .icon-caret,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .localization-form__select,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .localization-form__currency,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header__heading-link {
+  color: rgba(43, 30, 18, 0.92) !important;
+}
+
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-header-inline-search__input::placeholder,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-header-inline-search__icon,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .localization-form__select {
+  color: rgba(43, 30, 18, 0.58) !important;
+}
+
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-header-inline-search form,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-header-secondary-menu__toggle {
+  border-color: rgba(111, 80, 49, 0.14) !important;
+  background: rgba(255, 255, 255, 0.46) !important;
+}
+
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header__menu-item:hover,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header__menu-item:focus-visible,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .list-menu__item--link:hover,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .list-menu__item--link:focus-visible,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-header-secondary-menu:hover > .vd-header-secondary-menu__toggle,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-header-secondary-menu:focus-within > .vd-header-secondary-menu__toggle,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-header-secondary-menu__toggle:hover,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-header-secondary-menu__toggle:focus-visible,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header__icon:hover,
+body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .header__icon:focus-visible {
+  color: rgba(43, 30, 18, 0.98) !important;
+  background: rgba(255, 255, 255, 0.36) !important;
+}
