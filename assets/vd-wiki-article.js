@@ -144,7 +144,7 @@
 
     var headings = Array.prototype.slice.call(content.querySelectorAll('h2')).filter(function (heading) {
       return heading.textContent && heading.textContent.trim();
-    }).slice(0, 8);
+    }).slice(0, 10);
 
     if (!headings.length) {
       tocLists.forEach(function (entry) {
@@ -158,7 +158,9 @@
       entry.list.innerHTML = '';
     });
 
-    headings.forEach(function (heading) {
+    var topHeadingLimit = 5;
+
+    headings.forEach(function (heading, index) {
       var baseId = slugify(heading.textContent) || 'section';
       var nextIndex = (seenIds[baseId] || 0) + 1;
       seenIds[baseId] = nextIndex;
@@ -169,13 +171,19 @@
         heading.id = nextIndex > 1 ? baseId + '-' + nextIndex : baseId;
       }
 
-      var item = document.createElement('li');
       tocLists.forEach(function (entry) {
+        var isAsideList = entry.list.hasAttribute('data-vd-wiki-toc-alt');
+
+        if (!isAsideList && index >= topHeadingLimit) {
+          return;
+        }
+
+        var item = document.createElement('li');
         var itemClone = item.cloneNode(false);
         var link = document.createElement('a');
         link.className = 'vd-wiki-article__toc-link';
         link.href = '#' + heading.id;
-        link.textContent = entry.list.hasAttribute('data-vd-wiki-toc-alt') ? fullLabel : compactLabel;
+        link.textContent = isAsideList ? fullLabel : compactLabel;
         itemClone.appendChild(link);
         entry.list.appendChild(itemClone);
         entry.wrapper.hidden = false;
