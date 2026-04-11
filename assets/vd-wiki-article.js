@@ -145,6 +145,149 @@
     content.dataset.vdWikiSectionized = 'true';
   }
 
+  function markImportedNode(node, className) {
+    if (!node) return;
+    node.classList.add(className);
+  }
+
+  function normalizeImportedSection(section, mode) {
+    if (!section) return;
+
+    Array.prototype.slice.call(
+      section.querySelectorAll('script, style, nav, footer, .copylink, .bar, .halo, .vd2-mask, .vd2-bokeh')
+    ).forEach(function (node) {
+      node.remove();
+    });
+
+    Array.prototype.slice.call(section.querySelectorAll('*')).forEach(function (node) {
+      node.removeAttribute('style');
+      node.removeAttribute('onmousemove');
+      node.removeAttribute('data-cat');
+      node.removeAttribute('data-group');
+      node.removeAttribute('data-letter');
+      node.removeAttribute('data-tags');
+      node.removeAttribute('aria-pressed');
+
+      if (node.matches('.cards, .steps, .vd2-stepgrid, .vd2-valgrid, .vdR-grid, .vdR-tools, .vdR-gloss, .vdG-grid')) {
+        markImportedNode(node, 'vd-wiki-import-grid');
+      }
+
+      if (node.matches('.faq-grid')) {
+        markImportedNode(node, 'vd-wiki-import-faq');
+      }
+
+      if (node.matches('.card, .step, .panel, .vd2-step, .vd2-tile, .vdR-card, .vdR-tool, .vdR-note, .sp-card')) {
+        markImportedNode(node, 'vd-wiki-import-card');
+      }
+
+      if (node.matches('.panel.good')) {
+        markImportedNode(node, 'vd-wiki-import-card--good');
+      }
+
+      if (node.matches('.panel.warn')) {
+        markImportedNode(node, 'vd-wiki-import-card--warn');
+      }
+
+      if (node.matches('.faq')) {
+        markImportedNode(node, 'vd-wiki-import-disclosure');
+      }
+
+      if (node.matches('.intro, .vdR-lead, .vdF-note')) {
+        markImportedNode(node, 'vd-wiki-import-intro');
+      }
+
+      if (node.matches('.tag, .kicker, .vdR-kicker, .vd2-kicker')) {
+        markImportedNode(node, 'vd-wiki-import-kicker');
+      }
+
+      if (node.matches('.vdR-cta, .sp-cta, .cta-row')) {
+        markImportedNode(node, 'vd-wiki-import-links');
+      }
+
+      if (node.matches('.chip, .btn')) {
+        markImportedNode(node, 'vd-wiki-import-link');
+      }
+
+      if (node.matches('.badge')) {
+        markImportedNode(node, 'vd-wiki-import-pill');
+      }
+
+      if (node.matches('.sp-head, .sp-notes, .sp-ul, .ans, .vdR-out')) {
+        markImportedNode(node, 'vd-wiki-import-copy');
+      }
+    });
+
+    Array.prototype.slice.call(section.querySelectorAll('summary')).forEach(function (summary) {
+      Array.prototype.slice.call(summary.querySelectorAll('button')).forEach(function (button) {
+        button.remove();
+      });
+    });
+
+    if (mode === 'glossary' && !section.querySelector('h2')) {
+      var heading = document.createElement('h2');
+      heading.textContent = 'Entrées du glossaire';
+      section.insertBefore(heading, section.firstChild);
+    }
+  }
+
+  function importLegacyWikiContent(content) {
+    if (!content || content.dataset.vdWikiImported === 'true') return;
+
+    var mode = '';
+    var sectionNodes = [];
+    var genericContent = content.querySelector('[class*="vdw-"] .content');
+
+    if (genericContent) {
+      mode = 'content';
+      sectionNodes = Array.prototype.slice.call(genericContent.children).filter(function (node) {
+        return node.nodeType === 1 && node.matches('section');
+      });
+    } else {
+      var glossaryMain = content.querySelector('.vdG-main');
+      var faqMain = content.querySelector('.vdF-wrap main');
+      var recipesSections = content.querySelectorAll('.vdR-sec');
+      var savoirFaireSections = content.querySelectorAll('.vd2-steps, .vd2-values');
+
+      if (glossaryMain) {
+        mode = 'glossary';
+        sectionNodes = Array.prototype.slice.call(glossaryMain.children).filter(function (node) {
+          return node.nodeType === 1 && node.matches('section');
+        });
+      } else if (faqMain) {
+        mode = 'faq';
+        sectionNodes = Array.prototype.slice.call(faqMain.children).filter(function (node) {
+          return node.nodeType === 1 && node.matches('section');
+        });
+      } else if (recipesSections.length) {
+        mode = 'recipes';
+        sectionNodes = Array.prototype.slice.call(recipesSections);
+      } else if (savoirFaireSections.length) {
+        mode = 'savoir-faire';
+        sectionNodes = Array.prototype.slice.call(savoirFaireSections);
+      }
+    }
+
+    if (!sectionNodes.length) return;
+
+    var importedRoot = document.createElement('div');
+    importedRoot.className = 'vd-wiki-import';
+
+    sectionNodes.forEach(function (node) {
+      var clone = node.cloneNode(true);
+      normalizeImportedSection(clone, mode);
+
+      if (clone.textContent && clone.textContent.replace(/\s+/g, ' ').trim()) {
+        importedRoot.appendChild(clone);
+      }
+    });
+
+    if (!importedRoot.children.length) return;
+
+    content.innerHTML = '';
+    content.appendChild(importedRoot);
+    content.dataset.vdWikiImported = 'true';
+  }
+
   function pruneKnowledgeDrafts(content) {
     if (!content) return;
 
@@ -422,6 +565,8 @@
       if (!content) return;
       var detail = root.closest('.vd-wiki-detail');
       var isKnowledgeLayout = detail && detail.getAttribute('data-vd-wiki-layout') === 'knowledge';
+
+      importLegacyWikiContent(content);
 
       if (isKnowledgeLayout) {
         pruneKnowledgeDrafts(content);

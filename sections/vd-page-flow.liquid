@@ -1042,7 +1042,20 @@
   {% comment %}theme-check-disable UnusedAssign{% endcomment %}
   {%- liquid
     assign wiki_detail_content = page.content
-    if wiki_detail_override_content != blank
+    assign wiki_detail_content_probe = page.content | downcase
+    assign wiki_detail_uses_live_markup = false
+    if wiki_detail_content_probe contains 'class="vdw-'
+      assign wiki_detail_uses_live_markup = true
+    elsif wiki_detail_content_probe contains 'class="vdg-'
+      assign wiki_detail_uses_live_markup = true
+    elsif wiki_detail_content_probe contains 'class="vdf-'
+      assign wiki_detail_uses_live_markup = true
+    elsif wiki_detail_content_probe contains 'class="vdr-'
+      assign wiki_detail_uses_live_markup = true
+    elsif wiki_detail_content_probe contains 'class="vd2-'
+      assign wiki_detail_uses_live_markup = true
+    endif
+    if wiki_detail_content == blank or wiki_detail_uses_live_markup == false
       assign wiki_detail_content = wiki_detail_override_content
     endif
 
