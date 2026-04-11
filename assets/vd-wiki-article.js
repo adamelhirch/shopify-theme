@@ -111,6 +111,22 @@
     content.dataset.vdWikiSectionized = 'true';
   }
 
+  function pruneKnowledgeDrafts(content) {
+    if (!content) return;
+
+    Array.prototype.slice.call(content.querySelectorAll('.vd-wiki-article-note')).forEach(function (note) {
+      var label = note.querySelector('.vd-wiki-article-note__label');
+
+      if (!label) return;
+
+      var text = label.textContent ? label.textContent.trim().toLowerCase() : '';
+
+      if (text === 'panorama') {
+        note.remove();
+      }
+    });
+  }
+
   function buildToc(root) {
     var content = root.querySelector('[data-vd-wiki-content]');
     var tocLists = Array.prototype.slice.call(
@@ -365,7 +381,9 @@
       var detail = root.closest('.vd-wiki-detail');
       var isKnowledgeLayout = detail && detail.getAttribute('data-vd-wiki-layout') === 'knowledge';
 
-      if (!isKnowledgeLayout) {
+      if (isKnowledgeLayout) {
+        pruneKnowledgeDrafts(content);
+      } else {
         sectionizeContent(content);
       }
       var headings = buildToc(root);

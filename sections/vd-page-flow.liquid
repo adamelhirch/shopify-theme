@@ -961,9 +961,12 @@
             <div class="vd-wiki-page__section-head">
               <span class="vd-section-kicker">{{ section.settings.wiki_categories_eyebrow | default: 'Catégories' }}</span>
               <h2 class="vd-wiki-page__section-title" id="wiki-categories-{{ section.id }}">{{ section.settings.wiki_categories_heading | default: 'Explorer toutes les catégories' }}</h2>
-              <div class="vd-wiki-page__section-text rte">
-                {{ section.settings.wiki_categories_text | default: '<p>Un sommaire visuel pour accéder rapidement aux sujets encyclopédiques du wiki.</p>' }}
-              </div>
+              {% assign wiki_categories_text_plain = section.settings.wiki_categories_text | strip_html | strip %}
+              {% if wiki_categories_text_plain != blank %}
+                <div class="vd-wiki-page__section-text rte">
+                  {{ section.settings.wiki_categories_text }}
+                </div>
+              {% endif %}
             </div>
 
             <div class="vd-wiki-page__category-grid">
@@ -2238,7 +2241,7 @@
       "type": "richtext",
       "id": "wiki_categories_text",
       "label": "Texte catégories wiki",
-      "default": "<p>Un sommaire visuel pour accéder rapidement aux sujets encyclopédiques du wiki.</p>"
+      "default": "<p></p>"
     },
     {
       "type": "text",
