@@ -33,6 +33,40 @@
       if (conservationMap[text]) return conservationMap[text];
     }
 
+    if (pageHandle === 'wiki-epices-madagascar') {
+      var epicesMap = {
+        'Quelles épices retrouve-t-on dans ce chapitre ?': 'Chapitre',
+        'Comment choisir une épice selon l’usage': 'Choisir',
+        'Comment lire le profil aromatique d’une épice': 'Profil',
+        'Formats, conservation et intensité': 'Formats',
+        'Ce qu’une bonne fiche épice doit vous dire': 'Fiche',
+        'Comment se repérer dans cette famille': 'Repères',
+        'Quatre épices à ouvrir en premier': 'Débuter',
+        'Questions fréquentes avant d’acheter des épices': 'FAQ',
+        'Comment utiliser le combava sans écraser le plat ?': 'Combava',
+        'Pourquoi certaines épices gagnent à rester entières': 'Entier',
+        'Par où continuer après cette page': 'Suite',
+        'Sources & lectures utiles': 'Sources'
+      };
+
+      if (epicesMap[text]) return epicesMap[text];
+    }
+
+    if (pageHandle === 'wiki-glossaire-epices') {
+      var glossaireMap = {
+        'À retrouver dans le glossaire': 'Repères',
+        'Une page pour mieux se repérer': 'Usage',
+        'Notions à clarifier en priorité': 'Priorités',
+        'Comment utiliser cette page': 'Mode d’emploi',
+        'Mots qui aident vraiment à mieux acheter': 'Choisir',
+        'Termes vanille à connaître': 'Vanille',
+        'Termes de préparation et d’extraction': 'Préparation',
+        'Termes utiles pour choisir un produit': 'Produit'
+      };
+
+      if (glossaireMap[text]) return glossaireMap[text];
+    }
+
     var words = text.split(/\s+/).filter(Boolean);
 
     if (words.length <= 3) return text;
@@ -158,7 +192,7 @@
       entry.list.innerHTML = '';
     });
 
-    var topHeadingLimit = 5;
+    var topHeadingLimit = 4;
 
     headings.forEach(function (heading, index) {
       var baseId = slugify(heading.textContent) || 'section';

@@ -962,11 +962,14 @@
               <span class="vd-section-kicker">{{ section.settings.wiki_categories_eyebrow | default: 'Catégories' }}</span>
               <h2 class="vd-wiki-page__section-title" id="wiki-categories-{{ section.id }}">{{ section.settings.wiki_categories_heading | default: 'Explorer toutes les catégories' }}</h2>
               {% assign wiki_categories_text_plain = section.settings.wiki_categories_text | strip_html | strip %}
+              {% assign wiki_categories_text_normalized = wiki_categories_text_plain | downcase %}
+              {% unless wiki_categories_text_normalized contains 'sommaire visuel' %}
               {% if wiki_categories_text_plain != blank %}
                 <div class="vd-wiki-page__section-text rte">
                   {{ section.settings.wiki_categories_text }}
                 </div>
               {% endif %}
+              {% endunless %}
             </div>
 
             <div class="vd-wiki-page__category-grid">
