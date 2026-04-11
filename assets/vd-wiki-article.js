@@ -2,8 +2,14 @@
   if (window.__vdWikiArticleBooted) return;
   window.__vdWikiArticleBooted = true;
 
-  function slugify(value) {
+  function normalizeText(value) {
     return String(value || '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function slugify(value) {
+    return normalizeText(value)
       .toLowerCase()
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
@@ -223,6 +229,26 @@
       });
     });
 
+    if (!section.querySelector('h2')) {
+      var summary = section.querySelector('details > summary');
+
+      if (summary) {
+        var summaryClone = summary.cloneNode(true);
+
+        Array.prototype.slice.call(summaryClone.querySelectorAll('button, .tag, .badge')).forEach(function (node) {
+          node.remove();
+        });
+
+        var summaryHeading = normalizeText(summaryClone.textContent);
+
+        if (summaryHeading) {
+          var headingFromSummary = document.createElement('h2');
+          headingFromSummary.textContent = summaryHeading;
+          section.insertBefore(headingFromSummary, section.firstChild);
+        }
+      }
+    }
+
     if (mode === 'glossary' && !section.querySelector('h2')) {
       var heading = document.createElement('h2');
       heading.textContent = 'Entrées du glossaire';
@@ -286,6 +312,227 @@
     content.innerHTML = '';
     content.appendChild(importedRoot);
     content.dataset.vdWikiImported = 'true';
+  }
+
+  function getImportedSections(content) {
+    var importedRoot = content ? content.querySelector('.vd-wiki-import') : null;
+
+    return importedRoot ? Array.prototype.slice.call(importedRoot.children) : [];
+  }
+
+  function getSectionHeading(section) {
+    var heading = section && section.querySelector ? section.querySelector('h2') : null;
+
+    return normalizeText(heading ? heading.textContent : '');
+  }
+
+  function headingMatches(heading, matcher) {
+    if (!heading) return false;
+
+    if (typeof matcher === 'string') {
+      return heading === matcher;
+    }
+
+    if (matcher && typeof matcher.test === 'function') {
+      return matcher.test(heading);
+    }
+
+    return false;
+  }
+
+  function renameImportedSection(content, matcher, nextHeading) {
+    getImportedSections(content).forEach(function (section) {
+      var heading = section.querySelector('h2');
+
+      if (!heading) return;
+
+      if (headingMatches(normalizeText(heading.textContent), matcher)) {
+        heading.textContent = nextHeading;
+      }
+    });
+  }
+
+  function removeImportedSections(content, matchers) {
+    getImportedSections(content).forEach(function (section) {
+      var heading = getSectionHeading(section);
+
+      if (!heading) return;
+
+      if (matchers.some(function (matcher) {
+        return headingMatches(heading, matcher);
+      })) {
+        section.remove();
+      }
+    });
+  }
+
+  function setImportedSectionIntro(content, matcher, text) {
+    getImportedSections(content).forEach(function (section) {
+      var heading = section.querySelector('h2');
+
+      if (!heading || !headingMatches(normalizeText(heading.textContent), matcher)) return;
+
+      var next = heading.nextElementSibling;
+
+      if (next && next.tagName === 'P') {
+        next.textContent = text;
+        markImportedNode(next, 'vd-wiki-import-intro');
+        return;
+      }
+
+      var paragraph = document.createElement('p');
+      paragraph.className = 'vd-wiki-import-intro';
+      paragraph.textContent = text;
+
+      if (next) {
+        heading.parentNode.insertBefore(paragraph, next);
+      } else {
+        heading.parentNode.appendChild(paragraph);
+      }
+    });
+  }
+
+  function pruneImportedChrome(content) {
+    if (!content) return;
+
+    Array.prototype.slice.call(content.querySelectorAll('.os-badge')).forEach(function (node) {
+      node.remove();
+    });
+  }
+
+  function pruneEmptyImportedNodes(content) {
+    if (!content) return;
+
+    Array.prototype.slice.call(content.querySelectorAll('.cta-row, .chip-group, .chips, p, div, li')).forEach(function (node) {
+      if (!node || !node.parentNode) return;
+
+      if (node.querySelector('img, picture, video, iframe, input, details, summary, article, section, ul, ol, a')) {
+        return;
+      }
+
+      if (normalizeText(node.textContent) === '') {
+        node.remove();
+      }
+    });
+  }
+
+  function pruneImportedCommerceLinks(content) {
+    if (!content) return;
+
+    Array.prototype.slice.call(content.querySelectorAll('a[href]')).forEach(function (link) {
+      var href = (link.getAttribute('href') || '').trim();
+
+      if (href.indexOf('/collections/') !== 0 && href.indexOf('/products/') !== 0) return;
+
+      link.remove();
+    });
+
+    pruneEmptyImportedNodes(content);
+  }
+
+  function normalizeImportedLinkLabels(content) {
+    if (!content) return;
+
+    Array.prototype.slice.call(content.querySelectorAll('a')).forEach(function (link) {
+      var text = normalizeText(link.textContent);
+
+      if (!text) return;
+
+      link.textContent = text.replace(/^[📖←→]\s*/u, '');
+    });
+  }
+
+  function sanitizeImportedContent(root, content) {
+    if (!root || !content) return;
+
+    var pageHandle = root.getAttribute('data-vd-wiki-handle') || '';
+
+    pruneImportedChrome(content);
+    pruneImportedCommerceLinks(content);
+    normalizeImportedLinkLabels(content);
+
+    getImportedSections(content).forEach(function (section) {
+      if (!section.querySelector('h2') && !section.querySelector('details > summary')) {
+        section.remove();
+      }
+    });
+
+    removeImportedSections(content, [/^Prêt/i, /^Découvrir nos /i, /^Continuer l’exploration$/i]);
+
+    if (pageHandle === 'wiki-recettes') {
+      renameImportedSection(content, 'Blueprints (gabarits modulables)', 'Bases et recettes à adapter');
+      renameImportedSection(content, 'Recettes OS (Madagascar)', 'Repères de cuisine malgache');
+      renameImportedSection(content, 'Bases mères (ratios reproductibles)', 'Bases à maîtriser');
+      renameImportedSection(content, 'Glossaire technique (utile, pas verbeux)', 'Repères techniques');
+      removeImportedSections(content, ['Outils rapides']);
+      setImportedSectionIntro(
+        content,
+        'Bases et recettes à adapter',
+        'Des bases simples pour desserts, boissons et préparations salées, à ajuster selon l’ingrédient et l’intensité recherchée.'
+      );
+      setImportedSectionIntro(
+        content,
+        'Repères de cuisine malgache',
+        'Quelques plats souvent cités pour situer les usages malgaches, à lire comme inspiration culturelle distincte des recettes Vanille Désiré.'
+      );
+      setImportedSectionIntro(
+        content,
+        'Bases à maîtriser',
+        'Des proportions utiles pour sirops, infusions et préparations maison, à adapter selon la texture et le temps de repos souhaités.'
+      );
+      setImportedSectionIntro(
+        content,
+        'Repères techniques',
+        'Températures, repos, filtration et petits gestes qui changent vraiment le résultat en cuisine.'
+      );
+    }
+
+    if (pageHandle === 'wiki-faq-vanille-epices') {
+      renameImportedSection(content, 'Questions rapides (encore plus)', 'Questions complémentaires');
+    }
+
+    if (pageHandle === 'wiki-glossaire-epices') {
+      renameImportedSection(content, 'Entrées du glossaire', 'Glossaire des termes utiles');
+      setImportedSectionIntro(
+        content,
+        'Glossaire des termes utiles',
+        'Définitions courtes pour reconnaître les termes, les usages et les gestes utiles autour de la vanille, des épices et des poivres.'
+      );
+    }
+
+    if (pageHandle === 'wiki-huiles-essentielles-plantes') {
+      setImportedSectionIntro(
+        content,
+        'Bien choisir son huile',
+        'Trois repères simples pour choisir une huile adaptée à un usage ambiant ou cosmétique, avec les précautions essentielles à connaître.'
+      );
+      renameImportedSection(
+        content,
+        'FAQ — Huiles essentielles & huiles naturelles',
+        'Questions fréquentes sur les huiles et plantes'
+      );
+
+      Array.prototype.slice.call(content.querySelectorAll('p, li')).forEach(function (node) {
+        var text = normalizeText(node.textContent);
+
+        if (text.indexOf('Diffusion, cosmétique diluée, cuisine aromatique') === 0) {
+          node.textContent = 'Diffusion, usage cosmétique externe et dilution maîtrisée : choisissez des espèces douces pour débuter, comme l’ylang ylang ou le ravintsara.';
+        }
+
+        if (text.indexOf('Cuisine aromatique :') === 0 || text.indexOf('Cuisine aromatique (') === 0) {
+          node.remove();
+        }
+      });
+    }
+
+    if (pageHandle === 'wiki-sels-melanges') {
+      renameImportedSection(content, 'La base & l’esprit Vanille Désiré', 'Comprendre les sels aromatisés');
+      setImportedSectionIntro(
+        content,
+        'Comprendre les sels aromatisés',
+        'Ces sels partent d’un sel de Camargue travaillé en petites séries, puis associé à des aromates de Madagascar avec des repères d’usage simples.'
+      );
+    }
   }
 
   function pruneBrokenMedia(content) {
@@ -585,6 +832,7 @@
       var isKnowledgeLayout = detail && detail.getAttribute('data-vd-wiki-layout') === 'knowledge';
 
       importLegacyWikiContent(content);
+      sanitizeImportedContent(root, content);
       pruneBrokenMedia(content);
 
       if (isKnowledgeLayout) {

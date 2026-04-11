@@ -32,6 +32,7 @@
   assign wiki_poivres_page = pages['wiki-poivres-baies-madagascar']
   assign wiki_sels_page = pages['wiki-sels-melanges']
   assign wiki_plantes_page = pages['wiki-huiles-essentielles-plantes']
+  assign wiki_savoir_faire_page = pages['wiki-savoir-faire-producteurs']
   assign wiki_recettes_page = pages['wiki-recettes']
   assign wiki_glossaire_page = pages['wiki-glossaire-epices']
   assign wiki_faq_page = pages['wiki-faq-vanille-epices']
@@ -58,6 +59,7 @@
   assign wiki_poivres_page_url = wiki_poivres_page.url | default: '/pages/wiki-poivres-baies-madagascar'
   assign wiki_sels_page_url = wiki_sels_page.url | default: '/pages/wiki-sels-melanges'
   assign wiki_plantes_page_url = wiki_plantes_page.url | default: '/pages/wiki-huiles-essentielles-plantes'
+  assign wiki_savoir_faire_page_url = wiki_savoir_faire_page.url | default: '/pages/wiki-savoir-faire-producteurs'
   assign wiki_recettes_page_url = wiki_recettes_page.url | default: '/pages/wiki-recettes'
   assign wiki_glossaire_page_url = wiki_glossaire_page.url | default: '/pages/wiki-glossaire-epices'
   assign wiki_faq_page_url = wiki_faq_page.url | default: '/pages/wiki-faq-vanille-epices'
@@ -1317,32 +1319,136 @@
 
     case page.handle
       when 'wiki-vanille-conservation-preparation'
-        assign wiki_detail_card_one_title = 'Voir la vanille Bourbon'
-        assign wiki_detail_card_one_copy = 'Accéder directement aux gousses et formats.'
-        assign wiki_detail_card_one_url = vanille_collection_url
+        assign wiki_detail_card_one_title = 'Bien choisir sa vanille'
+        assign wiki_detail_card_one_copy = 'Revenir aux critères utiles avant achat et usage.'
+        assign wiki_detail_card_one_url = wiki_vanille_page_url
         assign wiki_detail_card_one_image = 'vd-wiki-cover.jpg'
-        assign wiki_detail_card_two_title = 'Voir les recettes'
-        assign wiki_detail_card_two_copy = 'Passer à l’usage concret.'
-        assign wiki_detail_card_two_url = recettes_page_url
+        assign wiki_detail_card_two_title = 'Recettes & accords'
+        assign wiki_detail_card_two_copy = 'Voir les usages concrets après préparation.'
+        assign wiki_detail_card_two_url = wiki_recettes_page_url
         assign wiki_detail_card_two_image = 'vd-wiki-techniques.jpg'
-        assign wiki_detail_card_three_title = 'Bien choisir sa vanille'
-        assign wiki_detail_card_three_copy = 'Comparer les qualités et usages.'
-        assign wiki_detail_card_three_url = wiki_vanille_page_url
+        assign wiki_detail_card_three_title = 'Retour au wiki'
+        assign wiki_detail_card_three_copy = 'Revenir au sommaire principal du wiki.'
+        assign wiki_detail_card_three_url = wiki_index_page_url
         assign wiki_detail_card_three_image = 'vd-wiki-botanique.jpg'
       when 'wiki-vanille-bien-choisir'
         assign wiki_detail_collection_url = wiki_vanille_storage_page_url
         assign wiki_detail_collection_label = 'Conservation & préparation'
-        assign wiki_detail_card_one_title = 'Voir la vanille Bourbon'
-        assign wiki_detail_card_one_copy = 'Accéder directement aux gousses et formats.'
-        assign wiki_detail_card_one_url = vanille_collection_url
+        assign wiki_detail_card_one_title = 'Conservation & préparation'
+        assign wiki_detail_card_one_copy = 'Enchaîner avec les bons gestes de stockage et d’infusion.'
+        assign wiki_detail_card_one_url = wiki_vanille_storage_page_url
         assign wiki_detail_card_one_image = 'vd-wiki-cover.jpg'
-        assign wiki_detail_card_two_title = 'Conservation & préparation'
-        assign wiki_detail_card_two_copy = 'Voir les bons gestes de stockage.'
-        assign wiki_detail_card_two_url = wiki_vanille_storage_page_url
+        assign wiki_detail_card_two_title = 'Recettes & accords'
+        assign wiki_detail_card_two_copy = 'Passer de la sélection à l’usage en cuisine.'
+        assign wiki_detail_card_two_url = wiki_recettes_page_url
         assign wiki_detail_card_two_image = 'vd-wiki-techniques.jpg'
-        assign wiki_detail_card_three_title = 'Voir les recettes'
-        assign wiki_detail_card_three_copy = 'Passer de la sélection à l’usage.'
-        assign wiki_detail_card_three_url = recettes_page_url
+        assign wiki_detail_card_three_title = 'Retour au wiki'
+        assign wiki_detail_card_three_copy = 'Revenir aux grandes familles du wiki.'
+        assign wiki_detail_card_three_url = wiki_index_page_url
+        assign wiki_detail_card_three_image = 'vd-wiki-botanique.jpg'
+      when 'wiki-epices-madagascar'
+        assign wiki_detail_card_one_title = 'Poivres & baies'
+        assign wiki_detail_card_one_copy = 'Poursuivre avec les terroirs, intensités et finitions.'
+        assign wiki_detail_card_one_url = wiki_poivres_page_url
+        assign wiki_detail_card_one_image = 'vd-wiki-terroirs.jpg'
+        assign wiki_detail_card_two_title = 'Sels & mélanges'
+        assign wiki_detail_card_two_copy = 'Comparer les assemblages et leurs usages en finition.'
+        assign wiki_detail_card_two_url = wiki_sels_page_url
+        assign wiki_detail_card_two_image = 'vd-wiki-science.jpg'
+        assign wiki_detail_card_three_title = 'Retour au wiki'
+        assign wiki_detail_card_three_copy = 'Revenir au hub pour changer de famille.'
+        assign wiki_detail_card_three_url = wiki_index_page_url
+        assign wiki_detail_card_three_image = 'vd-wiki-cover.jpg'
+      when 'wiki-poivres-baies-madagascar'
+        assign wiki_detail_card_one_title = 'Épices de Madagascar'
+        assign wiki_detail_card_one_copy = 'Revenir au panorama des grandes familles d’épices.'
+        assign wiki_detail_card_one_url = wiki_epices_page_url
+        assign wiki_detail_card_one_image = 'vd-wiki-botanique.jpg'
+        assign wiki_detail_card_two_title = 'Sels & mélanges'
+        assign wiki_detail_card_two_copy = 'Voir comment les poivres dialoguent avec les finitions aromatiques.'
+        assign wiki_detail_card_two_url = wiki_sels_page_url
+        assign wiki_detail_card_two_image = 'vd-wiki-science.jpg'
+        assign wiki_detail_card_three_title = 'Recettes & accords'
+        assign wiki_detail_card_three_copy = 'Observer les usages concrets en cuisine.'
+        assign wiki_detail_card_three_url = wiki_recettes_page_url
+        assign wiki_detail_card_three_image = 'vd-wiki-techniques.jpg'
+      when 'wiki-savoir-faire-producteurs'
+        assign wiki_detail_card_one_title = 'FAQ — Vanille & épices'
+        assign wiki_detail_card_one_copy = 'Retrouver les réponses rapides sur qualité, conservation et commande.'
+        assign wiki_detail_card_one_url = wiki_faq_page_url
+        assign wiki_detail_card_one_image = 'vd-wiki-techniques.jpg'
+        assign wiki_detail_card_two_title = 'Glossaire des termes utiles'
+        assign wiki_detail_card_two_copy = 'Clarifier les mots de la filière, des origines et des usages.'
+        assign wiki_detail_card_two_url = wiki_glossaire_page_url
+        assign wiki_detail_card_two_image = 'vd-wiki-cover.jpg'
+        assign wiki_detail_card_three_title = 'Retour au wiki'
+        assign wiki_detail_card_three_copy = 'Revenir au sommaire du wiki.'
+        assign wiki_detail_card_three_url = wiki_index_page_url
+        assign wiki_detail_card_three_image = 'vd-wiki-botanique.jpg'
+      when 'wiki-recettes'
+        assign wiki_detail_card_one_title = 'Retour au wiki'
+        assign wiki_detail_card_one_copy = 'Revenir au sommaire principal du wiki.'
+        assign wiki_detail_card_one_url = wiki_index_page_url
+        assign wiki_detail_card_one_image = 'vd-wiki-cover.jpg'
+        assign wiki_detail_card_two_title = 'Bien choisir sa vanille'
+        assign wiki_detail_card_two_copy = 'Retrouver les critères utiles avant de cuisiner.'
+        assign wiki_detail_card_two_url = wiki_vanille_page_url
+        assign wiki_detail_card_two_image = 'vd-wiki-botanique.jpg'
+        assign wiki_detail_card_three_title = 'Épices de Madagascar'
+        assign wiki_detail_card_three_copy = 'Explorer les familles, terroirs et profils aromatiques.'
+        assign wiki_detail_card_three_url = wiki_epices_page_url
+        assign wiki_detail_card_three_image = 'vd-wiki-terroirs.jpg'
+      when 'wiki-glossaire-epices'
+        assign wiki_detail_card_one_title = 'Retour au wiki'
+        assign wiki_detail_card_one_copy = 'Revenir aux grandes familles du wiki.'
+        assign wiki_detail_card_one_url = wiki_index_page_url
+        assign wiki_detail_card_one_image = 'vd-wiki-cover.jpg'
+        assign wiki_detail_card_two_title = 'FAQ — Vanille & épices'
+        assign wiki_detail_card_two_copy = 'Prolonger avec les réponses les plus fréquentes.'
+        assign wiki_detail_card_two_url = wiki_faq_page_url
+        assign wiki_detail_card_two_image = 'vd-wiki-botanique.jpg'
+        assign wiki_detail_card_three_title = 'Épices de Madagascar'
+        assign wiki_detail_card_three_copy = 'Relire les familles, usages et ponts entre produits.'
+        assign wiki_detail_card_three_url = wiki_epices_page_url
+        assign wiki_detail_card_three_image = 'vd-wiki-techniques.jpg'
+      when 'wiki-faq-vanille-epices'
+        assign wiki_detail_card_one_title = 'Retour au wiki'
+        assign wiki_detail_card_one_copy = 'Revenir au sommaire principal du wiki.'
+        assign wiki_detail_card_one_url = wiki_index_page_url
+        assign wiki_detail_card_one_image = 'vd-wiki-botanique.jpg'
+        assign wiki_detail_card_two_title = 'Glossaire des termes utiles'
+        assign wiki_detail_card_two_copy = 'Clarifier les mots et repères cités dans les réponses.'
+        assign wiki_detail_card_two_url = wiki_glossaire_page_url
+        assign wiki_detail_card_two_image = 'vd-wiki-techniques.jpg'
+        assign wiki_detail_card_three_title = 'Savoir-faire & producteurs'
+        assign wiki_detail_card_three_copy = 'Lire comment la préparation et la filière se structurent.'
+        assign wiki_detail_card_three_url = wiki_savoir_faire_page_url
+        assign wiki_detail_card_three_image = 'vd-wiki-cover.jpg'
+      when 'wiki-sels-melanges'
+        assign wiki_detail_card_one_title = 'Épices de Madagascar'
+        assign wiki_detail_card_one_copy = 'Revenir aux familles aromatiques qui nourrissent les assemblages.'
+        assign wiki_detail_card_one_url = wiki_epices_page_url
+        assign wiki_detail_card_one_image = 'vd-wiki-botanique.jpg'
+        assign wiki_detail_card_two_title = 'Poivres & baies'
+        assign wiki_detail_card_two_copy = 'Comparer les profils qui prolongent les sels en finition.'
+        assign wiki_detail_card_two_url = wiki_poivres_page_url
+        assign wiki_detail_card_two_image = 'vd-wiki-terroirs.jpg'
+        assign wiki_detail_card_three_title = 'Recettes & accords'
+        assign wiki_detail_card_three_copy = 'Voir des usages concrets pour chaque type de sel.'
+        assign wiki_detail_card_three_url = wiki_recettes_page_url
+        assign wiki_detail_card_three_image = 'vd-wiki-techniques.jpg'
+      when 'wiki-huiles-essentielles-plantes'
+        assign wiki_detail_card_one_title = 'Questions fréquentes'
+        assign wiki_detail_card_one_copy = 'Revenir aux réponses utiles sur qualité, usage et précautions.'
+        assign wiki_detail_card_one_url = wiki_faq_page_url
+        assign wiki_detail_card_one_image = 'vd-wiki-techniques.jpg'
+        assign wiki_detail_card_two_title = 'Glossaire des termes utiles'
+        assign wiki_detail_card_two_copy = 'Clarifier les termes employés autour des plantes et extraits.'
+        assign wiki_detail_card_two_url = wiki_glossaire_page_url
+        assign wiki_detail_card_two_image = 'vd-wiki-cover.jpg'
+        assign wiki_detail_card_three_title = 'Retour au wiki'
+        assign wiki_detail_card_three_copy = 'Revenir aux autres familles du wiki.'
+        assign wiki_detail_card_three_url = wiki_index_page_url
         assign wiki_detail_card_three_image = 'vd-wiki-botanique.jpg'
       when 'vanille-pompona', 'wiki-vanille-pompona'
         assign wiki_detail_collection_url = wiki_vanille_page_url
@@ -1988,8 +2094,8 @@
 
           <footer class="vd-wiki-detail__footer vd-wiki-detail__footer--lite">
             <div class="vd-wiki-detail__footer-head">
-              <span class="vd-wiki-detail__eyebrow">Poursuivre</span>
-              <h2>Continuer dans le wiki</h2>
+              <span class="vd-wiki-detail__eyebrow">À lire ensuite</span>
+              <h2>Pour aller plus loin</h2>
             </div>
             <div class="vd-wiki-detail__footer-links" aria-label="Navigation du chapitre">
               <a href="{{ wiki_detail_card_one_url }}" class="vd-wiki-detail__footer-link" data-vd-preview-link>

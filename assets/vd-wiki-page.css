@@ -3067,8 +3067,8 @@ body:has(.vd-wiki-page) .vd-wiki-page > .page-width {
 
 body:has(.vd-wiki-page) .vd-wiki-page__shell {
   grid-template-columns: minmax(0, 1fr) !important;
-  gap: clamp(2rem, 3vw, 3rem) !important;
-  padding-top: calc(var(--header-height, 8rem) + 2rem) !important;
+  gap: clamp(1.4rem, 2.2vw, 2.2rem) !important;
+  padding-top: calc(var(--header-height, 8rem) + 0.7rem) !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__rail,
@@ -3079,10 +3079,10 @@ body:has(.vd-wiki-page) .vd-wiki-page__anchors {
 body:has(.vd-wiki-page) .vd-wiki-page__hero {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) !important;
-  gap: 1.5rem !important;
-  max-width: 86rem !important;
+  gap: 1rem !important;
+  max-width: 92rem !important;
   margin: 0 auto !important;
-  padding: 0 0 1.4rem !important;
+  padding: 0 0 0.8rem !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__hero-copy {
@@ -3090,21 +3090,21 @@ body:has(.vd-wiki-page) .vd-wiki-page__hero-copy {
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__title {
-  max-width: 9.5ch !important;
-  font-size: clamp(5rem, 6vw, 7rem) !important;
+  max-width: 11ch !important;
+  font-size: clamp(4.4rem, 5.4vw, 6.3rem) !important;
   line-height: 0.9 !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__lede,
 body:has(.vd-wiki-page) .vd-wiki-page__lede p {
   max-width: 62rem !important;
-  font-size: 1.18rem !important;
-  line-height: 1.82 !important;
+  font-size: 1.08rem !important;
+  line-height: 1.72 !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__navigator {
   display: flex !important;
-  max-width: 86rem !important;
+  max-width: 92rem !important;
   margin: 0 auto !important;
 }
 
@@ -3119,12 +3119,12 @@ body:has(.vd-wiki-page) .vd-wiki-page__main > .vd-wiki-page__section:first-of-ty
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__section {
-  padding: 1.8rem 0 !important;
+  padding: 1.15rem 0 !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__section-head {
-  max-width: 86rem !important;
-  margin: 0 auto 1.35rem !important;
+  max-width: 92rem !important;
+  margin: 0 auto 1rem !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__featured-grid {
@@ -3137,7 +3137,7 @@ body:has(.vd-wiki-page) .vd-wiki-page__feature {
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__feature-media {
-  min-height: 21rem !important;
+  min-height: 17rem !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__feature-body {
@@ -3150,7 +3150,7 @@ body:has(.vd-wiki-page) .vd-wiki-page__section[aria-labelledby^="wiki-categories
   justify-content: center !important;
   text-align: center !important;
   max-width: 60rem !important;
-  margin-bottom: 2.2rem !important;
+  margin-bottom: 1.35rem !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__section[aria-labelledby^="wiki-categories"] .vd-section-kicker {
@@ -3159,9 +3159,9 @@ body:has(.vd-wiki-page) .vd-wiki-page__section[aria-labelledby^="wiki-categories
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__section[aria-labelledby^="wiki-categories"] .vd-wiki-page__section-title {
-  max-width: 8ch !important;
+  max-width: 10ch !important;
   margin: 0 auto !important;
-  font-size: clamp(4.4rem, 5.4vw, 6.5rem) !important;
+  font-size: clamp(3.4rem, 4.3vw, 5rem) !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__category-grid {
@@ -3172,8 +3172,8 @@ body:has(.vd-wiki-page) .vd-wiki-page__category-grid {
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__category {
-  min-height: 18rem !important;
-  padding: 1.7rem 1.75rem !important;
+  min-height: 15.5rem !important;
+  padding: 1.45rem 1.55rem !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__cta {
@@ -3201,7 +3201,7 @@ body:has(.vd-wiki-page) .vd-wiki-page__cta {
   }
 
   body:has(.vd-wiki-page) .vd-wiki-page__shell {
-    padding-top: calc(var(--header-height, 8rem) + 1.4rem) !important;
+    padding-top: calc(var(--header-height, 8rem) + 0.55rem) !important;
   }
 
   body:has(.vd-wiki-page) .vd-wiki-page__hero,
@@ -3211,13 +3211,14 @@ body:has(.vd-wiki-page) .vd-wiki-page__cta {
   }
 
   body:has(.vd-wiki-page) .vd-wiki-page__title {
-    font-size: clamp(4rem, 14vw, 5.4rem) !important;
+    max-width: 8.6ch !important;
+    font-size: clamp(3.6rem, 13vw, 5rem) !important;
   }
 
   body:has(.vd-wiki-page) .vd-wiki-page__lede,
   body:has(.vd-wiki-page) .vd-wiki-page__lede p {
-    font-size: 1.08rem !important;
-    line-height: 1.76 !important;
+    font-size: 1rem !important;
+    line-height: 1.66 !important;
   }
 
   body:has(.vd-wiki-page) .vd-wiki-page__featured-grid,
