@@ -1,0 +1,366 @@
+<section class="vdw-salts" aria-labelledby="vdw-salts-title">
+  <style>
+    .vdw-salts{
+      /* Palette VD */
+      --ink:#2B1C10; --bg:#FAF5EE; --paper:#F6EFE6; --cream:#F2E9DD;
+      --accent:#D4A373; --olive:#6E7B59; --warn:#C77D47; --ring:rgba(0,0,0,.08);
+      --safe-top: clamp(64px, env(safe-area-inset-top) + 72px, 112px);
+      color:var(--ink); background:var(--bg);
+      border-radius:20px; padding:clamp(20px,3vw,44px)
+    }
+    .vdw-salts *{box-sizing:border-box}
+    .vdw-salts a{color:inherit;text-decoration:none}
+    .vdw-salts .wrap{max-width:1200px;margin:0 auto}
+
+    /* Hero */
+    .vdw-salts .kicker{letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;opacity:.8;margin-bottom:.35rem}
+    .vdw-salts h1{font-size:clamp(1.9rem,4.2vw,3rem);line-height:1.08;margin:.1rem 0 .35rem}
+    .vdw-salts .lead{font-size:clamp(1rem,1.2vw,1.125rem);max-width:80ch;opacity:.95;margin:0}
+
+    /* Layout + TOC */
+    .vdw-salts .grid{display:grid;gap:20px}
+    @media(min-width:980px){.vdw-salts .grid.cols-2{grid-template-columns:280px 1fr}}
+    .vdw-salts .toc{position:sticky; top:var(--safe-top); align-self:flex-start;
+      background:#fff;border:1px solid var(--cream);border-radius:16px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.04)}
+    .vdw-salts .toc h2{font-size:1rem;margin:.1rem 0 .4rem}
+    .vdw-salts .toc ul{list-style:none;margin:0;padding:0;display:grid;gap:.35rem}
+    .vdw-salts .toc a{display:flex;gap:.5rem;align-items:center;padding:.45rem .6rem;border-radius:10px}
+    .vdw-salts .toc a:hover{background:var(--paper)}
+    .vdw-salts .toc .dot{width:8px;height:8px;border-radius:999px;background:var(--accent);opacity:.8}
+
+    /* Blocks */
+    .vdw-salts section.block{background:#fff;border:1px solid var(--cream);border-radius:18px;padding:18px;box-shadow:0 8px 24px rgba(0,0,0,.04)}
+    .vdw-salts .block h2{font-size:clamp(1.25rem,2.3vw,1.6rem);margin:0 0 .5rem}
+    .vdw-salts .intro{opacity:.95;margin:.2rem 0 .8rem;max-width:85ch}
+
+    /* Accordions (volets produits) */
+    .vdw-salts details.prod{background:#fff;border:1px solid var(--cream);border-radius:14px;margin:12px 0;overflow:hidden}
+    .vdw-salts details[open]{border-color:var(--accent); box-shadow:0 8px 26px rgba(0,0,0,.06)}
+    .vdw-salts summary{cursor:pointer;list-style:none;padding:14px 16px;font-weight:700;display:flex;align-items:center;gap:.6rem}
+    .vdw-salts summary .tag{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:linear-gradient(180deg,#fff7ee,#fff);
+      border:1px solid var(--cream);border-radius:999px;padding:.32rem .6rem}
+    .vdw-salts .pwrap{padding:0 16px 16px}
+    .vdw-salts .pgrid{display:grid;gap:14px}
+    @media(min-width:860px){.vdw-salts .pgrid{grid-template-columns:220px 1fr}}
+    .vdw-salts .pimg{aspect-ratio:1/1;background:#fff;border:1px solid var(--paper);border-radius:12px;display:flex;align-items:center;justify-content:center;padding:10px}
+    .vdw-salts .pimg img{max-width:100%;height:auto}
+    .vdw-salts .specs{display:grid;gap:10px}
+    .vdw-salts .panel{background:linear-gradient(180deg,#fff 0%,#fff7ee 100%);border:1px solid var(--cream);border-radius:12px;padding:12px}
+    .vdw-salts .panel h3{margin:.1rem 0 .4rem;font-size:1.02rem}
+    .vdw-salts .mini{font-size:.95rem;opacity:.98;margin:.2rem 0 0}
+    .vdw-salts ul.clean{margin:.2rem 0 .2rem;padding-left:1.1rem}
+
+    /* CTA */
+    .vdw-salts .cta-row{display:flex;flex-wrap:wrap;gap:.6rem}
+    .vdw-salts .btn{appearance:none;border:none;border-radius:999px;background:var(--accent);color:#20130C;
+      padding:.85rem 1.1rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:.45rem}
+    .vdw-salts .btn--ghost{background:#fff;border:1px solid var(--cream);font-weight:600}
+
+    /* Reveal */
+    .vdw-salts .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease, transform .6s ease}
+    .vdw-salts .reveal.on{opacity:1;transform:none}
+    @media(prefers-reduced-motion:reduce){
+      .vdw-salts .reveal{opacity:1;transform:none}
+    }
+  </style>
+
+  <div class="wrap">
+    <!-- HERO -->
+    <p class="kicker">Wiki — Sels aromatisés</p>
+    <h1 id="vdw-salts-title">Sels de Camargue parfumés — Guide complet</h1>
+    <p class="lead">
+      Base <strong>Sel de Camargue</strong> + aromates de <strong>Madagascar</strong>. Retrouvez ici le <strong>profil</strong>, les <strong>usages</strong>, les
+      <strong>dosages</strong> et des <strong>astuces</strong> pour chaque recette. Une seule page, tout en volets dépliants.
+    </p>
+
+    <!-- LAYOUT -->
+    <div class="grid cols-2" style="margin-top:18px">
+      <!-- TOC -->
+      <nav class="toc reveal" aria-label="Sommaire">
+        <h2>Sommaire</h2>
+        <ul>
+          <li><a href="#base"><span class="dot"></span> La base : Sel de Camargue + philosophie</a></li>
+          <li><a href="#vanille"><span class="dot"></span> Sel à la Vanille Bourbon</a></li>
+          <li><a href="#poivres-baies"><span class="dot"></span> Sel aux poivres &amp; baies roses</a></li>
+          <li><a href="#combava"><span class="dot"></span> Sel au Combava</a></li>
+          <li><a href="#pilipili"><span class="dot"></span> Sel au Piment Pili-pili</a></li>
+          <li><a href="#faq"><span class="dot"></span> FAQ — Sels aromatisés</a></li>
+        </ul>
+      </nav>
+
+      <!-- CONTENT -->
+      <div class="content">
+        <!-- BASE -->
+        <section id="base" class="block reveal anchor" aria-labelledby="base-title">
+          <h2 id="base-title">La base &amp; l’esprit Vanille Désiré</h2>
+          <p class="intro">
+            Nos sels parfumés partent d’un <strong>Sel de Camargue</strong> à la granulométrie idéale, travaillé en
+            <strong>petites séries</strong>, puis marié à des <strong>aromates de Madagascar</strong> soigneusement sélectionnés (traçabilité <em>familles productrices</em>).
+          </p>
+          <div class="panel">
+            <h3>Pourquoi c’est différent</h3>
+            <ul class="clean">
+              <li><strong>Vrai aromatage</strong> (matière noble : gousse, caviar, zestes, grains), pas “saveur”.</li>
+              <li><strong>Fraîcheur</strong> : broyage &amp; mélange à la demande, préserve les huiles essentielles.</li>
+              <li><strong>Équilibre</strong> : salinité maîtrisée pour <em>relever</em> sans masquer.</li>
+            </ul>
+            <p class="mini"> Tous les dosages sont donnés <em>à froid</em> (assaisonnement final) et <em>à chaud</em> (cuisson douce).</p>
+          </div>
+        </section>
+
+        <!-- PRODUITS (VOLETS) -->
+        <!-- 1. VANILLE -->
+        <section id="vanille" class="reveal anchor">
+          <details class="prod" open>
+            <summary>
+              <span class="tag">Signature</span> Sel de Camargue à la <strong>Vanille Bourbon</strong> de Madagascar
+            </summary>
+            <div class="pwrap">
+              <div class="pgrid">
+                <div class="pimg" aria-hidden="true">
+                  <!-- Remplace l'image si souhaité -->
+                  <img loading="lazy" src="https://cdn.shopify.com/s/files/1/0927/2911/4891/files/sel_a_la_vanille_bourbon_de_Madagascar.png?v=1756746741" alt="Sel de Camargue parfumé à la vanille Bourbon">
+                </div>
+                <div class="specs">
+                  <div class="panel">
+                    <h3>Profil aromatique</h3>
+                    <p class="mini">
+                      Rond, pâtissier, <strong>gourmand</strong>. Notes chaudes de <em>vanilline</em>, pointe caramélisée.
+                      Maillage recommandé : <a href="/pages/wiki-vanille">Wiki Vanille</a>.
+                    </p>
+                  </div>
+                  <div class="panel">
+                    <h3>Usages conseillés</h3>
+                    <ul class="clean">
+                      <li><strong>Finition sucrée</strong> : fraises, salades de fruits, crumble, crêpes.</li>
+                      <li><strong>Accords salés</strong> (surprise maîtrisée) : purée de patate douce, carotte rôtie, Saint-Jacques snackées.</li>
+                      <li><strong>Boissons</strong> : chocolat chaud, cappuccino, latte vanillé (une pincée au dressage).</li>
+                    </ul>
+                  </div>
+                  <div class="panel">
+                    <h3>Dosages</h3>
+                    <ul class="clean">
+                      <li>Finition : <strong>1 à 2 pincées</strong> / portion.</li>
+                      <li>Pâte à crêpes/gaufres : <strong>4–6 g</strong> / 500 g de pâte.</li>
+                    </ul>
+                    <p class="mini">Astuce : ajoute une <strong>micro-pincée</strong> sur fruits rôtis pour booster le sucre naturel.</p>
+                  </div>
+                  <div class="cta-row">
+                    <a class="btn" href="/collections/sels-aromatises">Acheter le sel à la Vanille</a>
+                    <a class="btn btn--ghost" href="/pages/wiki-vanille-conservation-preparation">→ Tout sur la vanille</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+        </section>
+
+        <!-- 2. POIVRES & BAIES ROSES -->
+        <section id="poivres-baies" class="reveal anchor">
+          <details class="prod">
+            <summary>
+              <span class="tag">Épicerie fine</span> Sel de Camargue parfumé au <strong>mélange de poivres &amp; baies roses</strong>
+            </summary>
+            <div class="pwrap">
+              <div class="pgrid">
+                <div class="pimg" aria-hidden="true">
+                  <img loading="lazy" src="https://cdn.shopify.com/s/files/1/0927/2911/4891/files/sel-de-camargue-parfume-au-melange-de-poivres-et-baies-roses-de-madagascar.png?v=1757252302" alt="Sel parfumé poivres et baies roses">
+                </div>
+                <div class="specs">
+                  <div class="panel">
+                    <h3>Profil aromatique</h3>
+                    <p class="mini">
+                      Poivre noir (charpente), <em>poivre sauvage</em> (boisé, floral), <em>baies roses</em> (fruité, suave).
+                      Maillage : <a href="/pages/wiki-baies-roses">Wiki Baies roses</a> &amp; <a href="/pages/wiki-vanille">terroirs d’épices</a>.
+                    </p>
+                  </div>
+                  <div class="panel">
+                    <h3>Usages conseillés</h3>
+                    <ul class="clean">
+                      <li><strong>Viandes grillées</strong>, carpaccios, tartares.</li>
+                      <li><strong>Légumes</strong> rôtis, asperges, tomates anciennes.</li>
+                      <li><strong>Fromages</strong> frais (chèvre, faisselle) avec filet d’huile d’olive.</li>
+                    </ul>
+                  </div>
+                  <div class="panel">
+                    <h3>Dosages</h3>
+                    <ul class="clean">
+                      <li>Finition : <strong>1 pincée</strong> / assiette.</li>
+                      <li>Cuisson douce : <strong>2 g</strong> / 300 g d’aliment, à ajuster.</li>
+                    </ul>
+                    <p class="mini">Astuce chef : saupoudrer <em>après</em> cuisson pour préserver le fruité des baies roses.</p>
+                  </div>
+                  <div class="cta-row">
+                    <a class="btn" href="/collections/sels-aromatises">Acheter le sel Poivres &amp; Baies</a>
+                    <a class="btn btn--ghost" href="/pages/wiki-baies-roses">→ Tout sur les baies roses</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+        </section>
+
+        <!-- 3. COMBAVA -->
+        <section id="combava" class="reveal anchor">
+          <details class="prod">
+            <summary>
+              <span class="tag">Agrume</span> Sel de Camargue parfumé au <strong>Combava</strong>
+            </summary>
+            <div class="pwrap">
+              <div class="pgrid">
+                <div class="pimg" aria-hidden="true">
+                  <img loading="lazy" src="https://cdn.shopify.com/s/files/1/0927/2911/4891/files/sel-de-camargue-parfume-au-combava-de-madagascar.png?v=1757252344" alt="Sel parfumé au combava">
+                </div>
+                <div class="specs">
+                  <div class="panel">
+                    <h3>Profil aromatique</h3>
+                    <p class="mini">
+                      Zeste <strong>vert</strong>, ultra-citronné, notes de feuille de kaffir, finale vive.
+                      Maillage : <a href="/pages/wiki-combava">Wiki Combava</a>.
+                    </p>
+                  </div>
+                  <div class="panel">
+                    <h3>Usages conseillés</h3>
+                    <ul class="clean">
+                      <li><strong>Poissons</strong> (crus &amp; cuissons douces), crevettes, Saint-Jacques.</li>
+                      <li><strong>Légumes</strong> vapeur, riz coco, woks minute.</li>
+                      <li><strong>Mocktails &amp; cocktails</strong> (bord de verre, sirops maison).</li>
+                    </ul>
+                  </div>
+                  <div class="panel">
+                    <h3>Dosages</h3>
+                    <ul class="clean">
+                      <li>Finition : <strong>1 pincée</strong> / assiette (très puissant).</li>
+                      <li>Marinades courtes : <strong>2–3 g</strong> / 300 g de poisson, 15–20 min.</li>
+                    </ul>
+                    <p class="mini">Astuce : évite les cuissons longues qui émoussent l’agrume — privilégie le dressage.</p>
+                  </div>
+                  <div class="cta-row">
+                    <a class="btn" href="/collections/sels-aromatises">Acheter le sel au Combava</a>
+                    <a class="btn btn--ghost" href="/pages/wiki-combava">→ En savoir plus sur le combava</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+        </section>
+
+        <!-- 4. PILI-PILI -->
+        <section id="pilipili" class="reveal anchor">
+          <details class="prod">
+            <summary>
+              <span class="tag">Piquant</span> Sel de Camargue parfumé au <strong>Piment Pili-pili</strong>
+            </summary>
+            <div class="pwrap">
+              <div class="pgrid">
+                <div class="pimg" aria-hidden="true">
+                  <img loading="lazy" src="https://cdn.shopify.com/s/files/1/0927/2911/4891/files/sel_camargue_piment_pili_pili_madagascar.png?v=1757252444" alt="Sel parfumé au piment pili-pili">
+                </div>
+                <div class="specs">
+                  <div class="panel">
+                    <h3>Profil aromatique</h3>
+                    <p class="mini">
+                      Chaleur <strong>progressive</strong>, notes végétales et légèrement fumées.
+                      Maillage : <a href="/pages/wiki-pili-pili">Wiki Pili-pili</a>.
+                    </p>
+                  </div>
+                  <div class="panel">
+                    <h3>Usages conseillés</h3>
+                    <ul class="clean">
+                      <li><strong>Grillades</strong>, brochettes, burgers.</li>
+                      <li><strong>Œufs</strong> (brouillés, shakshuka), avocats, maïs.</li>
+                      <li><strong>Frites / patates rôties</strong> (mélange à l’huile avant four).</li>
+                    </ul>
+                  </div>
+                  <div class="panel">
+                    <h3>Dosages</h3>
+                    <ul class="clean">
+                      <li>Finition : <strong>1/2 à 1 pincée</strong> / portion.</li>
+                      <li>Marinades : <strong>2 g</strong> / 300 g, 30–45 min.</li>
+                    </ul>
+                    <p class="mini">Astuce douceur : marier au <em>miel</em> pour un glaçage “hot-sweet” irrésistible.</p>
+                  </div>
+                  <div class="cta-row">
+                    <a class="btn" href="/collections/sels-aromatises">Acheter le sel au Pili-pili</a>
+                    <a class="btn btn--ghost" href="/pages/wiki-pili-pili">→ En savoir plus sur le pili-pili</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="block reveal anchor" aria-labelledby="faq-title">
+          <h2 id="faq-title">FAQ — Sels aromatisés</h2>
+          <details>
+            <summary>Quelle est la différence entre “aromatisé” et “saveur” ?</summary>
+            <p>Nos sels sont <strong>aromatisés</strong> avec de la matière première réelle (gousses, zestes, grains, piments). Aucune “saveur” artificielle.</p>
+          </details>
+          <details>
+            <summary>Les sels se cuisent ou s’utilisent en finition ?</summary>
+            <p>Les deux, mais la <strong>finition</strong> préserve mieux les arômes volatils (vanille, agrumes, baies). Pour le pili-pili et les poivres, la cuisson douce fonctionne très bien.</p>
+          </details>
+          <details>
+            <summary>Comment conserver un sel aromatisé ?</summary>
+            <p>Pot <strong>hermétique</strong>, au sec, à l’abri de la lumière et de la chaleur. Bien refermer après usage. Durée optimale : 12–18 mois.</p>
+          </details>
+        </section>
+
+        <!-- CTA GLOBAL -->
+        <section class="block reveal anchor" style="text-align:center">
+          <h2>Prêt·e à assaisonner comme un·e chef ?</h2>
+          <p class="intro">Découvrez la collection complète de nos <strong>sels de Camargue parfumés</strong>, travaillés en petites séries à Lyon.</p>
+          <div class="cta-row" style="justify-content:center">
+            <a class="btn" href="/collections/sels-aromatises">Voir la collection</a>
+            <a class="btn btn--ghost" href="/pages/wiki">← Retour au Wiki</a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reveal on scroll -->
+  <script>
+    document.addEventListener('DOMContentLoaded',function(){
+      var els=document.querySelectorAll('.vdw-salts .reveal');
+      if('IntersectionObserver' in window){
+        var io=new IntersectionObserver(function(entries){
+          entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target);} });
+        },{threshold:.12});
+        els.forEach(function(el){ io.observe(el); });
+      } else { els.forEach(function(el){ el.classList.add('on'); }); }
+    });
+  </script>
+
+  <!-- JSON-LD : ItemList + FAQ (SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"ItemList",
+    "name":"Sels de Camargue aromatisés Vanille Désiré",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Sel de Camargue à la Vanille Bourbon","url":"/collections/sels-aromatises"},
+      {"@type":"ListItem","position":2,"name":"Sel au mélange de poivres & baies roses","url":"/collections/sels-aromatises"},
+      {"@type":"ListItem","position":3,"name":"Sel au Combava","url":"/collections/sels-aromatises"},
+      {"@type":"ListItem","position":4,"name":"Sel au Piment Pili-pili","url":"/collections/sels-aromatises"}
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Quelle est la différence entre “aromatisé” et “saveur” ?",
+       "acceptedAnswer":{"@type":"Answer","text":"Nos sels sont aromatisés avec de la matière première réelle (gousses, zestes, grains, piments). Aucune saveur artificielle."}},
+      {"@type":"Question","name":"Les sels se cuisent ou s’utilisent en finition ?",
+       "acceptedAnswer":{"@type":"Answer","text":"Les deux, mais la finition préserve mieux les arômes volatils (vanille, agrumes, baies). Pour le pili-pili et les poivres, la cuisson douce fonctionne très bien."}},
+      {"@type":"Question","name":"Comment conserver un sel aromatisé ?",
+       "acceptedAnswer":{"@type":"Answer","text":"Pot hermétique, au sec, à l’abri de la lumière et de la chaleur. Durée optimale 12–18 mois."}}
+    ]
+  }
+  </script>
+</section>
+              

@@ -1,0 +1,420 @@
+<section class="vdR-root" aria-label="Wiki — Recettes (Blueprints &amp; Bases)">
+  <style>
+    .vdR-root{
+      --ink:#171511;--sub:#3d3a34;--muted:#6c695f;--line:rgba(0,0,0,.08);
+      --paper:#fff;--bg:#fbf6ee;--cream:#f6efe6;--accent:#FFB766;--accent2:#FFD09A;
+      --shadow:rgba(13,10,8,.10);--r:22px;--w:clamp(980px,92vw,1280px);
+      --h1:clamp(42px,7.2vw,84px);--h2:clamp(26px,4.4vw,54px);--lead:clamp(18px,2.2vw,22px);
+      color:var(--ink);background:linear-gradient(180deg,var(--paper),var(--bg) 50%,var(--cream));
+      border-radius:34px;box-shadow:0 30px 80px var(--shadow);isolation:isolate;overflow:hidden
+    }
+    .vdR-root *{box-sizing:border-box}
+    .vdR-container{max-width:var(--w);margin-inline:auto;padding-inline:clamp(16px,2.2vw,28px)}
+
+    .vdR-nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.85);
+      backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--line)}
+    .vdR-nav .vdR-container{display:flex;align-items:center;justify-content:space-between;padding-block:10px}
+    .vdR-brand{display:flex;align-items:center;gap:10px}
+    .vdR-logo{width:26px;height:26px;border-radius:8px;background:conic-gradient(from 12deg,#ffd7a3,#fff 40%,#ffc17a);box-shadow:inset 0 0 0 1px var(--line)}
+    .vdR-brand b{font-size:14px}
+    .vdR-nav a{color:var(--ink);text-decoration:none;font-size:14px;padding:.5rem .7rem;border-radius:10px}
+    .vdR-nav a:hover{background:rgba(0,0,0,.04)}
+
+    .vdR-hero .vdR-container{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(16px,4vw,48px);align-items:end;padding-block:clamp(28px,7vw,90px)}
+    .vdR-kicker{letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;font-size:12px}
+    .vdR-hero h1{font-size:var(--h1);line-height:1.08;letter-spacing:-.02em;margin:.2rem 0 1rem}
+    .vdR-hero h1 .hl{background:linear-gradient(90deg,var(--accent),var(--accent2));padding:.06em .20em;border-radius:.35em;box-decoration-break:clone}
+    .vdR-hero p{font-size:var(--lead);color:var(--sub);max-width:64ch}
+    .vdR-art{min-height:320px;border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(180deg,#fff,#fff7ec);box-shadow:0 16px 40px var(--shadow);position:relative;overflow:hidden}
+
+    /* link chips */
+    .vdR-cta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .chip{display:inline-flex;align-items:center;gap:6px;padding:.45rem .7rem;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;text-decoration:none;color:var(--ink)}
+    .chip:hover{background:linear-gradient(180deg,#fff,#ffe8c9)}
+    .chip .ext{font-size:10px;opacity:.7}
+
+    .vdR-filters{padding-block:clamp(12px,2.8vw,20px)}
+    .vdR-pills{display:flex;gap:8px;flex-wrap:wrap}
+    .vdR-pill{border:1px solid var(--line);background:#fff;border-radius:999px;padding:.5rem .9rem;font-size:13px;cursor:pointer}
+    .vdR-pill[aria-pressed="true"]{background:linear-gradient(180deg,#fff,#ffe2bf);box-shadow:0 8px 20px var(--shadow)}
+
+    .vdR-sec{padding-block:clamp(28px,6vw,74px)}
+    .vdR-sec h2{font-size:var(--h2);margin:0 0 8px;line-height:1.06}
+    .vdR-lead{color:var(--sub);margin:0 0 14px}
+
+    .vdR-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,2vw,18px)}
+    .vdR-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 14px 34px var(--shadow);transition:transform .25s ease, box-shadow .25s ease}
+    .vdR-card:hover{transform:translateY(-6px);box-shadow:0 26px 60px var(--shadow)}
+    .vdR-card .kicker{letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;font-size:11px}
+    .vdR-card h3{font-size:18px;margin:.35rem 0}
+    .vdR-card p, .vdR-card li{color:var(--sub)}
+    .vdR-card ul{margin:.35rem 0 0 1rem;padding:0}
+    .vdR-card a{color:inherit;text-decoration:underline;text-decoration-color:rgba(0,0,0,.25);text-underline-offset:2px}
+
+    .vdR-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,2vw,18px)}
+    .vdR-tool{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 12px 30px var(--shadow)}
+    .vdR-tool label{font-size:13px;color:var(--muted)}
+    .vdR-tool input{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;margin:.35rem 0}
+    .vdR-out{font-size:14px;color:var(--ink);font-weight:600}
+
+    .vdR-gloss{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(12px,2vw,18px)}
+    .vdR-note{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+
+    .os-badge{display:inline-block;font-size:11px;padding:.25rem .5rem;border-radius:999px;border:1px solid var(--line);background:linear-gradient(180deg,#fff,#f7efe5);color:var(--muted);margin-left:6px}
+
+    .attr{font-size:12px;color:var(--muted);margin-top:8px}
+
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s cubic-bezier(.2,.8,.2,1), transform .6s cubic-bezier(.2,.8,.2,1)}
+    .reveal.in{opacity:1;transform:none}
+
+    @media (max-width:980px){
+      .vdR-hero .vdR-container{grid-template-columns:1fr}
+      .vdR-grid,.vdR-tools,.vdR-gloss{grid-template-columns:1fr}
+    }
+  </style>
+
+  <!-- NAV -->
+  <nav class="vdR-nav" aria-label="Navigation Wiki Recettes">
+    <div class="vdR-container">
+      <div class="vdR-brand"><span class="vdR-logo" aria-hidden="true"></span><b>Wiki Recettes</b></div>
+      <div class="vdR-links">
+        <a href="#blueprints">Blueprints</a>
+        <a href="#os">Recettes OS</a>
+        <a href="#bases">Bases mères</a>
+        <a href="#outils">Outils</a>
+        <a href="#glossaire">Glossaire</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="vdR-hero">
+    <div class="vdR-container">
+      <div>
+        <div class="vdR-kicker">Ratios • Gabarits • Reproductibilité</div>
+        <h1>Des <span class="hl">blueprints</span> pour créer, des <span class="hl">bases</span> stables, des <span class="hl">outils</span> qui font gagner du temps.</h1>
+        <p class="reveal">Ici, pas d’articles à rallonge : des gabarits modulables, des bases mères validées, et de petits calculateurs pour dimensionner rapidement. <b>Bonus :</b> une sélection de <em>recettes ouvertes</em> (sources CC-BY-SA) typiques de Madagascar — <span class="os-badge">Open source</span> — pour la culture et l’inspiration, distinctes de nos recettes maison.</p>
+        <!-- LIENS INTERNES : WIKI & COLLECTIONS -->
+        <div class="vdR-cta">
+          <a class="chip" href="/pages/wiki-bienfaits-usages">→ Wiki Bienfaits &amp; Usages</a>
+          <a class="chip" href="/collections/vanille-bourbon">Acheter Vanille</a>
+          <a class="chip" href="/collections/all">Poivres &amp; Épices</a>
+          <a class="chip" href="/collections/huiles-essentielles">Huiles essentielles</a>
+          <a class="chip" href="/blogs/recettes">Nos recettes VD</a>
+        </div>
+      </div>
+      <div class="vdR-art reveal" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <!-- FILTRES -->
+  <section class="vdR-filters" aria-label="Filtres">
+    <div class="vdR-container">
+      <div class="vdR-pills" role="tablist">
+        <button class="vdR-pill" aria-pressed="true" data-filter="all">Tout</button>
+        <button class="vdR-pill" aria-pressed="false" data-filter="dessert">Desserts</button>
+        <button class="vdR-pill" aria-pressed="false" data-filter="sale">Salé</button>
+        <button class="vdR-pill" aria-pressed="false" data-filter="boisson">Boissons</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLUEPRINTS (internes VD) -->
+  <section id="blueprints" class="vdR-sec">
+    <div class="vdR-container">
+      <h2 class="reveal">Blueprints (gabarits modulables)</h2>
+      <p class="vdR-lead reveal">Des trames prêtes à adapter : change le parfum, garde le ratio. Liens internes vers les produits pour guider le choix.</p>
+
+      <div class="vdR-grid">
+        <article class="vdR-card reveal" data-cat="dessert">
+          <div class="kicker">Dessert • Crème prise</div>
+          <h3>Crème anglaise / glace vanille (base)</h3>
+          <p>1 L lait entier • 250 g crème • 180–220 g sucre • 200 g jaunes • <a href="/pages/wiki-poivre-sauvage-voatsiperifery">voatsiperifery</a> (option) • <a href="/pages/wiki-poivre-noir-madagascar">poivre noir</a> (option) • Vanille Bourbon.</p>
+          <ul>
+            <li>Infuser 1–2 gousses/L (ou 4–6 g poudre/L) à 82–84 °C, maturer 12 h pour glace.</li>
+            <li>Option chocolat : 8–10 % couverture, <a href="/pages/wiki-baies-roses-madagascar">baies roses</a> au dressage.</li>
+          </ul>
+          <div class="vdR-cta">
+            <a class="chip" href="/collections/vanille-bourbon">Acheter Vanille</a>
+            <a class="chip" href="/collections/all">Poivres &amp; Épices</a>
+          </div>
+        </article>
+
+        <article class="vdR-card reveal" data-cat="boisson">
+          <div class="kicker">Boisson • Sirop maison</div>
+          <h3>Sirop vanillé (base barista)</h3>
+          <p>1 L eau • 800 g sucre • 1–2 gousses fendues • repos 24 h.</p>
+          <ul>
+            <li>Twist : zeste de combava léger, filtrer finement.</li>
+            <li>Café latte : 20–30 mL/boisson, tour de voatsiperifery au service.</li>
+          </ul>
+          <div class="vdR-cta">
+            <a class="chip" href="/collections/vanille-bourbon">Vanille (gousses/poudre)</a>
+            <a class="chip" href="/collections/epices-madagascar">Combava &amp; épices</a>
+          </div>
+        </article>
+
+        <article class="vdR-card reveal" data-cat="sale">
+          <div class="kicker">Salé • Marinade</div>
+          <h3>Marinade poivre noir &amp; baies roses</h3>
+          <p>Au litre : 700 g eau • 300 g yaourt/babeurre • 10 g sel • 6–8 g <a href="/pages/wiki-poivre-noir-madagascar">poivre noir</a> • 2–3 g <a href="/pages/wiki-baies-roses-madagascar">baies roses</a>.</p>
+          <ul>
+            <li>Repos 2–4 h (volaille/poisson), essuyer avant cuisson.</li>
+            <li>Option “vert” : pointe de combava.</li>
+          </ul>
+          <div class="vdR-cta">
+            <a class="chip" href="/collections/poivre-baies">Acheter le duo poivres</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECETTES OS (Madagascar) -->
+  <section id="os" class="vdR-sec" aria-labelledby="os-title">
+    <div class="vdR-container">
+      <h2 id="os-title" class="reveal">Recettes OS (Madagascar) <span class="os-badge">Sources Wikipédia</span></h2>
+      <p class="vdR-lead reveal">Sélection de recettes <em>open source</em> (CC-BY-SA) — liens directs vers Wikipédia. <b>Ce ne sont pas nos recettes</b> : pour nos créations VD, voir <a href="/blogs/recettes">l’onglet Recettes</a>.</p>
+
+      <div class="vdR-grid">
+        <article class="vdR-card reveal" data-cat="sale">
+          <div class="kicker">Plat national • Laoka en bouillon</div>
+          <h3>Romazava (zébu/boeuf + brèdes)</h3>
+          <ul>
+            <li>Viande (souvent zébu/boeuf), tomates, oignons, gingembre.</li>
+            <li>Brèdes mafane (anamalaho) pour l’effet “picotant”.</li>
+            <li>Cuisson douce en bouillon, servi avec riz.</li>
+          </ul>
+          <div class="vdR-cta">
+            <a class="chip" href="/collections/all">Gingembre &amp; poivres</a>
+            <a class="chip" href="/pages/recettes">Voir nos recettes VD</a>
+            <a class="chip" target="_blank" rel="noopener nofollow" href="https://en.wikipedia.org/wiki/Romazava"><span class="ext">↗</span> Source ouverte</a>
+          </div>
+        </article>
+
+        <article class="vdR-card reveal" data-cat="sale">
+          <div class="kicker">Feuilles de manioc pilées</div>
+          <h3>Ravitoto sy henakisoa</h3>
+          <ul>
+            <li>Feuilles de manioc pilées (“ravitoto”) + porc gras, ail.</li>
+            <li>Variantes : lait de coco, crevettes sèches.</li>
+          </ul>
+          <div class="vdR-cta">
+            <a class="chip" href="/collections/all">Ail &amp; épices</a>
+            <a class="chip" target="_blank" rel="noopener nofollow" href="https://en.wikipedia.org/wiki/Ravitoto"><span class="ext">↗</span> Source ouverte</a>
+          </div>
+        </article>
+
+        <article class="vdR-card reveal" data-cat="dessert">
+          <div class="kicker">Petit-déj &amp; street-food</div>
+          <h3>Mofo gasy (pain/pancake de riz)</h3>
+          <ul>
+            <li>Pâte sucrée à la farine de riz (levure), cuite en moules.</li>
+            <li>Variante côtière : <em>mokary</em> (coco).</li>
+          </ul>
+          <div class="vdR-cta">
+            <a class="chip" href="/collections/vanille-bourbon">Vanille (option dessert)</a>
+            <a class="chip" target="_blank" rel="noopener nofollow" href="https://fr.wikipedia.org/wiki/Mofo_gasy"><span class="ext">↗</span> Source ouverte</a>
+          </div>
+        </article>
+
+        <article class="vdR-card reveal" data-cat="dessert">
+          <div class="kicker">Gâteau vapeur en feuilles de bananier</div>
+          <h3>Koba akondro</h3>
+          <ul>
+            <li>Pâte : cacahuètes moulues, banane, sucre/miel, farine (riz/maïs).</li>
+            <li>Envelopper dans feuilles de bananier, cuisson longue.</li>
+          </ul>
+          <div class="vdR-cta">
+            <a class="chip" href="/collections/vanille-bourbon">Vanille (accord dessert)</a>
+            <a class="chip" target="_blank" rel="noopener nofollow" href="https://en.wikipedia.org/wiki/Koba_(sweet)"><span class="ext">↗</span> Source ouverte</a>
+          </div>
+        </article>
+
+        <article class="vdR-card reveal" data-cat="boisson">
+          <div class="kicker">Boisson traditionnelle</div>
+          <h3>Ranovola / Ranon’ampango</h3>
+          <ul>
+            <li>Eau bouillie avec le riz grillé collé au fond du pot (“scorched rice”).</li>
+            <li>Donne une boisson ambrée, servie à table.</li>
+          </ul>
+          <div class="vdR-cta">
+            <a class="chip" target="_blank" rel="noopener nofollow" href="https://en.wikipedia.org/wiki/Scorched_rice#Madagascar"><span class="ext">↗</span> Source ouverte</a>
+          </div>
+        </article>
+
+        <article class="vdR-card reveal" data-cat="sale">
+          <div class="kicker">Condiment pimenté</div>
+          <h3>Sakay (piment, gingembre, ail)</h3>
+          <ul>
+            <li>Condiment de table, rouge ou vert selon piments.</li>
+            <li>Sert à assaisonner le riz/laoka au service.</li>
+          </ul>
+          <div class="vdR-cta">
+            <a class="chip" href="/collections/epices-madagascar">Piments &amp; gingembre</a>
+            <a class="chip" target="_blank" rel="noopener nofollow" href="https://en.wikipedia.org/wiki/Malagasy_cuisine"><span class="ext">↗</span> Source ouverte</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="attr">Ces résumés renvoient vers des articles Wikipédia sous licence CC-BY-SA. Crédits : Wikipedia contributors.</div>
+    </div>
+  </section>
+
+  <!-- BASES MÈRES -->
+  <section id="bases" class="vdR-sec">
+    <div class="vdR-container">
+      <h2 class="reveal">Bases mères (ratios reproductibles)</h2>
+      <p class="vdR-lead reveal">Les fondations. Une fois maîtrisées, on module arômes &amp; textures.</p>
+
+      <div class="vdR-grid">
+        <article class="vdR-card reveal">
+          <div class="kicker">Base</div>
+          <h3>Crème pâtissière vanille</h3>
+          <ul>
+            <li>1 L lait • 1 gousse (ou 5 g poudre) • 200 g sucre • 80 g jaunes • 80 g amidon.</li>
+            <li>Ébullition brève, refroidissement rapide. Parfums : voatsiperifery, combava (léger).</li>
+          </ul>
+          <div class="vdR-cta">
+            <a class="chip" href="/collections/vanille-bourbon">Acheter Vanille</a>
+          </div>
+        </article>
+
+        <article class="vdR-card reveal">
+          <div class="kicker">Base</div>
+          <h3>Pâte sablée “ratio 1–2–3”</h3>
+          <ul>
+            <li>Sucre 1 • Beurre 2 • Farine 3 (+ vanille). Zeste de combava possible.</li>
+            <li>Repos 2 h au froid, cuisson 160–170 °C.</li>
+          </ul>
+          <div class="vdR-cta">
+            <a class="chip" href="/collections/vanille-bourbon">Vanille</a>
+            <a class="chip" href="/collections/epices-madagascar/products/poudre-combava-sauvage-madagascar-20g">Combava</a>
+          </div>
+        </article>
+
+        <article class="vdR-card reveal">
+          <div class="kicker">Base</div>
+          <h3>Fond d’épices maison (profil chaud)</h3>
+          <ul>
+            <li>Poivre noir 40 % • Cannelle 20 % • Gingembre 15 % • Curcuma 15 % • Baies roses 10 %.</li>
+            <li>Utilisation : 3–6 g/L en sauce ou bouillon.</li>
+          </ul>
+          <div class="vdR-cta">
+            <a class="chip" href="/collections/fond-epices">Acheter mon fond</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTILS -->
+  <section id="outils" class="vdR-sec">
+    <div class="vdR-container">
+      <h2 class="reveal">Outils rapides</h2>
+      <p class="vdR-lead reveal">Scaler, convertir, dimensionner. Résultats indicatifs — à ajuster selon texture et matériel.</p>
+
+      <div class="vdR-tools">
+        <div class="vdR-tool reveal">
+          <div class="kicker">Calcul</div>
+          <h3>Scaler de recette</h3>
+          <label>Poids total actuel (g)</label>
+          <input id="sc-in1" type="number" min="1" value="1000">
+          <label>Poids total voulu (g)</label>
+          <input id="sc-in2" type="number" min="1" value="1500">
+          <label>Quantité d’un ingrédient (g)</label>
+          <input id="sc-in3" type="number" min="0" value="200">
+          <div class="vdR-out" id="sc-out">Quantité ajustée : 300 g</div>
+        </div>
+
+        <div class="vdR-tool reveal">
+          <div class="kicker">Conversion</div>
+          <h3>% ⇄ grammes</h3>
+          <label>Poids total (g)</label>
+          <input id="pc-in1" type="number" min="1" value="1000">
+          <label>Pourcentage (%)</label>
+          <input id="pc-in2" type="number" min="0" step="0.1" value="12">
+          <div class="vdR-out" id="pc-out">Résultat : 120 g</div>
+        </div>
+
+        <div class="vdR-tool reveal">
+          <div class="kicker">Repère</div>
+          <h3>Sirop : eau + sucre</h3>
+          <label>Sucre (g)</label>
+          <input id="sx-in1" type="number" min="0" value="800">
+          <label>Eau (g)</label>
+          <input id="sx-in2" type="number" min="0" value="1000">
+          <div class="vdR-out" id="sx-out">≈ 44 % sucres (Brix simplifié)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLOSSAIRE -->
+  <section id="glossaire" class="vdR-sec">
+    <div class="vdR-container">
+      <h2 class="reveal">Glossaire technique (utile, pas verbeux)</h2>
+      <div class="vdR-gloss">
+        <div class="vdR-note reveal">
+          <h3>Infusion contrôlée</h3>
+          <p>Vanille : 80–85 °C, 30–45 min, couvert. Filtrage fin. Préserve la fraîcheur aromatique.</p>
+        </div>
+        <div class="vdR-note reveal">
+          <h3>Maturation</h3>
+          <p>Repos à froid 6–12 h (glaces, pâtes sucrées) pour texture et diffusion homogènes.</p>
+        </div>
+        <div class="vdR-note reveal">
+          <h3>Assaisonnement au service</h3>
+          <p>Moudre <a href="/pages/wiki-poivre-sauvage-voatsiperifery">poivre sauvage</a> et <a href="/pages/wiki-baies-roses-madagascar">baies roses</a> juste avant dressage.</p>
+        </div>
+        <div class="vdR-note reveal">
+          <h3>Équilibre acide/gras/sucre</h3>
+          <p>Combava pour la tension, vanille pour la rondeur, <a href="/pages/wiki-poivre-noir-madagascar">poivre noir</a> pour la structure.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="vdR-sec" style="padding-top:0;border-top:1px solid var(--line);background:#fff">
+    <div class="vdR-container" style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);padding-block:14px">
+      <span>© Vanille Désiré — Blueprints &amp; Bases</span>
+      <span>Traçabilité • Reproductibilité • Sobriété</span>
+    </div>
+  </footer>
+
+  <!-- JSON-LD : liste des recettes OS (SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"ItemList",
+    "name":"Recettes ouvertes de Madagascar (sélection Wikipédia)",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Romazava","url":"https://en.wikipedia.org/wiki/Romazava"},
+      {"@type":"ListItem","position":2,"name":"Ravitoto","url":"https://en.wikipedia.org/wiki/Ravitoto"},
+      {"@type":"ListItem","position":3,"name":"Mofo gasy","url":"https://fr.wikipedia.org/wiki/Mofo_gasy"},
+      {"@type":"ListItem","position":4,"name":"Koba akondro","url":"https://en.wikipedia.org/wiki/Koba_(sweet)"},
+      {"@type":"ListItem","position":5,"name":"Ranovola / Ranon’ampango","url":"https://en.wikipedia.org/wiki/Scorched_rice#Madagascar"},
+      {"@type":"ListItem","position":6,"name":"Sakay","url":"https://en.wikipedia.org/wiki/Malagasy_cuisine"}
+    ]
+  }
+  </script>
+
+  <!-- SCRIPTS -->
+  <script>
+    (function(){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.18});document.querySelectorAll('.reveal').forEach(n=>io.observe(n));})();
+    (function(){const pills=[...document.querySelectorAll('.vdR-pill')];const cards=[...document.querySelectorAll('[data-cat]')];
+      const set=f=>{pills.forEach(p=>p.setAttribute('aria-pressed',p.dataset.filter===f||f==='all'&&p.dataset.filter==='all'?'true':'false'));
+        cards.forEach(c=>c.style.display=(f==='all'||c.dataset.cat===f)?'':'none');};
+      pills.forEach(p=>p.addEventListener('click',()=>set(p.dataset.filter)));set('all');})();
+    (function(){const $=id=>document.getElementById(id);
+      const sc=()=>{const t=+$('sc-in1').value||0,v=+$('sc-in2').value||0,q=+$('sc-in3').value||0;$('sc-out').textContent='Quantité ajustée : '+(t?Math.round(q*(v/t)):'—')+' g'};
+      const pc=()=>{const T=+$('pc-in1').value||0,P=(+$('pc-in2').value||0)/100;$('pc-out').textContent='Résultat : '+(T?Math.round(T*P):'—')+' g'};
+      const sx=()=>{const s=+$('sx-in1').value||0,e=+$('sx-in2').value||0;const b=(s/(s+e))*100;$('sx-out').textContent='≈ '+(isFinite(b)?Math.round(b):'—')+' % sucres (Brix simplifié)';};
+      ['sc-in1','sc-in2','sc-in3'].forEach(id=>$(id).addEventListener('input',sc));sc();
+      ['pc-in1','pc-in2'].forEach(id=>$(id).addEventListener('input',pc));pc();
+      ['sx-in1','sx-in2'].forEach(id=>$(id).addEventListener('input',sx));sx();
+    })();
+  </script>
+</section>
+              

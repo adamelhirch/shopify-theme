@@ -1041,21 +1041,12 @@
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/collections/vanille-bourbon', vanille_collection_url | replace: '/collections/epices-madagascar', epices_collection_url | replace: '/collections/poivre-baies', poivres_collection_url | replace: '/collections/sels', sels_collection_url | replace: '/collections/huiles-madagascar', huiles_collection_url -%}
   {% comment %}theme-check-disable UnusedAssign{% endcomment %}
   {%- liquid
+    assign wiki_detail_force_live_handles = ',wiki-epices-madagascar,wiki-poivres-baies-madagascar,wiki-glossaire-epices,wiki-faq-vanille-epices,wiki-vanille-bien-choisir,wiki-vanille-conservation-preparation,wiki-savoir-faire-producteurs,wiki-recettes,wiki-sels-melanges,wiki-huiles-essentielles-plantes,'
+    assign wiki_detail_force_live_token = ',' | append: page.handle | append: ','
     assign wiki_detail_content = page.content
-    assign wiki_detail_content_probe = page.content | downcase
-    assign wiki_detail_uses_live_markup = false
-    if wiki_detail_content_probe contains 'class="vdw-'
-      assign wiki_detail_uses_live_markup = true
-    elsif wiki_detail_content_probe contains 'class="vdg-'
-      assign wiki_detail_uses_live_markup = true
-    elsif wiki_detail_content_probe contains 'class="vdf-'
-      assign wiki_detail_uses_live_markup = true
-    elsif wiki_detail_content_probe contains 'class="vdr-'
-      assign wiki_detail_uses_live_markup = true
-    elsif wiki_detail_content_probe contains 'class="vd2-'
-      assign wiki_detail_uses_live_markup = true
-    endif
-    if wiki_detail_content == blank or wiki_detail_uses_live_markup == false
+    if wiki_detail_force_live_handles contains wiki_detail_force_live_token
+      assign wiki_detail_content = wiki_detail_override_content
+    elsif wiki_detail_content == blank
       assign wiki_detail_content = wiki_detail_override_content
     endif
 
@@ -1524,6 +1515,16 @@
         assign wiki_detail_summary = 'Viande, poisson, légumes, chocolat ou fruits: choisir le bon poivre selon la cuisson, la puissance et la finition recherchée.'
       when 'wiki-sel-aromatise-quel-plat'
         assign wiki_detail_summary = 'Œufs, légumes, poissons, viandes ou desserts: trouver le bon sel aromatisé selon le moment d’ajout et l’intensité souhaitée.'
+      when 'wiki-huiles-essentielles-plantes'
+        assign wiki_detail_summary = 'Bien choisir, doser, conserver et utiliser les huiles et plantes de Madagascar avec des repères simples et concrets.'
+      when 'wiki-savoir-faire-producteurs'
+        assign wiki_detail_summary = 'Comprendre le tri, la préparation, la chaîne courte et les engagements qui façonnent la qualité des produits Vanille Désiré.'
+      when 'wiki-recettes'
+        assign wiki_detail_summary = 'Des bases, des accords et des gestes utiles pour passer du produit à l’usage sans perdre de temps.'
+      when 'wiki-glossaire-epices'
+        assign wiki_detail_summary = 'Un glossaire pratique pour relier les bons mots aux usages, aux produits et aux gestes de cuisine.'
+      when 'wiki-faq-vanille-epices'
+        assign wiki_detail_summary = 'Toutes les réponses utiles sur la qualité, la conservation, la commande et la traçabilité de nos produits.'
     endcase
 
     assign wiki_detail_is_knowledge_layout = true

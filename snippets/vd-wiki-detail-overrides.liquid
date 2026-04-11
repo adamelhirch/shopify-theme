@@ -46,6 +46,27 @@
   assign wiki_sels_collection_url = wiki_sels_collection.url | default: '/collections/sels'
   assign wiki_huiles_collection_url = wiki_huiles_collection.url | default: '/collections/huiles-madagascar'
 -%}
+{%- if page_handle == 'wiki-epices-madagascar' -%}
+  {%- render 'vd-wiki-live-wiki-epices-madagascar' -%}
+{%- elsif page_handle == 'wiki-poivres-baies-madagascar' -%}
+  {%- render 'vd-wiki-live-wiki-poivres-baies-madagascar' -%}
+{%- elsif page_handle == 'wiki-glossaire-epices' -%}
+  {%- render 'vd-wiki-live-wiki-glossaire-epices' -%}
+{%- elsif page_handle == 'wiki-faq-vanille-epices' -%}
+  {%- render 'vd-wiki-live-wiki-faq-vanille-epices' -%}
+{%- elsif page_handle == 'wiki-vanille-bien-choisir' -%}
+  {%- render 'vd-wiki-live-wiki-vanille-bien-choisir' -%}
+{%- elsif page_handle == 'wiki-vanille-conservation-preparation' -%}
+  {%- render 'vd-wiki-live-wiki-vanille-conservation-preparation' -%}
+{%- elsif page_handle == 'wiki-savoir-faire-producteurs' -%}
+  {%- render 'vd-wiki-live-wiki-savoir-faire-producteurs' -%}
+{%- elsif page_handle == 'wiki-recettes' -%}
+  {%- render 'vd-wiki-live-wiki-recettes' -%}
+{%- elsif page_handle == 'wiki-sels-melanges' -%}
+  {%- render 'vd-wiki-live-wiki-sels-melanges' -%}
+{%- elsif page_handle == 'wiki-huiles-essentielles-plantes' -%}
+  {%- render 'vd-wiki-live-wiki-huiles-essentielles-plantes' -%}
+{%- else -%}
 {%- case page_handle -%}
   {%- when 'wiki-vanille-conservation-preparation' -%}
     <div class="vd-wiki-article-note">
@@ -1918,4 +1939,5 @@
       <li><a href="https://www.ncbi.nlm.nih.gov/books/NBK133292/" target="_blank" rel="noopener noreferrer">NCBI Bookshelf, recommandations WHO sur le sodium</a></li>
       <li><a href="https://www.sciencedirect.com/science/article/pii/S095032931830541X" target="_blank" rel="noopener noreferrer">Food Quality and Preference, <em>The taste of touch: Enhancing saltiness impressions through surface texture design</em></a></li>
     </ul>
-{%- endcase -%}
+  {%- endcase -%}
+{%- endif -%}

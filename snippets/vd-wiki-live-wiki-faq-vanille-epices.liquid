@@ -1,0 +1,491 @@
+<section class="vdF-root" aria-label="Wiki — Foire aux questions">
+  <style>
+    .vdF-root{
+      --ink:#171511;--sub:#3d3a34;--muted:#6c695f;--line:rgba(0,0,0,.08);
+      --paper:#fff;--bg:#fbf6ee;--cream:#f6efe6;--accent:#FFB766;--accent2:#FFD09A;--leaf:#87a36a;
+      --shadow:rgba(13,10,8,.10);--r:24px;--w:clamp(980px,92vw,1280px);
+      --h1:clamp(44px,7vw,86px);--h2:clamp(26px,4.4vw,52px);--lead:clamp(18px,2.2vw,22px);
+      color:var(--ink);background:linear-gradient(180deg,var(--paper),var(--bg) 48%,var(--cream));
+      border-radius:34px;box-shadow:0 30px 80px var(--shadow);isolation:isolate;overflow:hidden}
+    .vdF-root *{box-sizing:border-box}
+    .vdF-container{max-width:var(--w);margin-inline:auto;padding-inline:clamp(16px,2.2vw,28px)}
+
+    /* NAV */
+    .vdF-nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.85);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--line)}
+    .vdF-nav .vdF-container{display:flex;align-items:center;justify-content:space-between;padding-block:10px}
+    .vdF-brand{display:flex;align-items:center;gap:10px}
+    .vdF-logo{width:26px;height:26px;border-radius:8px;background:conic-gradient(from 12deg,#ffd7a3,#fff 40%,#ffc17a);box-shadow:inset 0 0 0 1px var(--line)}
+    .vdF-brand b{font-size:14px}
+    .vdF-nav a{color:var(--ink);text-decoration:none;font-size:14px;padding:.5rem .7rem;border-radius:10px}
+    .vdF-nav a:hover{background:rgba(0,0,0,.04)}
+
+    /* HERO */
+    .vdF-hero .vdF-container{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(16px,4vw,48px);align-items:end;padding-block:clamp(28px,7vw,88px)}
+    .vdF-kicker{letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;font-size:12px}
+    .vdF-hero h1{font-size:var(--h1);line-height:1.06;letter-spacing:-.02em;margin:.2rem 0 1rem}
+    .vdF-hero h1 .hl{background:linear-gradient(90deg,var(--accent),var(--accent2));padding:.06em .20em;border-radius:.35em;box-decoration-break:clone}
+    .vdF-hero p{font-size:var(--lead);color:var(--sub);max-width:64ch}
+    .vdF-cta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .chip{display:inline-flex;align-items:center;gap:6px;padding:.45rem .7rem;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;text-decoration:none;color:var(--ink)}
+    .chip:hover{background:linear-gradient(180deg,#fff,#ffe8c9)}
+    .chip .ext{font-size:10px;opacity:.7}
+
+    /* WRAP layout */
+    .vdF-wrap{display:grid;grid-template-columns:260px 1fr;gap:clamp(14px,2.4vw,22px);align-items:start}
+    .vdF-side{position:sticky;top:76px;align-self:start}
+    .vdF-search{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;display:flex;gap:8px;align-items:center}
+    .vdF-search input{border:none;outline:none;flex:1;min-width:0}
+    .vdF-filters{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+    .tag{border:1px solid var(--line);border-radius:999px;padding:.35rem .6rem;font-size:11px;background:#fff;cursor:pointer}
+    .tag[aria-pressed="true"]{background:linear-gradient(180deg,#fff,#f7efe5)}
+    .vdF-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .toolbtn{border:1px solid var(--line);border-radius:10px;background:#fff;padding:.45rem .6rem;font-size:12px;cursor:pointer}
+
+    /* FAQ groups */
+    .vdF-sec{padding-block:clamp(24px,5.6vw,70px)}
+    .vdF-sec h2{font-size:var(--h2);margin:0 0 10px}
+    .vdF-note{color:var(--muted);font-size:13px;margin-top:-4px;margin-bottom:10px}
+    .faq-grid{display:grid;grid-template-columns:1fr;gap:10px}
+    details.faq{position:relative;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 12px 30px var(--shadow);overflow:hidden}
+    summary{list-style:none;cursor:pointer;padding:14px 46px 14px 14px;display:flex;gap:10px;align-items:center}
+    summary::-webkit-details-marker{display:none}
+    .q{font-weight:700}
+    .badge{font-size:11px;border:1px solid var(--line);border-radius:8px;padding:.18rem .45rem;background:linear-gradient(180deg,#fff,#f7efe5);color:var(--muted)}
+    .ans{padding:0 14px 14px;color:var(--sub);font-size:14px}
+    .copylink{position:absolute;right:8px;top:8px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:12px;padding:.25rem .45rem;cursor:pointer}
+    .bar{height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:.7}
+
+    /* highlight */
+    mark{background:#ffe2bf;padding:0 .15em;border-radius:4px}
+
+    /* Reveal */
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .55s cubic-bezier(.2,.8,.2,1), transform .55s cubic-bezier(.2,.8,.2,1)}
+    .reveal.in{opacity:1;transform:none}
+
+    @media (max-width:1080px){.vdF-wrap{grid-template-columns:1fr}}
+  </style>
+
+  <!-- NAV -->
+  <nav class="vdF-nav" aria-label="Navigation FAQ">
+    <div class="vdF-container">
+      <div class="vdF-brand"><span class="vdF-logo" aria-hidden="true"></span><b>FAQ — Vanille Désiré</b></div>
+      <div class="vdF-links">
+        <a href="/pages/wiki-bienfaits-usages">Bienfaits &amp; Usages</a>
+        <a href="/pages/wiki-savoir-faire-producteurs">Savoir-faire</a>
+        <a href="/collections/all">Catalogue</a>
+        <a href="/blogs/recettes">Nos recettes</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="vdF-hero">
+    <div class="vdF-container">
+      <div>
+        <div class="vdF-kicker">Clair • Complet • Actionnable</div>
+        <h1>La <span class="hl">FAQ</span> qui répond avant que vous ne posiez la question.</h1>
+        <p class="reveal">Recherche instantanée, filtres par thèmes, liens directs vers les pages du wiki et les collections produits. Si vous ne trouvez pas, <a href="/pages/contact">écrivez-nous</a> — on répond vite.</p>
+        <div class="vdF-cta">
+          <a class="chip" href="/collections/vanille-bourbon">Acheter la vanille</a>
+          <a class="chip" href="/collections/poivres-baies-de-madagascar">Poivres &amp; baies</a>
+          <a class="chip" href="/collections/epices-madagascar">Épices &amp; combava</a>
+          <a class="chip" href="/collections/huiles-essentielles">Huiles essentielles</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- WRAP -->
+  <div class="vdF-container vdF-wrap">
+    <!-- Sidebar -->
+    <aside class="vdF-side" aria-label="Filtres &amp; outils FAQ">
+      <div class="vdF-search">
+        <span aria-hidden="true">🔎</span>
+        <input id="faq-q" type="search" placeholder="Rechercher (ex : DLUO, livraison, vanille…)" aria-label="Rechercher une question">
+      </div>
+      <div class="vdF-filters" role="tablist" aria-label="Thèmes FAQ">
+        <button class="tag" data-cat="all" aria-pressed="true">Tout</button>
+        <button class="tag" data-cat="produits">Produits &amp; qualité</button>
+        <button class="tag" data-cat="usages">Usages &amp; conservation</button>
+        <button class="tag" data-cat="commande">Commande &amp; livraison</button>
+        <button class="tag" data-cat="pro">Pro / B2B</button>
+        <button class="tag" data-cat="ethique">Traçabilité &amp; éthique</button>
+        <button class="tag" data-cat="sav">SAV &amp; retours</button>
+      </div>
+      <div class="vdF-tools" aria-label="Outils">
+        <button class="toolbtn" id="openAll">Tout ouvrir</button>
+        <button class="toolbtn" id="closeAll">Tout fermer</button>
+        <button class="toolbtn" id="clearSearch">Effacer recherche</button>
+      </div>
+      <p class="vdF-note">Astuce : cliquez sur 🔗 pour copier un lien direct vers une question.</p>
+    </aside>
+
+    <!-- Main -->
+    <main>
+      <!-- GROUPE : Produits & qualité -->
+      <section class="vdF-sec reveal" data-group="produits">
+        <h2>Produits &amp; qualité</h2>
+        <p class="vdF-note">Origine, grades, lots, humidité, différences entre produits…</p>
+        <div class="faq-grid">
+          <details class="faq" id="q-origine" data-cat="produits">
+            <summary><span class="q">D’où proviennent vos produits ?</span> <span class="badge">Origine</span> <button class="copylink" data-anchor="#q-origine">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Nos épices, poivres et vanille proviennent <b>directement de Madagascar</b> via des producteurs familiaux avec lesquels nous travaillons sans intermédiaire. Pour comprendre notre chaîne courte et les contrôles qualité, voir <a href="/pages/wiki-savoir-faire-producteurs">Savoir-faire &amp; Producteurs</a>.</div>
+          </details>
+
+          <details class="faq" id="q-vanille-bourbon" data-cat="produits">
+            <summary><span class="q">C’est quoi la “Vanille Bourbon” ?</span> <span class="badge">Vanille</span> <button class="copylink" data-anchor="#q-vanille-bourbon">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">“Bourbon” désigne l’aire historique de l’océan Indien. Chez nous : Vanille <b>planifolia</b>, lots tracés, séchage soigné et affinage patient. Pour les usages et dosages, rendez-vous sur <a href="/pages/wiki-bienfaits-usages">Bienfaits &amp; Usages</a> et <a href="/pages/wiki-recettes">Blueprints &amp; Bases</a>.</div>
+          </details>
+
+          <details class="faq" id="q-grades-vanille" data-cat="produits">
+            <summary><span class="q">Différence entre gousses “gourmet” et “extraction” ?</span> <span class="badge">Vanille</span> <button class="copylink" data-anchor="#q-grades-vanille">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans"><b>Gourmet</b>: gousses souples, huileuses, souvent plus longues, idéales infusion/pâtisserie.<br><b>Extraction</b>: plus sèches/irrégulières, parfaites pour poudre, sirop et macérations. Nous indiquons <b>lot, calibre, humidité</b> sur l’étiquette.</div>
+          </details>
+
+          <details class="faq" id="q-humidite" data-cat="produits">
+            <summary><span class="q">Pourquoi parle-t-on du “taux d’humidité” ?</span> <span class="badge">Qualité</span> <button class="copylink" data-anchor="#q-humidite">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">L’humidité influe sur la <b>texture</b>, la <b>stabilité</b> et la <b>concentration aromatique</b>. Un lot cohérent permet une reproductibilité en cuisine. Nous contrôlons chaque réception et traçons les résultats par lot.</div>
+          </details>
+
+          <details class="faq" id="q-givre" data-cat="produits">
+            <summary><span class="q">J’observe un “givre” blanc sur la vanille, normal ?</span> <span class="badge">Vanille</span> <button class="copylink" data-anchor="#q-givre">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Oui — il s’agit souvent de <b>cristaux de vanilline</b> naturellement exsudés lors de l’affinage. C’est un bon signe, sans impact négatif. Essuyez délicatement et utilisez normalement.</div>
+          </details>
+
+          <details class="faq" id="q-voatsi-vs-noir" data-cat="produits">
+            <summary><span class="q">Poivre sauvage (voatsiperifery) vs poivre noir ?</span> <span class="badge">Poivres</span> <button class="copylink" data-anchor="#q-voatsi-vs-noir">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans"><b>Voatsiperifery</b>: boisé, agrume vert, résine — superbe sur sauces crème et chocolat.<br><b>Noir</b>: structure et chaleur — marinades, viandes, légumes rôtis. Voir <a href="/pages/wiki-poivre-sauvage-voatsiperifery">wiki voatsiperifery</a> et <a href="/pages/wiki-poivre-noir-madagascar">wiki poivre noir</a>.</div>
+          </details>
+
+          <details class="faq" id="q-baies-roses" data-cat="produits">
+            <summary><span class="q">Les baies roses, c’est un “poivre” ?</span> <span class="badge">Baies</span> <button class="copylink" data-anchor="#q-baies-roses">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">On les classe parmi les “poivres &amp; baies”, mais ce n’est pas du <i>Piper</i>. Profil <b>floral/suave</b>, top sur fruits, poissons gras, fromages frais. <a href="/pages/wiki-baies-roses-madagascar">En savoir plus</a>.</div>
+          </details>
+
+          <details class="faq" id="q-combava-formes" data-cat="produits">
+            <summary><span class="q">Combava : différence zeste, poudre et feuilles ?</span> <span class="badge">Agrume</span> <button class="copylink" data-anchor="#q-combava-formes">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans"><b>Zeste/poudre</b>: très puissants, desserts &amp; sirops (micro-dosage).<br><b>Feuilles</b>: plus herbacées, currys au lait de coco. Voir <a href="/pages/wiki-epice-combava-madagascar">wiki combava</a>.</div>
+          </details>
+
+          <details class="faq" id="q-he-usage" data-cat="produits">
+            <summary><span class="q">Vos huiles essentielles sont-elles alimentaires ?</span> <span class="badge">HE</span> <button class="copylink" data-anchor="#q-he-usage">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans"><b>Non</b>. Nous communiquons des <b>usages aromatiques/cosmétiques externes</b> uniquement (diffusion légère, dilution dans huile végétale). Toujours diluer, test cutané, éviter zones sensibles. Voir <a href="/pages/wiki-bienfaits-sante">section HE</a>.</div>
+          </details>
+        </div>
+      </section>
+
+      <!-- GROUPE : Usages & conservation -->
+      <section class="vdF-sec reveal" data-group="usages">
+        <h2>Usages &amp; conservation</h2>
+        <p class="vdF-note">Dosages repères, méthodes, stockage, DLUO…</p>
+        <div class="faq-grid">
+          <details class="faq" id="q-dosage-vanille" data-cat="usages">
+            <summary><span class="q">Dosage vanille (gousse/poudre/extrait) — repères ?</span> <span class="badge">Dosage</span> <button class="copylink" data-anchor="#q-dosage-vanille">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Repères usuels : <b>gousse</b> 1–2/L (crèmes &amp; glaces), <b>poudre</b> 4–6 g/L (≈1 c.à c.), <b>extrait</b> 1–2 c.à c./L. Détails et variantes sur <a href="/pages/wiki-bienfaits-sante">Repères de dosage</a>.</div>
+          </details>
+
+          <details class="faq" id="q-infusions" data-cat="usages">
+            <summary><span class="q">Infuser correctement la vanille ?</span> <span class="badge">Technique</span> <button class="copylink" data-anchor="#q-infusions">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Fendre la gousse, 80–85 °C, <b>30–45 min couvert</b>, filtrage fin. Pour sirop, base 1 L eau + 800 g sucre + 1–2 gousses (repos 24 h). Voir <a href="/pages/wiki-recettes#blueprints">blueprints</a>.</div>
+          </details>
+
+          <details class="faq" id="q-dosage-poivres" data-cat="usages">
+            <summary><span class="q">Dosage rapide poivres &amp; baies ?</span> <span class="badge">Poivres</span> <button class="copylink" data-anchor="#q-dosage-poivres">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans"><b>Voatsiperifery</b> 1–2 g/L (fin de cuisson) • <b>Noir</b> 3–6 g/L (cuisson) • <b>Baies roses</b> au goût (au service, écrasées). Plus d’idées dans <a href="/pages/wiki-bienfaits-sante">Usages culinaires</a>.</div>
+          </details>
+
+          <details class="faq" id="q-conservation" data-cat="usages">
+            <summary><span class="q">Comment conserver épices &amp; vanille ?</span> <span class="badge">Conservation</span> <button class="copylink" data-anchor="#q-conservation">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Pot <b>hermétique</b>, à l’abri de la lumière/chaleur (15–20 °C). Éviter frigo/congélation (condensation). Aérer brièvement les gousses de vanille si nécessaire (quelques minutes, 1×/mois).</div>
+          </details>
+
+          <details class="faq" id="q-duree" data-cat="usages">
+            <summary><span class="q">DLUO/DLC : combien de temps ça se garde ?</span> <span class="badge">DLUO</span> <button class="copylink" data-anchor="#q-duree">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Les épices sont à <b>DLUO</b> (qualité optimale). Utilisées après, elles ne sont pas “périmées” mais peuvent perdre en intensité. La vanille se garde longtemps si bien stockée. Référez-vous à l’étiquette (lot + DLUO).</div>
+          </details>
+
+          <details class="faq" id="q-maceration" data-cat="usages">
+            <summary><span class="q">Macération alcoolique de vanille — bases ?</span> <span class="badge">Technique</span> <button class="copylink" data-anchor="#q-maceration">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Repère : ~<b>30 g gousses/L</b> d’alcool 35–45°, <b>6–8 semaines</b> avec agitation 1–2×/semaine, puis filtrage fin. Détails sur <a href="/pages/wiki-bienfaits-sante">Infusions &amp; macérations</a>.</div>
+          </details>
+
+          <details class="faq" id="q-he-dilution" data-cat="usages">
+            <summary><span class="q">Dilution huiles essentielles (usage externe) ?</span> <span class="badge">HE</span> <button class="copylink" data-anchor="#q-he-dilution">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Diffusion : 5–8 gouttes/100 mL (20–30 min). Cosmétique : ≤ 1 % dans une <b>huile végétale</b>. Test cutané préalable. Voir <a href="/pages/wiki-bienfaits-sante">guide HE</a>.</div>
+          </details>
+
+          <details class="faq" id="q-mouture" data-cat="usages">
+            <summary><span class="q">Moudre ou concasser ? Et quand assaisonner ?</span> <span class="badge">Technique</span> <button class="copylink" data-anchor="#q-mouture">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">La mouture <b>au service</b> préserve les notes volatiles (voatsiperifery, baies roses). En cuisson longue, préférer des grains plus gros puis rectifier au service.</div>
+          </details>
+        </div>
+      </section>
+
+      <!-- GROUPE : Commande & livraison -->
+      <section class="vdF-sec reveal" data-group="commande">
+        <h2>Commande &amp; livraison</h2>
+        <p class="vdF-note">Zones desservies, délais, frais, suivi…</p>
+        <div class="faq-grid">
+          <details class="faq" id="q-zones" data-cat="commande">
+            <summary><span class="q">Quelles zones de livraison ?</span> <span class="badge">Livraison</span> <button class="copylink" data-anchor="#q-zones">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Nous expédions en <b>France métropolitaine</b> et, selon options affichées au checkout, vers certains pays de l’UE. Les modes/ tarifs disponibles s’affichent automatiquement selon votre adresse.</div>
+          </details>
+
+          <details class="faq" id="q-delais" data-cat="commande">
+            <summary><span class="q">Délais d’expédition et de livraison ?</span> <span class="badge">Délais</span> <button class="copylink" data-anchor="#q-delais">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Préparation rapide (jours ouvrés). Les délais transporteur varient selon le mode choisi. Un e-mail de <b>suivi</b> est envoyé à l’expédition.</div>
+          </details>
+
+          <details class="faq" id="q-frais" data-cat="commande">
+            <summary><span class="q">Frais de port ? Offres de franco ?</span> <span class="badge">Frais</span> <button class="copylink" data-anchor="#q-frais">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Les frais sont calculés au panier selon poids, mode et destination. Les éventuels paliers de <b>franco</b> sont indiqués lors du checkout s’ils s’appliquent.</div>
+          </details>
+
+          <details class="faq" id="q-suivi" data-cat="commande">
+            <summary><span class="q">Comment suivre mon colis ?</span> <span class="badge">Suivi</span> <button class="copylink" data-anchor="#q-suivi">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Dès l’expédition, vous recevez un lien de suivi. Problème de scan ou retard ? Contactez-nous via <a href="/pages/contact">le formulaire</a>.</div>
+          </details>
+
+          <details class="faq" id="q-cadeau" data-cat="commande">
+            <summary><span class="q">Puis-je envoyer un cadeau ou un message personnalisé ?</span> <span class="badge">Cadeau</span> <button class="copylink" data-anchor="#q-cadeau">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Oui, vous pouvez indiquer une adresse différente et ajouter un message (si l’option s’affiche à la caisse). Nous évitons d’inclure les prix dans les colis cadeau.</div>
+          </details>
+        </div>
+      </section>
+
+      <!-- GROUPE : Pro / B2B -->
+      <section class="vdF-sec reveal" data-group="pro">
+        <h2>Pro / B2B</h2>
+        <p class="vdF-note">Devis, tarifs dégressifs, échantillons, traçabilité, MDD…</p>
+        <div class="faq-grid">
+          <details class="faq" id="q-pro-devis" data-cat="pro">
+            <summary><span class="q">Comment obtenir un tarif pro ou un devis ?</span> <span class="badge">Pro</span> <button class="copylink" data-anchor="#q-pro-devis">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Écrivez-nous via <a href="/pages/contact">contact</a> en précisant volumes, références et fréquence. Nous revenons avec une proposition (<b>lots tracés</b>, prix nets, délais).</div>
+          </details>
+
+          <details class="faq" id="q-echantillons" data-cat="pro">
+            <summary><span class="q">Proposez-vous des échantillons ?</span> <span class="badge">Pro</span> <button class="copylink" data-anchor="#q-echantillons">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Oui, selon les références et disponibilités des lots. Frais symboliques/port possibles, déduits d’une commande pro validée.</div>
+          </details>
+
+          <details class="faq" id="q-traca-docs" data-cat="pro">
+            <summary><span class="q">Quelles pièces fournissez-vous aux pros ?</span> <span class="badge">Docs</span> <button class="copylink" data-anchor="#q-traca-docs">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans"><b>Traçabilité lot</b>, étiquetage clair (origine, séchage, humidité), et sur demande : fiches techniques, attestations, MSDS pour HE.</div>
+          </details>
+
+          <details class="faq" id="q-mdd" data-cat="pro">
+            <summary><span class="q">Faites-vous de la marque blanche (MDD) ou des mélanges sur mesure ?</span> <span class="badge">MDD</span> <button class="copylink" data-anchor="#q-mdd">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Oui, <b>au cas par cas</b> : cahier des charges simple, sélection de lots, tests d’assemblage, étiquettes. Parlons-en via <a href="/pages/contact">contact</a>.</div>
+          </details>
+
+          <details class="faq" id="q-tva" data-cat="pro">
+            <summary><span class="q">TVA intracommunautaire et facturation ?</span> <span class="badge">TVA</span> <button class="copylink" data-anchor="#q-tva">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Nous émettons des <b>factures détaillées</b>. Pour les sociétés éligibles, la TVA intracom peut s’appliquer selon la réglementation en vigueur.</div>
+          </details>
+        </div>
+      </section>
+
+      <!-- GROUPE : Traçabilité & éthique -->
+      <section class="vdF-sec reveal" data-group="ethique">
+        <h2>Traçabilité &amp; éthique</h2>
+        <p class="vdF-note">Lots, prix justes, saisonnalité, transparence…</p>
+        <div class="faq-grid">
+          <details class="faq" id="q-tracabilite" data-cat="ethique">
+            <summary><span class="q">Comment assurez-vous la traçabilité des lots ?</span> <span class="badge">Traçabilité</span> <button class="copylink" data-anchor="#q-tracabilite">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Chaque lot a sa <b>carte d’identité</b> (origine, méthode, humidité). Nous gardons les infos de réception et contrôles pour un <b>suivi simple</b>. Voir <a href="/pages/wiki-savoir-faire-producteurs">notre méthode</a>.</div>
+          </details>
+
+          <details class="faq" id="q-prix" data-cat="ethique">
+            <summary><span class="q">Pourquoi vos prix sont-ils compétitifs ?</span> <span class="badge">Prix justes</span> <button class="copylink" data-anchor="#q-prix">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Appro <b>direct Madagascar</b>, chaîne courte, peu d’intermédiaires, et logistique simple. Cela permet de rémunérer correctement les producteurs tout en gardant des prix nets.</div>
+          </details>
+
+          <details class="faq" id="q-saisons" data-cat="ethique">
+            <summary><span class="q">La saveur peut-elle varier d’un lot à l’autre ?</span> <span class="badge">Saisons</span> <button class="copylink" data-anchor="#q-saisons">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Oui, comme pour le café ou le vin. Nous visons la <b>cohérence</b> par nos contrôles, mais assumons la part de <b>vintage</b> des produits vivants.</div>
+          </details>
+        </div>
+      </section>
+
+      <!-- GROUPE : SAV & retours -->
+      <section class="vdF-sec reveal" data-group="sav">
+        <h2>SAV &amp; retours</h2>
+        <p class="vdF-note">Rétractation, colis endommagé, erreur de référence…</p>
+        <div class="faq-grid">
+          <details class="faq" id="q-retractation" data-cat="sav">
+            <summary><span class="q">Puis-je retourner ma commande ?</span> <span class="badge">Retours</span> <button class="copylink" data-anchor="#q-retractation">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Vous disposez du <b>droit de rétractation</b> légal (produits non ouverts, dans leur état d’origine). Les modalités précises figurent dans nos CGV. Écrivez-nous via <a href="/pages/contact">contact</a>.</div>
+          </details>
+
+          <details class="faq" id="q-casse" data-cat="sav">
+            <summary><span class="q">Colis endommagé / produit manquant ?</span> <span class="badge">SAV</span> <button class="copylink" data-anchor="#q-casse">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Prenez des <b>photos</b> du colis et des produits, gardez l’emballage et contactez-nous. On s’occupe de la suite (réexpédition, remboursement selon cas).</div>
+          </details>
+
+          <details class="faq" id="q-erreur-ref" data-cat="sav">
+            <summary><span class="q">Erreur de référence reçue, que faire ?</span> <span class="badge">SAV</span> <button class="copylink" data-anchor="#q-erreur-ref">🔗</button></summary>
+            <div class="bar"></div>
+            <div class="ans">Dites-nous le <b>numéro de commande</b> et la référence manquante/reçue via <a href="/pages/contact">contact</a>. Nous corrigeons rapidement.</div>
+          </details>
+        </div>
+      </section>
+
+      <!-- GROUPE : Plus de questions rapides -->
+      <section class="vdF-sec reveal" data-group="extra">
+        <h2>Questions rapides (encore plus)</h2>
+        <p class="vdF-note">Tout ce qu’on nous pose souvent, en vrac.</p>
+        <div class="faq-grid">
+          <!-- 16+ quick Q/A -->
+          <details class="faq" id="q-poudre-vanille" data-cat="produits"><summary><span class="q">Votre poudre de vanille contient-elle du sucre ?</span> <span class="badge">Vanille</span> <button class="copylink" data-anchor="#q-poudre-vanille">🔗</button></summary><div class="bar"></div><div class="ans">Non si mention “pure”. Nous proposons aussi du <b>sucre vanillé</b> (mélange indiqué clairement).</div></details>
+          <details class="faq" id="q-extrait-vanille" data-cat="usages"><summary><span class="q">Extrait vs gousse : quand utiliser l’un ou l’autre ?</span> <span class="badge">Vanille</span> <button class="copylink" data-anchor="#q-extrait-vanille">🔗</button></summary><div class="bar"></div><div class="ans"><b>Gousse</b>: infusion longue, pâtisserie/glace. <b>Extrait</b>: ajout en fin (sirop, crème fouettée, renfort aromatique rapide).</div></details>
+          <details class="faq" id="q-epices-bio" data-cat="ethique"><summary><span class="q">Avez-vous du bio ?</span> <span class="badge">Labels</span> <button class="copylink" data-anchor="#q-epices-bio">🔗</button></summary><div class="bar"></div><div class="ans">Selon lots/références. Nous privilégions la <b>traçabilité réelle</b> et la qualité organoleptique. Les mentions figurent sur les fiches produit lorsqu’applicables.</div></details>
+          <details class="faq" id="q-fds-he" data-cat="pro"><summary><span class="q">Fournissez-vous des FDS (HE) et fiches techniques ?</span> <span class="badge">Docs</span> <button class="copylink" data-anchor="#q-fds-he">🔗</button></summary><div class="bar"></div><div class="ans">Oui sur demande pour nos <b>huiles essentielles</b> (Ylang Ylang, Ravintsara). Écrivez-nous.</div></details>
+          <details class="faq" id="q-stock" data-cat="commande"><summary><span class="q">Un produit est en rupture. Quand revient-il ?</span> <span class="badge">Stock</span> <button class="copylink" data-anchor="#q-stock">🔗</button></summary><div class="bar"></div><div class="ans">Saisonnalité oblige. Activez l’alerte quand elle est disponible ou contactez-nous pour un <b>lot alternatif</b>.</div></details>
+          <details class="faq" id="q-cafe-chocolat" data-cat="usages"><summary><span class="q">Accords café &amp; chocolat : quelles épices ?</span> <span class="badge">Accords</span> <button class="copylink" data-anchor="#q-cafe-chocolat">🔗</button></summary><div class="bar"></div><div class="ans">Vanille, <b>voatsiperifery</b> moulu au service, baies roses (fruits/chocolats blancs). Voir <a href="/pages/wiki-bienfaits-sante">exemples</a>.</div></details>
+          <details class="faq" id="q-marinade" data-cat="usages"><summary><span class="q">Une marinade simple pour volaille/poisson ?</span> <span class="badge">Astuce</span> <button class="copylink" data-anchor="#q-marinade">🔗</button></summary><div class="bar"></div><div class="ans">Au litre : 700 g eau + 300 g yaourt, 10 g sel, 6–8 g poivre noir, 2–3 g baies roses. 2–4 h. Détails dans <a href="/pages/wiki-recettes#blueprints">blueprints</a>.</div></details>
+          <details class="faq" id="q-piment" data-cat="usages"><summary><span class="q">Piment pili-pili : à quel moment l’ajouter ?</span> <span class="badge">Piment</span> <button class="copylink" data-anchor="#q-piment">🔗</button></summary><div class="bar"></div><div class="ans">En début : plus de chaleur diffuse. Au service : piquant plus vif. Testez progressivement.</div></details>
+          <details class="faq" id="q-gluten" data-cat="ethique"><summary><span class="q">Vos épices contiennent-elles du gluten ?</span> <span class="badge">Allergènes</span> <button class="copylink" data-anchor="#q-gluten">🔗</button></summary><div class="bar"></div><div class="ans">Les épices brutes n’en contiennent pas naturellement. Nous ne revendiquons toutefois pas de statut “sans allergène” strict : évitez si contrainte médicale stricte et contactez-nous pour en parler.</div></details>
+          <details class="faq" id="q-sucre-vanille" data-cat="usages"><summary><span class="q">Faire un sucre vanillé maison ?</span> <span class="badge">DIY</span> <button class="copylink" data-anchor="#q-sucre-vanille">🔗</button></summary><div class="bar"></div><div class="ans">Mélangez sucre blanc + <b>poudre de vanille</b> ou caviar. Repère 10–20 % de vanille, pot hermétique 1–2 semaines, secouez.</div></details>
+          <details class="faq" id="q-stockage-pro" data-cat="pro"><summary><span class="q">Stockage en labo/boutique : conseils ?</span> <span class="badge">Pro</span> <button class="copylink" data-anchor="#q-stockage-pro">🔗</button></summary><div class="bar"></div><div class="ans">Rotation par lot (FIFO), zones sèches/opaques, recharges en <b>petits contenants</b> pour limiter l’air. Étiquetage lot/DLUO visible.</div></details>
+          <details class="faq" id="q-salons" data-cat="commande"><summary><span class="q">Vous participez à des salons/foires ?</span> <span class="badge">Événements</span> <button class="copylink" data-anchor="#q-salons">🔗</button></summary><div class="bar"></div><div class="ans">Oui ponctuellement. Nous l’annonçons sur le site et nos réseaux. Vous pouvez acheter sur place selon le stock.</div></details>
+          <details class="faq" id="q-contact" data-cat="sav"><summary><span class="q">Comment vous contacter rapidement ?</span> <span class="badge">Contact</span> <button class="copylink" data-anchor="#q-contact">🔗</button></summary><div class="bar"></div><div class="ans">Le plus simple : <a href="/pages/contact">formulaire de contact</a>. Donnez votre n° de commande pour un traitement express.</div></details>
+          <details class="faq" id="q-courbes" data-cat="usages"><summary><span class="q">Mes plats “verdisent” à la vanille, pourquoi ?</span> <span class="badge">Astuce</span> <button class="copylink" data-anchor="#q-courbes">🔗</button></summary><div class="bar"></div><div class="ans">Souvent <b>surdosage</b> de poudre ou infusion trop longue/chaude. Revenez aux repères et filtrez fin.</div></details>
+          <details class="faq" id="q-packaging" data-cat="produits"><summary><span class="q">Pourquoi certains pots sont-ils sous vide ?</span> <span class="badge">Emballage</span> <button class="copylink" data-anchor="#q-packaging">🔗</button></summary><div class="bar"></div><div class="ans">Pour stabiliser parfum et humidité sur certaines références. Ouvrez, aérer 1–2 min, refermez hermétiquement.</div></details>
+          <details class="faq" id="q-cout" data-cat="pro"><summary><span class="q">Dégressifs et remises volume ?</span> <span class="badge">Pro</span> <button class="copylink" data-anchor="#q-cout">🔗</button></summary><div class="bar"></div><div class="ans">Oui selon seuils/conditionnements. Dites-nous vos volumes et fréquences via <a href="/pages/contact">contact</a>.</div></details>
+          <details class="faq" id="q-atelier" data-cat="commande"><summary><span class="q">Avez-vous une boutique physique ?</span> <span class="badge">Point de vente</span> <button class="copylink" data-anchor="#q-atelier">🔗</button></summary><div class="bar"></div><div class="ans">Nous concentrons l’activité sur la vente en ligne et les événements. Suivez nos annonces pour les ventes physiques ponctuelles.</div></details>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- FOOTER court -->
+  <footer class="vdF-sec" style="padding-top:0;border-top:1px solid var(--line);background:#fff">
+    <div class="vdF-container" style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);padding-block:14px">
+      <span>© Vanille Désiré — FAQ</span>
+      <span>Traçabilité • Simplicité • Réactivité</span>
+    </div>
+  </footer>
+
+  <!-- JSON-LD : SEO FAQ (sélection des Q clés) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"D’où proviennent vos produits ?","acceptedAnswer":{"@type":"Answer","text":"Directement de Madagascar via des producteurs familiaux, sans intermédiaire. Lots tracés et contrôlés."}},
+      {"@type":"Question","name":"C’est quoi la “Vanille Bourbon” ?","acceptedAnswer":{"@type":"Answer","text":"Appellation d’aire historique de l’océan Indien (planifolia). Lots tracés, séchage/affinage soignés."}},
+      {"@type":"Question","name":"Différence entre gousses gourmet et extraction ?","acceptedAnswer":{"@type":"Answer","text":"Gourmet : souples/huileuses pour infusion. Extraction : plus sèches/irrégulières pour poudre, sirops, macérations."}},
+      {"@type":"Question","name":"Comment infuser correctement la vanille ?","acceptedAnswer":{"@type":"Answer","text":"Fendre la gousse, 80–85 °C, 30–45 min couvert, filtrage fin."}},
+      {"@type":"Question","name":"Comment conserver épices & vanille ?","acceptedAnswer":{"@type":"Answer","text":"Pots hermétiques, à l’abri lumière/chaleur (15–20 °C). Éviter frigo/congélation."}},
+      {"@type":"Question","name":"Vos huiles essentielles sont-elles alimentaires ?","acceptedAnswer":{"@type":"Answer","text":"Non. Usages aromatiques/cosmétiques externes uniquement, toujours diluer et réaliser un test cutané."}},
+      {"@type":"Question","name":"Quelles zones de livraison ?","acceptedAnswer":{"@type":"Answer","text":"France métropolitaine et, selon options au checkout, certains pays de l’UE."}},
+      {"@type":"Question","name":"Proposez-vous des échantillons pro ?","acceptedAnswer":{"@type":"Answer","text":"Oui, selon références et disponibilité. Frais symboliques/port possibles, déduits d’une commande validée."}},
+      {"@type":"Question","name":"Comment assurez-vous la traçabilité ?","acceptedAnswer":{"@type":"Answer","text":"Chaque lot a sa carte d’identité (origine, méthode, humidité). Suivi simple et contrôles à chaque réception."}},
+      {"@type":"Question","name":"Puis-je retourner ma commande ?","acceptedAnswer":{"@type":"Answer","text":"Droit de rétractation légal sur produits non ouverts. Modalités détaillées dans les CGV ; contactez-nous."}}
+    ]
+  }
+  </script>
+
+  <!-- SCRIPTS : reveal + filtre + recherche + ancre + open/close -->
+  <script>
+    // Reveal
+    (function(){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.18});
+      document.querySelectorAll('.reveal').forEach(n=>io.observe(n));})();
+
+    // Helpers
+    const $$=(sel,ctx=document)=>[...ctx.querySelectorAll(sel)];
+
+    // Search + filter by category + highlight + hash open
+    (function(){
+      const q=document.getElementById('faq-q');
+      const tags=$$('.tag');
+      let activeCat='all';
+
+      const clearMarks=(el)=>{el.innerHTML=el.innerHTML.replace(/<mark>|<\/mark>/g,'')};
+      const hilite=(node,term)=>{
+        if(!term) return;
+        const rx=new RegExp('('+term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+        node.innerHTML=node.innerHTML.replace(rx,'<mark>$1</mark>');
+      };
+
+      function apply(){
+        const term=(q.value||'').trim().toLowerCase();
+        const faqs=$$('details.faq');
+        faqs.forEach(d=>{
+          const body=d.querySelector('.ans'); const sum=d.querySelector('summary');
+          clearMarks(sum); clearMarks(body);
+          const text=(d.innerText||'').toLowerCase();
+          const inCat=(activeCat==='all'||d.dataset.cat===activeCat);
+          const match=!term || text.includes(term);
+          d.style.display=(inCat && match)?'':'none';
+          if(term && match){ hilite(sum,term); hilite(body,term); d.open=true; }
+          if(!term && !d.dataset.pin){ d.open=false; }
+        });
+      }
+
+      q.addEventListener('input',apply);
+      tags.forEach(t=>t.addEventListener('click',()=>{
+        tags.forEach(x=>x.setAttribute('aria-pressed','false'));
+        t.setAttribute('aria-pressed','true'); activeCat=t.dataset.cat; apply();
+      }));
+      apply();
+
+      // anchor open on load & copylink
+      const hash=decodeURIComponent(location.hash||'');
+      if(hash){
+        const el=document.querySelector(hash);
+        if(el && el.tagName.toLowerCase()==='details'){ el.open=true; el.scrollIntoView({behavior:'smooth',block:'start'}); }
+      }
+      $$('.copylink').forEach(b=>b.addEventListener('click',()=>{
+        const a=b.dataset.anchor; const url=location.origin+location.pathname+a;
+        navigator.clipboard.writeText(url); b.textContent='✔'; setTimeout(()=>b.textContent='🔗',900);
+        history.replaceState(null,'',a);
+      }));
+    })();
+
+    // Open/close all + clear search
+    (function(){
+      const openAll=document.getElementById('openAll');
+      const closeAll=document.getElementById('closeAll');
+      const clearSearch=document.getElementById('clearSearch');
+      const q=document.getElementById('faq-q');
+
+      openAll.addEventListener('click',()=>$$('details.faq').forEach(d=>{ if(d.style.display!=='none') d.open=true; }));
+      closeAll.addEventListener('click',()=>$$('details.faq').forEach(d=>d.open=false));
+      clearSearch.addEventListener('click',()=>{ q.value=''; q.dispatchEvent(new Event('input')); });
+    })();
+  </script>
+</section>
+              

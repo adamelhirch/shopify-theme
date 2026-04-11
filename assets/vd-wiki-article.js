@@ -288,6 +288,24 @@
     content.dataset.vdWikiImported = 'true';
   }
 
+  function pruneBrokenMedia(content) {
+    if (!content) return;
+
+    Array.prototype.slice.call(content.querySelectorAll('img')).forEach(function (image) {
+      function removeImage() {
+        if (!image || !image.parentNode) return;
+        image.remove();
+      }
+
+      if (image.complete && image.naturalWidth === 0) {
+        removeImage();
+        return;
+      }
+
+      image.addEventListener('error', removeImage, { once: true });
+    });
+  }
+
   function pruneKnowledgeDrafts(content) {
     if (!content) return;
 
@@ -567,6 +585,7 @@
       var isKnowledgeLayout = detail && detail.getAttribute('data-vd-wiki-layout') === 'knowledge';
 
       importLegacyWikiContent(content);
+      pruneBrokenMedia(content);
 
       if (isKnowledgeLayout) {
         pruneKnowledgeDrafts(content);

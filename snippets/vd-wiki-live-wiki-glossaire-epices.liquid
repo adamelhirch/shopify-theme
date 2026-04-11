@@ -1,0 +1,343 @@
+<section class="vdG-root" aria-label="Wiki — Glossaire des épices">
+  <style>
+    .vdG-root{
+      --ink:#171511;--sub:#3d3a34;--muted:#6c695f;--line:rgba(0,0,0,.08);
+      --paper:#fff;--bg:#fbf6ee;--cream:#f6efe6;--accent:#FFB766;--accent2:#FFD09A;--leaf:#87a36a;
+      --shadow:rgba(13,10,8,.10);--r:22px;--w:clamp(980px,92vw,1280px);
+      --h1:clamp(44px,7vw,84px);--h2:clamp(26px,4.4vw,52px);--lead:clamp(18px,2.2vw,22px);
+      color:var(--ink);background:linear-gradient(180deg,var(--paper),var(--bg) 50%,var(--cream));
+      border-radius:34px;box-shadow:0 30px 80px var(--shadow);isolation:isolate;overflow:hidden}
+    .vdG-root *{box-sizing:border-box}
+    .vdG-container{max-width:var(--w);margin-inline:auto;padding-inline:clamp(16px,2.2vw,28px)}
+
+    /* Nav / header */
+    .vdG-nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.85);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--line)}
+    .vdG-nav .vdG-container{display:flex;align-items:center;justify-content:space-between;padding-block:10px}
+    .vdG-brand{display:flex;align-items:center;gap:10px}
+    .vdG-logo{width:26px;height:26px;border-radius:8px;background:conic-gradient(from 12deg,#ffd7a3,#fff 40%,#ffc17a);box-shadow:inset 0 0 0 1px var(--line)}
+    .vdG-brand b{font-size:14px}
+    .vdG-nav a{color:var(--ink);text-decoration:none;font-size:14px;padding:.5rem .7rem;border-radius:10px}
+    .vdG-nav a:hover{background:rgba(0,0,0,.04)}
+
+    .vdG-hero .vdG-container{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(16px,4vw,48px);align-items:end;padding-block:clamp(28px,7vw,88px)}
+    .vdG-kicker{letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;font-size:12px}
+    .vdG-hero h1{font-size:var(--h1);line-height:1.06;letter-spacing:-.02em;margin:.2rem 0 1rem}
+    .vdG-hero h1 .hl{background:linear-gradient(90deg,var(--accent),var(--accent2));padding:.06em .20em;border-radius:.35em;box-decoration-break:clone}
+    .vdG-hero p{font-size:var(--lead);color:var(--sub);max-width:64ch}
+    .vdG-cta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .chip{display:inline-flex;align-items:center;gap:6px;padding:.45rem .7rem;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;text-decoration:none;color:var(--ink)}
+    .chip:hover{background:linear-gradient(180deg,#fff,#ffe8c9)}
+    .chip .ext{font-size:10px;opacity:.7}
+
+    /* Layout : sidebar index + main */
+    .vdG-wrap{display:grid;grid-template-columns:240px 1fr;gap:clamp(14px,2.4vw,22px);align-items:start}
+    .vdG-side{position:sticky;top:72px;align-self:start}
+    .vdG-search{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;display:flex;gap:8px;align-items:center}
+    .vdG-search input{border:none;outline:none;flex:1;min-width:0}
+    .vdG-index{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+    .vdG-index button{border:1px solid var(--line);border-radius:10px;background:#fff;padding:.45rem .4rem;font-size:12px;cursor:pointer}
+    .vdG-index button[aria-pressed="true"]{background:linear-gradient(180deg,#fff,#ffe2bf);box-shadow:0 8px 20px var(--shadow)}
+    .vdG-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+    .tag{border:1px solid var(--line);border-radius:999px;padding:.35rem .6rem;font-size:11px;background:#fff}
+    .tag[aria-pressed="true"]{background:linear-gradient(180deg,#fff,#f7efe5)}
+
+    /* Cards grid */
+    .vdG-main{min-height:300px}
+    .vdG-sec{padding-block:clamp(24px,5.6vw,70px)}
+    .vdG-sec h2{font-size:var(--h2);margin:0 0 8px}
+    .vdG-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,2vw,18px)}
+    .sp-card{position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 14px 34px var(--shadow);transition:transform .25s ease, box-shadow .25s ease}
+    .sp-card:hover{transform:translateY(-6px);box-shadow:0 26px 60px var(--shadow)}
+    .sp-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .sp-name{font-size:18px;margin:.2rem 0}
+    .sp-badges{display:flex;gap:6px;flex-wrap:wrap}
+    .badge{font-size:11px;border:1px solid var(--line);border-radius:8px;padding:.18rem .45rem;background:linear-gradient(180deg,#fff,#f7efe5);color:var(--muted)}
+    .sp-notes{display:flex;gap:10px;flex-wrap:wrap;margin:.35rem 0;color:var(--sub);font-size:13px}
+    .sp-row{display:flex;gap:8px;align-items:center}
+    .dot{width:8px;height:8px;border-radius:50%;background:#000;opacity:.2}
+    .label{font-size:12px;color:var(--muted)}
+    .sp-ul{margin:.3rem 0 0 1rem;color:var(--sub);font-size:14px}
+    .sp-cta{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .halo{position:absolute;inset:0;background:radial-gradient(120px 80px at var(--mx,60%) var(--my,40%), rgba(255,183,102,.18), transparent 60%);mix-blend-mode:multiply;opacity:0;transition:opacity .25s ease}
+    .sp-card:hover .halo{opacity:1}
+
+    /* Reveal */
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s cubic-bezier(.2,.8,.2,1), transform .6s cubic-bezier(.2,.8,.2,1)}
+    .reveal.in{opacity:1;transform:none}
+
+    /* Responsive */
+    @media (max-width:1080px){.vdG-wrap{grid-template-columns:1fr}}
+    @media (max-width:980px){.vdG-grid{grid-template-columns:1fr}}
+  </style>
+
+  <!-- NAV -->
+  <nav class="vdG-nav" aria-label="Navigation Glossaire">
+    <div class="vdG-container">
+      <div class="vdG-brand"><span class="vdG-logo" aria-hidden="true"></span><b>Glossaire des épices</b></div>
+      <div class="vdG-links">
+        <a href="/collections/all">Catalogue</a>
+        <a href="/pages/wiki-bienfaits-usages">Bienfaits &amp; Usages</a>
+        <a href="/pages/wiki-savoir-faire-producteurs">Savoir-faire</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="vdG-hero">
+    <div class="vdG-container">
+      <div>
+        <div class="vdG-kicker">Notes • Usages • Dosages repères</div>
+        <h1>Un <span class="hl">glossaire</span> clair pour identifier l’<span class="hl">arôme</span> juste et le <span class="hl">bon geste</span>.</h1>
+        <p>Chaque fiche synthétise : profil sensoriel, idées d’usages, dosage indicatif et accords. Liens directs vers nos pages wiki produits et les collections pour acheter.</p>
+        <div class="vdG-cta">
+          <a class="chip" href="/collections/epices-madagascar">Voir toutes les épices</a>
+          <a class="chip" href="/collections/poivres-baies-de-madagascar">Poivres &amp; baies</a>
+          <a class="chip" href="/collections/vanille-bourbon">Vanille Bourbon</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- WRAP : sidebar + main -->
+  <div class="vdG-container vdG-wrap">
+    <!-- Sidebar : search + A-Z + tags -->
+    <aside class="vdG-side" aria-label="Filtrer le glossaire">
+      <div class="vdG-search">
+        <span aria-hidden="true">🔎</span>
+        <input id="q" type="search" placeholder="Rechercher (ex : poivre, combava…)" aria-label="Rechercher une épice">
+      </div>
+      <div class="vdG-index" role="tablist" aria-label="Index alphabétique">
+        <!-- letters will be injected -->
+      </div>
+      <div class="vdG-tags" aria-label="Familles">
+        <button class="tag" data-tag="all" aria-pressed="true">Tout</button>
+        <button class="tag" data-tag="Poivre">Poivres</button>
+        <button class="tag" data-tag="Épice">Épices</button>
+        <button class="tag" data-tag="Mélange">Mélanges</button>
+        <button class="tag" data-tag="Agrume">Agrumes</button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="vdG-main">
+      <section class="vdG-sec">
+        <div class="vdG-grid" id="grid">
+          <!-- FICHES — POIVRES & BAIES -->
+          <article class="sp-card reveal" data-name="Poivre sauvage (Voatsiperifery)" data-tags="Poivre" data-letter="P" onmousemove="vdHalo(event,this)">
+            <div class="halo"></div>
+            <div class="sp-head">
+              <h3 class="sp-name">Poivre sauvage (Voatsiperifery)</h3>
+              <div class="sp-badges"><span class="badge">Poivre</span><span class="badge">Malagasy</span></div>
+            </div>
+            <div class="sp-notes">
+              <span class="sp-row"><span class="dot"></span><span>Boisé</span></span>
+              <span class="sp-row"><span class="dot"></span><span>Agrume vert</span></span>
+              <span class="sp-row"><span class="dot"></span><span>Résine</span></span>
+            </div>
+            <ul class="sp-ul">
+              <li><b>Usages :</b> viandes blanches, sauces crème, chocolat.</li>
+              <li><b>Dosage :</b> 1–2 g/L en fin de cuisson (moudre au service).</li>
+              <li><b>Accords :</b> vanille, combava.</li>
+            </ul>
+            <div class="sp-cta">
+              <a class="chip" href="/pages/wiki-poivre-sauvage-voatsiperifery">Wiki produit</a>
+              <a class="chip" href="/collections/poivres-baies-de-madagascar">Voir la collection</a>
+            </div>
+          </article>
+
+          <article class="sp-card reveal" data-name="Poivre noir" data-tags="Poivre" data-letter="P" onmousemove="vdHalo(event,this)">
+            <div class="halo"></div>
+            <div class="sp-head"><h3 class="sp-name">Poivre noir</h3><div class="sp-badges"><span class="badge">Poivre</span></div></div>
+            <div class="sp-notes"><span class="sp-row"><span class="dot"></span><span>Chaude</span></span><span class="sp-row"><span class="dot"></span><span>Terreuse</span></span></div>
+            <ul class="sp-ul"><li><b>Usages :</b> marinades, viandes, légumes rôtis.</li><li><b>Dosage :</b> 3–6 g/L en cuisson, au goût au service.</li><li><b>Accords :</b> combava, gingembre.</li></ul>
+            <div class="sp-cta"><a class="chip" href="/pages/wiki-poivre-noir-madagascar">Wiki produit</a><a class="chip" href="/collections/poivres-baies-de-madagascar">Collection</a></div>
+          </article>
+
+          <article class="sp-card reveal" data-name="Poivre blanc" data-tags="Poivre" data-letter="P" onmousemove="vdHalo(event,this)">
+            <div class="halo"></div>
+            <div class="sp-head"><h3 class="sp-name">Poivre blanc</h3><div class="sp-badges"><span class="badge">Poivre</span></div></div>
+            <div class="sp-notes"><span class="sp-row"><span class="dot"></span><span>Animal léger</span></span><span class="sp-row"><span class="dot"></span><span>Frais</span></span></div>
+            <ul class="sp-ul"><li><b>Usages :</b> poissons, veloutés, sauces blanches.</li><li><b>Dosage :</b> 1–2 g/L en fin de cuisson.</li><li><b>Accords :</b> vanille, baies roses.</li></ul>
+            <div class="sp-cta"><a class="chip" href="/pages/wiki-poivre-blanc-madagascar">Wiki produit</a><a class="chip" href="/collections/poivres-baies-de-madagascar">Collection</a></div>
+          </article>
+
+          <article class="sp-card reveal" data-name="Baies roses" data-tags="Poivre" data-letter="B" onmousemove="vdHalo(event,this)">
+            <div class="halo"></div>
+            <div class="sp-head"><h3 class="sp-name">Baies roses</h3><div class="sp-badges"><span class="badge">Baie</span></div></div>
+            <div class="sp-notes"><span class="sp-row"><span class="dot"></span><span>Floral</span></span><span class="sp-row"><span class="dot"></span><span>Suave</span></span></div>
+            <ul class="sp-ul"><li><b>Usages :</b> fruits, poissons gras, fromages frais.</li><li><b>Dosage :</b> au goût au service (écraser grossièrement).</li><li><b>Accords :</b> chocolat, agrumes.</li></ul>
+            <div class="sp-cta"><a class="chip" href="/pages/wiki-baies-roses-madagascar">Wiki produit</a><a class="chip" href="/collections/poivres-baies-de-madagascar">Collection</a></div>
+          </article>
+
+          <!-- ÉPICES & AGRUMES -->
+          <article class="sp-card reveal" data-name="Cannelle" data-tags="Épice" data-letter="C" onmousemove="vdHalo(event,this)">
+            <div class="halo"></div>
+            <div class="sp-head"><h3 class="sp-name">Cannelle</h3><div class="sp-badges"><span class="badge">Épice</span></div></div>
+            <div class="sp-notes"><span class="sp-row"><span class="dot"></span><span>Douce</span></span><span class="sp-row"><span class="dot"></span><span>Boisée</span></span></div>
+            <ul class="sp-ul"><li><b>Usages :</b> pâtisserie, compotes, infusions.</li><li><b>Dosage :</b> 2–5 g/L en infusion/sirop.</li><li><b>Accords :</b> vanille, girofle.</li></ul>
+            <div class="sp-cta"><a class="chip" href="/pages/wiki-cannelle-madagascar">Wiki produit</a><a class="chip" href="/collections/epices-madagascar">Collection</a></div>
+          </article>
+
+          <article class="sp-card reveal" data-name="Curcuma" data-tags="Épice" data-letter="C" onmousemove="vdHalo(event,this)">
+            <div class="halo"></div>
+            <div class="sp-head"><h3 class="sp-name">Curcuma</h3><div class="sp-badges"><span class="badge">Épice</span></div></div>
+            <div class="sp-notes"><span class="sp-row"><span class="dot"></span><span>Terre</span></span><span class="sp-row"><span class="dot"></span><span>Poivré léger</span></span></div>
+            <ul class="sp-ul"><li><b>Usages :</b> currys, bouillons, riz parfumé.</li><li><b>Dosage :</b> 3–6 g/L (teinte vite).</li><li><b>Accords :</b> gingembre, poivre noir.</li></ul>
+            <div class="sp-cta"><a class="chip" href="/pages/wiki-curcuma-madagascar">Wiki produit</a><a class="chip" href="/collections/epices-madagascar">Collection</a></div>
+          </article>
+
+          <article class="sp-card reveal" data-name="Gingembre" data-tags="Épice" data-letter="G" onmousemove="vdHalo(event,this)">
+            <div class="halo"></div>
+            <div class="sp-head"><h3 class="sp-name">Gingembre</h3><div class="sp-badges"><span class="badge">Épice</span></div></div>
+            <div class="sp-notes"><span class="sp-row"><span class="dot"></span><span>Citronné</span></span><span class="sp-row"><span class="dot"></span><span>Piquant</span></span></div>
+            <ul class="sp-ul"><li><b>Usages :</b> woks, sirops, marinades.</li><li><b>Dosage :</b> 2–4 g/L (poudre) ou au goût (frais).</li><li><b>Accords :</b> combava, curcuma.</li></ul>
+            <div class="sp-cta"><a class="chip" href="/pages/wiki-gingembre-madagascar">Wiki produit</a><a class="chip" href="/collections/epices-madagascar">Collection</a></div>
+          </article>
+
+          <article class="sp-card reveal" data-name="Girofle" data-tags="Épice" data-letter="G" onmousemove="vdHalo(event,this)">
+            <div class="halo"></div>
+            <div class="sp-head"><h3 class="sp-name">Girofle</h3><div class="sp-badges"><span class="badge">Épice</span></div></div>
+            <div class="sp-notes"><span class="sp-row"><span class="dot"></span><span>Épicé</span></span><span class="sp-row"><span class="dot"></span><span>Balsamique</span></span></div>
+            <ul class="sp-ul"><li><b>Usages :</b> pickles, sirops, pâtisserie.</li><li><b>Dosage :</b> parcimonieux (puissant).</li><li><b>Accords :</b> cannelle, poivre noir.</li></ul>
+            <div class="sp-cta"><a class="chip" href="/pages/wiki-girofle-madagascar">Wiki produit</a><a class="chip" href="/collections/epices-madagascar">Collection</a></div>
+          </article>
+
+          <article class="sp-card reveal" data-name="Combava (zeste &amp; feuilles)" data-tags="Agrume" data-letter="C" onmousemove="vdHalo(event,this)">
+            <div class="halo"></div>
+            <div class="sp-head"><h3 class="sp-name">Combava (zeste &amp; feuilles)</h3><div class="sp-badges"><span class="badge">Agrume</span></div></div>
+            <div class="sp-notes"><span class="sp-row"><span class="dot"></span><span>Citron vert</span></span><span class="sp-row"><span class="dot"></span><span>Herbacé</span></span></div>
+            <ul class="sp-ul"><li><b>Usages :</b> currys lait de coco, sirops, desserts.</li><li><b>Dosage :</b> micro-dose (très puissant).</li><li><b>Accords :</b> vanille, poivre sauvage.</li></ul>
+            <div class="sp-cta"><a class="chip" href="/pages/wiki-combava-madagascar">Wiki produit</a><a class="chip" href="/collections/epices-madagascar">Collection</a></div>
+          </article>
+
+          <article class="sp-card reveal" data-name="Graines de sésame" data-tags="Épice" data-letter="G" onmousemove="vdHalo(event,this)">
+            <div class="halo"></div>
+            <div class="sp-head"><h3 class="sp-name">Graines de sésame</h3><div class="sp-badges"><span class="badge">Graine</span></div></div>
+            <div class="sp-notes"><span class="sp-row"><span class="dot"></span><span>Grillé</span></span><span class="sp-row"><span class="dot"></span><span>Noisette</span></span></div>
+            <ul class="sp-ul"><li><b>Usages :</b> pains, salades, toppings.</li><li><b>Dosage :</b> au goût (torréfier légèrement).</li><li><b>Accords :</b> piment, combava.</li></ul>
+            <div class="sp-cta"><a class="chip" href="/pages/wiki-sesame-madagascar">Wiki produit</a><a class="chip" href="/collections/epices-madagascar">Collection</a></div>
+          </article>
+
+          <article class="sp-card reveal" data-name="Curry (mélange)" data-tags="Mélange" data-letter="C" onmousemove="vdHalo(event,this)">
+            <div class="halo"></div>
+            <div class="sp-head"><h3 class="sp-name">Curry (mélange)</h3><div class="sp-badges"><span class="badge">Mélange</span></div></div>
+            <div class="sp-notes"><span class="sp-row"><span class="dot"></span><span>Chaud</span></span><span class="sp-row"><span class="dot"></span><span>Aromatique</span></span></div>
+            <ul class="sp-ul"><li><b>Usages :</b> sauces, légumes, volailles.</li><li><b>Dosage :</b> 3–6 g/L.</li><li><b>Accords :</b> lait de coco, combava.</li></ul>
+            <div class="sp-cta"><a class="chip" href="/pages/wiki-curry-madagascar">Wiki produit</a><a class="chip" href="/collections/epices-madagascar">Collection</a></div>
+          </article>
+
+          <article class="sp-card reveal" data-name="Fond d’épices (profil chaud)" data-tags="Mélange" data-letter="F" onmousemove="vdHalo(event,this)">
+            <div class="halo"></div>
+            <div class="sp-head"><h3 class="sp-name">Fond d’épices (profil chaud)</h3><div class="sp-badges"><span class="badge">Mélange</span></div></div>
+            <div class="sp-notes"><span class="sp-row"><span class="dot"></span><span>Chaleur</span></span><span class="sp-row"><span class="dot"></span><span>Rondeur</span></span></div>
+            <ul class="sp-ul"><li><b>Usages :</b> sauce, bouillon, base maison.</li><li><b>Dosage :</b> 3–6 g/L.</li><li><b>Accords :</b> poivre noir, gingembre.</li></ul>
+            <div class="sp-cta"><a class="chip" href="/pages/wiki-fond-epices-madagascar">Wiki produit</a><a class="chip" href="/collections/fond-epices">Acheter</a></div>
+          </article>
+
+          <article class="sp-card reveal" data-name="Piment pili-pili" data-tags="Épice" data-letter="P" onmousemove="vdHalo(event,this)">
+            <div class="halo"></div>
+            <div class="sp-head"><h3 class="sp-name">Piment pili-pili</h3><div class="sp-badges"><span class="badge">Piment</span></div></div>
+            <div class="sp-notes"><span class="sp-row"><span class="dot"></span><span>Piquant</span></span><span class="sp-row"><span class="dot"></span><span>Fruité</span></span></div>
+            <ul class="sp-ul"><li><b>Usages :</b> condiments, huiles pimentées, grillades.</li><li><b>Dosage :</b> au goût (croissant).</li><li><b>Accords :</b> sésame, citron.</li></ul>
+            <div class="sp-cta"><a class="chip" href="/pages/wiki-piment-pili-pili-madagascar">Wiki produit</a><a class="chip" href="/collections/epices-madagascar">Collection</a></div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- FOOTER court -->
+  <footer class="vdG-sec" style="padding-top:0;border-top:1px solid var(--line);background:#fff">
+    <div class="vdG-container" style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);padding-block:14px">
+      <span>© Vanille Désiré — Glossaire des épices</span>
+      <span>Traçabilité • Arômes • Simplicité</span>
+    </div>
+  </footer>
+
+  <!-- JSON-LD : liste des épices (SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"ItemList",
+    "name":"Glossaire des épices de Madagascar — Vanille Désiré",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Poivre sauvage (Voatsiperifery)","url":"/pages/wiki-poivre-sauvage-voatsiperifery"},
+      {"@type":"ListItem","position":2,"name":"Poivre noir de Madagascar","url":"/pages/wiki-poivre-noir-madagascar"},
+      {"@type":"ListItem","position":3,"name":"Poivre blanc de Madagascar","url":"/pages/wiki-poivre-blanc-madagascar"},
+      {"@type":"ListItem","position":4,"name":"Baies roses de Madagascar","url":"/pages/wiki-baies-roses-madagascar"},
+      {"@type":"ListItem","position":5,"name":"Cannelle de Madagascar","url":"/pages/wiki-cannelle-madagascar"},
+      {"@type":"ListItem","position":6,"name":"Curcuma de Madagascar","url":"/pages/wiki-curcuma-madagascar"},
+      {"@type":"ListItem","position":7,"name":"Gingembre de Madagascar","url":"/pages/wiki-gingembre-madagascar"},
+      {"@type":"ListItem","position":8,"name":"Girofle de Madagascar","url":"/pages/wiki-girofle-madagascar"},
+      {"@type":"ListItem","position":9,"name":"Combava (zeste & feuilles)","url":"/pages/wiki-combava-madagascar"},
+      {"@type":"ListItem","position":10,"name":"Graines de sésame de Madagascar","url":"/pages/wiki-sesame-madagascar"},
+      {"@type":"ListItem","position":11,"name":"Curry de Madagascar","url":"/pages/wiki-curry-madagascar"},
+      {"@type":"ListItem","position":12,"name":"Fond d'épices (profil chaud)","url":"/pages/wiki-fond-epices-madagascar"},
+      {"@type":"ListItem","position":13,"name":"Piment pili-pili de Madagascar","url":"/pages/wiki-piment-pili-pili-madagascar"}
+    ]
+  }
+  </script>
+
+  <!-- SCRIPTS : reveal + A–Z + recherche + tags + halo -->
+  <script>
+    // Reveal
+    (function(){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.18});
+      document.querySelectorAll('.reveal').forEach(n=>io.observe(n));})();
+
+    // Build A–Z
+    (function(){
+      const letters='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+      const box=document.querySelector('.vdG-index');
+      const btn=(ch)=>{const b=document.createElement('button');b.textContent=ch;b.setAttribute('data-letter',ch);b.setAttribute('aria-pressed','false');return b};
+      letters.forEach(l=>box.appendChild(btn(l)));
+    })();
+
+    // Search / filter
+    (function(){
+      const cards=[...document.querySelectorAll('.sp-card')];
+      const q=document.getElementById('q');
+      const letters=[...document.querySelectorAll('.vdG-index button')];
+      const tags=[...document.querySelectorAll('.tag')];
+      let activeLetter=''; let activeTag='all';
+
+      const apply=()=>{
+        const term=(q.value||'').trim().toLowerCase();
+        cards.forEach(c=>{
+          const name=c.dataset.name.toLowerCase();
+          const tags=c.dataset.tags||'';
+          const letter=c.dataset.letter||'';
+          const matchTerm=!term||name.includes(term);
+          const matchLetter=!activeLetter||letter===activeLetter;
+          const matchTag=activeTag==='all'||tags.includes(activeTag);
+          c.style.display=(matchTerm&&matchLetter&&matchTag)?'':'none';
+        });
+      };
+
+      q.addEventListener('input',apply);
+
+      letters.forEach(b=>b.addEventListener('click',()=>{
+        const on=b.getAttribute('aria-pressed')==='true';
+        letters.forEach(x=>x.setAttribute('aria-pressed','false'));
+        activeLetter= on ? '' : b.dataset.letter;
+        if(!on) b.setAttribute('aria-pressed','true');
+        apply();
+      }));
+
+      tags.forEach(t=>t.addEventListener('click',()=>{
+        const tag=t.dataset.tag;
+        tags.forEach(x=>x.setAttribute('aria-pressed', x===t ? 'true':'false'));
+        activeTag=tag; apply();
+      }));
+
+      apply();
+    })();
+
+    // Hover halo
+    window.vdHalo=function(e,el){
+      const r=el.getBoundingClientRect();
+      el.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
+      el.style.setProperty('--my', ((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
+    }
+  </script>
+</section>
+              
