@@ -89,6 +89,7 @@
   {{ 'vd-wiki-page.css' | asset_url | stylesheet_tag }}
 {% elsif is_wiki_detail_page %}
   {{ 'vd-wiki-detail.css' | asset_url | stylesheet_tag }}
+  {{ 'component-price.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'vd-wiki-article.js' | asset_url }}" defer="defer"></script>
 {% endif %}
 
@@ -1040,10 +1041,13 @@
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-vanille-conservation-preparation', wiki_vanille_storage_page_url | replace: '/pages/wiki-vanille-bien-choisir', wiki_vanille_page_url | replace: '/pages/wiki-poivres-baies-madagascar', wiki_poivres_page_url | replace: '/pages/wiki-sels-melanges', wiki_sels_page_url | replace: '/pages/wiki-huiles-essentielles-plantes', wiki_plantes_page_url | replace: '/pages/wiki-glossaire-epices', wiki_glossaire_page_url -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-faq-vanille-epices', wiki_faq_page_url | replace: '/pages/wiki-dosage-vanille', wiki_dosage_page_url | replace: '/pages/wiki-recycler-gousse-vanille', wiki_recycler_page_url | replace: '/pages/wiki-combava-madagascar', wiki_combava_page_url | replace: '/pages/wiki-poivre-quel-plat', wiki_poivre_quel_plat_page_url | replace: '/pages/wiki-sel-aromatise-quel-plat', wiki_sel_quel_plat_page_url -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-vanille-pompona', wiki_vanille_pompona_page_url | replace: '/pages/wiki-recettes', wiki_recettes_page_url | replace: '/pages/wiki-epices-madagascar', wiki_epices_page_url | replace: '/pages/wiki', wiki_index_page_url | replace: '/pages/recettes', recettes_page_url | replace: '/pages/catalogue', catalogue_page_url | replace: '/pages/contact', contact_page_url -%}
-  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/collections/vanille-bourbon', vanille_collection_url | replace: '/collections/epices-madagascar', epices_collection_url | replace: '/collections/poivre-baies', poivres_collection_url | replace: '/collections/sels', sels_collection_url | replace: '/collections/huiles-madagascar', huiles_collection_url -%}
+  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-bienfaits-usages', '/pages/wiki-bienfaits-sante' | replace: '/pages/wiki-vanille-bourbon-planifolia', wiki_vanille_page_url | replace: '/pages/wiki-poivre-sauvage-voatsiperifery', wiki_poivres_page_url | replace: '/pages/wiki-poivre-noir-madagascar', wiki_poivres_page_url | replace: '/pages/wiki-poivre-blanc-madagascar', wiki_poivres_page_url | replace: '/pages/wiki-baies-roses-madagascar', wiki_poivres_page_url | replace: '/pages/wiki-melange-poivres-baies', wiki_poivres_page_url -%}
+  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-epice-cannelle-madagascar', wiki_epices_page_url | replace: '/pages/wiki-cannelle-madagascar', wiki_epices_page_url | replace: '/pages/wiki-epice-curcuma-madagascar', wiki_epices_page_url | replace: '/pages/wiki-curcuma-madagascar', wiki_epices_page_url | replace: '/pages/wiki-epice-gingembre-madagascar', wiki_epices_page_url | replace: '/pages/wiki-gingembre-madagascar', wiki_epices_page_url | replace: '/pages/wiki-epice-girofle-madagascar', wiki_epices_page_url | replace: '/pages/wiki-girofle-madagascar', wiki_epices_page_url -%}
+  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-epice-combava-madagascar', wiki_combava_page_url | replace: '/pages/wiki-combava', wiki_combava_page_url | replace: '/pages/wiki-epice-curry-madagascar', wiki_epices_page_url | replace: '/pages/wiki-curry-madagascar', wiki_epices_page_url | replace: '/pages/wiki-fond-epices-madagascar', wiki_epices_page_url | replace: '/pages/wiki-epice-piment-pili-pili-madagascar', wiki_epices_page_url | replace: '/pages/wiki-piment-pili-pili-madagascar', wiki_epices_page_url | replace: '/pages/wiki-pili-pili', wiki_epices_page_url | replace: '/pages/wiki-sesame-madagascar', wiki_epices_page_url -%}
+  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-baies-roses', wiki_poivres_page_url | replace: '/pages/wiki-vanille', wiki_vanille_page_url | replace: '/collections/vanille-bourbon', vanille_collection_url | replace: '/collections/epices-madagascar', epices_collection_url | replace: '/collections/poivre-baies', poivres_collection_url | replace: '/collections/poivres-baies-de-madagascar', poivres_collection_url | replace: '/collections/sels', sels_collection_url | replace: '/collections/sels-aromatises', sels_collection_url | replace: '/collections/huiles-madagascar', huiles_collection_url | replace: '/collections/huiles-essentielles', huiles_collection_url | replace: '/collections/fond-epices', epices_collection_url | replace: '/collections/all', catalogue_page_url -%}
   {% comment %}theme-check-disable UnusedAssign{% endcomment %}
   {%- liquid
-    assign wiki_detail_force_live_handles = ',wiki-epices-madagascar,wiki-poivres-baies-madagascar,wiki-glossaire-epices,wiki-faq-vanille-epices,wiki-vanille-bien-choisir,wiki-vanille-conservation-preparation,wiki-savoir-faire-producteurs,wiki-recettes,wiki-sels-melanges,wiki-huiles-essentielles-plantes,'
+    assign wiki_detail_force_live_handles = ',wiki-epices-madagascar,wiki-poivres-baies-madagascar,wiki-glossaire-epices,wiki-faq-vanille-epices,wiki-vanille-bien-choisir,wiki-vanille-conservation-preparation,wiki-savoir-faire-producteurs,wiki-recettes,wiki-sels-melanges,wiki-huiles-essentielles-plantes,wiki-vanille-bourbon-planifolia,wiki-bienfaits-usages,wiki-poivre-sauvage-voatsiperifery,wiki-poivre-noir-madagascar,wiki-poivre-blanc-madagascar,wiki-baies-roses-madagascar,wiki-melange-poivres-baies,wiki-epice-cannelle-madagascar,wiki-cannelle-madagascar,wiki-epice-curcuma-madagascar,wiki-curcuma-madagascar,wiki-epice-gingembre-madagascar,wiki-gingembre-madagascar,wiki-epice-girofle-madagascar,wiki-girofle-madagascar,wiki-epice-combava-madagascar,wiki-combava,wiki-epice-curry-madagascar,wiki-curry-madagascar,wiki-fond-epices-madagascar,wiki-epice-piment-pili-pili-madagascar,wiki-piment-pili-pili-madagascar,wiki-pili-pili,wiki-sesame-madagascar,wiki-baies-roses,wiki-vanille,'
     assign wiki_detail_force_live_token = ',' | append: page.handle | append: ','
     assign wiki_detail_content = page.content
     if wiki_detail_force_live_handles contains wiki_detail_force_live_token
@@ -1066,6 +1070,14 @@
     assign wiki_detail_summary = wiki_detail_summary | replace: 'Vocabulaire', ''
     assign wiki_detail_summary = wiki_detail_summary | replace: 'FAQ', ''
     assign wiki_detail_summary = wiki_detail_summary | strip
+    assign wiki_detail_is_legacy_spice_detail = false
+    if page.handle == 'wiki-epice-cannelle-madagascar' or page.handle == 'wiki-cannelle-madagascar' or page.handle == 'wiki-epice-curcuma-madagascar' or page.handle == 'wiki-curcuma-madagascar' or page.handle == 'wiki-epice-gingembre-madagascar' or page.handle == 'wiki-gingembre-madagascar' or page.handle == 'wiki-epice-girofle-madagascar' or page.handle == 'wiki-girofle-madagascar' or page.handle == 'wiki-epice-combava-madagascar' or page.handle == 'wiki-combava' or page.handle == 'wiki-epice-curry-madagascar' or page.handle == 'wiki-curry-madagascar' or page.handle == 'wiki-fond-epices-madagascar' or page.handle == 'wiki-epice-piment-pili-pili-madagascar' or page.handle == 'wiki-piment-pili-pili-madagascar' or page.handle == 'wiki-pili-pili' or page.handle == 'wiki-sesame-madagascar'
+      assign wiki_detail_is_legacy_spice_detail = true
+    endif
+    assign wiki_detail_is_legacy_pepper_detail = false
+    if page.handle == 'wiki-poivre-sauvage-voatsiperifery' or page.handle == 'wiki-poivre-noir-madagascar' or page.handle == 'wiki-poivre-blanc-madagascar' or page.handle == 'wiki-baies-roses-madagascar' or page.handle == 'wiki-baies-roses' or page.handle == 'wiki-melange-poivres-baies'
+      assign wiki_detail_is_legacy_pepper_detail = true
+    endif
     assign wiki_detail_chapter = 'Le Wiki'
     assign wiki_detail_title = page.title
     assign wiki_detail_primary_url = wiki_index_page_url
@@ -1113,7 +1125,7 @@
       assign wiki_detail_card_three_copy = 'Comparer qualité, souplesse et usages.'
       assign wiki_detail_card_three_url = wiki_vanille_page_url
       assign wiki_detail_card_three_image = 'vd-wiki-botanique.jpg'
-    elsif page.handle contains 'wiki-epice' or page.handle == 'wiki-epices-madagascar' or page.handle == 'wiki-bienfaits-sante' or page.handle == 'wiki-combava-madagascar'
+    elsif page.handle contains 'wiki-epice' or page.handle == 'wiki-epices-madagascar' or page.handle == 'wiki-bienfaits-sante' or page.handle == 'wiki-bienfaits-usages' or page.handle == 'wiki-combava-madagascar' or wiki_detail_is_legacy_spice_detail
       assign wiki_detail_chapter = 'Épices'
       assign wiki_detail_primary_url = epices_collection_url
       assign wiki_detail_primary_label = 'Voir les épices'
@@ -1134,7 +1146,7 @@
       assign wiki_detail_card_three_copy = 'Voir les assemblages et usages.'
       assign wiki_detail_card_three_url = wiki_sels_page_url
       assign wiki_detail_card_three_image = 'vd-wiki-science.jpg'
-    elsif page.handle contains 'wiki-poivre' or page.handle contains 'wiki-baies' or page.handle == 'wiki-poivres-baies-madagascar'
+    elsif page.handle contains 'wiki-poivre' or page.handle contains 'wiki-baies' or page.handle == 'wiki-poivres-baies-madagascar' or wiki_detail_is_legacy_pepper_detail
       assign wiki_detail_chapter = 'Poivres & baies'
       assign wiki_detail_primary_url = poivres_collection_url
       assign wiki_detail_primary_label = 'Voir les poivres & baies'
@@ -1635,7 +1647,7 @@
 
     assign wiki_detail_is_knowledge_layout = true
     assign wiki_detail_meta_label = 'Guide pratique'
-    assign wiki_detail_meta_read_time = '8 min de lecture'
+    assign wiki_detail_meta_read_time = ''
     assign wiki_detail_meta_author = ''
     assign wiki_detail_breadcrumb_section_label = wiki_detail_chapter
     assign wiki_detail_breadcrumb_section_url = wiki_index_page_url
@@ -1655,13 +1667,13 @@
       assign wiki_detail_breadcrumb_section_url = wiki_vanille_page_url
       assign wiki_detail_meta_badge_one = 'Vanille'
       assign wiki_detail_meta_badge_two = 'Guide'
-    elsif page.handle contains 'wiki-epice' or page.handle == 'wiki-epices-madagascar' or page.handle == 'wiki-bienfaits-sante' or page.handle == 'wiki-combava-madagascar'
+    elsif page.handle contains 'wiki-epice' or page.handle == 'wiki-epices-madagascar' or page.handle == 'wiki-bienfaits-sante' or page.handle == 'wiki-bienfaits-usages' or page.handle == 'wiki-combava-madagascar' or wiki_detail_is_legacy_spice_detail
       assign wiki_detail_is_epices_group = true
       assign wiki_detail_breadcrumb_section_label = 'Épices'
       assign wiki_detail_breadcrumb_section_url = wiki_epices_page_url
       assign wiki_detail_meta_badge_one = 'Épices'
       assign wiki_detail_meta_badge_two = 'Madagascar'
-    elsif page.handle contains 'wiki-poivre' or page.handle contains 'wiki-baies' or page.handle == 'wiki-poivres-baies-madagascar'
+    elsif page.handle contains 'wiki-poivre' or page.handle contains 'wiki-baies' or page.handle == 'wiki-poivres-baies-madagascar' or wiki_detail_is_legacy_pepper_detail
       assign wiki_detail_is_poivres_group = true
       assign wiki_detail_breadcrumb_section_label = 'Poivres & baies'
       assign wiki_detail_breadcrumb_section_url = wiki_poivres_page_url
@@ -1690,7 +1702,6 @@
     case page.handle
       when 'wiki-vanille-conservation-preparation'
         assign wiki_detail_meta_label = 'Guide de conservation'
-        assign wiki_detail_meta_read_time = '8 min de lecture'
         assign wiki_detail_meta_badge_one = 'Vanille Bourbon'
         assign wiki_detail_meta_badge_two = 'Conservation'
         assign wiki_detail_meta_badge_three = 'Préparation'
@@ -1743,6 +1754,68 @@
       if wiki_detail_collection_url != wiki_detail_primary_url and wiki_detail_collection_url != wiki_detail_secondary_url and wiki_detail_collection_label != blank
         assign wiki_detail_show_collection = true
       endif
+    endif
+
+    assign wiki_detail_shop_collection = vanille_collection
+    assign wiki_detail_shop_collection_url = vanille_collection_url
+    assign wiki_detail_shop_title = 'Produits liés à cette lecture'
+    assign wiki_detail_shop_copy = 'Retrouver une sélection cohérente à acheter sans quitter le fil du wiki.'
+    assign wiki_detail_shop_cta_label = 'Voir la sélection'
+
+    if wiki_detail_is_vanille_group
+      assign wiki_detail_shop_collection = vanille_collection
+      assign wiki_detail_shop_collection_url = vanille_collection_url
+      assign wiki_detail_shop_title = 'Vanilles liées à cette page'
+      assign wiki_detail_shop_copy = 'Les gousses et formats les plus cohérents avec cette lecture.'
+      assign wiki_detail_shop_cta_label = 'Voir la vanille'
+    elsif wiki_detail_is_epices_group
+      assign wiki_detail_shop_collection = epices_collection
+      assign wiki_detail_shop_collection_url = epices_collection_url
+      assign wiki_detail_shop_title = 'Épices liées à cette page'
+      assign wiki_detail_shop_copy = 'Retrouver les épices de Madagascar évoquées dans le guide.'
+      assign wiki_detail_shop_cta_label = 'Voir les épices'
+    elsif wiki_detail_is_poivres_group
+      assign wiki_detail_shop_collection = poivres_collection
+      assign wiki_detail_shop_collection_url = poivres_collection_url
+      assign wiki_detail_shop_title = 'Poivres & baies liés à cette page'
+      assign wiki_detail_shop_copy = 'Une sélection directe pour passer du repère théorique à l’achat.'
+      assign wiki_detail_shop_cta_label = 'Voir les poivres'
+    elsif wiki_detail_is_sels_group
+      assign wiki_detail_shop_collection = sels_collection
+      assign wiki_detail_shop_collection_url = sels_collection_url
+      assign wiki_detail_shop_title = 'Sels gourmets liés à cette page'
+      assign wiki_detail_shop_copy = 'Les assemblages les plus cohérents avec les usages décrits plus haut.'
+      assign wiki_detail_shop_cta_label = 'Voir les sels'
+    elsif wiki_detail_is_huiles_group
+      assign wiki_detail_shop_collection = huiles_collection
+      assign wiki_detail_shop_collection_url = huiles_collection_url
+      assign wiki_detail_shop_title = 'Huiles & plantes liées à cette page'
+      assign wiki_detail_shop_copy = 'Les références disponibles à retrouver juste après la lecture.'
+      assign wiki_detail_shop_cta_label = 'Voir les huiles'
+    elsif page.handle contains 'wiki-savoir-faire'
+      assign wiki_detail_shop_collection = vanille_collection
+      assign wiki_detail_shop_collection_url = vanille_collection_url
+      assign wiki_detail_shop_title = 'Produits issus de ce savoir-faire'
+      assign wiki_detail_shop_copy = 'Voir la matière finale derrière les étapes de préparation et de tri.'
+      assign wiki_detail_shop_cta_label = 'Voir les produits'
+    elsif page.handle contains 'wiki-recettes'
+      assign wiki_detail_shop_collection = vanille_collection
+      assign wiki_detail_shop_collection_url = vanille_collection_url
+      assign wiki_detail_shop_title = 'Produits pour cuisiner après cette lecture'
+      assign wiki_detail_shop_copy = 'Une porte d’entrée simple pour passer des accords aux ingrédients.'
+      assign wiki_detail_shop_cta_label = 'Acheter pour cuisiner'
+    elsif page.handle contains 'wiki-glossaire'
+      assign wiki_detail_shop_collection = epices_collection
+      assign wiki_detail_shop_collection_url = epices_collection_url
+      assign wiki_detail_shop_title = 'Produits à relire ensuite en vrai'
+      assign wiki_detail_shop_copy = 'Voir les matières citées dans le glossaire avec leur présentation boutique.'
+      assign wiki_detail_shop_cta_label = 'Voir les produits'
+    elsif page.handle contains 'wiki-faq'
+      assign wiki_detail_shop_collection = vanille_collection
+      assign wiki_detail_shop_collection_url = vanille_collection_url
+      assign wiki_detail_shop_title = 'Produits pour prolonger la FAQ'
+      assign wiki_detail_shop_copy = 'Une sélection simple si la lecture vous a déjà aidé à clarifier votre besoin.'
+      assign wiki_detail_shop_cta_label = 'Voir la sélection'
     endif
 
     assign wiki_detail_meta_date_source = page.published_at | default: 'now'
@@ -1912,11 +1985,11 @@
                     </div>
                   </div>
                   <div class="vd-wiki-detail__hero-row">
-                    <div class="vd-wiki-detail__meta" aria-label="Métadonnées article">
-                      {% if wiki_detail_meta_read_time != blank %}
+                    {% if wiki_detail_meta_read_time != blank %}
+                      <div class="vd-wiki-detail__meta" aria-label="Métadonnées article">
                         <span class="vd-wiki-detail__meta-item vd-wiki-detail__meta-item--readtime">{{ wiki_detail_meta_read_time }}</span>
-                      {% endif %}
-                    </div>
+                      </div>
+                    {% endif %}
                     <div class="vd-wiki-detail__hero-actions" aria-label="Actions article">
                       <button type="button" class="vd-wiki-detail__hero-action" aria-label="Imprimer l’article">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
@@ -1935,7 +2008,6 @@
                           <path d="M14 6a3 3 0 1 0-2.83-4H11a3 3 0 0 0 .17 1L8.91 7.1a3 3 0 0 0-1.91-.6 3 3 0 1 0 1.91 5.4l2.28 4.1A3 3 0 0 0 11 17a3 3 0 1 0 .17 1h.01a3 3 0 0 0-.17-1l2.26-4.07A3 3 0 1 0 14 6Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                       </button>
-                      <span class="vd-wiki-detail__hero-action-label">Partager</span>
                     </div>
                   </div>
                   <div class="vd-wiki-detail__badges" aria-label="Thèmes liés">
@@ -2093,6 +2165,43 @@
           {% endif %}
 
           <footer class="vd-wiki-detail__footer vd-wiki-detail__footer--lite">
+            {% if wiki_detail_shop_collection != blank and wiki_detail_shop_collection.products_count > 0 %}
+              <section class="vd-wiki-detail__shop-block" aria-labelledby="wiki-shop-title-{{ section.id }}">
+                <div class="vd-wiki-detail__shop-head">
+                  <div class="vd-wiki-detail__shop-copy">
+                    <span class="vd-wiki-detail__eyebrow">Produits liés</span>
+                    <h2 id="wiki-shop-title-{{ section.id }}">{{ wiki_detail_shop_title }}</h2>
+                    {% if wiki_detail_shop_copy != blank %}
+                      <p>{{ wiki_detail_shop_copy }}</p>
+                    {% endif %}
+                  </div>
+                  <a href="{{ wiki_detail_shop_collection_url }}" class="vd-arrow-cta" data-vd-preview-link>
+                    <span class="vd-arrow-cta__label">{{ wiki_detail_shop_cta_label }}</span>
+                    <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                      <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+                    </svg>
+                  </a>
+                </div>
+                <ul class="vd-wiki-detail__shop-grid list-unstyled" role="list">
+                  {% for product in wiki_detail_shop_collection.products limit: 3 %}
+                    <li class="vd-wiki-detail__shop-item">
+                      {% render 'card-product',
+                        card_product: product,
+                        media_aspect_ratio: 'portrait',
+                        lazy_load: true,
+                        show_vendor: true,
+                        show_subtitle: true,
+                        show_product_type: true,
+                        premium_card: true,
+                        card_surface: 'light',
+                        skip_styles: true,
+                        section_id: section.id
+                      %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </section>
+            {% endif %}
             <div class="vd-wiki-detail__footer-head">
               <span class="vd-wiki-detail__eyebrow">À lire ensuite</span>
               <h2>Pour aller plus loin</h2>

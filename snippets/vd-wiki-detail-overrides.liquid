@@ -14,6 +14,7 @@
   assign wiki_faq_page = pages['wiki-faq-vanille-epices']
   assign wiki_dosage_page = pages['wiki-dosage-vanille']
   assign wiki_recycler_page = pages['wiki-recycler-gousse-vanille']
+  assign wiki_combava_page = pages['wiki-combava-madagascar']
   assign wiki_poivre_quel_plat_page = pages['wiki-poivre-quel-plat']
   assign wiki_sel_quel_plat_page = pages['wiki-sel-aromatise-quel-plat']
 
@@ -38,6 +39,7 @@
   assign wiki_faq_page_url = wiki_faq_page.url | default: '/pages/wiki-faq-vanille-epices'
   assign wiki_dosage_page_url = wiki_dosage_page.url | default: '/pages/wiki-dosage-vanille'
   assign wiki_recycler_page_url = wiki_recycler_page.url | default: '/pages/wiki-recycler-gousse-vanille'
+  assign wiki_combava_page_url = wiki_combava_page.url | default: '/pages/wiki-combava-madagascar'
   assign wiki_poivre_quel_plat_page_url = wiki_poivre_quel_plat_page.url | default: '/pages/wiki-poivre-quel-plat'
   assign wiki_sel_quel_plat_page_url = wiki_sel_quel_plat_page.url | default: '/pages/wiki-sel-aromatise-quel-plat'
   assign wiki_vanille_collection_url = wiki_vanille_collection.url | default: '/collections/vanille-bourbon'
@@ -54,7 +56,7 @@
   {%- render 'vd-wiki-live-wiki-glossaire-epices' -%}
 {%- elsif page_handle == 'wiki-faq-vanille-epices' -%}
   {%- render 'vd-wiki-live-wiki-faq-vanille-epices' -%}
-{%- elsif page_handle == 'wiki-vanille-bien-choisir' -%}
+{%- elsif page_handle == 'wiki-vanille-bien-choisir' or page_handle == 'wiki-vanille-bourbon-planifolia' or page_handle == 'wiki-vanille' -%}
   {%- render 'vd-wiki-live-wiki-vanille-bien-choisir' -%}
 {%- elsif page_handle == 'wiki-vanille-conservation-preparation' -%}
   {%- render 'vd-wiki-live-wiki-vanille-conservation-preparation' -%}
@@ -1119,7 +1121,7 @@
       <li><a href="https://www.cirad.fr/" target="_blank" rel="noopener noreferrer">Cirad, ressources sur les filières et savoir-faire agricoles tropicaux</a></li>
     </ul>
 
-  {%- when 'wiki-bienfaits-sante' -%}
+  {%- when 'wiki-bienfaits-sante', 'wiki-bienfaits-usages' -%}
     <div class="vd-wiki-article-note">
       <span class="vd-wiki-article-note__label">Important</span>
       <p>Le wiki distingue volontairement le plaisir culinaire, les usages traditionnels et les allégations de santé. Une épice peut avoir un intérêt aromatique, culturel ou nutritionnel sans qu’il faille lui prêter des promesses excessives.</p>
@@ -1181,6 +1183,66 @@
       <li><a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener noreferrer">PubMed, base de littérature biomédicale</a></li>
       <li><a href="https://www.anses.fr/fr/content/complements-alimentaires-et-plantes" target="_blank" rel="noopener noreferrer">ANSES, compléments alimentaires et plantes&nbsp;: repères de prudence</a></li>
     </ul>
+
+  {%- when 'wiki-epice-cannelle-madagascar', 'wiki-cannelle-madagascar', 'wiki-epice-curcuma-madagascar', 'wiki-curcuma-madagascar', 'wiki-epice-gingembre-madagascar', 'wiki-gingembre-madagascar', 'wiki-epice-girofle-madagascar', 'wiki-girofle-madagascar', 'wiki-epice-curry-madagascar', 'wiki-curry-madagascar', 'wiki-fond-epices-madagascar', 'wiki-epice-piment-pili-pili-madagascar', 'wiki-piment-pili-pili-madagascar', 'wiki-pili-pili', 'wiki-sesame-madagascar' -%}
+    <div class="vd-wiki-article-note">
+      <span class="vd-wiki-article-note__label">Dossier regroupé</span>
+      <p>La page « {{ page.title }} » est maintenant rattachée au dossier éditorial Épices de Madagascar pour éviter les micro-pages vides et garder un wiki plus cohérent.</p>
+    </div>
+
+    <p>Vous retrouvez désormais cette matière dans un dossier parent plus lisible, avec le panorama des épices, les usages en cuisine, les liens vers les recettes et l’accès direct à la collection. Cela évite de multiplier des pages trop courtes tout en gardant l’entrée produit disponible.</p>
+
+    <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
+      <div class="vd-wiki-article-card">
+        <h3>Panorama complet</h3>
+        <p>Le dossier Épices de Madagascar regroupe les familles, les profils aromatiques et les repères utiles avant achat.</p>
+      </div>
+      <div class="vd-wiki-article-card">
+        <h3>Accès produit</h3>
+        <p>La collection permet ensuite de retrouver les références disponibles sans quitter le même univers de lecture.</p>
+      </div>
+      <div class="vd-wiki-article-card">
+        <h3>Passage en cuisine</h3>
+        <p>Les recettes et accords servent de suite logique pour voir comment employer l’épice dans un geste réel.</p>
+      </div>
+    </div>
+
+    <div class="vd-wiki-article-links">
+      <a href="{{ wiki_epices_page_url }}" data-vd-preview-link>Ouvrir Épices de Madagascar</a>
+      <a href="{{ wiki_epices_collection_url }}" data-vd-preview-link>Voir les épices</a>
+      <a href="{{ wiki_recettes_page_url }}" data-vd-preview-link>Voir les recettes & accords</a>
+      <a href="{{ wiki_glossaire_page_url }}" data-vd-preview-link>Ouvrir le glossaire</a>
+    </div>
+
+  {%- when 'wiki-poivre-sauvage-voatsiperifery', 'wiki-poivre-noir-madagascar', 'wiki-poivre-blanc-madagascar', 'wiki-baies-roses-madagascar', 'wiki-baies-roses', 'wiki-melange-poivres-baies' -%}
+    <div class="vd-wiki-article-note">
+      <span class="vd-wiki-article-note__label">Dossier regroupé</span>
+      <p>La page « {{ page.title }} » a été rattachée au dossier Poivres & baies de Madagascar pour éviter les entrées vides et garder un maillage plus propre.</p>
+    </div>
+
+    <p>Le sujet existe toujours dans le wiki, mais il est désormais traité dans un dossier parent plus stable, avec les repères d’intensité, le bon moment d’ajout, les liens vers les recettes et l’accès direct à la collection poivres & baies.</p>
+
+    <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
+      <div class="vd-wiki-article-card">
+        <h3>Comprendre la famille</h3>
+        <p>Le panorama Poivres & baies aide à comparer les profils, la puissance et les usages en cuisson ou en finition.</p>
+      </div>
+      <div class="vd-wiki-article-card">
+        <h3>Voir les produits</h3>
+        <p>La collection permet ensuite de retrouver les références disponibles liées à cette famille de poivres et baies.</p>
+      </div>
+      <div class="vd-wiki-article-card">
+        <h3>Passer au geste</h3>
+        <p>Les recettes et le glossaire servent à prolonger la lecture avec des accords et un vocabulaire plus concrets.</p>
+      </div>
+    </div>
+
+    <div class="vd-wiki-article-links">
+      <a href="{{ wiki_poivres_page_url }}" data-vd-preview-link>Ouvrir Poivres & baies</a>
+      <a href="{{ wiki_poivres_collection_url }}" data-vd-preview-link>Voir les poivres & baies</a>
+      <a href="{{ wiki_recettes_page_url }}" data-vd-preview-link>Voir les recettes & accords</a>
+      <a href="{{ wiki_glossaire_page_url }}" data-vd-preview-link>Ouvrir le glossaire</a>
+    </div>
 
   {%- when 'wiki-recettes' -%}
     <div class="vd-wiki-article-note">
@@ -1725,7 +1787,7 @@
       <li><a href="https://www.mdpi.com/2304-8158/14/9/1652" target="_blank" rel="noopener noreferrer">Foods (MDPI), <em>Influence of Traditional Vanilla Curing on Its Physicochemical Properties and Aromatic Profile</em></a></li>
     </ul>
 
-  {%- when 'wiki-combava-madagascar' -%}
+  {%- when 'wiki-combava-madagascar', 'wiki-epice-combava-madagascar', 'wiki-combava' -%}
     <div class="vd-wiki-article-note">
       <span class="vd-wiki-article-note__label">Épice fraîche</span>
       <p>Le combava est une matière de tension. Il réveille un plat, mais peut aussi l’écraser très vite si le dosage ou le moment d’ajout sont mal gérés.</p>
