@@ -705,7 +705,7 @@
               assign entry_link_label = 'Découvrir les assemblages'
             elsif handle == 'huiles-madagascar' or handle == 'huiles-essentielles'
               assign entry_kicker = 'Usage'
-              assign entry_text = 'Huiles essentielles et huiles naturelles avec une lecture plus simple par famille, usage externe et dilution.'
+              assign entry_text = 'Huiles essentielles et huiles naturelles rangées par famille, usage externe et dilution.'
               assign entry_link_label = 'Voir les huiles'
             endif
           -%}
@@ -1240,7 +1240,7 @@
       assign wiki_detail_media_poster = 'vd-wiki-cover.jpg'
       assign wiki_detail_media_alt = 'Producteurs et savoir-faire Vanille Désiré'
       assign wiki_detail_card_one_title = 'Voir les produits'
-      assign wiki_detail_card_one_copy = 'Retrouver la matière après la lecture.'
+      assign wiki_detail_card_one_copy = 'Retrouver les produits vus dans ce dossier.'
       assign wiki_detail_card_one_url = catalogue_page_url
       assign wiki_detail_card_one_image = 'vd-wiki-cover.jpg'
       assign wiki_detail_card_two_title = 'FAQ — Vanille & épices'
@@ -1501,7 +1501,7 @@
         assign wiki_detail_card_one_url = vanille_collection_url
         assign wiki_detail_card_one_image = 'vd-wiki-cover.jpg'
         assign wiki_detail_card_two_title = 'Vanille Pompona'
-        assign wiki_detail_card_two_copy = 'Comparer un profil floral à une lecture plus ample.'
+        assign wiki_detail_card_two_copy = 'Comparer un profil floral avec une vanille plus ample et plus musquée.'
         assign wiki_detail_card_two_url = wiki_vanille_pompona_page_url
         assign wiki_detail_card_two_image = 'vd-wiki-botanique.jpg'
         assign wiki_detail_card_three_title = 'Voir les recettes'
@@ -1782,32 +1782,32 @@
     if wiki_detail_is_vanille_group
       assign wiki_detail_shop_collection = vanille_collection
       assign wiki_detail_shop_collection_url = vanille_collection_url
-      assign wiki_detail_shop_title = 'Vanilles liées à cette page'
-      assign wiki_detail_shop_copy = 'Les gousses et formats les plus cohérents avec cette lecture.'
+      assign wiki_detail_shop_title = 'Vanilles liées au dossier'
+      assign wiki_detail_shop_copy = 'Les gousses et formats les plus cohérents avec le sujet en cours.'
       assign wiki_detail_shop_cta_label = 'Voir la vanille'
     elsif wiki_detail_is_epices_group
       assign wiki_detail_shop_collection = epices_collection
       assign wiki_detail_shop_collection_url = epices_collection_url
-      assign wiki_detail_shop_title = 'Épices liées à cette page'
+      assign wiki_detail_shop_title = 'Épices liées au dossier'
       assign wiki_detail_shop_copy = 'Retrouver les épices de Madagascar évoquées dans le guide.'
       assign wiki_detail_shop_cta_label = 'Voir les épices'
     elsif wiki_detail_is_poivres_group
       assign wiki_detail_shop_collection = poivres_collection
       assign wiki_detail_shop_collection_url = poivres_collection_url
-      assign wiki_detail_shop_title = 'Poivres & baies liés à cette page'
-      assign wiki_detail_shop_copy = 'Une sélection directe pour passer du repère théorique à l’achat.'
+      assign wiki_detail_shop_title = 'Poivres & baies liés au dossier'
+      assign wiki_detail_shop_copy = 'Une sélection directe pour passer du guide à la cuisine.'
       assign wiki_detail_shop_cta_label = 'Voir les poivres'
     elsif wiki_detail_is_sels_group
       assign wiki_detail_shop_collection = sels_collection
       assign wiki_detail_shop_collection_url = sels_collection_url
-      assign wiki_detail_shop_title = 'Sels gourmets liés à cette page'
+      assign wiki_detail_shop_title = 'Sels gourmets liés au dossier'
       assign wiki_detail_shop_copy = 'Les assemblages les plus cohérents avec les usages décrits plus haut.'
       assign wiki_detail_shop_cta_label = 'Voir les sels'
     elsif wiki_detail_is_huiles_group
       assign wiki_detail_shop_collection = huiles_collection
       assign wiki_detail_shop_collection_url = huiles_collection_url
-      assign wiki_detail_shop_title = 'Huiles & plantes liées à cette page'
-      assign wiki_detail_shop_copy = 'Les références disponibles à retrouver juste après la lecture.'
+      assign wiki_detail_shop_title = 'Huiles & plantes liées au dossier'
+      assign wiki_detail_shop_copy = 'Les références disponibles pour prolonger ce chapitre.'
       assign wiki_detail_shop_cta_label = 'Voir les huiles'
     elsif page.handle contains 'wiki-savoir-faire'
       assign wiki_detail_shop_collection = vanille_collection
@@ -1850,8 +1850,8 @@
         assign wiki_detail_shop_copy = 'La Pompona pour le profil rare, puis deux références maison plus immédiates pour pâtisserie et infusion.'
       when 'wiki-vanille-tahiti'
         assign wiki_detail_shop_handles = 'pack-patisserie-premium-vanille-bourbon-madagascar,vanille-pompona-xxl-2-10-gousses,vanille-bourbon-madagascar-10-gousses-tube-verre'
-        assign wiki_detail_shop_title = 'Références à comparer après la lecture'
-        assign wiki_detail_shop_copy = 'Faute de Tahiti en boutique, la comparaison la plus utile reste Bourbon, Pompona et un format premium très lisible.'
+        assign wiki_detail_shop_title = 'Trois vanilles à comparer'
+        assign wiki_detail_shop_copy = 'Faute de Tahiti en boutique, comparez Bourbon, Pompona et un tube premium pour juger rondeur, ampleur et souplesse.'
       when 'wiki-dosage-vanille'
         assign wiki_detail_shop_handles = 'poudre-vanille-bourbon-madagascar-20g,extrait-vanille-bourbon-madagascar-20ml,vanille-bourbon-madagascar-3-gousses'
         assign wiki_detail_shop_title = 'Formats utiles pour doser plus juste'
@@ -1879,7 +1879,7 @@
       when 'wiki-epice-girofle-madagascar', 'wiki-girofle-madagascar'
         assign wiki_detail_shop_handles = 'girofle-madagascar-sachet-25g,cannelle-madagascar-pot-verre-40g,poivre-noir-madagascar-sachet-50g'
         assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page girofle'
-        assign wiki_detail_shop_copy = 'Le girofle, la cannelle et le poivre noir couvrent les accords les plus lisibles évoqués dans la page.'
+        assign wiki_detail_shop_copy = 'Le girofle, la cannelle et le poivre noir couvrent les accords viande mijotée, compote et sauce chaude évoqués dans la page.'
       when 'wiki-epice-curry-madagascar', 'wiki-curry-madagascar'
         assign wiki_detail_shop_handles = 'curry-madagascar-pot-epices-40g,curry-madagascar-pot-verre-40g,poudre-combava-sauvage-madagascar-20g'
         assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page curry'
@@ -1891,7 +1891,7 @@
       when 'wiki-epice-piment-pili-pili-madagascar', 'wiki-piment-pili-pili-madagascar', 'wiki-pili-pili'
         assign wiki_detail_shop_handles = 'piment-pili-pili-madagascar-pot-epices-40g,piment-pili-pili-madagascar-pot-verre-40g,sel-de-camargue-parfume-au-piment-pili-pili'
         assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page pili-pili'
-        assign wiki_detail_shop_copy = 'Deux formats de piment, puis un sel de finition pour les usages les plus directs de cette page.'
+        assign wiki_detail_shop_copy = 'Deux formats de piment, puis un sel de finition pour les usages les plus directs du dossier.'
       when 'wiki-epice-sesame-madagascar', 'wiki-sesame-madagascar'
         assign wiki_detail_shop_handles = 'graines-sesame-madagascar-sachet-50g,gingembre-madagascar-pot-epices-40g,piment-pili-pili-madagascar-pot-epices-40g'
         assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page sésame'
@@ -1939,19 +1939,19 @@
       when 'wiki-sel-aromatise-quel-plat'
         assign wiki_detail_shop_handles = 'sel-parfume-au-combava,sel-de-camargue-parfume-au-piment-pili-pili,sel-de-camargue-a-la-vanille-bourbon-de-madagascar'
         assign wiki_detail_shop_title = 'Sels à choisir selon l’usage réel'
-        assign wiki_detail_shop_copy = 'Une lecture plus fraîche, plus vive ou plus gourmande selon le plat que vous cherchez à finir.'
+        assign wiki_detail_shop_copy = 'Trois profils pour finir un plat: frais au combava, vif au pili-pili, gourmand à la vanille.'
       when 'wiki-huiles-essentielles-plantes'
         assign wiki_detail_shop_handles = 'huile-essentielle-ravintsara-5ml,huile-essentielle-ylang-ylang-5ml,huile-essentielle-girofle-5ml'
-        assign wiki_detail_shop_title = 'Références les plus lisibles de ce chapitre'
-        assign wiki_detail_shop_copy = 'Trois huiles très identifiables pour rester dans un usage d’ambiance ou externe clairement cadré.'
+        assign wiki_detail_shop_title = 'Trois huiles pour prolonger ce chapitre'
+        assign wiki_detail_shop_copy = 'Ravintsara, ylang-ylang et girofle pour rester sur des usages d’ambiance ou externes clairement cadrés.'
       when 'wiki-savoir-faire-producteurs'
         assign wiki_detail_shop_handles = 'vanille-bourbon-madagascar-10-gousses-tube-verre,poivre-sauvage-voatsiperifery-sachet-50g-madagascar,gingembre-madagascar-pot-epices-40g'
         assign wiki_detail_shop_title = 'Trois matieres pour voir la filiere en vrai'
-        assign wiki_detail_shop_copy = 'Une vanille souple, un poivre cueilli a la main et une epice nette pour relier origine, preparation et usage.'
+        assign wiki_detail_shop_copy = 'Une vanille souple, un poivre cueilli a la main et un gingembre net pour relier origine, preparation et usage.'
       when 'wiki-recettes'
         assign wiki_detail_shop_handles = 'vanille-bourbon-madagascar-1-3-5-gousses-decouverte,gingembre-madagascar-pot-epices-40g,poivre-noir-madagascar-sachet-50g'
         assign wiki_detail_shop_title = 'Trois bases faciles pour passer en cuisine'
-        assign wiki_detail_shop_copy = 'Une vanille simple à infuser, un gingembre direct et un poivre noir polyvalent pour cuisiner juste après la lecture.'
+        assign wiki_detail_shop_copy = 'Une vanille simple à infuser, un gingembre direct et un poivre noir polyvalent pour cuisiner tout de suite.'
       when 'wiki-glossaire-epices'
         assign wiki_detail_shop_handles = 'poivre-sauvage-voatsiperifery-sachet-50g-madagascar,gingembre-madagascar-pot-epices-40g,cannelle-madagascar-pot-verre-40g'
         assign wiki_detail_shop_title = 'Trois matieres pour ancrer le glossaire'
@@ -2268,7 +2268,7 @@
                     "name": "Quel produit choisir pour débuter ?",
                     "acceptedAnswer": {
                       "@type": "Answer",
-                      "text": "Pour la vanille, un petit lot de gousses bien préparées suffit pour débuter. Pour les épices, commencez par une sélection courte et lisible correspondant à vos usages."
+                      "text": "Pour la vanille, un petit lot de gousses bien préparées suffit pour débuter. Pour les épices, commencez par une sélection courte correspondant à vos usages les plus fréquents."
                     }
                   },
                   {
