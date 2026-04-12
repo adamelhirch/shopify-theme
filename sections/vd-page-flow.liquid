@@ -942,8 +942,8 @@
             </div>
           </section>
 
-          <section class="vd-wiki-page__section" aria-labelledby="wiki-categories-{{ section.id }}">
-            <div class="vd-wiki-page__section-head">
+          <section class="vd-wiki-page__section vd-wiki-page__section--categories" aria-labelledby="wiki-categories-{{ section.id }}">
+            <div class="vd-wiki-page__section-head vd-wiki-page__section-head--categories">
               <span class="vd-section-kicker">{{ section.settings.wiki_categories_eyebrow | default: 'Catégories' }}</span>
               <h2 class="vd-wiki-page__section-title" id="wiki-categories-{{ section.id }}">{{ section.settings.wiki_categories_heading | default: 'Explorer toutes les catégories' }}</h2>
               {% assign wiki_categories_text_plain = section.settings.wiki_categories_text | strip_html | strip %}

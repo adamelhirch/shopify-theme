@@ -2872,27 +2872,32 @@ body:has(.vd-wiki-page) .vd-wiki-page__section[aria-labelledby^="wiki-categories
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__section[aria-labelledby^="wiki-categories"] .vd-wiki-page__section-head {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  text-align: center !important;
-  max-width: 52rem !important;
-  margin: 0 auto 2.5rem !important;
-  gap: 0.9rem !important;
+  display: grid !important;
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  align-items: start !important;
+  justify-content: start !important;
+  justify-items: start !important;
+  text-align: left !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 0 1.75rem !important;
+  gap: 1rem !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__section[aria-labelledby^="wiki-categories"] .vd-section-kicker {
-  margin: 0 auto !important;
-  justify-content: center !important;
+  grid-column: 1 / span 5 !important;
+  margin: 0 !important;
+  justify-content: flex-start !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__section[aria-labelledby^="wiki-categories"] .vd-wiki-page__section-title {
-  max-width: 9ch !important;
-  margin: 0 auto !important;
-  font-size: clamp(4.4rem, 5.8vw, 6.9rem) !important;
+  grid-column: 1 / span 5 !important;
+  max-width: 7.4ch !important;
+  margin: 0 !important;
+  text-align: left !important;
+  font-size: clamp(3.6rem, 5vw, 5.2rem) !important;
   line-height: 0.92 !important;
-  letter-spacing: -0.065em !important;
+  letter-spacing: -0.05em !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__section[aria-labelledby^="wiki-categories"] .vd-wiki-page__section-text {
@@ -3146,22 +3151,24 @@ body:has(.vd-wiki-page) .vd-wiki-page__feature-body {
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__section[aria-labelledby^="wiki-categories"] .vd-wiki-page__section-head {
-  align-items: center !important;
-  justify-content: center !important;
-  text-align: center !important;
-  max-width: 60rem !important;
-  margin-bottom: 1.35rem !important;
+  align-items: start !important;
+  justify-content: start !important;
+  justify-items: start !important;
+  text-align: left !important;
+  max-width: none !important;
+  width: 100% !important;
+  margin-bottom: 1.75rem !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__section[aria-labelledby^="wiki-categories"] .vd-section-kicker {
-  justify-content: center !important;
-  margin: 0 auto !important;
+  justify-content: flex-start !important;
+  margin: 0 !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__section[aria-labelledby^="wiki-categories"] .vd-wiki-page__section-title {
-  max-width: 10ch !important;
-  margin: 0 auto !important;
-  font-size: clamp(3.4rem, 4.3vw, 5rem) !important;
+  max-width: 7.4ch !important;
+  margin: 0 !important;
+  font-size: clamp(3.6rem, 5vw, 5.2rem) !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__category-grid {
@@ -3536,8 +3543,8 @@ body:has(.vd-wiki-page) .vd-wiki-page__hero--minimal {
   grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
   gap: 1.5rem !important;
   align-items: start !important;
-  padding: 5rem 0 0 !important;
-  width: min(80rem, calc(100vw - 4rem)) !important;
+  padding: 4rem 0 0 !important;
+  width: min(72rem, calc(100vw - 4rem)) !important;
   margin-inline: auto !important;
   justify-self: center !important;
 }
@@ -3550,19 +3557,19 @@ body:has(.vd-wiki-page) .vd-wiki-page__hero-copy--minimal {
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__hero-copy--minimal .vd-wiki-page__title {
-  max-width: 10.5ch !important;
+  max-width: 8.9ch !important;
   margin: 0 auto !important;
-  padding-top: 0.35rem !important;
+  padding-top: 0 !important;
   justify-self: center !important;
   text-align: center !important;
-  font-size: clamp(4rem, 8vw, 6.4rem) !important;
-  line-height: 0.98 !important;
+  font-size: clamp(4rem, 7vw, 5.8rem) !important;
+  line-height: 0.94 !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__section--essentials {
   display: grid !important;
-  gap: 2rem !important;
-  width: min(80rem, calc(100vw - 4rem)) !important;
+  gap: 1.75rem !important;
+  width: min(72rem, calc(100vw - 4rem)) !important;
   margin-inline: auto !important;
 }
 
@@ -3573,11 +3580,14 @@ body:has(.vd-wiki-page) .vd-wiki-page__section-head--essentials {
   max-width: none !important;
   width: 100% !important;
   margin: 0 !important;
-  align-items: start !important;
+  align-items: end !important;
+  padding-bottom: 0.25rem !important;
+  justify-self: stretch !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__section-intro {
   grid-column: 1 / span 5 !important;
+  grid-row: 1 !important;
   display: grid !important;
   gap: 0.75rem !important;
   align-content: start !important;
@@ -3592,21 +3602,24 @@ body:has(.vd-wiki-page) .vd-wiki-page__section-head--essentials .vd-wiki-page__s
   max-width: none !important;
   margin: 0 !important;
   text-wrap: balance;
-  font-size: clamp(3.5rem, 6vw, 5.5rem) !important;
-  line-height: 0.92 !important;
+  font-size: clamp(3.5rem, 5.7vw, 5.2rem) !important;
+  line-height: 0.9 !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__section-head--essentials .vd-wiki-page__section-text {
   grid-column: 7 / span 6 !important;
+  grid-row: 1 !important;
   max-width: none !important;
-  align-self: start !important;
+  align-self: end !important;
   margin: 0 !important;
+  padding-top: 0 !important;
 }
 
 body:has(.vd-wiki-page) .vd-wiki-page__section-head--essentials .vd-wiki-page__section-text,
 body:has(.vd-wiki-page) .vd-wiki-page__section-head--essentials .vd-wiki-page__section-text p {
   font-size: 1.05rem !important;
   line-height: 1.7 !important;
+  margin: 0 !important;
   text-align: left !important;
 }
 
@@ -3621,9 +3634,9 @@ body:has(.vd-wiki-page) .vd-wiki-page__featured-grid {
 
 body:has(.vd-wiki-page) .vd-wiki-page__feature {
   display: flex !important;
-  flex: 0 0 calc((min(80rem, calc(100vw - 4rem)) - 4rem) / 3) !important;
+  flex: 0 0 calc((min(72rem, calc(100vw - 4rem)) - 4rem) / 3) !important;
   flex-direction: column !important;
-  max-width: calc((min(80rem, calc(100vw - 4rem)) - 4rem) / 3) !important;
+  max-width: calc((min(72rem, calc(100vw - 4rem)) - 4rem) / 3) !important;
   min-width: 0 !important;
   overflow: hidden !important;
 }
@@ -3645,6 +3658,66 @@ body:has(.vd-wiki-page) .vd-wiki-page__feature-body {
   gap: 1rem !important;
   align-content: start !important;
   padding: 1.5rem !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section--categories {
+  width: min(72rem, calc(100vw - 4rem)) !important;
+  margin-inline: auto !important;
+  padding-top: 2.75rem !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section-head--categories {
+  display: grid !important;
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  gap: 1rem !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 0 1.75rem !important;
+  align-items: start !important;
+  justify-self: stretch !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section-head--categories .vd-section-kicker {
+  grid-column: 1 / span 5 !important;
+  justify-self: start !important;
+  margin: 0 !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section-head--categories .vd-wiki-page__section-title {
+  grid-column: 1 / span 5 !important;
+  max-width: 7.4ch !important;
+  margin: 0 !important;
+  text-align: left !important;
+  font-size: clamp(3.6rem, 5vw, 5.2rem) !important;
+  line-height: 0.92 !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section-head--categories .vd-wiki-page__section-text {
+  grid-column: 7 / span 6 !important;
+  align-self: start !important;
+  margin: 0 !important;
+  text-align: left !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__category-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 1.25rem !important;
+  width: 100% !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__category {
+  min-height: 16rem !important;
+  padding: 1.75rem !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__category-title {
+  font-size: clamp(2rem, 2vw, 2.75rem) !important;
+  line-height: 1.06 !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__category-text {
+  font-size: 1.04rem !important;
+  line-height: 1.6 !important;
 }
 
 @media screen and (max-width: 989px) {
@@ -3681,6 +3754,35 @@ body:has(.vd-wiki-page) .vd-wiki-page__feature-body {
     grid-column: 1 / -1 !important;
   }
 
+  body:has(.vd-wiki-page) .vd-wiki-page__section-head--essentials .vd-wiki-page__section-text {
+    padding-top: 0 !important;
+  }
+
+  body:has(.vd-wiki-page) .vd-wiki-page__section--categories {
+    width: min(100%, calc(100vw - 2.5rem)) !important;
+    padding-top: 2.75rem !important;
+  }
+
+  body:has(.vd-wiki-page) .vd-wiki-page__section-head--categories {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  body:has(.vd-wiki-page) .vd-wiki-page__section-head--categories .vd-section-kicker,
+  body:has(.vd-wiki-page) .vd-wiki-page__section-head--categories .vd-wiki-page__section-title,
+  body:has(.vd-wiki-page) .vd-wiki-page__section-head--categories .vd-wiki-page__section-text {
+    grid-column: 1 / -1 !important;
+  }
+
+  body:has(.vd-wiki-page) .vd-wiki-page__section-head--categories .vd-wiki-page__section-title {
+    max-width: 7.5ch !important;
+    font-size: clamp(3.2rem, 12vw, 4.8rem) !important;
+  }
+
+  body:has(.vd-wiki-page) .vd-wiki-page__category-grid {
+    grid-template-columns: 1fr !important;
+  }
+
   body:has(.vd-wiki-page) .vd-wiki-page__featured-grid {
     flex-direction: column !important;
     gap: 1.5rem !important;
@@ -3690,4 +3792,47 @@ body:has(.vd-wiki-page) .vd-wiki-page__feature-body {
     flex-basis: auto !important;
     max-width: none !important;
   }
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section--essentials > .vd-wiki-page__section-head--essentials {
+  align-items: start !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section--essentials > .vd-wiki-page__section-head--essentials .vd-wiki-page__section-text {
+  grid-row: 1 !important;
+  align-self: start !important;
+  padding-top: 1.25rem !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section--categories > .vd-wiki-page__section-head--categories {
+  display: grid !important;
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  inline-size: 100% !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin-inline: 0 !important;
+  justify-content: start !important;
+  justify-items: start !important;
+  text-align: left !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section--categories > .vd-wiki-page__section-head--categories .vd-section-kicker {
+  grid-column: 1 / span 5 !important;
+  justify-self: start !important;
+  margin: 0 !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section--categories > .vd-wiki-page__section-head--categories .vd-wiki-page__section-title {
+  grid-column: 1 / span 5 !important;
+  justify-self: start !important;
+  margin: 0 !important;
+  max-width: 7.4ch !important;
+  text-align: left !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section--categories > .vd-wiki-page__section-head--categories .vd-wiki-page__section-text {
+  grid-column: 7 / span 6 !important;
+  justify-self: start !important;
+  margin: 0 !important;
+  text-align: left !important;
 }
