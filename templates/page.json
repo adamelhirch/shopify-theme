@@ -17,10 +17,10 @@
           "settings": {
             "kicker": "Repères",
             "title": "Bien choisir sa vanille",
-            "text": "Souplesse, parfum, coupe, préparation et format : les vrais critères pour acheter juste.",
-            "point_1": "Comparer Bourbon, Tahiti, Pompona",
-            "point_2": "Repérer une gousse bien préparée",
-            "point_3": "Choisir un format cohérent",
+            "text": "Souplesse, brillance, parfum et usages : les critères utiles pour comparer sans se tromper.",
+            "point_1": "Bourbon vs Tahiti vs Pompona",
+            "point_2": "Pièges à éviter & faux arômes",
+            "point_3": "Prix & origine : comprendre",
             "link_label": "Lire le guide",
             "link": "shopify://pages/wiki-vanille-bien-choisir"
           }
@@ -30,10 +30,10 @@
           "settings": {
             "kicker": "Techniques",
             "title": "Conservation & préparation",
-            "text": "Stockage, préparation, dosage et réemploi : les gestes qui changent vraiment le résultat.",
-            "point_1": "Stocker sans dessécher",
-            "point_2": "Fendre, gratter, infuser",
-            "point_3": "Réutiliser sans gâcher",
+            "text": "Tubes, bocaux, alcool, durée de vie et intensité : les bons gestes pour préserver l’arôme.",
+            "point_1": "Fendre, gratter, infuser",
+            "point_2": "Recycler les gousses",
+            "point_3": "Éviter la moisissure",
             "link_label": "Voir les méthodes",
             "link": "shopify://pages/wiki-vanille-conservation-preparation"
           }
@@ -43,10 +43,10 @@
           "settings": {
             "kicker": "Usages & recettes",
             "title": "Pâtisserie, salé & boissons",
-            "text": "Accords simples, idées fiables et points de départ concrets pour passer du guide à l’assiette.",
-            "point_1": "Crèmes, sirops, glaces",
-            "point_2": "Poisson, volaille, sauces",
-            "point_3": "Boissons, infusions, desserts",
+            "text": "Glaces, crèmes, rhums, sauces et plats créatifs pour relier la lecture aux usages du quotidien.",
+            "point_1": "Sucre vanillé & extrait maison",
+            "point_2": "Accords salés : poisson, volaille",
+            "point_3": "Boissons & infusions",
             "link_label": "S’inspirer",
             "link": "shopify://pages/recettes"
           }
@@ -56,7 +56,7 @@
           "settings": {
             "kicker": "Épices",
             "title": "Épices de Madagascar",
-            "text": "Cannelle, curcuma, gingembre, girofle, combava et autres profils à comprendre avant de doser.",
+            "text": "Cannelle, curcuma, gingembre, girofle, combava et autres matières rares.",
             "link_label": "Voir les fiches",
             "link": "shopify://pages/wiki-epices-madagascar"
           }
@@ -66,7 +66,7 @@
           "settings": {
             "kicker": "Poivres & baies",
             "title": "Poivres & baies",
-            "text": "Voatsiperifery, noir, blanc ou baies roses : choisir selon la cuisson, la tension et la finition.",
+            "text": "Voatsiperifery, poivre noir, poivre blanc et baies roses.",
             "link_label": "Explorer",
             "link": "shopify://pages/wiki-poivres-baies-madagascar"
           }
@@ -76,7 +76,7 @@
           "settings": {
             "kicker": "Sels & mélanges",
             "title": "Sels gourmets & mélanges",
-            "text": "Sels de finition, assemblages et signatures aromatiques pour assaisonner plus juste.",
+            "text": "Sel à la vanille, au pili-pili, au combava, poivres et baies.",
             "link_label": "Parcourir",
             "link": "shopify://pages/wiki-sels-melanges"
           }
@@ -86,7 +86,7 @@
           "settings": {
             "kicker": "Bien-être",
             "title": "Huiles essentielles & plantes",
-            "text": "Ylang-ylang, ravintsara, coco : usages, précautions et repères sérieux avant achat.",
+            "text": "Ylang-ylang, ravintsara, huile de coco : usages, traditions et précautions.",
             "link_label": "Découvrir",
             "link": "shopify://pages/wiki-huiles-essentielles-plantes"
           }
@@ -96,7 +96,7 @@
           "settings": {
             "kicker": "Savoir-faire",
             "title": "Savoir-faire & producteurs",
-            "text": "Récolte, tri, affinage et préparation : ce qui fait vraiment la qualité finale.",
+            "text": "Préparation traditionnelle, tri manuel, éthique et prix justes.",
             "link_label": "Rencontrer",
             "link": "shopify://pages/wiki-savoir-faire-producteurs"
           }
@@ -106,7 +106,7 @@
           "settings": {
             "kicker": "Santé",
             "title": "Bienfaits & usages",
-            "text": "Ce qui relève des usages traditionnels, des pistes sérieuses et du simple argument marketing.",
+            "text": "Antioxydants, digestion, détente, traditions et usages des épices.",
             "link_label": "En savoir plus",
             "link": "shopify://pages/wiki-bienfaits-sante"
           }
@@ -116,7 +116,7 @@
           "settings": {
             "kicker": "Cuisine",
             "title": "Recettes & accords",
-            "text": "Desserts, salé, boissons et accords pour voir comment la matière travaille vraiment.",
+            "text": "Pâtisserie, rhums arrangés, cuisine salée et boissons.",
             "link_label": "Cuisiner",
             "link": "shopify://pages/wiki-recettes"
           }
@@ -126,7 +126,7 @@
           "settings": {
             "kicker": "Glossaire",
             "title": "Glossaire des épices",
-            "text": "Bourbon, affinage, infusion, extraction, dosage : les mots utiles pour lire plus vite.",
+            "text": "Mots et techniques : Bourbon, curcumine, infusion, extraction.",
             "link_label": "Consulter",
             "link": "shopify://pages/wiki-glossaire-epices"
           }
@@ -136,7 +136,7 @@
           "settings": {
             "kicker": "FAQ",
             "title": "Questions fréquentes",
-            "text": "Réponses courtes sur conservation, qualité, variétés et bon point d’entrée selon le besoin.",
+            "text": "Conservation, authenticité, différences de variétés et usages.",
             "link_label": "Voir les réponses",
             "link": "shopify://pages/wiki-faq-vanille-epices"
           }
@@ -145,21 +145,21 @@
           "type": "wiki_faq",
           "settings": {
             "question": "Comment reconnaître une gousse de vanille de qualité ?",
-            "answer": "Cherchez une gousse souple, bien parfumée, peu fibreuse et agréable à fendre. Une gousse sèche, cassante ou peu aromatique sera moins agréable à utiliser."
+            "answer": "Une belle gousse doit être souple, brillante, charnue et très parfumée. Une texture trop sèche ou cassante est souvent le signe d’une qualité moindre ou d’une mauvaise conservation."
           }
         },
         "wiki_faq_2": {
           "type": "wiki_faq",
           "settings": {
             "question": "Comment conserver la vanille et les épices ?",
-            "answer": "À l’abri de la chaleur, de la lumière et de l’humidité. Pour la vanille, privilégiez un contenant propre et hermétique à température ambiante, sans réfrigérateur."
+            "answer": "La règle simple : à l’abri de l’air, de la chaleur et de la lumière. Pour la vanille, privilégier un contenant hermétique en verre et éviter le réfrigérateur."
           }
         },
         "wiki_faq_3": {
           "type": "wiki_faq",
           "settings": {
             "question": "Qu’est-ce qui distingue la vanille Bourbon de Madagascar ?",
-            "answer": "Son profil est rond, gourmand et très polyvalent en cuisine. Sa qualité dépend aussi fortement du travail de préparation, d’affinage et de tri après récolte."
+            "answer": "Elle se distingue par son profil aromatique rond, gourmand et profond, ainsi que par le travail de préparation et d’affinage mené localement par les producteurs."
           }
         }
       },
@@ -182,10 +182,10 @@
       ],
       "settings": {
         "color_scheme": "scheme-3",
-        "wiki_text": "<p>Comprendre la <strong>vanille Bourbon</strong>, choisir une <strong>épice</strong>, doser juste, conserver proprement et trouver le bon produit sans jargon ni promesse creuse.</p>",
-        "wiki_summary": "Repères sérieux sur la matière, les usages, les gestes et les accords pour cuisiner ou acheter avec plus de justesse.",
+        "wiki_text": "<p>Le guide de référence en français sur la <strong>vanille Bourbon de Madagascar</strong>, les <strong>épices rares</strong>, les usages, la conservation et le savoir-faire des producteurs.</p>",
+        "wiki_summary": "Guides de conservation, usages, recettes et savoir-faire pour avancer avec des réponses claires.",
         "wiki_summary_eyebrow": "Depuis Madagascar",
-        "wiki_summary_heading": "Vanille, épices, gestes justes.",
+        "wiki_summary_heading": "Vanille Bourbon, épices rares et savoir-faire producteur.",
         "wiki_search_placeholder": "Rechercher une épice, un sujet, une question...",
         "wiki_hero_video_url": "",
         "wiki_primary_link_label": "Voir les recettes",
@@ -194,18 +194,18 @@
         "wiki_secondary_link": "shopify://pages/catalogue",
         "wiki_essentials_eyebrow": "Vanille",
         "wiki_essentials_heading": "Vanille — l’essentiel",
-        "wiki_essentials_text": "<p>Reconnaître une belle gousse, préparer sans perdre l’arôme, conserver proprement et passer du guide à la recette avec des repères simples.</p>",
-        "wiki_categories_eyebrow": "Explorer",
-        "wiki_categories_heading": "Choisir un bon point d’entrée",
-        "wiki_categories_text": "<p>Entrez par la matière, l’usage ou la question que vous avez en tête, puis avancez vers le bon guide, la bonne recette ou le bon produit.</p>",
-        "wiki_footer_eyebrow": "Passer à l’action",
-        "wiki_footer_heading": "Cuisiner, comparer, choisir.",
-        "wiki_footer_text": "<p>Quand le besoin est clair, passez du guide à la recette ou au produit sans perdre le fil.</p>",
+        "wiki_essentials_text": "<p>Tout savoir sur la <strong>vanille Bourbon</strong> : reconnaître une gousse de qualité, la préparer, la conserver et l’utiliser selon vos recettes.</p>",
+        "wiki_categories_eyebrow": "Catégories",
+        "wiki_categories_heading": "Explorer toutes les catégories",
+        "wiki_categories_text": "<p>Un sommaire visuel pour accéder rapidement aux sujets encyclopédiques du wiki.</p>",
+        "wiki_footer_eyebrow": "Goûter la différence",
+        "wiki_footer_heading": "Prêt à goûter la différence ?",
+        "wiki_footer_text": "<p>Découvrez nos <strong>gousses de vanille Bourbon</strong>, nos <strong>épices rares</strong> et nos <strong>sels gourmets</strong> au prix direct producteur.</p>",
         "wiki_footer_primary_link_label": "Accéder à la boutique",
         "wiki_footer_primary_link": "shopify://pages/catalogue",
         "wiki_footer_secondary_link_label": "Voir les recettes",
         "wiki_footer_secondary_link": "shopify://pages/recettes",
-        "wiki_footer_trust": "Origines suivies · Préparation sérieuse · Usages clairement expliqués",
+        "wiki_footer_trust": "Traçabilité totale · Qualité artisanale · Relation directe avec les producteurs de Madagascar",
         "wiki_faq_title": "FAQ — Vanille & épices",
         "padding_top": 16,
         "padding_bottom": 8
