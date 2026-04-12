@@ -47,6 +47,8 @@
   assign wiki_poivres_collection_url = wiki_poivres_collection.url | default: '/collections/poivre-baies'
   assign wiki_sels_collection_url = wiki_sels_collection.url | default: '/collections/sels'
   assign wiki_huiles_collection_url = wiki_huiles_collection.url | default: '/collections/huiles-madagascar'
+  assign wiki_vanille_page_url = '/pages/wiki-vanille-bien-choisir'
+  assign wiki_storage_page_url = '/pages/wiki-vanille-conservation-preparation'
 -%}
 {%- if page_handle == 'wiki-epices-madagascar' -%}
   {%- render 'vd-wiki-live-wiki-epices-madagascar' -%}
@@ -68,6 +70,10 @@
   {%- render 'vd-wiki-live-wiki-sels-melanges' -%}
 {%- elsif page_handle == 'wiki-huiles-essentielles-plantes' -%}
   {%- render 'vd-wiki-live-wiki-huiles-essentielles-plantes' -%}
+{%- elsif page_handle == 'wiki-vanille-pompona' or page_handle == 'vanille-pompona' -%}
+  {%- render 'vd-wiki-live-wiki-vanille-pompona' -%}
+{%- elsif page_handle == 'wiki-bienfaits-sante' or page_handle == 'wiki-bienfaits-usages' -%}
+  {%- render 'vd-wiki-live-wiki-bienfaits-sante' -%}
 {%- else -%}
 {%- case page_handle -%}
   {%- when 'wiki-vanille-conservation-preparation' -%}

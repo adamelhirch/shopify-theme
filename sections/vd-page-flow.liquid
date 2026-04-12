@@ -74,6 +74,8 @@
   assign poivres_collection_url = poivres_collection.url | default: '/collections/poivre-baies'
   assign sels_collection_url = sels_collection.url | default: '/collections/sels'
   assign huiles_collection_url = huiles_collection.url | default: '/collections/huiles-madagascar'
+  assign wiki_vanille_page_url = '/pages/wiki-vanille-bien-choisir'
+  assign wiki_vanille_storage_page_url = '/pages/wiki-vanille-conservation-preparation'
 -%}
 
 {% if page.handle == 'recettes' or is_recipe_page %}
@@ -1761,6 +1763,7 @@
     assign wiki_detail_shop_title = 'Produits liés à cette lecture'
     assign wiki_detail_shop_copy = 'Retrouver une sélection cohérente à acheter sans quitter le fil du wiki.'
     assign wiki_detail_shop_cta_label = 'Voir la sélection'
+    assign wiki_detail_shop_handles = blank
 
     if wiki_detail_is_vanille_group
       assign wiki_detail_shop_collection = vanille_collection
@@ -1816,6 +1819,88 @@
       assign wiki_detail_shop_title = 'Produits pour prolonger la FAQ'
       assign wiki_detail_shop_copy = 'Une sélection simple si la lecture vous a déjà aidé à clarifier votre besoin.'
       assign wiki_detail_shop_cta_label = 'Voir la sélection'
+    endif
+
+    case page.handle
+      when 'wiki-vanille-bien-choisir'
+        assign wiki_detail_shop_handles = 'vanille-bourbon-madagascar-1-3-5-gousses-decouverte,pack-patisserie-decouverte-vanille-bourbon-madagascar,vanille-bourbon-madagascar-tailles-s-m-l-xl-10-gousses'
+        assign wiki_detail_shop_title = 'Trois entrées utiles pour bien choisir sa vanille'
+        assign wiki_detail_shop_copy = 'Un format découverte, un pack pâtisserie et un lot plus installé pour comparer sans suracheter.'
+      when 'wiki-vanille-conservation-preparation'
+        assign wiki_detail_shop_handles = 'vanille-bourbon-madagascar-3-gousses,poudre-vanille-bourbon-madagascar-20g,extrait-vanille-bourbon-madagascar-20ml'
+        assign wiki_detail_shop_title = 'Formats cohérents avec la conservation et la préparation'
+        assign wiki_detail_shop_copy = 'Une gousse à travailler, puis deux formats pratiques quand le geste est déjà clair.'
+      when 'wiki-vanille-pompona', 'vanille-pompona'
+        assign wiki_detail_shop_handles = 'vanille-pompona-xxl-2-10-gousses,pack-patisserie-premium-vanille-bourbon-madagascar,caviar-vanille-bourbon-madagascar-20g'
+        assign wiki_detail_shop_title = 'Comparer la Pompona avec des usages plus directs'
+        assign wiki_detail_shop_copy = 'La Pompona pour le profil rare, puis deux références maison plus immédiates pour pâtisserie et infusion.'
+      when 'wiki-vanille-tahiti'
+        assign wiki_detail_shop_handles = 'pack-patisserie-premium-vanille-bourbon-madagascar,vanille-pompona-xxl-2-10-gousses,vanille-bourbon-madagascar-10-gousses-tube-verre'
+        assign wiki_detail_shop_title = 'Références à comparer après la lecture'
+        assign wiki_detail_shop_copy = 'Faute de Tahiti en boutique, la comparaison la plus utile reste Bourbon, Pompona et un format premium très lisible.'
+      when 'wiki-dosage-vanille'
+        assign wiki_detail_shop_handles = 'poudre-vanille-bourbon-madagascar-20g,extrait-vanille-bourbon-madagascar-20ml,vanille-bourbon-madagascar-3-gousses'
+        assign wiki_detail_shop_title = 'Formats utiles pour doser plus juste'
+        assign wiki_detail_shop_copy = 'Poudre, extrait et gousses pour travailler le dosage selon la recette plutôt qu’au hasard.'
+      when 'wiki-recycler-gousse-vanille'
+        assign wiki_detail_shop_handles = 'sucre-vanille-bourbon-madagascar-60g,extrait-vanille-bourbon-madagascar-20ml,poudre-vanille-bourbon-madagascar-20g'
+        assign wiki_detail_shop_title = 'Prolonger la vanille sans gaspiller'
+        assign wiki_detail_shop_copy = 'Trois formats très cohérents quand on cherche une seconde vie ou un relais pratique à la gousse.'
+      when 'wiki-epices-madagascar'
+        assign wiki_detail_shop_handles = 'poudre-combava-sauvage-madagascar-20g,gingembre-madagascar-pot-epices-40g,curcuma-madagascar-poudre-40g'
+        assign wiki_detail_shop_title = 'Les épices les plus cohérentes pour commencer'
+        assign wiki_detail_shop_copy = 'Combava, gingembre et curcuma couvrent déjà une grande partie des usages concrets du dossier.'
+      when 'wiki-bienfaits-sante', 'wiki-bienfaits-usages'
+        assign wiki_detail_shop_handles = 'gingembre-madagascar-pot-epices-40g,curcuma-madagascar-poudre-40g,poudre-combava-sauvage-madagascar-20g'
+        assign wiki_detail_shop_title = 'Produits liés aux usages vraiment évoqués'
+        assign wiki_detail_shop_copy = 'Des références claires à cuisiner et à doser, plutôt que des promesses floues.'
+      when 'wiki-combava-madagascar', 'wiki-epice-combava-madagascar', 'wiki-combava'
+        assign wiki_detail_shop_handles = 'poudre-combava-sauvage-madagascar-20g,sel-parfume-au-combava,gingembre-madagascar-pot-epices-40g'
+        assign wiki_detail_shop_title = 'Pour prolonger la piste combava'
+        assign wiki_detail_shop_copy = 'Le combava pur, un sel prêt à l’emploi et un compagnon de cuisine très cohérent.'
+      when 'wiki-poivres-baies-madagascar'
+        assign wiki_detail_shop_handles = 'poivre-sauvage-voatsiperifery-sachet-50g-madagascar,poivre-noir-madagascar-sachet-50g,baies-roses-madagascar-sachet-30g'
+        assign wiki_detail_shop_title = 'Trois profils pour lire la famille poivres & baies'
+        assign wiki_detail_shop_copy = 'Un sauvage, un noir, une baie rose: la comparaison la plus utile avant de choisir un geste.'
+      when 'wiki-poivre-quel-plat'
+        assign wiki_detail_shop_handles = 'poivre-noir-madagascar-sachet-50g,poivre-blanc-madagascar-sachet-50g,poivre-sauvage-voatsiperifery-sachet-50g-madagascar'
+        assign wiki_detail_shop_title = 'Le bon poivre selon le plat'
+        assign wiki_detail_shop_copy = 'Noir pour l’assise, blanc pour la précision, sauvage pour la finition signature.'
+      when 'wiki-sels-melanges'
+        assign wiki_detail_shop_handles = 'sel-parfume-au-combava,sel-de-camargue-a-la-vanille-bourbon-de-madagascar,sel-camargue-poivres-baies-roses-madagascar'
+        assign wiki_detail_shop_title = 'Sels à comparer selon l’assiette'
+        assign wiki_detail_shop_copy = 'Trois pistes nettes pour légumes, poissons, viandes blanches ou desserts plus contrastés.'
+      when 'wiki-sel-aromatise-quel-plat'
+        assign wiki_detail_shop_handles = 'sel-parfume-au-combava,sel-de-camargue-parfume-au-piment-pili-pili,sel-de-camargue-a-la-vanille-bourbon-de-madagascar'
+        assign wiki_detail_shop_title = 'Sels à choisir selon l’usage réel'
+        assign wiki_detail_shop_copy = 'Une lecture plus fraîche, plus vive ou plus gourmande selon le plat que vous cherchez à finir.'
+      when 'wiki-huiles-essentielles-plantes'
+        assign wiki_detail_shop_handles = 'huile-essentielle-ravintsara-5ml,huile-essentielle-ylang-ylang-5ml,huile-essentielle-girofle-5ml'
+        assign wiki_detail_shop_title = 'Références les plus lisibles de ce chapitre'
+        assign wiki_detail_shop_copy = 'Trois huiles très identifiables pour rester dans un usage d’ambiance ou externe clairement cadré.'
+      when 'wiki-savoir-faire-producteurs'
+        assign wiki_detail_shop_handles = 'vanille-bourbon-madagascar-10-gousses-tube-verre,vanille-bourbon-madagascar-tailles-s-m-l-xl-10-gousses,gingembre-madagascar-pot-epices-40g'
+        assign wiki_detail_shop_title = 'Voir le savoir-faire dans la matière finale'
+        assign wiki_detail_shop_copy = 'Deux formats vanille très lisibles et une épice nette pour relier filière, préparation et usage.'
+      when 'wiki-recettes'
+        assign wiki_detail_shop_handles = 'pack-patisserie-decouverte-vanille-bourbon-madagascar,poudre-combava-sauvage-madagascar-20g,poivre-sauvage-voatsiperifery-sachet-50g-madagascar'
+        assign wiki_detail_shop_title = 'De quoi cuisiner juste après la lecture'
+        assign wiki_detail_shop_copy = 'Un pack pâtisserie, une épice fraîche et un poivre de finition pour passer vite du wiki à la cuisine.'
+      when 'wiki-glossaire-epices'
+        assign wiki_detail_shop_handles = 'vanille-bourbon-madagascar-3-gousses,poudre-combava-sauvage-madagascar-20g,poivre-sauvage-voatsiperifery-sachet-50g-madagascar'
+        assign wiki_detail_shop_title = 'Retrouver les mots en vrai produit'
+        assign wiki_detail_shop_copy = 'Trois références qui rendent le glossaire concret dès l’ouverture d’une fiche ou d’une recette.'
+      when 'wiki-faq-vanille-epices'
+        assign wiki_detail_shop_handles = 'vanille-bourbon-madagascar-1-3-5-gousses-decouverte,pack-patisserie-decouverte-vanille-bourbon-madagascar,poudre-combava-sauvage-madagascar-20g'
+        assign wiki_detail_shop_title = 'Les références les plus cohérentes après la FAQ'
+        assign wiki_detail_shop_copy = 'Une petite sélection simple quand la lecture a déjà clarifié le besoin sans envoyer vers tout le catalogue.'
+    endcase
+
+    assign wiki_detail_show_shop_block = false
+    if wiki_detail_shop_handles != blank
+      assign wiki_detail_show_shop_block = true
+    elsif wiki_detail_shop_collection != blank and wiki_detail_shop_collection.products_count > 0
+      assign wiki_detail_show_shop_block = true
     endif
 
     assign wiki_detail_meta_date_source = page.published_at | default: 'now'
@@ -2165,7 +2250,7 @@
           {% endif %}
 
           <footer class="vd-wiki-detail__footer vd-wiki-detail__footer--lite">
-            {% if wiki_detail_shop_collection != blank and wiki_detail_shop_collection.products_count > 0 %}
+            {% if wiki_detail_show_shop_block %}
               <section class="vd-wiki-detail__shop-block" aria-labelledby="wiki-shop-title-{{ section.id }}">
                 <div class="vd-wiki-detail__shop-head">
                   <div class="vd-wiki-detail__shop-copy">
@@ -2183,22 +2268,45 @@
                   </a>
                 </div>
                 <ul class="vd-wiki-detail__shop-grid list-unstyled" role="list">
-                  {% for product in wiki_detail_shop_collection.products limit: 3 %}
-                    <li class="vd-wiki-detail__shop-item">
-                      {% render 'card-product',
-                        card_product: product,
-                        media_aspect_ratio: 'portrait',
-                        lazy_load: true,
-                        show_vendor: true,
-                        show_subtitle: true,
-                        show_product_type: true,
-                        premium_card: true,
-                        card_surface: 'light',
-                        skip_styles: true,
-                        section_id: section.id
-                      %}
-                    </li>
-                  {% endfor %}
+                  {% if wiki_detail_shop_handles != blank %}
+                    {% assign wiki_detail_shop_handles_array = wiki_detail_shop_handles | split: ',' %}
+                    {% for product_handle in wiki_detail_shop_handles_array %}
+                      {% assign product = all_products[product_handle] %}
+                      {% if product != blank %}
+                        <li class="vd-wiki-detail__shop-item">
+                          {% render 'card-product',
+                            card_product: product,
+                            media_aspect_ratio: 'portrait',
+                            lazy_load: true,
+                            show_vendor: true,
+                            show_subtitle: true,
+                            show_product_type: true,
+                            premium_card: true,
+                            card_surface: 'light',
+                            skip_styles: true,
+                            section_id: section.id
+                          %}
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                  {% else %}
+                    {% for product in wiki_detail_shop_collection.products limit: 3 %}
+                      <li class="vd-wiki-detail__shop-item">
+                        {% render 'card-product',
+                          card_product: product,
+                          media_aspect_ratio: 'portrait',
+                          lazy_load: true,
+                          show_vendor: true,
+                          show_subtitle: true,
+                          show_product_type: true,
+                          premium_card: true,
+                          card_surface: 'light',
+                          skip_styles: true,
+                          section_id: section.id
+                        %}
+                      </li>
+                    {% endfor %}
+                  {% endif %}
                 </ul>
               </section>
             {% endif %}
