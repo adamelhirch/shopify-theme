@@ -73,11 +73,7 @@
       if (glossaireMap[text]) return glossaireMap[text];
     }
 
-    var words = text.split(/\s+/).filter(Boolean);
-
-    if (words.length <= 3) return text;
-
-    return words.slice(0, 3).join(' ');
+    return text;
   }
 
   function sectionizeContent(content) {
