@@ -1043,7 +1043,7 @@
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-vanille-conservation-preparation', wiki_vanille_storage_page_url | replace: '/pages/wiki-vanille-bien-choisir', wiki_vanille_page_url | replace: '/pages/wiki-poivres-baies-madagascar', wiki_poivres_page_url | replace: '/pages/wiki-sels-melanges', wiki_sels_page_url | replace: '/pages/wiki-huiles-essentielles-plantes', wiki_plantes_page_url | replace: '/pages/wiki-glossaire-epices', wiki_glossaire_page_url -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-faq-vanille-epices', wiki_faq_page_url | replace: '/pages/wiki-dosage-vanille', wiki_dosage_page_url | replace: '/pages/wiki-recycler-gousse-vanille', wiki_recycler_page_url | replace: '/pages/wiki-combava-madagascar', wiki_combava_page_url | replace: '/pages/wiki-poivre-quel-plat', wiki_poivre_quel_plat_page_url | replace: '/pages/wiki-sel-aromatise-quel-plat', wiki_sel_quel_plat_page_url -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-vanille-pompona', wiki_vanille_pompona_page_url | replace: '/pages/wiki-recettes', wiki_recettes_page_url | replace: '/pages/wiki-epices-madagascar', wiki_epices_page_url | replace: '/pages/wiki', wiki_index_page_url | replace: '/pages/recettes', recettes_page_url | replace: '/pages/catalogue', catalogue_page_url | replace: '/pages/contact', contact_page_url -%}
-  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-bienfaits-usages', '/pages/wiki-bienfaits-sante' | replace: '/pages/wiki-vanille-bourbon-planifolia', wiki_vanille_page_url | replace: '/pages/wiki-poivre-sauvage-voatsiperifery', wiki_poivres_page_url | replace: '/pages/wiki-poivre-noir-madagascar', wiki_poivres_page_url | replace: '/pages/wiki-poivre-blanc-madagascar', wiki_poivres_page_url | replace: '/pages/wiki-baies-roses-madagascar', wiki_poivres_page_url | replace: '/pages/wiki-melange-poivres-baies', wiki_poivres_page_url -%}
+  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-bienfaits-usages', '/pages/wiki-bienfaits-sante' | replace: '/pages/wiki-vanille-bourbon-planifolia', wiki_vanille_page_url -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-epice-combava-madagascar', wiki_combava_page_url | replace: '/pages/wiki-combava', wiki_combava_page_url -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-baies-roses', wiki_poivres_page_url | replace: '/pages/wiki-vanille', wiki_vanille_page_url | replace: '/collections/vanille-bourbon', vanille_collection_url | replace: '/collections/epices-madagascar', epices_collection_url | replace: '/collections/poivre-baies', poivres_collection_url | replace: '/collections/poivres-baies-de-madagascar', poivres_collection_url | replace: '/collections/sels', sels_collection_url | replace: '/collections/sels-aromatises', sels_collection_url | replace: '/collections/huiles-madagascar', huiles_collection_url | replace: '/collections/huiles-essentielles', huiles_collection_url | replace: '/collections/fond-epices', epices_collection_url | replace: '/collections/all', catalogue_page_url -%}
   {% comment %}theme-check-disable UnusedAssign{% endcomment %}
@@ -1893,6 +1893,26 @@
         assign wiki_detail_shop_handles = 'poivre-sauvage-voatsiperifery-sachet-50g-madagascar,poivre-noir-madagascar-sachet-50g,baies-roses-madagascar-sachet-30g'
         assign wiki_detail_shop_title = 'Trois profils pour lire la famille poivres & baies'
         assign wiki_detail_shop_copy = 'Un sauvage, un noir, une baie rose: la comparaison la plus utile avant de choisir un geste.'
+      when 'wiki-poivre-sauvage-voatsiperifery'
+        assign wiki_detail_shop_handles = 'poivre-sauvage-voatsiperifery-sachet-50g-madagascar,poivre-sauvage-voatsiperifery-moulin-rechargeable-madagascar,poudre-combava-sauvage-madagascar-20g'
+        assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page voatsiperifery'
+        assign wiki_detail_shop_copy = 'Le sauvage en sachet et en moulin, puis le combava pour les accords les plus naturels avec ce profil.'
+      when 'wiki-poivre-noir-madagascar'
+        assign wiki_detail_shop_handles = 'poivre-noir-madagascar-sachet-50g,poivre-noir-madagascar-moulin-50g,poivre-blanc-madagascar-sachet-50g'
+        assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page poivre noir'
+        assign wiki_detail_shop_copy = 'Le noir en sachet et en moulin, puis le blanc pour comparer structure et précision.'
+      when 'wiki-poivre-blanc-madagascar'
+        assign wiki_detail_shop_handles = 'poivre-blanc-madagascar-sachet-50g,poivre-blanc-madagascar-moulin-50g,baies-roses-madagascar-sachet-30g'
+        assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page poivre blanc'
+        assign wiki_detail_shop_copy = 'Le blanc en sachet et en moulin, puis les baies roses pour les accords plus fins et plus floraux.'
+      when 'wiki-baies-roses-madagascar', 'wiki-baies-roses'
+        assign wiki_detail_shop_handles = 'baies-roses-madagascar-sachet-30g,baies-roses-madagascar-moulin-30g,poivre-blanc-madagascar-sachet-50g'
+        assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page baies roses'
+        assign wiki_detail_shop_copy = 'La baie rose en sachet et en moulin, puis le poivre blanc pour rester dans les accords les plus délicats.'
+      when 'wiki-melange-poivres-baies'
+        assign wiki_detail_shop_handles = 'melange-4-epices-madagascar-sachet-50g,melange-4-epices-madagascar-moulin-50g,poivre-sauvage-voatsiperifery-sachet-50g-madagascar'
+        assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page mélange poivres & baies'
+        assign wiki_detail_shop_copy = 'Le mélange en sachet et en moulin, puis le voatsiperifery pour relire l’un des profils qui le compose.'
       when 'wiki-poivre-quel-plat'
         assign wiki_detail_shop_handles = 'poivre-noir-madagascar-sachet-50g,poivre-blanc-madagascar-sachet-50g,poivre-sauvage-voatsiperifery-sachet-50g-madagascar'
         assign wiki_detail_shop_title = 'Le bon poivre selon le plat'

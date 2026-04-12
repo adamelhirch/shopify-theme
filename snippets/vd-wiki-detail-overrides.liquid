@@ -1200,34 +1200,13 @@
     -%}
 
   {%- when 'wiki-poivre-sauvage-voatsiperifery', 'wiki-poivre-noir-madagascar', 'wiki-poivre-blanc-madagascar', 'wiki-baies-roses-madagascar', 'wiki-baies-roses', 'wiki-melange-poivres-baies' -%}
-    <div class="vd-wiki-article-note">
-      <span class="vd-wiki-article-note__label">Repères rapides</span>
-      <p>Les poivres et baies de Madagascar se lisent surtout par intensité, moment d’ajout et accords. Cette page sert de point d’entrée rapide avant d’ouvrir le dossier complet ou la collection.</p>
-    </div>
-
-    <p>Vous retrouvez ici l’essentiel pour distinguer les profils, puis un accès direct vers le dossier parent, les recettes et la collection poivres & baies si vous voulez aller plus loin.</p>
-
-    <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
-      <div class="vd-wiki-article-card">
-        <h3>Comprendre la famille</h3>
-        <p>Le panorama Poivres & baies aide à comparer les profils, la puissance et les usages en cuisson ou en finition.</p>
-      </div>
-      <div class="vd-wiki-article-card">
-        <h3>Voir les produits</h3>
-        <p>La collection permet ensuite de retrouver les références disponibles liées à cette famille de poivres et baies.</p>
-      </div>
-      <div class="vd-wiki-article-card">
-        <h3>Passer au geste</h3>
-        <p>Les recettes et le glossaire servent à prolonger la lecture avec des accords et un vocabulaire plus concrets.</p>
-      </div>
-    </div>
-
-    <div class="vd-wiki-article-links">
-      <a href="{{ wiki_poivres_page_url }}" data-vd-preview-link>Ouvrir Poivres & baies</a>
-      <a href="{{ wiki_poivres_collection_url }}" data-vd-preview-link>Voir les poivres & baies</a>
-      <a href="{{ wiki_recettes_page_url }}" data-vd-preview-link>Voir les recettes & accords</a>
-      <a href="{{ wiki_glossaire_page_url }}" data-vd-preview-link>Ouvrir le glossaire</a>
-    </div>
+    {%- render 'vd-wiki-live-wiki-pepper-legacy',
+      page_handle: page_handle,
+      wiki_poivres_page_url: wiki_poivres_page_url,
+      wiki_poivres_collection_url: wiki_poivres_collection_url,
+      wiki_recettes_page_url: wiki_recettes_page_url,
+      wiki_glossaire_page_url: wiki_glossaire_page_url
+    -%}
 
   {%- when 'wiki-recettes' -%}
     <div class="vd-wiki-article-note">
