@@ -1044,12 +1044,11 @@
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-faq-vanille-epices', wiki_faq_page_url | replace: '/pages/wiki-dosage-vanille', wiki_dosage_page_url | replace: '/pages/wiki-recycler-gousse-vanille', wiki_recycler_page_url | replace: '/pages/wiki-combava-madagascar', wiki_combava_page_url | replace: '/pages/wiki-poivre-quel-plat', wiki_poivre_quel_plat_page_url | replace: '/pages/wiki-sel-aromatise-quel-plat', wiki_sel_quel_plat_page_url -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-vanille-pompona', wiki_vanille_pompona_page_url | replace: '/pages/wiki-recettes', wiki_recettes_page_url | replace: '/pages/wiki-epices-madagascar', wiki_epices_page_url | replace: '/pages/wiki', wiki_index_page_url | replace: '/pages/recettes', recettes_page_url | replace: '/pages/catalogue', catalogue_page_url | replace: '/pages/contact', contact_page_url -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-bienfaits-usages', '/pages/wiki-bienfaits-sante' | replace: '/pages/wiki-vanille-bourbon-planifolia', wiki_vanille_page_url | replace: '/pages/wiki-poivre-sauvage-voatsiperifery', wiki_poivres_page_url | replace: '/pages/wiki-poivre-noir-madagascar', wiki_poivres_page_url | replace: '/pages/wiki-poivre-blanc-madagascar', wiki_poivres_page_url | replace: '/pages/wiki-baies-roses-madagascar', wiki_poivres_page_url | replace: '/pages/wiki-melange-poivres-baies', wiki_poivres_page_url -%}
-  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-epice-cannelle-madagascar', wiki_epices_page_url | replace: '/pages/wiki-cannelle-madagascar', wiki_epices_page_url | replace: '/pages/wiki-epice-curcuma-madagascar', wiki_epices_page_url | replace: '/pages/wiki-curcuma-madagascar', wiki_epices_page_url | replace: '/pages/wiki-epice-gingembre-madagascar', wiki_epices_page_url | replace: '/pages/wiki-gingembre-madagascar', wiki_epices_page_url | replace: '/pages/wiki-epice-girofle-madagascar', wiki_epices_page_url | replace: '/pages/wiki-girofle-madagascar', wiki_epices_page_url -%}
-  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-epice-combava-madagascar', wiki_combava_page_url | replace: '/pages/wiki-combava', wiki_combava_page_url | replace: '/pages/wiki-epice-curry-madagascar', wiki_epices_page_url | replace: '/pages/wiki-curry-madagascar', wiki_epices_page_url | replace: '/pages/wiki-fond-epices-madagascar', wiki_epices_page_url | replace: '/pages/wiki-epice-piment-pili-pili-madagascar', wiki_epices_page_url | replace: '/pages/wiki-piment-pili-pili-madagascar', wiki_epices_page_url | replace: '/pages/wiki-pili-pili', wiki_epices_page_url | replace: '/pages/wiki-sesame-madagascar', wiki_epices_page_url -%}
+  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-epice-combava-madagascar', wiki_combava_page_url | replace: '/pages/wiki-combava', wiki_combava_page_url -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-baies-roses', wiki_poivres_page_url | replace: '/pages/wiki-vanille', wiki_vanille_page_url | replace: '/collections/vanille-bourbon', vanille_collection_url | replace: '/collections/epices-madagascar', epices_collection_url | replace: '/collections/poivre-baies', poivres_collection_url | replace: '/collections/poivres-baies-de-madagascar', poivres_collection_url | replace: '/collections/sels', sels_collection_url | replace: '/collections/sels-aromatises', sels_collection_url | replace: '/collections/huiles-madagascar', huiles_collection_url | replace: '/collections/huiles-essentielles', huiles_collection_url | replace: '/collections/fond-epices', epices_collection_url | replace: '/collections/all', catalogue_page_url -%}
   {% comment %}theme-check-disable UnusedAssign{% endcomment %}
   {%- liquid
-    assign wiki_detail_force_live_handles = ',wiki-epices-madagascar,wiki-poivres-baies-madagascar,wiki-glossaire-epices,wiki-faq-vanille-epices,wiki-vanille-bien-choisir,wiki-vanille-conservation-preparation,wiki-savoir-faire-producteurs,wiki-recettes,wiki-sels-melanges,wiki-huiles-essentielles-plantes,wiki-vanille-bourbon-planifolia,wiki-bienfaits-usages,wiki-poivre-sauvage-voatsiperifery,wiki-poivre-noir-madagascar,wiki-poivre-blanc-madagascar,wiki-baies-roses-madagascar,wiki-melange-poivres-baies,wiki-epice-cannelle-madagascar,wiki-cannelle-madagascar,wiki-epice-curcuma-madagascar,wiki-curcuma-madagascar,wiki-epice-gingembre-madagascar,wiki-gingembre-madagascar,wiki-epice-girofle-madagascar,wiki-girofle-madagascar,wiki-epice-combava-madagascar,wiki-combava,wiki-epice-curry-madagascar,wiki-curry-madagascar,wiki-fond-epices-madagascar,wiki-epice-piment-pili-pili-madagascar,wiki-piment-pili-pili-madagascar,wiki-pili-pili,wiki-sesame-madagascar,wiki-baies-roses,wiki-vanille,'
+    assign wiki_detail_force_live_handles = ',wiki-epices-madagascar,wiki-poivres-baies-madagascar,wiki-glossaire-epices,wiki-faq-vanille-epices,wiki-vanille-bien-choisir,wiki-vanille-conservation-preparation,wiki-savoir-faire-producteurs,wiki-recettes,wiki-sels-melanges,wiki-huiles-essentielles-plantes,wiki-vanille-bourbon-planifolia,wiki-bienfaits-usages,wiki-poivre-sauvage-voatsiperifery,wiki-poivre-noir-madagascar,wiki-poivre-blanc-madagascar,wiki-baies-roses-madagascar,wiki-melange-poivres-baies,wiki-epice-cannelle-madagascar,wiki-cannelle-madagascar,wiki-epice-curcuma-madagascar,wiki-curcuma-madagascar,wiki-epice-gingembre-madagascar,wiki-gingembre-madagascar,wiki-epice-girofle-madagascar,wiki-girofle-madagascar,wiki-epice-combava-madagascar,wiki-combava,wiki-epice-curry-madagascar,wiki-curry-madagascar,wiki-fond-epices-madagascar,wiki-epice-piment-pili-pili-madagascar,wiki-piment-pili-pili-madagascar,wiki-pili-pili,wiki-epice-sesame-madagascar,wiki-sesame-madagascar,wiki-baies-roses,wiki-vanille,'
     assign wiki_detail_force_live_token = ',' | append: page.handle | append: ','
     assign wiki_detail_content = page.content
     if wiki_detail_force_live_handles contains wiki_detail_force_live_token
@@ -1073,7 +1072,7 @@
     assign wiki_detail_summary = wiki_detail_summary | replace: 'FAQ', ''
     assign wiki_detail_summary = wiki_detail_summary | strip
     assign wiki_detail_is_legacy_spice_detail = false
-    if page.handle == 'wiki-epice-cannelle-madagascar' or page.handle == 'wiki-cannelle-madagascar' or page.handle == 'wiki-epice-curcuma-madagascar' or page.handle == 'wiki-curcuma-madagascar' or page.handle == 'wiki-epice-gingembre-madagascar' or page.handle == 'wiki-gingembre-madagascar' or page.handle == 'wiki-epice-girofle-madagascar' or page.handle == 'wiki-girofle-madagascar' or page.handle == 'wiki-epice-combava-madagascar' or page.handle == 'wiki-combava' or page.handle == 'wiki-epice-curry-madagascar' or page.handle == 'wiki-curry-madagascar' or page.handle == 'wiki-fond-epices-madagascar' or page.handle == 'wiki-epice-piment-pili-pili-madagascar' or page.handle == 'wiki-piment-pili-pili-madagascar' or page.handle == 'wiki-pili-pili' or page.handle == 'wiki-sesame-madagascar'
+    if page.handle == 'wiki-epice-cannelle-madagascar' or page.handle == 'wiki-cannelle-madagascar' or page.handle == 'wiki-epice-curcuma-madagascar' or page.handle == 'wiki-curcuma-madagascar' or page.handle == 'wiki-epice-gingembre-madagascar' or page.handle == 'wiki-gingembre-madagascar' or page.handle == 'wiki-epice-girofle-madagascar' or page.handle == 'wiki-girofle-madagascar' or page.handle == 'wiki-epice-combava-madagascar' or page.handle == 'wiki-combava' or page.handle == 'wiki-epice-curry-madagascar' or page.handle == 'wiki-curry-madagascar' or page.handle == 'wiki-fond-epices-madagascar' or page.handle == 'wiki-epice-piment-pili-pili-madagascar' or page.handle == 'wiki-piment-pili-pili-madagascar' or page.handle == 'wiki-pili-pili' or page.handle == 'wiki-epice-sesame-madagascar' or page.handle == 'wiki-sesame-madagascar'
       assign wiki_detail_is_legacy_spice_detail = true
     endif
     assign wiki_detail_is_legacy_pepper_detail = false
@@ -1850,6 +1849,38 @@
         assign wiki_detail_shop_handles = 'poudre-combava-sauvage-madagascar-20g,gingembre-madagascar-pot-epices-40g,curcuma-madagascar-poudre-40g'
         assign wiki_detail_shop_title = 'Les épices les plus cohérentes pour commencer'
         assign wiki_detail_shop_copy = 'Combava, gingembre et curcuma couvrent déjà une grande partie des usages concrets du dossier.'
+      when 'wiki-epice-cannelle-madagascar', 'wiki-cannelle-madagascar'
+        assign wiki_detail_shop_handles = 'cannelle-madagascar-pot-verre-40g,cannelle-madagascar-sachet-40g,girofle-madagascar-sachet-25g'
+        assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page cannelle'
+        assign wiki_detail_shop_copy = 'Deux formats de cannelle, puis le girofle pour rester dans les accords vraiment utiles à cette lecture.'
+      when 'wiki-epice-curcuma-madagascar', 'wiki-curcuma-madagascar'
+        assign wiki_detail_shop_handles = 'curcuma-madagascar-pot-epices-40g,curcuma-madagascar-poudre-40g,gingembre-madagascar-pot-epices-40g'
+        assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page curcuma'
+        assign wiki_detail_shop_copy = 'Deux formats de curcuma, plus le gingembre qui revient le plus souvent dans ses usages concrets.'
+      when 'wiki-epice-gingembre-madagascar', 'wiki-gingembre-madagascar'
+        assign wiki_detail_shop_handles = 'gingembre-madagascar-pot-epices-40g,gingembre-madagascar-pot-verre-40g,poudre-combava-sauvage-madagascar-20g'
+        assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page gingembre'
+        assign wiki_detail_shop_copy = 'Deux gestes autour du gingembre, puis le combava pour prolonger ses accords les plus naturels.'
+      when 'wiki-epice-girofle-madagascar', 'wiki-girofle-madagascar'
+        assign wiki_detail_shop_handles = 'girofle-madagascar-sachet-25g,cannelle-madagascar-pot-verre-40g,poivre-noir-madagascar-sachet-50g'
+        assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page girofle'
+        assign wiki_detail_shop_copy = 'Le girofle, la cannelle et le poivre noir couvrent les accords les plus lisibles évoqués dans la page.'
+      when 'wiki-epice-curry-madagascar', 'wiki-curry-madagascar'
+        assign wiki_detail_shop_handles = 'curry-madagascar-pot-epices-40g,curry-madagascar-pot-verre-40g,poudre-combava-sauvage-madagascar-20g'
+        assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page curry'
+        assign wiki_detail_shop_copy = 'Deux formats de curry, puis le combava pour pousser les usages coco, sauces et marinades.'
+      when 'wiki-fond-epices-madagascar'
+        assign wiki_detail_shop_handles = 'fond-depices-pot-en-verre-rechargeable-40g,gingembre-madagascar-pot-epices-40g,poivre-noir-madagascar-sachet-50g'
+        assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page fond d’épices'
+        assign wiki_detail_shop_copy = 'Le mélange prêt à l’emploi, puis deux renforts clairs pour les sauces, marinades et bases chaudes.'
+      when 'wiki-epice-piment-pili-pili-madagascar', 'wiki-piment-pili-pili-madagascar', 'wiki-pili-pili'
+        assign wiki_detail_shop_handles = 'piment-pili-pili-madagascar-pot-epices-40g,piment-pili-pili-madagascar-pot-verre-40g,sel-de-camargue-parfume-au-piment-pili-pili'
+        assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page pili-pili'
+        assign wiki_detail_shop_copy = 'Deux formats de piment, puis un sel de finition pour les usages les plus directs de cette page.'
+      when 'wiki-epice-sesame-madagascar', 'wiki-sesame-madagascar'
+        assign wiki_detail_shop_handles = 'graines-sesame-madagascar-sachet-50g,gingembre-madagascar-pot-epices-40g,piment-pili-pili-madagascar-pot-epices-40g'
+        assign wiki_detail_shop_title = 'Produits les plus cohérents avec la page sésame'
+        assign wiki_detail_shop_copy = 'Le sésame pour la base, puis gingembre et pili-pili pour les accords de wok, marinade et finition les plus évidents.'
       when 'wiki-bienfaits-sante', 'wiki-bienfaits-usages'
         assign wiki_detail_shop_handles = 'gingembre-madagascar-pot-epices-40g,curcuma-madagascar-poudre-40g,poudre-combava-sauvage-madagascar-20g'
         assign wiki_detail_shop_title = 'Produits liés aux usages vraiment évoqués'

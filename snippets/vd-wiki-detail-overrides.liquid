@@ -1190,43 +1190,22 @@
       <li><a href="https://www.anses.fr/fr/content/complements-alimentaires-et-plantes" target="_blank" rel="noopener noreferrer">ANSES, compléments alimentaires et plantes&nbsp;: repères de prudence</a></li>
     </ul>
 
-  {%- when 'wiki-epice-cannelle-madagascar', 'wiki-cannelle-madagascar', 'wiki-epice-curcuma-madagascar', 'wiki-curcuma-madagascar', 'wiki-epice-gingembre-madagascar', 'wiki-gingembre-madagascar', 'wiki-epice-girofle-madagascar', 'wiki-girofle-madagascar', 'wiki-epice-curry-madagascar', 'wiki-curry-madagascar', 'wiki-fond-epices-madagascar', 'wiki-epice-piment-pili-pili-madagascar', 'wiki-piment-pili-pili-madagascar', 'wiki-pili-pili', 'wiki-sesame-madagascar' -%}
-    <div class="vd-wiki-article-note">
-      <span class="vd-wiki-article-note__label">Dossier regroupé</span>
-      <p>La page « {{ page.title }} » est maintenant rattachée au dossier éditorial Épices de Madagascar pour éviter les micro-pages vides et garder un wiki plus cohérent.</p>
-    </div>
-
-    <p>Vous retrouvez désormais cette matière dans un dossier parent plus lisible, avec le panorama des épices, les usages en cuisine, les liens vers les recettes et l’accès direct à la collection. Cela évite de multiplier des pages trop courtes tout en gardant l’entrée produit disponible.</p>
-
-    <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
-      <div class="vd-wiki-article-card">
-        <h3>Panorama complet</h3>
-        <p>Le dossier Épices de Madagascar regroupe les familles, les profils aromatiques et les repères utiles avant achat.</p>
-      </div>
-      <div class="vd-wiki-article-card">
-        <h3>Accès produit</h3>
-        <p>La collection permet ensuite de retrouver les références disponibles sans quitter le même univers de lecture.</p>
-      </div>
-      <div class="vd-wiki-article-card">
-        <h3>Passage en cuisine</h3>
-        <p>Les recettes et accords servent de suite logique pour voir comment employer l’épice dans un geste réel.</p>
-      </div>
-    </div>
-
-    <div class="vd-wiki-article-links">
-      <a href="{{ wiki_epices_page_url }}" data-vd-preview-link>Ouvrir Épices de Madagascar</a>
-      <a href="{{ wiki_epices_collection_url }}" data-vd-preview-link>Voir les épices</a>
-      <a href="{{ wiki_recettes_page_url }}" data-vd-preview-link>Voir les recettes & accords</a>
-      <a href="{{ wiki_glossaire_page_url }}" data-vd-preview-link>Ouvrir le glossaire</a>
-    </div>
+  {%- when 'wiki-epice-cannelle-madagascar', 'wiki-cannelle-madagascar', 'wiki-epice-curcuma-madagascar', 'wiki-curcuma-madagascar', 'wiki-epice-gingembre-madagascar', 'wiki-gingembre-madagascar', 'wiki-epice-girofle-madagascar', 'wiki-girofle-madagascar', 'wiki-epice-curry-madagascar', 'wiki-curry-madagascar', 'wiki-fond-epices-madagascar', 'wiki-epice-piment-pili-pili-madagascar', 'wiki-piment-pili-pili-madagascar', 'wiki-pili-pili', 'wiki-epice-sesame-madagascar', 'wiki-sesame-madagascar' -%}
+    {%- render 'vd-wiki-live-wiki-spice-legacy',
+      page_handle: page_handle,
+      wiki_epices_page_url: wiki_epices_page_url,
+      wiki_epices_collection_url: wiki_epices_collection_url,
+      wiki_recettes_page_url: wiki_recettes_page_url,
+      wiki_glossaire_page_url: wiki_glossaire_page_url
+    -%}
 
   {%- when 'wiki-poivre-sauvage-voatsiperifery', 'wiki-poivre-noir-madagascar', 'wiki-poivre-blanc-madagascar', 'wiki-baies-roses-madagascar', 'wiki-baies-roses', 'wiki-melange-poivres-baies' -%}
     <div class="vd-wiki-article-note">
-      <span class="vd-wiki-article-note__label">Dossier regroupé</span>
-      <p>La page « {{ page.title }} » a été rattachée au dossier Poivres & baies de Madagascar pour éviter les entrées vides et garder un maillage plus propre.</p>
+      <span class="vd-wiki-article-note__label">Repères rapides</span>
+      <p>Les poivres et baies de Madagascar se lisent surtout par intensité, moment d’ajout et accords. Cette page sert de point d’entrée rapide avant d’ouvrir le dossier complet ou la collection.</p>
     </div>
 
-    <p>Le sujet existe toujours dans le wiki, mais il est désormais traité dans un dossier parent plus stable, avec les repères d’intensité, le bon moment d’ajout, les liens vers les recettes et l’accès direct à la collection poivres & baies.</p>
+    <p>Vous retrouvez ici l’essentiel pour distinguer les profils, puis un accès direct vers le dossier parent, les recettes et la collection poivres & baies si vous voulez aller plus loin.</p>
 
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
       <div class="vd-wiki-article-card">
