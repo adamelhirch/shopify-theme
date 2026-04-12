@@ -864,52 +864,11 @@
         </aside>
 
         <div class="vd-wiki-page__main">
-          <header class="vd-wiki-page__hero vd-wiki-page__hero--single" id="wiki-overview-{{ section.id }}">
-            <div class="vd-wiki-page__hero-copy">
-              <nav class="vd-wiki-page__breadcrumbs" aria-label="Fil d'Ariane">
-                <a href="{{ routes.root_url }}" data-vd-preview-link>Accueil</a>
-                <span aria-hidden="true">›</span>
-                <span>Le Wiki</span>
-              </nav>
-              <span class="vd-section-kicker">{{ section.settings.wiki_eyebrow | default: 'Le Wiki' }}</span>
-              <h1 class="vd-wiki-page__title">{{ section.settings.wiki_heading | default: 'Le grand Wiki de Vanille Désiré' }}</h1>
-              <div class="vd-wiki-page__lede rte">
-                {{ section.settings.wiki_text }}
-              </div>
-              <div class="vd-wiki-page__hero-row">
-                <div class="vd-wiki-page__meta" aria-label="Métadonnées du wiki">
-                  <span class="vd-wiki-page__meta-item">Base de connaissances</span>
-                  <span class="vd-wiki-page__meta-item">{{ wiki_feature_count }} guides à la une</span>
-                  <span class="vd-wiki-page__meta-item">{{ wiki_index_count }} entrées indexées</span>
-                </div>
-                <div class="vd-wiki-page__hero-actions">
-                  <a href="{{ wiki_primary_link }}" class="vd-arrow-cta" data-vd-preview-link>
-                    <span class="vd-arrow-cta__label">{{ section.settings.wiki_primary_link_label | default: 'Voir les recettes' }}</span>
-                    <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                      <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                    </svg>
-                  </a>
-                  <a href="{{ wiki_secondary_link }}" class="vd-arrow-cta" data-vd-preview-link>
-                    <span class="vd-arrow-cta__label">{{ section.settings.wiki_secondary_link_label | default: 'Voir le catalogue' }}</span>
-                    <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                      <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-              <div class="vd-wiki-page__badges" aria-label="Thèmes couverts">
-                <span class="vd-wiki-page__badge">Vanille Bourbon</span>
-                <span class="vd-wiki-page__badge">Épices premium</span>
-                <span class="vd-wiki-page__badge">Accords & préparation</span>
-              </div>
+          <header class="vd-wiki-page__hero vd-wiki-page__hero--minimal" id="wiki-overview-{{ section.id }}">
+            <div class="vd-wiki-page__hero-copy vd-wiki-page__hero-copy--minimal">
+              <h1 class="vd-wiki-page__title">{{ section.settings.wiki_heading | default: 'Le grand wiki de Désiré' }}</h1>
             </div>
           </header>
-
-          <nav class="vd-wiki-page__navigator" aria-label="Navigation de la page">
-            <a href="#wiki-essentiel-{{ section.id }}">À la une</a>
-            <a href="#wiki-categories-{{ section.id }}">Explorer</a>
-            <a href="#wiki-faq-{{ section.id }}">FAQ</a>
-          </nav>
 
           <section class="vd-wiki-page__section" aria-labelledby="wiki-essentiel-{{ section.id }}">
             <div class="vd-wiki-page__section-head">
