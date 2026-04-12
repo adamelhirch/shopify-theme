@@ -26,6 +26,10 @@
   assign recettes_page = pages['recettes']
   assign contact_page = pages['contact']
   assign wiki_vanille_page = pages['wiki-vanille-bien-choisir']
+  assign wiki_planifolia_page = pages['wiki-vanille-bourbon-planifolia']
+  if wiki_planifolia_page == blank
+    assign wiki_planifolia_page = pages['wiki-vanille-bourbon-planifolia-legacy-20260412']
+  endif
   assign wiki_vanille_storage_page = pages['wiki-vanille-conservation-preparation']
   assign wiki_vanille_pompona_page = pages['wiki-vanille-pompona']
   assign wiki_epices_page = pages['wiki-epices-madagascar']
@@ -53,6 +57,7 @@
   assign recettes_page_url = recettes_page.url | default: '/pages/recettes'
   assign contact_page_url = contact_page.url | default: '/pages/contact'
   assign wiki_vanille_page_url = wiki_vanille_page.url | default: '/pages/wiki-vanille-bien-choisir'
+  assign wiki_planifolia_page_url = wiki_planifolia_page.url | default: '/pages/wiki-vanille-bourbon-planifolia-legacy-20260412'
   assign wiki_vanille_storage_page_url = wiki_vanille_storage_page.url | default: '/pages/wiki-vanille-conservation-preparation'
   assign wiki_vanille_pompona_page_url = wiki_vanille_pompona_page.url | default: '/pages/wiki-vanille-pompona'
   assign wiki_epices_page_url = wiki_epices_page.url | default: '/pages/wiki-epices-madagascar'
@@ -1054,16 +1059,17 @@
   {%- capture wiki_detail_override_content -%}
     {%- render 'vd-wiki-detail-overrides', page_handle: page.handle -%}
   {%- endcapture -%}
+  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-vanille-bourbon-planifolia', '__VD_PLANIFOLIA_PAGE__' -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-vanille-conservation-preparation', wiki_vanille_storage_page_url | replace: '/pages/wiki-vanille-bien-choisir', wiki_vanille_page_url | replace: '/pages/wiki-poivres-baies-madagascar', wiki_poivres_page_url | replace: '/pages/wiki-sels-melanges', wiki_sels_page_url | replace: '/pages/wiki-huiles-essentielles-plantes', wiki_plantes_page_url | replace: '/pages/wiki-glossaire-epices', wiki_glossaire_page_url -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-faq-vanille-epices', wiki_faq_page_url | replace: '/pages/wiki-vanille-tahiti', wiki_vanille_varieties_page_url | replace: '/pages/wiki-dosage-vanille', wiki_dosage_page_url | replace: '/pages/wiki-recycler-gousse-vanille', wiki_recycler_page_url | replace: '/pages/wiki-combava-madagascar', wiki_combava_page_url | replace: '/pages/wiki-poivre-quel-plat', wiki_poivre_quel_plat_page_url | replace: '/pages/wiki-sel-aromatise-quel-plat', wiki_sel_quel_plat_page_url -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-vanille-pompona', wiki_vanille_pompona_page_url | replace: '/pages/wiki-recettes', wiki_recettes_page_url | replace: '/pages/wiki-epices-madagascar', wiki_epices_page_url | replace: '/pages/wiki', wiki_index_page_url | replace: '/pages/recettes', recettes_page_url | replace: '/pages/catalogue', catalogue_page_url | replace: '/pages/contact', contact_page_url -%}
-  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-bienfaits-usages', '/pages/wiki-bienfaits-sante' | replace: '/pages/wiki-vanille-bourbon-planifolia', wiki_vanille_page_url -%}
+  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-bienfaits-usages', '/pages/wiki-bienfaits-sante' -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-cannelle-madagascar', '/pages/wiki-epice-cannelle-madagascar' | replace: '/pages/wiki-curcuma-madagascar', '/pages/wiki-epice-curcuma-madagascar' | replace: '/pages/wiki-gingembre-madagascar', '/pages/wiki-epice-gingembre-madagascar' | replace: '/pages/wiki-girofle-madagascar', '/pages/wiki-epice-girofle-madagascar' | replace: '/pages/wiki-curry-madagascar', '/pages/wiki-epice-curry-madagascar' | replace: '/pages/wiki-piment-pili-pili-madagascar', '/pages/wiki-epice-piment-pili-pili-madagascar' | replace: '/pages/wiki-pili-pili', '/pages/wiki-epice-piment-pili-pili-madagascar' | replace: '/pages/wiki-sesame-madagascar', '/pages/wiki-epice-sesame-madagascar' -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-epice-combava-madagascar', wiki_combava_page_url | replace: '/pages/wiki-combava', wiki_combava_page_url -%}
-  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-baies-roses', wiki_baies_roses_page_url | replace: '/pages/wiki-vanille', wiki_vanille_page_url | replace: '/collections/vanille-bourbon', vanille_collection_url | replace: '/collections/epices-madagascar', epices_collection_url | replace: '/collections/poivre-baies', poivres_collection_url | replace: '/collections/poivres-baies-de-madagascar', poivres_collection_url | replace: '/collections/sels', sels_collection_url | replace: '/collections/sels-aromatises', sels_collection_url | replace: '/collections/huiles-madagascar', huiles_collection_url | replace: '/collections/huiles-essentielles', huiles_collection_url | replace: '/collections/fond-epices', epices_collection_url | replace: '/collections/all', catalogue_page_url -%}
+  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-baies-roses', wiki_baies_roses_page_url | replace: '/pages/wiki-vanille', wiki_vanille_page_url | replace: '/collections/vanille-bourbon', vanille_collection_url | replace: '/collections/epices-madagascar', epices_collection_url | replace: '/collections/poivre-baies', poivres_collection_url | replace: '/collections/poivres-baies-de-madagascar', poivres_collection_url | replace: '/collections/sels', sels_collection_url | replace: '/collections/sels-aromatises', sels_collection_url | replace: '/collections/huiles-madagascar', huiles_collection_url | replace: '/collections/huiles-essentielles', huiles_collection_url | replace: '/collections/fond-epices', epices_collection_url | replace: '/collections/all', catalogue_page_url | replace: '__VD_PLANIFOLIA_PAGE__', wiki_planifolia_page_url -%}
   {% comment %}theme-check-disable UnusedAssign{% endcomment %}
   {%- liquid
-    assign wiki_detail_force_live_handles = ',wiki-epices-madagascar,wiki-poivres-baies-madagascar,wiki-glossaire-epices,wiki-faq-vanille-epices,wiki-vanille-bien-choisir,wiki-vanille-conservation-preparation,wiki-savoir-faire-producteurs,wiki-recettes,wiki-sels-melanges,wiki-huiles-essentielles-plantes,wiki-vanille-bourbon-planifolia,wiki-bienfaits-usages,wiki-poivre-sauvage-voatsiperifery,wiki-poivre-noir-madagascar,wiki-poivre-blanc-madagascar,wiki-baies-roses-madagascar,wiki-melange-poivres-baies,wiki-epice-cannelle-madagascar,wiki-cannelle-madagascar,wiki-epice-curcuma-madagascar,wiki-curcuma-madagascar,wiki-epice-gingembre-madagascar,wiki-gingembre-madagascar,wiki-epice-girofle-madagascar,wiki-girofle-madagascar,wiki-epice-combava-madagascar,wiki-combava,wiki-epice-curry-madagascar,wiki-curry-madagascar,wiki-fond-epices-madagascar,wiki-epice-piment-pili-pili-madagascar,wiki-piment-pili-pili-madagascar,wiki-pili-pili,wiki-epice-sesame-madagascar,wiki-sesame-madagascar,wiki-baies-roses,wiki-vanille,'
+    assign wiki_detail_force_live_handles = ',wiki-epices-madagascar,wiki-poivres-baies-madagascar,wiki-glossaire-epices,wiki-faq-vanille-epices,wiki-vanille-bien-choisir,wiki-vanille-bourbon-planifolia,wiki-vanille-bourbon-planifolia-legacy-20260412,wiki-vanille-conservation-preparation,wiki-savoir-faire-producteurs,wiki-recettes,wiki-sels-melanges,wiki-huiles-essentielles-plantes,wiki-bienfaits-usages,wiki-poivre-sauvage-voatsiperifery,wiki-poivre-noir-madagascar,wiki-poivre-blanc-madagascar,wiki-baies-roses-madagascar,wiki-melange-poivres-baies,wiki-epice-cannelle-madagascar,wiki-cannelle-madagascar,wiki-epice-curcuma-madagascar,wiki-curcuma-madagascar,wiki-epice-gingembre-madagascar,wiki-gingembre-madagascar,wiki-epice-girofle-madagascar,wiki-girofle-madagascar,wiki-epice-combava-madagascar,wiki-combava,wiki-epice-curry-madagascar,wiki-curry-madagascar,wiki-fond-epices-madagascar,wiki-epice-piment-pili-pili-madagascar,wiki-piment-pili-pili-madagascar,wiki-pili-pili,wiki-epice-sesame-madagascar,wiki-sesame-madagascar,wiki-baies-roses,wiki-vanille,'
     assign wiki_detail_force_live_token = ',' | append: page.handle | append: ','
     assign wiki_detail_content = page.content
     if wiki_detail_force_live_handles contains wiki_detail_force_live_token
@@ -1374,6 +1380,21 @@
         assign wiki_detail_card_three_copy = 'Revenir aux grandes familles du wiki.'
         assign wiki_detail_card_three_url = wiki_index_page_url
         assign wiki_detail_card_three_image = 'vd-wiki-botanique.jpg'
+      when 'wiki-vanille-bourbon-planifolia', 'wiki-vanille-bourbon-planifolia-legacy-20260412'
+        assign wiki_detail_collection_url = wiki_vanille_page_url
+        assign wiki_detail_collection_label = 'Bien choisir sa vanille'
+        assign wiki_detail_card_one_title = 'Bien choisir sa vanille'
+        assign wiki_detail_card_one_copy = 'Revenir aux critères d’achat, de qualité et de comparaison des formats.'
+        assign wiki_detail_card_one_url = wiki_vanille_page_url
+        assign wiki_detail_card_one_image = 'vd-wiki-cover.jpg'
+        assign wiki_detail_card_two_title = 'Conservation & préparation'
+        assign wiki_detail_card_two_copy = 'Enchaîner avec le stockage, l’infusion et les gestes utiles autour de la gousse.'
+        assign wiki_detail_card_two_url = wiki_vanille_storage_page_url
+        assign wiki_detail_card_two_image = 'vd-wiki-techniques.jpg'
+        assign wiki_detail_card_three_title = 'Vanille Pompona'
+        assign wiki_detail_card_three_copy = 'Comparer ensuite la Bourbon avec une variété plus ample et plus rare.'
+        assign wiki_detail_card_three_url = wiki_vanille_pompona_page_url
+        assign wiki_detail_card_three_image = 'vd-wiki-botanique.jpg'
       when 'wiki-epices-madagascar'
         assign wiki_detail_card_one_title = 'Poivres & baies'
         assign wiki_detail_card_one_copy = 'Poursuivre avec les terroirs, intensités et finitions.'
@@ -1590,6 +1611,8 @@
         assign wiki_detail_title = 'Comment conserver des gousses de vanille'
       when 'wiki-vanille-bien-choisir'
         assign wiki_detail_title = 'Bien choisir sa vanille Bourbon'
+      when 'wiki-vanille-bourbon-planifolia', 'wiki-vanille-bourbon-planifolia-legacy-20260412'
+        assign wiki_detail_title = 'Vanille Bourbon Planifolia'
       when 'vanille-pompona', 'wiki-vanille-pompona'
         assign wiki_detail_title = 'Vanille Pompona'
       when 'wiki-vanille-tahiti'
@@ -1629,6 +1652,8 @@
         assign wiki_detail_summary = 'Conserver une gousse souple, parfumée et saine demande surtout un bon contenant, une température stable et des gestes simples.'
       when 'wiki-vanille-bien-choisir'
         assign wiki_detail_summary = 'Souplesse, brillance, parfum, préparation et format: les bons repères pour choisir une vanille Bourbon cohérente avec votre usage.'
+      when 'wiki-vanille-bourbon-planifolia', 'wiki-vanille-bourbon-planifolia-legacy-20260412'
+        assign wiki_detail_summary = 'Origine, pollinisation, curage, profil aromatique et usages: le dossier de fond pour comprendre la vanille Bourbon planifolia de Madagascar.'
       when 'vanille-pompona', 'wiki-vanille-pompona'
         assign wiki_detail_summary = 'La Pompona sert ici de point de comparaison pour mieux lire les grandes familles de vanille, puis revenir vers la référence la plus cohérente à cuisiner.'
       when 'wiki-vanille-tahiti'
@@ -1726,6 +1751,11 @@
         assign wiki_detail_meta_badge_one = 'Vanille Bourbon'
         assign wiki_detail_meta_badge_two = 'Choisir'
         assign wiki_detail_meta_badge_three = 'Qualité'
+      when 'wiki-vanille-bourbon-planifolia', 'wiki-vanille-bourbon-planifolia-legacy-20260412'
+        assign wiki_detail_meta_label = 'Dossier variété'
+        assign wiki_detail_meta_badge_one = 'Vanille Bourbon'
+        assign wiki_detail_meta_badge_two = 'Planifolia'
+        assign wiki_detail_meta_badge_three = 'Madagascar'
       when 'wiki-dosage-vanille'
         assign wiki_detail_meta_label = 'Guide de dosage'
         assign wiki_detail_meta_badge_one = 'Vanille'
@@ -1840,6 +1870,10 @@
         assign wiki_detail_shop_handles = 'vanille-bourbon-madagascar-1-3-5-gousses-decouverte,pack-patisserie-decouverte-vanille-bourbon-madagascar,vanille-bourbon-madagascar-tailles-s-m-l-xl-10-gousses'
         assign wiki_detail_shop_title = 'Trois entrées utiles pour bien choisir sa vanille'
         assign wiki_detail_shop_copy = 'Un format découverte, un pack pâtisserie et un lot plus installé pour comparer sans suracheter.'
+      when 'wiki-vanille-bourbon-planifolia', 'wiki-vanille-bourbon-planifolia-legacy-20260412'
+        assign wiki_detail_shop_handles = 'vanille-bourbon-madagascar-10-gousses-tube-verre,poudre-vanille-bourbon-madagascar-20g,extrait-vanille-bourbon-madagascar-20ml'
+        assign wiki_detail_shop_title = 'Trois formes utiles pour travailler la Planifolia'
+        assign wiki_detail_shop_copy = 'La gousse pour l’infusion, la poudre pour les préparations sèches, l’extrait pour les usages rapides et réguliers.'
       when 'wiki-vanille-conservation-preparation'
         assign wiki_detail_shop_handles = 'vanille-bourbon-madagascar-3-gousses,poudre-vanille-bourbon-madagascar-20g,extrait-vanille-bourbon-madagascar-20ml'
         assign wiki_detail_shop_title = 'Formats cohérents avec la conservation et la préparation'
@@ -2063,6 +2097,7 @@
                 <div class="vd-wiki-detail__rail-group{% if wiki_detail_is_vanille_group %} is-current-group{% endif %}">
                   <span class="vd-wiki-detail__rail-label">Variétés</span>
                   <div class="vd-wiki-detail__rail-links">
+                    <a href="{{ wiki_planifolia_page_url }}" class="{% if page.handle == 'wiki-vanille-bourbon-planifolia' or page.handle == 'wiki-vanille-bourbon-planifolia-legacy-20260412' %}is-current{% endif %}" data-vd-preview-link>Vanille Bourbon Planifolia</a>
                     <a href="{{ wiki_vanille_pompona_page_url }}" class="{% if page.handle == 'vanille-pompona' or page.handle == 'wiki-vanille-pompona' %}is-current{% endif %}" data-vd-preview-link>Vanille Pompona</a>
                     <a href="{{ wiki_vanille_varieties_page_url }}" data-vd-preview-link>Comparer les variétés</a>
                   </div>

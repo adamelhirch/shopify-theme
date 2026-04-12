@@ -9,7 +9,11 @@
       assign vd_canonical_url = canonical_url
       if request.page_type == 'page'
         case page.handle
-          when 'wiki-vanille-bourbon-planifolia', 'wiki-vanille'
+          when 'wiki-vanille-bourbon-planifolia'
+            assign vd_canonical_url = shop.url | append: '/pages/wiki-vanille-bourbon-planifolia'
+          when 'wiki-vanille-bourbon-planifolia-legacy-20260412'
+            assign vd_canonical_url = shop.url | append: '/pages/wiki-vanille-bourbon-planifolia-legacy-20260412'
+          when 'wiki-vanille'
             assign vd_canonical_url = shop.url | append: '/pages/wiki-vanille-bien-choisir'
           when 'wiki-sesame-madagascar'
             assign vd_canonical_url = shop.url | append: '/pages/wiki-epice-sesame-madagascar'
@@ -42,6 +46,9 @@
 
       if request.page_type == 'page'
         case page.handle
+          when 'wiki-vanille-bourbon-planifolia', 'wiki-vanille-bourbon-planifolia-legacy-20260412'
+            assign vd_meta_title = 'Vanille Bourbon Planifolia : histoire, culture & qualité'
+            assign vd_meta_description = 'Origine, histoire, pollinisation, affinage, usages et repères d’achat pour comprendre la vanille Bourbon Planifolia de Madagascar.'
           when 'wiki-vanille-conservation-preparation'
             assign vd_meta_title = 'Comment conserver des gousses de vanille | Guide pratique'
             assign vd_meta_description = 'Comment conserver des gousses de vanille sans les dessécher ? Conseils simples, erreurs à éviter et bonnes pratiques pour garder parfum et souplesse.'
