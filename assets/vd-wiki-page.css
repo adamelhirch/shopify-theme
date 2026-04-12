@@ -3511,3 +3511,183 @@ body:has(.vd-wiki-page) .vd-wiki-page__main > .vd-wiki-page__section:last-of-typ
 body:has(.vd-wiki-page) .vd-wiki-page__main > .vd-wiki-page__section:last-of-type .vd-wiki-page__section-text p {
   text-align: left !important;
 }
+
+/* Hub rebuild: strict 12-column grid for the hero and essentials block */
+body:has(.vd-wiki-page) .vd-wiki-page__rail {
+  display: none !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__shell {
+  display: block !important;
+  padding-top: calc(var(--header-height, 8rem) + 2rem) !important;
+  padding-bottom: 4rem !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__main {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin-inline: auto !important;
+  gap: 3rem !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__hero--minimal {
+  display: grid !important;
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  gap: 1.5rem !important;
+  align-items: start !important;
+  padding: 5rem 0 0 !important;
+  width: min(80rem, calc(100vw - 4rem)) !important;
+  margin-inline: auto !important;
+  justify-self: center !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__hero-copy--minimal {
+  grid-column: 1 / -1 !important;
+  max-width: none !important;
+  justify-items: center !important;
+  text-align: center !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__hero-copy--minimal .vd-wiki-page__title {
+  max-width: 10.5ch !important;
+  margin: 0 auto !important;
+  padding-top: 0.35rem !important;
+  justify-self: center !important;
+  text-align: center !important;
+  font-size: clamp(4rem, 8vw, 6.4rem) !important;
+  line-height: 0.98 !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section--essentials {
+  display: grid !important;
+  gap: 2rem !important;
+  width: min(80rem, calc(100vw - 4rem)) !important;
+  margin-inline: auto !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section-head--essentials {
+  display: grid !important;
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  gap: 2rem !important;
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  align-items: start !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section-intro {
+  grid-column: 1 / span 5 !important;
+  display: grid !important;
+  gap: 0.75rem !important;
+  align-content: start !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section-head--essentials .vd-section-kicker {
+  justify-self: start !important;
+  margin: 0 !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section-head--essentials .vd-wiki-page__section-title {
+  max-width: none !important;
+  margin: 0 !important;
+  text-wrap: balance;
+  font-size: clamp(3.5rem, 6vw, 5.5rem) !important;
+  line-height: 0.92 !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section-head--essentials .vd-wiki-page__section-text {
+  grid-column: 7 / span 6 !important;
+  max-width: none !important;
+  align-self: start !important;
+  margin: 0 !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__section-head--essentials .vd-wiki-page__section-text,
+body:has(.vd-wiki-page) .vd-wiki-page__section-head--essentials .vd-wiki-page__section-text p {
+  font-size: 1.05rem !important;
+  line-height: 1.7 !important;
+  text-align: left !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__featured-grid {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 2rem !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__feature {
+  display: flex !important;
+  flex: 0 0 calc((min(80rem, calc(100vw - 4rem)) - 4rem) / 3) !important;
+  flex-direction: column !important;
+  max-width: calc((min(80rem, calc(100vw - 4rem)) - 4rem) / 3) !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__feature-media {
+  aspect-ratio: 4 / 5 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__feature-media img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+body:has(.vd-wiki-page) .vd-wiki-page__feature-body {
+  display: grid !important;
+  gap: 1rem !important;
+  align-content: start !important;
+  padding: 1.5rem !important;
+}
+
+@media screen and (max-width: 989px) {
+  body:has(.vd-wiki-page) .vd-wiki-page__shell {
+    padding-top: calc(var(--header-height, 8rem) + 1.5rem) !important;
+    padding-bottom: 3rem !important;
+  }
+
+  body:has(.vd-wiki-page) .vd-wiki-page__main {
+    gap: 2.5rem !important;
+  }
+
+  body:has(.vd-wiki-page) .vd-wiki-page__hero-copy--minimal .vd-wiki-page__title {
+    max-width: 9ch !important;
+    font-size: clamp(3rem, 12vw, 4.6rem) !important;
+  }
+
+  body:has(.vd-wiki-page) .vd-wiki-page__hero--minimal,
+  body:has(.vd-wiki-page) .vd-wiki-page__section--essentials {
+    width: min(100%, calc(100vw - 2.5rem)) !important;
+  }
+
+  body:has(.vd-wiki-page) .vd-wiki-page__hero--minimal {
+    padding-top: 3.25rem !important;
+  }
+
+  body:has(.vd-wiki-page) .vd-wiki-page__section-head--essentials {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+    gap: 1.5rem !important;
+  }
+
+  body:has(.vd-wiki-page) .vd-wiki-page__section-intro,
+  body:has(.vd-wiki-page) .vd-wiki-page__section-head--essentials .vd-wiki-page__section-text {
+    grid-column: 1 / -1 !important;
+  }
+
+  body:has(.vd-wiki-page) .vd-wiki-page__featured-grid {
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+
+  body:has(.vd-wiki-page) .vd-wiki-page__feature {
+    flex-basis: auto !important;
+    max-width: none !important;
+  }
+}

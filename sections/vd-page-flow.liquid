@@ -870,10 +870,12 @@
             </div>
           </header>
 
-          <section class="vd-wiki-page__section" aria-labelledby="wiki-essentiel-{{ section.id }}">
-            <div class="vd-wiki-page__section-head">
-              <span class="vd-section-kicker">{{ section.settings.wiki_essentials_eyebrow | default: 'Vanille' }}</span>
-              <h2 class="vd-wiki-page__section-title" id="wiki-essentiel-{{ section.id }}">{{ section.settings.wiki_essentials_heading | default: 'Vanille — l’essentiel' }}</h2>
+          <section class="vd-wiki-page__section vd-wiki-page__section--essentials" aria-labelledby="wiki-essentiel-{{ section.id }}">
+            <div class="vd-wiki-page__section-head vd-wiki-page__section-head--essentials">
+              <div class="vd-wiki-page__section-intro">
+                <span class="vd-section-kicker">{{ section.settings.wiki_essentials_eyebrow | default: 'Vanille' }}</span>
+                <h2 class="vd-wiki-page__section-title" id="wiki-essentiel-{{ section.id }}">{{ section.settings.wiki_essentials_heading | default: 'Vanille — l’essentiel' }}</h2>
+              </div>
               <div class="vd-wiki-page__section-text rte">
                 {{ section.settings.wiki_essentials_text | default: '<p>Tout savoir sur la <strong>vanille Bourbon</strong> : reconnaître une gousse de qualité, la préparer, la conserver et l’utiliser selon vos recettes.</p>' }}
               </div>
