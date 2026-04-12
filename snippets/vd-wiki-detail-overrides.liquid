@@ -36,10 +36,10 @@
   assign wiki_recettes_page_url = wiki_recettes_page.url | default: '/pages/wiki-recettes'
   assign wiki_glossaire_page_url = wiki_glossaire_page.url | default: '/pages/wiki-glossaire-epices'
   assign wiki_faq_page_url = wiki_faq_page.url | default: '/pages/wiki-faq-vanille-epices'
-  assign wiki_dosage_page_url = wiki_dosage_page.url | default: '/pages/wiki-dosage-vanille'
-  assign wiki_recycler_page_url = wiki_recycler_page.url | default: '/pages/wiki-recycler-gousse-vanille'
-  assign wiki_poivre_quel_plat_page_url = wiki_poivre_quel_plat_page.url | default: '/pages/wiki-poivre-quel-plat'
-  assign wiki_sel_quel_plat_page_url = wiki_sel_quel_plat_page.url | default: '/pages/wiki-sel-aromatise-quel-plat'
+  assign wiki_dosage_page_url = wiki_dosage_page.url | default: wiki_storage_page_url
+  assign wiki_recycler_page_url = wiki_recycler_page.url | default: wiki_storage_page_url
+  assign wiki_poivre_quel_plat_page_url = wiki_poivre_quel_plat_page.url | default: wiki_poivres_page_url
+  assign wiki_sel_quel_plat_page_url = wiki_sel_quel_plat_page.url | default: wiki_sels_page_url
   assign wiki_vanille_collection_url = wiki_vanille_collection.url | default: '/collections/vanille-bourbon'
   assign wiki_epices_collection_url = wiki_epices_collection.url | default: '/collections/epices-madagascar'
   assign wiki_poivres_collection_url = wiki_poivres_collection.url | default: '/collections/poivre-baies'
@@ -55,104 +55,54 @@
 
     <p>La bonne conservation des gousses de vanille permet de préserver leur souplesse, leur parfum et leur richesse aromatique pendant plusieurs mois. Une gousse bien stockée reste brillante, charnue et facile à gratter, ce qui change directement la qualité de vos desserts, crèmes, rhums arrangés ou préparations salées.</p>
 
-    <div class="vd-wiki-article-strip">
-      <div class="vd-wiki-article-strip__item">
-        <span>Contenant</span>
-        <strong>Hermétique et propre</strong>
-      </div>
-      <div class="vd-wiki-article-strip__item">
-        <span>Température</span>
-        <strong>Ambiante et stable</strong>
-      </div>
-      <div class="vd-wiki-article-strip__item">
-        <span>À éviter</span>
-        <strong>Frigo, chaleur, humidité</strong>
-      </div>
-    </div>
-
     <h2>Comment conserver des gousses de vanille au quotidien</h2>
     <p>Conservez vos gousses dans un contenant bien fermé, avec très peu d’air, et gardez-les dans un endroit sec et stable. Si vous cherchez comment conserver une gousse de vanille sans la dessécher, retenez trois règles simples : un contenant propre, pas d’humidité inutile, et pas d’écart de température. Le bon réflexe à la maison reste souvent le tube en verre ou le petit bocal à joint, rangé dans un placard tempéré.</p>
 
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
       <div class="vd-wiki-article-card">
-        <h3>Le bon contenant</h3>
-        <p>Tube en verre, bocal bien fermé ou étui propre: l’objectif est de limiter l’air, la poussière et les variations d’humidité.</p>
+        <h3>Contenant recommandé</h3>
+        <p>Tube, bocal en verre ou sachet de conservation bien fermé. Évitez le plastique humide ou les boîtes ouvertes.</p>
       </div>
       <div class="vd-wiki-article-card">
-        <h3>Le bon emplacement</h3>
-        <p>Choisissez un placard tempéré, loin du four, d’un radiateur ou d’une baie très exposée au soleil.</p>
+        <h3>Température idéale</h3>
+        <p>Température ambiante stable, hors soleil direct, loin du four, du radiateur ou d’un plan de travail chaud.</p>
       </div>
       <div class="vd-wiki-article-card">
-        <h3>Le bon rythme</h3>
-        <p>Ouvrez brièvement, utilisez proprement, puis refermez vite. Une vanille de qualité aime la stabilité plus que les manipulations.</p>
+        <h3>À éviter</h3>
+        <p>Réfrigérateur, condensation, humidité stagnante, ouvertures trop fréquentes et exposition prolongée à l’air.</p>
       </div>
     </div>
 
-    <details class="vd-wiki-article-disclosure">
-      <summary>Voir les détails pratiques de stockage</summary>
-      <div class="vd-wiki-article-disclosure__content">
-        <ul>
-          <li>Conservez les gousses entières jusqu’au moment de l’usage.</li>
-          <li>Évitez les boîtes ouvertes, les sachets humides ou les contenants déjà odorants.</li>
-          <li>Si vous observez un peu de condensation, aérez brièvement puis refermez dans un contenant sec.</li>
-        </ul>
-      </div>
-    </details>
-
-    <h2>Les erreurs qui abîment la vanille</h2>
+    <h2>Conserver une gousse de vanille sans la dessécher</h2>
     <p>Pour conserver une gousse de vanille dans de bonnes conditions, l’enjeu principal est d’éviter le dessèchement brutal tout en empêchant un excès d’humidité. Une vanille de qualité n’a pas besoin d’un environnement froid : elle a surtout besoin d’un stockage propre, fermé et calme. Un contrôle visuel rapide toutes les deux ou trois semaines suffit largement.</p>
 
     <div class="vd-wiki-article-grid vd-wiki-article-grid--2">
       <div class="vd-wiki-article-card">
         <h3>À faire</h3>
         <ul>
+          <li>Conserver les gousses entières jusqu’à l’usage.</li>
+          <li>Ouvrir brièvement le contenant si vous observez de la condensation.</li>
           <li>Vérifier la souplesse, la brillance et l’odeur de temps en temps.</li>
-          <li>Garder les gousses groupées dans un contenant adapté.</li>
-          <li>Utiliser des ustensiles propres au moment de la coupe.</li>
         </ul>
       </div>
       <div class="vd-wiki-article-card vd-wiki-article-card--warn">
         <h3>À éviter</h3>
         <ul>
           <li>Stocker la vanille près d’une source de chaleur.</li>
-          <li>La mettre au réfrigérateur pour un usage domestique classique.</li>
-          <li>Laisser des gousses ouvertes plusieurs jours dans une cuisine humide.</li>
+          <li>Laisser des gousses ouvertes dans une cuisine humide.</li>
+          <li>Utiliser un contenant sale ou déjà humide.</li>
         </ul>
       </div>
     </div>
-
-    <details class="vd-wiki-article-disclosure vd-wiki-article-disclosure--warn">
-      <summary>Quels signes doivent alerter ?</summary>
-      <div class="vd-wiki-article-disclosure__content">
-        <p>Une gousse très cassante, presque sans parfum, ou marquée par une humidité anormale mérite une vérification avant usage. Une perte de souplesse modérée n’est pas grave ; en revanche, une odeur anormale ou une surface suspecte doit vous alerter.</p>
-      </div>
-    </details>
 
     <h2>Combien de temps se gardent des gousses de vanille&nbsp;?</h2>
     <p>Des gousses de vanille bien préparées et bien stockées peuvent se conserver plusieurs mois. La durée réelle dépend de leur qualité d’origine, du niveau d’humidité de la pièce et de la fréquence d’ouverture du contenant. Plus la gousse est charnue, souple et bien affinée au départ, plus elle gardera longtemps un beau profil aromatique.</p>
     <p>Dans un cadre domestique, le vrai indicateur n’est pas une date stricte mais l’état de la gousse : si elle reste souple, parfumée et légèrement brillante, elle est encore dans une bonne fenêtre d’usage. Si elle devient plus sèche, elle reste souvent exploitable pour des infusions, des sucres parfumés ou un extrait maison.</p>
 
-    <details class="vd-wiki-article-disclosure">
-      <summary>Comment vérifier rapidement l’état d’une gousse ?</summary>
-      <div class="vd-wiki-article-disclosure__content">
-        <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
-          <div class="vd-wiki-article-card">
-            <h3>Souplesse</h3>
-            <p>Une belle gousse doit se plier sans casser net.</p>
-          </div>
-          <div class="vd-wiki-article-card">
-            <h3>Brillance</h3>
-            <p>Une surface légèrement brillante reste généralement bon signe.</p>
-          </div>
-          <div class="vd-wiki-article-card">
-            <h3>Parfum</h3>
-            <p>L’odeur doit rester nette, gourmande et propre.</p>
-          </div>
-        </div>
-      </div>
-    </details>
+    <h2>Que faire si la vanille sèche un peu&nbsp;?</h2>
+    <p>Si une gousse devient moins souple, vous pouvez la réhydrater quelques minutes dans un liquide tiède avant usage, par exemple du lait, de la crème ou un sirop léger. Même sèche, elle reste utile : elle peut parfumer un sucre vanillé, une crème anglaise, une compote, un rhum arrangé ou un sirop maison. Le plus important est de ne pas jeter trop vite une gousse encore aromatique.</p>
 
-    <h2>Préparer la vanille sans gâcher la préparation</h2>
+    <h2>Comment doser la vanille sans gâcher la préparation&nbsp;?</h2>
     <p>Le bon dosage dépend du support, du temps d’infusion et du niveau aromatique recherché. Une crème, un lait, un sirop ou une pâte n’absorbent pas la vanille de la même manière. Pour la cuisine maison, mieux vaut partir d’un dosage simple, goûter après infusion, puis ajuster sur la recette suivante plutôt que de saturer dès le départ.</p>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
       <div class="vd-wiki-article-card">
@@ -169,26 +119,8 @@
       </div>
     </div>
 
-    <details class="vd-wiki-article-disclosure">
-      <summary>Que faire si la vanille sèche un peu ?</summary>
-      <div class="vd-wiki-article-disclosure__content">
-        <p>Si une gousse devient moins souple, vous pouvez la réhydrater quelques minutes dans un liquide tiède avant usage, par exemple du lait, de la crème ou un sirop léger. Même sèche, elle reste utile : elle peut parfumer un sucre vanillé, une crème anglaise, une compote, un rhum arrangé ou un sirop maison. Le plus important est de ne pas jeter trop vite une gousse encore aromatique.</p>
-      </div>
-    </details>
-
     <h2>Recycler une gousse déjà utilisée</h2>
     <p>Une gousse fendue ou grattée garde encore beaucoup d’intérêt. Elle peut continuer à parfumer un sucre, un sirop, un lait chaud, un rhum arrangé ou une compote. Le meilleur réflexe est de l’intégrer vite dans une seconde préparation plutôt que de la laisser sécher à l’air libre plusieurs jours.</p>
-
-    <details class="vd-wiki-article-disclosure">
-      <summary>Idées simples pour la seconde vie d’une gousse</summary>
-      <div class="vd-wiki-article-disclosure__content">
-        <ul>
-          <li>Glissez-la dans un bocal de sucre pour un sucre vanillé maison.</li>
-          <li>Laissez-la infuser dans un sirop léger ou un lait chaud.</li>
-          <li>Réservez-la pour un rhum arrangé, une compote ou une confiture.</li>
-        </ul>
-      </div>
-    </details>
 
     <h2>Ce que montrent les sources techniques sur la conservation</h2>
     <p>Les documents techniques sur la vanille insistent sur deux réalités utiles en cuisine. D’abord, l’arôme d’une gousse ne tient pas à une seule note, mais à un ensemble complexe de composés volatils qui se construit pendant la maturation et surtout pendant le curage. Ensuite, la qualité culinaire dépend aussi de l’état physique de la gousse&nbsp;: souplesse, humidité maîtrisée, absence de dégâts et bonne préparation post-récolte. En pratique, cela confirme qu’une bonne conservation ne sert pas seulement à “éviter le sec”, mais à préserver une matière déjà complexe et coûteuse à produire.</p>
@@ -204,26 +136,14 @@
     </div>
 
     <h2>Questions fréquentes sur la conservation de la vanille</h2>
-    <details class="vd-wiki-article-disclosure">
-      <summary>Faut-il mettre la vanille au frigo&nbsp;?</summary>
-      <div class="vd-wiki-article-disclosure__content">
-        <p>Non, ce n’est généralement pas conseillé pour un usage domestique classique. Le froid humide crée de la condensation, et cette humidité parasite peut dégrader la gousse plus vite qu’un simple stockage à température ambiante.</p>
-      </div>
-    </details>
+    <h3>Faut-il mettre la vanille au frigo&nbsp;?</h3>
+    <p>Non, ce n’est généralement pas conseillé pour un usage domestique classique. Le froid humide crée de la condensation, et cette humidité parasite peut dégrader la gousse plus vite qu’un simple stockage à température ambiante.</p>
 
-    <details class="vd-wiki-article-disclosure">
-      <summary>Comment conserver des gousses de vanille déjà ouvertes&nbsp;?</summary>
-      <div class="vd-wiki-article-disclosure__content">
-        <p>Replacez-les dans un contenant bien fermé juste après usage. Vous pouvez aussi les recycler dans du sucre vanillé, un sirop ou un extrait, ce qui évite de perdre les derniers arômes.</p>
-      </div>
-    </details>
+    <h3>Comment conserver des gousses de vanille déjà ouvertes&nbsp;?</h3>
+    <p>Replacez-les dans un contenant bien fermé juste après usage. Vous pouvez aussi les recycler dans du sucre vanillé, un sirop ou un extrait, ce qui évite de perdre les derniers arômes.</p>
 
-    <details class="vd-wiki-article-disclosure">
-      <summary>Comment reconnaître une vanille mal conservée&nbsp;?</summary>
-      <div class="vd-wiki-article-disclosure__content">
-        <p>Une gousse très cassante, presque sans parfum, ou marquée par une humidité anormale mérite une vérification avant usage. Une perte de souplesse modérée n’est pas grave ; en revanche, une odeur anormale ou une surface suspecte doit vous alerter.</p>
-      </div>
-    </details>
+    <h3>Comment reconnaître une vanille mal conservée&nbsp;?</h3>
+    <p>Une gousse très cassante, presque sans parfum, ou marquée par une humidité anormale mérite une vérification avant usage. Une perte de souplesse modérée n’est pas grave ; en revanche, une odeur anormale ou une surface suspecte doit vous alerter.</p>
 
     <h2>Choisir la bonne vanille selon votre besoin</h2>
     <p>Si vous cuisinez à la maison, démarrez avec un petit format pour comparer la souplesse, la coupe et l’intensité aromatique. Pour les usages réguliers, les ateliers ou la restauration, un format plus généreux offre souvent un meilleur coût par gousse et une meilleure continuité d’usage.</p>
@@ -361,7 +281,7 @@
       <p>La Pompona sert surtout à affiner le regard sur les familles de vanille. Son intérêt éditorial est de montrer qu’une vanille ne se lit pas seulement en intensité, mais aussi en texture aromatique, en usage et en style.</p>
     </div>
 
-    <p>Pour la cuisine du quotidien, la Bourbon reste souvent l’entrée la plus simple. La Pompona devient intéressante quand on cherche à comprendre des profils plus amples, plus rares et parfois plus déroutants. Cette page doit donc aider à comparer proprement, puis à revenir vers la référence la plus cohérente à cuisiner et à acheter aujourd’hui.</p>
+    <p>Pour la cuisine du quotidien, la Bourbon reste souvent l’entrée la plus simple. La Pompona devient intéressante quand on cherche à comparer des profils plus amples, plus rares et parfois plus déroutants. Elle sert surtout à comprendre ce qui change d’une famille à l’autre avant de choisir une vanille moins évidente.</p>
 
     <h2>Comment situer la Pompona dans la famille vanille</h2>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
@@ -380,7 +300,7 @@
     </div>
 
     <h2>Ce que cette page doit vraiment vous apprendre</h2>
-    <p>La Pompona n’est pas là pour créer une promesse vague de rareté. Elle sert à mieux comprendre comment une vanille peut changer de style selon l’espèce, la préparation et le type d’usage. L’objectif n’est donc pas de vous pousser vers un produit introuvable, mais de mieux vous faire lire la vanille en général avant achat.</p>
+    <p>La Pompona éclaire surtout la diversité des vanilles&nbsp;: espèce, préparation et usage modifient fortement le résultat en cuisine. Elle se lit mieux comme repère de comparaison que comme premier achat réflexe.</p>
 
     <div class="vd-wiki-article-grid vd-wiki-article-grid--2">
       <div class="vd-wiki-article-card">
@@ -424,7 +344,7 @@
     <h3>La Pompona est-elle meilleure que la Bourbon&nbsp;?</h3>
     <p>Non, pas au sens universel. Elle est surtout différente. La bonne question n’est pas “meilleure ou moins bonne”, mais “plus cohérente ou non avec mon usage”.</p>
     <h3>Pourquoi la montrer si la Bourbon reste la plus simple à acheter&nbsp;?</h3>
-    <p>Parce qu’un bon WIKI doit aussi servir à comparer et à éduquer le regard. Comprendre la Pompona permet souvent de mieux acheter la Bourbon ensuite.</p>
+    <p>Comprendre la Pompona affine le regard et aide souvent à mieux acheter la Bourbon ensuite.</p>
     <h3>Quelle page ouvrir juste après&nbsp;?</h3>
     <p>Le plus logique est de poursuivre vers <strong>Bien choisir sa vanille</strong>, puis vers la sélection de <strong>vanille Bourbon</strong> si vous cherchez une matière directement utilisable.</p>
 
@@ -448,7 +368,7 @@
       <p>La vanille Tahiti n’est pas la “plus forte” version de la vanille. Elle se lit surtout par sa signature plus florale, plus parfumée et plus démonstrative sur certains desserts, fruits et crèmes légères.</p>
     </div>
 
-    <p>Cette page sert à éviter deux erreurs fréquentes: croire que la Tahiti remplace automatiquement la Bourbon dans toutes les recettes, ou l’acheter seulement pour son image plus rare sans savoir quoi en faire. Son intérêt réel est de proposer une lecture différente, plus aérienne, parfois plus spectaculaire, mais pas forcément plus polyvalente.</p>
+    <p>Deux erreurs reviennent souvent&nbsp;: croire que la Tahiti remplace automatiquement la Bourbon dans toutes les recettes, ou l’acheter pour son image plus rare sans savoir quoi en faire. Son intérêt réel tient à un registre plus aérien, parfois plus spectaculaire, mais pas forcément plus polyvalent.</p>
 
     <h2>Comment situer la Tahiti face à la Bourbon</h2>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
@@ -523,9 +443,9 @@
   {%- when 'wiki-epices-madagascar' -%}
     <div class="vd-wiki-article-note">
       <span class="vd-wiki-article-note__label">Panorama</span>
-      <p>Le wiki des épices de Madagascar réunit les repères utiles pour comprendre les profils aromatiques, les usages culinaires, la conservation et les différences entre les grandes familles proposées par Vanille Désiré.</p>
+      <p>Ce panorama réunit les repères utiles pour comprendre les profils aromatiques, les usages culinaires, la conservation et les différences entre les grandes familles proposées par Vanille Désiré.</p>
     </div>
-    <p>Madagascar ne se résume pas à la vanille. Cannelle, gingembre, curcuma, girofle, combava ou baies plus confidentielles composent un terrain aromatique très riche. Cette page sert de porte d’entrée éditoriale avant les fiches détaillées, les recettes et les sélections produits.</p>
+    <p>Madagascar ne se résume pas à la vanille. Cannelle, gingembre, curcuma, girofle, combava ou baies plus confidentielles composent un terrain aromatique très riche. Commencez par les grandes familles, puis descendez vers les usages, les recettes et les produits selon votre besoin.</p>
 
     <h2>Quelles épices retrouve-t-on dans ce chapitre&nbsp;?</h2>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
@@ -581,7 +501,7 @@
     </div>
 
     <h2>Comment se repérer dans cette famille</h2>
-    <p>Cette page doit aider à distinguer rapidement les grands profils, à comprendre leurs usages et à savoir vers quelle suite continuer selon le besoin du moment&nbsp;: collection, recette, poivres ou glossaire.</p>
+    <p>L’enjeu est de distinguer rapidement les grands profils, de comprendre leurs usages et de savoir où continuer selon le besoin du moment&nbsp;: collection, recette, poivres ou glossaire.</p>
 
     <h2>Quatre épices à ouvrir en premier</h2>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--2">
@@ -669,7 +589,7 @@
       <span class="vd-wiki-article-note__label">Panorama</span>
       <p>Les poivres et baies se distinguent moins par leur couleur que par leur terroir, leur intensité et leur usage final. Le bon choix dépend du plat, du dosage et du moment d’ajout en cuisine.</p>
     </div>
-    <p>Le poivre noir, le poivre blanc, le voatsiperifery ou les baies roses n’apportent pas la même tension aromatique. Certains structurent un plat, d’autres signent une finition. Cette page sert à comparer les profils avant de passer au produit ou à l’accord culinaire.</p>
+    <p>Le poivre noir, le poivre blanc, le voatsiperifery ou les baies roses n’apportent pas la même tension aromatique. Certains structurent un plat, d’autres signent une finition. L’important est de comparer les profils avant de choisir un produit ou un accord culinaire.</p>
 
     <h2>Comprendre les grandes différences</h2>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
@@ -1003,17 +923,17 @@
     </div>
 
     <h2>Le bon angle d’achat ici</h2>
-    <p>Sur ce chapitre, le bon achat n’est pas celui qui promet le plus. C’est celui dont la destination, la prudence d’usage et le contexte sont les plus clairs. Cette page doit donc vous aider à ralentir le réflexe “naturel = simple”, puis à choisir un produit plus cohérent ou à demander un conseil avant validation.</p>
+    <p>Sur ce chapitre, le bon achat n’est pas celui qui promet le plus. C’est celui dont la destination, la prudence d’usage et le contexte sont les plus clairs. Ralentissez le réflexe “naturel = simple”, puis choisissez un produit cohérent ou demandez conseil avant validation.</p>
 
     <h2>Questions fréquentes sur les huiles & plantes</h2>
     <h3>Pourquoi cette page reste-t-elle moins “vendeuse” que les autres&nbsp;?</h3>
-    <p>Parce que la qualité du conseil ici dépend d’abord de la clarté sur les limites d’usage. Le rôle du WIKI n’est pas de pousser un achat mal cadré, mais d’aider à choisir proprement.</p>
+    <p>La qualité du conseil dépend d’abord de la clarté sur les limites d’usage. Il faut choisir proprement, pas acheter à l’aveugle.</p>
     <h3>Que faire si je cherche surtout une idée cadeau&nbsp;?</h3>
     <p>Le plus simple est souvent d’écrire avant d’acheter ou de choisir une référence dont la destination est très lisible. Une page trop floue doit au contraire ralentir la décision.</p>
 
     <h2>Questions fréquentes sur ce chapitre</h2>
     <h3>Pourquoi ce chapitre reste-t-il plus prudent que les autres&nbsp;?</h3>
-    <p>Parce qu’ici la qualité du conseil tient surtout à ce qu’on ne vous laisse pas extrapoler. Le rôle du WIKI est d’orienter proprement, pas de pousser un usage mal cadré.</p>
+    <p>Ici, la qualité du conseil tient surtout à ce qu’on ne vous laisse pas extrapoler. Le but est d’orienter proprement, pas d’encourager un usage mal cadré.</p>
     <h3>Que regarder en premier sur une fiche huiles & plantes&nbsp;?</h3>
     <p>La destination produit, les limites d’usage, le format et les précautions. C’est ce qui doit guider la lecture avant même le parfum ou l’origine.</p>
 
@@ -1030,9 +950,9 @@
   {%- when 'wiki-savoir-faire-producteurs' -%}
     <div class="vd-wiki-article-note">
       <span class="vd-wiki-article-note__label">Filière</span>
-      <p>Le goût final d’une vanille ou d’une épice dépend autant du travail du producteur et de la préparation que de la plante elle-même. Cette page explique pourquoi.</p>
+      <p>Le goût final d’une vanille ou d’une épice dépend autant du travail du producteur et de la préparation que de la plante elle-même. Récolte, tri et affinage changent directement le résultat.</p>
     </div>
-    <p>Tri manuel, récolte, affinage, séchage, conditionnement, choix des lots&nbsp;: le savoir-faire producteur pèse lourd dans la qualité réelle. Cette page du wiki sert à relier la matière première au geste humain qui construit le résultat final.</p>
+    <p>Tri manuel, récolte, affinage, séchage, conditionnement, choix des lots&nbsp;: le savoir-faire producteur pèse lourd dans la qualité réelle. La qualité finale naît autant du geste humain que de la matière première.</p>
     <h2>Pourquoi le savoir-faire change tout</h2>
     <p>Une belle origine ne garantit pas, à elle seule, un grand produit. La régularité de préparation, la sélection des lots et la qualité du conditionnement transforment profondément l’expérience d’usage et la stabilité aromatique.</p>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
@@ -1113,7 +1033,7 @@
     </div>
 
     <h2>Pourquoi cette lecture compte</h2>
-    <p>Cette page n’a pas vocation à raconter un folklore vide. Elle doit aider à mieux lire la qualité, à comparer les références plus finement, puis à comprendre pourquoi certaines matières tiennent mieux en cuisine et au stockage.</p>
+    <p>Ce chapitre aide à mieux lire la qualité, à comparer les références plus finement et à comprendre pourquoi certaines matières tiennent mieux en cuisine et au stockage.</p>
 
     <h2>Comment cela se lit ensuite sur une fiche produit</h2>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
@@ -1147,9 +1067,9 @@
   {%- when 'wiki-bienfaits-sante' -%}
     <div class="vd-wiki-article-note">
       <span class="vd-wiki-article-note__label">Important</span>
-      <p>Le wiki distingue volontairement le plaisir culinaire, les usages traditionnels et les allégations de santé. Une épice peut avoir un intérêt aromatique, culturel ou nutritionnel sans qu’il faille lui prêter des promesses excessives.</p>
+      <p>Cette lecture distingue le plaisir culinaire, les usages traditionnels et les allégations de santé. Une épice peut avoir un intérêt aromatique, culturel ou nutritionnel sans qu’il faille lui prêter des promesses excessives.</p>
     </div>
-    <p>Cette page sert à clarifier ce qui relève des usages traditionnels, des pistes de recherche scientifique et du simple marketing. Pour rester sérieux, nous privilégions ici une lecture mesurée et sourcée.</p>
+    <p>Ici, on distingue ce qui relève des usages traditionnels, des pistes de recherche scientifique et du simple marketing. La lecture reste volontairement mesurée et sourcée.</p>
     <h2>Comment lire les “bienfaits” avec recul</h2>
     <ul>
       <li>Distinguer tradition d’usage et preuve clinique.</li>
@@ -1185,7 +1105,7 @@
     </div>
 
     <h2>Pourquoi cette nuance compte</h2>
-    <p>Elle sert à rassurer sans survendre, à cadrer le discours éditorial, et à éviter que des pages plus pratiques ne dérivent vers des affirmations imprécises. L’objectif reste de répondre clairement sans perdre la crédibilité de l’ensemble.</p>
+    <p>Cette lecture permet de répondre clairement sans survendre, de garder un cadre sérieux et d’éviter les affirmations imprécises sur les pages plus pratiques.</p>
 
     <h2>Quand rester particulièrement prudent</h2>
     <p>Dès qu’un discours passe du goût et de l’usage à une promesse d’effet précis sur le corps, il faut ralentir. Une source sérieuse doit identifier le contexte, la dose, le type d’extrait et le niveau réel de preuve. Sans cela, on sort vite d’un wiki crédible pour entrer dans le contenu opportuniste.</p>
@@ -1201,14 +1121,14 @@
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
       <div class="vd-wiki-article-card"><h3>Éviter l’exagération</h3><p>Ne pas transformer une épice gourmande en argument pseudo-médical sans preuve.</p></div>
       <div class="vd-wiki-article-card"><h3>Rester achetable</h3><p>Revenir au goût, au geste, au dosage et à la qualité réelle de la matière.</p></div>
-      <div class="vd-wiki-article-card"><h3>Garder la confiance</h3><p>Un WIKI crédible vend mieux qu’un texte qui promet trop et affaiblit tout le reste du site.</p></div>
+      <div class="vd-wiki-article-card"><h3>Garder la confiance</h3><p>Un texte crédible vaut mieux qu’une promesse excessive qui affaiblit tout le reste du site.</p></div>
     </div>
 
     <h2>Quelles familles lire avec ce filtre</h2>
-    <p>Le gingembre, le curcuma, certaines plantes et certaines épices chaudes attirent souvent les promesses les plus excessives. Cette page doit justement vous aider à revenir d’abord vers leur usage réel, leur goût et leur bonne place en cuisine avant toute interprétation plus ambitieuse.</p>
+    <p>Le gingembre, le curcuma, certaines plantes et certaines épices chaudes attirent souvent les promesses les plus excessives. Revenez d’abord à leur usage réel, à leur goût et à leur bonne place en cuisine avant toute interprétation plus ambitieuse.</p>
 
     <h2>Questions fréquentes sur les bienfaits</h2>
-    <h3>Pourquoi rester si prudent sur une simple page WIKI&nbsp;?</h3>
+    <h3>Pourquoi rester si prudent sur cette page&nbsp;?</h3>
     <p>Parce que la confiance éditoriale se perd vite quand on mélange goût, tradition d’usage et promesse santé sans hiérarchie claire. Cette prudence protège aussi la qualité marchande du site.</p>
     <h3>Peut-on quand même acheter en cherchant un usage précis&nbsp;?</h3>
     <p>Oui, mais le bon angle reste d’abord culinaire et sensoriel. Choisissez la matière pour son goût, sa lisibilité et son usage réel, puis laissez les promesses trop fortes de côté.</p>
@@ -1232,9 +1152,9 @@
   {%- when 'wiki-recettes' -%}
     <div class="vd-wiki-article-note">
       <span class="vd-wiki-article-note__label">Passer à l’action</span>
-      <p>Le wiki recette relie la théorie à la cuisine réelle&nbsp;: dosage, infusion, accords, pâtisserie, salé et boissons. C’est la passerelle la plus directe entre compréhension et geste utile.</p>
+      <p>Les recettes relient la théorie à la cuisine réelle&nbsp;: dosage, infusion, accords, pâtisserie, salé et boissons. C’est la passerelle la plus directe entre compréhension et geste utile.</p>
     </div>
-    <p>Si vous savez déjà quel produit vous intéresse, entrez directement par les recettes. Vous verrez tout de suite comment la vanille, les épices et les poivres travaillent dans une crème, une pâte, une sauce ou une boisson. Si vous hésitez encore, cette page doit vous aider à choisir la bonne porte d’entrée avant d’ouvrir une recette précise.</p>
+    <p>Si vous savez déjà quel produit vous intéresse, entrez directement par les recettes. Vous verrez tout de suite comment la vanille, les épices et les poivres travaillent dans une crème, une pâte, une sauce ou une boisson. Si vous hésitez encore, commencez ici pour choisir la bonne porte d’entrée avant d’ouvrir une recette précise.</p>
 
     <h2>Ce que vous trouverez ici</h2>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
@@ -1243,7 +1163,7 @@
       <div class="vd-wiki-article-card"><h3>Salé</h3><p>Accords plus inattendus autour des poivres, épices et touches vanillées.</p></div>
     </div>
     <h2>Avant d’ouvrir une recette</h2>
-    <p>Le wiki recette sert aussi à comprendre quel produit choisir avant de cuisiner. Une gousse de vanille, un poivre sauvage ou un sel aromatisé ne s’utilisent pas au même moment ni avec la même intensité. L’idée est de lire vite, puis d’aller vers une fiche recette qui respecte la matière.</p>
+    <p>Les recettes aident aussi à comprendre quel produit choisir avant de cuisiner. Une gousse de vanille, un poivre sauvage ou un sel aromatisé ne s’utilisent pas au même moment ni avec la même intensité. L’idée est d’aller vite vers une fiche qui respecte la matière.</p>
 
     <h2>Comment passer de la lecture au geste</h2>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
@@ -1270,7 +1190,7 @@
     </div>
 
     <h2>Quel dosage de départ choisir&nbsp;?</h2>
-    <p>La plupart des recettes ratent moins par manque d’ingrédient que par mauvais dosage ou mauvais moment d’ajout. Une gousse de vanille entière, un poivre très sauvage ou une épice très chaude n’occupent pas la même place dans une préparation. Le wiki recette doit donc rappeler des repères simples avant de passer à la fiche détaillée.</p>
+    <p>La plupart des recettes ratent moins par manque d’ingrédient que par mauvais dosage ou mauvais moment d’ajout. Une gousse de vanille entière, un poivre très sauvage ou une épice très chaude n’occupent pas la même place dans une préparation. Les repères simples viennent d’abord, puis la fiche détaillée.</p>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
       <div class="vd-wiki-article-card">
         <h3>Vanille en dessert</h3>
@@ -1352,7 +1272,7 @@
     </div>
 
     <h2>Accords qui fonctionnent vraiment</h2>
-    <p>Cette page doit montrer des couples simples et crédibles&nbsp;: <strong>vanille + crème</strong>, <strong>poivre sauvage + fruits ou chocolat</strong>, <strong>gingembre + boisson chaude</strong>, <strong>sel aromatisé + légumes rôtis</strong>. Plus l’accord est lisible, plus la suite de lecture et de cuisine devient naturelle.</p>
+    <p>Retenez surtout des couples simples et crédibles&nbsp;: <strong>vanille + crème</strong>, <strong>poivre sauvage + fruits ou chocolat</strong>, <strong>gingembre + boisson chaude</strong>, <strong>sel aromatisé + légumes rôtis</strong>. Plus l’accord est lisible, plus le passage à la cuisine devient naturel.</p>
 
     <h2>Accords de départ à très bon taux de réussite</h2>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--2">
@@ -1389,7 +1309,7 @@
         <ul>
           <li>Dessert, boisson, sauce ou salé n’appellent pas les mêmes profils.</li>
           <li>Le format produit compte autant que la famille aromatique.</li>
-          <li>Le WIKI doit vous faire gagner une étape avant la fiche recette.</li>
+          <li>Le guide doit vous faire gagner une étape avant la fiche recette.</li>
         </ul>
       </div>
     </div>
@@ -1406,12 +1326,12 @@
       </div>
       <div class="vd-wiki-article-card">
         <h3>Pourquoi le format compte</h3>
-        <p>Entier, fendu, moulu ou assemblé, le produit ne se comporte pas de la même façon. Le WIKI sert aussi à faire ce tri avant achat.</p>
+        <p>Entier, fendu, moulu ou assemblé, le produit ne se comporte pas de la même façon. Ce tri doit être fait avant achat.</p>
       </div>
     </div>
 
     <h2>Les produits les plus faciles à cuisiner pour commencer</h2>
-    <p>Le wiki n’a pas vocation à vous laisser seul au moment d’acheter. Si vous cherchez une première matière fiable pour passer à l’action, partez sur une vanille Bourbon bien préparée, quelques épices nettes ou un poivre lisible à la finition. Ce sont souvent les références les plus simples à comprendre et les plus rentables en cuisine maison.</p>
+    <p>Si vous cherchez une première matière fiable pour passer à l’action, partez sur une vanille Bourbon bien préparée, quelques épices nettes ou un poivre lisible à la finition. Ce sont souvent les références les plus simples à comprendre et les plus rentables en cuisine maison.</p>
 
     <div class="vd-wiki-article-links">
       <a href="{{ wiki_recipes_hub_url }}" data-vd-preview-link>Ouvrir les recettes</a>
@@ -1432,9 +1352,9 @@
   {%- when 'wiki-glossaire-epices' -%}
     <div class="vd-wiki-article-note">
       <span class="vd-wiki-article-note__label">Vocabulaire</span>
-      <p>Le glossaire sert à lire le wiki plus vite&nbsp;: Bourbon, infusion, caviar, affinage, poivre sauvage, extraction ou dosage. Dès qu’un terme revient souvent, il a sa place ici.</p>
+      <p>Le glossaire rassemble les mots qui reviennent sans cesse&nbsp;: Bourbon, infusion, caviar, affinage, poivre sauvage, extraction ou dosage. Dès qu’un terme guide le geste ou le choix, il mérite une définition nette.</p>
     </div>
-    <p>Cette page a vocation à devenir un répertoire de définitions courtes, utiles et reliées aux pages du wiki. Elle doit aider à comprendre plus vite les guides, les recettes et les produits en supprimant les mots flous ou techniques.</p>
+    <p>Vous y trouverez des définitions courtes, utiles et reliées aux autres pages. Le but est de comprendre plus vite les guides, les recettes et les produits en supprimant les mots flous ou techniques.</p>
 
     <h2>À retrouver dans le glossaire</h2>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
@@ -1444,7 +1364,7 @@
     </div>
 
     <h2>Une page pour mieux se repérer</h2>
-    <p>Un lecteur qui comprend les mots techniques lit mieux les guides, compare mieux les produits et navigue plus facilement dans l’ensemble du WIKI. Cette page sert donc surtout à orienter et à clarifier.</p>
+    <p>Comprendre les mots techniques permet de mieux lire les guides, de mieux comparer les produits et de circuler plus vite dans l’ensemble du wiki.</p>
 
     <h2>Notions à clarifier en priorité</h2>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--2">
@@ -1470,7 +1390,7 @@
     <p>Dès qu’un mot revient plusieurs fois dans une page du wiki ou sur une fiche produit, le glossaire doit servir de détour court, puis renvoyer vers la bonne lecture. Il ne doit pas devenir un silo fermé, mais un accélérateur de compréhension.</p>
 
     <h2>Mots qui aident vraiment à mieux acheter</h2>
-    <p>Le glossaire ne sert pas seulement à “faire savant”. Il aide à comprendre ce qu’on lit sur une fiche produit, dans une recette ou dans un guide. Dès qu’un terme influence le geste, la conservation, le choix du format ou le dosage, il mérite une définition claire. C’est aussi ce qui permet d’éviter des achats trop vagues, guidés seulement par le nom du produit ou par une photo.</p>
+    <p>Une définition claire aide à comprendre ce qu’on lit sur une fiche produit, dans une recette ou dans un guide. Dès qu’un terme influence le geste, la conservation, le choix du format ou le dosage, il mérite une explication précise. C’est aussi ce qui évite des achats trop vagues, guidés seulement par le nom du produit ou par une photo.</p>
 
     <h2>Termes vanille à connaître</h2>
     <h3>Bourbon</h3>
@@ -1506,7 +1426,7 @@
     <h3>Curage</h3>
     <p>Le curage correspond à l’ensemble des étapes post-récolte qui transforment une gousse fraîche en vanille prête à cuisiner. Sans ce travail, le parfum ne se développe pas correctement.</p>
     <h3>Température ambiante</h3>
-    <p>Dans le contexte du WIKI, cela signifie un environnement stable, sec, hors lumière directe et hors source de chaleur. Ce n’est pas juste “laisser dans la cuisine”.</p>
+    <p>En pratique, cela signifie un environnement stable, sec, hors lumière directe et hors source de chaleur. Ce n’est pas juste “laisser dans la cuisine”.</p>
     <h3>Condensation</h3>
     <p>La condensation est l’humidité qui se forme lors des chocs de température. Elle explique pourquoi le réfrigérateur est rarement une bonne idée pour la vanille.</p>
     <h3>Assemblage maison</h3>
@@ -1539,7 +1459,7 @@
     </div>
 
     <h2>Utiliser ce glossaire pour mieux acheter</h2>
-    <p>Un lecteur qui comprend vraiment les mots du WIKI choisit plus vite la bonne référence. Dès qu’un terme vous bloque sur une fiche produit, revenez ici, clarifiez le vocabulaire, puis retournez vers une sélection plus précise au lieu d’acheter au hasard.</p>
+    <p>Quand le vocabulaire est clair, le bon choix vient plus vite. Dès qu’un terme vous bloque sur une fiche produit, revenez ici, clarifiez-le, puis reprenez votre sélection au lieu d’acheter au hasard.</p>
 
     <div class="vd-wiki-article-links">
       <a href="{{ wiki_index_page_url }}" data-vd-preview-link>Retour au wiki</a>
@@ -1560,7 +1480,7 @@
   {%- when 'wiki-faq-vanille-epices' -%}
     <div class="vd-wiki-article-note">
       <span class="vd-wiki-article-note__label">FAQ</span>
-      <p>Cette page rassemble les réponses les plus utiles sur la qualité, la conservation, les différences entre familles et les usages en cuisine, pour s’orienter rapidement vers la bonne lecture.</p>
+      <p>Les réponses les plus utiles sur la qualité, la conservation, les différences entre familles et les usages en cuisine pour s’orienter rapidement.</p>
     </div>
 
     <h2>Comment reconnaître une bonne gousse de vanille&nbsp;?</h2>
@@ -1588,11 +1508,11 @@
     <h3>Quand choisir un sel aromatisé plutôt qu’une épice seule&nbsp;?</h3>
     <p>Quand vous cherchez une finition rapide, lisible et facile à doser sur des légumes, des œufs, un poisson ou une viande blanche. Un sel aromatisé sert davantage à signer la dernière étape qu’à construire toute une base aromatique.</p>
 
-    <h3>Le wiki remplace-t-il les fiches produit&nbsp;?</h3>
-    <p>Non. Le wiki prépare la lecture et aide à comparer. La fiche produit doit ensuite confirmer le format, l’intensité, le conditionnement et l’usage précis.</p>
+    <h3>Ces repères remplacent-ils les fiches produit&nbsp;?</h3>
+    <p>Non. Il aide à comparer et à comprendre. La fiche produit doit ensuite confirmer le format, l’intensité, le conditionnement et l’usage précis.</p>
 
     <h3>Comment choisir entre wiki, recettes et catalogue&nbsp;?</h3>
-    <p>Le WIKI sert à comprendre, les recettes servent à passer au geste, et le catalogue sert à acheter quand le besoin est clarifié. L’idéal est de naviguer dans cet ordre quand vous hésitez encore.</p>
+    <p>Commencez par les repères et guides pour comprendre la matière, poursuivez avec les recettes pour voir les gestes, puis confirmez le bon format dans le catalogue. Cet ordre reste souvent le plus simple quand vous hésitez encore.</p>
 
     <h2>Questions fréquentes avant une première commande</h2>
     <h3>Faut-il commencer petit ou acheter directement un gros format&nbsp;?</h3>
@@ -1648,7 +1568,7 @@
       <p>Le bon dosage dépend du support, du temps d’infusion et du niveau aromatique recherché. La vanille ne se dose pas pareil dans une crème, un lait, une pâte ou un sirop.</p>
     </div>
 
-    <p>Cette page sert à éviter les deux erreurs les plus fréquentes: sous-doser une belle gousse jusqu’à rendre la recette plate, ou surdoser trop tôt et perdre l’équilibre du dessert. L’idée n’est pas de figer une règle absolue, mais de donner des repères simples pour cuisiner juste, puis ajuster selon votre matière et vos habitudes.</p>
+    <p>Deux erreurs reviennent souvent&nbsp;: sous-doser une belle gousse jusqu’à rendre la recette plate, ou surdoser trop tôt et perdre l’équilibre du dessert. L’idée n’est pas de figer une règle absolue, mais de donner des repères simples pour cuisiner juste, puis ajuster selon votre matière et vos habitudes.</p>
 
     <h2>Avant de doser, regarder le support</h2>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
@@ -1715,7 +1635,7 @@
       <p>Une gousse déjà infusée n’est pas une gousse finie. Elle peut encore servir à parfumer un sucre, un sirop, un lait, une compote ou une base de dessert.</p>
     </div>
 
-    <p>Recycler une gousse de vanille n’est pas seulement un bon réflexe anti-gaspillage: c’est aussi une manière plus intelligente d’amortir une belle matière. Cette page aide à distinguer ce qu’une gousse déjà utilisée peut encore donner, et à quel moment il vaut mieux repartir d’une gousse fraîche.</p>
+    <p>Recycler une gousse de vanille n’est pas seulement un bon réflexe anti-gaspillage&nbsp;: c’est aussi une manière plus intelligente d’amortir une belle matière. Le point clé est de distinguer ce qu’une gousse déjà utilisée peut encore donner, et à quel moment il vaut mieux repartir d’une gousse fraîche.</p>
 
     <h2>Que peut encore faire une gousse déjà utilisée&nbsp;?</h2>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
@@ -1778,7 +1698,7 @@
       <p>Le combava est une matière de tension. Il réveille un plat, mais peut aussi l’écraser très vite si le dosage ou le moment d’ajout sont mal gérés.</p>
     </div>
 
-    <p>Cette page sert à comprendre comment utiliser le combava en cuisine sans tomber dans l’erreur la plus fréquente: chercher une sensation “plus citronnée” alors que le combava apporte surtout une signature aromatique très particulière, plus verte, plus nerveuse et parfois beaucoup plus puissante que prévu.</p>
+    <p>Le vrai sujet, avec le combava, n’est pas de chercher “plus citronné”, mais de comprendre une signature aromatique très particulière, plus verte, plus nerveuse et parfois bien plus puissante que prévu.</p>
 
     <h2>Où le combava fonctionne le mieux</h2>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
@@ -1835,7 +1755,7 @@
       <p>Le bon poivre dépend moins d’une hiérarchie “meilleur ou moins bon” que du type de plat, du moment d’ajout et du niveau de signature que vous recherchez.</p>
     </div>
 
-    <p>Cette page aide à sortir du réflexe “un poivre pour tout”. Un poivre noir franc, un blanc plus droit ou un sauvage plus floral n’occupent pas la même place sur une viande, un poisson, des légumes ou un dessert. Le but est donc de vous faire gagner du temps avant achat et avant dressage.</p>
+    <p>Il faut sortir du réflexe “un poivre pour tout”. Un poivre noir franc, un blanc plus droit ou un sauvage plus floral n’occupent pas la même place sur une viande, un poisson, des légumes ou un dessert. Ce tri fait gagner du temps avant achat comme avant dressage.</p>
 
     <h2>Quel poivre selon le plat</h2>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
@@ -1884,7 +1804,7 @@
       <p>Un sel aromatisé bien choisi ne remplace pas tout l’assaisonnement: il intervient au bon moment pour signer le plat plus vite, plus proprement et avec une lecture immédiate.</p>
     </div>
 
-    <p>Cette page sert à répondre à une question très concrète: quel sel aromatisé choisir selon le plat ? Le bon choix dépend de la matière cuisinée, du moment d’ajout et de la puissance que vous cherchez. Un sel au combava, à la vanille ou plus épicé ne raconte pas la même chose à table.</p>
+    <p>Quel sel aromatisé choisir selon le plat&nbsp;? Le bon choix dépend de la matière cuisinée, du moment d’ajout et de la puissance recherchée. Un sel au combava, à la vanille ou plus épicé ne raconte pas la même chose à table.</p>
 
     <h2>Quel sel selon le plat</h2>
     <div class="vd-wiki-article-grid vd-wiki-article-grid--3">
