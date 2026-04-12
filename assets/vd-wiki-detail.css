@@ -7286,6 +7286,11 @@ body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-wiki-detail__hero
   padding-top: 0.15rem !important;
 }
 
+.vd-wiki-detail[data-vd-wiki-handle="wiki-vanille-bourbon-planifolia"] .vd-wiki-article-strip,
+.vd-wiki-detail[data-vd-wiki-handle="wiki-vanille-bourbon-planifolia-legacy-20260412"] .vd-wiki-article-strip {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
 @media screen and (min-width: 990px) {
   .vd-wiki-detail[data-vd-wiki-handle="wiki-vanille-bourbon-planifolia"] .vd-wiki-detail__hero-head,
   .vd-wiki-detail[data-vd-wiki-handle="wiki-vanille-bourbon-planifolia-legacy-20260412"] .vd-wiki-detail__hero-head {
@@ -7323,6 +7328,13 @@ body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-wiki-detail__hero
   .vd-wiki-detail[data-vd-wiki-handle="wiki-vanille-bourbon-planifolia"] .vd-wiki-detail__hero-row,
   .vd-wiki-detail[data-vd-wiki-handle="wiki-vanille-bourbon-planifolia-legacy-20260412"] .vd-wiki-detail__hero-row {
     justify-content: flex-end !important;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .vd-wiki-detail[data-vd-wiki-handle="wiki-vanille-bourbon-planifolia"] .vd-wiki-article-strip,
+  .vd-wiki-detail[data-vd-wiki-handle="wiki-vanille-bourbon-planifolia-legacy-20260412"] .vd-wiki-article-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
 
