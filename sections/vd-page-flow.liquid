@@ -76,6 +76,23 @@
   assign huiles_collection_url = huiles_collection.url | default: '/collections/huiles-madagascar'
   assign wiki_vanille_page_url = '/pages/wiki-vanille-bien-choisir'
   assign wiki_vanille_storage_page_url = '/pages/wiki-vanille-conservation-preparation'
+  assign wiki_vanille_varieties_page_url = wiki_vanille_page_url | append: '#vari%C3%A9t%C3%A9s'
+  assign wiki_baies_roses_page_url = '/pages/wiki-baies-roses-madagascar'
+  if wiki_dosage_page_url == blank or wiki_dosage_page_url == '/pages/wiki-dosage-vanille'
+    assign wiki_dosage_page_url = wiki_vanille_storage_page_url
+  endif
+  if wiki_recycler_page_url == blank or wiki_recycler_page_url == '/pages/wiki-recycler-gousse-vanille'
+    assign wiki_recycler_page_url = wiki_vanille_storage_page_url
+  endif
+  if wiki_combava_page_url == blank or wiki_combava_page_url == '/pages/wiki-combava-madagascar'
+    assign wiki_combava_page_url = '/pages/wiki-epice-combava-madagascar'
+  endif
+  if wiki_poivre_quel_plat_page_url == blank or wiki_poivre_quel_plat_page_url == '/pages/wiki-poivre-quel-plat'
+    assign wiki_poivre_quel_plat_page_url = wiki_poivres_page_url
+  endif
+  if wiki_sel_quel_plat_page_url == blank or wiki_sel_quel_plat_page_url == '/pages/wiki-sel-aromatise-quel-plat'
+    assign wiki_sel_quel_plat_page_url = wiki_sels_page_url
+  endif
 -%}
 
 {% if page.handle == 'recettes' or is_recipe_page %}
@@ -788,8 +805,6 @@
             <div class="vd-wiki-page__rail-links">
               <a href="{{ wiki_vanille_storage_page_url }}" data-vd-preview-link>Conservation & préparation</a>
               <a href="{{ wiki_vanille_page_url }}" data-vd-preview-link>Bien choisir sa vanille</a>
-              <a href="{{ wiki_dosage_page_url }}" data-vd-preview-link>Dosage vanille</a>
-              <a href="{{ wiki_recycler_page_url }}" data-vd-preview-link>Recycler une gousse</a>
             </div>
           </div>
 
@@ -797,7 +812,7 @@
             <span class="vd-wiki-page__rail-label">Variétés</span>
             <div class="vd-wiki-page__rail-links">
               <a href="{{ wiki_vanille_pompona_page_url }}" data-vd-preview-link>Vanille Pompona</a>
-              <a href="/pages/wiki-vanille-tahiti" data-vd-preview-link>Vanille Tahitensis</a>
+              <a href="{{ wiki_vanille_varieties_page_url }}" data-vd-preview-link>Comparer les variétés</a>
             </div>
           </div>
 
@@ -814,7 +829,7 @@
             <span class="vd-wiki-page__rail-label">Poivres & baies</span>
             <div class="vd-wiki-page__rail-links">
               <a href="{{ wiki_poivres_page_url }}" data-vd-preview-link>Poivres & baies</a>
-              <a href="{{ wiki_poivre_quel_plat_page_url }}" data-vd-preview-link>Quel poivre selon le plat</a>
+              <a href="{{ wiki_baies_roses_page_url }}" data-vd-preview-link>Baies roses</a>
             </div>
           </div>
 
@@ -822,7 +837,6 @@
             <span class="vd-wiki-page__rail-label">Sels & mélanges</span>
             <div class="vd-wiki-page__rail-links">
               <a href="{{ wiki_sels_page_url }}" data-vd-preview-link>Sels & mélanges</a>
-              <a href="{{ wiki_sel_quel_plat_page_url }}" data-vd-preview-link>Quel sel selon le plat</a>
             </div>
           </div>
 
@@ -1041,11 +1055,12 @@
     {%- render 'vd-wiki-detail-overrides', page_handle: page.handle -%}
   {%- endcapture -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-vanille-conservation-preparation', wiki_vanille_storage_page_url | replace: '/pages/wiki-vanille-bien-choisir', wiki_vanille_page_url | replace: '/pages/wiki-poivres-baies-madagascar', wiki_poivres_page_url | replace: '/pages/wiki-sels-melanges', wiki_sels_page_url | replace: '/pages/wiki-huiles-essentielles-plantes', wiki_plantes_page_url | replace: '/pages/wiki-glossaire-epices', wiki_glossaire_page_url -%}
-  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-faq-vanille-epices', wiki_faq_page_url | replace: '/pages/wiki-dosage-vanille', wiki_dosage_page_url | replace: '/pages/wiki-recycler-gousse-vanille', wiki_recycler_page_url | replace: '/pages/wiki-combava-madagascar', wiki_combava_page_url | replace: '/pages/wiki-poivre-quel-plat', wiki_poivre_quel_plat_page_url | replace: '/pages/wiki-sel-aromatise-quel-plat', wiki_sel_quel_plat_page_url -%}
+  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-faq-vanille-epices', wiki_faq_page_url | replace: '/pages/wiki-vanille-tahiti', wiki_vanille_varieties_page_url | replace: '/pages/wiki-dosage-vanille', wiki_dosage_page_url | replace: '/pages/wiki-recycler-gousse-vanille', wiki_recycler_page_url | replace: '/pages/wiki-combava-madagascar', wiki_combava_page_url | replace: '/pages/wiki-poivre-quel-plat', wiki_poivre_quel_plat_page_url | replace: '/pages/wiki-sel-aromatise-quel-plat', wiki_sel_quel_plat_page_url -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-vanille-pompona', wiki_vanille_pompona_page_url | replace: '/pages/wiki-recettes', wiki_recettes_page_url | replace: '/pages/wiki-epices-madagascar', wiki_epices_page_url | replace: '/pages/wiki', wiki_index_page_url | replace: '/pages/recettes', recettes_page_url | replace: '/pages/catalogue', catalogue_page_url | replace: '/pages/contact', contact_page_url -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-bienfaits-usages', '/pages/wiki-bienfaits-sante' | replace: '/pages/wiki-vanille-bourbon-planifolia', wiki_vanille_page_url -%}
+  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-cannelle-madagascar', '/pages/wiki-epice-cannelle-madagascar' | replace: '/pages/wiki-curcuma-madagascar', '/pages/wiki-epice-curcuma-madagascar' | replace: '/pages/wiki-gingembre-madagascar', '/pages/wiki-epice-gingembre-madagascar' | replace: '/pages/wiki-girofle-madagascar', '/pages/wiki-epice-girofle-madagascar' | replace: '/pages/wiki-curry-madagascar', '/pages/wiki-epice-curry-madagascar' | replace: '/pages/wiki-piment-pili-pili-madagascar', '/pages/wiki-epice-piment-pili-pili-madagascar' | replace: '/pages/wiki-pili-pili', '/pages/wiki-epice-piment-pili-pili-madagascar' | replace: '/pages/wiki-sesame-madagascar', '/pages/wiki-epice-sesame-madagascar' -%}
   {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-epice-combava-madagascar', wiki_combava_page_url | replace: '/pages/wiki-combava', wiki_combava_page_url -%}
-  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-baies-roses', wiki_poivres_page_url | replace: '/pages/wiki-vanille', wiki_vanille_page_url | replace: '/collections/vanille-bourbon', vanille_collection_url | replace: '/collections/epices-madagascar', epices_collection_url | replace: '/collections/poivre-baies', poivres_collection_url | replace: '/collections/poivres-baies-de-madagascar', poivres_collection_url | replace: '/collections/sels', sels_collection_url | replace: '/collections/sels-aromatises', sels_collection_url | replace: '/collections/huiles-madagascar', huiles_collection_url | replace: '/collections/huiles-essentielles', huiles_collection_url | replace: '/collections/fond-epices', epices_collection_url | replace: '/collections/all', catalogue_page_url -%}
+  {%- assign wiki_detail_override_content = wiki_detail_override_content | replace: '/pages/wiki-baies-roses', wiki_baies_roses_page_url | replace: '/pages/wiki-vanille', wiki_vanille_page_url | replace: '/collections/vanille-bourbon', vanille_collection_url | replace: '/collections/epices-madagascar', epices_collection_url | replace: '/collections/poivre-baies', poivres_collection_url | replace: '/collections/poivres-baies-de-madagascar', poivres_collection_url | replace: '/collections/sels', sels_collection_url | replace: '/collections/sels-aromatises', sels_collection_url | replace: '/collections/huiles-madagascar', huiles_collection_url | replace: '/collections/huiles-essentielles', huiles_collection_url | replace: '/collections/fond-epices', epices_collection_url | replace: '/collections/all', catalogue_page_url -%}
   {% comment %}theme-check-disable UnusedAssign{% endcomment %}
   {%- liquid
     assign wiki_detail_force_live_handles = ',wiki-epices-madagascar,wiki-poivres-baies-madagascar,wiki-glossaire-epices,wiki-faq-vanille-epices,wiki-vanille-bien-choisir,wiki-vanille-conservation-preparation,wiki-savoir-faire-producteurs,wiki-recettes,wiki-sels-melanges,wiki-huiles-essentielles-plantes,wiki-vanille-bourbon-planifolia,wiki-bienfaits-usages,wiki-poivre-sauvage-voatsiperifery,wiki-poivre-noir-madagascar,wiki-poivre-blanc-madagascar,wiki-baies-roses-madagascar,wiki-melange-poivres-baies,wiki-epice-cannelle-madagascar,wiki-cannelle-madagascar,wiki-epice-curcuma-madagascar,wiki-curcuma-madagascar,wiki-epice-gingembre-madagascar,wiki-gingembre-madagascar,wiki-epice-girofle-madagascar,wiki-girofle-madagascar,wiki-epice-combava-madagascar,wiki-combava,wiki-epice-curry-madagascar,wiki-curry-madagascar,wiki-fond-epices-madagascar,wiki-epice-piment-pili-pili-madagascar,wiki-piment-pili-pili-madagascar,wiki-pili-pili,wiki-epice-sesame-madagascar,wiki-sesame-madagascar,wiki-baies-roses,wiki-vanille,'
@@ -2042,8 +2057,6 @@
                   <div class="vd-wiki-detail__rail-links">
                     <a href="{{ wiki_vanille_storage_page_url }}" class="{% if page.handle == 'wiki-vanille-conservation-preparation' %}is-current{% endif %}" data-vd-preview-link>Conservation & préparation</a>
                     <a href="{{ wiki_vanille_page_url }}" class="{% if page.handle == 'wiki-vanille-bien-choisir' %}is-current{% endif %}" data-vd-preview-link>Bien choisir sa vanille</a>
-                    <a href="{{ wiki_dosage_page_url }}" class="{% if page.handle == 'wiki-dosage-vanille' %}is-current{% endif %}" data-vd-preview-link>Dosage vanille</a>
-                    <a href="{{ wiki_recycler_page_url }}" class="{% if page.handle == 'wiki-recycler-gousse-vanille' %}is-current{% endif %}" data-vd-preview-link>Recycler une gousse</a>
                   </div>
                 </div>
 
@@ -2051,7 +2064,7 @@
                   <span class="vd-wiki-detail__rail-label">Variétés</span>
                   <div class="vd-wiki-detail__rail-links">
                     <a href="{{ wiki_vanille_pompona_page_url }}" class="{% if page.handle == 'vanille-pompona' or page.handle == 'wiki-vanille-pompona' %}is-current{% endif %}" data-vd-preview-link>Vanille Pompona</a>
-                    <a href="/pages/wiki-vanille-tahiti" class="{% if page.handle == 'wiki-vanille-tahiti' %}is-current{% endif %}" data-vd-preview-link>Vanille Tahitensis</a>
+                    <a href="{{ wiki_vanille_varieties_page_url }}" data-vd-preview-link>Comparer les variétés</a>
                   </div>
                 </div>
 
@@ -2060,7 +2073,7 @@
                   <div class="vd-wiki-detail__rail-links">
                     <a href="{{ wiki_epices_page_url }}" class="{% if page.handle == 'wiki-epices-madagascar' %}is-current{% endif %}" data-vd-preview-link>Épices de Madagascar</a>
                     <a href="/pages/wiki-bienfaits-sante" class="{% if page.handle == 'wiki-bienfaits-sante' %}is-current{% endif %}" data-vd-preview-link>Bienfaits & usages</a>
-                    <a href="{{ wiki_combava_page_url }}" class="{% if page.handle == 'wiki-combava-madagascar' %}is-current{% endif %}" data-vd-preview-link>Combava</a>
+                    <a href="{{ wiki_combava_page_url }}" class="{% if page.handle == 'wiki-combava-madagascar' or page.handle == 'wiki-epice-combava-madagascar' or page.handle == 'wiki-combava' %}is-current{% endif %}" data-vd-preview-link>Combava</a>
                   </div>
                 </div>
 
@@ -2068,7 +2081,7 @@
                   <span class="vd-wiki-detail__rail-label">Poivres & baies</span>
                   <div class="vd-wiki-detail__rail-links">
                     <a href="{{ wiki_poivres_page_url }}" class="{% if page.handle == 'wiki-poivres-baies-madagascar' %}is-current{% endif %}" data-vd-preview-link>Poivres & baies</a>
-                    <a href="{{ wiki_poivre_quel_plat_page_url }}" class="{% if page.handle == 'wiki-poivre-quel-plat' %}is-current{% endif %}" data-vd-preview-link>Quel poivre selon le plat</a>
+                    <a href="{{ wiki_baies_roses_page_url }}" class="{% if page.handle == 'wiki-baies-roses-madagascar' or page.handle == 'wiki-baies-roses' %}is-current{% endif %}" data-vd-preview-link>Baies roses</a>
                   </div>
                 </div>
 
@@ -2076,7 +2089,6 @@
                   <span class="vd-wiki-detail__rail-label">Sels & mélanges</span>
                   <div class="vd-wiki-detail__rail-links">
                     <a href="{{ wiki_sels_page_url }}" class="{% if page.handle == 'wiki-sels-melanges' %}is-current{% endif %}" data-vd-preview-link>Sels & mélanges</a>
-                    <a href="{{ wiki_sel_quel_plat_page_url }}" class="{% if page.handle == 'wiki-sel-aromatise-quel-plat' %}is-current{% endif %}" data-vd-preview-link>Quel sel selon le plat</a>
                   </div>
                 </div>
 

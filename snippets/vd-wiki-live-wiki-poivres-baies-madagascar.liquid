@@ -1,4 +1,17 @@
 <section class="vdw-peppers" aria-labelledby="vdw-peppers-title">
+  {%- liquid
+    assign wiki_pepper_voats_product = all_products['poivre-sauvage-voatsiperifery-sachet-50g-madagascar']
+    assign wiki_pepper_noir_product = all_products['poivre-noir-madagascar-sachet-50g']
+    assign wiki_pepper_blanc_product = all_products['poivre-blanc-madagascar-sachet-50g']
+    assign wiki_pepper_roses_product = all_products['baies-roses-madagascar-sachet-30g']
+    assign wiki_pepper_mix_product = all_products['melange-4-epices-madagascar-sachet-50g']
+
+    assign wiki_pepper_voats_image = wiki_pepper_voats_product.featured_media.preview_image | default: wiki_pepper_voats_product.featured_image
+    assign wiki_pepper_noir_image = wiki_pepper_noir_product.featured_media.preview_image | default: wiki_pepper_noir_product.featured_image
+    assign wiki_pepper_blanc_image = wiki_pepper_blanc_product.featured_media.preview_image | default: wiki_pepper_blanc_product.featured_image
+    assign wiki_pepper_roses_image = wiki_pepper_roses_product.featured_media.preview_image | default: wiki_pepper_roses_product.featured_image
+    assign wiki_pepper_mix_image = wiki_pepper_mix_product.featured_media.preview_image | default: wiki_pepper_mix_product.featured_image
+  -%}
   <style>
     .vdw-peppers{
       --ink:#2B1C10; --bg:#FAF5EE; --paper:#F6EFE6; --cream:#F2E9DD;
@@ -77,7 +90,7 @@
     <h1 id="vdw-peppers-title">Poivres &amp; baies de Madagascar</h1>
     <p class="lead">
       <strong>Poivre sauvage (voatsiperifery)</strong>, <strong>poivre noir</strong>, <strong>poivre blanc</strong>, <strong>baies roses</strong> et <strong>mélanges</strong>…  
-      Pour chacun : un <strong>dossier complet</strong> (profil, usages, mouture/moulin, conservation).
+      Pour chacun : un <strong>guide clair</strong> pour lire le profil aromatique, le bon moment d’ajout et les accords les plus utiles.
     </p>
 
     <div class="grid cols-2" style="margin-top:18px">
@@ -107,11 +120,15 @@
           <p class="intro">Grains à queue, nez boisé &amp; floral, pointe citronnée — chaleur fine, grande longueur.</p>
           <div class="cards">
             <article class="card">
-              <img class="ph" src="//vanilledesire.com/cdn/shop/files/poivre-sauvage-de-madagascar-3-sachets-de-50g-moulin-rechargeable-50g-1467975.jpg?v=5986" alt="Poivre sauvage (voatsiperifery) — Vanille Désiré">
+              {% if wiki_pepper_voats_image != blank %}
+                {{ wiki_pepper_voats_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Poivre sauvage (voatsiperifery) — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-terroirs.jpg' | asset_url }}" alt="Poivre sauvage (voatsiperifery) — Vanille Désiré" width="1800" height="1350" loading="lazy">
+              {% endif %}
               <div class="pad">
-                <h3>Dossier complet</h3>
+                <h3>Repères essentiels</h3>
                 <p class="mini">Profil, usages, mouture/moulin, accords &amp; conservation.</p>
-                <a class="btn" href="/pages/wiki-poivre-sauvage-voatsiperifery">Ouvrir le dossier</a>
+                <a class="btn" href="/pages/wiki-poivre-sauvage-voatsiperifery">Lire le guide</a>
               </div>
             </article>
           </div>
@@ -124,11 +141,15 @@
           <p class="intro">Chaud, boisé, légèrement fumé — sauces, grillades, légumes rôtis &amp; desserts chocolatés.</p>
           <div class="cards">
             <article class="card">
-              <img class="ph" src="//vanilledesire.com/cdn/shop/files/poivre-noir-de-madagascar-sachet-50g-moulin-a-epices-rechargeable-50g.png?v=5986" alt="Poivre noir de Madagascar — Vanille Désiré">
+              {% if wiki_pepper_noir_image != blank %}
+                {{ wiki_pepper_noir_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Poivre noir de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-cover.jpg' | asset_url }}" alt="Poivre noir de Madagascar — Vanille Désiré" width="1800" height="1151" loading="lazy">
+              {% endif %}
               <div class="pad">
-                <h3>Dossier complet</h3>
+                <h3>Repères essentiels</h3>
                 <p class="mini">Terroir, séchage, mouture, idées &amp; dosages.</p>
-                <a class="btn" href="/pages/wiki-poivre-noir-madagascar">Ouvrir le dossier</a>
+                <a class="btn" href="/pages/wiki-poivre-noir-madagascar">Lire le guide</a>
               </div>
             </article>
           </div>
@@ -141,11 +162,15 @@
           <p class="intro">Plus subtil &amp; musqué — poissons, fruits de mer, sauces crémées &amp; plats délicats.</p>
           <div class="cards">
             <article class="card">
-              <img class="ph" src="//vanilledesire.com/cdn/shop/files/poivre-blanc-sachet-50g.jpg?v=5986" alt="Poivre blanc de Madagascar — Vanille Désiré">
+              {% if wiki_pepper_blanc_image != blank %}
+                {{ wiki_pepper_blanc_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Poivre blanc de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-science.jpg' | asset_url }}" alt="Poivre blanc de Madagascar — Vanille Désiré" width="1800" height="1350" loading="lazy">
+              {% endif %}
               <div class="pad">
-                <h3>Dossier complet</h3>
+                <h3>Repères essentiels</h3>
                 <p class="mini">Préparation (décortication), usages fins &amp; conservation.</p>
-                <a class="btn" href="/pages/wiki-poivre-blanc-madagascar">Ouvrir le dossier</a>
+                <a class="btn" href="/pages/wiki-poivre-blanc-madagascar">Lire le guide</a>
               </div>
             </article>
           </div>
@@ -158,11 +183,15 @@
           <p class="intro">Douces, légèrement sucrées &amp; florales — poissons, fromages, desserts &amp; cocktails.</p>
           <div class="cards">
             <article class="card">
-              <img class="ph" src="//vanilledesire.com/cdn/shop/files/baies_roses_madagascar_sachet.png?v=5986" alt="Baies roses de Madagascar — Vanille Désiré">
+              {% if wiki_pepper_roses_image != blank %}
+                {{ wiki_pepper_roses_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Baies roses de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-botanique.jpg' | asset_url }}" alt="Baies roses de Madagascar — Vanille Désiré" width="1350" height="1800" loading="lazy">
+              {% endif %}
               <div class="pad">
-                <h3>Dossier complet</h3>
+                <h3>Repères essentiels</h3>
                 <p class="mini">Récolte, tri, accords &amp; idées (sucré/salé).</p>
-                <a class="btn" href="/pages/wiki-baies-roses-madagascar">Ouvrir le dossier</a>
+                <a class="btn" href="/pages/wiki-baies-roses-madagascar">Lire le guide</a>
               </div>
             </article>
           </div>
@@ -175,11 +204,15 @@
           <p class="intro">Équilibre force / fraîcheur / floral — parfait en moulin à table.</p>
           <div class="cards">
             <article class="card">
-              <img class="ph" src="//vanilledesire.com/cdn/shop/files/melange_d_epices_sachet_et_moulin_rechargeable.png?v=5986" alt="Mélange poivres &amp; baies — Vanille Désiré">
+              {% if wiki_pepper_mix_image != blank %}
+                {{ wiki_pepper_mix_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Mélange poivres &amp; baies — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-techniques.jpg' | asset_url }}" alt="Mélange poivres &amp; baies — Vanille Désiré" width="1374" height="1800" loading="lazy">
+              {% endif %}
               <div class="pad">
-                <h3>Fiche rapide</h3>
+                <h3>Guide du mélange</h3>
                 <p class="mini">Composition, usages, idées de finitions &amp; marinades.</p>
-                <a class="btn" href="/pages/wiki-melange-poivres-baies">Ouvrir le dossier</a>
+                <a class="btn" href="/pages/wiki-melange-poivres-baies">Lire le guide</a>
               </div>
             </article>
           </div>

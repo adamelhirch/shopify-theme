@@ -69,6 +69,18 @@
         url: {{ pages['wiki-vanille-bien-choisir'].url | default: '/pages/wiki-vanille-bien-choisir' | json }},
         label: 'Bien choisir sa vanille Bourbon'
       },
+      '/pages/wiki-vanille-tahiti': {
+        url: {{ pages['wiki-vanille-bien-choisir'].url | append: '#vari%C3%A9t%C3%A9s' | json }},
+        label: 'Comparer les variétés de vanille'
+      },
+      '/pages/wiki-dosage-vanille': {
+        url: {{ pages['wiki-vanille-conservation-preparation'].url | default: '/pages/wiki-vanille-conservation-preparation' | json }},
+        label: 'Conservation & préparation de la vanille'
+      },
+      '/pages/wiki-recycler-gousse-vanille': {
+        url: {{ pages['wiki-vanille-conservation-preparation'].url | default: '/pages/wiki-vanille-conservation-preparation' | json }},
+        label: 'Conservation & préparation de la vanille'
+      },
       '/pages/wiki-poivre-sauvage-voatsiperifery': {
         url: {{ pages['wiki-poivre-sauvage-voatsiperifery'].url | default: '/pages/wiki-poivre-sauvage-voatsiperifery' | json }},
         label: 'Poivre sauvage de Madagascar'
@@ -94,11 +106,15 @@
         label: 'Mélange poivres & baies'
       },
       '/pages/wiki-epice-combava-madagascar': {
-        url: {{ pages['wiki-combava-madagascar'].url | default: '/pages/wiki-combava-madagascar' | json }},
+        url: {{ pages['wiki-epice-combava-madagascar'].url | default: '/pages/wiki-epice-combava-madagascar' | json }},
+        label: 'Combava'
+      },
+      '/pages/wiki-combava-madagascar': {
+        url: {{ pages['wiki-epice-combava-madagascar'].url | default: '/pages/wiki-epice-combava-madagascar' | json }},
         label: 'Combava'
       },
       '/pages/wiki-combava': {
-        url: {{ pages['wiki-combava-madagascar'].url | default: '/pages/wiki-combava-madagascar' | json }},
+        url: {{ pages['wiki-epice-combava-madagascar'].url | default: '/pages/wiki-epice-combava-madagascar' | json }},
         label: 'Combava'
       },
       '/pages/wiki-epice-cannelle-madagascar': {
@@ -160,6 +176,14 @@
       '/pages/wiki-sesame-madagascar': {
         url: {{ pages['wiki-epice-sesame-madagascar'].url | default: '/pages/wiki-epice-sesame-madagascar' | json }},
         label: 'Graines de sésame de Madagascar'
+      },
+      '/pages/wiki-poivre-quel-plat': {
+        url: {{ pages['wiki-poivres-baies-madagascar'].url | default: '/pages/wiki-poivres-baies-madagascar' | json }},
+        label: 'Poivres & baies de Madagascar'
+      },
+      '/pages/wiki-sel-aromatise-quel-plat': {
+        url: {{ pages['wiki-sels-melanges'].url | default: '/pages/wiki-sels-melanges' | json }},
+        label: 'Sels & mélanges'
       }
     };
 

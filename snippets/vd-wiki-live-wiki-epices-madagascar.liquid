@@ -1,4 +1,25 @@
 <section class="vdw-spices" aria-labelledby="vdw-spices-title">
+  {%- liquid
+    assign wiki_spice_cannelle_product = all_products['cannelle-madagascar-pot-verre-40g']
+    assign wiki_spice_curcuma_product = all_products['curcuma-madagascar-poudre-40g']
+    assign wiki_spice_gingembre_product = all_products['gingembre-madagascar-pot-epices-40g']
+    assign wiki_spice_girofle_product = all_products['girofle-madagascar-sachet-25g']
+    assign wiki_spice_combava_product = all_products['poudre-combava-sauvage-madagascar-20g']
+    assign wiki_spice_sesame_product = all_products['graines-sesame-madagascar-sachet-50g']
+    assign wiki_spice_curry_product = all_products['curry-madagascar-pot-epices-40g']
+    assign wiki_spice_fond_product = all_products['fond-depices-pot-en-verre-rechargeable-40g']
+    assign wiki_spice_pili_product = all_products['piment-pili-pili-madagascar-pot-epices-40g']
+
+    assign wiki_spice_cannelle_image = wiki_spice_cannelle_product.featured_media.preview_image | default: wiki_spice_cannelle_product.featured_image
+    assign wiki_spice_curcuma_image = wiki_spice_curcuma_product.featured_media.preview_image | default: wiki_spice_curcuma_product.featured_image
+    assign wiki_spice_gingembre_image = wiki_spice_gingembre_product.featured_media.preview_image | default: wiki_spice_gingembre_product.featured_image
+    assign wiki_spice_girofle_image = wiki_spice_girofle_product.featured_media.preview_image | default: wiki_spice_girofle_product.featured_image
+    assign wiki_spice_combava_image = wiki_spice_combava_product.featured_media.preview_image | default: wiki_spice_combava_product.featured_image
+    assign wiki_spice_sesame_image = wiki_spice_sesame_product.featured_media.preview_image | default: wiki_spice_sesame_product.featured_image
+    assign wiki_spice_curry_image = wiki_spice_curry_product.featured_media.preview_image | default: wiki_spice_curry_product.featured_image
+    assign wiki_spice_fond_image = wiki_spice_fond_product.featured_media.preview_image | default: wiki_spice_fond_product.featured_image
+    assign wiki_spice_pili_image = wiki_spice_pili_product.featured_media.preview_image | default: wiki_spice_pili_product.featured_image
+  -%}
   <style>
     .vdw-spices{
       --ink:#2B1C10;
@@ -85,7 +106,7 @@
     <h1 id="vdw-spices-title">Épices de Madagascar</h1>
     <p class="lead">
       Cannelle, curcuma, gingembre, girofle, <strong>combava</strong>, sésame, <strong>curry</strong>, <strong>fond d’épices</strong>, <strong>piment pili-pili</strong>…  
-      Pour chaque épice : un <strong>dossier complet</strong> (origine, usages, conservation, recettes).
+      Pour chaque épice : un <strong>guide clair</strong> pour comprendre le goût, les usages, les gestes utiles et les accords les plus cohérents.
       <em>Les poivres &amp; baies sont dans une rubrique séparée.</em>
     </p>
 
@@ -121,11 +142,15 @@
           <p class="intro">Chaleureuse, douce, boisée — parfaite en pâtisserie, compotes, thés &amp; plats mijotés.</p>
           <div class="cards">
             <article class="card">
-              <img class="ph" src="//vanilledesire.com/cdn/shop/files/cannelle-de-madagascar-sachet-40-g-pot-a-epices-40g.png?v=5986" alt="Cannelle de Madagascar — Vanille Désiré">
+              {% if wiki_spice_cannelle_image != blank %}
+                {{ wiki_spice_cannelle_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Cannelle de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-cover.jpg' | asset_url }}" alt="Cannelle de Madagascar — Vanille Désiré" width="1800" height="1151" loading="lazy">
+              {% endif %}
               <div class="pad">
-                <h3>Dossier complet</h3>
+                <h3>Repères essentiels</h3>
                 <p class="mini">Origine, variétés, usages, conservation, recettes.</p>
-                <a class="btn" href="/pages/wiki-epice-cannelle-madagascar">Ouvrir le dossier</a>
+                <a class="btn" href="/pages/wiki-epice-cannelle-madagascar">Lire le guide</a>
               </div>
             </article>
           </div>
@@ -138,11 +163,15 @@
           <p class="intro">Doux &amp; terreux, couleur dorée — currys, soupes, riz, marinades.</p>
           <div class="cards">
             <article class="card">
-              <img class="ph" src="//vanilledesire.com/cdn/shop/files/curcuma_de_madagascar_pot_en_verre_et_sachet.png?v=5986" alt="Curcuma de Madagascar — Vanille Désiré">
+              {% if wiki_spice_curcuma_image != blank %}
+                {{ wiki_spice_curcuma_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Curcuma de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-science.jpg' | asset_url }}" alt="Curcuma de Madagascar — Vanille Désiré" width="1800" height="1350" loading="lazy">
+              {% endif %}
               <div class="pad">
-                <h3>Dossier complet</h3>
+                <h3>Repères essentiels</h3>
                 <p class="mini">Terroir, curcumine, astuces, accords &amp; recettes.</p>
-                <a class="btn" href="/pages/wiki-epice-curcuma-madagascar">Ouvrir le dossier</a>
+                <a class="btn" href="/pages/wiki-epice-curcuma-madagascar">Lire le guide</a>
               </div>
             </article>
           </div>
@@ -155,11 +184,15 @@
           <p class="intro">Piquant &amp; citronné — woks, biscuits, infusions.</p>
           <div class="cards">
             <article class="card">
-              <img class="ph" src="//vanilledesire.com/cdn/shop/files/gingembre-en-poudre-pot-en-verre-40g.png?v=5986" alt="Gingembre de Madagascar — Vanille Désiré">
+              {% if wiki_spice_gingembre_image != blank %}
+                {{ wiki_spice_gingembre_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Gingembre de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-techniques.jpg' | asset_url }}" alt="Gingembre de Madagascar — Vanille Désiré" width="1374" height="1800" loading="lazy">
+              {% endif %}
               <div class="pad">
-                <h3>Dossier complet</h3>
+                <h3>Repères essentiels</h3>
                 <p class="mini">Séchage, intensité, accords sucrés/salés.</p>
-                <a class="btn" href="/pages/wiki-epice-gingembre-madagascar">Ouvrir le dossier</a>
+                <a class="btn" href="/pages/wiki-epice-gingembre-madagascar">Lire le guide</a>
               </div>
             </article>
           </div>
@@ -172,11 +205,15 @@
           <p class="intro">Puissant, balsamique — plats mijotés, pâtisserie, pickles &amp; vin chaud.</p>
           <div class="cards">
             <article class="card">
-              <img class="ph" src="//vanilledesire.com/cdn/shop/files/girofle-de-madagascar-sachet-de-25g.png?v=5986" alt="Girofle de Madagascar — Vanille Désiré">
+              {% if wiki_spice_girofle_image != blank %}
+                {{ wiki_spice_girofle_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Girofle de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-terroirs.jpg' | asset_url }}" alt="Girofle de Madagascar — Vanille Désiré" width="1800" height="1350" loading="lazy">
+              {% endif %}
               <div class="pad">
-                <h3>Dossier complet</h3>
+                <h3>Repères essentiels</h3>
                 <p class="mini">Récolte, séchage, dosage, bienfaits.</p>
-                <a class="btn" href="/pages/wiki-epice-girofle-madagascar">Ouvrir le dossier</a>
+                <a class="btn" href="/pages/wiki-epice-girofle-madagascar">Lire le guide</a>
               </div>
             </article>
           </div>
@@ -189,11 +226,15 @@
           <p class="intro">Notes intenses de citron vert, herbacées &amp; florales — poissons, currys, salades &amp; pâtisserie.</p>
           <div class="cards">
             <article class="card">
-              <img class="ph" src="//vanilledesire.com/cdn/shop/files/combava-sauvage-en-poudre-20g.png?v=16352510420196804332" alt="Combava de Madagascar — Vanille Désiré">
+              {% if wiki_spice_combava_image != blank %}
+                {{ wiki_spice_combava_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Combava de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-botanique.jpg' | asset_url }}" alt="Combava de Madagascar — Vanille Désiré" width="1350" height="1800" loading="lazy">
+              {% endif %}
               <div class="pad">
-                <h3>Dossier complet</h3>
+                <h3>Repères essentiels</h3>
                 <p class="mini">Zeste/feuilles, usages, conservation, idées recettes.</p>
-                <a class="btn" href="/pages/wiki-epice-combava-madagascar">Ouvrir le dossier</a>
+                <a class="btn" href="/pages/wiki-epice-combava-madagascar">Lire le guide</a>
               </div>
             </article>
           </div>
@@ -206,11 +247,15 @@
           <p class="intro">Croquantes, délicates — pains, salades, poêlées &amp; desserts.</p>
           <div class="cards">
             <article class="card">
-              <img class="ph" src="//vanilledesire.com/cdn/shop/files/graine_de_sesame_de_madagascar_en_sachet.png?v=5986" alt="Graines de sésame de Madagascar — Vanille Désiré">
+              {% if wiki_spice_sesame_image != blank %}
+                {{ wiki_spice_sesame_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Graines de sésame de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-cover.jpg' | asset_url }}" alt="Graines de sésame de Madagascar — Vanille Désiré" width="1800" height="1151" loading="lazy">
+              {% endif %}
               <div class="pad">
-                <h3>Dossier complet</h3>
+                <h3>Repères essentiels</h3>
                 <p class="mini">Torréfaction, gomasio, tahini maison.</p>
-                <a class="btn" href="/pages/wiki-sesame-madagascar">Ouvrir le dossier</a>
+                <a class="btn" href="/pages/wiki-sesame-madagascar">Lire le guide</a>
               </div>
             </article>
           </div>
@@ -223,11 +268,15 @@
           <p class="intro">Aromatique &amp; chaleureux — parfait pour viandes blanches, légumes rôtis, sauces &amp; soupes.</p>
           <div class="cards">
             <article class="card">
-              <img class="ph" src="//vanilledesire.com/cdn/shop/files/curry_de_madagascar_en_sachet_et_en_pot_rechargeable.png?v=5986" alt="Curry de Madagascar — Vanille Désiré">
+              {% if wiki_spice_curry_image != blank %}
+                {{ wiki_spice_curry_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Curry de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-techniques.jpg' | asset_url }}" alt="Curry de Madagascar — Vanille Désiré" width="1374" height="1800" loading="lazy">
+              {% endif %}
               <div class="pad">
-                <h3>Dossier complet</h3>
+                <h3>Repères essentiels</h3>
                 <p class="mini">Composition, intensité, usages &amp; accords, conservation.</p>
-                <a class="btn" href="/pages/wiki-epice-curry-madagascar">Ouvrir le dossier</a>
+                <a class="btn" href="/pages/wiki-epice-curry-madagascar">Lire le guide</a>
               </div>
             </article>
           </div>
@@ -240,11 +289,15 @@
           <p class="intro">Base parfumée prête à l’emploi — booste sauces, mijotés, marinades &amp; poêlées.</p>
           <div class="cards">
             <article class="card">
-              <img class="ph" src="//vanilledesire.com/cdn/shop/files/fond_d_epices_de_madagascar_en_pot_rechargeable.png?v=18330571727518209239" alt="Fond d’épices — Vanille Désiré">
+              {% if wiki_spice_fond_image != blank %}
+                {{ wiki_spice_fond_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Fond d’épices — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-terroirs.jpg' | asset_url }}" alt="Fond d’épices — Vanille Désiré" width="1800" height="1350" loading="lazy">
+              {% endif %}
               <div class="pad">
-                <h3>Dossier complet</h3>
+                <h3>Repères essentiels</h3>
                 <p class="mini">Philosophie, composition, dosages, idées rapides.</p>
-                <a class="btn" href="/pages/wiki-fond-epices-madagascar">Ouvrir le dossier</a>
+                <a class="btn" href="/pages/wiki-fond-epices-madagascar">Lire le guide</a>
               </div>
             </article>
           </div>
@@ -257,11 +310,15 @@
           <p class="intro">Vif &amp; fruité — sauces piri-piri, huiles parfumées, pizzas &amp; grillades.</p>
           <div class="cards">
             <article class="card">
-              <img class="ph" src="//vanilledesire.com/cdn/shop/files/Piment_rouge_pili-pili_de_Madagascar_en_pot_rechargeable.png?v=7050609689825195889" alt="Piment pili-pili — Vanille Désiré">
+              {% if wiki_spice_pili_image != blank %}
+                {{ wiki_spice_pili_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Piment pili-pili — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-cover.jpg' | asset_url }}" alt="Piment pili-pili — Vanille Désiré" width="1800" height="1151" loading="lazy">
+              {% endif %}
               <div class="pad">
-                <h3>Dossier complet</h3>
+                <h3>Repères essentiels</h3>
                 <p class="mini">Force (Scoville), séchage, précautions, recettes express.</p>
-                <a class="btn" href="/pages/wiki-epice-piment-pili-pili-madagascar">Ouvrir le dossier</a>
+                <a class="btn" href="/pages/wiki-epice-piment-pili-pili-madagascar">Lire le guide</a>
               </div>
             </article>
           </div>

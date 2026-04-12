@@ -5,7 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="#F6F2EC">
-    <link rel="canonical" href="{{ canonical_url }}">
+    {%- liquid
+      assign vd_canonical_url = canonical_url
+      if request.page_type == 'page'
+        case page.handle
+          when 'wiki-vanille-bourbon-planifolia', 'wiki-vanille'
+            assign vd_canonical_url = shop.url | append: '/pages/wiki-vanille-bien-choisir'
+          when 'wiki-sesame-madagascar'
+            assign vd_canonical_url = shop.url | append: '/pages/wiki-epice-sesame-madagascar'
+          when 'vanille-pompona'
+            assign vd_canonical_url = shop.url | append: '/pages/wiki-vanille-pompona'
+        endcase
+      endif
+    -%}
+    <link rel="canonical" href="{{ vd_canonical_url }}">
     {% comment %}theme-check-disable RemoteAsset{% endcomment %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
