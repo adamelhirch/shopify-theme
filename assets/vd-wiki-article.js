@@ -477,7 +477,7 @@
 
     if (pageHandle === 'wiki-recettes') {
       renameImportedSection(content, 'Blueprints (gabarits modulables)', 'Bases et recettes à adapter');
-      renameImportedSection(content, 'Recettes OS (Madagascar)', 'Repères de cuisine malgache');
+      renameImportedSection(content, 'Recettes OS (Madagascar)', 'Repères malgaches');
       renameImportedSection(content, 'Bases mères (ratios reproductibles)', 'Bases à maîtriser');
       renameImportedSection(content, 'Glossaire technique (utile, pas verbeux)', 'Repères techniques');
       removeImportedSections(content, ['Outils rapides']);
@@ -488,8 +488,13 @@
       );
       setImportedSectionIntro(
         content,
-        'Repères de cuisine malgache',
-        'Quelques plats souvent cités pour situer les usages malgaches, à lire comme inspiration culturelle distincte des recettes Vanille Désiré.'
+        'Par quoi commencer selon l’envie',
+        'Trois entrées très concrètes selon que vous cherchez un dessert, une base salée ou un geste rapide à la minute.'
+      );
+      setImportedSectionIntro(
+        content,
+        'Repères malgaches',
+        'Quelques plats souvent cités pour situer les usages malgaches, à lire comme inspiration culinaire et culturelle distincte des recettes Vanille Désiré.'
       );
       setImportedSectionIntro(
         content,
