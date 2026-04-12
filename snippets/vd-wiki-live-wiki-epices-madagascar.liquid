@@ -1,0 +1,361 @@
+<section class="vdw-spices" aria-labelledby="vdw-spices-title">
+  {%- liquid
+    assign wiki_spice_cannelle_product = all_products['cannelle-madagascar-pot-verre-40g']
+    assign wiki_spice_curcuma_product = all_products['curcuma-madagascar-poudre-40g']
+    assign wiki_spice_gingembre_product = all_products['gingembre-madagascar-pot-epices-40g']
+    assign wiki_spice_girofle_product = all_products['girofle-madagascar-sachet-25g']
+    assign wiki_spice_combava_product = all_products['poudre-combava-sauvage-madagascar-20g']
+    assign wiki_spice_sesame_product = all_products['graines-sesame-madagascar-sachet-50g']
+    assign wiki_spice_curry_product = all_products['curry-madagascar-pot-epices-40g']
+    assign wiki_spice_fond_product = all_products['fond-depices-pot-en-verre-rechargeable-40g']
+    assign wiki_spice_pili_product = all_products['piment-pili-pili-madagascar-pot-epices-40g']
+
+    assign wiki_spice_cannelle_image = wiki_spice_cannelle_product.featured_media.preview_image | default: wiki_spice_cannelle_product.featured_image
+    assign wiki_spice_curcuma_image = wiki_spice_curcuma_product.featured_media.preview_image | default: wiki_spice_curcuma_product.featured_image
+    assign wiki_spice_gingembre_image = wiki_spice_gingembre_product.featured_media.preview_image | default: wiki_spice_gingembre_product.featured_image
+    assign wiki_spice_girofle_image = wiki_spice_girofle_product.featured_media.preview_image | default: wiki_spice_girofle_product.featured_image
+    assign wiki_spice_combava_image = wiki_spice_combava_product.featured_media.preview_image | default: wiki_spice_combava_product.featured_image
+    assign wiki_spice_sesame_image = wiki_spice_sesame_product.featured_media.preview_image | default: wiki_spice_sesame_product.featured_image
+    assign wiki_spice_curry_image = wiki_spice_curry_product.featured_media.preview_image | default: wiki_spice_curry_product.featured_image
+    assign wiki_spice_fond_image = wiki_spice_fond_product.featured_media.preview_image | default: wiki_spice_fond_product.featured_image
+    assign wiki_spice_pili_image = wiki_spice_pili_product.featured_media.preview_image | default: wiki_spice_pili_product.featured_image
+  -%}
+  <style>
+    .vdw-spices{
+      --ink:#2B1C10;
+      --bg:#FAF5EE;
+      --paper:#F6EFE6;
+      --cream:#F2E9DD;
+      --accent:#D4A373; /* Orange Vanille Désiré */
+      --olive:#6E7B59;
+      --ring:rgba(0,0,0,.08);
+      color:var(--ink); background:var(--bg);
+      border-radius:20px; padding:clamp(20px,3vw,44px)
+    }
+    .vdw-spices *{box-sizing:border-box}
+    .vdw-spices a{color:inherit;text-decoration:none}
+    .vdw-spices .wrap{max-width:1200px;margin:0 auto}
+
+    /* Header */
+    .vdw-spices .kicker{letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;opacity:.8;margin-bottom:.35rem}
+    .vdw-spices h1{font-size:clamp(1.9rem,4.2vw,3rem);line-height:1.08;margin:.1rem 0 .35rem}
+    .vdw-spices .lead{font-size:clamp(1rem,1.2vw,1.125rem);max-width:80ch;opacity:.95;margin:0}
+
+    /* Layout + Sommaire */
+    .vdw-spices .grid{display:grid;gap:20px}
+    .vdw-spices .toc{
+      background:#fff;border:1px solid var(--cream);border-radius:16px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.04)
+    }
+    .vdw-spices .toc h2{font-size:1rem;margin:.1rem 0 .4rem}
+    .vdw-spices .toc ul{list-style:none;margin:0;padding:0;display:grid;gap:.35rem}
+    .vdw-spices .toc a{display:flex;gap:.5rem;align-items:center;padding:.45rem .6rem;border-radius:10px}
+    .vdw-spices .toc a:hover{background:var(--paper)}
+    .vdw-spices .toc .dot{width:8px;height:8px;border-radius:999px;background:var(--accent);opacity:.85}
+    @media(min-width:980px){
+      .vdw-spices .grid.cols-2{grid-template-columns:280px 1fr}
+      .vdw-spices .toc{position:sticky; top:96px;}
+    }
+
+    /* Blocs & cartes */
+    .vdw-spices section.block{background:#fff;border:1px solid var(--cream);border-radius:18px;padding:18px;box-shadow:0 8px 24px rgba(0,0,0,.04)}
+    .vdw-spices .block h2{font-size:clamp(1.25rem,2.3vw,1.6rem);margin:0 0 .5rem}
+    .vdw-spices .intro{opacity:.95;margin:.2rem 0 .8rem;max-width:85ch}
+
+    .vdw-spices .cards{display:grid;gap:14px}
+    @media(min-width:700px){.vdw-spices .cards{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:1080px){.vdw-spices .cards{grid-template-columns:repeat(3,1fr)}}
+    .vdw-spices .card{
+      position:relative;overflow:hidden;
+      background:linear-gradient(180deg,#fff 0%,#fff7ee 100%);
+      border:1px solid var(--cream);border-radius:16px;
+      box-shadow:0 6px 20px rgba(0,0,0,.04);
+      transition:transform .3s ease, box-shadow .3s ease
+    }
+    .vdw-spices .card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.08)}
+    .vdw-spices .pad{padding:16px}
+    .vdw-spices .card h3{margin:.1rem 0 .35rem;font-size:1.02rem}
+    .vdw-spices .mini{font-size:.93rem;opacity:.95;margin:.2rem 0 .2rem}
+
+    /* Bouton orange */
+    .vdw-spices .btn{
+      display:inline-flex;align-items:center;gap:.4rem;
+      background:var(--accent);color:#20130C;
+      border:1px solid var(--cream);border-radius:999px;
+      padding:.7rem 1rem;font-weight:700;cursor:pointer
+    }
+    .vdw-spices .btn:hover{filter:brightness(0.98)}
+
+    /* Badge & images */
+    .vdw-spices .tag{display:inline-flex;align-items:center;gap:.45rem;background:#fff;border:1px solid var(--cream);
+      border-radius:999px;font-size:.78rem;padding:.28rem .6rem;color:#6B5E4A}
+    /* .ph = bandeau image 132px (cover) */
+    .vdw-spices .ph{width:100%;height:132px;object-fit:cover;border-bottom:1px solid var(--cream);background:#fff;display:block}
+
+    /* Reveal */
+    .vdw-spices .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease, transform .6s ease}
+    .vdw-spices .reveal.on{opacity:1;transform:none}
+    @media(prefers-reduced-motion:reduce){
+      .vdw-spices .reveal{opacity:1;transform:none}
+      .vdw-spices .card{transition:none}
+      .vdw-spices .card:hover{transform:none}
+    }
+  </style>
+
+  <div class="wrap">
+    <p class="kicker">Wiki — Épices de Madagascar</p>
+    <h1 id="vdw-spices-title">Épices de Madagascar</h1>
+    <p class="lead">
+      Cannelle, curcuma, gingembre, girofle, <strong>combava</strong>, sésame, <strong>curry</strong>, <strong>fond d’épices</strong>, <strong>piment pili-pili</strong>…  
+      Pour chaque épice : un <strong>guide clair</strong> pour comprendre le goût, les usages, les gestes utiles et les accords les plus cohérents.
+      <em>Les poivres &amp; baies sont dans une rubrique séparée.</em>
+    </p>
+
+    <div class="grid cols-2" style="margin-top:18px">
+      <!-- Sommaire -->
+      <nav class="toc reveal" aria-label="Sommaire">
+        <h2>Sommaire</h2>
+        <ul>
+          <li><a href="#cannelle"><span class="dot"></span> Cannelle</a></li>
+          <li><a href="#curcuma"><span class="dot"></span> Curcuma</a></li>
+          <li><a href="#gingembre"><span class="dot"></span> Gingembre</a></li>
+          <li><a href="#girofle"><span class="dot"></span> Girofle</a></li>
+          <li><a href="#combava"><span class="dot"></span> Combava (zeste &amp; feuilles)</a></li>
+          <li><a href="#sesame"><span class="dot"></span> Graines de sésame</a></li>
+          <li><a href="#curry"><span class="dot"></span> Curry</a></li>
+          <li><a href="#fond-epices"><span class="dot"></span> Fond d’épices</a></li>
+          <li><a href="#pili-pili"><span class="dot"></span> Piment pili-pili</a></li>
+        </ul>
+      </nav>
+
+      <!-- Contenu -->
+      <div class="content">
+        <section class="block reveal" aria-labelledby="intro-title">
+          <h2 id="intro-title">Madagascar, terre d’épices</h2>
+          <p class="intro">Climats contrastés, savoir-faire traditionnel, tri manuel et préparation artisanale : nos épices sont
+            sélectionnées en <strong>direct producteur</strong> pour des arômes francs et réguliers.</p>
+        </section>
+
+        <!-- Cannelle -->
+        <section id="cannelle" class="block reveal" aria-labelledby="cannelle-title">
+          <div class="tag">Épice</div>
+          <h2 id="cannelle-title">Cannelle de Madagascar</h2>
+          <p class="intro">Chaleureuse, douce, boisée — parfaite en pâtisserie, compotes, thés &amp; plats mijotés.</p>
+          <div class="cards">
+            <article class="card">
+              {% if wiki_spice_cannelle_image != blank %}
+                {{ wiki_spice_cannelle_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Cannelle de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-cover.jpg' | asset_url }}" alt="Cannelle de Madagascar — Vanille Désiré" width="1800" height="1151" loading="lazy">
+              {% endif %}
+              <div class="pad">
+                <h3>Repères essentiels</h3>
+                <p class="mini">Origine, variétés, usages, conservation, recettes.</p>
+                <a class="btn" href="/pages/wiki-epice-cannelle-madagascar">Lire le guide</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Curcuma -->
+        <section id="curcuma" class="block reveal" aria-labelledby="curcuma-title">
+          <div class="tag">Épice</div>
+          <h2 id="curcuma-title">Curcuma de Madagascar</h2>
+          <p class="intro">Doux &amp; terreux, couleur dorée — currys, soupes, riz, marinades.</p>
+          <div class="cards">
+            <article class="card">
+              {% if wiki_spice_curcuma_image != blank %}
+                {{ wiki_spice_curcuma_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Curcuma de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-science.jpg' | asset_url }}" alt="Curcuma de Madagascar — Vanille Désiré" width="1800" height="1350" loading="lazy">
+              {% endif %}
+              <div class="pad">
+                <h3>Repères essentiels</h3>
+                <p class="mini">Terroir, curcumine, astuces, accords &amp; recettes.</p>
+                <a class="btn" href="/pages/wiki-epice-curcuma-madagascar">Lire le guide</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Gingembre -->
+        <section id="gingembre" class="block reveal" aria-labelledby="gingembre-title">
+          <div class="tag">Épice</div>
+          <h2 id="gingembre-title">Gingembre de Madagascar</h2>
+          <p class="intro">Piquant &amp; citronné — woks, biscuits, infusions.</p>
+          <div class="cards">
+            <article class="card">
+              {% if wiki_spice_gingembre_image != blank %}
+                {{ wiki_spice_gingembre_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Gingembre de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-techniques.jpg' | asset_url }}" alt="Gingembre de Madagascar — Vanille Désiré" width="1374" height="1800" loading="lazy">
+              {% endif %}
+              <div class="pad">
+                <h3>Repères essentiels</h3>
+                <p class="mini">Séchage, intensité, accords sucrés/salés.</p>
+                <a class="btn" href="/pages/wiki-epice-gingembre-madagascar">Lire le guide</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Girofle -->
+        <section id="girofle" class="block reveal" aria-labelledby="girofle-title">
+          <div class="tag">Épice</div>
+          <h2 id="girofle-title">Girofle de Madagascar</h2>
+          <p class="intro">Puissant, balsamique — plats mijotés, pâtisserie, pickles &amp; vin chaud.</p>
+          <div class="cards">
+            <article class="card">
+              {% if wiki_spice_girofle_image != blank %}
+                {{ wiki_spice_girofle_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Girofle de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-terroirs.jpg' | asset_url }}" alt="Girofle de Madagascar — Vanille Désiré" width="1800" height="1350" loading="lazy">
+              {% endif %}
+              <div class="pad">
+                <h3>Repères essentiels</h3>
+                <p class="mini">Récolte, séchage, dosage, bienfaits.</p>
+                <a class="btn" href="/pages/wiki-epice-girofle-madagascar">Lire le guide</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Combava -->
+        <section id="combava" class="block reveal" aria-labelledby="combava-title">
+          <div class="tag">Agrume</div>
+          <h2 id="combava-title">Combava (zeste &amp; feuilles)</h2>
+          <p class="intro">Notes intenses de citron vert, herbacées &amp; florales — poissons, currys, salades &amp; pâtisserie.</p>
+          <div class="cards">
+            <article class="card">
+              {% if wiki_spice_combava_image != blank %}
+                {{ wiki_spice_combava_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Combava de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-botanique.jpg' | asset_url }}" alt="Combava de Madagascar — Vanille Désiré" width="1350" height="1800" loading="lazy">
+              {% endif %}
+              <div class="pad">
+                <h3>Repères essentiels</h3>
+                <p class="mini">Zeste/feuilles, usages, conservation, idées recettes.</p>
+                <a class="btn" href="/pages/wiki-epice-combava-madagascar">Lire le guide</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Sésame -->
+        <section id="sesame" class="block reveal" aria-labelledby="sesame-title">
+          <div class="tag">Graine</div>
+          <h2 id="sesame-title">Graines de sésame de Madagascar</h2>
+          <p class="intro">Croquantes, délicates — pains, salades, poêlées &amp; desserts.</p>
+          <div class="cards">
+            <article class="card">
+              {% if wiki_spice_sesame_image != blank %}
+                {{ wiki_spice_sesame_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Graines de sésame de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-cover.jpg' | asset_url }}" alt="Graines de sésame de Madagascar — Vanille Désiré" width="1800" height="1151" loading="lazy">
+              {% endif %}
+              <div class="pad">
+                <h3>Repères essentiels</h3>
+                <p class="mini">Torréfaction, gomasio, tahini maison.</p>
+                <a class="btn" href="/pages/wiki-sesame-madagascar">Lire le guide</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Curry -->
+        <section id="curry" class="block reveal" aria-labelledby="curry-title">
+          <div class="tag">Mélange</div>
+          <h2 id="curry-title">Curry de Madagascar</h2>
+          <p class="intro">Aromatique &amp; chaleureux — parfait pour viandes blanches, légumes rôtis, sauces &amp; soupes.</p>
+          <div class="cards">
+            <article class="card">
+              {% if wiki_spice_curry_image != blank %}
+                {{ wiki_spice_curry_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Curry de Madagascar — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-techniques.jpg' | asset_url }}" alt="Curry de Madagascar — Vanille Désiré" width="1374" height="1800" loading="lazy">
+              {% endif %}
+              <div class="pad">
+                <h3>Repères essentiels</h3>
+                <p class="mini">Composition, intensité, usages &amp; accords, conservation.</p>
+                <a class="btn" href="/pages/wiki-epice-curry-madagascar">Lire le guide</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Fond d'épices -->
+        <section id="fond-epices" class="block reveal" aria-labelledby="fond-epices-title">
+          <div class="tag">Mélange maison</div>
+          <h2 id="fond-epices-title">Fond d’épices Vanille Désiré</h2>
+          <p class="intro">Base parfumée prête à l’emploi — booste sauces, mijotés, marinades &amp; poêlées.</p>
+          <div class="cards">
+            <article class="card">
+              {% if wiki_spice_fond_image != blank %}
+                {{ wiki_spice_fond_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Fond d’épices — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-terroirs.jpg' | asset_url }}" alt="Fond d’épices — Vanille Désiré" width="1800" height="1350" loading="lazy">
+              {% endif %}
+              <div class="pad">
+                <h3>Repères essentiels</h3>
+                <p class="mini">Philosophie, composition, dosages, idées rapides.</p>
+                <a class="btn" href="/pages/wiki-fond-epices-madagascar">Lire le guide</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Piment pili-pili -->
+        <section id="pili-pili" class="block reveal" aria-labelledby="pili-pili-title">
+          <div class="tag">Piment</div>
+          <h2 id="pili-pili-title">Piment pili-pili</h2>
+          <p class="intro">Vif &amp; fruité — sauces piri-piri, huiles parfumées, pizzas &amp; grillades.</p>
+          <div class="cards">
+            <article class="card">
+              {% if wiki_spice_pili_image != blank %}
+                {{ wiki_spice_pili_image | image_url: width: 720 | image_tag: class: 'ph', loading: 'lazy', alt: 'Piment pili-pili — Vanille Désiré', sizes: '(min-width: 1080px) 360px, (min-width: 700px) 50vw, 100vw' }}
+              {% else %}
+                <img class="ph" src="{{ 'vd-wiki-cover.jpg' | asset_url }}" alt="Piment pili-pili — Vanille Désiré" width="1800" height="1151" loading="lazy">
+              {% endif %}
+              <div class="pad">
+                <h3>Repères essentiels</h3>
+                <p class="mini">Force (Scoville), séchage, précautions, recettes express.</p>
+                <a class="btn" href="/pages/wiki-epice-piment-pili-pili-madagascar">Lire le guide</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Fin : retour wiki -->
+        <section class="block reveal" style="margin-top:18px;text-align:center">
+          <h2>Continuer l’exploration</h2>
+          <p class="intro">Retrouvez toutes les catégories sur la page d’accueil du Wiki.</p>
+          <a class="btn" href="/pages/wiki">← Retour au Wiki</a>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded',function(){
+      var els=document.querySelectorAll('.vdw-spices .reveal');
+      if('IntersectionObserver' in window){
+        var io=new IntersectionObserver(function(entries){
+          entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target);} });
+        },{threshold:.12});
+        els.forEach(function(el){ io.observe(el); });
+      } else { els.forEach(function(el){ el.classList.add('on'); }); }
+    });
+  </script>
+
+  <!-- Fil d’Ariane JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Wiki","item":"https://vanilledesire.com/pages/wiki"},
+      {"@type":"ListItem","position":2,"name":"Épices de Madagascar","item":"https://vanilledesire.com/pages/wiki-epices-madagascar"}
+    ]
+  }
+  </script>
+</section>
+              

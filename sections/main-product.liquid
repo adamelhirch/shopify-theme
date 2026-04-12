@@ -1,6 +1,6 @@
 <product-info
   id="MainProduct-{{ section.id }}"
-  class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
+  class="section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}"
   data-section="{{ section.id }}"
   data-product-id="{{ product.id }}"
   data-update-url="true"
@@ -77,11 +77,6 @@
       assign selected_variant_title = blank
     endif
 
-    assign product_support_text = section.settings.support_text
-    if product_support_text == blank and product.description != blank
-      assign product_support_text = product.description | strip_html | truncatewords: 22
-    endif
-
     assign product_context_blob = product.title | append: ' ' | append: product.type | append: ' ' | append: product.vendor | downcase
     assign wiki_hub_page = pages['wiki']
     assign wiki_vanille_page = pages['wiki-vanille-bien-choisir']
@@ -101,139 +96,26 @@
     assign wiki_storage_url = wiki_faq_page.url | default: wiki_hub_url
     assign recipes_page_url = recipes_hub_url
     assign contact_page_url = contact_page.url | default: '/pages/contact'
-    assign product_support_kicker = section.settings.support_eyebrow | strip
-    assign product_support_heading = section.settings.support_heading | strip
-    assign product_support_point_1 = section.settings.support_point_1 | strip
-    assign product_support_point_2 = section.settings.support_point_2 | strip
-    assign product_support_point_3 = section.settings.support_point_3 | strip
-    assign product_support_link_label_1 = section.settings.support_link_label_1 | strip
-    assign product_support_link_label_2 = section.settings.support_link_label_2 | strip
-    assign product_support_link_label_3 = section.settings.support_link_label_3 | strip
-    assign product_support_link_1 = section.settings.support_link_1
-    assign product_support_link_2 = section.settings.support_link_2
-    assign product_support_link_3 = section.settings.support_link_3
-    assign generic_support_text = '<p>Une fiche pensée pour retrouver le bon format, comprendre la matière et poursuivre naturellement vers les recettes ou le reste de la gamme.</p>'
-    assign generic_support_point_1 = 'Formats lisibles selon l’infusion, la pâtisserie, le quotidien ou le cadeau'
-    assign generic_support_point_2 = 'Origine suivie et sélection attentive de la matière'
-    assign generic_support_point_3 = 'Passerelles utiles vers recettes, wiki et produits associés'
-    assign product_support_link_label_1_default = 'Voir les recettes'
-    assign product_support_link_label_2_default = 'Explorer le wiki'
-    assign product_support_link_label_3_default = 'Parler avec nous'
-
-    if product_support_heading == blank
-      assign product_support_heading = 'Bien choisir, bien doser, bien offrir.'
-    endif
-
     if product_context_blob contains 'vanille'
       assign wiki_origin_url = wiki_vanille_page.url | default: wiki_hub_url
       assign wiki_usage_url = recipes_hub_url
       assign wiki_storage_url = wiki_vanille_storage_page.url | default: wiki_hub_url
-      assign product_support_link_label_2_default = 'Bien choisir sa vanille'
-      if product_support_text == blank or product_support_text == generic_support_text
-        assign product_support_text = '<p>Comparer les gousses, la souplesse, l’intensité et le bon format avant d’acheter. La fiche doit aider à arbitrer entre cuisine, infusion, usage quotidien et idée cadeau.</p>'
-      endif
-      if product_support_point_1 == blank or product_support_point_1 == generic_support_point_1
-        assign product_support_point_1 = 'Souplesse, taille et intensité lisibles avant achat'
-      endif
-      if product_support_point_2 == blank or product_support_point_2 == generic_support_point_2
-        assign product_support_point_2 = 'Comparer usage pâtissier, infusion, quotidien ou coffret'
-      endif
-      if product_support_point_3 == blank or product_support_point_3 == generic_support_point_3
-        assign product_support_point_3 = 'Prolonger immédiatement vers guide, recettes et formats voisins'
-      endif
     elsif product_context_blob contains 'poivre' or product_context_blob contains 'voatsiperifery' or product_context_blob contains 'baie'
       assign wiki_origin_url = wiki_poivres_page.url | default: wiki_hub_url
       assign wiki_usage_url = recipes_hub_url
       assign wiki_storage_url = wiki_glossaire_page.url | default: wiki_hub_url
-      assign product_support_link_label_2_default = 'Lire le guide poivres'
-      if product_support_text == blank or product_support_text == generic_support_text
-        assign product_support_text = '<p>La bonne lecture se joue ici sur l’intensité, le moment d’ajout et les accords possibles. La fiche doit aider à projeter le produit sur une vraie cuisine, pas seulement sur une note aromatique.</p>'
-      endif
-      if product_support_point_1 == blank or product_support_point_1 == generic_support_point_1
-        assign product_support_point_1 = 'Choisir entre finition, cuisson et profil aromatique'
-      endif
-      if product_support_point_2 == blank or product_support_point_2 == generic_support_point_2
-        assign product_support_point_2 = 'Distinguer droits, floraux, sauvages ou plus résineux'
-      endif
-      if product_support_point_3 == blank or product_support_point_3 == generic_support_point_3
-        assign product_support_point_3 = 'Basculer vite vers guide poivres, recettes et suite cohérente'
-      endif
     elsif product_context_blob contains 'sel'
       assign wiki_origin_url = wiki_sels_page.url | default: wiki_hub_url
       assign wiki_usage_url = recipes_hub_url
       assign wiki_storage_url = wiki_glossaire_page.url | default: wiki_hub_url
-      assign product_support_link_label_2_default = 'Lire le guide sels'
-      if product_support_text == blank or product_support_text == generic_support_text
-        assign product_support_text = '<p>Un bon sel aromatisé se vend par geste, par contexte et par simplicité d’usage. La fiche doit rendre immédiate la question du bon moment d’ajout et de la bonne association.</p>'
-      endif
-      if product_support_point_1 == blank or product_support_point_1 == generic_support_point_1
-        assign product_support_point_1 = 'Comprendre finition, dressage et usage quotidien'
-      endif
-      if product_support_point_2 == blank or product_support_point_2 == generic_support_point_2
-        assign product_support_point_2 = 'Comparer sels, poivres et mélanges proches sans confusion'
-      endif
-      if product_support_point_3 == blank or product_support_point_3 == generic_support_point_3
-        assign product_support_point_3 = 'Voir tout de suite les gestes, accords et relais utiles'
-      endif
     elsif product_context_blob contains 'huile' or product_context_blob contains 'ravintsara' or product_context_blob contains 'ylang'
       assign wiki_origin_url = wiki_plantes_page.url | default: wiki_hub_url
       assign wiki_usage_url = wiki_plantes_page.url | default: wiki_hub_url
       assign wiki_storage_url = wiki_faq_page.url | default: wiki_hub_url
-      assign product_support_link_label_1_default = 'Voir les usages'
-      assign product_support_link_label_2_default = 'Lire le guide plantes'
-      if product_support_text == blank or product_support_text == generic_support_text
-        assign product_support_text = '<p>Ici, la clarté doit porter sur l’usage, les précautions et la bonne compréhension de la matière. La fiche accompagne d’abord la lecture avant de pousser l’achat complémentaire.</p>'
-      endif
-      if product_support_point_1 == blank or product_support_point_1 == generic_support_point_1
-        assign product_support_point_1 = 'Clarifier dilution, usage et cadre d’utilisation'
-      endif
-      if product_support_point_2 == blank or product_support_point_2 == generic_support_point_2
-        assign product_support_point_2 = 'Distinguer plantes, huiles et attentes réelles'
-      endif
-      if product_support_point_3 == blank or product_support_point_3 == generic_support_point_3
-        assign product_support_point_3 = 'Garder une sortie immédiate vers guide et contact'
-      endif
     elsif product_context_blob contains 'combava' or product_context_blob contains 'cannelle' or product_context_blob contains 'curcuma' or product_context_blob contains 'girofle' or product_context_blob contains 'gingembre'
       assign wiki_origin_url = wiki_epices_page.url | default: wiki_hub_url
       assign wiki_usage_url = recipes_hub_url
       assign wiki_storage_url = wiki_glossaire_page.url | default: wiki_hub_url
-      assign product_support_link_label_2_default = 'Lire le guide épices'
-      if product_support_text == blank or product_support_text == generic_support_text
-        assign product_support_text = '<p>Une épice se vend mieux quand l’usage, l’intensité et les accords deviennent lisibles tout de suite. La fiche doit aider à choisir la bonne famille avant d’ajouter un second produit au panier.</p>'
-      endif
-      if product_support_point_1 == blank or product_support_point_1 == generic_support_point_1
-        assign product_support_point_1 = 'Lire chaleur, tension, fraîcheur ou rondeur'
-      endif
-      if product_support_point_2 == blank or product_support_point_2 == generic_support_point_2
-        assign product_support_point_2 = 'Projeter l’épice sur dessert, boisson ou cuisine salée'
-      endif
-      if product_support_point_3 == blank or product_support_point_3 == generic_support_point_3
-        assign product_support_point_3 = 'Relier la fiche au guide épices et aux recettes d’usage'
-      endif
-    endif
-
-    if product_support_link_label_1 == blank
-      assign product_support_link_label_1 = product_support_link_label_1_default
-    endif
-
-    if product_support_link_label_2 == blank
-      assign product_support_link_label_2 = product_support_link_label_2_default
-    endif
-
-    if product_support_link_label_3 == blank
-      assign product_support_link_label_3 = product_support_link_label_3_default
-    endif
-
-    if product_support_link_1 == blank or product_support_link_1 == '/pages/recettes' or product_support_link_1 == '/pages/wiki-recettes'
-      assign product_support_link_1 = wiki_usage_url | default: recipes_page_url
-    endif
-
-    if product_support_link_2 == blank or product_support_link_2 == '/pages/wiki-vanille-bien-choisir'
-      assign product_support_link_2 = wiki_origin_url
-    endif
-
-    if product_support_link_3 == blank or product_support_link_3 == '/pages/contact'
-      assign product_support_link_3 = contact_page_url
     endif
 
     if product_backdrop_image == blank and settings.vd_product_default_background_image != blank
@@ -982,62 +864,6 @@
             {{- 'icon-arrow.svg' | inline_asset_content -}}
           </a>
         </section>
-        {%- if product_support_heading != blank or product_support_text != blank or product_support_point_1 != blank or product_support_point_2 != blank or product_support_point_3 != blank -%}
-          <aside class="product__support-shell">
-            {%- if product_support_kicker != blank -%}
-              <span class="product__support-kicker">{{ product_support_kicker }}</span>
-            {%- endif -%}
-            <div class="product__support-body">
-              <div class="product__support-copy">
-                {%- if product_support_heading != blank -%}
-                  <h2 class="product__support-heading">{{ product_support_heading }}</h2>
-                {%- endif -%}
-                {%- if product_support_text != blank -%}
-                  <div class="product__support-text rte">{{ product_support_text }}</div>
-                {%- endif -%}
-              </div>
-              <div class="product__support-meta">
-                <div class="product__support-points">
-                  {%- if product_support_point_1 != blank -%}
-                    <span class="product__support-point">{{ product_support_point_1 }}</span>
-                  {%- endif -%}
-                  {%- if product_support_point_2 != blank -%}
-                    <span class="product__support-point">{{ product_support_point_2 }}</span>
-                  {%- endif -%}
-                  {%- if product_support_point_3 != blank -%}
-                    <span class="product__support-point">{{ product_support_point_3 }}</span>
-                  {%- endif -%}
-                </div>
-                <div class="product__support-links">
-                  {%- if product_support_link_1 != blank and product_support_link_label_1 != blank -%}
-                    <a href="{{ product_support_link_1 }}" class="vd-arrow-cta" data-vd-preview-link>
-                      <span class="vd-arrow-cta__label">{{ product_support_link_label_1 }}</span>
-                      <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                        <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                      </svg>
-                    </a>
-                  {%- endif -%}
-                  {%- if product_support_link_2 != blank and product_support_link_label_2 != blank and product_support_link_2 != product_support_link_1 -%}
-                    <a href="{{ product_support_link_2 }}" class="vd-arrow-cta" data-vd-preview-link>
-                      <span class="vd-arrow-cta__label">{{ product_support_link_label_2 }}</span>
-                      <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                        <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                      </svg>
-                    </a>
-                  {%- endif -%}
-                  {%- if product_support_link_3 != blank and product_support_link_label_3 != blank and product_support_link_3 != product_support_link_1 and product_support_link_3 != product_support_link_2 -%}
-                    <a href="{{ product_support_link_3 }}" class="vd-arrow-cta" data-vd-preview-link>
-                      <span class="vd-arrow-cta__label">{{ product_support_link_label_3 }}</span>
-                      <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                        <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                      </svg>
-                    </a>
-                  {%- endif -%}
-                </div>
-              </div>
-            </div>
-          </aside>
-        {%- endif -%}
       </div>
     </div>
   </div>

@@ -17,7 +17,7 @@ For any new task in this repository, the default workflow is:
 
 - `QA Shared v1` (`181070168331`) is a frozen backup theme.
 - Never push routine work to `QA Shared v1`.
-- All normal preview and review pushes must go only to `QA Shared v1.1` (`181079441675`).
+- All normal preview and review pushes must go only to `QA Shared v1.1.9` (`181159821579`).
 - Before any Shopify push, verify the target theme ID in the script or CLI output.
 - For the current v1.1 delivery track, branch from the agreed v1.1 base branch, not blindly from `main`.
 

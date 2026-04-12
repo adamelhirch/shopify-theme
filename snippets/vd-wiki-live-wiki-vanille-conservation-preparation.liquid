@@ -1,0 +1,344 @@
+<section class="vdw-keep" aria-labelledby="vdw-keep-title">
+  <style>
+    .vdw-keep{
+      /* Palette VD */
+      --ink:#2B1C10; --bg:#FAF5EE; --paper:#F6EFE6; --cream:#F2E9DD;
+      --accent:#D4A373; /* Orange Vanille Désiré */
+      --olive:#6E7B59; --warn:#C77D47; --ring:rgba(0,0,0,.08);
+      /* Sécurité header/bandeau sticky (évite le recouvrement sur mobile) */
+      --safe-top: clamp(64px, env(safe-area-inset-top) + 72px, 112px);
+      color:var(--ink); background:var(--bg);
+      border-radius:20px; padding:clamp(20px,3vw,44px)
+    }
+    .vdw-keep *{box-sizing:border-box}
+    .vdw-keep a{color:inherit;text-decoration:none}
+    .vdw-keep .wrap{max-width:1200px;margin:0 auto}
+
+    /* Hero */
+    .vdw-keep .kicker{letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;opacity:.8;margin-bottom:.35rem}
+    .vdw-keep h1{font-size:clamp(1.9rem,4.2vw,3rem);line-height:1.08;margin:.1rem 0 .35rem}
+    .vdw-keep .lead{font-size:clamp(1rem,1.2vw,1.125rem);max-width:80ch;opacity:.95;margin:0}
+
+    /* Layout + TOC */
+    .vdw-keep .grid{display:grid;gap:20px}
+    /* Desktop : 2 colonnes + TOC sticky */
+    @media(min-width:980px){
+      .vdw-keep .grid.cols-2{grid-template-columns:280px 1fr}
+      .vdw-keep .toc{position:sticky; top:var(--safe-top); align-self:flex-start}
+      .vdw-keep .anchor{scroll-margin-top:var(--safe-top)}
+    }
+    /* Mobile : 1 colonne, TOC au-dessus du contenu, non sticky */
+    @media(max-width:979px){
+      .vdw-keep .grid.cols-2{grid-template-columns:1fr}
+      .vdw-keep .toc{position:relative; top:auto; order:-1; width:100%; z-index:1; margin-bottom:10px}
+      /* marge d’ancrage un peu réduite pour limiter l’espace perdu sous header */
+      .vdw-keep .anchor{scroll-margin-top:72px}
+    }
+    .vdw-keep .toc{background:#fff;border:1px solid var(--cream);border-radius:16px;padding:14px;
+      box-shadow:0 6px 18px rgba(0,0,0,.04)}
+    .vdw-keep .toc h2{font-size:1rem;margin:.1rem 0 .4rem}
+    .vdw-keep .toc ul{list-style:none;margin:0;padding:0;display:grid;gap:.35rem}
+    .vdw-keep .toc a{display:flex;gap:.5rem;align-items:center;padding:.45rem .6rem;border-radius:10px}
+    .vdw-keep .toc a:hover{background:var(--paper)}
+    .vdw-keep .toc .dot{width:8px;height:8px;border-radius:999px;background:var(--accent);opacity:.8}
+
+    /* Blocks */
+    .vdw-keep section.block{background:#fff;border:1px solid var(--cream);border-radius:18px;padding:18px;box-shadow:0 8px 24px rgba(0,0,0,.04)}
+    .vdw-keep .block h2{font-size:clamp(1.25rem,2.3vw,1.6rem);margin:0 0 .5rem}
+    .vdw-keep .intro{opacity:.95;margin:.2rem 0 .8rem;max-width:85ch}
+
+    /* Cards/grid */
+    .vdw-keep .cards{display:grid;gap:12px}
+    @media(min-width:720px){.vdw-keep .cards{grid-template-columns:repeat(3,1fr)}}
+    .vdw-keep .card{background:linear-gradient(180deg,#fff 0%,#fff7ee 100%);border:1px solid var(--cream);border-radius:16px;padding:16px;
+      box-shadow:0 6px 20px rgba(0,0,0,.04);transition:transform .3s ease, box-shadow .3s ease}
+    .vdw-keep .card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.08)}
+    .vdw-keep .card h3{margin:.1rem 0 .35rem;font-size:1.02rem}
+    .vdw-keep .mini{font-size:.93rem;opacity:.95;margin:.2rem 0 0}
+
+    /* Steps (HowTo visuel) */
+    .vdw-keep .steps{display:grid;gap:12px}
+    @media(min-width:860px){.vdw-keep .steps{grid-template-columns:repeat(4,1fr)}}
+    .vdw-keep .step{border:1px dashed var(--cream);border-radius:14px;padding:14px;background:#fff}
+    .vdw-keep .step .n{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;
+      background:var(--accent);color:#20130C;font-weight:700;margin-right:.45rem}
+
+    /* Panels DO / DON'T */
+    .vdw-keep .panel{background:#fff;border:1px solid var(--cream);border-radius:16px;padding:16px}
+    .vdw-keep .panel.good{border-color:var(--olive)}
+    .vdw-keep .panel.warn{border-color:var(--warn)}
+    .vdw-keep .panel ul{margin:.3rem 0 0;padding-left:1.1rem}
+
+    /* Accordions */
+    .vdw-keep details{background:#fff;border:1px solid var(--cream);border-radius:12px;padding:12px 14px;margin:10px 0}
+    .vdw-keep summary{cursor:pointer;font-weight:600;list-style:none}
+    .vdw-keep summary::-webkit-details-marker{display:none}
+    .vdw-keep details[open]{border-color:var(--accent)}
+
+    /* Buttons */
+    .vdw-keep .cta-row{display:flex;flex-wrap:wrap;gap:.6rem}
+    .vdw-keep .btn{appearance:none;border:none;border-radius:999px;background:var(--accent);color:#20130C;
+      padding:.85rem 1.1rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:.45rem}
+    .vdw-keep .btn--ghost{background:#fff;border:1px solid var(--cream);font-weight:600}
+
+    /* Reveal on scroll */
+    .vdw-keep .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease, transform .6s ease}
+    .vdw-keep .reveal.on{opacity:1;transform:none}
+
+    @media(prefers-reduced-motion:reduce){
+      .vdw-keep .reveal{opacity:1;transform:none}
+      .vdw-keep .card{transition:none}
+      .vdw-keep .card:hover{transform:none}
+    }
+  </style>
+
+  <div class="wrap">
+    <!-- HERO -->
+    <p class="kicker">Wiki — Vanille</p>
+    <h1 id="vdw-keep-title">Conservation &amp; préparation de la vanille</h1>
+    <p class="lead">
+      Préserver l’<strong>arôme Bourbon</strong> au maximum : <strong>bien conserver</strong> les gousses, <strong>préparer</strong> le caviar,
+      réaliser un <strong>extrait</strong>, un <strong>sucre vanillé</strong>, éviter la <strong>moisissure</strong> et rattraper les gousses sèches.
+    </p>
+
+    <!-- LAYOUT -->
+    <div class="grid cols-2" style="margin-top:18px">
+      <!-- TOC -->
+      <nav class="toc reveal" aria-label="Sommaire">
+        <h2>Sommaire</h2>
+        <ul>
+          <li><a href="#stockage"><span class="dot"></span> Conservation : méthode &amp; contenants</a></li>
+          <li><a href="#preparer"><span class="dot"></span> Préparer une gousse (caviar)</a></li>
+          <li><a href="#extraits"><span class="dot"></span> Extrait, sucre &amp; poudre : pas à pas</a></li>
+          <li><a href="#eviter"><span class="dot"></span> Éviter la moisissure (checklist)</a></li>
+          <li><a href="#sos"><span class="dot"></span> SOS : gousse sèche / réhydratation</a></li>
+          <li><a href="#faq"><span class="dot"></span> FAQ &amp; idées reçues</a></li>
+        </ul>
+      </nav>
+
+      <!-- CONTENT -->
+      <div class="content">
+        <!-- 1. STOCKAGE -->
+        <section id="stockage" class="block reveal anchor" aria-labelledby="stockage-title">
+          <h2 id="stockage-title">Conservation : méthode &amp; bons contenants</h2>
+          <p class="intro">
+            L’ennemi : <strong>air + chaleur + lumière</strong>. Le trio gagnant : <strong>bocal hermétique</strong> (verre),
+            <strong>ombre</strong> et <strong>température ambiante stable</strong> (18–22 °C). Jamais au réfrigérateur.
+          </p>
+
+          <div class="cards">
+            <article class="card">
+              <h3>Contenants recommandés</h3>
+              <p class="mini">Bocal en verre à joint (type Le Parfait) ou tube en verre épais. Éviter le plastique long terme.</p>
+            </article>
+            <article class="card">
+              <h3>Condition idéale</h3>
+              <p class="mini">Placard sombre, loin d’une source de chaleur. Humidité modérée. Ouvrir le bocal 1 min/mois.</p>
+            </article>
+            <article class="card">
+              <h3>Astuce anti-dessèchement</h3>
+              <p class="mini">Glisser un petit papier sulfurisé <em>à peine</em> humide (remplacer tous les 30 jours).</p>
+            </article>
+          </div>
+
+          <div class="cards" style="margin-top:12px">
+            <div class="panel good">
+              <h3>À faire ✅</h3>
+              <ul>
+                <li>Conserver les gousses <strong>entières</strong> jusqu’à l’usage.</li>
+                <li>Garder les <strong>gousses utilisées</strong> pour infuser un lait/crème ou parfumer du sucre.</li>
+                <li>Contrôler visuellement 1×/mois (souplesse, odeur). </li>
+              </ul>
+            </div>
+            <div class="panel warn">
+              <h3>À éviter ❌</h3>
+              <ul>
+                <li><strong>Frigo </strong> : condensation → moisissure + brûlure du froid.</li>
+                <li>Fenêtre / plan de travail en plein soleil.</li>
+                <li>Sachets ouverts (air &amp; oxydation rapide).</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. PRÉPARER -->
+        <section id="preparer" class="block reveal anchor" aria-labelledby="prep-title">
+          <h2 id="prep-title">Préparer une gousse : extraire le « caviar »</h2>
+          <p class="intro">La méthode de base (rapide, propre) pour exploiter 100 % du parfum naturel :</p>
+
+          <div class="steps" itemscope itemtype="https://schema.org/HowTo">
+            <meta itemprop="name" content="Préparer une gousse de vanille">
+            <article class="step" itemprop="step" itemscope itemtype="https://schema.org/HowToStep">
+              <h3><span class="n">1</span> Fendre</h3>
+              <p class="mini" itemprop="text">Poser la gousse, stabiliser l’extrémité et <strong>inciser dans la longueur</strong> (couteau fin).</p>
+            </article>
+            <article class="step" itemprop="step" itemscope itemtype="https://schema.org/HowToStep">
+              <h3><span class="n">2</span> Ouvrir</h3>
+              <p class="mini" itemprop="text">Écarter délicatement les lèvres de la gousse pour exposer les grains (« caviar »).</p>
+            </article>
+            <article class="step" itemprop="step" itemscope itemtype="https://schema.org/HowToStep">
+              <h3><span class="n">3</span> Râcler</h3>
+              <p class="mini" itemprop="text">Avec le dos du couteau, <strong>récupérer les graines</strong> et la pulpe parfumée.</p>
+            </article>
+            <article class="step" itemprop="step" itemscope itemtype="https://schema.org/HowToStep">
+              <h3><span class="n">4</span> Infuser</h3>
+              <p class="mini" itemprop="text">Ajouter caviar + gousse au <strong>lait/crème</strong>, chauffer <em>doux</em> &amp; laisser infuser.</p>
+            </article>
+          </div>
+
+          <details style="margin-top:8px">
+            <summary>Dosage : combien de gousses utiliser ?</summary>
+            <p>Général : <strong>2–4 gousses/L</strong> en pâtisserie ; <strong>1–2 gousses/L</strong> boissons ; <strong>3–5 gousses/L</strong> rhums arrangés (selon intensité).</p>
+          </details>
+        </section>
+
+        <!-- 3. EXTRAS (extrait, sucre, poudre) -->
+        <section id="extraits" class="block reveal anchor" aria-labelledby="extra-title">
+          <h2 id="extra-title">Extrait, sucre vanillé &amp; poudre : pas à pas</h2>
+          <p class="intro">Trois préparations maison qui évitent le gaspillage et garantissent un <strong>arôme 100 % naturel</strong>.</p>
+
+          <div class="steps" itemscope itemtype="https://schema.org/HowTo">
+            <meta itemprop="name" content="Extrait naturel de vanille maison">
+            <article class="step" itemprop="step" itemscope itemtype="https://schema.org/HowToStep">
+              <h3><span class="n">A</span> Extrait de vanille</h3>
+              <p class="mini" itemprop="text">Fendre <strong>5 gousses</strong> / 250 ml de vodka ou rhum blanc (40°). Macération <strong>8 semaines</strong> minimum, agiter 1×/semaine.</p>
+            </article>
+            <article class="step" itemprop="step" itemscope itemtype="https://schema.org/HowToStep">
+              <h3><span class="n">B</span> Sucre vanillé</h3>
+              <p class="mini" itemprop="text">Enfouir une <strong>gousse utilisée &amp; séchée</strong> dans 500 g de sucre. Parfum optimal sous 7–10 jours.</p>
+            </article>
+            <article class="step" itemprop="step" itemscope itemtype="https://schema.org/HowToStep">
+              <h3><span class="n">C</span> Poudre de vanille</h3>
+              <p class="mini" itemprop="text">Sécher totalement des gousses (four 60 °C porte entrouverte), mixer finement. À doser <em>avec parcimonie</em>.</p>
+            </article>
+            <article class="step" itemprop="step" itemscope itemtype="https://schema.org/HowToStep">
+              <h3><span class="n">D</span> Sirop / pâte</h3>
+              <p class="mini" itemprop="text">Réaliser un sirop 1:1 + gousses grattées ; ou une pâte (extrait + grains) pour glaces &amp; crèmes.</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- 4. ÉVITER LA MOISISSURE -->
+        <section id="eviter" class="block reveal anchor" aria-labelledby="avoid-title">
+          <h2 id="avoid-title">Éviter la moisissure : checklist</h2>
+          <div class="cards">
+            <div class="panel good">
+              <h3>Checklist anti-moisissure</h3>
+              <ul>
+                <li>Gousses à <strong>température ambiante</strong>, jamais au froid.</li>
+                <li>Récipient <strong>sec</strong>, propre, fermé hermétiquement.</li>
+                <li>Ouvrir 1 min/mois pour renouveler l’air (puis refermer).</li>
+                <li>Si condensation : <strong>sécher</strong> les gousses 1 h à l’air libre avant de remettre.</li>
+              </ul>
+            </div>
+            <div class="panel warn">
+              <h3>Si un point blanc apparaît</h3>
+              <ul>
+                <li><strong>Givre de vanilline</strong> (cristaux secs, odeur intense) : sans danger.</li>
+                <li><strong>Moisissure</strong> (duvet, odeur aigre) : isoler immédiatement ; essuyer à l’alcool, bien sécher. Si doute → écarter.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. SOS -->
+        <section id="sos" class="block reveal anchor" aria-labelledby="sos-title">
+          <h2 id="sos-title">SOS : gousses sèches / réhydratation</h2>
+          <p class="intro">Deux méthodes douces pour redonner de la souplesse avant utilisation.</p>
+          <div class="steps">
+            <article class="step">
+              <h3><span class="n">1</span> Lait tiède (30 min)</h3>
+              <p class="mini">Plonger la gousse dans du lait à ~40 °C. Égoutter, essuyer, utiliser / infuser.</p>
+            </article>
+            <article class="step">
+              <h3><span class="n">2</span> Vapeur minute</h3>
+              <p class="mini">Tenir la gousse 20–30 s au-dessus d’une vapeur douce. Sécher rapidement, puis gratter.</p>
+            </article>
+            <article class="step">
+              <h3><span class="n">3</span> Plan B anti-gaspillage</h3>
+              <p class="mini">Mixer en <strong>poudre</strong> (parfume yaourts, pâtes à crêpes) ou lancer un <strong>extrait</strong>.</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- 6. FAQ -->
+        <section id="faq" class="block reveal anchor" aria-labelledby="faq-title" aria-label="Questions fréquentes">
+          <h2 id="faq-title">FAQ — Conservation &amp; préparation</h2>
+
+          <details>
+            <summary>Combien de temps se conservent des gousses ?</summary>
+            <p>Bien stockées (bocal hermétique, sombre, 18–22 °C), elles restent souples et aromatiques <strong>6 à 12 mois</strong>, parfois davantage.</p>
+          </details>
+          <details>
+            <summary>Pourquoi éviter le réfrigérateur ?</summary>
+            <p>Le froid crée de la <strong>condensation</strong> à chaque ouverture → risque élevé de moisissure + perte d’arômes.</p>
+          </details>
+          <details>
+            <summary>Comment reconnaître le givre de vanilline ?</summary>
+            <p>Micro-cristaux <strong>secs</strong> et brillants, odeur puissante et agréable. Rien à voir avec un duvet humide blanchâtre (moisissure).</p>
+          </details>
+          <details>
+            <summary>Peut-on réutiliser une gousse après infusion ?</summary>
+            <p>Oui : rincer, sécher puis glisser dans le sucre, ou lancer un extrait. La gousse diffuse encore longtemps.</p>
+          </details>
+        </section>
+
+        <!-- CTA -->
+        <section class="block reveal anchor" style="text-align:center">
+          <h2>Prêt·e à sublimer vos recettes ?</h2>
+          <p class="intro">Nos <strong>gousses de vanille Bourbon</strong> (Madagascar) : charnues, parfum long, traçabilité complète.</p>
+          <div class="cta-row" style="justify-content:center">
+            <a class="btn" href="/collections/vanille-bourbon">Acheter la vanille Bourbon</a>
+            <a class="btn btn--ghost" href="/pages/wiki">← Retour au Wiki</a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reveal on scroll (léger, vanilla JS) -->
+  <script>
+    document.addEventListener('DOMContentLoaded',function(){
+      var els=document.querySelectorAll('.vdw-keep .reveal');
+      if('IntersectionObserver' in window){
+        var io=new IntersectionObserver(function(entries){
+          entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target);} });
+        },{threshold:.12});
+        els.forEach(function(el){ io.observe(el); });
+      } else { els.forEach(function(el){ el.classList.add('on'); }); }
+    });
+  </script>
+
+  <!-- JSON-LD : FAQ + HowTo (SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Combien de temps se conservent des gousses de vanille ?",
+       "acceptedAnswer":{"@type":"Answer","text":"Bien stockées (bocal hermétique, sombre, 18–22 °C), elles restent souples et aromatiques 6 à 12 mois, parfois davantage."}},
+      {"@type":"Question","name":"Pourquoi éviter le réfrigérateur pour la vanille ?",
+       "acceptedAnswer":{"@type":"Answer","text":"Le froid provoque de la condensation à chaque ouverture, ce qui favorise la moisissure et fait perdre des arômes."}},
+      {"@type":"Question","name":"Comment différencier givre de vanilline et moisissure ?",
+       "acceptedAnswer":{"@type":"Answer","text":"Le givre de vanilline forme des micro-cristaux secs et brillants, à l’odeur agréable. La moisissure est un duvet humide à odeur aigre."}},
+      {"@type":"Question","name":"Peut-on réutiliser une gousse après infusion ?",
+       "acceptedAnswer":{"@type":"Answer","text":"Oui : rincer, sécher et parfumer du sucre ou lancer un extrait. La gousse diffuse encore longtemps."}}
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"HowTo",
+    "name":"Préparer une gousse de vanille",
+    "step":[
+      {"@type":"HowToStep","name":"Fendre","text":"Inciser la gousse dans la longueur avec un couteau fin."},
+      {"@type":"HowToStep","name":"Ouvrir","text":"Écarter délicatement les lèvres de la gousse pour exposer les grains."},
+      {"@type":"HowToStep","name":"Râcler","text":"Récupérer les graines et la pulpe (caviar) avec le dos du couteau."},
+      {"@type":"HowToStep","name":"Infuser","text":"Ajouter caviar et gousse à un lait/crème et laisser infuser à feu doux."}
+    ]
+  }
+  </script>
+</section>
+              

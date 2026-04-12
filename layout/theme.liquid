@@ -5,7 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="#F6F2EC">
-    <link rel="canonical" href="{{ canonical_url }}">
+    {%- liquid
+      assign vd_canonical_url = canonical_url
+      if request.page_type == 'page'
+        case page.handle
+          when 'wiki-vanille-bourbon-planifolia'
+            assign vd_canonical_url = shop.url | append: '/pages/wiki-vanille-bourbon-planifolia'
+          when 'wiki-vanille-bourbon-planifolia-legacy-20260412'
+            assign vd_canonical_url = shop.url | append: '/pages/wiki-vanille-bourbon-planifolia-legacy-20260412'
+          when 'wiki-vanille'
+            assign vd_canonical_url = shop.url | append: '/pages/wiki-vanille-bien-choisir'
+          when 'wiki-sesame-madagascar'
+            assign vd_canonical_url = shop.url | append: '/pages/wiki-epice-sesame-madagascar'
+          when 'vanille-pompona'
+            assign vd_canonical_url = shop.url | append: '/pages/wiki-vanille-pompona'
+        endcase
+      endif
+    -%}
+    <link rel="canonical" href="{{ vd_canonical_url }}">
     {% comment %}theme-check-disable RemoteAsset{% endcomment %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,6 +46,9 @@
 
       if request.page_type == 'page'
         case page.handle
+          when 'wiki-vanille-bourbon-planifolia', 'wiki-vanille-bourbon-planifolia-legacy-20260412'
+            assign vd_meta_title = 'Vanille Bourbon Planifolia : histoire, culture & qualité'
+            assign vd_meta_description = 'Origine, histoire, pollinisation, affinage, usages et repères d’achat pour comprendre la vanille Bourbon Planifolia de Madagascar.'
           when 'wiki-vanille-conservation-preparation'
             assign vd_meta_title = 'Comment conserver des gousses de vanille | Guide pratique'
             assign vd_meta_description = 'Comment conserver des gousses de vanille sans les dessécher ? Conseils simples, erreurs à éviter et bonnes pratiques pour garder parfum et souplesse.'
@@ -403,26 +423,6 @@
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
-          {%- if request.page_type == 'page' and page.handle == 'wiki-vanille-conservation-preparation' -%}
-            <style>
-              body .content-for-layout .vdw-keep {
-                display: none !important;
-              }
-
-              .vd-page-injected-shell {
-                padding: clamp(12px, 2vw, 24px) 0 0;
-              }
-
-              .vd-page-injected-shell .page-width {
-                max-width: 128rem;
-              }
-            </style>
-            <div class="vd-page-injected-shell">
-              <div class="page-width">
-                {% render 'vd-wiki-page-conservation' %}
-              </div>
-            </div>
-          {%- endif -%}
           {{ content_for_layout }}
         </main>
 
@@ -431,8 +431,6 @@
         {% sections 'footer-group' %}
       </div>
     </div>
-
-    {% sections 'popup-group' %}
 
     <ul hidden>
       <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>

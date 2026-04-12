@@ -27,18 +27,8 @@
         {%- case block.type -%}
           {%- when 'liquid' -%}
             {%- if block.settings.code != blank -%}
-              {%- capture block_code_markup -%}
-                {{ block.settings.code }}
-              {%- endcapture -%}
               <div class="rte">
-                {%- if page.handle == 'wiki-vanille-conservation-preparation'
-                  or block_code_markup contains 'Coller dans /pages/wiki-vanille-conservation-preparation'
-                  or block_code_markup contains 'VANILLE DÉSIRÉ — WIKI : CONSERVATION & PRÉPARATION'
-                -%}
-                  {%- render 'vd-wiki-page-conservation' -%}
-                {%- else -%}
-                  {{ block_code_markup }}
-                {%- endif -%}
+                {{ block.settings.code }}
               </div>
             {%- else -%}
               <div class="rte">

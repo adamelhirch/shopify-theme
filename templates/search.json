@@ -9,27 +9,6 @@
  */
 {
   "sections": {
-    "vd_page_banner_search_r4M9xK": {
-      "type": "vd-page-banner",
-      "settings": {
-        "eyebrow": "Recherche",
-        "heading": "Trouver vite le bon format, sans perdre la lecture de marque.",
-        "text": "<p>La recherche ne doit pas ressembler a une page utilitaire froide. Elle doit rester premium, lisible et coherent avec le reste du site, meme quand on cherche vite un produit ou un contenu.</p>",
-        "primary_button_label": "Voir tous les produits",
-        "primary_button_link": "shopify://collections/all",
-        "secondary_button_label": "Explorer le wiki",
-        "secondary_button_link": "shopify://pages/wiki",
-        "metric_1_label": "Resultat",
-        "metric_1_value": "Plus net",
-        "metric_2_label": "Usage",
-        "metric_2_value": "Catalogue + contenu",
-        "metric_3_label": "Palette",
-        "metric_3_value": "Anthracite",
-        "color_scheme": "scheme-3",
-        "padding_top": 20,
-        "padding_bottom": 8
-      }
-    },
     "main": {
       "type": "main-search",
       "settings": {
@@ -46,49 +25,9 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
-    },
-    "vd_story_grid_search_j8Q3wL": {
-      "type": "vd-story-grid",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "title": "Recherche utile",
-            "text": "<p>Produits, contenus et usages doivent remonter sans casser l'experience visuelle.</p>"
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "title": "Filtres plus lisibles",
-            "text": "<p>Le client doit pouvoir trier vite, tout en restant dans un univers premium et coherent.</p>"
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "title": "Pont vers le wiki",
-            "text": "<p>La recherche doit aussi amener vers les contenus qui rassurent sur l'origine, les usages et les dosages.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3"
-      ],
-      "settings": {
-        "heading": "Une recherche qui reste dans la meme direction artistique.",
-        "text": "<p>Le moteur devient une vraie porte d'entree vers l'offre, pas un simple utilitaire pose a part.</p>",
-        "color_scheme": "scheme-2",
-        "padding_top": 0,
-        "padding_bottom": 56
-      }
     }
   },
   "order": [
-    "vd_page_banner_search_r4M9xK",
-    "main",
-    "vd_story_grid_search_j8Q3wL"
+    "main"
   ]
 }

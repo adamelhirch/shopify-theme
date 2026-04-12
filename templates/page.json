@@ -15,9 +15,9 @@
         "wiki_feature_1": {
           "type": "wiki_feature",
           "settings": {
-            "kicker": "Repères",
+            "kicker": "Guide achat",
             "title": "Bien choisir sa vanille",
-            "text": "Souplesse, brillance, parfum et usages : les critères utiles pour comparer sans se tromper.",
+            "text": "Gousses charnues, brillance, arômes : les critères utiles pour comparer comme il faut.",
             "point_1": "Bourbon vs Tahiti vs Pompona",
             "point_2": "Pièges à éviter & faux arômes",
             "point_3": "Prix & origine : comprendre",
@@ -30,7 +30,7 @@
           "settings": {
             "kicker": "Techniques",
             "title": "Conservation & préparation",
-            "text": "Tubes, bocaux, alcool, durée de vie et intensité : les bons gestes pour préserver l’arôme.",
+            "text": "Tubes, bocaux, alcool : durée de vie et intensité, avec les bons gestes pour préserver l’arôme.",
             "point_1": "Fendre, gratter, infuser",
             "point_2": "Recycler les gousses",
             "point_3": "Éviter la moisissure",
@@ -42,7 +42,7 @@
           "type": "wiki_feature",
           "settings": {
             "kicker": "Usages & recettes",
-            "title": "Pâtisserie, salé & boissons",
+            "title": "Usages : pâtisserie, salé & boissons",
             "text": "Glaces, crèmes, rhums, sauces et plats créatifs pour relier la lecture aux usages du quotidien.",
             "point_1": "Sucre vanillé & extrait maison",
             "point_2": "Accords salés : poisson, volaille",
@@ -182,11 +182,11 @@
       ],
       "settings": {
         "color_scheme": "scheme-3",
-        "wiki_text": "<p>Le guide de référence en français sur la <strong>vanille Bourbon de Madagascar</strong>, les <strong>épices rares</strong>, les usages, la conservation et le savoir-faire des producteurs.</p>",
+        "wiki_text": "<p>Le guide de référence en français sur la <strong>vanille Bourbon de Madagascar</strong> et les <strong>épices rares</strong> : histoire, variétés, usages, conservation, bienfaits, recettes et savoir-faire des producteurs.</p>",
         "wiki_summary": "Guides de conservation, usages, recettes et savoir-faire pour avancer avec des réponses claires.",
         "wiki_summary_eyebrow": "Depuis Madagascar",
         "wiki_summary_heading": "Vanille Bourbon, épices rares et savoir-faire producteur.",
-        "wiki_search_placeholder": "Rechercher une épice, un sujet, une question...",
+        "wiki_search_placeholder": "Rechercher une épice, un sujet, une question… (ex : conserver la vanille)",
         "wiki_hero_video_url": "",
         "wiki_primary_link_label": "Voir les recettes",
         "wiki_primary_link": "shopify://pages/recettes",
@@ -197,7 +197,8 @@
         "wiki_essentials_text": "<p>Tout savoir sur la <strong>vanille Bourbon</strong> : reconnaître une gousse de qualité, la préparer, la conserver et l’utiliser selon vos recettes.</p>",
         "wiki_categories_eyebrow": "Catégories",
         "wiki_categories_heading": "Explorer toutes les catégories",
-        "wiki_categories_text": "<p>Un sommaire visuel pour accéder rapidement aux sujets encyclopédiques du wiki.</p>",
+        "wiki_categories_text": "",
+        "wiki_heading": "Le grand wiki de Désiré",
         "wiki_footer_eyebrow": "Goûter la différence",
         "wiki_footer_heading": "Prêt à goûter la différence ?",
         "wiki_footer_text": "<p>Découvrez nos <strong>gousses de vanille Bourbon</strong>, nos <strong>épices rares</strong> et nos <strong>sels gourmets</strong> au prix direct producteur.</p>",

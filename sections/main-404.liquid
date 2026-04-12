@@ -10,31 +10,6 @@
   }
 </style>
 
-<script>
-  (function () {
-    var redirectMap = {
-      '/pages/faq': '/pages/wiki-faq-vanille-epices',
-      '/pages/savoir-faire': '/pages/wiki-savoir-faire-producteurs',
-      '/pages/le-wiki': '/pages/wiki',
-      '/pages/wiki-bien-choisir-vanille': '/pages/wiki-vanille-bien-choisir',
-      '/pages/wiki-vanille-tahiti': '/pages/wiki-vanille-bien-choisir',
-      '/pages/wiki-dosage-vanille': '/pages/wiki-vanille-conservation-preparation',
-      '/pages/wiki-recycler-gousse-vanille': '/pages/wiki-vanille-conservation-preparation',
-      '/pages/wiki-combava-madagascar': '/pages/wiki-epices-madagascar',
-      '/pages/wiki-poivre-quel-plat': '/pages/wiki-poivres-baies-madagascar',
-      '/pages/wiki-sel-aromatise-quel-plat': '/pages/wiki-sels-melanges'
-    };
-    var currentPath = window.location.pathname;
-    var nextPath = redirectMap[currentPath];
-
-    if (!nextPath) return;
-
-    var nextUrl = new URL(nextPath, window.location.origin);
-    if (window.location.search) nextUrl.search = window.location.search;
-    window.location.replace(nextUrl.toString());
-  })();
-</script>
-
 <div class="template-404 vd-404 page-width page-margin">
   <div class="vd-404__shell">
     <div class="vd-404__copy">
@@ -42,13 +17,13 @@
       <h1 class="title">
         {{ 'templates.404.title' | t }}
       </h1>
-      <p>
+      <p data-vd-404-copy>
         Cette page n'existe pas ou n'est pas encore publiee dans la boutique. L'important est de repartir proprement
         vers le catalogue, les recettes ou le contact.
       </p>
       <div class="vd-404__actions">
-        <a href="{{ routes.all_products_collection_url }}" class="vd-arrow-cta">
-          <span class="vd-arrow-cta__label">{{ 'general.continue_shopping' | t }}</span>
+        <a href="{{ routes.all_products_collection_url }}" class="vd-arrow-cta" data-vd-preview-link data-vd-404-primary>
+          <span class="vd-arrow-cta__label" data-vd-404-primary-label>{{ 'general.continue_shopping' | t }}</span>
           <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
             <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
           </svg>
@@ -78,3 +53,185 @@
     </div>
   </div>
 </div>
+
+<script>
+  (function () {
+    var redirects = {
+      '/pages/wiki-bienfaits-usages': {
+        url: {{ pages['wiki-bienfaits-sante'].url | default: '/pages/wiki-bienfaits-sante' | json }},
+        label: 'Bienfaits & usages'
+      },
+      '/pages/wiki-vanille-bourbon-planifolia': {
+        url: {{ pages['wiki-vanille-bien-choisir'].url | default: '/pages/wiki-vanille-bien-choisir' | json }},
+        label: 'Bien choisir sa vanille Bourbon'
+      },
+      '/pages/wiki-vanille': {
+        url: {{ pages['wiki-vanille-bien-choisir'].url | default: '/pages/wiki-vanille-bien-choisir' | json }},
+        label: 'Bien choisir sa vanille Bourbon'
+      },
+      '/pages/wiki-vanille-bien-choisir-bien-choisir': {
+        url: {{ pages['wiki-vanille-bien-choisir'].url | default: '/pages/wiki-vanille-bien-choisir' | json }},
+        label: 'Bien choisir sa vanille Bourbon'
+      },
+      '/pages/wiki-vanille-bien-choisir-conservation-preparation': {
+        url: {{ pages['wiki-vanille-conservation-preparation'].url | default: '/pages/wiki-vanille-conservation-preparation' | json }},
+        label: 'Conservation & préparation de la vanille'
+      },
+      '/pages/wiki-vanille-bien-choisir-pompona': {
+        url: {{ pages['wiki-vanille-pompona'].url | default: '/pages/wiki-vanille-pompona' | json }},
+        label: 'Vanille Pompona'
+      },
+      '/pages/wiki-vanille-bien-choisir-bourbon-planifolia-legacy-20260412': {
+        url: {{ pages['wiki-vanille-bourbon-planifolia-legacy-20260412'].url | default: '/pages/wiki-vanille-bourbon-planifolia-legacy-20260412' | json }},
+        label: 'Vanille Bourbon Planifolia'
+      },
+      '/pages/wiki-vanille-tahiti': {
+        url: {{ pages['wiki-vanille-bien-choisir'].url | append: '#vari%C3%A9t%C3%A9s' | json }},
+        label: 'Comparer les variétés de vanille'
+      },
+      '/pages/wiki-dosage-vanille': {
+        url: {{ pages['wiki-vanille-conservation-preparation'].url | default: '/pages/wiki-vanille-conservation-preparation' | json }},
+        label: 'Conservation & préparation de la vanille'
+      },
+      '/pages/wiki-recycler-gousse-vanille': {
+        url: {{ pages['wiki-vanille-conservation-preparation'].url | default: '/pages/wiki-vanille-conservation-preparation' | json }},
+        label: 'Conservation & préparation de la vanille'
+      },
+      '/pages/wiki-poivre-sauvage-voatsiperifery': {
+        url: {{ pages['wiki-poivre-sauvage-voatsiperifery'].url | default: '/pages/wiki-poivre-sauvage-voatsiperifery' | json }},
+        label: 'Poivre sauvage de Madagascar'
+      },
+      '/pages/wiki-poivre-noir-madagascar': {
+        url: {{ pages['wiki-poivre-noir-madagascar'].url | default: '/pages/wiki-poivre-noir-madagascar' | json }},
+        label: 'Poivre noir de Madagascar'
+      },
+      '/pages/wiki-poivre-blanc-madagascar': {
+        url: {{ pages['wiki-poivre-blanc-madagascar'].url | default: '/pages/wiki-poivre-blanc-madagascar' | json }},
+        label: 'Poivre blanc de Madagascar'
+      },
+      '/pages/wiki-baies-roses-madagascar': {
+        url: {{ pages['wiki-baies-roses-madagascar'].url | default: '/pages/wiki-baies-roses-madagascar' | json }},
+        label: 'Baies roses de Madagascar'
+      },
+      '/pages/wiki-baies-roses': {
+        url: {{ pages['wiki-baies-roses-madagascar'].url | default: '/pages/wiki-baies-roses-madagascar' | json }},
+        label: 'Baies roses de Madagascar'
+      },
+      '/pages/wiki-melange-poivres-baies': {
+        url: {{ pages['wiki-melange-poivres-baies'].url | default: '/pages/wiki-melange-poivres-baies' | json }},
+        label: 'Mélange poivres & baies'
+      },
+      '/pages/wiki-epice-combava-madagascar': {
+        url: {{ pages['wiki-epice-combava-madagascar'].url | default: '/pages/wiki-epice-combava-madagascar' | json }},
+        label: 'Combava'
+      },
+      '/pages/wiki-combava-madagascar': {
+        url: {{ pages['wiki-epice-combava-madagascar'].url | default: '/pages/wiki-epice-combava-madagascar' | json }},
+        label: 'Combava'
+      },
+      '/pages/wiki-combava': {
+        url: {{ pages['wiki-epice-combava-madagascar'].url | default: '/pages/wiki-epice-combava-madagascar' | json }},
+        label: 'Combava'
+      },
+      '/pages/wiki-epice-cannelle-madagascar': {
+        url: {{ pages['wiki-epice-cannelle-madagascar'].url | default: '/pages/wiki-epice-cannelle-madagascar' | json }},
+        label: 'Cannelle de Madagascar'
+      },
+      '/pages/wiki-cannelle-madagascar': {
+        url: {{ pages['wiki-epice-cannelle-madagascar'].url | default: '/pages/wiki-epice-cannelle-madagascar' | json }},
+        label: 'Cannelle de Madagascar'
+      },
+      '/pages/wiki-epice-curcuma-madagascar': {
+        url: {{ pages['wiki-epice-curcuma-madagascar'].url | default: '/pages/wiki-epice-curcuma-madagascar' | json }},
+        label: 'Curcuma de Madagascar'
+      },
+      '/pages/wiki-curcuma-madagascar': {
+        url: {{ pages['wiki-epice-curcuma-madagascar'].url | default: '/pages/wiki-epice-curcuma-madagascar' | json }},
+        label: 'Curcuma de Madagascar'
+      },
+      '/pages/wiki-epice-gingembre-madagascar': {
+        url: {{ pages['wiki-epice-gingembre-madagascar'].url | default: '/pages/wiki-epice-gingembre-madagascar' | json }},
+        label: 'Gingembre de Madagascar'
+      },
+      '/pages/wiki-gingembre-madagascar': {
+        url: {{ pages['wiki-epice-gingembre-madagascar'].url | default: '/pages/wiki-epice-gingembre-madagascar' | json }},
+        label: 'Gingembre de Madagascar'
+      },
+      '/pages/wiki-epice-girofle-madagascar': {
+        url: {{ pages['wiki-epice-girofle-madagascar'].url | default: '/pages/wiki-epice-girofle-madagascar' | json }},
+        label: 'Girofle de Madagascar'
+      },
+      '/pages/wiki-girofle-madagascar': {
+        url: {{ pages['wiki-epice-girofle-madagascar'].url | default: '/pages/wiki-epice-girofle-madagascar' | json }},
+        label: 'Girofle de Madagascar'
+      },
+      '/pages/wiki-epice-curry-madagascar': {
+        url: {{ pages['wiki-epice-curry-madagascar'].url | default: '/pages/wiki-epice-curry-madagascar' | json }},
+        label: 'Curry de Madagascar'
+      },
+      '/pages/wiki-curry-madagascar': {
+        url: {{ pages['wiki-epice-curry-madagascar'].url | default: '/pages/wiki-epice-curry-madagascar' | json }},
+        label: 'Curry de Madagascar'
+      },
+      '/pages/wiki-fond-epices-madagascar': {
+        url: {{ pages['wiki-fond-epices-madagascar'].url | default: '/pages/wiki-fond-epices-madagascar' | json }},
+        label: 'Fond d’épices'
+      },
+      '/pages/wiki-epice-piment-pili-pili-madagascar': {
+        url: {{ pages['wiki-epice-piment-pili-pili-madagascar'].url | default: '/pages/wiki-epice-piment-pili-pili-madagascar' | json }},
+        label: 'Piment pili-pili de Madagascar'
+      },
+      '/pages/wiki-piment-pili-pili-madagascar': {
+        url: {{ pages['wiki-epice-piment-pili-pili-madagascar'].url | default: '/pages/wiki-epice-piment-pili-pili-madagascar' | json }},
+        label: 'Piment pili-pili de Madagascar'
+      },
+      '/pages/wiki-pili-pili': {
+        url: {{ pages['wiki-epice-piment-pili-pili-madagascar'].url | default: '/pages/wiki-epice-piment-pili-pili-madagascar' | json }},
+        label: 'Piment pili-pili de Madagascar'
+      },
+      '/pages/wiki-sesame-madagascar': {
+        url: {{ pages['wiki-epice-sesame-madagascar'].url | default: '/pages/wiki-epice-sesame-madagascar' | json }},
+        label: 'Graines de sésame de Madagascar'
+      },
+      '/pages/wiki-poivre-quel-plat': {
+        url: {{ pages['wiki-poivres-baies-madagascar'].url | default: '/pages/wiki-poivres-baies-madagascar' | json }},
+        label: 'Poivres & baies de Madagascar'
+      },
+      '/pages/wiki-sel-aromatise-quel-plat': {
+        url: {{ pages['wiki-sels-melanges'].url | default: '/pages/wiki-sels-melanges' | json }},
+        label: 'Sels & mélanges'
+      }
+    };
+
+    var currentPath = window.location.pathname;
+    var redirect = redirects[currentPath];
+    if (!redirect) return;
+
+    var copy = document.querySelector('[data-vd-404-copy]');
+    var primaryLink = document.querySelector('[data-vd-404-primary]');
+    var primaryLabel = document.querySelector('[data-vd-404-primary-label]');
+    var target = new URL(redirect.url, window.location.origin);
+    var previewThemeId = new URLSearchParams(window.location.search).get('preview_theme_id');
+
+    if (previewThemeId && !target.searchParams.get('preview_theme_id')) {
+      target.searchParams.set('preview_theme_id', previewThemeId);
+    }
+
+    if (copy) {
+      copy.textContent =
+        'Cette ancienne entree du wiki a ete regroupee. Vous etes redirige vers ' +
+        redirect.label +
+        ' pour retrouver un contenu utile et un maillage propre.';
+    }
+
+    if (primaryLink) {
+      primaryLink.href = target.pathname + target.search + target.hash;
+    }
+
+    if (primaryLabel) {
+      primaryLabel.textContent = 'Ouvrir ' + redirect.label;
+    }
+
+    window.location.replace(target.pathname + target.search + target.hash);
+  })();
+</script>

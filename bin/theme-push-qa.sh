@@ -2,7 +2,7 @@
 set -euo pipefail
 
 STORE="${SHOPIFY_STORE:-4bru0c-p4.myshopify.com}"
-THEME_ID="${SHOPIFY_QA_THEME_ID:-181157986571}"
+THEME_ID="${SHOPIFY_QA_THEME_ID:-181159821579}"
 
 exec shopify theme push \
   --store "$STORE" \

@@ -4,7 +4,7 @@
 
 - Store: `4bru0c-p4.myshopify.com`
 - Live theme: `Copie mise à jour de Motion` (`180888928523`)
-- Active shared preview: `QA Shared v1.1.8` (`181157986571`)
+- Active shared preview: `QA Shared v1.1.9` (`181159821579`)
 - Frozen backup theme: `QA Shared v1` (`181070168331`)
 
 ## Rules
@@ -16,7 +16,7 @@
 - Push to the same Shopify preview first, validate there, then commit and push Git.
 - `QA Shared v1` is frozen and restore-only.
 - Never push normal work to `QA Shared v1`.
-- Before any Shopify push, confirm that `./bin/theme-push-qa.sh` and the CLI output both target `181157986571`.
+- Before any Shopify push, confirm that `./bin/theme-push-qa.sh` and the CLI output both target `181159821579`.
 
 ## Daily flow
 
@@ -45,13 +45,13 @@ Push current local code to the shared QA theme:
 Expected target:
 
 ```text
-QA Shared v1.1.8 (181157986571)
+QA Shared v1.1.9 (181159821579)
 ```
 
 ## Important distinction
 
 - `git push`: shares code on GitHub.
-- `theme-push-qa`: updates the current shared Shopify review theme (`QA Shared v1.1.8`).
+- `theme-push-qa`: updates the current shared Shopify review theme (`QA Shared v1.1.9`).
 
 For theme work, the real order is:
 

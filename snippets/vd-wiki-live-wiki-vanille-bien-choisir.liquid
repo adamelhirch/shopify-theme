@@ -1,0 +1,298 @@
+<section class="vdw-choose" aria-labelledby="vdw-choose-title">
+  <!-- ======= Styles (namespacés) ======= -->
+  <style>
+    .vdw-choose{
+      --ink:#2B1C10;
+      --bg:#FAF5EE;
+      --paper:#F6EFE6;
+      --cream:#F2E9DD;
+      --accent:#D4A373; /* Orange Vanille Désiré */
+      --olive:#6E7B59;
+      --ring:rgba(0,0,0,.08);
+      color:var(--ink); background:var(--bg);
+      border-radius:20px; padding:clamp(20px,3vw,44px)
+    }
+    .vdw-choose *{box-sizing:border-box}
+    .vdw-choose a{color:inherit;text-decoration:none}
+    .vdw-choose .wrap{max-width:1200px;margin:0 auto}
+
+    /* Hero */
+    .vdw-choose .kicker{letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;opacity:.8;margin-bottom:.35rem}
+    .vdw-choose h1{font-size:clamp(1.9rem,4.2vw,3rem);line-height:1.08;margin:.1rem 0 .35rem}
+    .vdw-choose .lead{font-size:clamp(1rem,1.2vw,1.125rem);max-width:80ch;opacity:.95;margin:0}
+
+    /* Sommaire sticky */
+    .vdw-choose .toc{
+      position:sticky; top:84px; /* laisse le header/bandeau respirer */
+      align-self:flex-start;
+      background:#fff; border:1px solid var(--cream); border-radius:16px; padding:14px;
+      box-shadow:0 6px 18px rgba(0,0,0,.04)
+    }
+    .vdw-choose .toc h2{font-size:1rem;margin:.1rem 0 .4rem}
+    .vdw-choose .toc ul{list-style:none;margin:0;padding:0;display:grid;gap:.35rem}
+    .vdw-choose .toc a{display:flex;gap:.5rem;align-items:center;padding:.45rem .6rem;border-radius:10px}
+    .vdw-choose .toc a:hover{background:var(--paper)}
+    .vdw-choose .toc .dot{width:8px;height:8px;border-radius:999px;background:var(--accent);opacity:.8}
+
+    /* Désactive le sticky sur mobile pour éviter le chevauchement du bandeau */
+    @media(max-width:767px){
+      .vdw-choose .grid.cols-2{grid-template-columns:1fr!important}
+      .vdw-choose .toc{position:static; top:auto; margin-bottom:10px}
+    }
+
+    /* Layout */
+    .vdw-choose .grid{display:grid;gap:20px}
+    @media(min-width:980px){.vdw-choose .grid.cols-2{grid-template-columns:280px 1fr}}
+
+    /* Sections */
+    .vdw-choose section.block{background:#fff;border:1px solid var(--cream);border-radius:18px;padding:18px;box-shadow:0 8px 24px rgba(0,0,0,.04)}
+    .vdw-choose .block h2{font-size:clamp(1.25rem,2.3vw,1.6rem);margin:0 0 .5rem}
+    .vdw-choose .intro{opacity:.95;margin:.2rem 0 .8rem;max-width:85ch}
+
+    /* Chips / badges */
+    .vdw-choose .chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0}
+    .vdw-choose .chip{display:inline-flex;align-items:center;gap:.45rem;background:#fff;border:1px solid var(--cream);
+      border-radius:999px;font-size:.82rem;padding:.35rem .7rem;color:#6B5E4A}
+
+    /* Cards critères */
+    .vdw-choose .cards{display:grid;gap:12px}
+    @media(min-width:720px){.vdw-choose .cards{grid-template-columns:repeat(3,1fr)}}
+    .vdw-choose .card{background:linear-gradient(180deg,#fff 0%,#fff7ee 100%);border:1px solid var(--cream);border-radius:16px;padding:16px;
+      box-shadow:0 6px 20px rgba(0,0,0,.04);transition:transform .3s ease, box-shadow .3s ease}
+    .vdw-choose .card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.08)}
+    .vdw-choose .card h3{margin:.1rem 0 .35rem;font-size:1.02rem}
+    .vdw-choose .mini{font-size:.93rem;opacity:.95;margin:.2rem 0 0}
+
+    /* Comparatif */
+    .vdw-choose .compare{display:grid;gap:12px}
+    @media(min-width:720px){.vdw-choose .compare{grid-template-columns:1fr 1fr}}
+    .vdw-choose .panel{background:#fff;border:1px solid var(--cream);border-radius:16px;padding:16px}
+    .vdw-choose .panel h3{margin:.1rem 0 .35rem;font-size:1.02rem}
+    .vdw-choose .panel ul{margin:.3rem 0 0;padding-left:1.1rem}
+    .vdw-choose .panel.good{border-color:var(--olive)}
+    .vdw-choose .panel.warn{border-color:#C77D47}
+
+    /* Accordéons */
+    .vdw-choose details{background:#fff;border:1px solid var(--cream);border-radius:12px;padding:12px 14px;margin:10px 0}
+    .vdw-choose summary{cursor:pointer;font-weight:600;list-style:none}
+    .vdw-choose summary::-webkit-details-marker{display:none}
+    .vdw-choose details[open]{border-color:var(--accent)}
+
+    /* CTA */
+    .vdw-choose .cta-row{display:flex;flex-wrap:wrap;gap:.6rem}
+    .vdw-choose .btn{appearance:none;border:none;border-radius:999px;background:var(--accent);color:#20130C;
+      padding:.85rem 1.1rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:.45rem}
+    .vdw-choose .btn--ghost{background:#fff;border:1px solid var(--cream);font-weight:600;transition:all .25s ease}
+    .vdw-choose .btn--ghost:hover{background:var(--cream);color:var(--ink)}
+
+    /* Accessibilité focus */
+    .vdw-choose a:focus-visible, .vdw-choose button:focus-visible{
+      outline:2px solid var(--accent); outline-offset:2px; border-radius:10px
+    }
+
+    /* Reveal */
+    .vdw-choose .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease, transform .6s ease}
+    .vdw-choose .reveal.on{opacity:1;transform:none}
+
+    @media(prefers-reduced-motion:reduce){
+      .vdw-choose .reveal{opacity:1;transform:none}
+      .vdw-choose .card{transition:none}
+      .vdw-choose .card:hover{transform:none}
+    }
+  </style>
+
+  <div class="wrap">
+    <!-- ======= HERO ======= -->
+    <p class="kicker">Wiki — Vanille</p>
+    <h1 id="vdw-choose-title">Bien choisir sa vanille Bourbon</h1>
+    <p class="lead">Reconnaître une gousse d’exception, éviter les pièges, comparer les variétés (Bourbon, Tahiti, Pompona), maîtriser la conservation et choisir selon l’usage.</p>
+
+    <!-- ======= LAYOUT : TOC + CONTENT ======= -->
+    <div class="grid cols-2" style="margin-top:18px">
+      <!-- TOC -->
+      <nav class="toc reveal" aria-label="Sommaire">
+        <h2>Sommaire</h2>
+        <ul>
+          <li><a href="#criteres"><span class="dot" aria-hidden="true"></span> Critères qualité</a></li>
+          <li><a href="#vari%C3%A9t%C3%A9s"><span class="dot"></span> Variétés &amp; usages</a></li>
+          <li><a href="#comparatif"><span class="dot"></span> Naturelle vs arôme</a></li>
+          <li><a href="#erreurs"><span class="dot"></span> Erreurs à éviter</a></li>
+          <li><a href="#achat"><span class="dot"></span> Où &amp; comment acheter</a></li>
+          <li><a href="#faq"><span class="dot"></span> FAQ</a></li>
+          <!-- Liens vers dossiers complets -->
+          <li><a href="/pages/wiki-vanille-bourbon-planifolia"><span class="dot"></span> Lire le dossier : Vanille Bourbon (Planifolia)</a></li>
+          <li><a href="/pages/wiki-vanille-pompona"><span class="dot"></span> Lire le guide : Vanille Pompona</a></li>
+        </ul>
+      </nav>
+
+      <!-- CONTENT -->
+      <div class="content">
+        <!-- Bloc 1 : Critères qualité -->
+        <section id="criteres" class="block reveal" aria-labelledby="criteres-title">
+          <h2 id="criteres-title">Les 6 critères d’une <em>vraie</em> vanille de qualité</h2>
+          <p class="intro">Une gousse premium est <strong>souple</strong>, <strong>charnue</strong>, légèrement <strong>huileuse</strong> et dégage un parfum <strong>complexe</strong>. Voici les repères concrets à vérifier.</p>
+
+          <div class="cards">
+            <article class="card"><h3>Aspect &amp; brillance</h3><p class="mini">Gousse lisse, brun foncé à noir, reflets brillants (huile naturelle). Pas d’éclats blancs secs.</p></article>
+            <article class="card"><h3>Souplesse</h3><p class="mini">La gousse se plie sans casser. Si elle craque, elle est trop sèche (perte d’arômes).</p></article>
+            <article class="card"><h3>Charnue &amp; calibre</h3><p class="mini">Épaisseur régulière, longueur souvent 14–20 cm. Plus elle est charnue, plus elle est aromatique.</p></article>
+            <article class="card"><h3>Parfum</h3><p class="mini">Arômes chauds, floraux, chocolatés, parfois fruités. Odeur “plate” = qualité médiocre.</p></article>
+            <article class="card"><h3>Humidité maîtrisée</h3><p class="mini">Ni trop humide (risque de moisissure), ni sèche. Toucher souple et gras léger.</p></article>
+            <article class="card"><h3>Traçabilité</h3><p class="mini">Origine claire (Madagascar – Bourbon), préparation artisanale, relation directe producteur.</p></article>
+          </div>
+
+          <div class="chips" aria-label="Repères rapides">
+            <span class="chip">Bourbon = Planifolia (Madagascar)</span>
+            <span class="chip">Préparation traditionnelle</span>
+            <span class="chip">Tri manuel</span>
+            <span class="chip">Arômes puissants &amp; réguliers</span>
+          </div>
+        </section>
+
+        <!-- Bloc 2 : Variétés & usages -->
+        <section id="variétés" class="block reveal" aria-labelledby="var-title">
+          <h2 id="var-title">Variétés &amp; meilleurs usages</h2>
+          <p class="intro">Chaque variété a sa signature aromatique. Choisis selon ta recette : pâtisserie, glaces, rhum arrangé, cuisine salée, boissons…</p>
+
+          <div class="cards">
+            <article class="card">
+              <h3>Vanille Bourbon (Planifolia)</h3>
+              <p class="mini"><strong>Origine :</strong> Madagascar. <strong>Profil :</strong> chaud, rond, cacaoté, floral. <strong>Usages :</strong> pâtisserie, glaces, crèmes, sauces salées fines.</p>
+              <p class="mini"><a class="btn btn--ghost" href="/pages/wiki-vanille-bourbon-planifolia" aria-label="Lire le dossier Vanille Bourbon (Planifolia)">Lire le dossier Planifolia</a></p>
+            </article>
+            <article class="card">
+              <h3>Vanille Tahiti (Tahitensis)</h3>
+              <p class="mini"><strong>Profil :</strong> plus floral/fruité (anis, fruits). <strong>Usages :</strong> desserts légers, crèmes parfumées, cocktails.</p>
+            </article>
+            <article class="card">
+              <h3>Vanille Pompona</h3>
+              <p class="mini"><strong>Profil :</strong> très aromatique, ample, gousses plus longues et épaisses. <strong>Usages :</strong> desserts généreux, rhums, infusions.</p>
+              <p class="mini"><a class="btn btn--ghost" href="/pages/wiki-vanille-pompona" aria-label="Lire le guide Vanille Pompona">Lire le guide Pompona</a></p>
+            </article>
+          </div>
+
+          <details>
+            <summary>Quelle vanille pour la pâtisserie ?</summary>
+            <p>La Bourbon de Madagascar est la plus polyvalente : crèmes, flans, biscuits, entremets, ganaches…</p>
+          </details>
+          <details>
+            <summary>Quelle vanille pour le rhum arrangé ?</summary>
+            <p>Bourbon (ronde et puissante) ou Pompona (très parfumée). Dose selon l’alcool et le sucre utilisé.</p>
+          </details>
+          <details>
+            <summary>Et pour la cuisine salée ?</summary>
+            <p>Bourbon en petites touches dans sauces (poisson/volaille), purées ou beurres vanillés. Éviter la surdose.</p>
+          </details>
+        </section>
+
+        <!-- Bloc 3 : Comparatif -->
+        <section id="comparatif" class="block reveal" aria-labelledby="cmp-title">
+          <h2 id="cmp-title">Vanille naturelle vs. arôme artificiel</h2>
+          <p class="intro">Beaucoup de produits utilisent de la vanilline synthétique. Voici comment faire la différence — et pourquoi la gousse fait toute la nuance.</p>
+
+          <div class="compare">
+            <div class="panel good">
+              <h3>Vanille naturelle (gousse / graines / extrait pur)</h3>
+              <ul>
+                <li>Profil aromatique complexe (plusieurs centaines de composés).</li>
+                <li>Goût évolutif : floral, boisé, cacaoté, fruité.</li>
+                <li>Traçabilité &amp; terroir (Bourbon – Madagascar).</li>
+                <li>Puissance &amp; longueur en bouche supérieures.</li>
+              </ul>
+            </div>
+            <div class="panel warn">
+              <h3>Arôme artificiel / vanilline seule</h3>
+              <ul>
+                <li>Note unique, “plate”, sucrée, sans complexité.</li>
+                <li>Masque les défauts, mais manque de profondeur.</li>
+                <li>Ne reflète pas le terroir ni le savoir-faire.</li>
+                <li>Moins bonne tenue en cuisson.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Bloc 4 : Erreurs à éviter -->
+        <section id="erreurs" class="block reveal" aria-labelledby="err-title">
+          <h2 id="err-title">5 erreurs fréquentes à éviter</h2>
+          <ul style="margin:.3rem 0 0; padding-left:1.2rem">
+            <li>Choisir des gousses <strong>dures et cassantes</strong> (faible arôme, séchage excessif).</li>
+            <li>Confondre <strong>humidité maîtrisée</strong> et excès (risque de moisissure).</li>
+            <li>Se fier uniquement au <strong>prix au kilo</strong> sans regarder la qualité (calibre/épaisseur).</li>
+            <li>Utiliser un <strong>arôme artificiel</strong> en pensant retrouver le goût de la gousse.</li>
+            <li>Mal <strong>conserver</strong> (lumière/air/chaleur) → perte d’arômes.</li>
+          </ul>
+        </section>
+
+        <!-- Bloc 5 : Achat -->
+        <section id="achat" class="block reveal" aria-labelledby="buy-title">
+          <h2 id="buy-title">Bien acheter : origine, préparation, éthique</h2>
+          <p class="intro">Privilégie une vanille <strong>Bourbon (Madagascar)</strong>, préparée selon un savoir-faire artisanal, avec <strong>traçabilité</strong> et <strong>relation directe producteur</strong>.</p>
+
+          <div class="cards">
+            <article class="card"><h3>Origine &amp; traçabilité</h3><p class="mini">Demande l’origine précise (Madagascar) et le type (Planifolia). Évite les origines floues.</p></article>
+            <article class="card"><h3>Préparation traditionnelle</h3><p class="mini">Échaudage, étuvage, séchage au soleil, affinage, tri manuel : les arômes se construisent.</p></article>
+            <article class="card"><h3>Éthique &amp; prix justes</h3><p class="mini">Relation directe avec les familles productrices = qualité constante et rémunération équitable.</p></article>
+          </div>
+
+          <div class="cta-row" style="margin-top:.8rem">
+            <a class="btn" href="/collections/vanille-bourbon">Voir nos gousses Bourbon</a>
+            <a class="btn btn--ghost" href="/pages/wiki-vanille-conservation-preparation">Conserver &amp; préparer</a>
+          </div>
+        </section>
+
+        <!-- Bloc 6 : FAQ -->
+        <section id="faq" class="block reveal" aria-labelledby="faq-title" aria-label="Questions fréquentes">
+          <h2 id="faq-title">FAQ — Bien choisir sa vanille</h2>
+
+          <details><summary>Quelle longueur et quel calibre viser ?</summary><p>Souvent 14–20 cm pour une gousse charnue. Plus que la longueur, regarde l’épaisseur régulière et la souplesse.</p></details>
+          <details><summary>La “givre” blanche, c’est grave ?</summary><p>La cristallisation naturelle de vanilline est possible (aspect givré). Elle n’est pas un défaut si l’odeur reste puissante.</p></details>
+          <details><summary>La meilleure vanille pour la glace ?</summary><p>La Bourbon (Madagascar) pour son profil rond et puissant, parfait en infusion longue dans lait/crème.</p></details>
+          <details><summary>Combien de gousses pour 1 L de préparation ?</summary><p>Selon l’intensité souhaitée : 2 à 4 gousses/L (pâtisserie), 1 à 2 gousses/L (boissons), 3 à 5 gousses/L (rhum arrangé).</p></details>
+        </section>
+      </div>
+    </div>
+
+    <!-- CTA final -->
+    <section class="block reveal" style="margin-top:18px;text-align:center">
+      <h2>Prêt à goûter la différence ?</h2>
+      <p class="intro">Gousses Bourbon de Madagascar sélectionnées, traçables &amp; au prix direct producteur.</p>
+      <div class="cta-row" style="justify-content:center">
+        <a class="btn" href="/collections/vanille-bourbon">Acheter la vanille Bourbon</a>
+        <a class="btn btn--ghost" href="/pages/wiki">← Retour au Wiki</a>
+      </div>
+    </section>
+  </div>
+
+  <!-- ======= Reveal on scroll (léger, vanilla JS) ======= -->
+  <script>
+    document.addEventListener('DOMContentLoaded',function(){
+      var els=document.querySelectorAll('.vdw-choose .reveal');
+      if('IntersectionObserver' in window){
+        var io=new IntersectionObserver(function(entries){
+          entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target);} });
+        },{threshold:.12});
+        els.forEach(function(el){ io.observe(el); });
+      }else{ els.forEach(function(el){ el.classList.add('on'); }); }
+    });
+  </script>
+
+  <!-- ======= JSON-LD (FAQ SEO) ======= -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Quelle longueur et quel calibre viser ?",
+       "acceptedAnswer":{"@type":"Answer","text":"Souvent 14–20 cm pour une gousse charnue. Plus que la longueur, regarde l’épaisseur régulière et la souplesse."}},
+      {"@type":"Question","name":"La givre blanche, c’est grave ?",
+       "acceptedAnswer":{"@type":"Answer","text":"La cristallisation de vanilline peut appara\u00eetre. Ce n’est pas un d\u00e9faut si le parfum reste puissant et complexe."}},
+      {"@type":"Question","name":"La meilleure vanille pour la glace ?",
+       "acceptedAnswer":{"@type":"Answer","text":"La Bourbon de Madagascar pour son profil rond et puissant, id\u00e9ale en infusion longue dans lait\/cr\u00e8me."}},
+      {"@type":"Question","name":"Combien de gousses pour 1 L de préparation ?",
+       "acceptedAnswer":{"@type":"Answer","text":"Selon l’intensit\u00e9 : 2–4 gousses\/L (p\u00e2tisserie), 1–2 gousses\/L (boissons), 3–5 gousses\/L (rhum arrang\u00e9)."}}
+    ]
+  }
+  </script>
+</section>
+              

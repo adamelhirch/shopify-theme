@@ -1,0 +1,507 @@
+<section class="vdw-oe" aria-labelledby="vdw-oe-title">
+  <style>
+    .vdw-oe{
+      /* Palette VD */
+      --ink:#2B1C10; --bg:#FAF5EE; --paper:#F6EFE6; --cream:#F2E9DD;
+      --accent:#D4A373; --olive:#6E7B59; --warn:#C77D47; --ring:rgba(0,0,0,.08);
+      /* Sécurité header/bandeau sticky */
+      --safe-top: clamp(64px, env(safe-area-inset-top) + 72px, 112px);
+      color:var(--ink); background:var(--bg);
+      border-radius:20px; padding:clamp(20px,3vw,44px)
+    }
+    .vdw-oe *{box-sizing:border-box}
+    .vdw-oe a{color:inherit;text-decoration:none}
+    .vdw-oe .wrap{max-width:1200px;margin:0 auto}
+
+    /* Hero */
+    .vdw-oe .kicker{letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;opacity:.8;margin-bottom:.35rem}
+    .vdw-oe h1{font-size:clamp(1.9rem,4.2vw,3rem);line-height:1.08;margin:.1rem 0 .35rem}
+    .vdw-oe .lead{font-size:clamp(1rem,1.2vw,1.125rem);max-width:80ch;opacity:.95;margin:0}
+
+    /* Layout + TOC */
+    .vdw-oe .grid{display:grid;gap:20px}
+    @media(min-width:980px){.vdw-oe .grid.cols-2{grid-template-columns:280px 1fr}}
+    .vdw-oe .toc{position:sticky; top:var(--safe-top); align-self:flex-start;
+      background:#fff;border:1px solid var(--cream);border-radius:16px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.04)}
+    .vdw-oe .toc h2{font-size:1rem;margin:.1rem 0 .4rem}
+    .vdw-oe .toc ul{list-style:none;margin:0;padding:0;display:grid;gap:.35rem}
+    .vdw-oe .toc a{display:flex;gap:.5rem;align-items:center;padding:.45rem .6rem;border-radius:10px}
+    .vdw-oe .toc a:hover{background:var(--paper)}
+    .vdw-oe .toc .dot{width:8px;height:8px;border-radius:999px;background:var(--accent);opacity:.8}
+
+    /* Anchors */
+    .vdw-oe .anchor{scroll-margin-top:var(--safe-top)}
+
+    /* Blocks */
+    .vdw-oe section.block{background:#fff;border:1px solid var(--cream);border-radius:18px;padding:18px;box-shadow:0 8px 24px rgba(0,0,0,.04)}
+    .vdw-oe .block h2{font-size:clamp(1.25rem,2.3vw,1.6rem);margin:0 0 .5rem}
+    .vdw-oe .intro{opacity:.95;margin:.2rem 0 .8rem;max-width:85ch}
+
+    /* Cards/grid */
+    .vdw-oe .cards{display:grid;gap:12px}
+    @media(min-width:720px){.vdw-oe .cards{grid-template-columns:repeat(3,1fr)}}
+    .vdw-oe .card{background:linear-gradient(180deg,#fff 0%,#fff7ee 100%);border:1px solid var(--cream);border-radius:16px;padding:16px;
+      box-shadow:0 6px 20px rgba(0,0,0,.04);transition:transform .3s ease, box-shadow .3s ease}
+    .vdw-oe .card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.08)}
+    .vdw-oe .card h3{margin:.1rem 0 .35rem;font-size:1.02rem}
+    .vdw-oe .mini{font-size:.93rem;opacity:.95;margin:.2rem 0 0}
+
+    /* Badges */
+    .vdw-oe .badge{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .6rem;border-radius:999px;font-size:.78rem;font-weight:700}
+    .vdw-oe .badge--direct{background:#F9EFE6;border:1px solid var(--cream)}
+    .vdw-oe .badge--bio{background:#EAF4EA;border:1px solid #DDEAD9}
+
+    /* Panels DO / DON'T */
+    .vdw-oe .panel{background:#fff;border:1px solid var(--cream);border-radius:16px;padding:16px}
+    .vdw-oe .panel.good{border-color:var(--olive)}
+    .vdw-oe .panel.warn{border-color:var(--warn)}
+    .vdw-oe .panel ul{margin:.3rem 0 0;padding-left:1.1rem}
+
+    /* Steps */
+    .vdw-oe .steps{display:grid;gap:12px}
+    @media(min-width:860px){.vdw-oe .steps{grid-template-columns:repeat(4,1fr)}}
+    .vdw-oe .step{border:1px dashed var(--cream);border-radius:14px;padding:14px;background:#fff}
+    .vdw-oe .step .n{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;
+      background:var(--accent);color:#20130C;font-weight:700;margin-right:.45rem}
+
+    /* Accordions & tables */
+    .vdw-oe details{background:#fff;border:1px solid var(--cream);border-radius:12px;padding:12px 14px;margin:10px 0}
+    .vdw-oe summary{cursor:pointer;font-weight:600;list-style:none}
+    .vdw-oe summary::-webkit-details-marker{display:none}
+    .vdw-oe details[open]{border-color:var(--accent)}
+    .vdw-oe table{width:100%;border-collapse:separate;border-spacing:0;margin:.4rem 0;border:1px solid var(--cream);border-radius:12px;overflow:hidden}
+    .vdw-oe th,.vdw-oe td{padding:.6rem .7rem;border-bottom:1px solid var(--cream);text-align:left}
+    .vdw-oe thead th{background:#fff7ee;font-weight:700}
+    .vdw-oe tbody tr:last-child td{border-bottom:none}
+
+    /* Buttons */
+    .vdw-oe .cta-row{display:flex;flex-wrap:wrap;gap:.6rem}
+    .vdw-oe .btn{appearance:none;border:none;border-radius:999px;background:var(--accent);color:#20130C;
+      padding:.85rem 1.1rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:.45rem}
+    .vdw-oe .btn--ghost{background:#fff;border:1px solid var(--cream);font-weight:600}
+
+    /* Reveal on scroll */
+    .vdw-oe .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease, transform .6s ease}
+    .vdw-oe .reveal.on{opacity:1;transform:none}
+
+    @media(prefers-reduced-motion:reduce){
+      .vdw-oe .reveal{opacity:1;transform:none}
+      .vdw-oe .card{transition:none}
+      .vdw-oe .card:hover{transform:none}
+    }
+  </style>
+
+  <div class="wrap">
+    <!-- HERO -->
+    <p class="kicker">Wiki — Huiles essentielles</p>
+    <h1 id="vdw-oe-title">Huiles essentielles &amp; huiles naturelles de Madagascar</h1>
+    <p class="lead">
+      Guide clair et pratique pour <strong>choisir</strong>, <strong>utiliser</strong> et <strong>conserver</strong> nos huiles
+      (Ylang Ylang, Ravintsara, Girofle, Eucalyptus citronné, Cannelle, Ricin). Sourcing <strong>direct producteurs</strong>, traçabilité et qualité artisanale.
+    </p>
+
+    <!-- LAYOUT -->
+    <div class="grid cols-2" style="margin-top:18px">
+      <!-- TOC -->
+      <nav class="toc reveal" aria-label="Sommaire">
+        <h2>Sommaire</h2>
+        <ul>
+          <li><a href="#choisir"><span class="dot"></span> Bien choisir son huile</a></li>
+          <li><a href="#fiches"><span class="dot"></span> Fiches par huile (notes &amp; usages)</a></li>
+          <li><a href="#utiliser"><span class="dot"></span> Utilisation : diffusion &amp; peau</a></li>
+          <li><a href="#dilution"><span class="dot"></span> Tableau de dilution (gouttes/ml)</a></li>
+          <li><a href="#conserver"><span class="dot"></span> Conservation &amp; stabilité</a></li>
+          <li><a href="#faq"><span class="dot"></span> FAQ &amp; précautions</a></li>
+        </ul>
+      </nav>
+
+      <!-- CONTENT -->
+      <div class="content">
+
+        <!-- 1. CHOISIR -->
+        <section id="choisir" class="block reveal anchor" aria-labelledby="choisir-title">
+          <h2 id="choisir-title">Bien choisir son huile</h2>
+          <p class="intro">Trois repères simples pour une huile de qualité, utile en diffusion, en usage externe dilué ou comme huile support au quotidien.</p>
+
+          <div class="cards">
+            <article class="card">
+              <h3>Origine &amp; traçabilité</h3>
+              <p class="mini">Production familiale à Madagascar, circuits <strong>sans intermédiaire</strong>, lots courts, étiquetage clair (espèce botanique, partie distillée).</p>
+              <span class="badge badge--direct" title="Approvisionnement direct">Direct producteurs</span>
+            </article>
+            <article class="card">
+              <h3>Fraîcheur &amp; profil olfactif</h3>
+              <p class="mini">Parfum net, sans « note lourde » rance. Couleur et viscosité conformes à l’espèce. Bouchon compte-gouttes <em>propre</em>.</p>
+            </article>
+            <article class="card">
+              <h3>Usage attendu</h3>
+              <p class="mini">Diffusion, usage externe dilué, rituel d’ambiance : adaptez la <strong>dilution</strong> et choisissez des espèces <strong>douces</strong> pour débuter (Ylang Ylang, Ravintsara).</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- 2. FICHES HUILES -->
+        <section id="fiches" class="block reveal anchor" aria-labelledby="fiches-title">
+          <h2 id="fiches-title">Fiches par huile — notes, idées d’usage &amp; précautions</h2>
+          <p class="intro">Chaque fiche propose des repères olfactifs, des pistes d’usage simples et des précautions essentielles. <strong>Ingestion déconseillée</strong> sans avis d’un pro qualifié.</p>
+
+          <!-- YLANG YLANG -->
+          <details open>
+            <summary><strong>Ylang Ylang (Cananga odorata) — HE 5 mL</strong></summary>
+            <div class="cards" style="margin-top:.4rem">
+              <div class="card">
+                <img src="https://cdn.shopify.com/s/files/1/0927/2911/4891/files/huile-essentielle-ylang-ylang-5ml.png?v=1757254085" alt="Huile essentielle Ylang Ylang" style="width:100%;border-radius:12px;margin-bottom:.6rem" loading="lazy">
+                <h3>Profil olfactif</h3>
+                <p class="mini">Floral, solaire, crémeux. Super en accords « gourmands » vanillés.</p>
+              </div>
+              <div class="card">
+                <h3>Idées d’usage</h3>
+                <ul class="mini">
+                  <li>Diffusion du soir : 2 g Ylang + 3 g Orange douce (10 min/heure).</li>
+                  <li>Cosmétique (≤1%) : 1 goutte/5 mL d’huile végétale sur les pointes de cheveux.</li>
+                  <li>Rituel parfumé : 1 goutte dans une base dispersante ou dans une huile végétale adaptée, jamais pure ni en ingestion. </li>
+                </ul>
+              </div>
+              <div class="card">
+                <h3>Précautions</h3>
+                <ul class="mini">
+                  <li>Puissante : toujours <strong>diluer</strong>. Éviter sur peaux très réactives.</li>
+                  <li>Déconseillée 1er trimestre de grossesse. Tenir hors de portée des enfants.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="cta-row" style="margin-top:.6rem">
+              <a class="btn" href="/products/huile-essentielle-ylang-ylang-5ml">Voir le produit</a>
+              <a class="btn btn--ghost" href="/collections/huiles-essentielles">Toute la collection</a>
+            </div>
+          </details>
+
+          <!-- RAVINTSARA -->
+          <details>
+            <summary><strong>Ravintsara (Cinnamomum camphora CT 1,8-cinéole) — HE 5 mL</strong></summary>
+            <div class="cards" style="margin-top:.4rem">
+              <div class="card">
+                <img src="https://cdn.shopify.com/s/files/1/0927/2911/4891/files/huile_essentielle_ravintsara_madagascar.png?v=1757254488" alt="Huile essentielle Ravintsara" style="width:100%;border-radius:12px;margin-bottom:.6rem" loading="lazy">
+                <h3>Profil olfactif</h3>
+                <p class="mini">Frais, eucalypté, propre. Idéal pour assainir l’air en douceur.</p>
+              </div>
+              <div class="card">
+                <h3>Idées d’usage</h3>
+                <ul class="mini">
+                  <li>Diffusion « air clair » : 3 g Ravintsara + 2 g Citron (10–15 min/heure).</li>
+                  <li>Baume poitrine doux (≤1%) : 2 g/10 mL d’huile végétale, appliquer localement.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h3>Précautions</h3>
+                <ul class="mini">
+                  <li>Contient 1,8-cinéole : éviter contact yeux. Usage cutané <strong>dilué</strong>.</li>
+                  <li>Chez l’enfant &lt;6 ans, privilégier diffusion douce courte. </li>
+                </ul>
+              </div>
+            </div>
+            <div class="cta-row" style="margin-top:.6rem">
+              <a class="btn" href="/products/huile-essentielle-ravintsara-5ml">Voir le produit</a>
+            </div>
+          </details>
+
+          <!-- GIROFLE -->
+          <details>
+            <summary><strong>Girofle (Syzygium aromaticum, clou) — HE 5 mL</strong></summary>
+            <div class="cards" style="margin-top:.4rem">
+              <div class="card">
+                <img src="https://cdn.shopify.com/s/files/1/0927/2911/4891/files/huile-essentielle-girofle-5ml.jpg?v=1744385167" alt="Huile essentielle Girofle" style="width:100%;border-radius:12px;margin-bottom:.6rem" loading="lazy">
+                <h3>Profil olfactif</h3>
+                <p class="mini">Épicé, chaud, boisé. Très concentré en eugénol.</p>
+              </div>
+              <div class="card">
+                <h3>Idées d’usage</h3>
+                <ul class="mini">
+                  <li>Parfum d’ambiance d’automne : 1 g Girofle + 3 g Orange + 1 g Cannelle (diffusion courte).</li>
+                  <li>Pour la cuisine, mieux vaut utiliser le clou entier ou la poudre plutôt que l’huile essentielle.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h3>Précautions</h3>
+                <ul class="mini">
+                  <li>Dermocaustique : ne pas dépasser ~<strong>0,5 %</strong> sur la peau, réaliser un test au pli du coude.</li>
+                  <li>Éviter muqueuses, femmes enceintes/allaitantes, enfants.</li>
+                </ul>
+              </div>
+            </div>
+          </details>
+
+          <!-- EUCALYPTUS CITRONNÉ -->
+          <details>
+            <summary><strong>Eucalyptus citronné (Eucalyptus citriodora) — HE 5 mL</strong></summary>
+            <div class="cards" style="margin-top:.4rem">
+              <div class="card">
+                <img src="https://cdn.shopify.com/s/files/1/0927/2911/4891/files/huile-essentielle-eucalyptus-citronne-5ml.jpg?v=1757257266" alt="Huile essentielle Eucalyptus citronné" style="width:100%;border-radius:12px;margin-bottom:.6rem" loading="lazy">
+                <h3>Profil olfactif</h3>
+                <p class="mini">Citronné, vert, propre (citronellal).</p>
+              </div>
+              <div class="card">
+                <h3>Idées d’usage</h3>
+                <ul class="mini">
+                  <li>Spray textile maison : 10 g HE/L d’eau + 10 mL alcool (agiter, tester sur zone cachée).</li>
+                  <li>Huile de massage local (≤2 %) en mélange avec Ravintsara.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h3>Précautions</h3>
+                <ul class="mini">
+                  <li>Peaux réactives : commencer à <strong>1 %</strong>. Éviter yeux/muqueuses.</li>
+                </ul>
+              </div>
+            </div>
+          </details>
+
+          <!-- CANNELLE (feuille, Madagascar) -->
+          <details>
+            <summary><strong>Cannelle (Cinnamomum verum — feuille) — HE 5 mL</strong></summary>
+            <div class="cards" style="margin-top:.4rem">
+              <div class="card">
+                <img src="https://cdn.shopify.com/s/files/1/0927/2911/4891/files/huile-essentielle-cannelle-5-ml.jpg?v=1744385169" alt="Huile essentielle Cannelle" style="width:100%;border-radius:12px;margin-bottom:.6rem" loading="lazy">
+                <h3>Profil olfactif</h3>
+                <p class="mini">Épicé, chaud, « biscuit ». La feuille est plus « ronde » que l’écorce mais reste puissante.</p>
+              </div>
+              <div class="card">
+                <h3>Idées d’usage</h3>
+                <ul class="mini">
+                  <li>Diffusion d’ambiance en fêtes : <em>très</em> parcimonieuse, toujours en mélange.</li>
+                  <li>Pour la cuisine, privilégier la <strong>poudre</strong> ou le bâton de cannelle, plus simples à maîtriser.</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h3>Précautions</h3>
+                <ul class="mini">
+                  <li>Dermocaustique : peau ≤<strong>0,5 %</strong>, test cutané obligatoire.</li>
+                  <li>Éviter femmes enceintes/allaitantes, enfants, peaux lésées.</li>
+                </ul>
+              </div>
+            </div>
+          </details>
+
+          <!-- RICIN (huile végétale) -->
+          <details>
+            <summary><strong>Ricin — huile végétale (100 mL) &amp; Ricin infusé Ylang (100 mL)</strong></summary>
+            <div class="cards" style="margin-top:.4rem">
+              <div class="card">
+                <img src="https://cdn.shopify.com/s/files/1/0927/2911/4891/files/huile-de-ricin-flacon-100ml.jpg?v=1757257356" alt="Huile de ricin 100mL" style="width:100%;border-radius:12px;margin-bottom:.6rem" loading="lazy">
+                <h3>Qu’est-ce que c’est ?</h3>
+                <p class="mini">Une <strong>huile naturelle</strong>, non une HE. Émolliente, idéale pour <strong>diluer</strong> les HE et les soins cheveux/cils/sourcils.</p>
+              </div>
+              <div class="card">
+                <h3>Usages clés</h3>
+                <ul class="mini">
+                  <li>Support de <strong>dilution</strong> des HE (voir tableau ci-dessous).</li>
+                  <li>Bain d’huile pointes (pur ou coupé avec coco/joba pour fluidifier).</li>
+                </ul>
+              </div>
+              <div class="card">
+                <h3>Précautions</h3>
+                <ul class="mini">
+                  <li>Usage externe. Éviter le contact oculaire direct.</li>
+                  <li>Conserver fermé, à l’abri de la lumière/ chaleur.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="cta-row" style="margin-top:.6rem">
+              <a class="btn" href="/products/huile-de-ricin-100ml">Voir le ricin</a>
+              <a class="btn" href="/products/huile-ricin-ylang-ylang-100ml">Voir ricin × Ylang</a>
+            </div>
+          </details>
+        </section>
+
+        <!-- 3. UTILISER -->
+        <section id="utiliser" class="block reveal anchor" aria-labelledby="utiliser-title">
+          <h2 id="utiliser-title">Bien utiliser : diffusion &amp; application cutanée</h2>
+          <div class="cards">
+            <div class="panel good">
+              <h3>À faire ✅</h3>
+              <ul>
+                <li>Diffuser <strong>10–15 min/heure</strong> dans une pièce ventilée.</li>
+                <li>Sur la peau : dilution <strong>1–3 %</strong> adulte (peaux sensibles : 0,5–1 %).</li>
+                <li>Test cutané 24 h au pli du coude avant première utilisation.</li>
+                <li>Utiliser une <strong>huile végétale</strong> (ricin, coco, jojoba) comme support.</li>
+              </ul>
+            </div>
+            <div class="panel warn">
+              <h3>À éviter ❌</h3>
+              <ul>
+                <li>Ingestion sans avis d’un professionnel qualifié.</li>
+                <li>Contact avec yeux/muqueuses, application pure (sauf HE très douces et cas spécifiques).</li>
+                <li>Usage chez femme enceinte/allaitante et enfant sans conseil adapté.</li>
+                <li>Exposition solaire immédiate après HE photosensibilisantes (pas le cas des huiles listées ici, mais prudence générale).</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- HowTo exemples (SEO) -->
+          <div class="steps" itemscope itemtype="https://schema.org/HowTo" style="margin-top:12px">
+            <meta itemprop="name" content="Mélange de diffusion relaxant Ylang Ylang">
+            <article class="step" itemprop="step" itemscope itemtype="https://schema.org/HowToStep">
+              <h3><span class="n">1</span> Préparer</h3>
+              <p class="mini" itemprop="text">Ajouter 2 g Ylang Ylang + 3 g Orange douce dans un diffuseur à eau.</p>
+            </article>
+            <article class="step" itemprop="step" itemscope itemtype="https://schema.org/HowToStep">
+              <h3><span class="n">2</span> Diffuser</h3>
+              <p class="mini" itemprop="text">Lancer 10–15 min. Aérer légèrement la pièce.</p>
+            </article>
+            <article class="step" itemprop="step" itemscope itemtype="https://schema.org/HowToStep">
+              <h3><span class="n">3</span> Pause</h3>
+              <p class="mini" itemprop="text">Faire une pause d’au moins 45 min avant de relancer.</p>
+            </article>
+            <article class="step" itemprop="step" itemscope itemtype="https://schema.org/HowToStep">
+              <h3><span class="n">4</span> Ajuster</h3>
+              <p class="mini" itemprop="text">Adapter le nombre de gouttes à la taille de la pièce.</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- 4. DILUTION -->
+        <section id="dilution" class="block reveal anchor" aria-labelledby="dilution-title">
+          <h2 id="dilution-title">Tableau de dilution — repères rapides</h2>
+          <p class="intro">Repères indicatifs pour un <strong>usage cosmétique externe</strong>. 1 mL ≈ 20 gouttes (bouchon standard).</p>
+          <table aria-label="Tableau de dilution des huiles essentielles">
+            <thead>
+              <tr>
+                <th>Volume d’huile végétale</th>
+                <th>0,5 %</th>
+                <th>1 %</th>
+                <th>2 %</th>
+                <th>3 %</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>10 mL</td>
+                <td>1 goutte</td><td>2 gouttes</td><td>4 gouttes</td><td>6 gouttes</td>
+              </tr>
+              <tr>
+                <td>30 mL</td>
+                <td>3 g</td><td>6 g</td><td>12 g</td><td>18 g</td>
+              </tr>
+              <tr>
+                <td>50 mL</td>
+                <td>5 g</td><td>10 g</td><td>20 g</td><td>30 g</td>
+              </tr>
+              <tr>
+                <td>100 mL</td>
+                <td>10 g</td><td>20 g</td><td>40 g</td><td>60 g</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="mini">HE « chaudes » (Girofle, Cannelle) : rester ≤0,5 % sur la peau et privilégier la diffusion brève.</p>
+        </section>
+
+        <!-- 5. CONSERVATION -->
+        <section id="conserver" class="block reveal anchor" aria-labelledby="conserver-title">
+          <h2 id="conserver-title">Conservation &amp; stabilité</h2>
+          <div class="cards">
+            <article class="card">
+              <h3>Flacon ambré &amp; bouchon propre</h3>
+              <p class="mini">Toujours refermer après usage. Essuyer le compte-gouttes. Éviter la lumière directe et la chaleur.</p>
+            </article>
+            <article class="card">
+              <h3>Durée indicatives</h3>
+              <p class="mini">HE : 3–5 ans (selon espèce &amp; stockage). Huiles végétales : 6–18 mois après ouverture (risque d’oxydation).</p>
+            </article>
+            <article class="card">
+              <h3>Stock malin</h3>
+              <p class="mini">Privilégier des <strong>petits volumes</strong> si usage ponctuel. Étiqueter la date d’ouverture.</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- 6. FAQ -->
+        <section id="faq" class="block reveal anchor" aria-labelledby="faq-title">
+          <h2 id="faq-title">FAQ — Huiles essentielles &amp; huiles naturelles</h2>
+          <details>
+            <summary>Ces huiles sont-elles alimentaires ?</summary>
+            <p>Non. Les huiles listées ici sont abordées pour un usage aromatique d’ambiance et pour un usage externe dilué uniquement.</p>
+          </details>
+          <details>
+            <summary>Quelle différence entre huile essentielle et huile végétale ?</summary>
+            <p>Une <strong>HE</strong> est un extrait aromatique concentré (distillation). Une <strong>huile végétale</strong> (ricin, coco…) est un corps gras qui nourrit la peau et <strong>dilue</strong> les HE.</p>
+          </details>
+          <details>
+            <summary>Les huiles sont-elles adaptées aux enfants ?</summary>
+            <p>Privilégier la <strong>diffusion courte</strong> et éviter l’application cutanée d’HE avant 6 ans sans conseil adapté. Tenir hors de portée.</p>
+          </details>
+          <details>
+            <summary>Vos huiles viennent d’où ?</summary>
+            <p>De <strong>Madagascar</strong>, via des <strong>producteurs familiaux</strong> avec qui nous travaillons en direct pour garantir fraîcheur, qualité et prix justes.</p>
+          </details>
+        </section>
+
+        <!-- CTA -->
+        <section class="block reveal anchor" style="text-align:center">
+          <h2>Découvrir nos huiles de Madagascar</h2>
+          <p class="intro">Sélection courte, traçable, issue de producteurs familiaux. Livraison France &amp; Europe.</p>
+          <div class="cta-row" style="justify-content:center">
+            <a class="btn" href="/collections/huiles-essentielles">Voir la collection</a>
+            <a class="btn btn--ghost" href="/pages/wiki">← Retour au Wiki</a>
+          </div>
+        </section>
+
+        <!-- Disclaimer -->
+        <p class="mini" style="opacity:.8;margin-top:10px">
+          Les informations ci-dessus sont données à titre éducatif pour un usage familial responsable.
+          Elles ne remplacent pas un avis médical. En cas de doute, demandez conseil à un professionnel.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reveal on scroll (léger, vanilla JS) -->
+  <script>
+    document.addEventListener('DOMContentLoaded',function(){
+      var els=document.querySelectorAll('.vdw-oe .reveal');
+      if('IntersectionObserver' in window){
+        var io=new IntersectionObserver(function(entries){
+          entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target);} });
+        },{threshold:.12});
+        els.forEach(function(el){ io.observe(el); });
+      } else { els.forEach(function(el){ el.classList.add('on'); }); }
+    });
+  </script>
+
+  <!-- JSON-LD : FAQ + HowTo (SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Ces huiles sont-elles alimentaires ?",
+       "acceptedAnswer":{"@type":"Answer","text":"Non. Les huiles listées ici sont abordées pour un usage aromatique d’ambiance et pour un usage externe dilué uniquement."}},
+      {"@type":"Question","name":"Quelle différence entre huile essentielle et huile végétale ?",
+       "acceptedAnswer":{"@type":"Answer","text":"Une HE est un extrait aromatique concentré. Une huile végétale (ricin, coco…) est un corps gras qui nourrit la peau et dilue les HE."}},
+      {"@type":"Question","name":"Les huiles essentielles sont-elles adaptées aux enfants ?",
+       "acceptedAnswer":{"@type":"Answer","text":"Privilégier la diffusion courte et éviter l’application cutanée d’HE avant 6 ans sans conseil adapté. Tenir hors de portée."}},
+      {"@type":"Question","name":"D’où viennent vos huiles ?",
+       "acceptedAnswer":{"@type":"Answer","text":"De Madagascar, via des producteurs familiaux en circuit direct pour une qualité fraîche et traçable."}}
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"HowTo",
+    "name":"Mélange de diffusion relaxant Ylang Ylang",
+    "totalTime":"PT15M",
+    "supply":[
+      {"@type":"HowToSupply","name":"2 gouttes d’huile essentielle d’Ylang Ylang"},
+      {"@type":"HowToSupply","name":"3 gouttes d’Orange douce"},
+      {"@type":"HowToSupply","name":"Diffuseur à eau"}
+    ],
+    "step":[
+      {"@type":"HowToStep","name":"Préparer","text":"Ajouter 2 gouttes d’Ylang Ylang et 3 gouttes d’Orange douce dans le diffuseur."},
+      {"@type":"HowToStep","name":"Diffuser","text":"Lancer 10 à 15 minutes dans une pièce ventilée."},
+      {"@type":"HowToStep","name":"Pause","text":"Faire une pause d’au moins 45 minutes avant une nouvelle diffusion."}
+    ]
+  }
+  </script>
+</section>
+              
