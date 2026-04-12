@@ -7408,6 +7408,29 @@ body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-wiki-detail__shop
   padding: 0.9rem !important;
 }
 
+.vd-wiki-detail[data-vd-wiki-handle="wiki-huiles-essentielles-plantes"] .vd-wiki-import-disclosure {
+  gap: 1.05rem !important;
+  padding: 1.5rem !important;
+}
+
+.vd-wiki-detail[data-vd-wiki-handle="wiki-huiles-essentielles-plantes"] .vd-wiki-import-disclosure summary {
+  font-size: 1.34rem !important;
+  line-height: 1.24 !important;
+}
+
+.vd-wiki-detail[data-vd-wiki-handle="wiki-huiles-essentielles-plantes"] .vd-wiki-import-disclosure[open] .vd-wiki-import-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 1rem !important;
+}
+
+.vd-wiki-detail[data-vd-wiki-handle="wiki-huiles-essentielles-plantes"] .vd-wiki-import-disclosure[open] .vd-wiki-import-card {
+  padding: 1.25rem !important;
+}
+
+.vd-wiki-detail[data-vd-wiki-handle="wiki-huiles-essentielles-plantes"] .vd-wiki-import-disclosure[open] .vd-wiki-import-card > img {
+  aspect-ratio: 1 / 1 !important;
+}
+
 .vd-wiki-detail[data-vd-wiki-handle="wiki-bienfaits-sante"] .vd-wiki-article-grid--2,
 .vd-wiki-detail[data-vd-wiki-handle="wiki-bienfaits-sante"] .vd-wiki-article-grid--3 {
   gap: 1.3rem !important;
@@ -7438,6 +7461,10 @@ body:has(.vd-wiki-detail[data-vd-wiki-layout="knowledge"]) .vd-wiki-detail__shop
   .vd-wiki-detail[data-vd-wiki-handle="wiki-epices-madagascar"] .vd-wiki-import-grid:has(> .vd-wiki-import-card:only-child > img) > .vd-wiki-import-card:only-child > :not(img),
   .vd-wiki-detail[data-vd-wiki-handle="wiki-poivres-baies-madagascar"] .vd-wiki-import-grid:has(> .vd-wiki-import-card:only-child > img) > .vd-wiki-import-card:only-child > :not(img) {
     grid-column: auto !important;
+  }
+
+  .vd-wiki-detail[data-vd-wiki-handle="wiki-huiles-essentielles-plantes"] .vd-wiki-import-disclosure[open] .vd-wiki-import-grid {
+    grid-template-columns: 1fr !important;
   }
 }
 

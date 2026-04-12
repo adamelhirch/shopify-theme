@@ -392,6 +392,22 @@
     });
   }
 
+  function setImportedDisclosureState(content, matcher, isOpen) {
+    getImportedSections(content).forEach(function (section) {
+      var heading = section.querySelector('h2');
+
+      if (!heading || !headingMatches(normalizeText(heading.textContent), matcher)) return;
+
+      Array.prototype.slice.call(section.querySelectorAll('details')).forEach(function (details) {
+        if (isOpen) {
+          details.setAttribute('open', 'open');
+        } else {
+          details.removeAttribute('open');
+        }
+      });
+    });
+  }
+
   function pruneImportedChrome(content) {
     if (!content) return;
 
@@ -511,6 +527,7 @@
         'FAQ — Huiles essentielles & huiles naturelles',
         'Questions fréquentes sur les huiles et plantes'
       );
+      setImportedDisclosureState(content, 'Fiches par huile — notes, idées d’usage & précautions', true);
 
       Array.prototype.slice.call(content.querySelectorAll('p, li')).forEach(function (node) {
         var text = normalizeText(node.textContent);
