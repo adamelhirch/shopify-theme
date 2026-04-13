@@ -32,10 +32,6 @@
   <div class="page-width vd-feature-gallery__intro-wrap">
     <div class="vd-feature-gallery__intro">
       <div>
-        {% if section.settings.eyebrow != blank %}
-          <span class="vd-section-kicker">{{ section.settings.eyebrow }}</span>
-        {% endif %}
-
         {% if section.settings.heading != blank %}
           <h2 class="vd-feature-gallery__heading">{{ section.settings.heading }}</h2>
         {% endif %}
@@ -79,10 +75,6 @@
                 assign card_eyebrow = card_eyebrow | strip
               endif
 
-              assign card_description = block.settings.description
-              if card_description == blank and card_product.description != blank
-                assign card_description = card_product.description | strip_html | truncatewords: 16
-              endif
             -%}
             {% if card_product != blank %}
               <article
@@ -135,18 +127,14 @@
                   </div>
 
                   <div class="vd-feature-card__body">
-                    <div class="vd-feature-card__topline">
-                      <span>{{ card_eyebrow }}</span>
+                    <div class="vd-feature-card__topline{% if card_eyebrow == blank %} is-price-only{% endif %}">
+                      {% if card_eyebrow != blank %}
+                        <span>{{ card_eyebrow }}</span>
+                      {% endif %}
                       <strong>{{ card_product.price | money_without_trailing_zeros }}</strong>
                     </div>
 
                     <h3>{{ card_product.title }}</h3>
-
-                    {% if card_description != blank %}
-                      <p>{{ card_description }}</p>
-                    {% endif %}
-
-                    <span class="vd-inline-link">Voir le produit</span>
                   </div>
                 </a>
               </article>
@@ -184,7 +172,7 @@
                 </div>
 
                 <div class="vd-feature-card__body">
-                  <div class="vd-feature-card__topline">
+                  <div class="vd-feature-card__topline{% if product_eyebrow == blank %} is-price-only{% endif %}">
                     {%- if product_eyebrow != blank -%}
                       <span>{{ product_eyebrow }}</span>
                     {%- endif -%}
@@ -192,12 +180,6 @@
                   </div>
 
                   <h3>{{ product.title }}</h3>
-
-                  {% if product.description != blank %}
-                    <p>{{ product.description | strip_html | truncatewords: 16 }}</p>
-                  {% endif %}
-
-                  <span class="vd-inline-link">Voir le produit</span>
                 </div>
               </a>
             </article>

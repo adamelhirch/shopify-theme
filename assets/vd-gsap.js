@@ -618,46 +618,7 @@
       if (!stage || !gallery || items.length < 4 || !Flip) return;
 
       clearNewProductBentoStyles(gsap, section, gallery, items);
-
-      if (prefersReducedMotion || window.innerWidth < 990) {
-        return;
-      }
-
-      section.classList.add('is-enhanced');
-
-      gallery.classList.add('vd-new-product__gallery--final');
-      var flipState = Flip.getState(items);
-      gallery.classList.remove('vd-new-product__gallery--final');
-
-      var timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: gallery,
-          start: 'center center',
-          end: '+=100%',
-          pin: stage,
-          scrub: 1,
-          anticipatePin: 1,
-          invalidateOnRefresh: true
-        }
-      });
-
-      timeline.add(
-        Flip.to(flipState, {
-          simple: true,
-          ease: 'expo.inOut',
-          duration: 1
-        }),
-        0
-      );
-
-      registerCleanup(cleanups, function () {
-        if (timeline.scrollTrigger) {
-          timeline.scrollTrigger.kill();
-        }
-
-        timeline.kill();
-        clearNewProductBentoStyles(gsap, section, gallery, items);
-      });
+      section.classList.remove('is-enhanced');
     });
   }
 
@@ -895,7 +856,7 @@
 
       gsap.set(items, { clearProps: 'opacity,filter' });
 
-      if (!prefersReducedMotion) {
+      if (!prefersReducedMotion && window.innerWidth >= 990) {
         introTimeline = gsap.timeline({
           defaults: { ease: 'power2.out' },
           scrollTrigger: {
@@ -1042,25 +1003,7 @@
       }
 
       if (media) {
-        var heroMediaTween = gsap.to(media, {
-          yPercent: -8,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: hero,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true
-          }
-        });
-
-        registerCleanup(state.cleanups, function () {
-          if (heroMediaTween.scrollTrigger) {
-            heroMediaTween.scrollTrigger.kill();
-          }
-
-          heroMediaTween.kill();
-          gsap.set(media, { clearProps: 'transform' });
-        });
+        gsap.set(media, { clearProps: 'transform' });
       }
 
       registerCleanup(state.cleanups, function () {

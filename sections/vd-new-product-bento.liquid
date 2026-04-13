@@ -171,58 +171,56 @@
       </div>
     </div>
 
-    <div class="page-width">
-      <div class="vd-new-product__copy-shell">
-        <div class="vd-new-product__copy">
-          <div class="vd-new-product__copy-main">
-            {% if display_title != blank %}
-              <h2 class="vd-new-product__title">{{ display_title }}</h2>
-            {% endif %}
+    <div class="vd-new-product__copy-shell">
+      <div class="vd-new-product__copy">
+        <div class="vd-new-product__copy-main">
+          {% if display_title != blank %}
+            <h2 class="vd-new-product__title">{{ display_title }}</h2>
+          {% endif %}
 
-            {% if display_text != blank %}
-              <div class="vd-new-product__text rte">{{ display_text }}</div>
-            {% elsif product_subtitle != blank %}
-              <p class="vd-new-product__subtitle">{{ product_subtitle }}</p>
-            {% elsif featured_product.description != blank %}
-              <div class="vd-new-product__text">
-                <p>{{ featured_product.description | strip_html | truncatewords: 20 }}</p>
-              </div>
-            {% endif %}
-          </div>
+          {% if display_text != blank %}
+            <div class="vd-new-product__text rte">{{ display_text }}</div>
+          {% elsif product_subtitle != blank %}
+            <p class="vd-new-product__subtitle">{{ product_subtitle }}</p>
+          {% elsif featured_product.description != blank %}
+            <div class="vd-new-product__text">
+              <p>{{ featured_product.description | strip_html | truncatewords: 20 }}</p>
+            </div>
+          {% endif %}
+        </div>
 
-          <div class="vd-new-product__actions">
-            {% if section.settings.primary_button_label != blank %}
-              <a
-                {% if primary_link == blank %}
-                  role="link" aria-disabled="true"
-                {% else %}
-                  href="{{ primary_link }}"
-                {% endif %}
-                class="vd-arrow-cta"
-              >
-                <span class="vd-arrow-cta__label">{{ section.settings.primary_button_label }}</span>
-                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                </svg>
-              </a>
-            {% endif %}
+        <div class="vd-new-product__actions">
+          {% if section.settings.primary_button_label != blank %}
+            <a
+              {% if primary_link == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ primary_link }}"
+              {% endif %}
+              class="vd-arrow-cta"
+            >
+              <span class="vd-arrow-cta__label">{{ section.settings.primary_button_label }}</span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+          {% endif %}
 
-            {% if section.settings.secondary_button_label != blank %}
-              <a
-                {% if secondary_link == blank %}
-                  role="link" aria-disabled="true"
-                {% else %}
-                  href="{{ secondary_link }}"
-                {% endif %}
-                class="vd-arrow-cta"
-              >
-                <span class="vd-arrow-cta__label">{{ section.settings.secondary_button_label }}</span>
-                <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                  <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                </svg>
-              </a>
-            {% endif %}
-          </div>
+          {% if section.settings.secondary_button_label != blank %}
+            <a
+              {% if secondary_link == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ secondary_link }}"
+              {% endif %}
+              class="vd-arrow-cta"
+            >
+              <span class="vd-arrow-cta__label">{{ section.settings.secondary_button_label }}</span>
+              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
+                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
+              </svg>
+            </a>
+          {% endif %}
         </div>
       </div>
     </div>

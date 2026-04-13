@@ -118,6 +118,7 @@
     },
     "vd_wiki_grid_A2mL9d": {
       "type": "vd-wiki-grid",
+      "disabled": true,
       "blocks": {
         "wiki_1": {
           "type": "wiki_chapter",

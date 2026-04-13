@@ -29,6 +29,7 @@
   assign metafield_backdrop_image = collection.metafields.custom.hero_background_image.value | default: collection.metafields.custom.hero_background_image
   assign metafield_backdrop_video = collection.metafields.custom.hero_background_video.value | default: collection.metafields.custom.hero_background_video
   assign has_collection_backdrop = false
+  assign show_editorial_media = false
   assign compact_collection_hero = false
   assign backdrop_opacity = section.settings.backdrop_opacity | divided_by: 100.0
   assign backdrop_blur = section.settings.backdrop_blur
@@ -151,6 +152,10 @@
   if collection_backdrop_image != blank or collection_background_video_url != blank
     assign has_collection_backdrop = true
   endif
+
+  if has_editorial_visual and has_collection_backdrop == false
+    assign show_editorial_media = true
+  endif
 -%}
 
 {%- style -%}
@@ -162,7 +167,7 @@
 {%- endstyle -%}
 
 <div
-  class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %}{% if has_collection_backdrop %} collection-hero--with-backdrop{% endif %} color-{{ section.settings.color_scheme }} gradient"
+  class="collection-hero{% if show_editorial_media %} collection-hero--with-image{% endif %}{% if has_collection_backdrop %} collection-hero--with-backdrop{% endif %} color-{{ section.settings.color_scheme }} gradient"
   data-vd-collection-hero
   style="--collection-hero-backdrop-opacity: {{ backdrop_opacity }}; --collection-hero-backdrop-blur: {{ backdrop_blur }}px;"
 >
@@ -200,7 +205,7 @@
     </div>
   {% endif %}
   <div class="collection-hero__inner {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    <div class="collection-hero__shell{% if compact_collection_hero %} collection-hero__shell--compact{% endif %}{% if has_editorial_visual %} collection-hero__shell--with-media{% endif %}">
+    <div class="collection-hero__shell{% if compact_collection_hero %} collection-hero__shell--compact{% endif %}{% if show_editorial_media %} collection-hero__shell--with-media{% endif %}">
       <div class="collection-hero__copy" data-vd-collection-panel>
         <div class="collection-hero__eyebrow-row" data-vd-collection-item>
           <span class="collection-hero__eyebrow-line" aria-hidden="true"></span>
@@ -244,7 +249,7 @@
           </div>
         {%- endif -%}
       </div>
-      {%- if has_editorial_visual -%}
+      {%- if show_editorial_media -%}
         <div class="collection-hero__media-cluster" data-vd-collection-panel>
           <span class="collection-hero__aura collection-hero__aura--one" aria-hidden="true"></span>
           <span class="collection-hero__aura collection-hero__aura--two" aria-hidden="true"></span>
