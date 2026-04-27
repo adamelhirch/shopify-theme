@@ -78,7 +78,6 @@
 
             {% if section.settings.menu != blank %}
               <div class="vd-drawer-group">
-                <p class="vd-drawer-group__title">{{ section.settings.brand_menu_label | default: shop.name }}</p>
                 <ul class="menu-drawer__menu has-submenu list-menu" role="list">
                   {%- for link in section.settings.menu.links -%}
                     <li>

@@ -29,7 +29,7 @@
   assign register_target = routes.account_register_url | append: register_joiner | append: 'return_to=' | append: encoded_return_to
 -%}
 
-<section
+<div
   class="section-{{ section.id }}-padding vd-recipe-signature color-{{ section.settings.color_scheme }}"
   data-vd-recipe
   data-registry-url="{{ 'vd-recipes-registry.json' | asset_url }}"
@@ -86,7 +86,7 @@
     ]
   </script>
   <script type="application/ld+json" data-vd-recipe-schema></script>
-</section>
+</div>
 
 {% schema %}
 {

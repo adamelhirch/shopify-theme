@@ -41,15 +41,45 @@
             "collection": "poivre-baies",
             "link_label": "Voir les sélections"
           }
+        },
+        "collection_4": {
+          "type": "entry",
+          "settings": {
+            "kicker": "Saveurs",
+            "title": "Sels aromatises",
+            "collection": "sels-aromatises",
+            "link_label": "Decouvrir les sels"
+          }
+        },
+        "collection_5": {
+          "type": "entry",
+          "settings": {
+            "kicker": "Bien-etre",
+            "title": "Huiles essentielles & huiles naturelles",
+            "collection": "huiles-essentielles-huiles-naturelles",
+            "link_label": "Voir les huiles"
+          }
+        },
+        "collection_6": {
+          "type": "entry",
+          "settings": {
+            "kicker": "Gourmandise",
+            "title": "Confiseries",
+            "collection": "confiseries",
+            "link_label": "Explorer les confiseries"
+          }
         }
       },
       "block_order": [
         "collection_1",
         "collection_2",
-        "collection_3"
+        "collection_3",
+        "collection_4",
+        "collection_5",
+        "collection_6"
       ],
       "settings": {
-        "eyebrow": "Catalogue",
+        "eyebrow": "",
         "heading": "Explorer la maison par univers, usages et formats.",
         "text": "<p>La vanille comme cœur de maison, les épices pour prolonger les accords, puis des sélections pensées pour offrir, cuisiner ou découvrir plus vite.</p>",
         "primary_link_label": "Voir tous les produits",
@@ -57,7 +87,7 @@
         "secondary_link_label": "Voir les recettes",
         "secondary_link": "shopify://pages/recettes",
         "color_scheme": "scheme-3",
-        "padding_top": 20,
+        "padding_top": 0,
         "padding_bottom": 28
       }
     },

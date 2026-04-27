@@ -1,0 +1,162 @@
+<div class="vd-social" data-vd-social>
+  <div class="page-width vd-social__inner">
+    <div class="vd-social__header">
+      {% if section.settings.kicker != blank %}
+        <span class="vd-section-kicker">{{ section.settings.kicker }}</span>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="vd-social__title">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      <div class="vd-social__links">
+        {% if section.settings.instagram_url != blank %}
+          <a href="{{ section.settings.instagram_url }}" class="vd-social__link" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+            <span>Instagram</span>
+          </a>
+        {% endif %}
+
+        {% if section.settings.facebook_url != blank %}
+          <a href="{{ section.settings.facebook_url }}" class="vd-social__link" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            <span>Facebook</span>
+          </a>
+        {% endif %}
+
+        {% if section.settings.linkedin_url != blank %}
+          <a href="{{ section.settings.linkedin_url }}" class="vd-social__link" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            <span>LinkedIn</span>
+          </a>
+        {% endif %}
+
+        {% if section.settings.tiktok_url != blank %}
+          <a href="{{ section.settings.tiktok_url }}" class="vd-social__link" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/></svg>
+            <span>TikTok</span>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ── Mosaique Pinterest ── {%- endcomment -%}
+  <div class="vd-social__mosaic" data-vd-social-mosaic>
+    {%- liquid
+      assign ratios = '1.0,0.56,0.82,1.12,0.64,0.94,0.52,1.05,0.67,1.2' | split: ','
+    -%}
+    {% for block in section.blocks %}
+      {%- liquid
+        assign ratio_index = forloop.index0 | modulo: 10
+        assign tile_ratio = ratios[ratio_index]
+      -%}
+      {% if block.settings.image != blank %}
+        <a
+          href="{{ block.settings.post_url | default: '#' }}"
+          class="vd-social__tile"
+          data-vd-social-tile
+          data-vd-tile-ratio="{{ tile_ratio }}"
+          style="--tile-index: {{ forloop.index0 }}"
+          {% if block.settings.post_url != blank %}target="_blank" rel="noopener"{% endif %}
+          {{ block.shopify_attributes }}
+        >
+          {{
+            block.settings.image
+            | image_url: width: 800
+            | image_tag:
+              class: 'vd-social__tile-img',
+              widths: '300, 400, 600, 800',
+              sizes: '(min-width: 990px) 20vw, 46vw',
+              loading: 'lazy',
+              alt: block.settings.image.alt | default: ''
+          }}
+        </a>
+      {% else %}
+        <div
+          class="vd-social__tile vd-social__tile--empty"
+          data-vd-social-tile
+          data-vd-tile-ratio="{{ tile_ratio }}"
+          style="--tile-index: {{ forloop.index0 }}"
+          {{ block.shopify_attributes }}
+        >
+          {{ 'product-1' | placeholder_svg_tag: 'vd-social__tile-svg' }}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "VD Reseaux sociaux",
+  "tag": "section",
+  "class": "section section-vd-social",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Sur-titre",
+      "default": "Communaute"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titre",
+      "default": "Suivez la maison"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook"
+    },
+    {
+      "type": "url",
+      "id": "linkedin_url",
+      "label": "LinkedIn"
+    },
+    {
+      "type": "url",
+      "id": "tiktok_url",
+      "label": "TikTok"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Post",
+      "limit": 16,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "post_url",
+          "label": "Lien vers le post"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "VD Reseaux sociaux",
+      "blocks": [
+        { "type": "tile" },
+        { "type": "tile" },
+        { "type": "tile" },
+        { "type": "tile" },
+        { "type": "tile" },
+        { "type": "tile" }
+      ]
+    }
+  ]
+}
+{% endschema %}

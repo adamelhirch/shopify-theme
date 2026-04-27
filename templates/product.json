@@ -1,158 +1,83 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
-      "type": "main-product",
+      "type": "vd-product",
       "blocks": {
-        "vendor": {
-          "type": "text",
+        "faq_01": {
+          "type": "faq_item",
           "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
+            "question": "Comment conserver ce produit ?",
+            "answer": "<p>Dans un récipient hermétique, à l'abri de la chaleur, de la lumière et de l'humidité. Plusieurs années sans perte d'arôme.</p>"
           }
         },
-        "title": {
-          "type": "title",
-          "settings": {}
-        },
-        "caption": {
-          "type": "text",
+        "faq_02": {
+          "type": "faq_item",
           "settings": {
-            "text": "{{ product.metafields.descriptors.subtitle.value }}",
-            "text_style": "subtitle"
+            "question": "Quel dosage utiliser ?",
+            "answer": "<p>Selon le format et l'usage : pâtisserie, infusion, dosage quotidien. Nous indiquons systématiquement un repère sur la fiche.</p>"
           }
         },
-        "price": {
-          "type": "price",
-          "settings": {}
-        },
-        "variant_picker": {
-          "type": "variant_picker",
+        "faq_03": {
+          "type": "faq_item",
           "settings": {
-            "picker_type": "button"
-          }
-        },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true
-          }
-        },
-        "complementary": {
-          "type": "complementary",
-          "settings": {
-            "block_heading": "Poursuivre la sélection",
-            "eyebrow": "Complément",
-            "text": "<p>Formats voisins, idées cadeau et produits cohérents pour prolonger l’achat sans quitter l’univers de la maison.</p>",
-            "make_collapsible_row": false,
-            "icon": "price_tag",
-            "product_list_limit": 4,
-            "products_per_page": 2,
-            "pagination_style": "counter",
-            "image_ratio": "square",
-            "enable_quick_add": false
-          }
-        },
-        "collapsible-row-0": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Origine & sélection",
-            "icon": "map_pin",
-            "content": "<p>Une sélection suivie à Madagascar, avec une attention portée à la matière, à la préparation et à la tenue aromatique.</p>",
-            "page": ""
-          }
-        },
-        "collapsible-row-1": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Usages & formats",
-            "icon": "plant",
-            "content": "<p>Selon le format, le produit peut convenir à l’infusion, à la pâtisserie, au dosage quotidien ou à une idée cadeau plus soignée.</p>",
-            "page": ""
-          }
-        },
-        "collapsible-row-2": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Préparation & conservation",
-            "icon": "truck",
-            "content": "<p>Conserver à l’abri de la chaleur et de l’humidité, puis utiliser selon le dosage adapté à votre cuisine et à vos habitudes.</p>",
-            "page": ""
-          }
-        },
-        "collapsible-row-3": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Besoin d’un conseil ?",
-            "icon": "question_mark",
-            "content": "<p>Nous pouvons vous orienter selon l’usage recherché, le niveau d’intensité attendu ou le format le plus adapté.</p>",
-            "page": ""
-          }
-        },
-        "share": {
-          "type": "share",
-          "settings": {
-            "share_label": "Partager"
+            "question": "Quelle est l'origine ?",
+            "answer": "<p>Sélection directe auprès de familles productrices à Madagascar. Origine, méthode et taux d'humidité sont consignés à chaque réception.</p>"
           }
         }
       },
-      "block_order": [
-        "vendor",
-        "title",
-        "caption",
-        "price",
-        "variant_picker",
-        "quantity_selector",
-        "buy_buttons",
-        "complementary",
-        "collapsible-row-0",
-        "collapsible-row-1",
-        "collapsible-row-2",
-        "collapsible-row-3",
-        "share"
-      ],
+      "block_order": ["faq_01", "faq_02", "faq_03"],
       "settings": {
-        "enable_sticky_info": true,
-        "color_scheme": "scheme-3",
-        "media_size": "large",
-        "constrain_to_viewport": true,
-        "gallery_layout": "stacked",
-        "mobile_thumbnails": "hide",
-        "hide_variants": true,
-        "enable_video_looping": false,
-        "support_eyebrow": "",
-        "support_heading": "",
-        "support_text": "",
-        "support_point_1": "",
-        "support_point_2": "",
-        "support_point_3": "",
-        "support_link_label_1": "",
-        "support_link_1": "",
-        "support_link_label_2": "",
-        "support_link_2": "",
-        "support_link_label_3": "",
-        "support_link_3": "",
-        "padding_top": 36,
-        "padding_bottom": 12
+        "kicker_extra": "MADAGASCAR",
+        "subtitle": "",
+        "reassurance_1": "Livraison offerte dès 30 €",
+        "reassurance_2": "Sélection directe, sans intermédiaire",
+        "reassurance_3": "Mise en pot propre en France",
+        "detail_1_label": "Format",
+        "detail_1_value": "Tube · 2 gousses",
+        "detail_2_label": "Poids net",
+        "detail_2_value": "8 g",
+        "detail_3_label": "Origine",
+        "detail_3_value": "SAVA, Madagascar",
+        "detail_4_label": "",
+        "detail_4_value": "",
+        "ingredients_label": "Ingrédients",
+        "ingredients": "<p>Vanille Bourbon de Madagascar (<em>Vanilla planifolia</em>) — 100 %.</p>",
+        "allergens_label": "Allergènes",
+        "allergens_list": "Aucun allergène à déclaration obligatoire",
+        "allergens_note": "Conditionné dans un atelier qui manipule fruits à coque, soja, sésame et lait.",
+        "nutri_label": "Valeurs nutritionnelles",
+        "nutri_intro": "Pour 100 g (à titre indicatif)",
+        "nutri_1_label": "Énergie",
+        "nutri_1_value": "288 kcal",
+        "nutri_2_label": "Matières grasses",
+        "nutri_2_value": "0,1 g",
+        "nutri_3_label": "Glucides",
+        "nutri_3_value": "12,7 g",
+        "nutri_4_label": "Sucres",
+        "nutri_4_value": "12,5 g",
+        "nutri_5_label": "Protéines",
+        "nutri_5_value": "0,1 g",
+        "nutri_6_label": "Sel",
+        "nutri_6_value": "0 g",
+        "conservation_text": "<p>À l'abri de la chaleur et de la lumière, dans un récipient hermétique. Plusieurs années sans perte d'arôme.</p>",
+        "usage_text": "<p>Idéal en pâtisserie, en infusion lente dans un liquide chaud, ou râpé à la râpe fine sur une préparation finie.</p>",
+        "delivery_label": "Livraison & retrait",
+        "delivery_text": "<p>Expédition sous 48 h ouvrées depuis la France. Livraison Colissimo ou Mondial Relay. Offerte dès 30 € d'achat.</p>",
+        "quote": "",
+        "quote_author": "",
+        "method_kicker": "Notre méthode",
+        "method_heading": "Le geste avant le rendement.",
+        "method_pillars": "Récolte au bon stade | Tri & contrôle à l'arrivée | Mise en pot claire en France",
+        "method_link_label": "Lire le savoir-faire",
+        "method_link": "shopify://pages/savoir-faire",
+        "faq_label": "Questions fréquentes",
+        "color_scheme": "scheme-3"
       }
     },
     "related-products": {
       "type": "related-products",
       "settings": {
-        "heading": "",
+        "heading": "Aussi à découvrir",
         "heading_size": "h2",
         "editorial_text": "",
         "columns_desktop": 4,

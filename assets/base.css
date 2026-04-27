@@ -147,14 +147,17 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 }
 
 .section + .section {
-  margin-top: var(--spacing-sections-mobile);
+  margin-top: 0;
 }
 
 @media screen and (min-width: 750px) {
   .section + .section {
-    margin-top: var(--spacing-sections-desktop);
+    margin-top: 0;
   }
 }
+
+/* Kill any residual top/bottom margin between Shopify section wrappers */
+.shopify-section + .shopify-section { margin-top: 0 !important; }
 
 .element-margin-top {
   margin-top: 5rem;
