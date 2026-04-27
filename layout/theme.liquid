@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Marcellus&display=swap"
     >
     {% comment %}theme-check-enable RemoteAsset{% endcomment %}
 
@@ -355,6 +355,7 @@
       {{ 'component-totals.css' | asset_url | stylesheet_tag }}
       {{ 'component-price.css' | asset_url | stylesheet_tag }}
       {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+      {{ 'vd-cart-drawer.css' | asset_url | stylesheet_tag }}
     {%- endif -%}
 
     {%- unless settings.type_body_font.system? -%}
@@ -406,11 +407,30 @@
           {{ content_for_layout }}
         </main>
 
-        {% render 'cookie-banner' %}
-
         {% sections 'footer-group' %}
       </div>
     </div>
+
+    {% render 'cookie-banner' %}
+
+    <script>
+      // Ensure Shopify's native consent banner (#shopify-pc__banner) lives
+      // directly in <body>, outside #smooth-content which creates a
+      // containing block for fixed children via its GSAP transform.
+      (function () {
+        var relocate = function (el) {
+          if (!el || el.parentElement === document.body) return;
+          document.body.appendChild(el);
+        };
+        var tryNow = function () {
+          relocate(document.getElementById('shopify-pc__banner'));
+          relocate(document.getElementById('shopify-pc__prefs'));
+        };
+        tryNow();
+        var mo = new MutationObserver(tryNow);
+        mo.observe(document.documentElement, { childList: true, subtree: true });
+      })();
+    </script>
 
     <ul hidden>
       <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>

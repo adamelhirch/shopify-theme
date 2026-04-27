@@ -12,7 +12,7 @@
   }
 {% endstyle %}
 
-<section class="section-{{ section.id }}-padding vd-social-wall color-{{ section.settings.color_scheme }}">
+<div class="section-{{ section.id }}-padding vd-social-wall color-{{ section.settings.color_scheme }}">
   <svg width="0" height="0" style="position: absolute;">
     <defs>
       <clipPath id="vd-squircle-{{ section.id }}" clipPathUnits="objectBoundingBox">
@@ -101,7 +101,7 @@
       {% endfor %}
     </div>
   </div>
-</section>
+</div>
 
 {% schema %}
 {

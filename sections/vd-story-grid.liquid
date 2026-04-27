@@ -26,7 +26,7 @@
 -%}
 {%- assign story_intro_text = section.settings.text | replace: '/pages/wiki-vanille-bien-choisir', story_vanille_url | replace: '/pages/recettes', story_recipes_url | replace: '/pages/catalogue', story_catalogue_url | replace: '/pages/contact', story_contact_url | replace: '/pages/wiki', story_wiki_url -%}
 
-<section class="section-{{ section.id }}-padding vd-story color-{{ section.settings.color_scheme }}">
+<div class="section-{{ section.id }}-padding vd-story color-{{ section.settings.color_scheme }}">
   <div class="page-width">
     <div class="vd-story__head">
       {% if section.settings.heading != blank %}
@@ -106,7 +106,7 @@
       {% endfor %}
     </div>
   </div>
-</section>
+</div>
 
 {% schema %}
 {

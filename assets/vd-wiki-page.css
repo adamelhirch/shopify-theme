@@ -165,7 +165,7 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 
 .vd-wiki-page__rail-brand strong {
   color: var(--vd-wiki-page-text);
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--vd-font-display);
   font-size: clamp(2.45rem, 2.2vw, 2.95rem);
   line-height: 0.92;
   letter-spacing: -0.05em;
@@ -337,7 +337,7 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
   margin: 0;
   max-width: 9.6ch;
   color: var(--vd-wiki-page-text);
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--vd-font-display);
   font-size: clamp(4rem, 5vw, 5.9rem);
   line-height: 0.88;
   letter-spacing: -0.065em;
@@ -369,7 +369,7 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 .vd-wiki-page__eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0;
   color: rgba(94, 68, 44, 0.72);
   font-size: 0.74rem;
   font-weight: 700;
@@ -378,15 +378,12 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 }
 
 .vd-wiki-page__eyebrow::before {
-  content: "";
-  width: 1.3rem;
-  height: 1px;
-  background: rgba(var(--vd-orange), 0.88);
+  display: none;
 }
 
 .vd-wiki-page__hero-card strong {
   color: var(--vd-wiki-page-text);
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--vd-font-display);
   font-size: clamp(2rem, 2.1vw, 2.9rem);
   line-height: 0.96;
   letter-spacing: -0.045em;
@@ -546,7 +543,7 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
   margin: 0;
   max-width: 10.2ch;
   color: var(--vd-wiki-page-text);
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--vd-font-display);
   font-size: clamp(2.8rem, 3vw, 3.9rem);
   line-height: 0.92;
   letter-spacing: -0.055em;
@@ -631,7 +628,7 @@ body:has(.vd-wiki-page) .header__icon:focus-visible {
 .vd-wiki-page__faq-title {
   margin: 0;
   color: var(--vd-wiki-page-text);
-  font-family: "Cormorant Garamond", serif;
+  font-family: var(--vd-font-display);
   line-height: 0.98;
   letter-spacing: -0.05em;
 }

@@ -15,6 +15,7 @@
 {%- liquid
   assign hero_video_url = ''
   assign hero_poster_image = section.settings.background_image
+  assign hero_poster_url = ''
   assign has_metrics = false
   assign hero_title_text = section.settings.heading | strip
   assign hero_body_text = section.settings.text | strip_html | strip
@@ -36,6 +37,12 @@
     assign hero_video_url = section.settings.external_video_url
   elsif section.settings.use_demo_video
     assign hero_video_url = 'vd-hero-origin.mp4' | asset_url
+  endif
+
+  if hero_poster_image != blank
+    assign hero_poster_url = hero_poster_image | image_url: width: 1920
+  elsif hero_video_url != blank and section.settings.use_demo_video
+    assign hero_poster_url = 'vd-hero-origin-poster.jpg' | asset_url
   endif
 
   if section.settings.metric_1_value != blank and section.settings.metric_1_label != blank
@@ -71,36 +78,12 @@
   endif
 -%}
 
-<section
+<div
   class="section-{{ section.id }}-padding section-vd-hero color-{{ section.settings.color_scheme }}"
   aria-label="{{ hero_semantic_title | escape }}"
 >
   <div class="vd-hero vd-hero--immersive">
     <div class="vd-hero__media{% if hero_video_url != blank %} vd-hero__media--deferred{% endif %}" aria-hidden="true">
-      {% if hero_video_url != blank and hero_poster_image != blank %}
-        {{
-          hero_poster_image
-          | image_url: width: 1920
-          | image_tag:
-            class: 'vd-hero__image',
-            widths: '480, 720, 960, 1280, 1600, 1920',
-            sizes: '100vw',
-            loading: 'eager',
-            fetchpriority: 'high',
-            decoding: 'async',
-            alt: ''
-        }}
-      {% elsif hero_video_url != blank and section.settings.use_demo_video %}
-        <img
-          src="{{ 'vd-hero-origin-poster.jpg' | asset_url }}"
-          class="vd-hero__image"
-          alt=""
-          loading="eager"
-          width="2400"
-          height="1600"
-        >
-      {% endif %}
-
       {% if hero_video_url != blank %}
         <video
           class="vd-hero__video"
@@ -115,6 +98,9 @@
           data-vd-video-delay="2400"
           data-min-width="990"
           aria-hidden="true"
+          {% if hero_poster_url != blank %}
+            poster="{{ hero_poster_url }}"
+          {% endif %}
         >
           <source data-src="{{ hero_video_url }}" type="video/mp4">
         </video>
@@ -243,7 +229,7 @@
       </div>
     </div>
   </div>
-</section>
+</div>
 
 {% schema %}
 {

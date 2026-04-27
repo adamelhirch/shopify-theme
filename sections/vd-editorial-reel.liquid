@@ -12,7 +12,7 @@
   }
 {% endstyle %}
 
-<section class="section-{{ section.id }}-padding vd-editorial color-{{ section.settings.color_scheme }}">
+<div class="section-{{ section.id }}-padding vd-editorial color-{{ section.settings.color_scheme }}">
   <div class="page-width">
     <div class="vd-editorial__head">
       {% if section.settings.eyebrow != blank %}
@@ -99,7 +99,7 @@
       {% endfor %}
     </div>
   </div>
-</section>
+</div>
 
 {% schema %}
 {

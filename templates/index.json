@@ -49,7 +49,7 @@
         "secondary_button_label": "Voir tous les produits",
         "secondary_button_link": "",
         "color_scheme": "scheme-3",
-        "padding_top": 24,
+        "padding_top": 0,
         "padding_bottom": 20
       }
     },
@@ -60,42 +60,45 @@
           "type": "story_panel",
           "settings": {
             "step_label": "01",
-            "title": "Fecondation manuelle",
-            "text": "<p>Chaque fleur est pollinisee a la main, au bon moment, avec un geste rapide et precis qui ne laisse aucune place a l'approximation.</p>",
-            "image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
-            "quote": "\"La saveur commence avant la gousse.\""
+            "title": "Recolte",
+            "text": "<p>Cueillette manuelle des gousses a maturite optimale, entre juin et septembre, dans la region SAVA.</p>"
           }
         },
         "craft_step_2": {
           "type": "story_panel",
           "settings": {
             "step_label": "02",
-            "title": "Maturation en climat reel",
-            "text": "<p>La liane evolue au rythme de Madagascar. On laisse le temps faire son travail avant toute recolte, sans acceleration ni standardisation.</p>",
-            "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg",
-            "quote": "\"Le temps reste notre premier allie.\""
+            "title": "Echaudage",
+            "text": "<p>Les gousses sont plongees dans l'eau chaude pour initier la transformation enzymatique.</p>"
           }
         },
         "craft_step_3": {
           "type": "story_panel",
           "settings": {
             "step_label": "03",
-            "title": "Affinage et tri final",
-            "text": "<p>Echaudage, etuvage, sechage puis affinage: une suite d'etapes lentes qui construit la souplesse, la brillance et la profondeur aromatique.</p>",
-            "image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
-            "quote": "\"Le profil final se construit couche apres couche.\""
+            "title": "Sechage lent",
+            "text": "<p>Alternance de soleil et d'ombre pendant plusieurs semaines. La patience faconne chaque gousse.</p>"
+          }
+        },
+        "craft_step_4": {
+          "type": "story_panel",
+          "settings": {
+            "step_label": "04",
+            "title": "Affinage",
+            "text": "<p>24 mois en malles de bois. C'est ici que naissent les 300+ composes aromatiques.</p>"
           }
         }
       },
       "block_order": [
         "craft_step_1",
         "craft_step_2",
-        "craft_step_3"
+        "craft_step_3",
+        "craft_step_4"
       ],
       "settings": {
-        "eyebrow": "Heritage",
+        "eyebrow": "",
         "heading": "Notre savoir-faire",
-        "text": "<p>Une section qui reste sur place pendant que l'histoire se deroule. Le but est de montrer le geste, le temps long et l'affinage comme une meme choregraphie, pas comme trois cartes statiques.</p>",
+        "text": "<p>Deux ans de patience pour une gousse. De la récolte manuelle à l'affinage en malles de bois, chaque étape est travaillée à la main par nos producteurs à Madagascar — la garantie d'une vanille vivante, aux arômes complexes.</p>",
         "button_label": "Notre histoire",
         "button_link": "shopify://pages/qui-sommes-nous",
         "color_scheme": "scheme-3",
@@ -103,82 +106,42 @@
         "padding_bottom": 32
       }
     },
-    "vd_featured_products_v7M2Qw": {
-      "type": "vd-featured-products",
+    "vd_guide_banner_Xk9mP4": {
+      "type": "vd-guide-banner",
       "settings": {
-        "eyebrow": "Nos produits en vedette",
-        "heading": "Une galerie qui met la collection en mouvement.",
-        "collection": "vanille-bourbon",
-        "products_to_show": 6,
-        "button_label": "Voir toute la collection",
-        "color_scheme": "scheme-3",
-        "padding_top": 12,
-        "padding_bottom": 28
+        "kicker": "Le Wiki",
+        "heading": "Tout comprendre sur la vanille",
+        "text": "Terroirs, botanique, gestes et techniques : un guide complet pour les curieux exigeants.",
+        "button_label": "Lire le guide",
+        "button_link": "shopify://blogs/le-wiki"
       }
     },
-    "vd_wiki_grid_A2mL9d": {
-      "type": "vd-wiki-grid",
+    "vd_social_Nm3wQ8": {
+      "type": "vd-social",
       "blocks": {
-        "wiki_1": {
-          "type": "wiki_chapter",
-          "settings": {
-            "number": "01",
-            "category": "Botanique",
-            "title": "Botanique",
-            "text": "<p>La fleur n'apparait qu'un instant. Tout commence dans une matiere encore verte, avant meme le parfum.</p>",
-            "detail_one": "Vanilla planifolia",
-            "detail_two": "Pollinisation manuelle",
-            "detail_three": "Floraison eclair",
-            "link_label": "Entrer dans le chapitre",
-            "link": "shopify://pages/wiki",
-            "image": ""
-          }
-        },
-        "wiki_2": {
-          "type": "wiki_chapter",
-          "settings": {
-            "number": "02",
-            "category": "Terroirs & Crus",
-            "title": "Terroirs",
-            "text": "<p>Une geographie sobre, presque nocturne, ou l'origine apparait comme un trait d'or.</p>",
-            "detail_one": "SAVA",
-            "detail_two": "Humidite elevee",
-            "detail_three": "Altitude douce",
-            "link_label": "Voir les origines",
-            "link": "shopify://pages/wiki",
-            "image": ""
-          }
-        },
-        "wiki_3": {
-          "type": "wiki_chapter",
-          "settings": {
-            "number": "03",
-            "category": "Techniques",
-            "title": "Le Geste",
-            "text": "<p>Pas de discours long. Le tri, la tension des mains, le temps de sechage, la repetition juste.</p>",
-            "detail_one": "Tri manuel",
-            "detail_two": "Sechage lent",
-            "detail_three": "Affinage precis",
-            "link_label": "Voir les gestes",
-            "link": "shopify://pages/wiki",
-            "image": ""
-          }
-        }
+        "tile_1": { "type": "tile" },
+        "tile_2": { "type": "tile" },
+        "tile_3": { "type": "tile" },
+        "tile_4": { "type": "tile" },
+        "tile_5": { "type": "tile" },
+        "tile_6": { "type": "tile" },
+        "tile_7": { "type": "tile" },
+        "tile_8": { "type": "tile" },
+        "tile_9": { "type": "tile" },
+        "tile_10": { "type": "tile" },
+        "tile_11": { "type": "tile" },
+        "tile_12": { "type": "tile" },
+        "tile_13": { "type": "tile" },
+        "tile_14": { "type": "tile" }
       },
-      "block_order": [
-        "wiki_1",
-        "wiki_2",
-        "wiki_3"
-      ],
+      "block_order": ["tile_1", "tile_2", "tile_3", "tile_4", "tile_5", "tile_6", "tile_7", "tile_8", "tile_9", "tile_10", "tile_11", "tile_12", "tile_13", "tile_14"],
       "settings": {
-        "eyebrow": "Le Wiki",
-        "heading": "Un codex digital pour la matiere, les terroirs et le geste.",
-        "text": "<p>Trois chapitres plein ecran. Plus d'espace, plus de rythme, plus de credibilite editoriale.</p>",
-        "button_label": "Explorer le wiki",
-        "button_link": "shopify://pages/wiki",
-        "color_scheme": "scheme-3",
-        "padding_top": 18,
-        "padding_bottom": 30
+        "kicker": "",
+        "heading": "Suivez nous",
+        "instagram_url": "https://www.instagram.com/vanilledesire/",
+        "facebook_url": "https://www.facebook.com/vanilledesire/",
+        "linkedin_url": "",
+        "tiktok_url": ""
       }
     }
   },
@@ -186,7 +149,7 @@
     "vd_hero_premium_YyXL7E",
     "vd_new_product_bento_KmT2rQ",
     "vd_craftsmanship_m7Kp2L",
-    "vd_featured_products_v7M2Qw",
-    "vd_wiki_grid_A2mL9d"
+    "vd_guide_banner_Xk9mP4",
+    "vd_social_Nm3wQ8"
   ]
 }

@@ -397,164 +397,49 @@
   }
 
   function initCraftStories(gsap, ScrollTrigger, prefersReducedMotion, cleanups) {
-    gsap.utils.toArray('[data-vd-craft-story]').forEach(function (section) {
-      var sticky = section.querySelector('.vd-craft-story__sticky');
-      var panels = gsap.utils.toArray(section.querySelectorAll('[data-vd-craft-panel]'));
-      var steps = gsap.utils.toArray(section.querySelectorAll('[data-vd-craft-step]'));
-      var quoteCards = gsap.utils.toArray(section.querySelectorAll('[data-vd-craft-quote]'));
-      var introItems = gsap.utils.toArray(section.querySelectorAll('[data-vd-craft-intro] > *'));
+    gsap.utils.toArray('[data-vd-savoir]').forEach(function (section) {
+      var line = section.querySelector('[data-vd-savoir-line]');
+      var steps = gsap.utils.toArray(section.querySelectorAll('[data-vd-savoir-step]'));
 
-      if (!sticky || !panels.length || !steps.length) return;
+      if (prefersReducedMotion) return;
 
-      clearCraftStoryStyles(gsap, section, panels, steps, quoteCards, introItems);
-
-      if (prefersReducedMotion || window.innerWidth < 990 || panels.length < 2) {
-        return;
+      /* Line grows with scroll */
+      if (line) {
+        gsap.fromTo(line,
+          { scaleX: 0 },
+          {
+            scaleX: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 80%',
+              end: 'center 40%',
+              scrub: 0.6
+            }
+          }
+        );
       }
 
-      section.classList.add('is-enhanced');
-
-      var defaults = { ease: 'expo.out', duration: 1.6 };
-
-      gsap.set(panels, { autoAlpha: 0, scale: 1.08, yPercent: 8 });
-      gsap.set(panels[0], { autoAlpha: 1, scale: 1, yPercent: 0 });
-      gsap.set(quoteCards, { autoAlpha: 0, y: 24 });
-      gsap.set(steps, { autoAlpha: 0.34, x: 0 });
-      gsap.set(steps[0], { autoAlpha: 1, x: 0 });
-
-      if (quoteCards[0]) {
-        gsap.set(quoteCards[0], { autoAlpha: 1, y: 0 });
-      }
-
-      syncCraftStoryState(panels, steps, 0, true);
-
-      var timeline = gsap.timeline({
-        defaults: defaults,
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: function () {
-            return '+=' + Math.max(window.innerHeight * (panels.length * 1.05 + 0.8), 1800);
-          },
-          pin: sticky,
-          scrub: 1,
-          anticipatePin: 1,
-          invalidateOnRefresh: true
-        }
-      });
-
-      panels.forEach(function (panel, index) {
-        var quote = panel.querySelector('[data-vd-craft-quote]');
-
-        if (index === 0) {
-          timeline.to(
-            panel,
+      /* Steps fade-up staggered */
+      if (steps.length) {
+        steps.forEach(function (step, index) {
+          gsap.fromTo(step,
+            { opacity: 0, y: 30 },
             {
-              scale: 1.02,
-              yPercent: -2,
-              duration: 1.2,
-              ease: 'none'
-            },
-            0.08
-          );
-
-          return;
-        }
-
-        var previousPanel = panels[index - 1];
-        var previousQuote = previousPanel.querySelector('[data-vd-craft-quote]');
-        var previousStep = steps[index - 1];
-        var currentStep = steps[index];
-        var label = 'craft-step-' + index;
-
-        timeline.addLabel(label, '+=0.18');
-        timeline.call(syncCraftStoryState, [panels, steps, index, true], label);
-        timeline.to(
-          previousPanel,
-          {
-            autoAlpha: 0.14,
-            scale: 0.95,
-            yPercent: -6,
-            duration: 1.5
-          },
-          label
-        );
-
-        if (previousQuote) {
-          timeline.to(
-            previousQuote,
-            {
-              autoAlpha: 0,
-              y: -16,
-              duration: 1.2
-            },
-            label
-          );
-        }
-
-        timeline.to(
-          previousStep,
-          {
-            autoAlpha: 0.34,
-            x: 0,
-            duration: 1.25
-          },
-          label
-        );
-
-        timeline.to(
-          panel,
-          {
-            autoAlpha: 1,
-            scale: 1,
-            yPercent: 0,
-            duration: 1.8
-          },
-          label
-        );
-
-        timeline.to(
-          currentStep,
-          {
-            autoAlpha: 1,
-            x: 0,
-            duration: 1.45
-          },
-          label + '+=0.15'
-        );
-
-        if (quote) {
-          timeline.to(
-            quote,
-            {
-              autoAlpha: 1,
+              opacity: 1,
               y: 0,
-              duration: 1.35
-            },
-            label + '+=0.2'
+              duration: 0.6,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: step,
+                start: 'top 85%',
+                once: true
+              },
+              delay: index * 0.1
+            }
           );
-        }
-
-        timeline.to(
-          panel,
-          {
-            scale: 1.02,
-            yPercent: -2,
-            duration: 1.15,
-            ease: 'none'
-          },
-          label + '+=0.25'
-        );
-      });
-
-      registerCleanup(cleanups, function () {
-        if (timeline.scrollTrigger) {
-          timeline.scrollTrigger.kill();
-        }
-
-        timeline.kill();
-        clearCraftStoryStyles(gsap, section, panels, steps, quoteCards, introItems);
-      });
+        });
+      }
     });
   }
 
@@ -618,46 +503,7 @@
       if (!stage || !gallery || items.length < 4 || !Flip) return;
 
       clearNewProductBentoStyles(gsap, section, gallery, items);
-
-      if (prefersReducedMotion || window.innerWidth < 990) {
-        return;
-      }
-
-      section.classList.add('is-enhanced');
-
-      gallery.classList.add('vd-new-product__gallery--final');
-      var flipState = Flip.getState(items);
-      gallery.classList.remove('vd-new-product__gallery--final');
-
-      var timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: gallery,
-          start: 'center center',
-          end: '+=100%',
-          pin: stage,
-          scrub: 1,
-          anticipatePin: 1,
-          invalidateOnRefresh: true
-        }
-      });
-
-      timeline.add(
-        Flip.to(flipState, {
-          simple: true,
-          ease: 'expo.inOut',
-          duration: 1
-        }),
-        0
-      );
-
-      registerCleanup(cleanups, function () {
-        if (timeline.scrollTrigger) {
-          timeline.scrollTrigger.kill();
-        }
-
-        timeline.kill();
-        clearNewProductBentoStyles(gsap, section, gallery, items);
-      });
+      section.classList.remove('is-enhanced');
     });
   }
 
@@ -895,7 +741,7 @@
 
       gsap.set(items, { clearProps: 'opacity,filter' });
 
-      if (!prefersReducedMotion) {
+      if (!prefersReducedMotion && window.innerWidth >= 990) {
         introTimeline = gsap.timeline({
           defaults: { ease: 'power2.out' },
           scrollTrigger: {
@@ -1042,25 +888,7 @@
       }
 
       if (media) {
-        var heroMediaTween = gsap.to(media, {
-          yPercent: -8,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: hero,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true
-          }
-        });
-
-        registerCleanup(state.cleanups, function () {
-          if (heroMediaTween.scrollTrigger) {
-            heroMediaTween.scrollTrigger.kill();
-          }
-
-          heroMediaTween.kill();
-          gsap.set(media, { clearProps: 'transform' });
-        });
+        gsap.set(media, { clearProps: 'transform' });
       }
 
       registerCleanup(state.cleanups, function () {
@@ -1102,6 +930,143 @@
 
         revealTween.kill();
         gsap.set(items, { clearProps: 'all' });
+      });
+    });
+
+    /* Guide banner — blur reveal on scroll */
+    gsap.utils.toArray('[data-vd-guide-banner]').forEach(function (banner) {
+      var img = banner.querySelector('.vd-guide-banner__img');
+      if (!img || prefersReducedMotion) {
+        if (img) img.style.filter = 'none';
+        return;
+      }
+
+      gsap.to(img, {
+        filter: 'blur(0px) brightness(1)',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: banner,
+          start: 'top bottom',
+          end: 'center center',
+          scrub: 0.4
+        }
+      });
+    });
+
+    /* Social mosaic — stack-grid layout + scroll reveal */
+    gsap.utils.toArray('[data-vd-social-mosaic]').forEach(function (mosaic) {
+      var tiles = gsap.utils.toArray(mosaic.querySelectorAll('[data-vd-social-tile]'));
+
+      if (!tiles.length) return;
+
+      function getColumnCount() {
+        if (window.innerWidth >= 990) return 4;
+        if (window.innerWidth >= 750) return 3;
+        return 2;
+      }
+
+      function layoutMosaic() {
+        var cols = getColumnCount();
+        var gap = 4;
+        var containerWidth = mosaic.offsetWidth;
+        var colWidth = (containerWidth - gap * (cols - 1)) / cols;
+        var colHeights = [];
+        var i;
+
+        for (i = 0; i < cols; i++) { colHeights.push(0); }
+
+        tiles.forEach(function (tile) {
+          tile.style.width = colWidth + 'px';
+          tile.style.position = 'absolute';
+
+          /* Find shortest column */
+          var minCol = 0;
+          var minH = colHeights[0];
+          for (i = 1; i < cols; i++) {
+            if (colHeights[i] < minH) { minH = colHeights[i]; minCol = i; }
+          }
+
+          var x = minCol * (colWidth + gap);
+          var y = colHeights[minCol];
+
+          tile.style.left = x + 'px';
+          tile.style.top = y + 'px';
+
+          /* Use custom ratio from data attribute for varied heights */
+          var customRatio = parseFloat(tile.getAttribute('data-vd-tile-ratio')) || 1;
+          var img = tile.querySelector('img');
+          var tileHeight;
+          if (img && img.naturalHeight && img.naturalWidth) {
+            tileHeight = colWidth * (img.naturalHeight / img.naturalWidth);
+          } else {
+            tileHeight = colWidth * customRatio;
+          }
+          tile.style.height = tileHeight + 'px';
+
+          colHeights[minCol] += tileHeight + gap;
+        });
+
+        var maxHeight = Math.max.apply(null, colHeights);
+
+        /* Stretch last tile of each column to align bottom edge */
+        var colLastTile = [];
+        for (i = 0; i < cols; i++) { colLastTile.push(null); }
+
+        tiles.forEach(function (tile) {
+          var tileLeft = parseFloat(tile.style.left);
+          var col = Math.round(tileLeft / (colWidth + gap));
+          colLastTile[col] = tile;
+        });
+
+        for (i = 0; i < cols; i++) {
+          if (colLastTile[i] && colHeights[i] < maxHeight) {
+            var currentTop = parseFloat(colLastTile[i].style.top);
+            var currentH = parseFloat(colLastTile[i].style.height);
+            var extra = maxHeight - colHeights[i];
+            colLastTile[i].style.height = (currentH + extra) + 'px';
+          }
+        }
+
+        mosaic.style.height = maxHeight + 'px';
+      }
+
+      /* Wait for images to get dimensions, then layout */
+      var images = mosaic.querySelectorAll('img');
+      var loaded = 0;
+      var total = images.length || 1;
+
+      function onImageReady() {
+        loaded++;
+        if (loaded >= total) { layoutMosaic(); }
+      }
+
+      if (images.length === 0) {
+        layoutMosaic();
+      } else {
+        Array.prototype.forEach.call(images, function (img) {
+          if (img.complete) { onImageReady(); }
+          else { img.addEventListener('load', onImageReady); img.addEventListener('error', onImageReady); }
+        });
+      }
+
+      window.addEventListener('resize', function () {
+        clearTimeout(mosaic.__resizeTimer);
+        mosaic.__resizeTimer = setTimeout(layoutMosaic, 150);
+      });
+
+      /* Scroll reveal */
+      if (prefersReducedMotion) {
+        tiles.forEach(function (t) { t.classList.add('is-visible'); });
+        return;
+      }
+
+      ScrollTrigger.create({
+        trigger: mosaic,
+        start: 'top 85%',
+        once: true,
+        onEnter: function () {
+          tiles.forEach(function (t) { t.classList.add('is-visible'); });
+        }
       });
     });
 

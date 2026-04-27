@@ -1,20 +1,78 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "vd_page_flow_savoir_faire": {
-      "type": "vd-page-flow",
+    "vd_savoir_faire_detail": {
+      "type": "vd-savoir-faire-detail",
+      "blocks": {
+        "step_01": {
+          "type": "step",
+          "settings": {
+            "step_number": "01",
+            "title": "RÉCOLTE & AFFINAGE",
+            "description": "<p>Récoltes au bon stade puis séchage soigné (alternance soleil/ombre), affinage patient. Le temps fait le profil aromatique — on ne triche pas avec la durée.</p>"
+          }
+        },
+        "step_02": {
+          "type": "step",
+          "settings": {
+            "step_number": "02",
+            "title": "TRI & CONTRÔLE",
+            "description": "<p>Calibrage, examen visuel et organoleptique à l'arrivée. Les lots irréguliers ne passent pas. La cohérence d'un lot à l'autre est notre exigence.</p>"
+          }
+        },
+        "step_03": {
+          "type": "step",
+          "settings": {
+            "step_number": "03",
+            "title": "MISE EN POT CLAIRE",
+            "description": "<p>Conditionnement propre en France, étiquette lisible, lot et DLC. Rien à cacher : la matière et la méthode parlent d'elles-mêmes.</p>"
+          }
+        },
+        "value_01": {
+          "type": "value",
+          "settings": {
+            "kicker": "Traçabilité",
+            "title": "Chaque lot se suit",
+            "text": "Origine, méthode, taux d'humidité — un QR interne pour tout retrouver."
+          }
+        },
+        "value_02": {
+          "type": "value",
+          "settings": {
+            "kicker": "Qualité",
+            "title": "Contrôles reproductibles",
+            "text": "Même exigence à chaque réception : cohérence des profils et du taux d'humidité."
+          }
+        },
+        "value_03": {
+          "type": "value",
+          "settings": {
+            "kicker": "Sobriété",
+            "title": "Pas de surpromesse",
+            "text": "On montre la matière et la méthode. Le reste, c'est dans l'assiette."
+          }
+        }
+      },
+      "block_order": [
+        "step_01",
+        "step_02",
+        "step_03",
+        "value_01",
+        "value_02",
+        "value_03"
+      ],
       "settings": {
-        "color_scheme": "scheme-3",
-        "padding_top": 16,
-        "padding_bottom": 8
+        "heading": "Un savoir-faire artisanal, une chaîne courte,",
+        "heading_accent": "un goût vrai.",
+        "lede": "<p>Sélection directe auprès de familles productrices, contrôle à l'arrivée, mise en pot propre en France. Simple, net, reproductible.</p>",
+        "callout_kicker": "Lots tracés",
+        "callout_title": "Chaque lot a sa carte d'identité.",
+        "callout_text": "Origine, séchage, taux d'humidité : tout est consigné, vérifiable, accessible.",
+        "method_kicker": "Notre méthode",
+        "method_heading": "En 3 gestes.",
+        "values_kicker": "Engagements",
+        "values_heading": "Simples & mesurables.",
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     },
     "main": {
@@ -24,7 +82,7 @@
     }
   },
   "order": [
-    "vd_page_flow_savoir_faire",
+    "vd_savoir_faire_detail",
     "main"
   ]
 }
