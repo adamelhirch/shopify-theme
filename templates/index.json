@@ -47,7 +47,8 @@
         "c5"
       ],
       "settings": {
-        "eyebrow": "Les collections"
+        "eyebrow": "Les collections",
+        "image": "shopify://shop_images/hero-home-vd.jpg"
       }
     },
     "featured-products-tabs": {
