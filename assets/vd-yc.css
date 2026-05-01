@@ -4898,11 +4898,11 @@ body.vd-no-scroll { overflow: hidden; }
   padding-top: 8px !important;
   padding-bottom: 8px !important;
   padding-right: clamp(16px, 4vw, 48px) !important;
-  padding-left: clamp(4px, 0.4vw, 10px) !important;
+  padding-left: clamp(8px, 0.8vw, 16px) !important;
   grid-auto-columns: minmax(320px, 380px) !important;
   gap: 24px !important;
   /* scroll-padding-left pour que scroll-snap respecte le padding gauche. */
-  scroll-padding-left: clamp(4px, 0.4vw, 10px) !important;
+  scroll-padding-left: clamp(8px, 0.8vw, 16px) !important;
 }
 .vd-rev__card {
   background: var(--vd-bg-soft);
