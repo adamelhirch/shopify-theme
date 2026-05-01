@@ -923,7 +923,7 @@
       const carouselRes = await fetch(`https://judge.me/api/v1/widgets/featured_carousel?${params}`);
       if (!carouselRes.ok) return;
       const carouselData = await carouselRes.json();
-      const html = carouselData.widget || carouselData.html || '';
+      const html = carouselData.featured_carousel || carouselData.widget || carouselData.html || '';
       if (!html) return;
 
       // Parse HTML and extract reviews
@@ -946,24 +946,35 @@
       if (!list) return;
 
       const extractRating = (el) => {
-        // Look for data-score, data-rating, or count filled stars
+        // 1) aria-label sur le block rating ("5 stars" / "4.5 stars")
+        const labeled = el.querySelector('[aria-label*="star" i]');
+        if (labeled) {
+          const m = (labeled.getAttribute('aria-label') || '').match(/([\d.]+)/);
+          if (m) {
+            const v = parseFloat(m[1]);
+            if (Number.isFinite(v)) return Math.round(v);
+          }
+        }
+        // 2) data-score
         const ds = el.querySelector('[data-score]');
         if (ds) {
           const v = parseInt(ds.getAttribute('data-score'), 10);
           if (Number.isFinite(v)) return v;
         }
+        // 3) compte d'étoiles allumées
         const filled = el.querySelectorAll('.jdgm-star.jdgm--on, .jdgm--star-filled, .jdgm--on');
         if (filled.length) return Math.min(filled.length, 5);
         return 5;
       };
       const extractText = (el) => {
-        const body = el.querySelector('.jdgm-carousel-item__body, .jdgm-rev__body, .jdgm-rev__title, [class*="body"]');
-        if (body) return (body.textContent || '').trim();
+        // Judge.me 2025 : .jdgm-carousel-item__review-body (priorité)
+        const body = el.querySelector('.jdgm-carousel-item__review-body, .jdgm-carousel-item__body, .jdgm-rev__body, [class$="review-body"], [class*="review-body"], [class*="body"]');
+        if (body) return (body.textContent || '').trim().replace(/\s+/g, ' ');
         return (el.textContent || '').trim().slice(0, 280);
       };
       const extractAuthor = (el) => {
-        const a = el.querySelector('.jdgm-carousel-item__reviewer-name, .jdgm-rev__author, [class*="author"], [class*="reviewer"]');
-        return a ? (a.textContent || '').trim() : '';
+        const a = el.querySelector('.jdgm-carousel-item__reviewer-name, .jdgm-rev__author, [class*="reviewer-name"], [class*="reviewer"], [class*="author"]');
+        return a ? (a.textContent || '').trim().replace(/\s+/g, ' ') : '';
       };
       const extractProductHandle = (el) => {
         const link = el.querySelector('a[href*="/products/"]');
