@@ -453,8 +453,8 @@ p { margin: 0; }
   min-width: 16px;
   height: 16px;
   padding: 0 4px;
-  background: var(--vd-text);
-  color: var(--vd-on-dark);
+  background: var(--vd-accent);
+  color: #fff;
   font-size: 10px;
   font-weight: 600;
   border-radius: 999px;
@@ -5119,8 +5119,8 @@ body.vd-no-scroll { overflow: hidden; }
   min-width: 14px;
   height: 14px;
   padding: 0 3px;
-  background: var(--vd-text);
-  color: var(--vd-on-dark, #fff);
+  background: var(--vd-accent);
+  color: #fff;
   font-size: 9px;
   font-weight: 600;
   border-radius: 999px;
