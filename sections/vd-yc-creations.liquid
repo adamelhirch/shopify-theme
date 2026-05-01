@@ -1,0 +1,65 @@
+<section class="vd-creations vd-reveal">
+  <div class="vd-creations__head">
+    <h2 class="vd-creations__title">{{ section.settings.heading }}</h2>
+    <div class="vd-creations__cta">
+      {%- if section.settings.button_1_label != blank -%}
+        <a href="{{ section.settings.button_1_link }}" class="vd-btn">{{ section.settings.button_1_label }}</a>
+      {%- endif -%}
+      {%- if section.settings.button_2_label != blank -%}
+        <a href="{{ section.settings.button_2_link }}" class="vd-btn vd-btn--ghost">{{ section.settings.button_2_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+  <div class="vd-creations__grid">
+    {%- for block in section.blocks -%}
+      <a href="{{ block.settings.link | default: '#' }}" class="vd-creation" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          <img src="{{ block.settings.image | image_url: width: 1000 }}" alt="{{ block.settings.label | escape }}" loading="lazy" width="1000" height="1250">
+        {%- else -%}
+          <img src="https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=1000&auto=format&fit=crop" alt="placeholder" loading="lazy" width="1000" height="1250">
+        {%- endif -%}
+        <div class="vd-creation__label">{{ block.settings.label }}</div>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Créations / Coffrets",
+  "tag": "section",
+  "max_blocks": 9,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Découvrez nos coffrets sur mesure pour vos événements" },
+    { "type": "text", "id": "button_1_label", "label": "Bouton 1 — libellé", "default": "Voir le catalogue" },
+    { "type": "url", "id": "button_1_link", "label": "Bouton 1 — lien" },
+    { "type": "text", "id": "button_2_label", "label": "Bouton 2 — libellé", "default": "Nous contacter" },
+    { "type": "url", "id": "button_2_link", "label": "Bouton 2 — lien" }
+  ],
+  "blocks": [
+    {
+      "type": "creation",
+      "name": "Création",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Libellé", "default": "Coffret découverte" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "url", "id": "link", "label": "Lien" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Créations / Coffrets",
+      "category": "Accueil",
+      "blocks": [
+        { "type": "creation", "settings": { "label": "Coffret découverte" } },
+        { "type": "creation", "settings": { "label": "Coffret prestige" } },
+        { "type": "creation", "settings": { "label": "Coffret professionnel" } },
+        { "type": "creation", "settings": { "label": "Sur mesure entreprise" } },
+        { "type": "creation", "settings": { "label": "Coffret cadeau" } },
+        { "type": "creation", "settings": { "label": "Édition limitée" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

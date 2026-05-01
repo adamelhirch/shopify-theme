@@ -1,0 +1,173 @@
+{%- comment -%}
+  Page contact — version Vanille Désiré.
+  Hero éditorial + formulaire 2-col (form gauche, infos droite).
+{%- endcomment -%}
+
+<section class="vd-contact vd-reveal">
+  <div class="vd-contact__inner">
+    <header class="vd-contact__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="vd-contact__eyebrow">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+      <h1 class="vd-contact__title">{{ section.settings.heading | default: 'Nous contacter' }}</h1>
+      {%- if section.settings.intro != blank -%}
+        <div class="vd-contact__intro">{{ section.settings.intro }}</div>
+      {%- endif -%}
+    </header>
+
+    <div class="vd-contact__grid">
+      {%- comment -%} ============== FORM ============== {%- endcomment -%}
+      <div class="vd-contact__form-wrap">
+        {%- form 'contact', class: 'vd-contact__form' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="vd-contact__success" tabindex="-1" autofocus>
+              {{ section.settings.success_message | default: 'Merci, votre message est bien reçu. On vous répond dans la journée.' }}
+            </div>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <div class="vd-contact__errors" role="alert" tabindex="-1" autofocus>
+              <p><strong>Oups, quelque chose n'a pas marché :</strong></p>
+              <ul>
+                {%- for field in form.errors -%}
+                  <li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          <div class="vd-contact__field-row">
+            <div class="vd-contact__field">
+              <label for="ContactFormName">Nom</label>
+              <input
+                type="text"
+                id="ContactFormName"
+                name="contact[{{ 'templates.contact.form.name' | t }}]"
+                value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                autocomplete="name"
+                placeholder="Votre nom"
+              >
+            </div>
+            <div class="vd-contact__field">
+              <label for="ContactFormEmail">Email *</label>
+              <input
+                type="email"
+                id="ContactFormEmail"
+                name="contact[email]"
+                spellcheck="false"
+                autocapitalize="off"
+                value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                autocorrect="off"
+                autocomplete="email"
+                required
+                placeholder="vous@email.com"
+              >
+            </div>
+          </div>
+
+          <div class="vd-contact__field">
+            <label for="ContactFormPhone">Téléphone</label>
+            <input
+              type="tel"
+              id="ContactFormPhone"
+              name="contact[{{ 'templates.contact.form.phone' | t }}]"
+              pattern="[0-9 \-\+\(\)]*"
+              value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+              autocomplete="tel"
+              placeholder="06 12 34 56 78"
+            >
+          </div>
+
+          <div class="vd-contact__field">
+            <label for="ContactFormSubject">Sujet</label>
+            <select id="ContactFormSubject" name="contact[Sujet]">
+              <option value="Question générale">Question générale</option>
+              <option value="Suivi de commande">Suivi de commande</option>
+              <option value="Espace Pro / B2B">Espace Pro / B2B</option>
+              <option value="Recettes &amp; conseils">Recettes &amp; conseils</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+
+          <div class="vd-contact__field">
+            <label for="ContactFormMessage">Message *</label>
+            <textarea
+              rows="6"
+              id="ContactFormMessage"
+              name="contact[{{ 'templates.contact.form.comment' | t }}]"
+              required
+              placeholder="Dites-nous tout."
+            >{{ form.body }}</textarea>
+          </div>
+
+          <button type="submit" class="vd-btn vd-btn--full">Envoyer le message</button>
+        {%- endform -%}
+      </div>
+
+      {%- comment -%} ============== INFOS ============== {%- endcomment -%}
+      <aside class="vd-contact__info">
+        {%- if section.settings.email != blank -%}
+          <div class="vd-contact__info-item">
+            <h3 class="vd-contact__info-label">Email</h3>
+            <a href="mailto:{{ section.settings.email }}" class="vd-contact__info-value">{{ section.settings.email }}</a>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.phone != blank -%}
+          <div class="vd-contact__info-item">
+            <h3 class="vd-contact__info-label">Téléphone</h3>
+            <a href="tel:{{ section.settings.phone | replace: ' ', '' }}" class="vd-contact__info-value">{{ section.settings.phone }}</a>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.hours != blank -%}
+          <div class="vd-contact__info-item">
+            <h3 class="vd-contact__info-label">Horaires</h3>
+            <div class="vd-contact__info-text">{{ section.settings.hours }}</div>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.address != blank -%}
+          <div class="vd-contact__info-item">
+            <h3 class="vd-contact__info-label">Adresse</h3>
+            <div class="vd-contact__info-text">{{ section.settings.address }}</div>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.shipping_note != blank -%}
+          <div class="vd-contact__info-item">
+            <h3 class="vd-contact__info-label">Expéditions</h3>
+            <div class="vd-contact__info-text">{{ section.settings.shipping_note }}</div>
+          </div>
+        {%- endif -%}
+
+        <div class="vd-contact__info-item">
+          <h3 class="vd-contact__info-label">FAQ avant de nous écrire ?</h3>
+          <a href="/pages/faq" class="vd-contact__info-link">→ Consulter la FAQ</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page contact",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Une question ?" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Nous contacter" },
+    { "type": "richtext", "id": "intro", "label": "Texte d'intro", "default": "<p>On répond sous 24h ouvrées. Pour les questions courantes (livraison, conservation, dosage), un détour par la <a href=\"/pages/faq\">FAQ</a> peut suffire.</p>" },
+    { "type": "header", "content": "Coordonnées" },
+    { "type": "text", "id": "email", "label": "Email", "default": "contact@vanilledesire.com" },
+    { "type": "text", "id": "phone", "label": "Téléphone" },
+    { "type": "richtext", "id": "hours", "label": "Horaires", "default": "<p>Lundi → Vendredi<br>9h – 18h (heure de Paris)</p>" },
+    { "type": "richtext", "id": "address", "label": "Adresse" },
+    { "type": "richtext", "id": "shipping_note", "label": "Note expéditions", "default": "<p>Commande passée avant 14h, expédiée le jour même. France métropolitaine en 48h.</p>" },
+    { "type": "header", "content": "Messages de retour" },
+    { "type": "text", "id": "success_message", "label": "Message de succès", "default": "Merci, votre message est bien reçu. On vous répond dans la journée." }
+  ],
+  "presets": [
+    { "name": "Page contact", "category": "Page" }
+  ]
+}
+{% endschema %}

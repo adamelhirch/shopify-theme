@@ -1,32 +1,52 @@
 {
   "sections": {
-    "banner": {
-      "type": "main-collection-banner",
+    "main": {
+      "type": "vd-yc-collection",
       "settings": {
-        "show_collection_description": true,
-        "show_collection_image": true,
-        "color_scheme": "scheme-1"
-      }
-    },
-    "product-grid": {
-      "type": "main-collection-product-grid",
-      "settings": {
-        "products_per_page": 16,
-        "columns_desktop": 4,
-        "image_ratio": "adapt",
-        "show_secondary_image": false,
-        "show_vendor": false,
-        "show_rating": false,
-        "enable_filtering": true,
-        "enable_sorting": true,
-        "columns_mobile": "2",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
+        "show_promo_tile": true,
+        "promo_eyebrow": "Découvrez notre gamme de",
+        "show_description": true,
+        "enable_sorting": true
+      },
+      "blocks": {
+        "t1": {
+          "type": "tab",
+          "settings": {
+            "label": "Vanille",
+            "collection": "vanille-bourbon"
+          }
+        },
+        "t2": {
+          "type": "tab",
+          "settings": {
+            "label": "Poivre",
+            "collection": "poivre-baies"
+          }
+        },
+        "t3": {
+          "type": "tab",
+          "settings": {
+            "label": "Épices",
+            "collection": "epices-madagascar"
+          }
+        },
+        "t4": {
+          "type": "tab",
+          "settings": {
+            "label": "Huiles",
+            "collection": "huiles-madagascar"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ]
     }
   },
   "order": [
-    "banner",
-    "product-grid"
+    "main"
   ]
 }

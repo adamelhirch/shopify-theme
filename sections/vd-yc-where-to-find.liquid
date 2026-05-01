@@ -1,0 +1,124 @@
+<section class="vd-section vd-page vd-reveal" data-vd-tabs>
+  <div class="vd-section-head" style="justify-content:center;text-align:center;flex-direction:column;align-items:center;">
+    <div class="vd-section-head__copy" style="text-align:center;">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="vd-eyebrow vd-eyebrow--soft">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+      <h2 class="vd-h2">{{ section.settings.heading }}</h2>
+    </div>
+  </div>
+
+  <div class="vd-tabs" role="tablist">
+    <button type="button" class="vd-tab is-active" data-tab="retailers" role="tab">{{ section.settings.tab_retailers }}</button>
+    <button type="button" class="vd-tab" data-tab="events" role="tab">{{ section.settings.tab_events }}</button>
+  </div>
+
+  <div class="vd-locations is-active" data-panel="retailers">
+    <div data-vd-carousel>
+      <div class="vd-section-head__nav" style="justify-content:flex-end;margin-bottom:16px;">
+        <button type="button" data-vd-carousel-prev aria-label="Précédent">‹</button>
+        <button type="button" data-vd-carousel-next aria-label="Suivant">›</button>
+      </div>
+      <div class="vd-carousel">
+        {%- assign retailer_blocks = section.blocks | where: 'type', 'retailer' -%}
+        {%- if retailer_blocks.size > 0 -%}
+          {%- for block in retailer_blocks -%}
+            {%- assign map_url = block.settings.address | url_encode | prepend: 'https://www.google.com/maps/search/?api=1&query=' -%}
+            <a href="{{ map_url }}" target="_blank" rel="noopener" class="vd-loc-card" {{ block.shopify_attributes }}>
+              <div class="vd-loc-card__media">
+                {%- if block.settings.image != blank -%}
+                  <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.name | escape }}" loading="lazy" width="600" height="600">
+                {%- else -%}
+                  <img src="https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=600&auto=format&fit=crop" alt="placeholder" loading="lazy" width="600" height="600">
+                {%- endif -%}
+              </div>
+              <div class="vd-loc-card__title">{{ block.settings.name }}</div>
+              <div class="vd-loc-card__meta">{{ block.settings.city }}</div>
+              <span class="vd-card__action" style="margin-top:8px;">Voir l'adresse</span>
+            </a>
+          {%- endfor -%}
+        {%- else -%}
+          <div style="padding:48px;color:var(--vd-text-soft);">Ajoutez vos revendeurs dans l'éditeur de thème.</div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="vd-locations" data-panel="events">
+    <div data-vd-carousel>
+      <div class="vd-section-head__nav" style="justify-content:flex-end;margin-bottom:16px;">
+        <button type="button" data-vd-carousel-prev aria-label="Précédent">‹</button>
+        <button type="button" data-vd-carousel-next aria-label="Suivant">›</button>
+      </div>
+      <div class="vd-carousel">
+        {%- assign event_blocks = section.blocks | where: 'type', 'event' -%}
+        {%- if event_blocks.size > 0 -%}
+          {%- for block in event_blocks -%}
+            <a href="{{ block.settings.link | default: '#' }}" class="vd-loc-card" {{ block.shopify_attributes }}>
+              <div class="vd-loc-card__media">
+                {%- if block.settings.image != blank -%}
+                  <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.name | escape }}" loading="lazy" width="600" height="600">
+                {%- else -%}
+                  <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&auto=format&fit=crop" alt="placeholder" loading="lazy" width="600" height="600">
+                {%- endif -%}
+              </div>
+              <div class="vd-loc-card__title">{{ block.settings.name }}</div>
+              <div class="vd-loc-card__meta">{{ block.settings.dates }} — {{ block.settings.city }}</div>
+              <span class="vd-card__action" style="margin-top:8px;">En savoir plus</span>
+            </a>
+          {%- endfor -%}
+        {%- else -%}
+          <div style="padding:48px;color:var(--vd-text-soft);">Ajoutez vos prochains salons dans l'éditeur de thème.</div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Où nous trouver",
+  "tag": "section",
+  "max_blocks": 30,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Présence physique" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Où nous trouver" },
+    { "type": "text", "id": "tab_retailers", "label": "Onglet 1 — libellé", "default": "Revendeurs" },
+    { "type": "text", "id": "tab_events", "label": "Onglet 2 — libellé", "default": "Salons" }
+  ],
+  "blocks": [
+    {
+      "type": "retailer",
+      "name": "Revendeur",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Nom de l'enseigne", "default": "Épicerie fine" },
+        { "type": "text", "id": "city", "label": "Ville", "default": "Paris 7e" },
+        { "type": "text", "id": "address", "label": "Adresse complète (pour Google Maps)" },
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    },
+    {
+      "type": "event",
+      "name": "Salon",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Nom du salon", "default": "Salon de la gastronomie" },
+        { "type": "text", "id": "city", "label": "Lieu", "default": "Paris" },
+        { "type": "text", "id": "dates", "label": "Dates", "default": "12 — 15 mai 2026" },
+        { "type": "url", "id": "link", "label": "Lien (optionnel)" },
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Où nous trouver",
+      "category": "Accueil",
+      "blocks": [
+        { "type": "retailer", "settings": { "name": "Épicerie fine — exemple", "city": "Paris 7e" } },
+        { "type": "retailer", "settings": { "name": "Cave gourmande — exemple", "city": "Lyon 2e" } },
+        { "type": "event", "settings": { "name": "Salon de la gastronomie", "city": "Paris", "dates": "12 — 15 mai 2026" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

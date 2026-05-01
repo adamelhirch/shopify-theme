@@ -1,0 +1,50 @@
+{%- comment -%}
+  /cart est désactivé : seul accès au panier = drawer latéral.
+  On redirige immédiatement (JS + <meta refresh> fallback) vers la page
+  d'origine si elle vient du même domaine, sinon vers l'accueil, et on
+  ouvre le drawer côté client.
+{%- endcomment -%}
+
+<noscript>
+  <meta http-equiv="refresh" content="0; url={{ routes.root_url }}">
+</noscript>
+
+<section class="vd-cart-redirect" aria-live="polite">
+  <p>Redirection vers votre panier…</p>
+</section>
+
+<style>
+  .vd-cart-redirect {
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Geometria', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--vd-text-soft);
+  }
+</style>
+
+<script>
+  (function () {
+    var ref = document.referrer;
+    var sameOrigin = false;
+    try {
+      sameOrigin = ref && new URL(ref).hostname === window.location.hostname;
+    } catch (e) {}
+    var target = (sameOrigin && !ref.endsWith('/cart')) ? ref : '{{ routes.root_url }}';
+    // Open drawer on the destination page.
+    try { sessionStorage.setItem('vd-open-cart-on-load', '1'); } catch (e) {}
+    window.location.replace(target);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Panier (redirect)",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "current": "Default",
   "presets": {
@@ -167,8 +158,8 @@
       "social_twitter_link": "",
       "social_facebook_link": "https://www.facebook.com/vanilledesire/",
       "social_pinterest_link": "",
-      "social_instagram_link": "https://www.instagram.com/vanilledesire/",
-      "social_tiktok_link": "https://www.tiktok.com/@vanilledesire",
+      "social_instagram_link": "https://instagram.com/vanilledesire",
+      "social_tiktok_link": "",
       "social_tumblr_link": "",
       "social_snapchat_link": "",
       "social_youtube_link": "",

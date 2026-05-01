@@ -1,0 +1,79 @@
+<section class="vd-locss" data-vd-locss>
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign map_url = block.settings.address | url_encode | prepend: 'https://www.google.com/maps/search/?api=1&query='
+      assign link = block.settings.link
+      if link == blank and block.settings.address != blank
+        assign link = map_url
+      endif
+    -%}
+    <div class="vd-locss__slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+      {%- if block.settings.image != blank -%}
+        <img src="{{ block.settings.image | image_url: width: 2400 }}"
+             srcset="{{ block.settings.image | image_url: width: 1200 }} 1200w, {{ block.settings.image | image_url: width: 2000 }} 2000w"
+             sizes="100vw"
+             alt="{{ block.settings.title | escape }}"
+             loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+             width="2400" height="1500">
+      {%- else -%}
+        <img src="https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=2400&auto=format&fit=crop"
+             alt="placeholder" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" width="2400" height="1500">
+      {%- endif -%}
+      <div class="vd-locss__inner">
+        <div class="vd-locss__eyebrow">{{ block.settings.eyebrow | default: section.settings.eyebrow }}</div>
+        <h2 class="vd-locss__title">{{ block.settings.title }}</h2>
+        {%- if link != blank -%}
+          <a href="{{ link }}" target="_blank" rel="noopener" class="vd-locss__cta">{{ block.settings.cta | default: section.settings.cta_default }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endfor -%}
+
+  {%- if section.blocks.size > 1 -%}
+    <div class="vd-locss__nav">
+      <button type="button" data-vd-locss-prev aria-label="Précédent">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 2L4 7l5 5"/></svg>
+      </button>
+      <button type="button" data-vd-locss-next aria-label="Suivant">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2l5 5-5 5"/></svg>
+      </button>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Adresses (slideshow)",
+  "tag": "section",
+  "max_blocks": 30,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre par défaut", "default": "Où nous trouver" },
+    { "type": "text", "id": "cta_default", "label": "CTA par défaut", "default": "Voir l'adresse" }
+  ],
+  "blocks": [
+    {
+      "type": "location",
+      "name": "Lieu",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Nom du lieu" },
+        { "type": "text", "id": "eyebrow", "label": "Sur-titre (sinon réglage section)" },
+        { "type": "text", "id": "cta", "label": "CTA (sinon défaut)" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "address", "label": "Adresse complète (Google Maps)" },
+        { "type": "url", "id": "link", "label": "Lien personnalisé (sinon Maps)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Adresses (slideshow)",
+      "category": "Accueil",
+      "blocks": [
+        { "type": "location", "settings": { "title": "Épicerie fine — Paris", "eyebrow": "Nos revendeurs" } },
+        { "type": "location", "settings": { "title": "Salon Épicures — Lyon", "eyebrow": "Prochain salon", "cta": "Voir l'événement" } },
+        { "type": "location", "settings": { "title": "Maison du goût — Bordeaux", "eyebrow": "Nos revendeurs" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

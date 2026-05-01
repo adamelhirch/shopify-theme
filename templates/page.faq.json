@@ -1,0 +1,89 @@
+{
+  "sections": {
+    "main": {
+      "type": "vd-yc-faq",
+      "blocks": {
+        "q1": {
+          "type": "qa",
+          "settings": {
+            "question": "Quels sont les délais de livraison ?",
+            "answer": "<p>Commande passée avant 14h, expédiée le jour-même (jours ouvrés). Livraison en France métropolitaine en 48h via Colissimo ou Mondial Relay. Hors France : 4 à 7 jours selon le pays.</p>"
+          }
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {
+            "question": "Comment conserver mes gousses de vanille ?",
+            "answer": "<p>Dans leur tube ou un récipient hermétique, à l'abri de la chaleur, de la lumière et de l'humidité. Plusieurs années sans perte d'arôme — et elles continuent à mûrir doucement.</p><p>Plus de détails dans le <a href=\"/pages/wiki-vanille-conservation-preparation\">guide conservation</a>.</p>"
+          }
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {
+            "question": "Comment utiliser une gousse ?",
+            "answer": "<p>Fendre la gousse en deux dans la longueur, gratter les graines avec la pointe d'un couteau, et plonger gousse + graines dans votre préparation chaude (lait, crème, sirop). Laisser infuser. Récupérer la gousse, la rincer, la sécher et la réutiliser.</p>"
+          }
+        },
+        "q4": {
+          "type": "qa",
+          "settings": {
+            "question": "Vanille Bourbon ou Pompona, c'est quoi la différence ?",
+            "answer": "<p><strong>Bourbon (Vanilla planifolia)</strong> : la classique, fine, sucrée, équilibrée. Idéale pâtisserie & desserts.</p><p><strong>Pompona (Vanilla pompona)</strong> : XXL, plus florale et boisée, parfum chaud. Top pour les rhums arrangés et les recettes longues.</p><p>Voir le <a href=\"/pages/wiki-vanille-bourbon-planifolia-legacy-20260412\">dossier Bourbon</a>.</p>"
+          }
+        },
+        "q5": {
+          "type": "qa",
+          "settings": {
+            "question": "D'où viennent les produits ?",
+            "answer": "<p>Tous nos produits viennent de Madagascar, en lien direct avec les familles productrices. Pas d'intermédiaire, traçabilité lot par lot.</p>"
+          }
+        },
+        "q6": {
+          "type": "qa",
+          "settings": {
+            "question": "Quels sont les modes de paiement acceptés ?",
+            "answer": "<p>Carte bancaire (Visa, Mastercard, Amex), Apple Pay, Google Pay, PayPal et Shop Pay. Paiement 100% sécurisé via Shopify Payments.</p>"
+          }
+        },
+        "q7": {
+          "type": "qa",
+          "settings": {
+            "question": "Comment suivre ma commande ?",
+            "answer": "<p>Dès l'expédition, tu reçois un email avec le numéro de suivi du transporteur. Tu peux aussi accéder à l'historique de tes commandes en te connectant à <a href=\"/account/login\">ton compte client</a>.</p>"
+          }
+        },
+        "q8": {
+          "type": "qa",
+          "settings": {
+            "question": "Puis-je retourner un produit ?",
+            "answer": "<p>Oui, tu disposes de 14 jours après réception pour nous retourner un produit non ouvert et en parfait état. Détails dans notre <a href=\"/policies/refund-policy\">politique de retour</a>.</p>"
+          }
+        },
+        "q9": {
+          "type": "qa",
+          "settings": {
+            "question": "Faites-vous de la livraison à l'international ?",
+            "answer": "<p>Oui, on livre dans toute l'Union Européenne et au-delà (Suisse, UK, US, Canada). Frais et délais calculés au checkout selon le pays. Les taxes douanières éventuelles sont à la charge du destinataire hors UE.</p>"
+          }
+        },
+        "q10": {
+          "type": "qa",
+          "settings": {
+            "question": "Avez-vous une offre Pro / B2B ?",
+            "answer": "<p>Oui, on travaille avec restaurateurs, pâtissiers et épiciers. Tarifs dégressifs, formats adaptés (sachets, sacs jute) et facturation HT. Voir <a href=\"/pages/offre-pro-vanille-bourbon-madagascar\">l'offre Pro</a> ou écris-nous via le formulaire.</p>"
+          }
+        }
+      },
+      "block_order": ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10"],
+      "settings": {
+        "eyebrow": "Aide",
+        "heading": "Questions fréquentes",
+        "intro": "<p>Les réponses aux questions qu'on nous pose le plus souvent. Si la tienne n'y est pas, écris-nous — on répond sous 24h ouvrées.</p>",
+        "contact_text": "Une autre question ?",
+        "contact_link_label": "Nous contacter",
+        "contact_link": "/pages/contact"
+      }
+    }
+  },
+  "order": ["main"]
+}

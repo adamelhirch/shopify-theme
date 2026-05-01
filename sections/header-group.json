@@ -1,38 +1,24 @@
 {
-  "name": "t:sections.header.name",
+  "name": "Header",
   "type": "header",
   "sections": {
+    "announcement": {
+      "type": "vd-yc-announcement-bar",
+      "blocks": {
+        "msg-1": { "type": "message", "settings": { "text": "🌿 Livraison offerte dès 59€ — France métropolitaine" } },
+        "msg-2": { "type": "message", "settings": { "text": "Direct producteurs Madagascar" } },
+        "msg-3": { "type": "message", "settings": { "text": "Récolte 2026 disponible" } }
+      },
+      "block_order": ["msg-1", "msg-2", "msg-3"]
+    },
     "header": {
-      "type": "header",
+      "type": "vd-yc-header",
       "settings": {
-        "color_scheme": "scheme-2",
-        "logo_position": "middle-center",
         "menu": "main-menu",
-        "brand_menu_label": "Vanille Desire",
-        "shop_menu_label": "Shop",
-        "shop_link_1_label": "Vanille Bourbon",
-        "shop_link_1_url": "shopify://collections/vanille-bourbon",
-        "shop_link_2_label": "Epices de Madagascar",
-        "shop_link_2_url": "shopify://collections/epices-madagascar",
-        "shop_link_3_label": "Caviar & Extraits",
-        "shop_link_3_url": "shopify://collections/all",
-        "shop_link_4_label": "Coffrets",
-        "shop_link_4_url": "shopify://collections/all",
-        "shop_link_5_label": "Tous les produits",
-        "shop_link_5_url": "shopify://collections/all",
-        "menu_type_desktop": "dropdown",
-        "sticky_header_type": "none",
-        "show_line_separator": false,
-        "enable_country_selector": false,
-        "enable_language_selector": false,
-        "mobile_logo_position": "center",
-        "margin_bottom": 0,
-        "padding_top": 12,
-        "padding_bottom": 12
+        "secondary_link_label": "",
+        "secondary_link_url": ""
       }
     }
   },
-  "order": [
-    "header"
-  ]
+  "order": ["announcement", "header"]
 }

@@ -1,0 +1,67 @@
+{%- liquid
+  assign product = all_products[section.settings.product]
+  assign image = section.settings.image
+  if image == blank and product != blank
+    assign image = product.featured_image
+  endif
+-%}
+
+<section class="vd-section vd-section--tight">
+  <div class="vd-spotlight vd-reveal{% if section.settings.media_position == 'right' %} vd-spotlight--reverse{% endif %}">
+    <div class="vd-spotlight__media">
+      {%- if image != blank -%}
+        <img src="{{ image | image_url: width: 1200 }}" alt="{{ section.settings.heading | escape }}" loading="lazy" width="1200" height="900">
+      {%- else -%}
+        <img src="https://images.unsplash.com/photo-1608797178974-15b35a64ede9?w=1200&auto=format&fit=crop" alt="placeholder" loading="lazy" width="1200" height="900">
+      {%- endif -%}
+    </div>
+    <div class="vd-spotlight__content">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="vd-eyebrow vd-eyebrow--soft">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+      <h2 class="vd-spotlight__title">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}
+        <p class="vd-body">{{ section.settings.text }}</p>
+      {%- endif -%}
+      {%- if product != blank -%}
+        <div style="font-size:var(--vd-fs-md);">
+          {%- if product.price_varies -%}À partir de {%- endif -%}
+          <strong>{{ product.price_min | money }}</strong>
+        </div>
+      {%- endif -%}
+      <div>
+        {%- assign cta_link = section.settings.button_link | default: product.url -%}
+        <a href="{{ cta_link }}" class="vd-btn">{{ section.settings.button_label }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Spotlight produit",
+  "tag": "section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Produit (optionnel)" },
+    { "type": "image_picker", "id": "image", "label": "Image (sinon image produit)" },
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Nouveau" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Vanille de Tahiti" },
+    { "type": "textarea", "id": "text", "label": "Texte", "default": "Une signature florale et anisée, récoltée à la pleine maturité, pour vos préparations les plus délicates." },
+    { "type": "text", "id": "button_label", "label": "Bouton", "default": "Découvrir" },
+    { "type": "url", "id": "button_link", "label": "Lien bouton" },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Position image",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Gauche" },
+        { "value": "right", "label": "Droite" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Spotlight produit", "category": "Accueil" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,103 @@
+{%- comment -%}
+  Fil d'Ariane — port du pattern yanncouvreur.com.
+  Affiche : Accueil › [Collection] › [Page courante].
+  Sur une PDP, la collection vient soit du referrer (si l'utilisateur arrive
+  depuis /collections/X), soit de product.collections.first en fallback.
+{%- endcomment -%}
+
+{%- liquid
+  assign show_collection = false
+  assign collection_handle = ''
+  assign collection_title = ''
+
+  if template contains 'product' and product.collections.first != blank
+    assign show_collection = true
+    assign collection_handle = product.collections.first.handle
+    assign collection_title = product.collections.first.title
+  elsif template contains 'collection'
+    assign current_page_label = collection.title
+  elsif template contains 'page'
+    assign current_page_label = page.title
+  elsif template contains 'article'
+    assign current_page_label = article.title
+  endif
+-%}
+
+<nav class="vd-breadcrumbs" role="navigation" aria-label="Fil d'Ariane">
+  <ol class="vd-breadcrumbs__list">
+    <li class="vd-breadcrumbs__item">
+      <a href="{{ routes.root_url }}" class="vd-breadcrumbs__link">Accueil</a>
+    </li>
+
+    {%- if template contains 'product' -%}
+      <li
+        class="vd-breadcrumbs__item vd-breadcrumbs__collection-item"
+        data-vd-bc-collection
+        {%- unless show_collection %} hidden{% endunless -%}
+      >
+        <a
+          href="{%- if show_collection -%}{{ routes.collections_url }}/{{ collection_handle }}{%- else -%}#{%- endif -%}"
+          class="vd-breadcrumbs__link"
+          data-vd-bc-collection-link
+        >{{ collection_title }}</a>
+      </li>
+      <li class="vd-breadcrumbs__item">
+        <span class="vd-breadcrumbs__link" aria-current="page">{{ product.title }}</span>
+      </li>
+    {%- elsif template contains 'collection' or template contains 'page' or template contains 'article' -%}
+      <li class="vd-breadcrumbs__item">
+        <span class="vd-breadcrumbs__link" aria-current="page">{{ current_page_label }}</span>
+      </li>
+    {%- endif -%}
+  </ol>
+</nav>
+
+{%- if template contains 'product' -%}
+  <script>
+    (function () {
+      // Si on arrive d'une collection (referrer), affiche-la dans le fil
+      // d'Ariane à la place / par-dessus la collection Liquid par défaut.
+      var ref = document.referrer;
+      if (!ref) return;
+      try {
+        var u = new URL(ref);
+        if (u.hostname !== window.location.hostname) return;
+        var match = u.pathname.match(/\/collections\/([^/]+)/);
+        if (!match) return;
+        var handle = match[1];
+        var item = document.querySelector('[data-vd-bc-collection]');
+        var link = document.querySelector('[data-vd-bc-collection-link]');
+        if (!item || !link) return;
+        fetch('/collections/' + handle + '.json')
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (data) {
+            if (!data || !data.collection) return;
+            link.href = '/collections/' + handle;
+            link.textContent = data.collection.title;
+            item.removeAttribute('hidden');
+          })
+          .catch(function () {});
+      } catch (e) {}
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Fil d'Ariane",
+  "tag": "section",
+  "class": "shopify-section--vd-breadcrumbs",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Fil d'Ariane affiché en haut de page. Sur les pages produit, la collection est déduite du referrer (si l'utilisateur arrive depuis une collection) ou de la première collection associée au produit."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fil d'Ariane",
+      "category": "Vanille Désiré"
+    }
+  ]
+}
+{% endschema %}

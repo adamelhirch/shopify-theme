@@ -1,0 +1,58 @@
+{%- comment -%}
+  Cart drawer items list. Rendered by Liquid on initial load and re-rendered
+  by JS (assets/vd-yc.js → renderCartDrawerItems) after add/qty/remove.
+  Keep markup in sync with the JS template.
+{%- endcomment -%}
+<ul class="vd-cart-items" data-vd-cart-items>
+  {%- for item in cart.items -%}
+    <li class="vd-cart-item" data-vd-cart-line="{{ forloop.index }}">
+      <a class="vd-cart-item__media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+        {%- if item.image -%}
+          <img
+            src="{{ item.image | image_url: width: 240 }}"
+            srcset="{{ item.image | image_url: width: 240 }} 1x, {{ item.image | image_url: width: 480 }} 2x"
+            alt="{{ item.product.title | escape }}"
+            loading="lazy"
+            width="120"
+            height="140"
+          >
+        {%- endif -%}
+      </a>
+      <div class="vd-cart-item__info">
+        <a class="vd-cart-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
+        {%- unless item.variant.title contains 'Default' -%}
+          <span class="vd-cart-item__variant">{{ item.variant.title }}</span>
+        {%- endunless -%}
+        <div class="vd-cart-item__row">
+          <div class="vd-cart-item__qty" data-vd-qty>
+            <button type="button" data-vd-qty-minus aria-label="Diminuer">
+              <svg width="10" height="2" viewBox="0 0 10 2" fill="none" aria-hidden="true">
+                <path d="M0 1h10" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </button>
+            <input
+              type="number"
+              min="0"
+              value="{{ item.quantity }}"
+              data-vd-cart-qty="{{ forloop.index }}"
+              inputmode="numeric"
+              aria-label="Quantité"
+            >
+            <button type="button" data-vd-qty-plus aria-label="Augmenter">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                <path d="M0 5h10M5 0v10" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </button>
+          </div>
+          <button type="button" class="vd-cart-item__remove" data-vd-cart-remove="{{ forloop.index }}">
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+              <path d="M2 4h10M5 4V2.5h4V4M3.5 4l.6 8h5.8l.6-8M6 6.5v4M8 6.5v4"/>
+            </svg>
+            <span>Supprimer</span>
+          </button>
+        </div>
+      </div>
+      <div class="vd-cart-item__price">{{ item.final_line_price | money }}</div>
+    </li>
+  {%- endfor -%}
+</ul>

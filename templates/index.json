@@ -1,173 +1,375 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "vd_hero_premium_YyXL7E": {
-      "type": "vd-hero",
-      "settings": {
-        "eyebrow": "Producteurs directs de Madagascar",
-        "heading": "",
-        "text": "",
-        "show_scroll_indicator": true,
-        "scroll_label": "Glisser vers le bas",
-        "external_video_url": "https://cdn.shopify.com/videos/c/o/v/6d1b753e0b4b427e9b6a144dea98ce90.mp4",
-        "background_image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
-        "use_demo_video": false,
-        "media_overlay_opacity": 35,
-        "button_label": "",
-        "button_link": "",
-        "secondary_button_label": "",
-        "secondary_button_link": "",
-        "metric_1_value": "",
-        "metric_1_label": "",
-        "metric_2_value": "",
-        "metric_2_label": "",
-        "metric_3_value": "",
-        "metric_3_label": "",
-        "color_scheme": "scheme-3",
-        "padding_top": 0,
-        "padding_bottom": 0
-      }
-    },
-    "vd_craftsmanship_m7Kp2L": {
-      "type": "vd-craftsmanship",
+    "hero": {
+      "type": "vd-yc-hero-list",
       "blocks": {
-        "craft_step_1": {
-          "type": "story_panel",
+        "c1": {
+          "type": "category",
           "settings": {
-            "step_label": "01",
-            "title": "Fecondation manuelle",
-            "text": "<p>Chaque fleur est pollinisee a la main, au bon moment, avec un geste rapide et precis qui ne laisse aucune place a l'approximation.</p>",
-            "image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
-            "quote": "\"La saveur commence avant la gousse.\""
+            "label": "Vanille",
+            "collection": "vanille-bourbon"
           }
         },
-        "craft_step_2": {
-          "type": "story_panel",
+        "c2": {
+          "type": "category",
           "settings": {
-            "step_label": "02",
-            "title": "Maturation en climat reel",
-            "text": "<p>La liane evolue au rythme de Madagascar. On laisse le temps faire son travail avant toute recolte, sans acceleration ni standardisation.</p>",
-            "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg",
-            "quote": "\"Le temps reste notre premier allie.\""
+            "label": "Poivre",
+            "collection": "poivre-baies"
           }
         },
-        "craft_step_3": {
-          "type": "story_panel",
+        "c3": {
+          "type": "category",
           "settings": {
-            "step_label": "03",
-            "title": "Affinage et tri final",
-            "text": "<p>Echaudage, etuvage, sechage puis affinage: une suite d'etapes lentes qui construit la souplesse, la brillance et la profondeur aromatique.</p>",
-            "image": "shopify://shop_images/vanille_bourbon_accueil.jpg",
-            "quote": "\"Le profil final se construit couche apres couche.\""
+            "label": "Épices",
+            "collection": "epices-madagascar"
+          }
+        },
+        "c4": {
+          "type": "category",
+          "settings": {
+            "label": "Huiles",
+            "collection": "huiles-madagascar"
           }
         }
       },
       "block_order": [
-        "craft_step_1",
-        "craft_step_2",
-        "craft_step_3"
+        "c1",
+        "c2",
+        "c3",
+        "c4"
       ],
       "settings": {
-        "eyebrow": "Heritage",
-        "heading": "Notre savoir-faire",
-        "text": "<p>Une section qui reste sur place pendant que l'histoire se deroule. Le but est de montrer le geste, le temps long et l'affinage comme une meme choregraphie, pas comme trois cartes statiques.</p>",
+        "eyebrow": "Les collections"
+      }
+    },
+    "featured-products-tabs": {
+      "type": "vd-yc-featured-products",
+      "blocks": {
+        "t1": {
+          "type": "tab",
+          "settings": {
+            "label": "Vanille",
+            "collection": "vanille-bourbon"
+          }
+        },
+        "t2": {
+          "type": "tab",
+          "settings": {
+            "label": "Poivre",
+            "collection": "poivre-baies"
+          }
+        },
+        "t3": {
+          "type": "tab",
+          "settings": {
+            "label": "Épices",
+            "collection": "epices-madagascar"
+          }
+        },
+        "t4": {
+          "type": "tab",
+          "settings": {
+            "label": "Huiles",
+            "collection": "huiles-madagascar"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
+      "settings": {
+        "products_to_show": 8
+      }
+    },
+    "slideshow-1": {
+      "type": "vd-yc-slideshow",
+      "blocks": {
+        "s1": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Logistique express",
+            "title": "Livraison en 48h en France",
+            "text": "Commande passée avant 14h, expédiée le jour même. Emballage hermétique pour préserver l'arôme jusqu'à votre cuisine.",
+            "cta_label": "Commander maintenant",
+            "cta_link": "shopify://collections/all"
+          }
+        },
+        "s2": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Notre signature",
+            "title": "Vanille Bourbon de Madagascar",
+            "text": "Gousses entières, caviar, poudre, extrait, sucre vanillé et packs pâtisserie — en lien direct avec les producteurs malgaches.",
+            "cta_label": "Découvrir la collection",
+            "cta_link": "shopify://collections/vanille-bourbon"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2"
+      ]
+    },
+    "creations-bento": {
+      "type": "vd-yc-bento-creations",
+      "blocks": {
+        "b1": {
+          "type": "cell",
+          "settings": {
+            "label": "Cannelle de Madagascar",
+            "collection": "cannelle-madagascar"
+          }
+        },
+        "b2": {
+          "type": "cell",
+          "settings": {
+            "label": "Curcuma",
+            "collection": "curcuma-madagascar"
+          }
+        },
+        "b3": {
+          "type": "cell",
+          "settings": {
+            "label": "Sels aromatisés",
+            "collection": "sels"
+          }
+        },
+        "b4": {
+          "type": "cell",
+          "settings": {
+            "label": "Gingembre",
+            "collection": "gingembre-madagascar"
+          }
+        },
+        "b5": {
+          "type": "cell",
+          "settings": {
+            "label": "Combava",
+            "collection": "combava-madagascar"
+          }
+        },
+        "b6": {
+          "type": "cell",
+          "settings": {
+            "label": "Caviar de vanille",
+            "collection": "caviar-de-vanille"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6"
+      ],
+      "settings": {
+        "eyebrow": "Notre catalogue",
+        "heading": "L'univers Vanille Désiré",
+        "button_1_label": "Voir tout le catalogue",
+        "button_1_link": "shopify://collections/all",
+        "button_2_label": "Espace Pro",
+        "button_2_link": "shopify://pages/qui-sommes-nous"
+      }
+    },
+    "newsletter": {
+      "type": "vd-yc-newsletter-inline",
+      "settings": {
+        "eyebrow": "Newsletter",
+        "heading": "Recevez -10% sur votre première commande",
+        "placeholder": "Votre adresse email",
+        "button_label": "Je m'inscris",
+        "legal": "En cliquant, vous acceptez de recevoir notre newsletter. Désinscription à tout moment."
+      }
+    },
+    "story": {
+      "type": "vd-yc-story",
+      "settings": {
+        "eyebrow": "L'aventure Vanille Désiré",
+        "heading": "De Madagascar jusqu'à votre cuisine",
+        "text": "<p>Tout commence sur les terres malgaches, où nous travaillons en lien direct avec les familles productrices. Chaque gousse est récoltée à la main, à pleine maturité, selon un savoir-faire ancestral.</p><p>Nous sélectionnons ensuite les meilleurs profils aromatiques pour vous offrir une vanille d'exception, sans intermédiaire entre le producteur et votre cuisine.</p>",
         "button_label": "Notre histoire",
-        "button_link": "shopify://pages/qui-sommes-nous",
-        "color_scheme": "scheme-3",
-        "padding_top": 20,
-        "padding_bottom": 32
+        "button_link": "shopify://pages/notre-histoire"
       }
     },
-    "vd_featured_products_v7M2Qw": {
-      "type": "vd-featured-products",
-      "settings": {
-        "eyebrow": "Nos produits en vedette",
-        "heading": "Une galerie qui met la collection en mouvement.",
-        "collection": "vanille-bourbon",
-        "products_to_show": 6,
-        "button_label": "Voir toute la collection",
-        "color_scheme": "scheme-3",
-        "padding_top": 12,
-        "padding_bottom": 28
-      }
-    },
-    "vd_wiki_grid_A2mL9d": {
-      "type": "vd-wiki-grid",
+    "producers": {
+      "type": "vd-yc-producers",
       "blocks": {
-        "wiki_1": {
-          "type": "article_card",
+        "p1": {
+          "type": "pillar",
           "settings": {
-            "number": "01",
-            "category": "Botanique",
-            "title": "L'Orchidee Planifolia",
-            "text": "Comprendre la liane, la pollinisation et le temps long qui precede l'arome.",
-            "link": "shopify://blogs/le-wiki",
-            "image": "shopify://shop_images/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg"
+            "title": "Lien direct",
+            "text": "Sans intermédiaire, du producteur à votre cuisine. Chaque achat soutient les familles malgaches."
           }
         },
-        "wiki_2": {
-          "type": "article_card",
+        "p2": {
+          "type": "pillar",
           "settings": {
-            "number": "02",
-            "category": "Science",
-            "title": "La Vanilline Naturelle",
-            "text": "Faire la difference entre concentration aromatique, extraction et faux raccourcis aromatiques.",
-            "link": "shopify://blogs/le-wiki",
-            "image": ""
+            "title": "Récolte manuelle",
+            "text": "Cueillie à la main, à pleine maturité, selon un savoir-faire transmis de génération en génération."
           }
         },
-        "wiki_3": {
-          "type": "article_card",
+        "p3": {
+          "type": "pillar",
           "settings": {
-            "number": "03",
-            "category": "Terroirs",
-            "title": "Terroirs & Crus",
-            "text": "Lire les nuances entre regions, affinage, humidite et texture des gousses.",
-            "link": "shopify://blogs/le-wiki",
-            "image": ""
-          }
-        },
-        "wiki_4": {
-          "type": "article_card",
-          "settings": {
-            "number": "04",
-            "category": "Techniques Pro",
-            "title": "Gestes & Usages",
-            "text": "Infusion, fente, dosage et conservation: les gestes qui changent vraiment le resultat.",
-            "link": "shopify://blogs/le-wiki",
-            "image": ""
+            "title": "Sélection rigoureuse",
+            "text": "Gousse après gousse, nous ne retenons que les meilleurs profils aromatiques."
           }
         }
       },
       "block_order": [
-        "wiki_1",
-        "wiki_2",
-        "wiki_3",
-        "wiki_4"
+        "p1",
+        "p2",
+        "p3"
       ],
       "settings": {
-        "heading": "Le Wiki de Désiré",
-        "text": "<p>Un teaser editorial pense pour faire entrer dans le Wiki sans casser l'immersion.</p>",
-        "button_label": "Explorer le wiki",
-        "button_link": "shopify://blogs/le-wiki",
-        "color_scheme": "scheme-3",
-        "padding_top": 0,
-        "padding_bottom": 0
+        "eyebrow": "Notre engagement",
+        "heading": "Au plus près des producteurs"
+      }
+    },
+    "reviews": {
+      "type": "vd-yc-reviews",
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "text": "Une vanille incomparable, le parfum est puissant et raffiné. Un produit d'exception qui transforme mes pâtisseries.",
+            "name": "Marie",
+            "location": "Paris"
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "text": "Livraison ultra rapide, packaging soigné. Les gousses sont d'une qualité rare, on sent vraiment le travail derrière.",
+            "name": "Thomas",
+            "location": "Lyon"
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "text": "Je recommande à 100%. Le caviar de vanille est un délice, je l'utilise dans mes crèmes brûlées et c'est divin.",
+            "name": "Sophie",
+            "location": "Bordeaux"
+          }
+        },
+        "r4": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "text": "Service client impeccable, produits authentiques. On sent le sérieux et la passion derrière la marque.",
+            "name": "Antoine",
+            "location": "Marseille"
+          }
+        },
+        "r5": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "text": "Les épices de Madagascar sont incroyablement parfumées. Difficile de revenir aux marques classiques après ça.",
+            "name": "Camille",
+            "location": "Toulouse"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5"
+      ],
+      "settings": {
+        "eyebrow": "Ils nous font confiance",
+        "heading": "Ce que disent nos clients",
+        "rating": "4.98",
+        "review_count": "+ de 500"
+      }
+    },
+    "wiki-teaser": {
+      "type": "vd-yc-wiki-teaser",
+      "blocks": {
+        "w1": {
+          "type": "article",
+          "settings": {
+            "eyebrow": "Étape 1",
+            "title": "Plantation de la liane",
+            "text": "Sur les terres malgaches, la liane de vanille est plantée à l'ombre légère des tuteurs et grandit pendant 3 à 4 ans avant la première floraison.",
+            "cta_label": "",
+            "cta_link": ""
+          }
+        },
+        "w2": {
+          "type": "article",
+          "settings": {
+            "eyebrow": "Étape 2",
+            "title": "Pollinisation à la main",
+            "text": "Chaque fleur ne s'ouvre que quelques heures et doit être pollinisée manuellement, geste précis transmis de génération en génération.",
+            "cta_label": "",
+            "cta_link": ""
+          }
+        },
+        "w3": {
+          "type": "article",
+          "settings": {
+            "eyebrow": "Étape 3",
+            "title": "Récolte à maturité",
+            "text": "9 mois plus tard, les gousses encore vertes sont récoltées une à une, au bon stade, pour préserver tout le potentiel aromatique.",
+            "cta_label": "",
+            "cta_link": ""
+          }
+        },
+        "w4": {
+          "type": "article",
+          "settings": {
+            "eyebrow": "Étape 4",
+            "title": "Échaudage & étuvage",
+            "text": "Les gousses sont plongées dans l'eau chaude puis enveloppées : c'est le déclic qui amorce le développement de la vanilline.",
+            "cta_label": "",
+            "cta_link": ""
+          }
+        },
+        "w5": {
+          "type": "article",
+          "settings": {
+            "eyebrow": "Étape 5",
+            "title": "Affinage en malle",
+            "text": "Plusieurs mois en malles cloturées, dans l'obscurité : les gousses se patinent, s'huilent et concentrent leur arôme.",
+            "cta_label": "En savoir plus",
+            "cta_link": "/pages/wiki"
+          }
+        }
+      },
+      "block_order": [
+        "w1",
+        "w2",
+        "w3",
+        "w4",
+        "w5"
+      ],
+      "settings": {
+        "autoplay_seconds": 6,
+        "overlay_opacity": 45
       }
     }
   },
   "order": [
-    "vd_hero_premium_YyXL7E",
-    "vd_craftsmanship_m7Kp2L",
-    "vd_featured_products_v7M2Qw",
-    "vd_wiki_grid_A2mL9d"
+    "hero",
+    "featured-products-tabs",
+    "slideshow-1",
+    "story",
+    "creations-bento",
+    "wiki-teaser",
+    "reviews",
+    "newsletter",
+    "producers"
   ]
 }
