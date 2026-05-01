@@ -339,11 +339,13 @@ p { margin: 0; }
   background: var(--vd-bg);
 }
 
-/* Sur ces mêmes pages, le 1er bloc visuel passe sous le header. */
+/* Sur ces mêmes pages, le 1er bloc visuel passe sous le header
+   uniquement (pas sous l'announcement bar, qui reste pleinement
+   visible au-dessus). */
 .template-index .shopify-section:has(.vd-herolist),
 .template-page-le-wiki .shopify-section:has(.vd-wiki-hub__hero),
 .template-page-wiki-article .shopify-section:has(.vd-wiki-article__hero--image) {
-  margin-top: calc(-1 * var(--vd-header-h) - var(--vd-announcement-h, 0px));
+  margin-top: calc(-1 * var(--vd-header-h));
 }
 
 @media (prefers-reduced-motion: reduce) {
