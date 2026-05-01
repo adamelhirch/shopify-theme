@@ -55,7 +55,7 @@
         "t2": {
           "type": "tab",
           "settings": {
-            "label": "Poivre",
+            "label": "Poivres",
             "collection": "poivre-baies"
           }
         },
@@ -69,6 +69,13 @@
         "t4": {
           "type": "tab",
           "settings": {
+            "label": "Sels",
+            "collection": "sels"
+          }
+        },
+        "t5": {
+          "type": "tab",
+          "settings": {
             "label": "Huiles",
             "collection": "huiles-madagascar"
           }
@@ -78,7 +85,8 @@
         "t1",
         "t2",
         "t3",
-        "t4"
+        "t4",
+        "t5"
       ],
       "settings": {
         "products_to_show": 8
