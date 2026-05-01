@@ -163,7 +163,10 @@
         {%- liquid
           assign rating_obj = card_product.metafields.reviews.rating.value
           assign rating = rating_obj.rating | times: 1.0
-          assign rating_max = rating_obj.scale_max | default: 5 | times: 1
+          assign rating_max = rating_obj.scale_max | default: 5 | times: 1.0 | floor
+          if rating_max < 1
+            assign rating_max = 5
+          endif
           assign rating_count = card_product.metafields.reviews.rating_count.value | default: 0 | times: 1
           assign rating_filled = rating | floor
           assign rating_decimal = rating | minus: rating_filled
