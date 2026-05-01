@@ -154,52 +154,6 @@
         {{- card_product.title | escape -}}
       </a>
 
-      {%- comment -%}
-        Étoiles + nombre d'avis si Judge.me / autre app review a écrit
-        dans les metafields standards Shopify (`reviews.rating` +
-        `reviews.rating_count`). Aucun rendu si le produit n'a pas d'avis.
-      {%- endcomment -%}
-      {%- if card_product.metafields.reviews.rating.value != blank -%}
-        {%- liquid
-          assign rating_obj = card_product.metafields.reviews.rating.value
-          assign rating = rating_obj.rating | times: 1.0
-          assign rating_max = rating_obj.scale_max | default: 5 | times: 1.0 | floor
-          if rating_max < 1
-            assign rating_max = 5
-          endif
-          assign rating_count = card_product.metafields.reviews.rating_count.value | default: 0 | times: 1
-          assign rating_filled = rating | floor
-          assign rating_decimal = rating | minus: rating_filled
-          assign rating_half_idx = rating_filled | plus: 1
-          assign rating_has_half = false
-          if rating_decimal >= 0.5
-            assign rating_has_half = true
-          endif
-        -%}
-        <span
-          class="vd-card__rating"
-          aria-label="Note moyenne {{ rating | round: 1 }} sur {{ rating_max }} étoiles, basée sur {{ rating_count }} avis"
-        >
-          <span class="vd-card__rating-stars" aria-hidden="true">
-            {%- for i in (1..rating_max) -%}
-              {%- if i <= rating_filled -%}
-                <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>
-              {%- elsif i == rating_half_idx and rating_has_half -%}
-                <svg viewBox="0 0 24 24" width="12" height="12">
-                  <defs><linearGradient id="vd-half-{{ card_product.id }}-{{ i }}"><stop offset="50%" stop-color="currentColor"/><stop offset="50%" stop-color="currentColor" stop-opacity="0"/></linearGradient></defs>
-                  <path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" fill="url(#vd-half-{{ card_product.id }}-{{ i }})" stroke="currentColor" stroke-width="1.2"/>
-                </svg>
-              {%- else -%}
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="12" height="12"><path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>
-              {%- endif -%}
-            {%- endfor -%}
-          </span>
-          {%- if rating_count > 0 -%}
-            <span class="vd-card__rating-count">({{ rating_count }})</span>
-          {%- endif -%}
-        </span>
-      {%- endif -%}
-
       <span class="vd-card__price">
         {%- if card_product.price_varies -%}
           {{ 'products.product.price.from_price_html' | t: price: card_product.price_min | money }}
