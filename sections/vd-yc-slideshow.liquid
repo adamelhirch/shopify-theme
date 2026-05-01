@@ -35,11 +35,12 @@
             {{ block.settings.image | image_url: width: 2400 | image_tag: widths: '600,900,1200,1600,2000,2400', sizes: '100vw', loading: img_loading, fetchpriority: img_priority, alt: img_alt, class: 'vd-ss__bg-img' }}
           {%- else -%}
             {%- liquid
-              # Mapping par index :
-              # 0 → Slide "Livraison 48h"   (colis devant porte)
-              # 1 → Slide "Vanille Bourbon" (gousse sur fond jaune)
+              # Placeholders dédiés au slideshow home, distincts du
+              # wiki-teaser, du hub wiki et des images de collection.
+              # 0 → Slide "Livraison 48h"
+              # 1 → Slide "Vanille Bourbon"
               # +  fallbacks génériques pour les slides additionnels
-              assign placeholders = 'photo-1638501478003-4e9761dcfe22|photo-1592788174877-3f99727fd23d|photo-1614018453562-77f6180ce036|photo-1682482198446-4cbf92f85a4b' | split: '|'
+              assign placeholders = 'photo-1607344645866-009c320b63e0|photo-1565514020179-026b92b84bb6|photo-1547592180-85f173990554|photo-1599058945522-28d584b6f0ff' | split: '|'
               assign ph_idx = forloop.index0
               if ph_idx >= placeholders.size
                 assign ph_idx = placeholders.size | minus: 1
