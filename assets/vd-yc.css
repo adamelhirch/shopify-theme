@@ -4895,7 +4895,10 @@ body.vd-no-scroll { overflow: hidden; }
 .vd-rev__nav button:hover { background: var(--vd-text); color: var(--vd-on-dark); }
 
 .vd-rev__list {
-  padding: 8px clamp(16px, 4vw, 48px) !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  padding-right: clamp(16px, 4vw, 48px) !important;
+  padding-left: clamp(24px, 6vw, 96px) !important;
   grid-auto-columns: minmax(320px, 380px) !important;
   gap: 24px !important;
 }
