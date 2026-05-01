@@ -1,0 +1,161 @@
+{
+  "sections": {
+    "breadcrumbs": {
+      "type": "vd-yc-breadcrumbs",
+      "settings": {}
+    },
+    "hub": {
+      "type": "vd-yc-wiki-hub",
+      "settings": {
+        "hero_overlay": 50,
+        "hero_eyebrow": "Le carnet d'origine",
+        "hero_title": "Le Wiki",
+        "hero_lede": "Tout savoir sur la vanille, les épices, les poivres et les sels — du producteur à l'assiette.",
+        "hero_scroll_label": "Explorer",
+        "cats_eyebrow": "Quatre familles",
+        "cats_heading": "Choisir une famille pour commencer",
+        "feat_eyebrow": "À lire en ce moment",
+        "feat_heading": "Trois articles pour démarrer",
+        "idx_eyebrow": "Sommaire",
+        "idx_heading": "Tous les articles"
+      },
+      "blocks": {
+        "cat-vanille": {
+          "type": "category",
+          "settings": {
+            "label": "Vanille",
+            "url": "/pages/wiki-vanille-bien-choisir",
+            "count_text": "5 articles"
+          }
+        },
+        "cat-poivres": {
+          "type": "category",
+          "settings": {
+            "label": "Poivres & baies",
+            "url": "/pages/wiki-poivres-baies-madagascar",
+            "count_text": "5 articles"
+          }
+        },
+        "cat-epices": {
+          "type": "category",
+          "settings": {
+            "label": "Épices",
+            "url": "/pages/wiki-epices-madagascar",
+            "count_text": "9 articles"
+          }
+        },
+        "cat-sels": {
+          "type": "category",
+          "settings": {
+            "label": "Sels & huiles",
+            "url": "/pages/wiki-sels-melanges",
+            "count_text": "2 familles"
+          }
+        },
+        "feat-1": {
+          "type": "featured",
+          "settings": {
+            "url": "/pages/wiki-vanille-bien-choisir",
+            "eyebrow": "Vanille — 5 min",
+            "title": "Bien choisir sa vanille Bourbon",
+            "excerpt": "Les bons réflexes pour repérer une gousse de qualité — humidité, longueur, aspect, parfum."
+          }
+        },
+        "feat-2": {
+          "type": "featured",
+          "settings": {
+            "url": "/pages/wiki-epice-cannelle-madagascar",
+            "eyebrow": "Épices — 5 min",
+            "title": "Cannelle de Madagascar",
+            "excerpt": "Des écorces récoltées à la main dans les forêts de l'Est, plus fines et plus florales que la cannelle commune."
+          }
+        },
+        "feat-3": {
+          "type": "featured",
+          "settings": {
+            "url": "/pages/wiki-savoir-faire-producteurs",
+            "eyebrow": "Savoir-faire",
+            "title": "Trois générations, une exigence",
+            "excerpt": "L'histoire de Désiré, des plants de Vangaindrano aux malles d'affinage — et ce que ça change dans la tasse."
+          }
+        },
+        "idx-01": { "type": "index_item", "settings": { "url": "/pages/wiki-vanille-bien-choisir", "title": "Bien choisir sa vanille Bourbon", "category": "vanille", "eyebrow": "5 min" } },
+        "idx-02": { "type": "index_item", "settings": { "url": "/pages/wiki-vanille-conservation-preparation", "title": "Comment conserver des gousses de vanille", "category": "vanille", "eyebrow": "4 min" } },
+        "idx-03": { "type": "index_item", "settings": { "url": "/pages/wiki-vanille-usages-recettes", "title": "Usages & recettes à la vanille", "category": "vanille", "eyebrow": "6 min" } },
+        "idx-04": { "type": "index_item", "settings": { "url": "/pages/wiki-vanille-bourbon-planifolia-legacy-20260412", "title": "Vanille Bourbon Planifolia", "category": "vanille", "eyebrow": "Dossier" } },
+        "idx-05": { "type": "index_item", "settings": { "url": "/pages/wiki-vanille-pompona", "title": "Vanille Pompona", "category": "vanille", "eyebrow": "Variétés" } },
+        "idx-06": { "type": "index_item", "settings": { "url": "/pages/wiki-poivre-noir-madagascar", "title": "Poivre noir de Madagascar", "category": "poivres", "eyebrow": "4 min" } },
+        "idx-07": { "type": "index_item", "settings": { "url": "/pages/wiki-poivre-blanc-madagascar", "title": "Poivre blanc de Madagascar", "category": "poivres", "eyebrow": "4 min" } },
+        "idx-08": { "type": "index_item", "settings": { "url": "/pages/wiki-poivre-sauvage-voatsiperifery", "title": "Poivre sauvage (Voatsiperifery)", "category": "poivres", "eyebrow": "Sauvage" } },
+        "idx-09": { "type": "index_item", "settings": { "url": "/pages/wiki-baies-roses-madagascar", "title": "Baies roses de Madagascar", "category": "poivres", "eyebrow": "3 min" } },
+        "idx-10": { "type": "index_item", "settings": { "url": "/pages/wiki-melange-poivres-baies", "title": "Mélange Poivre sauvage, Poivre blanc & Baies roses", "category": "poivres", "eyebrow": "Assemblage" } },
+        "idx-11": { "type": "index_item", "settings": { "url": "/pages/wiki-epice-cannelle-madagascar", "title": "Cannelle de Madagascar", "category": "epices", "eyebrow": "5 min" } },
+        "idx-12": { "type": "index_item", "settings": { "url": "/pages/wiki-epice-curcuma-madagascar", "title": "Curcuma de Madagascar", "category": "epices", "eyebrow": "4 min" } },
+        "idx-13": { "type": "index_item", "settings": { "url": "/pages/wiki-epice-gingembre-madagascar", "title": "Gingembre de Madagascar", "category": "epices", "eyebrow": "4 min" } },
+        "idx-14": { "type": "index_item", "settings": { "url": "/pages/wiki-epice-girofle-madagascar", "title": "Girofle de Madagascar", "category": "epices", "eyebrow": "4 min" } },
+        "idx-15": { "type": "index_item", "settings": { "url": "/pages/wiki-epice-combava-madagascar", "title": "Combava de Madagascar", "category": "epices", "eyebrow": "Agrume" } },
+        "idx-16": { "type": "index_item", "settings": { "url": "/pages/wiki-epice-curry-madagascar", "title": "Curry de Madagascar", "category": "epices", "eyebrow": "Mélange" } },
+        "idx-17": { "type": "index_item", "settings": { "url": "/pages/wiki-epice-piment-pili-pili-madagascar", "title": "Piment pili-pili de Madagascar", "category": "epices", "eyebrow": "Force 7/10" } },
+        "idx-18": { "type": "index_item", "settings": { "url": "/pages/wiki-epice-sesame-madagascar", "title": "Graines de sésame de Madagascar", "category": "epices", "eyebrow": "3 min" } },
+        "idx-19": { "type": "index_item", "settings": { "url": "/pages/wiki-fond-epices-madagascar", "title": "Fond d'épices de Madagascar", "category": "epices", "eyebrow": "Mélange" } },
+        "idx-20": { "type": "index_item", "settings": { "url": "/pages/wiki-sels-melanges", "title": "Sels gourmets & mélanges", "category": "sels-huiles", "eyebrow": "Famille" } },
+        "idx-21": { "type": "index_item", "settings": { "url": "/pages/wiki-huiles-essentielles-plantes", "title": "Huiles essentielles & plantes", "category": "sels-huiles", "eyebrow": "Famille" } },
+        "idx-22": { "type": "index_item", "settings": { "url": "/pages/wiki-savoir-faire-producteurs", "title": "Savoir-faire & producteurs", "category": "transversal", "eyebrow": "Reportage" } },
+        "idx-23": { "type": "index_item", "settings": { "url": "/pages/wiki-bienfaits-sante", "title": "Bienfaits & usages santé", "category": "transversal", "eyebrow": "Guide" } },
+        "idx-24": { "type": "index_item", "settings": { "url": "/pages/wiki-recettes", "title": "Recettes & accords", "category": "transversal", "eyebrow": "Cuisine" } },
+        "idx-25": { "type": "index_item", "settings": { "url": "/pages/wiki-glossaire-epices", "title": "Glossaire des épices", "category": "transversal", "eyebrow": "Référence" } },
+        "idx-26": { "type": "index_item", "settings": { "url": "/pages/wiki-faq-vanille-epices", "title": "FAQ — Vanille & épices", "category": "transversal", "eyebrow": "Questions" } }
+      },
+      "block_order": [
+        "cat-vanille",
+        "cat-poivres",
+        "cat-epices",
+        "cat-sels",
+        "feat-1",
+        "feat-2",
+        "feat-3",
+        "idx-01",
+        "idx-02",
+        "idx-03",
+        "idx-04",
+        "idx-05",
+        "idx-06",
+        "idx-07",
+        "idx-08",
+        "idx-09",
+        "idx-10",
+        "idx-11",
+        "idx-12",
+        "idx-13",
+        "idx-14",
+        "idx-15",
+        "idx-16",
+        "idx-17",
+        "idx-18",
+        "idx-19",
+        "idx-20",
+        "idx-21",
+        "idx-22",
+        "idx-23",
+        "idx-24",
+        "idx-25",
+        "idx-26"
+      ]
+    },
+    "newsletter": {
+      "type": "vd-yc-newsletter-inline",
+      "settings": {
+        "eyebrow": "Newsletter",
+        "heading": "Recevez -10% sur votre première commande",
+        "placeholder": "Votre adresse email",
+        "button_label": "Je m'inscris",
+        "legal": "En cliquant, vous acceptez de recevoir notre newsletter. Désinscription à tout moment."
+      }
+    }
+  },
+  "order": [
+    "breadcrumbs",
+    "hub",
+    "newsletter"
+  ]
+}
