@@ -60,36 +60,6 @@
             "collection": "sels"
           }
         },
-        "feat-1": {
-          "type": "featured",
-          "settings": {
-            "url": "/pages/wiki-vanille-bien-choisir",
-            "eyebrow": "Vanille — 5 min",
-            "title": "Bien choisir sa vanille Bourbon",
-            "excerpt": "Les bons réflexes pour repérer une gousse de qualité — humidité, longueur, aspect, parfum.",
-            "page": "wiki-vanille-bien-choisir"
-          }
-        },
-        "feat-2": {
-          "type": "featured",
-          "settings": {
-            "url": "/pages/wiki-epice-cannelle-madagascar",
-            "eyebrow": "Épices — 5 min",
-            "title": "Cannelle de Madagascar",
-            "excerpt": "Des écorces récoltées à la main dans les forêts de l'Est, plus fines et plus florales que la cannelle commune.",
-            "page": "wiki-epice-cannelle-madagascar"
-          }
-        },
-        "feat-3": {
-          "type": "featured",
-          "settings": {
-            "url": "/pages/wiki-savoir-faire-producteurs",
-            "eyebrow": "Savoir-faire",
-            "title": "Trois générations, une exigence",
-            "excerpt": "L'histoire de Désiré, des plants de Vangaindrano aux malles d'affinage — et ce que ça change dans la tasse.",
-            "page": "wiki-savoir-faire-producteurs"
-          }
-        },
         "idx-01": {
           "type": "index_item",
           "settings": {
@@ -356,9 +326,6 @@
         "cat-poivres",
         "cat-epices",
         "cat-sels",
-        "feat-1",
-        "feat-2",
-        "feat-3",
         "idx-01",
         "idx-02",
         "idx-03",

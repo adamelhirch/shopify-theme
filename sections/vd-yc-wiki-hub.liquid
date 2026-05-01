@@ -47,14 +47,23 @@
 <section class="vd-wiki-hub">
 
   {%- comment -%} ========== HERO ========== {%- endcomment -%}
+  {%- liquid
+    # Fallback chain hero : explicit > image de la collection définie
+    # dans le réglage section > vanille-bourbon par défaut.
+    assign hero_img_resolved = section.settings.hero_image
+    if hero_img_resolved == blank
+      assign fallback_coll_handle = section.settings.hero_fallback_collection | default: 'vanille-bourbon'
+      assign hero_img_resolved = collections[fallback_coll_handle].image
+    endif
+  -%}
   <div
     class="vd-wiki-hub__hero"
     style="--vd-wh-overlay: rgba(10, 10, 10, {{ overlay_alpha_fraction }});"
   >
     <div class="vd-wiki-hub__hero-bg">
-      {%- if section.settings.hero_image != blank -%}
+      {%- if hero_img_resolved != blank -%}
         {%- assign hero_alt = section.settings.hero_title | default: 'Wiki Vanille Désiré' | escape -%}
-        {{ section.settings.hero_image | image_url: width: 2400 | image_tag: widths: '600,900,1200,1600,2000,2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: hero_alt, class: 'vd-wiki-hub__hero-img' }}
+        {{ hero_img_resolved | image_url: width: 2400 | image_tag: widths: '600,900,1200,1600,2000,2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: hero_alt, class: 'vd-wiki-hub__hero-img' }}
       {%- else -%}
         <img
           src="https://images.unsplash.com/photo-1592788174877-3f99727fd23d?w=2400&auto=format&fit=crop"
@@ -489,7 +498,8 @@
       "type": "header",
       "content": "Hero"
     },
-    { "type": "image_picker", "id": "hero_image", "label": "Image de fond" },
+    { "type": "image_picker", "id": "hero_image", "label": "Image de fond (override)" },
+    { "type": "collection", "id": "hero_fallback_collection", "label": "Image fallback (collection — utilisée si pas d'image override)" },
     { "type": "range", "id": "hero_overlay", "min": 0, "max": 90, "step": 5, "default": 50, "unit": "%", "label": "Voile sombre sur l'image" },
     { "type": "text", "id": "hero_eyebrow", "label": "Sur-titre", "default": "Le carnet d'origine" },
     { "type": "text", "id": "hero_title", "label": "Titre principal", "default": "Le Wiki" },
