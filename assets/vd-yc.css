@@ -4898,9 +4898,12 @@ body.vd-no-scroll { overflow: hidden; }
   padding-top: 8px !important;
   padding-bottom: 8px !important;
   padding-right: clamp(16px, 4vw, 48px) !important;
-  padding-left: clamp(24px, 6vw, 96px) !important;
+  padding-left: clamp(48px, 10vw, 160px) !important;
   grid-auto-columns: minmax(320px, 380px) !important;
   gap: 24px !important;
+  /* scroll-padding-left fait que le scroll-snap respecte le padding
+     gauche au lieu d'aligner le 1er card sur le bord du viewport. */
+  scroll-padding-left: clamp(48px, 10vw, 160px) !important;
 }
 .vd-rev__card {
   background: var(--vd-bg-soft);
