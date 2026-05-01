@@ -1,0 +1,390 @@
+{%- comment -%}
+  Wiki — template article partagé.
+  Layout 2 colonnes desktop : sommaire (TOC) sticky à gauche, contenu
+  éditorial à droite (`{{ page.content }}` enveloppé dans un wrapper
+  typographique). Le TOC est généré côté client à partir des h2/h3 du
+  contenu, avec mise en avant de la section visible (IntersectionObserver).
+  Bas de page : produits liés, articles à lire ensuite, retour au wiki.
+{%- endcomment -%}
+
+{%- liquid
+  assign hero_image = section.settings.hero_image
+  assign hero_eyebrow = section.settings.hero_eyebrow
+  assign hero_subtitle = section.settings.hero_subtitle
+  assign hero_meta = section.settings.hero_meta
+
+  assign bc_cat_label = section.settings.bc_category_label
+  assign bc_cat_url = section.settings.bc_category_url
+
+  assign toc_label = section.settings.toc_label | default: 'Sommaire'
+  assign toc_enabled = section.settings.toc_enabled
+
+  # Compter les blocs de chaque type
+  assign products_count = 0
+  assign articles_count = 0
+  for b in section.blocks
+    case b.type
+      when 'related_product'
+        assign products_count = products_count | plus: 1
+      when 'related_article'
+        assign articles_count = articles_count | plus: 1
+    endcase
+  endfor
+-%}
+
+<article class="vd-wiki-article">
+
+  {%- comment -%} ========== BREADCRUMBS ========== {%- endcomment -%}
+  <nav class="vd-wiki-article__breadcrumbs vd-page" aria-label="Fil d'Ariane">
+    <ol>
+      <li><a href="{{ routes.root_url }}">Accueil</a></li>
+      <li><a href="/pages/wiki">Wiki</a></li>
+      {%- if bc_cat_label != blank -%}
+        <li>
+          {%- if bc_cat_url != blank -%}
+            <a href="{{ bc_cat_url }}">{{ bc_cat_label }}</a>
+          {%- else -%}
+            <span>{{ bc_cat_label }}</span>
+          {%- endif -%}
+        </li>
+      {%- endif -%}
+      <li><span aria-current="page">{{ page.title }}</span></li>
+    </ol>
+  </nav>
+
+  {%- comment -%} ========== HERO ========== {%- endcomment -%}
+  <header class="vd-wiki-article__hero{% if hero_image != blank %} vd-wiki-article__hero--image{% endif %}">
+    {%- if hero_image != blank -%}
+      <div class="vd-wiki-article__hero-bg">
+        {%- assign hero_alt = page.title | escape -%}
+        {{ hero_image | image_url: width: 2400 | image_tag: widths: '600,900,1200,1600,2000,2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: hero_alt, class: 'vd-wiki-article__hero-img' }}
+        <div class="vd-wiki-article__hero-overlay" aria-hidden="true"></div>
+      </div>
+    {%- endif -%}
+    <div class="vd-wiki-article__hero-inner vd-page">
+      {%- if hero_eyebrow != blank -%}
+        <div class="vd-wiki-article__hero-eyebrow">{{ hero_eyebrow }}</div>
+      {%- endif -%}
+      <h1 class="vd-wiki-article__hero-title">{{ page.title }}</h1>
+      {%- if hero_subtitle != blank -%}
+        <p class="vd-wiki-article__hero-subtitle">{{ hero_subtitle }}</p>
+      {%- endif -%}
+      {%- if hero_meta != blank -%}
+        <p class="vd-wiki-article__hero-meta">{{ hero_meta }}</p>
+      {%- endif -%}
+    </div>
+  </header>
+
+  {%- comment -%} ========== BODY + TOC ========== {%- endcomment -%}
+  <div class="vd-wiki-article__body-wrap vd-page">
+    <div class="vd-wiki-article__layout">
+      {%- if toc_enabled -%}
+        <aside class="vd-wiki-article__toc" data-vd-wiki-toc aria-label="Sommaire">
+          <button
+            type="button"
+            class="vd-wiki-article__toc-toggle"
+            aria-expanded="false"
+            aria-controls="vd-wiki-article-toc-list"
+            data-vd-wiki-toc-toggle
+          >
+            <span>{{ toc_label }}</span>
+            <svg aria-hidden="true" focusable="false" width="12" height="8" viewBox="0 0 12 8" fill="none">
+              <path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="vd-wiki-article__toc-label">{{ toc_label }}</div>
+          <ol
+            id="vd-wiki-article-toc-list"
+            class="vd-wiki-article__toc-list"
+            data-vd-wiki-toc-list
+          ></ol>
+        </aside>
+      {%- endif -%}
+
+      <div class="vd-wiki-article__body" data-vd-wiki-body>
+        {%- if page.content != blank -%}
+          {{ page.content }}
+        {%- else -%}
+          <p class="vd-wiki-article__body-empty">
+            Cet article est en cours de rédaction. Reviens bientôt !
+          </p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ========== PRODUITS LIÉS ========== {%- endcomment -%}
+  {%- if products_count > 0 -%}
+    <section class="vd-wiki-article__products vd-page">
+      <header class="vd-wiki-article__sec-head">
+        {%- if section.settings.related_products_eyebrow != blank -%}
+          <div class="vd-wiki-article__sec-eyebrow">{{ section.settings.related_products_eyebrow }}</div>
+        {%- endif -%}
+        {%- if section.settings.related_products_heading != blank -%}
+          <h2 class="vd-wiki-article__sec-title">{{ section.settings.related_products_heading }}</h2>
+        {%- endif -%}
+      </header>
+      <ul class="vd-wiki-article__products-grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type != 'related_product' -%}{% continue %}{%- endif -%}
+          {%- liquid
+            assign p = block.settings.product
+            if p == blank
+              continue
+            endif
+            assign p_img = block.settings.image | default: p.featured_image
+            assign p_title = block.settings.title | default: p.title
+            assign p_url = p.url
+          -%}
+          <li class="vd-wiki-article__product" {{ block.shopify_attributes }}>
+            <a href="{{ p_url }}" class="vd-wiki-article__product-link">
+              <div class="vd-wiki-article__product-media">
+                {%- if p_img != blank -%}
+                  {%- assign p_alt = p_title | escape -%}
+                  {{ p_img | image_url: width: 800 | image_tag: widths: '300,500,800', sizes: '(min-width:1000px) 25vw, 50vw', loading: 'lazy', alt: p_alt, class: 'vd-wiki-article__product-img' }}
+                {%- endif -%}
+              </div>
+              <div class="vd-wiki-article__product-body">
+                <h3 class="vd-wiki-article__product-title">{{ p_title }}</h3>
+                <span class="vd-wiki-article__product-price">{{ p.price | money }}</span>
+                <span class="vd-wiki-article__product-cta">
+                  Voir le produit
+                  <svg aria-hidden="true" focusable="false" width="14" height="10" viewBox="0 0 14 10" fill="none">
+                    <path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </div>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </section>
+  {%- endif -%}
+
+  {%- comment -%} ========== ARTICLES À LIRE ENSUITE ========== {%- endcomment -%}
+  {%- if articles_count > 0 -%}
+    <section class="vd-wiki-article__related vd-page">
+      <header class="vd-wiki-article__sec-head">
+        {%- if section.settings.related_articles_eyebrow != blank -%}
+          <div class="vd-wiki-article__sec-eyebrow">{{ section.settings.related_articles_eyebrow }}</div>
+        {%- endif -%}
+        {%- if section.settings.related_articles_heading != blank -%}
+          <h2 class="vd-wiki-article__sec-title">{{ section.settings.related_articles_heading }}</h2>
+        {%- endif -%}
+      </header>
+      <ul class="vd-wiki-article__related-grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type != 'related_article' -%}{% continue %}{%- endif -%}
+          {%- liquid
+            assign target_page = block.settings.page
+            assign r_url = block.settings.url
+            if r_url == blank and target_page != blank
+              assign r_url = target_page.url
+            endif
+            if r_url == blank
+              continue
+            endif
+            assign r_title = block.settings.title
+            if r_title == blank and target_page != blank
+              assign r_title = target_page.title
+            endif
+            assign r_eyebrow = block.settings.eyebrow
+            assign r_excerpt = block.settings.excerpt
+            assign r_img = block.settings.image
+          -%}
+          <li class="vd-wiki-article__related-item" {{ block.shopify_attributes }}>
+            <a href="{{ r_url }}" class="vd-wiki-article__related-link">
+              <div class="vd-wiki-article__related-media">
+                {%- if r_img != blank -%}
+                  {%- assign r_alt = r_title | escape -%}
+                  {{ r_img | image_url: width: 1200 | image_tag: widths: '400,600,800,1200', sizes: '(min-width:1000px) 33vw, 100vw', loading: 'lazy', alt: r_alt, class: 'vd-wiki-article__related-img' }}
+                {%- else -%}
+                  <div class="vd-wiki-article__related-img-placeholder" aria-hidden="true"></div>
+                {%- endif -%}
+              </div>
+              <div class="vd-wiki-article__related-body">
+                {%- if r_eyebrow != blank -%}
+                  <span class="vd-wiki-article__related-eyebrow">{{ r_eyebrow }}</span>
+                {%- endif -%}
+                <h3 class="vd-wiki-article__related-title">{{ r_title }}</h3>
+                {%- if r_excerpt != blank -%}
+                  <p class="vd-wiki-article__related-excerpt">{{ r_excerpt }}</p>
+                {%- endif -%}
+                <span class="vd-wiki-article__related-cta">
+                  Lire l'article
+                  <svg aria-hidden="true" focusable="false" width="14" height="10" viewBox="0 0 14 10" fill="none">
+                    <path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </div>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </section>
+  {%- endif -%}
+
+  {%- comment -%} ========== RETOUR AU WIKI ========== {%- endcomment -%}
+  <div class="vd-wiki-article__back vd-page">
+    <a href="/pages/wiki" class="vd-wiki-article__back-link">
+      <svg aria-hidden="true" focusable="false" width="14" height="10" viewBox="0 0 14 10" fill="none">
+        <path d="M13 5H1m0 0l4-4m-4 4l4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Retour au wiki</span>
+    </a>
+  </div>
+
+</article>
+
+{%- if toc_enabled -%}
+  <script>
+    (function () {
+      var article = document.querySelector('.vd-wiki-article');
+      if (!article) return;
+      var body = article.querySelector('[data-vd-wiki-body]');
+      var tocList = article.querySelector('[data-vd-wiki-toc-list]');
+      var tocRoot = article.querySelector('[data-vd-wiki-toc]');
+      var tocToggle = article.querySelector('[data-vd-wiki-toc-toggle]');
+      if (!body || !tocList || !tocRoot) return;
+
+      var headings = body.querySelectorAll('h2, h3');
+      if (headings.length < 2) {
+        // Pas assez de titres pour mériter un sommaire — on masque.
+        tocRoot.hidden = true;
+        return;
+      }
+
+      var slugify = function (s) {
+        return (s || '').toLowerCase()
+          .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+      };
+
+      var items = [];
+      headings.forEach(function (h, i) {
+        if (!h.id) {
+          var base = slugify(h.textContent) || 'section';
+          var id = base, n = 2;
+          while (document.getElementById(id)) { id = base + '-' + n; n++; }
+          h.id = id;
+        }
+        var li = document.createElement('li');
+        li.className = 'vd-wiki-article__toc-item';
+        if (h.tagName.toLowerCase() === 'h3') li.className += ' is-sub';
+        var a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent;
+        a.dataset.target = h.id;
+        a.className = 'vd-wiki-article__toc-link';
+        li.appendChild(a);
+        tocList.appendChild(li);
+        items.push({ h: h, a: a });
+      });
+
+      // Active state via IntersectionObserver
+      var activeMap = new Map();
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          activeMap.set(e.target.id, e.isIntersecting);
+        });
+        var firstActive = null;
+        items.forEach(function (it) {
+          if (!firstActive && activeMap.get(it.h.id)) firstActive = it.a;
+        });
+        items.forEach(function (it) { it.a.classList.remove('is-active'); });
+        if (firstActive) firstActive.classList.add('is-active');
+      }, { rootMargin: '-20% 0px -65% 0px', threshold: 0 });
+      items.forEach(function (it) { io.observe(it.h); });
+
+      // Smooth scroll + offset header
+      tocList.addEventListener('click', function (e) {
+        var a = e.target.closest('a[data-target]');
+        if (!a) return;
+        var target = document.getElementById(a.dataset.target);
+        if (!target) return;
+        e.preventDefault();
+        var headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--vd-header-h')) || 64;
+        var top = target.getBoundingClientRect().top + window.scrollY - headerH - 24;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+        history.replaceState(null, '', '#' + target.id);
+        if (tocToggle && tocToggle.getAttribute('aria-expanded') === 'true') {
+          tocToggle.setAttribute('aria-expanded', 'false');
+          tocRoot.classList.remove('is-open');
+        }
+      });
+
+      // Mobile toggle
+      if (tocToggle) {
+        tocToggle.addEventListener('click', function () {
+          var isOpen = tocToggle.getAttribute('aria-expanded') === 'true';
+          tocToggle.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+          tocRoot.classList.toggle('is-open', !isOpen);
+        });
+      }
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Wiki — article",
+  "tag": "section",
+  "class": "shopify-section--vd-wiki-article",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "image_picker", "id": "hero_image", "label": "Image" },
+    { "type": "text", "id": "hero_eyebrow", "label": "Sur-titre / catégorie" },
+    { "type": "textarea", "id": "hero_subtitle", "label": "Sous-titre" },
+    { "type": "text", "id": "hero_meta", "label": "Métadonnée (date / temps de lecture)" },
+
+    { "type": "header", "content": "Fil d'Ariane" },
+    { "type": "text", "id": "bc_category_label", "label": "Catégorie — libellé" },
+    { "type": "url", "id": "bc_category_url", "label": "Catégorie — lien" },
+
+    { "type": "header", "content": "Sommaire" },
+    { "type": "checkbox", "id": "toc_enabled", "label": "Afficher le sommaire (auto-généré depuis les h2/h3)", "default": true },
+    { "type": "text", "id": "toc_label", "label": "Libellé", "default": "Sommaire" },
+
+    { "type": "header", "content": "Produits liés" },
+    { "type": "text", "id": "related_products_eyebrow", "label": "Sur-titre", "default": "À déguster" },
+    { "type": "text", "id": "related_products_heading", "label": "Titre", "default": "Les produits qui vont avec" },
+
+    { "type": "header", "content": "Articles à lire ensuite" },
+    { "type": "text", "id": "related_articles_eyebrow", "label": "Sur-titre", "default": "Pour aller plus loin" },
+    { "type": "text", "id": "related_articles_heading", "label": "Titre", "default": "Articles à lire ensuite" }
+  ],
+  "blocks": [
+    {
+      "type": "related_product",
+      "name": "Produit lié",
+      "limit": 6,
+      "settings": [
+        { "type": "product", "id": "product", "label": "Produit" },
+        { "type": "image_picker", "id": "image", "label": "Image (sinon image produit)" },
+        { "type": "text", "id": "title", "label": "Titre (sinon titre produit)" }
+      ]
+    },
+    {
+      "type": "related_article",
+      "name": "Article connexe",
+      "limit": 3,
+      "settings": [
+        { "type": "page", "id": "page", "label": "Page article" },
+        { "type": "url", "id": "url", "label": "Lien personnalisé (sinon URL de la page)" },
+        { "type": "text", "id": "eyebrow", "label": "Sur-titre (catégorie / temps)" },
+        { "type": "text", "id": "title", "label": "Titre (sinon titre de la page)" },
+        { "type": "textarea", "id": "excerpt", "label": "Extrait" },
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wiki — article",
+      "category": "Vanille Désiré"
+    }
+  ]
+}
+{% endschema %}
