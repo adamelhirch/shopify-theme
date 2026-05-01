@@ -13,7 +13,7 @@
         "c2": {
           "type": "category",
           "settings": {
-            "label": "Poivre",
+            "label": "Poivres",
             "collection": "poivre-baies"
           }
         },
@@ -27,6 +27,13 @@
         "c4": {
           "type": "category",
           "settings": {
+            "label": "Sels",
+            "collection": "sels"
+          }
+        },
+        "c5": {
+          "type": "category",
+          "settings": {
             "label": "Huiles",
             "collection": "huiles-madagascar"
           }
@@ -36,7 +43,8 @@
         "c1",
         "c2",
         "c3",
-        "c4"
+        "c4",
+        "c5"
       ],
       "settings": {
         "eyebrow": "Les collections"
