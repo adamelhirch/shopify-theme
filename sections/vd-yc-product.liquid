@@ -325,17 +325,27 @@
 
 {%- if section.settings.show_related -%}
   {%- liquid
+    # Toujours piocher dans la collection famille canonique du produit,
+    # pas dans `recommendations` (qui peut suggérer des items cross-famille).
+    # On préfère le super-set famille (poivre-baies, vanille-bourbon, etc.)
+    # plutôt qu'une sous-collection par variété (poivre-sauvage, cannelle…).
+    assign families = 'vanille-bourbon|poivre-baies|epices-madagascar|sels|huiles-madagascar' | split: '|'
+    assign related_collection = nil
+    for c in product.collections
+      if families contains c.handle
+        assign related_collection = c
+        break
+      endif
+    endfor
+    if related_collection == nil
+      assign related_collection = product.collections.first
+    endif
+
     assign related_products = nil
     assign related_count = 0
-    if recommendations.products_count > 0
-      assign related_products = recommendations.products
-      assign related_count = recommendations.products_count
-    elsif product.collections.first
-      assign related_collection = collections[product.collections.first.handle]
-      if related_collection and related_collection.products.size > 0
-        assign related_products = related_collection.products
-        assign related_count = related_collection.products.size
-      endif
+    if related_collection and related_collection.products.size > 0
+      assign related_products = related_collection.products
+      assign related_count = related_collection.products.size
     endif
   -%}
   {%- if related_count > 1 -%}
