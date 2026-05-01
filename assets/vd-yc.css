@@ -1323,6 +1323,17 @@ p { margin: 0; }
 .vd-pdp__desc ul,
 .vd-pdp__desc ol { margin: 0 0 12px; padding-left: 1.4rem; }
 .vd-pdp__desc li { margin-bottom: 4px; }
+/* Certaines descriptions metafield commencent par `<p><br>...` ce qui
+   crée un saut de ligne fantôme avant le 1er paragraphe. On masque
+   ce <br> de tête uniquement quand il est le 1er enfant. */
+.vd-pdp__desc p:first-child > br:first-child,
+.vd-pdp__desc .metafield-rich_text_field > p:first-child > br:first-child {
+  display: none;
+}
+.vd-pdp__desc > .metafield-rich_text_field { margin: 0; }
+.vd-pdp__desc > .metafield-rich_text_field > p:first-child {
+  margin-top: 0;
+}
 
 /* Variant picker — pill-style radio buttons */
 .vd-pdp__variants { display: flex; flex-direction: column; gap: 16px; }
