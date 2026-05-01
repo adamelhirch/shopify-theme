@@ -263,6 +263,33 @@
         </span>
       </header>
 
+      <div class="vd-wiki-hub__search" role="search">
+        <svg class="vd-wiki-hub__search-icon" aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.4"/>
+          <path d="m11 11 3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <input
+          type="search"
+          class="vd-wiki-hub__search-input"
+          placeholder="Rechercher dans tous les articles…"
+          aria-label="Rechercher dans le wiki"
+          autocomplete="off"
+          spellcheck="false"
+          data-vd-wiki-query
+        >
+        <button
+          type="button"
+          class="vd-wiki-hub__search-clear"
+          aria-label="Effacer la recherche"
+          data-vd-wiki-clear
+          hidden
+        >
+          <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
       {%- if cat_keys_arr.size > 0 -%}
         <div class="vd-wiki-hub__filters" role="tablist" aria-label="Filtrer par catégorie">
           <button
@@ -324,10 +351,20 @@
               endif
             endfor
             assign idx_eyebrow = block.settings.eyebrow
+
+            # Construire l'index de recherche : titre + eyebrow + catégorie
+            # + corps de l'article (HTML strippé, lowercase, ~3500 char max)
+            # pour rester sous ~100 KB cumulé sur 25-30 articles.
+            assign search_body = ''
+            if target_page != blank
+              assign search_body = target_page.content | strip_html | strip_newlines | replace: '  ', ' '
+            endif
+            assign search_text = idx_title | append: ' ' | append: idx_eyebrow | append: ' ' | append: idx_cat_label | append: ' ' | append: search_body | downcase | strip | truncate: 3500, ''
           -%}
           <li
             class="vd-wiki-hub__row"
             data-vd-wiki-cat="{{ idx_cat_key }}"
+            data-vd-wiki-search="{{ search_text | escape }}"
             {{ block.shopify_attributes }}
           >
             <a href="{{ idx_url }}" class="vd-wiki-hub__row-link">
@@ -348,7 +385,7 @@
       </ol>
 
       <p class="vd-wiki-hub__index-empty" data-vd-wiki-empty hidden>
-        Aucun article dans cette catégorie pour l'instant.
+        Aucun article ne correspond. Essayez un autre mot ou une autre catégorie.
       </p>
     </section>
 
@@ -358,34 +395,72 @@
         if (!root) return;
         var pills = root.querySelectorAll('[data-vd-wiki-filter]');
         var rows = root.querySelectorAll('[data-vd-wiki-cat]');
+        var queryEl = root.querySelector('[data-vd-wiki-query]');
+        var clearEl = root.querySelector('[data-vd-wiki-clear]');
         var countEl = root.querySelector('[data-vd-wiki-count-num]');
         var emptyEl = root.querySelector('[data-vd-wiki-empty]');
-        var totalCount = rows.length;
 
-        function applyFilter(key) {
+        var activeFilter = 'all';
+        var activeQuery = '';
+
+        function normalize(s) {
+          return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function apply() {
+          var q = normalize(activeQuery.trim());
           var visible = 0;
           rows.forEach(function (row) {
             var cat = row.getAttribute('data-vd-wiki-cat');
-            var match = (key === 'all' || cat === key);
+            var text = normalize(row.getAttribute('data-vd-wiki-search') || '');
+            var passFilter = (activeFilter === 'all' || cat === activeFilter);
+            var passQuery = (q === '' || text.indexOf(q) !== -1);
+            var match = passFilter && passQuery;
             row.hidden = !match;
             if (match) visible++;
           });
           if (countEl) countEl.textContent = visible;
           if (emptyEl) emptyEl.hidden = visible !== 0;
           pills.forEach(function (p) {
-            var on = p.getAttribute('data-vd-wiki-filter') === key;
+            var on = p.getAttribute('data-vd-wiki-filter') === activeFilter;
             p.classList.toggle('is-active', on);
             p.setAttribute('aria-selected', on ? 'true' : 'false');
           });
+          if (clearEl) clearEl.hidden = activeQuery === '';
         }
 
         pills.forEach(function (p) {
           p.addEventListener('click', function () {
-            applyFilter(p.getAttribute('data-vd-wiki-filter'));
+            activeFilter = p.getAttribute('data-vd-wiki-filter');
+            apply();
           });
         });
 
-        if (countEl) countEl.textContent = totalCount;
+        if (queryEl) {
+          var debounce;
+          queryEl.addEventListener('input', function () {
+            activeQuery = queryEl.value;
+            clearTimeout(debounce);
+            debounce = setTimeout(apply, 80);
+          });
+          queryEl.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && activeQuery !== '') {
+              queryEl.value = '';
+              activeQuery = '';
+              apply();
+            }
+          });
+        }
+        if (clearEl) {
+          clearEl.addEventListener('click', function () {
+            if (queryEl) queryEl.value = '';
+            activeQuery = '';
+            apply();
+            if (queryEl) queryEl.focus();
+          });
+        }
+
+        apply();
       })();
     </script>
   {%- endif -%}

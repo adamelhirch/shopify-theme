@@ -25,7 +25,8 @@
           "settings": {
             "label": "Vanille",
             "url": "/pages/wiki-vanille-bien-choisir",
-            "count_text": "5 articles"
+            "count_text": "5 articles",
+            "page": "wiki-vanille-bien-choisir"
           }
         },
         "cat-poivres": {
@@ -33,7 +34,8 @@
           "settings": {
             "label": "Poivres & baies",
             "url": "/pages/wiki-poivres-baies-madagascar",
-            "count_text": "5 articles"
+            "count_text": "5 articles",
+            "page": "wiki-poivres-baies-madagascar"
           }
         },
         "cat-epices": {
@@ -41,7 +43,8 @@
           "settings": {
             "label": "Épices",
             "url": "/pages/wiki-epices-madagascar",
-            "count_text": "9 articles"
+            "count_text": "9 articles",
+            "page": "wiki-epices-madagascar"
           }
         },
         "cat-sels": {
@@ -49,7 +52,8 @@
           "settings": {
             "label": "Sels & huiles",
             "url": "/pages/wiki-sels-melanges",
-            "count_text": "2 familles"
+            "count_text": "2 familles",
+            "page": "wiki-sels-melanges"
           }
         },
         "feat-1": {
@@ -58,7 +62,8 @@
             "url": "/pages/wiki-vanille-bien-choisir",
             "eyebrow": "Vanille — 5 min",
             "title": "Bien choisir sa vanille Bourbon",
-            "excerpt": "Les bons réflexes pour repérer une gousse de qualité — humidité, longueur, aspect, parfum."
+            "excerpt": "Les bons réflexes pour repérer une gousse de qualité — humidité, longueur, aspect, parfum.",
+            "page": "wiki-vanille-bien-choisir"
           }
         },
         "feat-2": {
@@ -67,7 +72,8 @@
             "url": "/pages/wiki-epice-cannelle-madagascar",
             "eyebrow": "Épices — 5 min",
             "title": "Cannelle de Madagascar",
-            "excerpt": "Des écorces récoltées à la main dans les forêts de l'Est, plus fines et plus florales que la cannelle commune."
+            "excerpt": "Des écorces récoltées à la main dans les forêts de l'Est, plus fines et plus florales que la cannelle commune.",
+            "page": "wiki-epice-cannelle-madagascar"
           }
         },
         "feat-3": {
@@ -76,35 +82,270 @@
             "url": "/pages/wiki-savoir-faire-producteurs",
             "eyebrow": "Savoir-faire",
             "title": "Trois générations, une exigence",
-            "excerpt": "L'histoire de Désiré, des plants de Vangaindrano aux malles d'affinage — et ce que ça change dans la tasse."
+            "excerpt": "L'histoire de Désiré, des plants de Vangaindrano aux malles d'affinage — et ce que ça change dans la tasse.",
+            "page": "wiki-savoir-faire-producteurs"
           }
         },
-        "idx-01": { "type": "index_item", "settings": { "url": "/pages/wiki-vanille-bien-choisir", "title": "Bien choisir sa vanille Bourbon", "category": "vanille", "eyebrow": "5 min" } },
-        "idx-02": { "type": "index_item", "settings": { "url": "/pages/wiki-vanille-conservation-preparation", "title": "Comment conserver des gousses de vanille", "category": "vanille", "eyebrow": "4 min" } },
-        "idx-03": { "type": "index_item", "settings": { "url": "/pages/wiki-vanille-usages-recettes", "title": "Usages & recettes à la vanille", "category": "vanille", "eyebrow": "6 min" } },
-        "idx-04": { "type": "index_item", "settings": { "url": "/pages/wiki-vanille-bourbon-planifolia-legacy-20260412", "title": "Vanille Bourbon Planifolia", "category": "vanille", "eyebrow": "Dossier" } },
-        "idx-05": { "type": "index_item", "settings": { "url": "/pages/wiki-vanille-pompona", "title": "Vanille Pompona", "category": "vanille", "eyebrow": "Variétés" } },
-        "idx-06": { "type": "index_item", "settings": { "url": "/pages/wiki-poivre-noir-madagascar", "title": "Poivre noir de Madagascar", "category": "poivres", "eyebrow": "4 min" } },
-        "idx-07": { "type": "index_item", "settings": { "url": "/pages/wiki-poivre-blanc-madagascar", "title": "Poivre blanc de Madagascar", "category": "poivres", "eyebrow": "4 min" } },
-        "idx-08": { "type": "index_item", "settings": { "url": "/pages/wiki-poivre-sauvage-voatsiperifery", "title": "Poivre sauvage (Voatsiperifery)", "category": "poivres", "eyebrow": "Sauvage" } },
-        "idx-09": { "type": "index_item", "settings": { "url": "/pages/wiki-baies-roses-madagascar", "title": "Baies roses de Madagascar", "category": "poivres", "eyebrow": "3 min" } },
-        "idx-10": { "type": "index_item", "settings": { "url": "/pages/wiki-melange-poivres-baies", "title": "Mélange Poivre sauvage, Poivre blanc & Baies roses", "category": "poivres", "eyebrow": "Assemblage" } },
-        "idx-11": { "type": "index_item", "settings": { "url": "/pages/wiki-epice-cannelle-madagascar", "title": "Cannelle de Madagascar", "category": "epices", "eyebrow": "5 min" } },
-        "idx-12": { "type": "index_item", "settings": { "url": "/pages/wiki-epice-curcuma-madagascar", "title": "Curcuma de Madagascar", "category": "epices", "eyebrow": "4 min" } },
-        "idx-13": { "type": "index_item", "settings": { "url": "/pages/wiki-epice-gingembre-madagascar", "title": "Gingembre de Madagascar", "category": "epices", "eyebrow": "4 min" } },
-        "idx-14": { "type": "index_item", "settings": { "url": "/pages/wiki-epice-girofle-madagascar", "title": "Girofle de Madagascar", "category": "epices", "eyebrow": "4 min" } },
-        "idx-15": { "type": "index_item", "settings": { "url": "/pages/wiki-epice-combava-madagascar", "title": "Combava de Madagascar", "category": "epices", "eyebrow": "Agrume" } },
-        "idx-16": { "type": "index_item", "settings": { "url": "/pages/wiki-epice-curry-madagascar", "title": "Curry de Madagascar", "category": "epices", "eyebrow": "Mélange" } },
-        "idx-17": { "type": "index_item", "settings": { "url": "/pages/wiki-epice-piment-pili-pili-madagascar", "title": "Piment pili-pili de Madagascar", "category": "epices", "eyebrow": "Force 7/10" } },
-        "idx-18": { "type": "index_item", "settings": { "url": "/pages/wiki-epice-sesame-madagascar", "title": "Graines de sésame de Madagascar", "category": "epices", "eyebrow": "3 min" } },
-        "idx-19": { "type": "index_item", "settings": { "url": "/pages/wiki-fond-epices-madagascar", "title": "Fond d'épices de Madagascar", "category": "epices", "eyebrow": "Mélange" } },
-        "idx-20": { "type": "index_item", "settings": { "url": "/pages/wiki-sels-melanges", "title": "Sels gourmets & mélanges", "category": "sels-huiles", "eyebrow": "Famille" } },
-        "idx-21": { "type": "index_item", "settings": { "url": "/pages/wiki-huiles-essentielles-plantes", "title": "Huiles essentielles & plantes", "category": "sels-huiles", "eyebrow": "Famille" } },
-        "idx-22": { "type": "index_item", "settings": { "url": "/pages/wiki-savoir-faire-producteurs", "title": "Savoir-faire & producteurs", "category": "transversal", "eyebrow": "Reportage" } },
-        "idx-23": { "type": "index_item", "settings": { "url": "/pages/wiki-bienfaits-sante", "title": "Bienfaits & usages santé", "category": "transversal", "eyebrow": "Guide" } },
-        "idx-24": { "type": "index_item", "settings": { "url": "/pages/wiki-recettes", "title": "Recettes & accords", "category": "transversal", "eyebrow": "Cuisine" } },
-        "idx-25": { "type": "index_item", "settings": { "url": "/pages/wiki-glossaire-epices", "title": "Glossaire des épices", "category": "transversal", "eyebrow": "Référence" } },
-        "idx-26": { "type": "index_item", "settings": { "url": "/pages/wiki-faq-vanille-epices", "title": "FAQ — Vanille & épices", "category": "transversal", "eyebrow": "Questions" } }
+        "idx-01": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-vanille-bien-choisir",
+            "title": "Bien choisir sa vanille Bourbon",
+            "category": "vanille",
+            "eyebrow": "5 min",
+            "page": "wiki-vanille-bien-choisir"
+          }
+        },
+        "idx-02": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-vanille-conservation-preparation",
+            "title": "Comment conserver des gousses de vanille",
+            "category": "vanille",
+            "eyebrow": "4 min",
+            "page": "wiki-vanille-conservation-preparation"
+          }
+        },
+        "idx-03": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-vanille-usages-recettes",
+            "title": "Usages & recettes à la vanille",
+            "category": "vanille",
+            "eyebrow": "6 min",
+            "page": "wiki-vanille-usages-recettes"
+          }
+        },
+        "idx-04": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-vanille-bourbon-planifolia-legacy-20260412",
+            "title": "Vanille Bourbon Planifolia",
+            "category": "vanille",
+            "eyebrow": "Dossier",
+            "page": "wiki-vanille-bourbon-planifolia-legacy-20260412"
+          }
+        },
+        "idx-05": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-vanille-pompona",
+            "title": "Vanille Pompona",
+            "category": "vanille",
+            "eyebrow": "Variétés",
+            "page": "wiki-vanille-pompona"
+          }
+        },
+        "idx-06": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-poivre-noir-madagascar",
+            "title": "Poivre noir de Madagascar",
+            "category": "poivres",
+            "eyebrow": "4 min",
+            "page": "wiki-poivre-noir-madagascar"
+          }
+        },
+        "idx-07": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-poivre-blanc-madagascar",
+            "title": "Poivre blanc de Madagascar",
+            "category": "poivres",
+            "eyebrow": "4 min",
+            "page": "wiki-poivre-blanc-madagascar"
+          }
+        },
+        "idx-08": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-poivre-sauvage-voatsiperifery",
+            "title": "Poivre sauvage (Voatsiperifery)",
+            "category": "poivres",
+            "eyebrow": "Sauvage",
+            "page": "wiki-poivre-sauvage-voatsiperifery"
+          }
+        },
+        "idx-09": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-baies-roses-madagascar",
+            "title": "Baies roses de Madagascar",
+            "category": "poivres",
+            "eyebrow": "3 min",
+            "page": "wiki-baies-roses-madagascar"
+          }
+        },
+        "idx-10": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-melange-poivres-baies",
+            "title": "Mélange Poivre sauvage, Poivre blanc & Baies roses",
+            "category": "poivres",
+            "eyebrow": "Assemblage",
+            "page": "wiki-melange-poivres-baies"
+          }
+        },
+        "idx-11": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-epice-cannelle-madagascar",
+            "title": "Cannelle de Madagascar",
+            "category": "epices",
+            "eyebrow": "5 min",
+            "page": "wiki-epice-cannelle-madagascar"
+          }
+        },
+        "idx-12": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-epice-curcuma-madagascar",
+            "title": "Curcuma de Madagascar",
+            "category": "epices",
+            "eyebrow": "4 min",
+            "page": "wiki-epice-curcuma-madagascar"
+          }
+        },
+        "idx-13": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-epice-gingembre-madagascar",
+            "title": "Gingembre de Madagascar",
+            "category": "epices",
+            "eyebrow": "4 min",
+            "page": "wiki-epice-gingembre-madagascar"
+          }
+        },
+        "idx-14": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-epice-girofle-madagascar",
+            "title": "Girofle de Madagascar",
+            "category": "epices",
+            "eyebrow": "4 min",
+            "page": "wiki-epice-girofle-madagascar"
+          }
+        },
+        "idx-15": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-epice-combava-madagascar",
+            "title": "Combava de Madagascar",
+            "category": "epices",
+            "eyebrow": "Agrume",
+            "page": "wiki-epice-combava-madagascar"
+          }
+        },
+        "idx-16": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-epice-curry-madagascar",
+            "title": "Curry de Madagascar",
+            "category": "epices",
+            "eyebrow": "Mélange",
+            "page": "wiki-epice-curry-madagascar"
+          }
+        },
+        "idx-17": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-epice-piment-pili-pili-madagascar",
+            "title": "Piment pili-pili de Madagascar",
+            "category": "epices",
+            "eyebrow": "Force 7/10",
+            "page": "wiki-epice-piment-pili-pili-madagascar"
+          }
+        },
+        "idx-18": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-epice-sesame-madagascar",
+            "title": "Graines de sésame de Madagascar",
+            "category": "epices",
+            "eyebrow": "3 min",
+            "page": "wiki-epice-sesame-madagascar"
+          }
+        },
+        "idx-19": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-fond-epices-madagascar",
+            "title": "Fond d'épices de Madagascar",
+            "category": "epices",
+            "eyebrow": "Mélange",
+            "page": "wiki-fond-epices-madagascar"
+          }
+        },
+        "idx-20": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-sels-melanges",
+            "title": "Sels gourmets & mélanges",
+            "category": "sels-huiles",
+            "eyebrow": "Famille",
+            "page": "wiki-sels-melanges"
+          }
+        },
+        "idx-21": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-huiles-essentielles-plantes",
+            "title": "Huiles essentielles & plantes",
+            "category": "sels-huiles",
+            "eyebrow": "Famille",
+            "page": "wiki-huiles-essentielles-plantes"
+          }
+        },
+        "idx-22": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-savoir-faire-producteurs",
+            "title": "Savoir-faire & producteurs",
+            "category": "transversal",
+            "eyebrow": "Reportage",
+            "page": "wiki-savoir-faire-producteurs"
+          }
+        },
+        "idx-23": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-bienfaits-sante",
+            "title": "Bienfaits & usages santé",
+            "category": "transversal",
+            "eyebrow": "Guide",
+            "page": "wiki-bienfaits-sante"
+          }
+        },
+        "idx-24": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-recettes",
+            "title": "Recettes & accords",
+            "category": "transversal",
+            "eyebrow": "Cuisine",
+            "page": "wiki-recettes"
+          }
+        },
+        "idx-25": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-glossaire-epices",
+            "title": "Glossaire des épices",
+            "category": "transversal",
+            "eyebrow": "Référence",
+            "page": "wiki-glossaire-epices"
+          }
+        },
+        "idx-26": {
+          "type": "index_item",
+          "settings": {
+            "url": "/pages/wiki-faq-vanille-epices",
+            "title": "FAQ — Vanille & épices",
+            "category": "transversal",
+            "eyebrow": "Questions",
+            "page": "wiki-faq-vanille-epices"
+          }
+        }
       },
       "block_order": [
         "cat-vanille",
