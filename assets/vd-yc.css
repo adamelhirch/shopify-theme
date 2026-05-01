@@ -318,10 +318,32 @@ p { margin: 0; }
   background: var(--vd-bg);
   /* Border invisible at rest; .is-scrolled fades it in. */
   border-bottom: 1px solid transparent;
-  transition: border-color 240ms ease;
+  transition: background-color 240ms ease, border-color 240ms ease;
 }
 .vd-header.is-scrolled {
+  background: var(--vd-bg);
   border-bottom-color: var(--vd-border);
+}
+
+/* Pages avec hero plein écran : header transparent au top, l'image
+   du hero remonte sous la barre. Dès qu'on scrolle (>8px), on retombe
+   sur le fond opaque #161616. */
+.template-index .vd-header,
+.template-page-le-wiki .vd-header,
+.template-page-wiki-article .vd-header {
+  background: transparent;
+}
+.template-index .vd-header.is-scrolled,
+.template-page-le-wiki .vd-header.is-scrolled,
+.template-page-wiki-article .vd-header.is-scrolled {
+  background: var(--vd-bg);
+}
+
+/* Sur ces mêmes pages, le 1er bloc visuel passe sous le header. */
+.template-index .shopify-section:has(.vd-herolist),
+.template-page-le-wiki .shopify-section:has(.vd-wiki-hub__hero),
+.template-page-wiki-article .shopify-section:has(.vd-wiki-article__hero--image) {
+  margin-top: calc(-1 * var(--vd-header-h) - var(--vd-announcement-h, 0px));
 }
 
 @media (prefers-reduced-motion: reduce) {

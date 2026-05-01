@@ -67,7 +67,7 @@
     <script src="{{ 'vd-yc.js' | asset_url }}" defer="defer"></script>
   </head>
 
-  <body>
+  <body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}">
     <a class="vd-skip" href="#MainContent" style="position:absolute;left:-9999px;">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
