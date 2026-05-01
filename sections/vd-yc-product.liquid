@@ -126,6 +126,53 @@
                 <span class="vd-pdp__price-current">{{ current_variant.price | money }}</span>
               {%- endif -%}
             </div>
+            {%- comment -%}
+              Étoiles + nombre d'avis si Judge.me a écrit la note moyenne
+              dans les metafields standards Shopify. Ancrage juste sous le
+              prix, ouvre la zone des avis Judge.me en cliquant.
+            {%- endcomment -%}
+            {%- if product.metafields.reviews.rating.value != blank -%}
+              {%- liquid
+                assign rating_obj = product.metafields.reviews.rating.value
+                assign rating = rating_obj.rating | times: 1.0
+                assign rating_max = rating_obj.scale_max | default: 5 | times: 1.0 | floor
+                if rating_max < 1
+                  assign rating_max = 5
+                endif
+                assign rating_count = product.metafields.reviews.rating_count.value | default: 0 | times: 1
+                assign rating_filled = rating | floor
+                assign rating_decimal = rating | minus: rating_filled
+                assign rating_half_idx = rating_filled | plus: 1
+                assign rating_has_half = false
+                if rating_decimal >= 0.5
+                  assign rating_has_half = true
+                endif
+              -%}
+              <a
+                href="#judgeme_product_reviews"
+                class="vd-pdp__rating"
+                aria-label="Note moyenne {{ rating | round: 1 }} sur {{ rating_max }} étoiles, {{ rating_count }} avis — voir les avis"
+              >
+                <span class="vd-pdp__rating-stars" aria-hidden="true">
+                  {%- for i in (1..rating_max) -%}
+                    {%- if i <= rating_filled -%}
+                      <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>
+                    {%- elsif i == rating_half_idx and rating_has_half -%}
+                      <svg viewBox="0 0 24 24" width="14" height="14">
+                        <defs><linearGradient id="vd-pdp-half-{{ product.id }}-{{ i }}"><stop offset="50%" stop-color="currentColor"/><stop offset="50%" stop-color="currentColor" stop-opacity="0"/></linearGradient></defs>
+                        <path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" fill="url(#vd-pdp-half-{{ product.id }}-{{ i }})" stroke="currentColor" stroke-width="1.2"/>
+                      </svg>
+                    {%- else -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </span>
+                <span class="vd-pdp__rating-text">
+                  {{ rating | round: 1 }}<span class="vd-pdp__rating-divider">/{{ rating_max }}</span>
+                  <span class="vd-pdp__rating-count">·&nbsp;{{ rating_count }} avis</span>
+                </span>
+              </a>
+            {%- endif -%}
           {%- when 'separator' -%}
             <hr class="vd-pdp__sep" {{ block.shopify_attributes }}>
           {%- when 'description' -%}
