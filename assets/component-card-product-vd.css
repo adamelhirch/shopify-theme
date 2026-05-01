@@ -258,6 +258,31 @@
   min-height: calc(11px * 1.4 * 2);
 }
 
+.vd-card__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  color: var(--vd-card-text-soft, var(--vd-text-muted));
+  line-height: 1;
+}
+.vd-card__rating-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  color: var(--vd-accent);
+}
+.vd-card__rating-stars svg {
+  width: 12px;
+  height: 12px;
+}
+.vd-card__rating-count {
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
 .vd-card__price {
   font-family: 'Geometria', sans-serif;
   font-size: 10px;
