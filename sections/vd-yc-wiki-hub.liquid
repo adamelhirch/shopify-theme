@@ -53,13 +53,8 @@
   >
     <div class="vd-wiki-hub__hero-bg">
       {%- if section.settings.hero_image != blank -%}
-        {{ section.settings.hero_image | image_url: width: 2400 | image_tag:
-            widths: '600,900,1200,1600,2000,2400',
-            sizes: '100vw',
-            loading: 'eager',
-            fetchpriority: 'high',
-            alt: section.settings.hero_title | default: 'Wiki Vanille Désiré' | escape,
-            class: 'vd-wiki-hub__hero-img' }}
+        {%- assign hero_alt = section.settings.hero_title | default: 'Wiki Vanille Désiré' | escape -%}
+        {{ section.settings.hero_image | image_url: width: 2400 | image_tag: widths: '600,900,1200,1600,2000,2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: hero_alt, class: 'vd-wiki-hub__hero-img' }}
       {%- else -%}
         <img
           src="https://images.unsplash.com/photo-1592788174877-3f99727fd23d?w=2400&auto=format&fit=crop"
@@ -135,12 +130,8 @@
           >
             <div class="vd-wiki-hub__cat-media">
               {%- if cat_img != blank -%}
-                {{ cat_img | image_url: width: 1600 | image_tag:
-                    widths: '600,900,1200,1600',
-                    sizes: '(min-width:1000px) 50vw, 100vw',
-                    loading: 'lazy',
-                    alt: cat_label | default: '' | escape,
-                    class: 'vd-wiki-hub__cat-img' }}
+                {%- assign cat_alt = cat_label | default: '' | escape -%}
+                {{ cat_img | image_url: width: 1600 | image_tag: widths: '600,900,1200,1600', sizes: '(min-width:1000px) 50vw, 100vw', loading: 'lazy', alt: cat_alt, class: 'vd-wiki-hub__cat-img' }}
               {%- else -%}
                 {%- liquid
                   assign cat_placeholders = 'photo-1592788174877-3f99727fd23d|photo-1599639668273-cdc91e4afb47|photo-1505993597083-3bd19fb75e57|photo-1631478187829-f1e60ce72b27' | split: '|'
@@ -218,12 +209,8 @@
             <a href="{{ feat_url }}" class="vd-wiki-hub__feat-link">
               <div class="vd-wiki-hub__feat-media">
                 {%- if feat_img != blank -%}
-                  {{ feat_img | image_url: width: 1200 | image_tag:
-                      widths: '400,600,800,1200',
-                      sizes: '(min-width:1000px) 40vw, 100vw',
-                      loading: 'lazy',
-                      alt: feat_title | default: '' | escape,
-                      class: 'vd-wiki-hub__feat-img' }}
+                  {%- assign feat_alt = feat_title | default: '' | escape -%}
+                  {{ feat_img | image_url: width: 1200 | image_tag: widths: '400,600,800,1200', sizes: '(min-width:1000px) 40vw, 100vw', loading: 'lazy', alt: feat_alt, class: 'vd-wiki-hub__feat-img' }}
                 {%- else -%}
                   <img
                     src="https://images.unsplash.com/photo-1599639668273-cdc91e4afb47?w=1200&auto=format&fit=crop"
