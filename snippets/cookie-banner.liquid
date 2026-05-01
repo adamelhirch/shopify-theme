@@ -20,7 +20,7 @@
     <div class="cookie-card__header">
       <div class="cookie-card__intro">
         <p class="cookie-card__eyebrow">Cookies</p>
-        <p class="cookie-card__title">Un bandeau plus discret, des choix clairs.</p>
+        <p class="cookie-card__title">Des choix simples, sans perturber la visite.</p>
       </div>
       <button type="button" class="cookie-card__close" data-cookie-close aria-label="Fermer les préférences cookies">
         <span></span>
@@ -29,9 +29,10 @@
     </div>
 
     <p class="cookie-card__description">
-      Les cookies essentiels restent actifs. Le reste ne s'active que si vous l'acceptez.
+      Les cookies essentiels restent actifs. Les préférences, la mesure d'audience et le marketing ne s'activent que
+      si vous le souhaitez.
       {%- if shop.privacy_policy.body != blank -%}
-        <a href="{{ shop.privacy_policy.url }}">Lire la politique de confidentialité</a>
+        <a href="{{ shop.privacy_policy.url }}">Politique de confidentialité</a>
       {%- endif -%}
     </p>
 
@@ -84,8 +85,8 @@
     </div>
 
     <div class="cookie-card__actions">
-      <button type="button" class="cookie-card__pref" data-cookie-toggle-preferences aria-expanded="false">
-        Gérer mes préférences
+      <button type="button" class="cookie-card__button cookie-card__button--ghost" data-cookie-reject>
+        Refuser
       </button>
       <button type="button" class="cookie-card__button cookie-card__button--primary" data-cookie-accept>
         Accepter
@@ -93,8 +94,8 @@
     </div>
 
     <div class="cookie-card__footer">
-      <button type="button" class="cookie-card__button cookie-card__button--ghost" data-cookie-reject>
-        Refuser
+      <button type="button" class="cookie-card__pref" data-cookie-toggle-preferences aria-expanded="false">
+        Personnaliser
       </button>
       <button type="button" class="cookie-card__save" data-cookie-save hidden>
         Enregistrer

@@ -1,0 +1,106 @@
+{%- liquid
+  assign product = all_products[section.settings.product]
+-%}
+
+<section class="vd-hero vd-reveal" data-vd-hero>
+  <div class="vd-hero__media">
+    <div class="vd-hero__slides">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <div class="vd-hero__slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 1400 | image_tag: loading: 'eager', widths: '600,1000,1400,2000', sizes: '50vw' }}
+            {%- elsif product != blank and product.media[forloop.index0] -%}
+              {%- assign m = product.media[forloop.index0].preview_image -%}
+              <img src="{{ m | image_url: width: 1400 }}" alt="{{ product.title | escape }}" loading="eager" width="1400" height="1400">
+            {%- else -%}
+              <img src="https://images.unsplash.com/photo-1610450949065-1f2841536c88?w=1400&auto=format&fit=crop" alt="placeholder" loading="eager" width="1400" height="1400">
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      {%- elsif product != blank -%}
+        {%- for media in product.media limit: 3 -%}
+          <div class="vd-hero__slide{% if forloop.first %} is-active{% endif %}">
+            <img src="{{ media.preview_image | image_url: width: 1400 }}" alt="{{ product.title | escape }}" loading="eager" width="1400" height="1400">
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <div class="vd-hero__slide is-active">
+          <img src="https://images.unsplash.com/photo-1599629954294-14df9ec8bcb1?w=1400&auto=format&fit=crop" alt="" loading="eager" width="1400" height="1400">
+        </div>
+      {%- endif -%}
+    </div>
+    {%- assign slides_count = section.blocks.size -%}
+    {%- if slides_count == 0 and product != blank -%}{%- assign slides_count = product.media.size | at_most: 3 -%}{%- endif -%}
+    {%- if slides_count > 1 -%}
+      <div class="vd-hero__dots">
+        {%- for i in (1..slides_count) -%}
+          <button type="button" class="vd-hero__dot{% if forloop.first %} is-active{% endif %}" aria-label="Image {{ forloop.index }}"></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="vd-hero__content">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="vd-hero__eyebrow vd-eyebrow vd-eyebrow--soft">{{ section.settings.eyebrow }}</div>
+    {%- endif -%}
+    <h1 class="vd-h1 vd-hero__title">
+      {%- if section.settings.title != blank -%}
+        {{ section.settings.title }}
+      {%- elsif product != blank -%}
+        {{ product.title }}
+      {%- else -%}
+        Vanille Bourbon de Madagascar
+      {%- endif -%}
+    </h1>
+    {%- if section.settings.description != blank -%}
+      <p class="vd-body" style="margin-bottom:24px;">{{ section.settings.description }}</p>
+    {%- endif -%}
+    {%- if product != blank -%}
+      <div class="vd-hero__price">
+        {%- if product.price_varies -%}
+          <span>À partir de </span><strong>{{ product.price_min | money }}</strong>
+        {%- else -%}
+          <strong>{{ product.price | money }}</strong>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="vd-hero__cta">
+      {%- if product != blank -%}
+        <a href="{{ product.url }}" class="vd-btn">{% if product.has_only_default_variant %}Ajouter au panier{% else %}Choisir les options{% endif %}</a>
+      {%- endif -%}
+      {%- if section.settings.secondary_label != blank -%}
+        <a href="{{ section.settings.secondary_link }}" class="vd-btn vd-btn--ghost">{{ section.settings.secondary_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero produit phare",
+  "tag": "section",
+  "max_blocks": 5,
+  "settings": [
+    { "type": "product", "id": "product", "label": "Produit phare" },
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Récolte 2026" },
+    { "type": "text", "id": "title", "label": "Titre (optionnel — sinon nom produit)" },
+    { "type": "textarea", "id": "description", "label": "Description courte" },
+    { "type": "text", "id": "secondary_label", "label": "Bouton secondaire — libellé", "default": "Voir la collection" },
+    { "type": "url", "id": "secondary_link", "label": "Bouton secondaire — lien" }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image carousel",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Hero produit phare", "category": "Accueil" }
+  ]
+}
+{% endschema %}

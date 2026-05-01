@@ -1,0 +1,237 @@
+{%- comment -%}
+  Page collection — port du layout yanncouvreur.com :
+  1. Quick-navigation horizontale (liste de collections cliquable, opacity
+     50 % hors active) tout en haut.
+  2. Toolbar (compte produits + tri).
+  3. Grille de cartes avec une tuile « hero promo » en première position
+     (cover image de la collection + titre en overlay, span 2×2).
+{%- endcomment -%}
+
+<section class="vd-coll" style="--vd-coll-cols: 4;">
+  {%- if section.blocks.size > 0 -%}
+    <nav class="vd-coll__quicknav" aria-label="Catégories">
+      <ul class="vd-coll__quicknav-list">
+        {%- for block in section.blocks -%}
+          {%- assign tab_coll = collections[block.settings.collection] -%}
+          {%- assign tab_label = block.settings.label | default: tab_coll.title | default: 'Catégorie' -%}
+          {%- assign tab_url = tab_coll.url | default: '#' -%}
+          {%- assign is_active = false -%}
+          {%- if tab_coll.handle == collection.handle -%}
+            {%- assign is_active = true -%}
+          {%- endif -%}
+          <li {{ block.shopify_attributes }}>
+            <a
+              href="{{ tab_url }}"
+              class="vd-coll__quicknav-link{% if is_active %} is-active{% endif %}"
+              {% if is_active %}aria-current="page"{% endif %}
+            >
+              <span>{{ tab_label }}</span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+  {%- endif -%}
+
+  {%- paginate collection.products by 24 -%}
+
+  <div class="vd-coll__inner">
+    <div class="vd-coll__bar" data-vd-coll-bar>
+      <span class="vd-coll__count">
+        {{ collection.products_count }} produit{% if collection.products_count > 1 %}s{% endif %}
+      </span>
+
+      <div class="vd-coll__bar-actions">
+        {%- comment -%} Layout selector — 2 column-count presets {%- endcomment -%}
+        <div class="vd-coll__layout" role="radiogroup" aria-label="Densité d'affichage">
+          <button
+            type="button"
+            class="vd-coll__layout-btn is-active"
+            data-vd-coll-layout="grid"
+            aria-label="Affichage en grande grille"
+            aria-pressed="true"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path fill="currentColor" d="M0 0h7v7H0zM0 9h7v7H0zM9 0h7v7H9zM9 9h7v7H9z"/>
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="vd-coll__layout-btn"
+            data-vd-coll-layout="thumbnails"
+            aria-label="Affichage en petite grille"
+            aria-pressed="false"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path fill="currentColor" d="M1 1h2v2H1zM1 9h2v2H1zM1 5h2v2H1zM1 13h2v2H1zM5 1h2v2H5zM5 9h2v2H5zM5 5h2v2H5zM5 13h2v2H5zM9 1h2v2H9zM9 9h2v2H9zM9 5h2v2H9zM9 13h2v2H9zM13 1h2v2h-2zM13 9h2v2h-2zM13 5h2v2h-2zM13 13h2v2h-2z"/>
+            </svg>
+          </button>
+        </div>
+
+        <span class="vd-coll__bar-divider" aria-hidden="true"></span>
+
+        {%- if section.settings.enable_sorting -%}
+          <button
+            type="button"
+            class="vd-coll__filter-btn"
+            data-vd-coll-open-filters
+            aria-controls="VdCollDrawer"
+            aria-expanded="false"
+          >
+            <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true">
+              <path stroke="currentColor" stroke-linecap="square" stroke-width="1.5" d="M4 5h8M1 1h14M7 9h2"/>
+            </svg>
+            <span>Filtrer et trier</span>
+          </button>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.settings.enable_sorting -%}
+      <aside id="VdCollDrawer" class="vd-coll__drawer" aria-hidden="true" data-vd-coll-drawer>
+        <div class="vd-coll__drawer-overlay" data-vd-coll-close></div>
+        <div class="vd-coll__drawer-panel" role="dialog" aria-label="Filtrer et trier">
+          <header class="vd-coll__drawer-head">
+            <span class="vd-coll__drawer-title">Filtrer et trier</span>
+            <button type="button" class="vd-coll__drawer-close" data-vd-coll-close aria-label="Fermer">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path stroke="currentColor" stroke-width="1.4" stroke-linecap="round" d="M1 1l12 12M13 1L1 13"/>
+              </svg>
+            </button>
+          </header>
+          <form class="vd-coll__drawer-form" method="get">
+            <div class="vd-coll__drawer-section">
+              <p class="vd-coll__drawer-label">Trier par</p>
+              <div class="vd-coll__drawer-options">
+                {%- assign sort_options = 'manual|Pertinence,best-selling|Meilleures ventes,price-ascending|Prix croissant,price-descending|Prix décroissant,title-ascending|A-Z,title-descending|Z-A,created-descending|Nouveautés' | split: ',' -%}
+                {%- for opt in sort_options -%}
+                  {%- assign parts = opt | split: '|' -%}
+                  <label class="vd-coll__drawer-option">
+                    <input type="radio" name="sort_by" value="{{ parts[0] }}"{% if collection.sort_by == parts[0] %} checked{% endif %}>
+                    <span>{{ parts[1] }}</span>
+                  </label>
+                {%- endfor -%}
+              </div>
+            </div>
+            <div class="vd-coll__drawer-foot">
+              <button type="submit" class="vd-coll__drawer-apply">Appliquer</button>
+            </div>
+          </form>
+        </div>
+      </aside>
+    {%- endif -%}
+
+    <div class="vd-coll__grid">
+      {%- if section.settings.show_promo_tile and paginate.current_page == 1 -%}
+        {%- assign promo_alt = collection.title | escape -%}
+        <div class="vd-coll__promo">
+          <div class="vd-coll__promo-bg">
+            {%- if collection.image != blank -%}
+              {{ collection.image | image_url: width: 1600 | image_tag: widths: '600,900,1200,1600', sizes: '(min-width: 1000px) 50vw, 100vw', loading: 'eager', alt: promo_alt, class: 'vd-coll__promo-img' }}
+            {%- elsif collection.products.first and collection.products.first.featured_image != blank -%}
+              {{ collection.products.first.featured_image | image_url: width: 1600 | image_tag: widths: '600,900,1200,1600', sizes: '(min-width: 1000px) 50vw, 100vw', loading: 'eager', alt: promo_alt, class: 'vd-coll__promo-img' }}
+            {%- else -%}
+              <img src="https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=1600&auto=format&fit=crop" alt="" loading="eager" width="1600" height="2000" class="vd-coll__promo-img">
+            {%- endif -%}
+            <div class="vd-coll__promo-overlay" aria-hidden="true"></div>
+          </div>
+          <div class="vd-coll__promo-copy">
+            <span class="vd-coll__promo-eyebrow">{{ section.settings.promo_eyebrow | default: 'Découvrez notre gamme de' }}</span>
+            <h1 class="vd-coll__promo-title">{{ collection.title }}</h1>
+            {%- if collection.description != blank and section.settings.show_description -%}
+              <div class="vd-coll__promo-desc">{{ collection.description | strip_html | truncate: 140 }}</div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if collection.products.size > 0 -%}
+        {%- assign skip_card_product_styles = false -%}
+        {%- for product in collection.products -%}
+          {%- render 'card-product', card_product: product, section_id: section.id, skip_styles: skip_card_product_styles -%}
+          {%- assign skip_card_product_styles = true -%}
+        {%- endfor -%}
+      {%- else -%}
+        <div class="vd-coll__empty">
+          <div class="vd-coll__empty-title">Aucun produit pour le moment</div>
+          <a href="{{ routes.collections_url }}" class="vd-btn vd-btn--ghost">Voir toutes les collections</a>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      <div class="vd-coll__pagination">
+        {%- if paginate.next -%}
+          <a href="{{ paginate.next.url }}" class="vd-btn vd-btn--ghost">Voir plus</a>
+        {%- endif -%}
+        <div class="vd-coll__page-info">Page {{ paginate.current_page }} sur {{ paginate.pages }}</div>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- endpaginate -%}
+</section>
+
+{% schema %}
+{
+  "name": "Page collection",
+  "tag": "section",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Tuile héro"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_promo_tile",
+      "label": "Afficher la tuile héro de la collection",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "promo_eyebrow",
+      "label": "Sur-titre de la tuile",
+      "default": "Découvrez notre gamme de"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Afficher la description de collection",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Tri"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "label": "Activer le menu de tri",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Catégorie (quick-nav)",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Libellé (sinon = nom de la collection)" },
+        { "type": "collection", "id": "collection", "label": "Collection liée" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page collection",
+      "category": "Collection",
+      "blocks": [
+        { "type": "tab", "settings": { "label": "Vanille" } },
+        { "type": "tab", "settings": { "label": "Poivre" } },
+        { "type": "tab", "settings": { "label": "Épices" } },
+        { "type": "tab", "settings": { "label": "Huiles" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

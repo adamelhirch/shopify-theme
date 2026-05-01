@@ -1,0 +1,122 @@
+{%- comment -%}
+  Producteurs — triptyque éditorial type "hero cassé en 3".
+  Chaque panneau = image plein-bleed + titre toujours visible.
+  Au hover : l'image zoom légèrement, l'overlay s'assombrit, et un texte
+  descriptif + CTA glissent depuis le bas.
+{%- endcomment -%}
+
+<section class="vd-prod-tri vd-reveal" data-vd-producers>
+  <div class="vd-prod-tri__head">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="vd-prod-tri__eyebrow">{{ section.settings.eyebrow }}</div>
+    {%- endif -%}
+    <h2 class="vd-prod-tri__heading">
+      {{- section.settings.heading | default: 'Au plus près des producteurs' -}}
+    </h2>
+  </div>
+
+  <div class="vd-prod-tri__grid" style="--vd-prod-tri-count: {{ section.blocks.size }};" data-vd-prod-tri-grid>
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign placeholders = 'photo-1606312619070-d48b4c652a52|photo-1610450949065-1f2841536c88|photo-1465146344425-f00d5f5c8f07' | split: '|'
+        assign ph_idx = forloop.index0 | modulo: placeholders.size
+        assign ph = placeholders[ph_idx]
+        assign img_alt = block.settings.title | default: '' | escape
+        if block.settings.link != blank
+          assign panel_tag = 'a'
+        else
+          assign panel_tag = 'div'
+        endif
+      -%}
+      <{{ panel_tag }}
+        class="vd-prod-tri__panel"
+        {% if panel_tag == 'a' %}href="{{ block.settings.link }}"{% endif %}
+        {{ block.shopify_attributes }}
+      >
+        <div class="vd-prod-tri__media" aria-hidden="true">
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 1600 | image_tag: widths: '600,900,1200,1600', sizes: '(min-width: 900px) 33vw, 100vw', loading: 'lazy', alt: img_alt, class: 'vd-prod-tri__img' }}
+          {%- else -%}
+            <img
+              src="https://images.unsplash.com/{{ ph }}?w=1600&auto=format&fit=crop"
+              alt="{{ img_alt }}"
+              loading="lazy"
+              width="1600"
+              height="2000"
+              class="vd-prod-tri__img"
+            >
+          {%- endif -%}
+          <div class="vd-prod-tri__overlay"></div>
+        </div>
+
+        <div class="vd-prod-tri__content">
+          {%- if block.settings.kicker != blank -%}
+            <div class="vd-prod-tri__kicker">{{ block.settings.kicker }}</div>
+          {%- else -%}
+            <div class="vd-prod-tri__kicker">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
+          {%- endif -%}
+          <h3 class="vd-prod-tri__title">{{ block.settings.title }}</h3>
+          <div class="vd-prod-tri__reveal">
+            <div class="vd-prod-tri__reveal-inner">
+              {%- if block.settings.text != blank -%}
+                <p class="vd-prod-tri__text">{{ block.settings.text }}</p>
+              {%- endif -%}
+              {%- if block.settings.link != blank -%}
+                <span class="vd-prod-tri__cta">
+                  <span class="vd-prod-tri__cta-label">Découvrir</span>
+                  <svg class="vd-prod-tri__cta-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M5 10.5L8.5 7L5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </{{ panel_tag }}>
+    {%- endfor -%}
+  </div>
+
+  {%- if section.blocks.size > 1 -%}
+    <div class="vd-prod-tri__markers" aria-hidden="true">
+      {%- for block in section.blocks -%}
+        <span class="vd-prod-tri__marker{% if forloop.first %} is-active{% endif %}" data-prod-marker="{{ forloop.index0 }}"></span>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Direct producteurs",
+  "tag": "section",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre (optionnel)" },
+    { "type": "text", "id": "heading", "label": "Titre de section (optionnel)" }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Panneau",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image plein cadre" },
+        { "type": "text", "id": "kicker", "label": "Sur-titre court (sinon numéro)" },
+        { "type": "text", "id": "title", "label": "Titre (visible)", "default": "Lien direct" },
+        { "type": "textarea", "id": "text", "label": "Texte (révélé au hover)" },
+        { "type": "url", "id": "link", "label": "Lien (rend tout le panneau cliquable)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Direct producteurs",
+      "category": "Accueil",
+      "blocks": [
+        { "type": "pillar", "settings": { "title": "Lien direct", "text": "Sans intermédiaire, du producteur à votre cuisine. Chaque achat soutient les familles malgaches." } },
+        { "type": "pillar", "settings": { "title": "Récolte manuelle", "text": "Cueillie à la main, à pleine maturité, selon un savoir-faire transmis de génération en génération." } },
+        { "type": "pillar", "settings": { "title": "Sélection rigoureuse", "text": "Gousse après gousse, nous ne retenons que les meilleurs profils aromatiques." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

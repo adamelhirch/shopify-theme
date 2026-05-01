@@ -11,216 +11,29 @@
 }
 
 .contact .field {
-  margin-bottom: 1.6rem;
-}
-
-.contact__button {
-  margin-top: 2.4rem;
+  margin-bottom: 1.5rem;
 }
 
 @media screen and (min-width: 750px) {
   .contact .field {
     margin-bottom: 2rem;
   }
+}
 
+.contact__button {
+  margin-top: 3rem;
+}
+
+@media screen and (min-width: 750px) {
+  .contact__button {
+    margin-top: 4rem;
+  }
+}
+
+@media screen and (min-width: 750px) {
   .contact__fields {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.6rem;
-  }
-}
-
-.vd-contact-page {
-  width: min(100vw - 2.4rem, 186rem);
-  margin: 0 auto;
-}
-
-.vd-contact-page__layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(44rem, 0.88fr);
-  min-height: min(78rem, calc(100vh - 18rem));
-  overflow: hidden;
-  border-radius: 3rem;
-  background: rgba(var(--vd-black), 0.96);
-  border: 1px solid rgba(var(--vd-white), 0.08);
-}
-
-.vd-contact-page__media {
-  position: relative;
-  min-height: 46rem;
-  background-color: rgb(var(--vd-black));
-  background-image: var(--vd-contact-media);
-  background-position: center;
-  background-size: cover;
-}
-
-.vd-contact-page__media::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(7, 7, 7, 0.26);
-}
-
-.vd-contact-page__panel {
-  display: flex;
-  align-items: center;
-  padding: clamp(2.4rem, 3vw, 5.2rem);
-  background: #151515;
-  border-left: 1px solid rgba(var(--vd-white), 0.08);
-}
-
-.vd-contact-form {
-  width: 100%;
-}
-
-.vd-contact-form__intro {
-  margin-bottom: 2.4rem;
-}
-
-.vd-contact-form__title {
-  margin: 0;
-  color: rgb(var(--vd-ivory));
-  font-size: clamp(3.6rem, 4vw, 5.8rem);
-  line-height: 0.94;
-  letter-spacing: -0.03em;
-}
-
-.vd-contact-form__lede {
-  margin: 1.2rem 0 0;
-  color: rgba(var(--vd-ivory), 0.72);
-  font-size: 1.7rem;
-  line-height: 1.6;
-}
-
-.vd-contact-form .field {
-  position: relative;
-}
-
-.vd-contact-form .field__input {
-  min-height: 5.8rem;
-  border-radius: 0;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.97);
-  color: #151515;
-  box-shadow: none;
-}
-
-.vd-contact-form textarea.field__input {
-  min-height: 22rem;
-  padding-top: 2rem;
-}
-
-.vd-contact-form .field__label,
-.vd-contact-form .form__label {
-  color: rgba(12, 12, 12, 0.52);
-}
-
-.vd-contact-form .field__input::placeholder {
-  color: rgba(12, 12, 12, 0.48);
-}
-
-.vd-contact-form .field__input:focus {
-  border-color: rgba(var(--vd-orange), 0.7);
-  outline: none;
-  box-shadow: none;
-}
-
-.vd-contact-form__button-wrap {
-  display: flex;
-}
-
-.vd-contact-form__button {
-  width: 100%;
-  min-height: 5.8rem;
-  border-radius: 0;
-  border: 0;
-  background: rgb(var(--vd-orange));
-  color: rgb(var(--vd-ivory));
-  font-size: 1.35rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.vd-contact-form__button:hover {
-  opacity: 0.92;
-}
-
-.vd-contact-form__social-wrap {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-}
-
-.vd-contact-form__social {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.8rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.vd-contact-form__social .list-social__link {
-  color: rgba(var(--vd-ivory), 0.82);
-  padding: 0.9rem;
-  border-radius: 999px;
-}
-
-.vd-contact-form__social .list-social__link .svg-wrapper,
-.vd-contact-form__social .list-social__link svg {
-  color: currentColor;
-  fill: currentColor;
-}
-
-.vd-contact-form__social .list-social__link:hover,
-.vd-contact-form__social .list-social__link:focus-visible {
-  color: rgb(var(--vd-ivory));
-  background: rgba(255, 255, 255, 0.06);
-}
-
-@media screen and (max-width: 989px) {
-  .vd-contact-page {
-    width: min(100vw - 1.6rem, 186rem);
-  }
-
-  .vd-contact-page__layout {
-    grid-template-columns: 1fr;
-    min-height: auto;
-  }
-
-  .vd-contact-page__media {
-    min-height: 32rem;
-  }
-
-  .vd-contact-page__panel {
-    border-left: 0;
-    border-top: 1px solid rgba(var(--vd-white), 0.08);
-  }
-}
-
-@media screen and (max-width: 749px) {
-  .vd-contact-page {
-    width: min(100vw - 1.2rem, 186rem);
-  }
-
-  .vd-contact-page__layout {
-    border-radius: 2rem;
-  }
-
-  .vd-contact-page__media {
-    min-height: 24rem;
-  }
-
-  .vd-contact-page__panel {
-    padding: 1.8rem;
-  }
-
-  .vd-contact-form__title {
-    font-size: clamp(3.2rem, 11vw, 4.6rem);
-  }
-
-  .vd-contact-form textarea.field__input {
-    min-height: 18rem;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 2rem;
   }
 }

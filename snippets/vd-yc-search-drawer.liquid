@@ -1,0 +1,111 @@
+{%- comment -%}
+  Search drawer (latéral droit). Même mécanique que le cart drawer.
+  - Champ de recherche live (suggestions via /search/suggest.json)
+  - Liste de "recherches populaires" : top collections du shop
+  - "Produits vedettes" : 1 produit mis en avant (settings.featured_collection)
+{%- endcomment -%}
+
+{%- liquid
+  # Featured product : on prend le premier produit d'une collection vedette
+  # (settings.search_featured_collection), ou fallback sur le 1er produit de la
+  # 1re collection disponible.
+  assign featured_collection_handle = settings.search_featured_collection | default: 'best-selling-products'
+  assign featured_collection = collections[featured_collection_handle]
+  assign featured_product = featured_collection.products.first
+  if featured_product == blank
+    for c in collections
+      if c.products.size > 0
+        assign featured_product = c.products.first
+        break
+      endif
+    endfor
+  endif
+-%}
+
+<aside
+  id="vd-search-drawer"
+  class="vd-drawer vd-drawer--right vd-search-drawer"
+  aria-hidden="true"
+  aria-label="Recherche"
+  data-vd-search-drawer
+>
+  <header class="vd-search-drawer__head">
+    <form class="vd-search-drawer__form" role="search" action="{{ routes.search_url }}" method="get" data-vd-search-form>
+      <button type="submit" class="vd-search-drawer__icon" aria-label="Lancer la recherche">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+          <circle cx="8" cy="8" r="6"/>
+          <path d="m13 13 4 4"/>
+        </svg>
+      </button>
+      <input
+        type="search"
+        name="q"
+        class="vd-search-drawer__input"
+        placeholder="Recherche…"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+        data-vd-search-input
+      >
+      <button type="button" class="vd-search-drawer__close" data-vd-drawer-close aria-label="Fermer la recherche">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+          <path d="M3 3l8 8M11 3l-8 8"/>
+        </svg>
+      </button>
+    </form>
+  </header>
+
+  <div class="vd-search-drawer__body" data-vd-search-body>
+    {%- comment -%} ÉTAT IDLE — quand l'input est vide {%- endcomment -%}
+    <div class="vd-search-drawer__idle" data-vd-search-idle>
+      <section class="vd-search-drawer__block">
+        <h3 class="vd-search-drawer__block-title">Recherche populaire</h3>
+        <ul class="vd-search-drawer__popular" role="list">
+          {%- assign popular_handles = settings.search_popular_collections | default: 'vanille-bourbon,poivre-baies,epices-madagascar,sels,huiles-madagascar' | split: ',' -%}
+          {%- for h in popular_handles -%}
+            {%- assign h_clean = h | strip -%}
+            {%- assign c = collections[h_clean] -%}
+            {%- if c != blank -%}
+              <li>
+                <a href="{{ c.url }}" class="vd-search-drawer__popular-link">{{ c.title | upcase }}</a>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </section>
+
+      {%- if featured_product != blank -%}
+        <section class="vd-search-drawer__block">
+          <h3 class="vd-search-drawer__block-title">Produits vedettes</h3>
+          <a href="{{ featured_product.url }}" class="vd-search-drawer__featured" data-vd-drawer-close>
+            <div class="vd-search-drawer__featured-media">
+              {%- if featured_product.featured_image -%}
+                <img
+                  src="{{ featured_product.featured_image | image_url: width: 720 }}"
+                  alt="{{ featured_product.title | escape }}"
+                  loading="lazy"
+                  width="720"
+                  height="900"
+                >
+              {%- endif -%}
+            </div>
+            <div class="vd-search-drawer__featured-info">
+              <span class="vd-search-drawer__featured-title">{{ featured_product.title }}</span>
+              <span class="vd-search-drawer__featured-price">
+                {%- if featured_product.price_varies -%}
+                  À partir de {{ featured_product.price_min | money }}
+                {%- else -%}
+                  {{ featured_product.price | money }}
+                {%- endif -%}
+              </span>
+            </div>
+          </a>
+        </section>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ÉTAT RÉSULTATS — rempli par le JS quand l'utilisateur tape {%- endcomment -%}
+    <div class="vd-search-drawer__results" data-vd-search-results hidden></div>
+  </div>
+</aside>

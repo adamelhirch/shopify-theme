@@ -1,0 +1,96 @@
+{%- comment -%} YC-style sticky-left + scrolling gallery (pattern images-with-content) {%- endcomment -%}
+
+<section class="vd-iwc">
+  <div class="vd-iwc__split">
+    <div class="vd-iwc__content">
+      <div class="vd-iwc__content-inner">
+        {%- if section.settings.eyebrow != blank -%}
+          <div class="vd-iwc__eyebrow">{{ section.settings.eyebrow }}</div>
+        {%- endif -%}
+        <h2 class="vd-iwc__title">{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}
+          <p class="vd-iwc__text">{{ section.settings.text }}</p>
+        {%- endif -%}
+        <div class="vd-iwc__cta">
+          {%- if section.settings.button_1_label != blank -%}
+            <a href="{{ section.settings.button_1_link }}" class="vd-btn">{{ section.settings.button_1_label }}</a>
+          {%- endif -%}
+          {%- if section.settings.button_2_label != blank -%}
+            <a href="{{ section.settings.button_2_link }}" class="vd-iwc__link">{{ section.settings.button_2_label }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    <div class="vd-iwc__gallery-wrap">
+      <div class="vd-iwc__gallery">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign cls = 'vd-iwc__item'
+            assign idx = forloop.index
+            if idx == 3 or idx == 6
+              assign cls = cls | append: ' vd-iwc__item--wide'
+            endif
+            assign coll = collections[block.settings.collection]
+            assign img = block.settings.image
+            if img == blank and coll != blank
+              assign img = coll.image | default: coll.products.first.featured_image
+            endif
+            assign link = block.settings.link | default: coll.url | default: '#'
+            assign label = block.settings.label | default: coll.title
+          -%}
+          <a href="{{ link }}" class="{{ cls }}" {{ block.shopify_attributes }}>
+            {%- if img != blank -%}
+              <img src="{{ img | image_url: width: 1200 }}" alt="{{ label | escape }}" loading="lazy" width="1200" height="1500">
+            {%- else -%}
+              <img src="https://images.unsplash.com/photo-1559054663-e8d23213f55c?w=1200&auto=format&fit=crop" alt="placeholder" loading="lazy" width="1200" height="1500">
+            {%- endif -%}
+            <div class="vd-iwc__caption">{{ label }}</div>
+          </a>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Créations / Coffrets",
+  "tag": "section",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Découvrez" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Nos coffrets sur mesure pour vos évènements" },
+    { "type": "textarea", "id": "text", "label": "Texte (optionnel)" },
+    { "type": "text", "id": "button_1_label", "label": "Bouton 1", "default": "Voir le catalogue" },
+    { "type": "url", "id": "button_1_link", "label": "Bouton 1 — lien" },
+    { "type": "text", "id": "button_2_label", "label": "Bouton 2", "default": "Nous contacter" },
+    { "type": "url", "id": "button_2_link", "label": "Bouton 2 — lien" }
+  ],
+  "blocks": [
+    {
+      "type": "cell",
+      "name": "Image",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Libellé overlay (sinon titre collection)" },
+        { "type": "collection", "id": "collection", "label": "Collection liée (image + lien auto)" },
+        { "type": "image_picker", "id": "image", "label": "Image (sinon image collection)" },
+        { "type": "url", "id": "link", "label": "Lien personnalisé (sinon URL collection)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Créations / Coffrets",
+      "category": "Accueil",
+      "blocks": [
+        { "type": "cell", "settings": { "label": "Pièce montée" } },
+        { "type": "cell", "settings": { "label": "Grand entremets" } },
+        { "type": "cell", "settings": { "label": "Tarte au mètre" } },
+        { "type": "cell", "settings": { "label": "Pièces cocktail sucrées" } },
+        { "type": "cell", "settings": { "label": "Pièces cocktail salées" } },
+        { "type": "cell", "settings": { "label": "Number cake" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

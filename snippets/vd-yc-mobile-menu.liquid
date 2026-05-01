@@ -1,0 +1,26 @@
+{%- assign menu = linklists[settings.main_menu_handle | default: 'main-menu'] -%}
+<aside id="vd-mobile-menu" class="vd-drawer vd-drawer--left" aria-hidden="true" aria-label="Menu mobile">
+  <div class="vd-drawer__head">
+    <span class="vd-drawer__title">Menu</span>
+    <button type="button" class="vd-icon-btn" data-vd-drawer-close aria-label="Fermer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M18 6l-12 12"/></svg>
+    </button>
+  </div>
+  <div class="vd-drawer__body">
+    <nav class="vd-drawer-nav">
+      {%- for link in menu.links -%}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- if link.links.size > 0 -%}
+          {%- for sub in link.links -%}
+            <a href="{{ sub.url }}" style="padding-left:20px;font-size:var(--vd-fs-sm);color:var(--vd-text-soft);">— {{ sub.title }}</a>
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+  </div>
+  <div class="vd-drawer__foot">
+    <a href="{{ routes.account_url }}" class="vd-link">Mon compte</a>
+    <div style="height:8px;"></div>
+    <a href="{{ routes.search_url }}" class="vd-link">Rechercher</a>
+  </div>
+</aside>

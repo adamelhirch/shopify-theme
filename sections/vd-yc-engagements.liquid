@@ -1,0 +1,77 @@
+<section class="vd-section vd-page vd-reveal">
+  <div class="vd-section-head" style="justify-content:center;text-align:center;flex-direction:column;align-items:center;">
+    <div class="vd-section-head__copy" style="text-align:center;">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="vd-eyebrow vd-eyebrow--soft">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+      <h2 class="vd-h2">{{ section.settings.heading }}</h2>
+    </div>
+  </div>
+  <div class="vd-engagements">
+    {%- for block in section.blocks -%}
+      <div class="vd-engagement" {{ block.shopify_attributes }}>
+        <div class="vd-engagement__icon">
+          {%- case block.settings.icon -%}
+            {%- when 'leaf' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2c4 4 8 8 8 12a8 8 0 0 1-16 0c0-4 4-8 8-12z"/><path d="M12 22V8"/></svg>
+            {%- when 'hand' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 12V4a2 2 0 1 1 4 0v6"/><path d="M12 10V3a2 2 0 1 1 4 0v9"/><path d="M16 10V5a2 2 0 1 1 4 0v9a8 8 0 0 1-16 0v-3a2 2 0 1 1 4 0v3"/></svg>
+            {%- when 'star' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15 9 22 10 17 15 18 22 12 18 6 22 7 15 2 10 9 9"/></svg>
+            {%- when 'globe' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
+            {%- else -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/></svg>
+          {%- endcase -%}
+        </div>
+        <h3 class="vd-engagement__title">{{ block.settings.title }}</h3>
+        <p class="vd-engagement__text">{{ block.settings.text }}</p>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nos engagements",
+  "tag": "section",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Notre démarche" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Nos engagements" }
+  ],
+  "blocks": [
+    {
+      "type": "engagement",
+      "name": "Engagement",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icône",
+          "default": "leaf",
+          "options": [
+            { "value": "leaf", "label": "Feuille" },
+            { "value": "hand", "label": "Main" },
+            { "value": "star", "label": "Étoile" },
+            { "value": "globe", "label": "Globe" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Titre", "default": "Direct producteurs" },
+        { "type": "textarea", "id": "text", "label": "Texte", "default": "Nous travaillons en lien direct avec les familles productrices à Madagascar." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nos engagements",
+      "category": "Accueil",
+      "blocks": [
+        { "type": "engagement", "settings": { "icon": "globe", "title": "Direct producteurs", "text": "Lien direct avec les familles productrices à Madagascar, sans intermédiaire." } },
+        { "type": "engagement", "settings": { "icon": "hand", "title": "Récolte manuelle", "text": "Chaque gousse est récoltée à la main, à pleine maturité, selon un savoir-faire ancestral." } },
+        { "type": "engagement", "settings": { "icon": "star", "title": "Qualité d'exception", "text": "Une sélection rigoureuse pour ne retenir que les meilleurs profils aromatiques." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

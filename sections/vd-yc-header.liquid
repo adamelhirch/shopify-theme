@@ -1,0 +1,119 @@
+{%- liquid
+  assign menu = linklists[section.settings.menu]
+-%}
+
+<header class="vd-header" data-vd-header>
+  <div class="vd-header__inner">
+    <h1 class="vd-header__logo">
+      <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        <span class="vd-sr-only">{{ shop.name }}</span>
+        {%- if section.settings.logo != blank -%}
+          {{ section.settings.logo | image_url: width: 320 | image_tag: alt: shop.name, widths: '160,320', loading: 'eager', class: 'vd-header__logo-img' }}
+        {%- elsif settings.logo != blank -%}
+          {{ settings.logo | image_url: width: 320 | image_tag: alt: shop.name, widths: '160,320', loading: 'eager', class: 'vd-header__logo-img' }}
+        {%- else -%}
+          <span class="vd-header__logo-text">{{ shop.name }}</span>
+        {%- endif -%}
+      </a>
+    </h1>
+
+    <nav class="vd-header__nav vd-header__nav--primary" aria-label="Navigation principale">
+      <ul class="vd-header__list">
+        <li class="vd-header__burger-item">
+          <button
+            type="button"
+            class="vd-burger"
+            data-vd-drawer-open="vd-mega-drawer"
+            aria-label="Menu"
+            aria-controls="vd-mega-drawer"
+          >
+            <span class="vd-burger-icon" aria-hidden="true">
+              <span></span>
+              <span></span>
+            </span>
+          </button>
+        </li>
+        {%- for link in menu.links -%}
+          {%- if link.handle == 'catalogue' or link.handle == 'catalog' or link.title == 'Catalogue' -%}
+            <li class="vd-header__nav-item vd-header__nav-item--text"><button type="button" class="vd-nav-link" data-vd-drawer-open="vd-mega-drawer">{{ link.title }}</button></li>
+          {%- else -%}
+            <li class="vd-header__nav-item vd-header__nav-item--text"><a href="{{ link.url }}" class="vd-nav-link{% if link.active %} is-active{% endif %}">{{ link.title }}</a></li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <nav class="vd-header__nav vd-header__nav--secondary" aria-label="Navigation secondaire">
+      <ul class="vd-header__list">
+        {%- if section.settings.secondary_link_label != blank -%}
+          <li class="vd-header__secondary-link vd-header__nav-item--text">
+            <a href="{{ section.settings.secondary_link_url }}" class="vd-nav-link">{{ section.settings.secondary_link_label }}</a>
+          </li>
+        {%- endif -%}
+        {%- if settings.social_instagram_link != blank -%}
+          <li class="vd-header__social">
+            <a href="{{ settings.social_instagram_link }}" aria-label="Instagram" target="_blank" rel="noopener">
+              <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.447" y="0.447" width="16.105" height="16.105" rx="4.026" stroke="currentColor" stroke-width="0.895"/>
+                <rect x="4.921" y="4.921" width="7.158" height="7.158" rx="3.579" stroke="currentColor" stroke-width="0.895"/>
+                <rect x="12.079" y="4.026" width="0.895" height="0.895" rx="0.447" stroke="currentColor" stroke-width="0.895"/>
+              </svg>
+            </a>
+          </li>
+        {%- endif -%}
+        {%- if settings.social_youtube_link != blank -%}
+          <li class="vd-header__social">
+            <a href="{{ settings.social_youtube_link }}" aria-label="YouTube" target="_blank" rel="noopener">
+              <svg width="19" height="13" viewBox="0 0 19 13" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.447" y="0.447" width="18.105" height="12.105" rx="2.553" stroke="currentColor" stroke-width="0.895"/>
+                <path d="M8 4.324C8 4.175 8.156 4.078 8.289 4.145l4.353 2.177c0.148 0.074 0.148 0.284 0 0.358L8.289 8.856C8.156 8.922 8 8.825 8 8.676V4.324Z" fill="currentColor"/>
+              </svg>
+            </a>
+          </li>
+        {%- endif -%}
+        <li class="vd-header__account-link">
+          <a href="{{ routes.account_url }}" class="vd-icon-btn" aria-label="Compte">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-width="1" stroke="currentColor" d="M15.418 15A8.003 8.003 0 0 0 .581 15"/>
+              <circle stroke-width="1" cx="8" cy="4.5" r="3" stroke="currentColor"/>
+            </svg>
+          </a>
+        </li>
+        <li class="vd-header__search-link">
+          <button type="button" class="vd-icon-btn" data-vd-drawer-open="vd-search-drawer" aria-label="Rechercher" aria-controls="vd-search-drawer">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-width="1" stroke="currentColor" d="M1.333 7.333a6 6 0 1 0 12 0 6 6 0 0 0-12 0ZM11.575 11.576l3.09 3.09"/>
+            </svg>
+          </button>
+        </li>
+        <li class="vd-header__cart-link">
+          <button type="button" class="vd-icon-btn" data-vd-drawer-open="vd-cart-drawer" aria-label="Panier">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-width="1" stroke="currentColor" d="m1.5 14.5 1-12h11l1 12h-13Z"/>
+              <path stroke-width="1" stroke="currentColor" d="M5.5 5c.238.833 1.071 2.5 2.5 2.5s2.262-1.667 2.5-2.5"/>
+            </svg>
+            <span class="vd-cart-count" {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "aside",
+  "class": "shopify-section--header",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo (optionnel)" },
+    { "type": "link_list", "id": "menu", "default": "main-menu", "label": "Menu principal (gauche)" },
+    { "type": "header", "content": "Lien secondaire (droite, style 'Café YC')" },
+    { "type": "text", "id": "secondary_link_label", "label": "Libellé", "default": "Le Wiki" },
+    { "type": "url", "id": "secondary_link_url", "label": "URL" }
+  ],
+  "presets": [
+    { "name": "Header", "category": "Header" }
+  ]
+}
+{% endschema %}

@@ -1,64 +1,6 @@
 {{ 'section-blog-post.css' | asset_url | stylesheet_tag }}
-{{ 'vd-wiki-article.css' | asset_url | stylesheet_tag }}
-<script src="{{ 'vd-wiki-article.js' | asset_url }}" defer="defer"></script>
 
-{%- liquid
-  assign article_word_count = article.content | strip_html | split: ' ' | size
-  assign article_read_time = article_word_count | divided_by: 180
-  if article_read_time < 1
-    assign article_read_time = 1
-  endif
-
-  assign wiki_chapter = article.metafields.custom.wiki_chapter_label.value
-  assign wiki_subtheme = article.metafields.custom.wiki_subtheme_label.value
-  assign wiki_summary = article.metafields.custom.wiki_summary.value
-  if wiki_summary == blank
-    assign wiki_summary = article.excerpt | strip_html
-  endif
-  if wiki_summary == blank
-    assign wiki_summary = article.content | strip_html | truncatewords: 36
-  endif
-
-  assign wiki_key_points = article.metafields.custom.wiki_key_points.value
-  assign wiki_reading_level = article.metafields.custom.wiki_reading_level.value
-  assign wiki_usage_tags = article.metafields.custom.wiki_usage_tags.value
-  assign wiki_linked_products = article.metafields.custom.wiki_linked_products.value
-  assign wiki_linked_recipes = article.metafields.custom.wiki_linked_recipes.value
-  assign wiki_next_article = article.metafields.custom.wiki_next_article.value
-  assign wiki_primary_cta_label = article.metafields.custom.wiki_primary_cta_label.value
-  assign wiki_primary_cta_url = article.metafields.custom.wiki_primary_cta_url.value
-  assign wiki_secondary_cta_label = article.metafields.custom.wiki_secondary_cta_label.value
-  assign wiki_secondary_cta_url = article.metafields.custom.wiki_secondary_cta_url.value
-
-  if wiki_linked_products != blank and wiki_primary_cta_url == blank
-    assign primary_product = wiki_linked_products.first
-    assign wiki_primary_cta_url = primary_product.url
-  endif
-
-  if wiki_linked_recipes != blank and wiki_secondary_cta_url == blank
-    assign primary_recipe = wiki_linked_recipes.first
-    assign wiki_secondary_cta_url = primary_recipe.url
-  endif
-
-  if wiki_primary_cta_url != blank and wiki_primary_cta_label == blank
-    assign wiki_primary_cta_label = section.settings.primary_cta_fallback
-  endif
-
-  if wiki_secondary_cta_url != blank and wiki_secondary_cta_label == blank
-    assign wiki_secondary_cta_label = section.settings.secondary_cta_fallback
-  endif
--%}
-
-<article class="article-template vd-article-shell" data-vd-wiki-article>
-  <div class="page-width page-width--narrow vd-article-shell__intro{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    <a href="{{ blog.url }}" class="vd-arrow-cta vd-article-shell__backlink" data-vd-preview-link>
-      <span class="vd-arrow-cta__label">Retour au {{ blog.title }}</span>
-      <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-        <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-      </svg>
-    </a>
-  </div>
-
+<article class="article-template">
   {%- for block in section.blocks -%}
     {%- case block.type -%}
       {%- when '@app' -%}
@@ -101,112 +43,29 @@
 
       {%- when 'title' -%}
         <header
-          class="page-width page-width--narrow vd-article-shell__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+          class="page-width page-width--narrow{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
           {{ block.shopify_attributes }}
         >
-          <span class="vd-section-kicker">{{ wiki_chapter | default: blog.title }}</span>
           <h1
             class="article-template__title"
           >
             {{ article.title | escape }}
           </h1>
-          <div class="vd-article-shell__meta">
-            {%- if block.settings.blog_show_date -%}
-              <span class="circle-divider caption-with-letter-spacing">
-                {{- article.published_at | time_tag: format: 'date' -}}
-              </span>
-            {%- endif -%}
-            {%- if block.settings.blog_show_author -%}
-              <span class="caption-with-letter-spacing">
-                <span>{{ article.author }}</span>
-              </span>
-            {%- endif -%}
-            <span class="caption-with-letter-spacing">{{ article_read_time }} min de lecture</span>
-          </div>
-          <div class="vd-article-shell__lede">
-            {% if wiki_summary != blank %}
-              <p>{{ wiki_summary }}</p>
-            {% endif %}
-          </div>
-
-          <div class="vd-wiki-article__summary-grid">
-            <div class="vd-wiki-article__card">
-              <span class="vd-wiki-article__eyebrow">{{ section.settings.summary_label }}</span>
-
-              {% if wiki_chapter != blank or wiki_subtheme != blank or wiki_reading_level != blank %}
-                <div class="vd-wiki-article__taxonomy">
-                  {% if wiki_chapter != blank %}
-                    <span class="vd-wiki-article__chip vd-wiki-article__chip--accent">{{ wiki_chapter }}</span>
-                  {% endif %}
-                  {% if wiki_subtheme != blank %}
-                    <span class="vd-wiki-article__chip">{{ wiki_subtheme }}</span>
-                  {% endif %}
-                  {% if wiki_reading_level != blank %}
-                    <span class="vd-wiki-article__chip">{{ wiki_reading_level }}</span>
-                  {% endif %}
-                </div>
-              {% endif %}
-
-              {% if wiki_summary != blank %}
-                <div class="vd-wiki-article__summary rte">
-                  <p>{{ wiki_summary }}</p>
-                </div>
-              {% endif %}
-
-              {% if wiki_usage_tags != blank %}
-                <div class="vd-wiki-article__tags">
-                  {% for usage_tag in wiki_usage_tags %}
-                    <span class="vd-wiki-article__chip">{{ usage_tag }}</span>
-                  {% endfor %}
-                </div>
-              {% endif %}
-
-              {% if wiki_primary_cta_url != blank or wiki_secondary_cta_url != blank %}
-                <div class="vd-wiki-article__actions">
-                  {% if wiki_primary_cta_url != blank %}
-                    <a href="{{ wiki_primary_cta_url }}" class="vd-arrow-cta" data-vd-preview-link>
-                      <span class="vd-arrow-cta__label">{{ wiki_primary_cta_label }}</span>
-                      <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                        <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                      </svg>
-                    </a>
-                  {% endif %}
-                  {% if wiki_secondary_cta_url != blank %}
-                    <a href="{{ wiki_secondary_cta_url }}" class="vd-arrow-cta" data-vd-preview-link>
-                      <span class="vd-arrow-cta__label">{{ wiki_secondary_cta_label }}</span>
-                      <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                        <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                      </svg>
-                    </a>
-                  {% endif %}
-                </div>
-              {% endif %}
-            </div>
-
-            <aside class="vd-wiki-article__panels">
-              {% if wiki_key_points != blank %}
-                <section class="vd-wiki-article__panel">
-                  <span class="vd-wiki-article__eyebrow">{{ section.settings.key_points_label }}</span>
-                  <ul class="vd-wiki-article__points">
-                    {% for key_point in wiki_key_points %}
-                      <li>{{ key_point }}</li>
-                    {% endfor %}
-                  </ul>
-                </section>
-              {% endif %}
-
-              <nav class="vd-wiki-article__panel" data-vd-wiki-toc-wrapper hidden>
-                <span class="vd-wiki-article__eyebrow">{{ section.settings.toc_label }}</span>
-                <ol class="vd-wiki-article__toc-list" data-vd-wiki-toc></ol>
-              </nav>
-            </aside>
-          </div>
+          {%- if block.settings.blog_show_date -%}
+            <span class="circle-divider caption-with-letter-spacing">
+              {{- article.published_at | time_tag: format: 'date' -}}
+            </span>
+          {%- endif -%}
+          {%- if block.settings.blog_show_author -%}
+            <span class="caption-with-letter-spacing">
+              <span>{{ article.author }}</span>
+            </span>
+          {%- endif -%}
         </header>
 
       {%- when 'content' -%}
         <div
           class="article-template__content page-width page-width--narrow rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-          data-vd-wiki-content
           {{ block.shopify_attributes }}
         >
           {{ article.content }}
@@ -223,109 +82,8 @@
     {%- endcase -%}
   {%- endfor -%}
 
-  {% if wiki_linked_products != blank or wiki_linked_recipes != blank or wiki_next_article != blank %}
-    <section class="page-width page-width--narrow vd-wiki-article__related{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-      <div class="vd-wiki-article__related-grid">
-        {% if wiki_linked_products != blank %}
-          <section class="vd-wiki-article__panel">
-            <span class="vd-wiki-article__eyebrow">{{ section.settings.products_label }}</span>
-            <div class="vd-wiki-article__resource-grid">
-              {% for product in wiki_linked_products limit: 3 %}
-                <a href="{{ product.url }}" class="vd-wiki-article__resource" data-vd-preview-link>
-                  {% if product.featured_media != blank %}
-                    <div class="vd-wiki-article__resource-media">
-                      {{
-                        product.featured_media
-                        | image_url: width: 720
-                        | image_tag:
-                          loading: 'lazy',
-                          widths: '360, 540, 720',
-                          sizes: '(min-width: 990px) 20vw, 90vw',
-                          alt: product.title | escape
-                      }}
-                    </div>
-                  {% endif %}
-                  <div class="vd-wiki-article__resource-copy">
-                    <div class="vd-wiki-article__resource-meta">
-                      <span class="vd-wiki-article__chip vd-wiki-article__chip--accent">Produit</span>
-                    </div>
-                    <h2 class="vd-wiki-article__resource-title">{{ product.title }}</h2>
-                  </div>
-                </a>
-              {% endfor %}
-            </div>
-          </section>
-        {% endif %}
-
-        {% if wiki_linked_recipes != blank %}
-          <section class="vd-wiki-article__panel">
-            <span class="vd-wiki-article__eyebrow">{{ section.settings.recipes_label }}</span>
-            <div class="vd-wiki-article__resource-grid">
-              {% for linked_recipe in wiki_linked_recipes limit: 3 %}
-                <a href="{{ linked_recipe.url }}" class="vd-wiki-article__resource" data-vd-preview-link>
-                  {% if linked_recipe.image != blank %}
-                    <div class="vd-wiki-article__resource-media">
-                      {{
-                        linked_recipe.image
-                        | image_url: width: 720
-                        | image_tag:
-                          loading: 'lazy',
-                          widths: '360, 540, 720',
-                          sizes: '(min-width: 990px) 20vw, 90vw',
-                          alt: linked_recipe.title | escape
-                      }}
-                    </div>
-                  {% endif %}
-                  <div class="vd-wiki-article__resource-copy">
-                    <div class="vd-wiki-article__resource-meta">
-                      <span class="vd-wiki-article__chip">Recette</span>
-                    </div>
-                    <h2 class="vd-wiki-article__resource-title">{{ linked_recipe.title }}</h2>
-                    {% if linked_recipe.excerpt != blank %}
-                      <p>{{ linked_recipe.excerpt | strip_html | truncatewords: 24 }}</p>
-                    {% endif %}
-                  </div>
-                </a>
-              {% endfor %}
-            </div>
-          </section>
-        {% endif %}
-
-        {% if wiki_next_article != blank %}
-          <section class="vd-wiki-article__panel">
-            <span class="vd-wiki-article__eyebrow">{{ section.settings.next_reading_label }}</span>
-            <a href="{{ wiki_next_article.url }}" class="vd-wiki-article__next-card" data-vd-preview-link>
-              {% if wiki_next_article.image != blank %}
-                <div class="vd-wiki-article__next-media">
-                  {{
-                    wiki_next_article.image
-                    | image_url: width: 900
-                    | image_tag:
-                      loading: 'lazy',
-                      widths: '540, 720, 900',
-                      sizes: '(min-width: 990px) 18vw, 90vw',
-                      alt: wiki_next_article.title | escape
-                  }}
-                </div>
-              {% endif %}
-              <div class="vd-wiki-article__next-copy">
-                <div class="vd-wiki-article__resource-meta">
-                  <span class="vd-wiki-article__chip">{{ section.settings.next_reading_label }}</span>
-                </div>
-                <h2 class="vd-wiki-article__next-title">{{ wiki_next_article.title }}</h2>
-                {% if wiki_next_article.excerpt != blank %}
-                  <p>{{ wiki_next_article.excerpt | strip_html | truncatewords: 28 }}</p>
-                {% endif %}
-              </div>
-            </a>
-          </section>
-        {% endif %}
-      </div>
-    </section>
-  {% endif %}
-
   <div class="article-template__back element-margin-top center{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-    <a href="{{ blog.url }}" class="article-template__link link animate-arrow" data-vd-preview-link>
+    <a href="{{ blog.url }}" class="article-template__link link animate-arrow">
       <span class="icon-wrap">
         <span class="svg-wrapper">
           {{- 'icon-arrow.svg' | inline_asset_content -}}
@@ -341,7 +99,7 @@
         class="page-width page-width--narrow{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
       >
         {%- if article.comments_count > 0 -%}
-          {%- assign anchor_id = '#Comments-' | append: article.id -%}
+          {%- assign anchorId = '#Comments-' | append: article.id -%}
 
           <h2 id="Comments-{{ article.id }}" tabindex="-1">
             {{ 'blogs.article.comments' | t: count: article.comments_count }}
@@ -368,7 +126,7 @@
                   </footer>
                 </article>
               {%- endfor -%}
-              {% render 'pagination', paginate: paginate, anchor: anchor_id %}
+              {% render 'pagination', paginate: paginate, anchor: anchorId %}
             </div>
           {% endpaginate %}
         {%- endif -%}
@@ -539,56 +297,6 @@
   "name": "t:sections.main-article.name",
   "tag": "section",
   "class": "section",
-  "settings": [
-    {
-      "type": "text",
-      "id": "summary_label",
-      "label": "Libelle resume",
-      "default": "Resume"
-    },
-    {
-      "type": "text",
-      "id": "key_points_label",
-      "label": "Libelle points cles",
-      "default": "Points cles"
-    },
-    {
-      "type": "text",
-      "id": "toc_label",
-      "label": "Libelle sommaire",
-      "default": "Sommaire"
-    },
-    {
-      "type": "text",
-      "id": "products_label",
-      "label": "Libelle produits lies",
-      "default": "Produits lies"
-    },
-    {
-      "type": "text",
-      "id": "recipes_label",
-      "label": "Libelle recettes liees",
-      "default": "Recettes liees"
-    },
-    {
-      "type": "text",
-      "id": "next_reading_label",
-      "label": "Libelle lecture suivante",
-      "default": "Lecture suivante"
-    },
-    {
-      "type": "text",
-      "id": "primary_cta_fallback",
-      "label": "CTA principal par defaut",
-      "default": "Voir le produit"
-    },
-    {
-      "type": "text",
-      "id": "secondary_cta_fallback",
-      "label": "CTA secondaire par defaut",
-      "default": "Voir la recette"
-    }
-  ],
   "blocks": [
     {
       "type": "@app"

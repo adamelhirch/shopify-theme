@@ -1,0 +1,513 @@
+{%- comment -%}
+  Page produit — port du layout yanncouvreur.com :
+  - 50/50 desktop : gallery scroll-snap (gauche) + info sticky (droite)
+  - Bloc info ordonné : eyebrow / title / price / séparateur / description /
+    variantes / quantité + add-to-cart / accordéons
+  - Mobile : empilé, gallery puis info
+{%- endcomment -%}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+-%}
+
+<section class="vd-pdp" data-vd-pdp>
+  <div class="vd-pdp__inner">
+    {%- comment -%} ============== GALLERY ============== {%- endcomment -%}
+    <div class="vd-pdp__gallery" data-vd-gallery>
+      <div class="vd-pdp__gallery-carousel" data-vd-gallery-carousel>
+        {%- if product.media.size > 0 -%}
+          {%- for media in product.media -%}
+            <div
+              class="vd-pdp__media{% if forloop.first %} is-active{% endif %}"
+              data-media-index="{{ forloop.index0 }}"
+              role="group"
+              aria-label="Élément {{ forloop.index }} sur {{ product.media.size }}"
+            >
+              {%- if media.media_type == 'video' -%}
+                <video
+                  class="vd-pdp__media-el"
+                  playsinline
+                  muted
+                  loop
+                  preload="metadata"
+                  poster="{{ media.preview_image | image_url: width: 1200 }}"
+                >
+                  {%- for source in media.sources -%}
+                    <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                  {%- endfor -%}
+                </video>
+              {%- else -%}
+                {%- liquid
+                  assign m_alt = media.alt | default: product.title | escape
+                  if forloop.first
+                    assign m_loading = 'eager'
+                    assign m_priority = 'high'
+                  else
+                    assign m_loading = 'lazy'
+                    assign m_priority = 'auto'
+                  endif
+                -%}
+                {{ media.preview_image | image_url: width: 1600 | image_tag: widths: '400,600,800,1000,1200,1600', sizes: '(min-width: 1000px) 50vw, 100vw', loading: m_loading, fetchpriority: m_priority, alt: m_alt, class: 'vd-pdp__media-el' }}
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          <div class="vd-pdp__media is-active" data-media-index="0">
+            <img
+              class="vd-pdp__media-el"
+              src="https://images.unsplash.com/photo-1610450949065-1f2841536c88?w=1600&auto=format&fit=crop"
+              alt="placeholder"
+              width="1600"
+              height="2000"
+              loading="eager"
+            >
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if product.media.size > 1 -%}
+        <div class="vd-pdp__thumbs" data-vd-gallery-thumbs>
+          {%- for media in product.media limit: 8 -%}
+            <button
+              type="button"
+              class="vd-pdp__thumb{% if forloop.first %} is-active{% endif %}"
+              data-thumb-index="{{ forloop.index0 }}"
+              aria-label="Image {{ forloop.index }}"
+              aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+            >
+              <img
+                src="{{ media.preview_image | image_url: width: 200 }}"
+                alt=""
+                loading="lazy"
+                width="200"
+                height="250"
+              >
+              {%- if media.media_type == 'video' -%}
+                <span class="vd-pdp__thumb-badge" aria-hidden="true">
+                  <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                    <path d="M3 1.5L9.5 6L3 10.5V1.5Z" fill="currentColor"/>
+                  </svg>
+                </span>
+              {%- endif -%}
+            </button>
+          {%- endfor -%}
+        </div>
+        <div class="vd-pdp__dots" data-vd-gallery-dots aria-hidden="true">
+          {%- for media in product.media -%}
+            <span class="vd-pdp__dot{% if forloop.first %} is-active{% endif %}" data-dot-index="{{ forloop.index0 }}"></span>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ============== INFO ============== {%- endcomment -%}
+    <div class="vd-pdp__info">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'eyebrow' -%}
+            {%- if block.settings.text != blank -%}
+              <div class="vd-pdp__eyebrow" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+            {%- endif -%}
+          {%- when 'vd_tagline' -%}
+            {%- assign vd_tagline = product.metafields.descriptions.tagline.value -%}
+            {%- if vd_tagline != blank -%}
+              <div class="vd-pdp__tagline" {{ block.shopify_attributes }}>{{ vd_tagline }}</div>
+            {%- endif -%}
+          {%- when 'title' -%}
+            <h1 class="vd-pdp__title" {{ block.shopify_attributes }}>{{ product.title }}</h1>
+          {%- when 'price' -%}
+            <div class="vd-pdp__price" {{ block.shopify_attributes }}>
+              {%- if product.compare_at_price > current_variant.price -%}
+                <s class="vd-pdp__price-compare">{{ product.compare_at_price | money }}</s>
+                <span class="vd-pdp__price-current vd-pdp__price-sale">{{ current_variant.price | money }}</span>
+              {%- elsif product.price_varies -%}
+                <span class="vd-pdp__price-current">{{ 'products.product.price.from_price_html' | t: price: product.price_min | money }}</span>
+              {%- else -%}
+                <span class="vd-pdp__price-current">{{ current_variant.price | money }}</span>
+              {%- endif -%}
+            </div>
+          {%- when 'separator' -%}
+            <hr class="vd-pdp__sep" {{ block.shopify_attributes }}>
+          {%- when 'description' -%}
+            {%- liquid
+              assign vd_long_desc = product.metafields.descriptions.long_description
+              assign vd_has_long = false
+              if vd_long_desc and vd_long_desc.value != blank
+                assign vd_has_long = true
+              endif
+            -%}
+            {%- if vd_has_long -%}
+              <div class="vd-pdp__desc" {{ block.shopify_attributes }}>{{ vd_long_desc | metafield_tag }}</div>
+            {%- elsif product.description != blank -%}
+              <div class="vd-pdp__desc" {{ block.shopify_attributes }}>{{ product.description }}</div>
+            {%- endif -%}
+          {%- when 'variant_picker' -%}
+            {%- unless product.has_only_default_variant -%}
+              <div class="vd-pdp__variants" {{ block.shopify_attributes }} data-vd-variant-picker>
+                {%- for option in product.options_with_values -%}
+                  <div class="vd-pdp__variant-group">
+                    <div class="vd-pdp__variant-label">
+                      <span>{{ option.name }}</span>
+                      <span class="vd-pdp__variant-value" data-vd-variant-value="{{ forloop.index0 }}">{{ current_variant.options[forloop.index0] }}</span>
+                    </div>
+                    <div class="vd-pdp__variant-options">
+                      {%- for value in option.values -%}
+                        <label class="vd-pdp__variant-pill{% if value == current_variant.options[forloop.index0] %} is-active{% endif %}">
+                          <input
+                            type="radio"
+                            name="vd-option-{{ forloop.parentloop.index0 }}"
+                            value="{{ value | escape }}"
+                            data-vd-option-index="{{ forloop.parentloop.index0 }}"
+                            {% if value == current_variant.options[forloop.parentloop.index0] %}checked{% endif %}
+                          >
+                          <span>{{ value }}</span>
+                        </label>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endunless -%}
+          {%- when 'buy_buttons' -%}
+            <form
+              class="vd-pdp__buy"
+              action="{{ routes.cart_add_url }}"
+              method="post"
+              enctype="multipart/form-data"
+              data-vd-pdp-form
+              {{ block.shopify_attributes }}
+            >
+              <select name="id" class="vd-sr-only" data-vd-variant-select aria-label="Variante">
+                {%- for variant in product.variants -%}
+                  <option
+                    value="{{ variant.id }}"
+                    {% if variant == current_variant %}selected{% endif %}
+                    data-options="{{ variant.options | join: '||' | escape }}"
+                    {% unless variant.available %}disabled{% endunless %}
+                  >
+                    {{ variant.title }}
+                  </option>
+                {%- endfor -%}
+              </select>
+
+              <div class="vd-pdp__buy-row">
+                <div class="vd-pdp__qty" data-vd-qty>
+                  <button type="button" class="vd-pdp__qty-btn" data-vd-qty-minus aria-label="Diminuer la quantité">
+                    <svg width="10" height="2" viewBox="0 0 8 2" fill="none" aria-hidden="true">
+                      <path d="M0 1H8" stroke="currentColor" stroke-width="1.5"/>
+                    </svg>
+                  </button>
+                  <input
+                    type="number"
+                    class="vd-pdp__qty-input"
+                    name="quantity"
+                    value="1"
+                    min="1"
+                    inputmode="numeric"
+                    aria-label="Quantité"
+                  >
+                  <button type="button" class="vd-pdp__qty-btn" data-vd-qty-plus aria-label="Augmenter la quantité">
+                    <svg width="10" height="10" viewBox="0 0 8 8" fill="none" aria-hidden="true">
+                      <path d="M0 4H8" stroke="currentColor" stroke-width="1.5"/>
+                      <path d="M4 0V8" stroke="currentColor" stroke-width="1.5"/>
+                    </svg>
+                  </button>
+                </div>
+                <button
+                  type="submit"
+                  class="vd-pdp__add"
+                  data-vd-add
+                  {% unless current_variant.available %}disabled{% endunless %}
+                >
+                  <span class="vd-pdp__add-label">
+                    {%- if current_variant.available -%}Ajouter au panier{%- else -%}Indisponible{%- endif -%}
+                  </span>
+                </button>
+              </div>
+            </form>
+          {%- when 'accordion_ingredients' -%}
+            {%- assign vd_mf = product.metafields.product.ingredients -%}
+            {%- if vd_mf and vd_mf.value != blank -%}
+              <details class="vd-pdp__accordion" {{ block.shopify_attributes }}{% if block.settings.open_by_default %} open{% endif %}>
+                <summary class="vd-pdp__accordion-summary">
+                  <span>{{ block.settings.title | default: 'Ingrédients' }}</span>
+                  <svg class="vd-pdp__accordion-chevron" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true">
+                    <path stroke="currentColor" stroke-width="1.5" d="M10 1 5.5 5.5 1 1"/>
+                  </svg>
+                </summary>
+                <div class="vd-pdp__accordion-content"><p>{{ vd_mf.value }}</p></div>
+              </details>
+            {%- endif -%}
+          {%- when 'accordion_notes' -%}
+            {%- assign vd_mf = product.metafields.descriptions.notes_aromatiques -%}
+            {%- if vd_mf and vd_mf.value != blank -%}
+              <details class="vd-pdp__accordion" {{ block.shopify_attributes }}{% if block.settings.open_by_default %} open{% endif %}>
+                <summary class="vd-pdp__accordion-summary">
+                  <span>{{ block.settings.title | default: 'Notes aromatiques' }}</span>
+                  <svg class="vd-pdp__accordion-chevron" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true">
+                    <path stroke="currentColor" stroke-width="1.5" d="M10 1 5.5 5.5 1 1"/>
+                  </svg>
+                </summary>
+                <div class="vd-pdp__accordion-content">{{ vd_mf | metafield_tag }}</div>
+              </details>
+            {%- endif -%}
+          {%- when 'accordion_usages' -%}
+            {%- assign vd_mf = product.metafields.descriptions.usages -%}
+            {%- if vd_mf and vd_mf.value != blank -%}
+              <details class="vd-pdp__accordion" {{ block.shopify_attributes }}{% if block.settings.open_by_default %} open{% endif %}>
+                <summary class="vd-pdp__accordion-summary">
+                  <span>{{ block.settings.title | default: "Conseils d'utilisation" }}</span>
+                  <svg class="vd-pdp__accordion-chevron" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true">
+                    <path stroke="currentColor" stroke-width="1.5" d="M10 1 5.5 5.5 1 1"/>
+                  </svg>
+                </summary>
+                <div class="vd-pdp__accordion-content">{{ vd_mf | metafield_tag }}</div>
+              </details>
+            {%- endif -%}
+          {%- when 'accordion_conditionnement' -%}
+            {%- assign vd_mf = product.metafields.product.conditionnement -%}
+            {%- if vd_mf and vd_mf.value != blank -%}
+              <details class="vd-pdp__accordion" {{ block.shopify_attributes }}{% if block.settings.open_by_default %} open{% endif %}>
+                <summary class="vd-pdp__accordion-summary">
+                  <span>{{ block.settings.title | default: 'Conditionnement' }}</span>
+                  <svg class="vd-pdp__accordion-chevron" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true">
+                    <path stroke="currentColor" stroke-width="1.5" d="M10 1 5.5 5.5 1 1"/>
+                  </svg>
+                </summary>
+                <div class="vd-pdp__accordion-content"><p>{{ vd_mf.value }}</p></div>
+              </details>
+            {%- endif -%}
+          {%- when 'accordion_allergenes' -%}
+            {%- assign vd_mf = product.metafields.product.allergenes -%}
+            {%- if vd_mf and vd_mf.value != blank -%}
+              <details class="vd-pdp__accordion" {{ block.shopify_attributes }}{% if block.settings.open_by_default %} open{% endif %}>
+                <summary class="vd-pdp__accordion-summary">
+                  <span>{{ block.settings.title | default: 'Allergènes' }}</span>
+                  <svg class="vd-pdp__accordion-chevron" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true">
+                    <path stroke="currentColor" stroke-width="1.5" d="M10 1 5.5 5.5 1 1"/>
+                  </svg>
+                </summary>
+                <div class="vd-pdp__accordion-content"><p>{{ vd_mf.value }}</p></div>
+              </details>
+            {%- endif -%}
+          {%- when 'accordion_provenance' -%}
+            {%- liquid
+              assign vd_origine = product.metafields.product.origine_precise.value | default: block.settings.fallback_origin
+              assign vd_text = block.settings.content
+            -%}
+            <details class="vd-pdp__accordion" {{ block.shopify_attributes }}{% if block.settings.open_by_default %} open{% endif %}>
+              <summary class="vd-pdp__accordion-summary">
+                <span>{{ block.settings.title | default: 'Provenance' }}</span>
+                <svg class="vd-pdp__accordion-chevron" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true">
+                  <path stroke="currentColor" stroke-width="1.5" d="M10 1 5.5 5.5 1 1"/>
+                </svg>
+              </summary>
+              <div class="vd-pdp__accordion-content">
+                {%- if vd_origine != blank -%}<p><strong>Origine :</strong> {{ vd_origine }}</p>{%- endif -%}
+                {%- if vd_text != blank -%}{{ vd_text }}{%- endif -%}
+              </div>
+            </details>
+          {%- when 'accordion' -%}
+            <details class="vd-pdp__accordion" {{ block.shopify_attributes }}{% if block.settings.open_by_default %} open{% endif %}>
+              <summary class="vd-pdp__accordion-summary">
+                <span>{{ block.settings.title }}</span>
+                <svg class="vd-pdp__accordion-chevron" width="11" height="7" viewBox="0 0 11 7" fill="none" aria-hidden="true">
+                  <path stroke="currentColor" stroke-width="1.5" d="M10 1 5.5 5.5 1 1"/>
+                </svg>
+              </summary>
+              <div class="vd-pdp__accordion-content">{{ block.settings.content }}</div>
+            </details>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- if section.settings.show_related -%}
+  {%- liquid
+    # Toujours piocher dans la collection famille canonique du produit,
+    # pas dans `recommendations` (qui peut suggérer des items cross-famille).
+    # On préfère le super-set famille (poivre-baies, vanille-bourbon, etc.)
+    # plutôt qu'une sous-collection par variété (poivre-sauvage, cannelle…).
+    assign families = 'vanille-bourbon|poivre-baies|epices-madagascar|sels|huiles-madagascar' | split: '|'
+    assign related_collection = nil
+    for c in product.collections
+      if families contains c.handle
+        assign related_collection = c
+        break
+      endif
+    endfor
+    if related_collection == nil
+      assign related_collection = product.collections.first
+    endif
+
+    assign related_products = nil
+    assign related_count = 0
+    if related_collection and related_collection.products.size > 0
+      assign related_products = related_collection.products
+      assign related_count = related_collection.products.size
+    endif
+  -%}
+  {%- if related_count > 1 -%}
+    <section class="vd-pdp-related" aria-label="Produits dans la même collection">
+      {%- if section.settings.related_heading != blank -%}
+        <header class="vd-pdp-related__head">
+          <h2 class="vd-pdp-related__title">{{ section.settings.related_heading }}</h2>
+        </header>
+      {%- endif -%}
+      <div class="vd-pdp-related__viewport">
+        <div class="vd-pdp-related__carousel" data-vd-related-carousel role="region" aria-roledescription="carousel">
+          {%- assign skip_card_product_styles = false -%}
+          {%- assign rendered = 0 -%}
+          {%- for p in related_products limit: 12 -%}
+            {%- if p.id != product.id and rendered < 8 -%}
+              {%- render 'card-product', card_product: p, section_id: section.id, skip_styles: skip_card_product_styles -%}
+              {%- assign skip_card_product_styles = true -%}
+              {%- assign rendered = rendered | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <button
+          type="button"
+          class="vd-pdp-related__nav vd-pdp-related__nav--prev is-disabled"
+          data-vd-related-prev
+          aria-label="Produit précédent"
+        >
+          <svg width="14" height="14" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+            <path stroke="currentColor" stroke-width="1.6" d="M35 18H1M16.5 1.5 1 18l15.5 15.5"/>
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="vd-pdp-related__nav vd-pdp-related__nav--next"
+          data-vd-related-next
+          aria-label="Produit suivant"
+        >
+          <svg width="14" height="14" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+            <path stroke="currentColor" stroke-width="1.6" d="M1 18h34M19.5 1.5 35 18 19.5 33.5"/>
+          </svg>
+        </button>
+      </div>
+      <div class="vd-pdp-related__progress" aria-hidden="true">
+        <span class="vd-pdp-related__progress-fill" data-vd-related-fill></span>
+      </div>
+    </section>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Page produit",
+  "tag": "section",
+  "settings": [
+    { "type": "checkbox", "id": "show_related", "label": "Afficher produits recommandés", "default": true },
+    { "type": "text", "id": "related_heading", "label": "Titre produits recommandés", "default": "Vous aimerez aussi" }
+  ],
+  "blocks": [
+    {
+      "type": "eyebrow",
+      "name": "Sur-titre",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Texte" }
+      ]
+    },
+    {
+      "type": "vd_tagline",
+      "name": "Tagline",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Affiche le metafield descriptions.tagline du produit. Caché si vide." }
+      ]
+    },
+    { "type": "title", "name": "Titre", "limit": 1 },
+    { "type": "price", "name": "Prix", "limit": 1 },
+    { "type": "separator", "name": "Séparateur", "limit": 4 },
+    { "type": "description", "name": "Description", "limit": 1 },
+    { "type": "variant_picker", "name": "Variantes", "limit": 1 },
+    { "type": "buy_buttons", "name": "Quantité + Achat", "limit": 1 },
+    {
+      "type": "accordion_ingredients",
+      "name": "Ingrédients",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "Ingrédients" },
+        { "type": "checkbox", "id": "open_by_default", "label": "Ouvert", "default": false }
+      ]
+    },
+    {
+      "type": "accordion_notes",
+      "name": "Notes aromatiques",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "Notes aromatiques" },
+        { "type": "checkbox", "id": "open_by_default", "label": "Ouvert", "default": false }
+      ]
+    },
+    {
+      "type": "accordion_usages",
+      "name": "Usages",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "Conseils d'utilisation" },
+        { "type": "checkbox", "id": "open_by_default", "label": "Ouvert", "default": false }
+      ]
+    },
+    {
+      "type": "accordion_conditionnement",
+      "name": "Conditionnement",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "Conditionnement" },
+        { "type": "checkbox", "id": "open_by_default", "label": "Ouvert", "default": false }
+      ]
+    },
+    {
+      "type": "accordion_allergenes",
+      "name": "Allergènes",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "Allergènes" },
+        { "type": "checkbox", "id": "open_by_default", "label": "Ouvert", "default": false }
+      ]
+    },
+    {
+      "type": "accordion_provenance",
+      "name": "Provenance",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "Provenance" },
+        { "type": "text", "id": "fallback_origin", "label": "Origine par défaut", "default": "Madagascar" },
+        { "type": "richtext", "id": "content", "label": "Texte additionnel", "default": "<p>Direct producteurs malgaches, sans intermédiaire.</p>" },
+        { "type": "checkbox", "id": "open_by_default", "label": "Ouvert", "default": false }
+      ]
+    },
+    {
+      "type": "accordion",
+      "name": "Accordéon libre",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre", "default": "Conservation" },
+        { "type": "richtext", "id": "content", "label": "Contenu", "default": "<p>Au sec, à l'abri de la chaleur et de la lumière.</p>" },
+        { "type": "checkbox", "id": "open_by_default", "label": "Ouvert", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page produit",
+      "category": "Produit",
+      "blocks": [
+        { "type": "title" },
+        { "type": "price" },
+        { "type": "separator" },
+        { "type": "description" },
+        { "type": "variant_picker" },
+        { "type": "buy_buttons" },
+        { "type": "accordion", "settings": { "title": "Conservation", "content": "<p>À conserver dans un endroit sec, à l'abri de la lumière, dans un récipient hermétique.</p>" } },
+        { "type": "accordion", "settings": { "title": "Conseils d'utilisation", "content": "<p>Fendre la gousse en deux et gratter les graines pour libérer toute l'aromatique.</p>" } },
+        { "type": "accordion", "settings": { "title": "Provenance", "content": "<p>Madagascar — directement auprès des familles de planteurs.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

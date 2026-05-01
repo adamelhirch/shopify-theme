@@ -1,0 +1,56 @@
+{%- comment -%}
+  /search est désactivée : seul accès à la recherche = drawer latéral.
+  Si l'utilisateur arrive sur cette page (lien externe, ancienne URL),
+  on redirige vers la home et on ouvre le drawer search à l'arrivée.
+  Le paramètre ?q est préservé via sessionStorage pour pré-remplir l'input.
+{%- endcomment -%}
+
+<noscript>
+  <meta http-equiv="refresh" content="0; url={{ routes.root_url }}">
+</noscript>
+
+<section class="vd-search-redirect" aria-live="polite">
+  <p>Redirection vers la recherche…</p>
+</section>
+
+<style>
+  .vd-search-redirect {
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Geometria', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--vd-text-soft);
+  }
+</style>
+
+<script>
+  (function () {
+    try {
+      sessionStorage.setItem('vd-open-search-on-load', '1');
+      // Si on a un ?q=..., on garde la valeur pour le drawer.
+      var url = new URL(window.location.href);
+      var q = url.searchParams.get('q');
+      if (q) sessionStorage.setItem('vd-search-prefill', q);
+    } catch (e) {}
+    // Redirige vers la home (ou la page précédente si possible).
+    var ref = document.referrer;
+    var sameOrigin = false;
+    try {
+      sameOrigin = ref && new URL(ref).hostname === window.location.hostname;
+    } catch (e) {}
+    var target = (sameOrigin && !ref.endsWith('/search') && !ref.includes('/search?')) ? ref : '{{ routes.root_url }}';
+    window.location.replace(target);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Recherche (redirect)",
+  "tag": "section",
+  "settings": []
+}
+{% endschema %}

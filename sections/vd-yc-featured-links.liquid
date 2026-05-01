@@ -1,0 +1,63 @@
+<section class="vd-fl vd-reveal">
+  {%- if section.settings.heading != blank -%}
+    <div class="vd-fl__head">{{ section.settings.heading }}</div>
+  {%- endif -%}
+  <div class="vd-fl__row">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign coll = collections[block.settings.collection]
+        assign img = block.settings.image
+        if img == blank and coll != blank
+          assign img = coll.image | default: coll.products.first.featured_image
+        endif
+        assign link = block.settings.link | default: coll.url | default: '#'
+      -%}
+      <a href="{{ link }}" class="vd-fl-card" {{ block.shopify_attributes }}>
+        <div class="vd-fl-card__media">
+          {%- if img != blank -%}
+            <img src="{{ img | image_url: width: 600 }}" alt="{{ block.settings.title | escape }}" loading="lazy" width="600" height="600">
+          {%- else -%}
+            <img src="https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=600&auto=format&fit=crop" alt="placeholder" loading="lazy" width="600" height="600">
+          {%- endif -%}
+        </div>
+        <div class="vd-fl-card__title">{{ block.settings.title }}</div>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Liens collections (mini)",
+  "tag": "section",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Les collections" }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Lien collection",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titre" },
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "image_picker", "id": "image", "label": "Image (sinon collection)" },
+        { "type": "url", "id": "link", "label": "Lien personnalisé (sinon collection)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Liens collections (mini)",
+      "category": "Accueil",
+      "blocks": [
+        { "type": "link", "settings": { "title": "Nouveautés" } },
+        { "type": "link", "settings": { "title": "Vanilles" } },
+        { "type": "link", "settings": { "title": "Épices" } },
+        { "type": "link", "settings": { "title": "Coffrets" } },
+        { "type": "link", "settings": { "title": "Espace Pro" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

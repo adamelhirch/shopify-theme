@@ -1,0 +1,88 @@
+{%- comment -%}
+  Mega-menu drawer (YC pattern):
+  - Slides from left
+  - Categories vertical list
+  - Featured collection card (changes on hover)
+  - Bottom secondary nav + socials
+  Configured by section.settings.menu (the dropdown menu)
+{%- endcomment -%}
+
+{%- liquid
+  assign main = linklists['main-menu']
+  assign cat_link = nil
+  for link in main.links
+    if link.handle == 'catalogue' or link.title == 'Catalogue' or link.handle == 'catalog'
+      assign cat_link = link
+      break
+    endif
+  endfor
+  assign cat_links = cat_link.links
+  if cat_links.size == 0
+    assign cat_links = main.links
+  endif
+-%}
+
+<aside id="vd-mega-drawer" class="vd-megadrawer" aria-hidden="true" aria-label="Catalogue">
+  <div class="vd-megadrawer__head">
+    <button type="button" class="vd-megadrawer__close" data-vd-drawer-close aria-label="Fermer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M5 5l14 14M19 5l-14 14"/></svg>
+    </button>
+    <ul class="vd-megadrawer__head-nav">
+      <li><span class="vd-megadrawer__head-link is-active">Catalogue</span></li>
+      {%- for link in main.links -%}
+        {%- if link.handle != 'catalogue' and link.handle != 'le-wiki' and link.title != 'Catalogue' and link.title != 'Le Wiki' -%}
+          <li><a href="{{ link.url }}" class="vd-megadrawer__head-link">{{ link.title }}</a></li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+
+  <div class="vd-megadrawer__body">
+    <ul class="vd-megadrawer__cats">
+      {%- for link in cat_links -%}
+        {%- liquid
+          assign handle_guess = link.url | split: '/collections/' | last
+          assign coll = collections[handle_guess]
+          if coll == blank
+            assign coll = collections[link.handle]
+          endif
+          assign feat_img = coll.image | default: coll.products.first.featured_image
+        -%}
+        <li>
+          <a href="{{ link.url }}" class="vd-megadrawer__cat" data-feat-title="{{ coll.title | default: link.title | escape }}" {% if feat_img %}data-feat-img="{{ feat_img | image_url: width: 800 }}"{% endif %}>
+            {{ link.title }}
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    <a href="#" class="vd-megadrawer__featured" data-vd-featured>
+      <img src="" alt="" data-feat-target loading="lazy" class="vd-megadrawer__featured-img">
+      <div class="vd-megadrawer__featured-overlay">
+        <span class="vd-megadrawer__featured-eyebrow">Collection</span>
+        <span class="vd-megadrawer__featured-title" data-feat-title-target>—</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="vd-megadrawer__foot">
+    <ul class="vd-megadrawer__sec-nav">
+      <li><a href="{{ pages.notre-histoire.url | default: '/pages/notre-histoire' }}">Notre histoire</a></li>
+      <li><a href="https://pro.vanilledesire.com" target="_blank" rel="noopener">Espace Pro</a></li>
+      <li><a href="{{ pages.wiki.url | default: '/pages/wiki' }}">Le Wiki</a></li>
+      <li><a href="{{ pages.contact.url | default: '/pages/contact' }}">Nous contacter</a></li>
+    </ul>
+    <div class="vd-megadrawer__socials">
+      {%- if settings.social_facebook_link != blank -%}
+        <a href="{{ settings.social_facebook_link }}" aria-label="Facebook" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M13 22v-8h2.7l.4-3H13V9c0-.9.3-1.5 1.5-1.5H16V5c-.5-.1-1.4-.2-2.4-.2-2.4 0-4 1.5-4 4.1V11H7v3h2.6v8H13z"/></svg>
+        </a>
+      {%- endif -%}
+      {%- if settings.social_instagram_link != blank -%}
+        <a href="{{ settings.social_instagram_link }}" aria-label="Instagram" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/></svg>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</aside>

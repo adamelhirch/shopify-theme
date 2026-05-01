@@ -1,0 +1,36 @@
+{
+  "sections": {
+    "article": {
+      "type": "vd-yc-wiki-article",
+      "settings": {
+        "hero_eyebrow": "",
+        "hero_subtitle": "",
+        "hero_meta": "",
+        "bc_category_label": "",
+        "bc_category_url": "",
+        "toc_enabled": true,
+        "toc_label": "Sommaire",
+        "related_products_eyebrow": "À déguster",
+        "related_products_heading": "Les produits qui vont avec",
+        "related_articles_eyebrow": "Pour aller plus loin",
+        "related_articles_heading": "Articles à lire ensuite"
+      },
+      "blocks": {},
+      "block_order": []
+    },
+    "newsletter": {
+      "type": "vd-yc-newsletter-inline",
+      "settings": {
+        "eyebrow": "Newsletter",
+        "heading": "Recevez -10% sur votre première commande",
+        "placeholder": "Votre adresse email",
+        "button_label": "Je m'inscris",
+        "legal": "En cliquant, vous acceptez de recevoir notre newsletter. Désinscription à tout moment."
+      }
+    }
+  },
+  "order": [
+    "article",
+    "newsletter"
+  ]
+}

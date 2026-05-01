@@ -1,0 +1,103 @@
+<section
+  class="vd-rev vd-reveal"
+  data-vd-carousel
+  data-vd-judgeme
+  data-judgeme-token="{{ section.settings.judgeme_token | escape }}"
+  data-judgeme-shop="{{ shop.permanent_domain }}"
+>
+  <div class="vd-rev__head">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="vd-rev__eyebrow">{{ section.settings.eyebrow }}</div>
+    {%- endif -%}
+    <h2 class="vd-rev__title">{{ section.settings.heading }}</h2>
+    {%- if section.settings.rating != blank -%}
+      <div class="vd-rev__rating">
+        <span class="vd-rev__stars" aria-label="{{ section.settings.rating }} étoiles sur 5">
+          {%- for i in (1..5) -%}<svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>{%- endfor -%}
+        </span>
+        <span class="vd-rev__rating-text">{{ section.settings.rating }} / 5 — {{ section.settings.review_count }} avis</span>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="vd-rev__nav">
+    <button type="button" data-vd-carousel-prev aria-label="Précédent">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 2L4 7l5 5"/></svg>
+    </button>
+    <button type="button" data-vd-carousel-next aria-label="Suivant">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2l5 5-5 5"/></svg>
+    </button>
+  </div>
+
+  <div class="vd-carousel vd-rev__list">
+    {%- for block in section.blocks -%}
+      <div class="vd-rev__card" {{ block.shopify_attributes }}>
+        <div class="vd-rev__card-stars" aria-label="{{ block.settings.rating }}/5">
+          {%- for i in (1..5) -%}
+            {%- if i <= block.settings.rating -%}
+              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>
+            {%- else -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <p class="vd-rev__card-text">"{{ block.settings.text }}"</p>
+        <div class="vd-rev__card-meta">
+          <span class="vd-rev__card-name">{{ block.settings.name }}</span>
+          {%- if block.settings.location != blank -%}
+            <span class="vd-rev__card-loc"> · {{ block.settings.location }}</span>
+          {%- endif -%}
+        </div>
+        {%- if block.settings.product != blank -%}
+          {%- assign p = all_products[block.settings.product] -%}
+          {%- if p != blank -%}
+            <a href="{{ p.url }}" class="vd-rev__card-product">À propos de {{ p.title }} →</a>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Avis clients",
+  "tag": "section",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Ils nous font confiance" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Ce que disent nos clients" },
+    { "type": "text", "id": "rating", "label": "Note moyenne (fallback)", "default": "4.98" },
+    { "type": "text", "id": "review_count", "label": "Nombre d'avis (fallback)", "default": "+ de 500" },
+
+    { "type": "header", "content": "Judge.me — note + compteur live" },
+    { "type": "paragraph", "content": "Avec le Public Token Judge.me, la note moyenne et le nombre d'avis sont récupérés automatiquement à chaque chargement de la home. Les témoignages affichés dans la carousel restent gérés par les blocs ci-dessous (tu choisis manuellement quels avis mettre en avant)." },
+    { "type": "text", "id": "judgeme_token", "label": "Judge.me Public Token", "info": "Judge.me Admin → Settings → General → Public token. Read-only, utilisé uniquement pour récupérer la note moyenne et le compteur." }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Avis",
+      "settings": [
+        { "type": "range", "id": "rating", "min": 1, "max": 5, "step": 1, "default": 5, "label": "Note" },
+        { "type": "textarea", "id": "text", "label": "Avis", "default": "Une vanille incomparable, le parfum est puissant et raffiné. Un produit d'exception." },
+        { "type": "text", "id": "name", "label": "Prénom", "default": "Marie" },
+        { "type": "text", "id": "location", "label": "Ville (optionnel)", "default": "Paris" },
+        { "type": "product", "id": "product", "label": "Produit lié (optionnel)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Avis clients",
+      "category": "Accueil",
+      "blocks": [
+        { "type": "review", "settings": { "rating": 5, "text": "Une vanille incomparable, le parfum est puissant et raffiné. Un produit d'exception qui transforme mes pâtisseries.", "name": "Marie", "location": "Paris" } },
+        { "type": "review", "settings": { "rating": 5, "text": "Livraison ultra rapide, packaging soigné. Les gousses sont d'une qualité rare, on sent vraiment le travail derrière.", "name": "Thomas", "location": "Lyon" } },
+        { "type": "review", "settings": { "rating": 5, "text": "Je recommande à 100%. Le caviar de vanille est un délice, je l'utilise dans mes crèmes brûlées et c'est divin.", "name": "Sophie", "location": "Bordeaux" } },
+        { "type": "review", "settings": { "rating": 5, "text": "Service client impeccable, produits authentiques. On sent le sérieux et la passion derrière la marque.", "name": "Antoine", "location": "Marseille" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

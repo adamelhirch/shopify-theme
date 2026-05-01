@@ -47,13 +47,6 @@
   assign sort_by = search.sort_by | default: search.default_sort_by
   assign terms = search.terms | escape
   assign search_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
-  assign search_catalogue_url = routes.all_products_collection_url
-  assign search_contact_page = pages['contact']
-  assign search_wiki_page = pages['wiki']
-  assign search_recipes_page = pages['recettes']
-  assign search_contact_url = search_contact_page.url | default: '/pages/contact'
-  assign search_wiki_url = search_wiki_page.url | default: '/pages/wiki'
-  assign search_recipes_url = search_recipes_page.url | default: '/pages/recettes'
 -%}
 
 {%- style -%}
@@ -70,71 +63,16 @@
   }
 {%- endstyle -%}
 
-<style>
-  .vd-search-shell__guidance,
-  .vd-search-shell__empty-guidance {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin-top: 1.8rem;
-  }
-
-  .vd-search-shell__guide {
-    padding: 1.4rem 1.6rem;
-    border: 1px solid rgba(var(--color-foreground), 0.08);
-    border-radius: 1.8rem;
-    background: rgba(var(--color-background), 0.7);
-    backdrop-filter: blur(14px);
-  }
-
-  .vd-search-shell__guide span {
-    display: block;
-    font-size: 1rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    opacity: 0.62;
-  }
-
-  .vd-search-shell__guide strong {
-    display: block;
-    margin-top: 0.8rem;
-    font-size: 1.4rem;
-    line-height: 1.25;
-  }
-
-  .vd-search-shell__guide p {
-    margin: 0.7rem 0 0;
-    font-size: 1.25rem;
-    line-height: 1.55;
-    opacity: 0.8;
-  }
-
-  @media screen and (max-width: 749px) {
-    .vd-search-shell__guidance,
-    .vd-search-shell__empty-guidance {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>
-
 {% paginate search.results by 24 %}
-  <div class="template-search vd-search-shell{% unless search.performed and search.results_count > 0 %} template-search--empty{% endunless %} section-{{ section.id }}-padding">
+  <div class="template-search{% unless search.performed and search.results_count > 0 %} template-search--empty{% endunless %} section-{{ section.id }}-padding">
     <div class="template-search__header page-width{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-      <div class="vd-search-shell__hero">
-        <div class="vd-search-shell__hero-copy">
-          <span class="vd-section-kicker">Recherche</span>
-          <h1 class="h2">
-            {%- if search.performed -%}
-              {{- 'templates.search.title' | t -}}
-            {%- else -%}
-              {{- 'general.search.search' | t -}}
-            {%- endif -%}
-          </h1>
-          <p>
-            Retrouvez rapidement un produit, une collection ou un article du wiki.
-          </p>
-        </div>
-      </div>
+      <h1 class="h2 center">
+        {%- if search.performed -%}
+          {{- 'templates.search.title' | t -}}
+        {%- else -%}
+          {{- 'general.search.search' | t -}}
+        {%- endif -%}
+      </h1>
       <div class="template-search__search">
         {%- if settings.predictive_search_enabled -%}
           <predictive-search data-loading-text="{{ 'accessibility.loading' | t }}">
@@ -204,43 +142,6 @@
         {%- endunless -%}
         {%- if search.results_count == 0 and search.filters == empty -%}
           <p role="status">{{ 'templates.search.no_results' | t: terms: search.terms }}</p>
-          <div class="vd-search-shell__empty-guidance">
-            <article class="vd-search-shell__guide">
-              <span>Repartir</span>
-              <strong>Entrer par le catalogue</strong>
-              <p>Retrouver toutes les matières, même si le terme saisi ne correspond pas au naming attendu.</p>
-            </article>
-            <article class="vd-search-shell__guide">
-              <span>Comprendre</span>
-              <strong>Passer par le wiki</strong>
-              <p>Si tu cherches un usage ou une famille, le wiki est souvent une meilleure porte d’entrée.</p>
-            </article>
-            <article class="vd-search-shell__guide">
-              <span>Demander</span>
-              <strong>Obtenir un conseil</strong>
-              <p>Quand l’intention est claire mais le terme reste flou, le contact doit rester une vraie sortie.</p>
-            </article>
-          </div>
-          <div class="related-products__actions" style="margin-top: 1.6rem;">
-            <a href="{{ search_catalogue_url }}" class="vd-arrow-cta">
-              <span class="vd-arrow-cta__label">Voir le catalogue</span>
-              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-              </svg>
-            </a>
-            <a href="{{ search_wiki_url }}" class="vd-arrow-cta" data-vd-preview-link>
-              <span class="vd-arrow-cta__label">Explorer le wiki</span>
-              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-              </svg>
-            </a>
-            <a href="{{ search_contact_url }}" class="vd-arrow-cta" data-vd-preview-link>
-              <span class="vd-arrow-cta__label">Demander conseil</span>
-              <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-              </svg>
-            </a>
-          </div>
         {%- endif -%}
       {%- endif -%}
     </div>
@@ -345,38 +246,6 @@
               </div>
             </div>
           {%- else -%}
-            <div class="page-width vd-search-shell__result-intro">
-              <div class="vd-search-shell__result-copy">
-                <span class="vd-section-kicker">Resultats</span>
-                <h2>Continuer sans casser la lecture du site.</h2>
-              </div>
-              <div class="vd-search-shell__result-meta">
-                <strong>
-                  {%- if search.results_count > 0 -%}
-                    {{ search.results_count }} resultat{% if search.results_count > 1 %}s{% endif %}
-                  {%- else -%}
-                    0 resultat
-                  {%- endif -%}
-                </strong>
-              </div>
-            </div>
-            <div class="page-width vd-search-shell__guidance">
-              <article class="vd-search-shell__guide">
-                <span>Catalogue</span>
-                <strong>Voir toutes les références</strong>
-                <p>Si le bon produit n’est pas encore là, repartir par la matière reste le chemin le plus fiable.</p>
-              </article>
-              <article class="vd-search-shell__guide">
-                <span>Wiki</span>
-                <strong>Lire avant d’acheter</strong>
-                <p>Le wiki aide à choisir quand la recherche révèle surtout un besoin ou une hésitation.</p>
-              </article>
-              <article class="vd-search-shell__guide">
-                <span>Recettes</span>
-                <strong>Projeter l’usage</strong>
-                <p>Les recettes servent de pont entre une intention vague et un produit plus évident.</p>
-              </article>
-            </div>
             <div
               class="template-search__results collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
               id="product-grid"
@@ -402,6 +271,7 @@
                   >
                     {%- case item.object_type -%}
                       {%- when 'product' -%}
+                        {%- capture product_settings -%}{%- if section.settings.product_show_vendor -%}vendor,{%- endif -%}title,price{%- endcapture -%}
                         {% render 'card-product',
                           card_product: item,
                           media_aspect_ratio: section.settings.image_ratio,
@@ -449,26 +319,6 @@
                   </li>
                 {%- endfor -%}
               </ul>
-              <div class="related-products__actions" style="margin-top: 2rem;">
-                <a href="{{ search_catalogue_url }}" class="vd-arrow-cta">
-                  <span class="vd-arrow-cta__label">Voir tous les produits</span>
-                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                  </svg>
-                </a>
-                <a href="{{ search_wiki_url }}" class="vd-arrow-cta" data-vd-preview-link>
-                  <span class="vd-arrow-cta__label">Explorer le wiki</span>
-                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                  </svg>
-                </a>
-                <a href="{{ search_recipes_url }}" class="vd-arrow-cta" data-vd-preview-link>
-                  <span class="vd-arrow-cta__label">Voir les recettes</span>
-                  <svg class="vd-arrow-cta__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 16">
-                    <path d="M8 0 6.545 1.455l5.506 5.506H-30v2.078h42.052l-5.507 5.506L8 16l8-8Z" transform="translate(30)"></path>
-                  </svg>
-                </a>
-              </div>
               {%- if paginate.pages > 1 -%}
                 {% render 'pagination', paginate: paginate %}
               {%- endif -%}

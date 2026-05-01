@@ -1,0 +1,36 @@
+<section class="vd-newsletter vd-reveal">
+  <div class="vd-newsletter__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="vd-eyebrow" style="color:rgba(255,255,255,0.6);">{{ section.settings.eyebrow }}</div>
+    {%- endif -%}
+    <h2 class="vd-newsletter__title">{{ section.settings.heading }}</h2>
+    {%- form 'customer', class: 'vd-field vd-field--dark', id: 'NewsletterForm--inline' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <input class="vd-input vd-input--dark" type="email" name="contact[email]" placeholder="{{ section.settings.placeholder }}" required aria-label="Email">
+      <button type="submit">{{ section.settings.button_label }}</button>
+      {%- if form.posted_successfully? -%}
+        <div style="position:absolute;left:0;right:0;top:100%;margin-top:8px;font-size:var(--vd-fs-sm);color:rgba(255,255,255,0.8);">Merci ! Vous êtes inscrit·e.</div>
+      {%- endif -%}
+    {%- endform -%}
+    {%- if section.settings.legal != blank -%}
+      <p class="vd-newsletter__legal">{{ section.settings.legal }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bandeau newsletter",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Newsletter" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Recevez -10% sur votre première commande" },
+    { "type": "text", "id": "placeholder", "label": "Placeholder email", "default": "Votre adresse email" },
+    { "type": "text", "id": "button_label", "label": "Libellé bouton", "default": "Je m'inscris" },
+    { "type": "text", "id": "legal", "label": "Mention RGPD", "default": "En cliquant, vous acceptez de recevoir notre newsletter et nos offres. Désinscription à tout moment." }
+  ],
+  "presets": [
+    { "name": "Bandeau newsletter", "category": "Accueil" }
+  ]
+}
+{% endschema %}

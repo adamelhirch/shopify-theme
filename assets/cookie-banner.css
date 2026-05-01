@@ -1,279 +1,310 @@
-/* ==========================================================================
-   VD Cookie Banner — refonte (2026-04)
-   Floating launcher bottom-right, card as popover on desktop,
-   bottom-sheet on mobile. Aligned with site aesthetic.
-   ========================================================================== */
-
-cookie-banner,
-.cookie-banner {
-  --vd-ck-bg: #F6F2EC;
-  --vd-ck-bg-soft: #EFE9E1;
-  --vd-ck-fg: #1a1613;
-  --vd-ck-fg-dim: rgba(26, 22, 19, 0.72);
-  --vd-ck-fg-mute: rgba(26, 22, 19, 0.55);
-  --vd-ck-fg-faint: rgba(26, 22, 19, 0.38);
-  --vd-ck-line: rgba(26, 22, 19, 0.12);
-  --vd-ck-line-soft: rgba(26, 22, 19, 0.06);
-  --vd-ck-accent: #F26522;
-  --vd-ck-dark: #111;
-  --vd-ck-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --vd-ck-dur: 220ms;
-  --vd-ck-font-body: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  --vd-ck-font-display: "Marcellus", "Iowan Old Style", Palatino, Georgia, serif;
+.cookie-banner[hidden] {
+  display: none !important;
 }
 
-.cookie-banner[hidden] { display: none !important; }
-
 .cookie-banner {
-  /* Root is not a positioning context; its children position themselves. */
-  display: contents;
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  z-index: 40;
+  width: auto;
+  display: flex;
+  justify-content: flex-end;
 }
-
-/* ---- Launcher: fixed bottom-right ---- */
 
 .cookie-banner__launcher {
-  position: fixed;
-  right: 1.6rem;
-  bottom: 1.6rem;
-  z-index: 45;
-  width: 4.4rem;
-  height: 4.4rem;
-  padding: 0;
-  border: 1px solid var(--vd-ck-line);
-  border-radius: 0;
-  background: var(--vd-ck-bg);
-  color: var(--vd-ck-fg);
+  position: relative;
+  width: 5.2rem;
+  height: 5.2rem;
+  border: 0.1rem solid rgba(var(--vd-white), 0.12);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(242, 101, 34, 0.28), transparent 55%),
+    linear-gradient(180deg, rgba(45, 33, 22, 0.92) 0%, rgba(18, 16, 12, 0.96) 100%);
+  box-shadow:
+    0 1.6rem 3rem rgba(var(--vd-shadow), 0.22),
+    inset 0 0 0 0.1rem rgba(var(--vd-white), 0.08);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  color: rgb(var(--vd-ivory));
   cursor: pointer;
-  box-shadow: 0 1.2rem 2.8rem rgba(0, 0, 0, 0.14);
-  transition: border-color var(--vd-ck-dur) var(--vd-ck-ease),
-              box-shadow var(--vd-ck-dur) var(--vd-ck-ease),
-              transform var(--vd-ck-dur) var(--vd-ck-ease);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--vd-ck-font-body);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
 }
 
 .cookie-banner__launcher:hover,
-.cookie-banner__launcher:focus-visible {
-  border-color: var(--vd-ck-accent);
-  box-shadow: 0 1.6rem 3.2rem rgba(0, 0, 0, 0.18);
-  outline: none;
+.cookie-banner__launcher:focus-visible,
+.cookie-banner.is-open .cookie-banner__launcher {
+  transform: translateY(-0.2rem);
+  border-color: rgba(242, 101, 34, 0.34);
+  box-shadow:
+    0 2rem 3.6rem rgba(var(--vd-shadow), 0.28),
+    inset 0 0 0 0.1rem rgba(242, 101, 34, 0.22);
 }
 
-/* Cookie glyph via CSS — no animations by default */
 .cookie-banner__launcher-icon {
   position: relative;
   display: block;
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 1.9rem;
+  height: 1.9rem;
+  margin: 0 auto;
+  transform: translateY(-0.25rem);
+}
+
+.cookie-banner__launcher-icon::before {
+  content: '';
+  position: absolute;
+  top: 2.35rem;
+  left: 0;
+  width: 1.9rem;
+  height: 0.24rem;
+  display: block;
   border-radius: 999px;
-  background:
-    radial-gradient(circle at 30% 30%, var(--vd-ck-dark) 0.2rem, transparent 0.3rem),
-    radial-gradient(circle at 70% 45%, var(--vd-ck-dark) 0.18rem, transparent 0.28rem),
-    radial-gradient(circle at 45% 70%, var(--vd-ck-dark) 0.22rem, transparent 0.32rem),
-    radial-gradient(circle at 65% 75%, var(--vd-ck-dark) 0.15rem, transparent 0.25rem),
-    radial-gradient(circle at 25% 65%, var(--vd-ck-dark) 0.12rem, transparent 0.22rem),
-    linear-gradient(135deg, #e7d7b6 0%, #cfa86d 100%);
-  border: 0.12rem solid rgba(0, 0, 0, 0.1);
+  background: rgba(242, 101, 34, 0.2);
+  filter: blur(0.02rem);
+  animation: cookieLoaderShadow 0.72s linear infinite;
 }
 
-/* Subtle pulse while consent is pending */
-.cookie-banner--pending .cookie-banner__launcher {
-  animation: vdCkPulse 2.6s ease-out infinite;
+.cookie-banner__launcher-icon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 0.35rem;
+  background: rgb(var(--vd-ivory));
+  box-shadow:
+    0 0.2rem 0.45rem rgba(var(--vd-shadow), 0.12),
+    inset 0 0 0 0.08rem rgba(17, 17, 17, 0.08);
+  animation: cookieLoaderJump 0.72s linear infinite;
 }
 
-@keyframes vdCkPulse {
-  0%, 100% { box-shadow: 0 1.2rem 2.8rem rgba(0, 0, 0, 0.14); }
-  50% { box-shadow: 0 1.2rem 2.8rem rgba(242, 101, 34, 0.28); }
+.cookie-banner--pending .cookie-banner__launcher::after {
+  content: '';
+  position: absolute;
+  inset: -0.35rem;
+  border-radius: inherit;
+  border: 0.1rem solid rgba(242, 101, 34, 0.28);
+  animation: cookiePulse 2.4s ease-out infinite;
 }
 
-/* Hide launcher when card is open on mobile */
-.cookie-banner.is-open .cookie-banner__launcher {
-  border-color: var(--vd-ck-accent);
+@keyframes cookiePulse {
+  0% {
+    opacity: 0.72;
+    transform: scale(0.92);
+  }
+
+  70% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
 }
 
-/* ---- Card: fixed, aligned to bottom-right on desktop ---- */
+@keyframes cookieLoaderJump {
+  15% {
+    border-bottom-right-radius: 0.22rem;
+  }
+
+  25% {
+    transform: translateY(0.38rem) rotate(22.5deg);
+  }
+
+  50% {
+    transform: translateY(0.76rem) scale(1, 0.9) rotate(45deg);
+    border-bottom-right-radius: 1rem;
+  }
+
+  75% {
+    transform: translateY(0.38rem) rotate(67.5deg);
+  }
+
+  100% {
+    transform: translateY(0) rotate(90deg);
+  }
+}
+
+@keyframes cookieLoaderShadow {
+  0%,
+  100% {
+    transform: scale(1, 1);
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(1.18, 1);
+    opacity: 0.42;
+  }
+}
 
 .cookie-card {
-  position: fixed;
-  right: 1.6rem;
-  bottom: 7rem;
-  z-index: 46;
-  width: min(calc(100vw - 3.2rem), 42rem);
-  max-height: calc(100vh - 10rem);
-  max-height: calc(100dvh - 10rem);
-  overflow-y: auto;
-  padding: 2rem;
-  background: var(--vd-ck-bg);
-  color: var(--vd-ck-fg);
-  border: 1px solid var(--vd-ck-line);
-  border-radius: 0;
-  box-shadow: 0 2.4rem 5rem rgba(0, 0, 0, 0.22);
-  font-family: var(--vd-ck-font-body);
+  position: absolute;
+  right: 0;
+  bottom: 6.6rem;
+  width: min(calc(100vw - 4rem), 38rem);
+  padding: 1.8rem;
+  border: 0.1rem solid rgba(var(--vd-white), 0.12);
+  border-radius: 2.4rem;
+  background:
+    radial-gradient(circle at top, rgba(242, 101, 34, 0.18), transparent 42%),
+    linear-gradient(180deg, rgba(34, 24, 18, 0.92) 0%, rgba(18, 16, 12, 0.95) 100%);
+  color: rgb(var(--vd-ivory));
+  box-shadow:
+    0 2.6rem 6rem rgba(var(--vd-shadow), 0.28),
+    inset 0 0 0 0.1rem rgba(var(--vd-white), 0.04);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(1rem);
+  transform: translateY(1.4rem) scale(0.98);
+  transform-origin: bottom right;
   pointer-events: none;
-  transition: opacity var(--vd-ck-dur) var(--vd-ck-ease),
-              transform var(--vd-ck-dur) var(--vd-ck-ease),
-              visibility var(--vd-ck-dur) var(--vd-ck-ease);
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease,
+    visibility 200ms ease;
 }
 
 .cookie-banner.is-open .cookie-card {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   pointer-events: auto;
 }
-
-/* ---- Card header ---- */
 
 .cookie-card__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 1.2rem;
-  margin: 0 0 1rem;
 }
 
 .cookie-card__intro {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  min-width: 0;
+  display: grid;
+  gap: 0.5rem;
 }
 
 .cookie-card__eyebrow {
   margin: 0;
-  color: var(--vd-ck-fg-mute);
-  font-size: 1rem;
-  font-weight: 700;
+  color: rgba(242, 101, 34, 0.88);
+  font-size: 1.05rem;
+  font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
 .cookie-card__title {
   margin: 0;
-  font-family: var(--vd-ck-font-display);
-  font-size: clamp(1.8rem, 1.4vw + 1rem, 2.2rem);
-  line-height: 1.15;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  color: var(--vd-ck-fg);
+  font-size: 2.2rem;
+  line-height: 1.08;
+  font-weight: 700;
+  color: rgb(var(--vd-ivory));
 }
 
 .cookie-card__close {
   position: relative;
-  flex-shrink: 0;
   width: 3.2rem;
   height: 3.2rem;
-  background: transparent;
+  flex-shrink: 0;
   border: 0;
-  padding: 0;
+  border-radius: 999px;
+  background: rgba(var(--vd-white), 0.05);
+  color: rgb(var(--vd-ivory));
   cursor: pointer;
-  color: var(--vd-ck-fg-dim);
-  transition: color var(--vd-ck-dur) var(--vd-ck-ease),
-              background var(--vd-ck-dur) var(--vd-ck-ease);
+  transition: background-color 0.18s ease, transform 0.18s ease;
 }
 
 .cookie-card__close span {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 1.5rem;
+  left: 0.9rem;
   width: 1.4rem;
-  height: 1.5px;
+  height: 0.12rem;
+  border-radius: 999px;
   background: currentColor;
-  transform-origin: center;
 }
 
-.cookie-card__close span:first-child { transform: translate(-50%, -50%) rotate(45deg); }
-.cookie-card__close span:last-child { transform: translate(-50%, -50%) rotate(-45deg); }
+.cookie-card__close span:first-child {
+  transform: rotate(45deg);
+}
+
+.cookie-card__close span:last-child {
+  transform: rotate(-45deg);
+}
 
 .cookie-card__close:hover,
 .cookie-card__close:focus-visible {
-  color: var(--vd-ck-accent);
-  background: rgba(26, 22, 19, 0.04);
-  outline: none;
+  background: rgba(242, 101, 34, 0.16);
+  transform: translateY(-0.1rem);
 }
 
-/* ---- Description ---- */
-
 .cookie-card__description {
-  margin: 0 0 1.4rem;
+  margin: 1.2rem 0 0;
   font-size: 1.3rem;
   line-height: 1.55;
-  color: var(--vd-ck-fg-dim);
+  color: rgba(var(--vd-ivory), 0.74);
 }
 
 .cookie-card__description a {
-  color: var(--vd-ck-fg);
-  text-decoration: underline;
-  text-decoration-color: var(--vd-ck-line);
-  text-underline-offset: 0.3rem;
-  transition: color var(--vd-ck-dur) var(--vd-ck-ease), text-decoration-color var(--vd-ck-dur) var(--vd-ck-ease);
+  color: rgba(242, 101, 34, 0.96);
+  text-underline-offset: 0.2rem;
 }
 
 .cookie-card__description a:hover {
-  color: var(--vd-ck-accent);
-  text-decoration-color: currentColor;
+  text-decoration: underline;
 }
-
-/* ---- Preferences (collapsed by default) ---- */
 
 .cookie-card__preferences {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  margin-top: 1.2rem;
-  padding-top: 1.4rem;
-  border-top: 1px solid var(--vd-ck-line-soft);
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 1.4rem;
+  padding-top: 1.2rem;
+  border-top: 0.1rem solid rgba(var(--vd-white), 0.08);
 }
-
-.cookie-card__preferences[hidden] { display: none; }
 
 .cookie-card__option {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 1.2rem;
-  align-items: flex-start;
-  padding: 1.2rem;
-  background: var(--vd-ck-bg-soft);
-  border: 0;
-  cursor: pointer;
+  gap: 1rem;
+  align-items: start;
+  padding: 1.15rem 1.2rem;
+  border-radius: 1.4rem;
+  background: linear-gradient(180deg, rgba(var(--vd-white), 0.06) 0%, rgba(var(--vd-white), 0.03) 100%);
+  border: 0.1rem solid rgba(var(--vd-white), 0.06);
 }
 
-.cookie-card__option--locked { cursor: default; opacity: 0.7; }
+.cookie-card__option--locked {
+  opacity: 0.82;
+}
 
 .cookie-card__option-copy {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 0.3rem;
-  min-width: 0;
 }
 
 .cookie-card__option-title {
   font-size: 1.3rem;
-  line-height: 1.25;
+  line-height: 1.2;
   font-weight: 700;
-  color: var(--vd-ck-fg);
+  color: rgb(var(--vd-ivory));
 }
 
 .cookie-card__option-text {
-  font-size: 1.15rem;
-  line-height: 1.5;
-  color: var(--vd-ck-fg-mute);
+  font-size: 1.2rem;
+  line-height: 1.45;
+  color: rgba(var(--vd-ivory), 0.66);
 }
-
-/* ---- Toggle switch ---- */
 
 .cookie-card__switch {
   position: relative;
   display: inline-flex;
-  width: 4rem;
-  height: 2.2rem;
+  width: 4.4rem;
+  height: 2.6rem;
   flex-shrink: 0;
-  align-self: center;
 }
 
 .cookie-card__switch input {
@@ -281,51 +312,101 @@ cookie-banner,
   inset: 0;
   opacity: 0;
   cursor: pointer;
-  margin: 0;
 }
 
 .cookie-card__switch-ui {
   position: relative;
   width: 100%;
   height: 100%;
-  background: rgba(26, 22, 19, 0.18);
   border-radius: 999px;
-  transition: background var(--vd-ck-dur) var(--vd-ck-ease);
+  background: rgba(var(--vd-white), 0.12);
+  border: 0.1rem solid rgba(var(--vd-white), 0.08);
+  transition: background-color 0.18s ease, border-color 0.18s ease;
 }
 
 .cookie-card__switch-ui::after {
-  content: "";
+  content: '';
   position: absolute;
-  top: 0.2rem;
-  left: 0.2rem;
+  top: 0.3rem;
+  left: 0.3rem;
   width: 1.8rem;
   height: 1.8rem;
   border-radius: 999px;
-  background: #fff;
-  box-shadow: 0 0.3rem 0.8rem rgba(0, 0, 0, 0.14);
-  transition: transform var(--vd-ck-dur) var(--vd-ck-ease);
+  background: rgba(var(--vd-ivory), 0.95);
+  box-shadow: 0 0.6rem 1.4rem rgba(0, 0, 0, 0.18);
+  transition: transform 0.18s ease, background-color 0.18s ease;
 }
 
 .cookie-card__switch input:checked + .cookie-card__switch-ui {
-  background: var(--vd-ck-accent);
+  background: rgba(242, 101, 34, 0.28);
+  border-color: rgba(242, 101, 34, 0.34);
 }
 
 .cookie-card__switch input:checked + .cookie-card__switch-ui::after {
   transform: translateX(1.8rem);
+  background: #f26522;
 }
 
 .cookie-card__switch input:disabled + .cookie-card__switch-ui {
-  background: rgba(26, 22, 19, 0.12);
+  background: rgba(var(--vd-white), 0.08);
+  border-color: rgba(var(--vd-white), 0.06);
 }
 
-/* ---- Actions ---- */
-
 .cookie-card__actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
   margin-top: 1.6rem;
+}
+
+.cookie-card__button,
+.cookie-card__save {
+  min-height: 4.4rem;
+  border-radius: 1.4rem;
+  border: 0.1rem solid rgba(var(--vd-white), 0.1);
+  cursor: pointer;
+  font-size: 1.25rem;
+  font-weight: 700;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease,
+    opacity 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+.cookie-card__button--primary,
+.cookie-card__save {
+  background: linear-gradient(180deg, rgba(242, 101, 34, 0.24) 0%, rgba(242, 101, 34, 0.14) 100%);
+  color: rgb(var(--vd-ivory));
+  box-shadow: inset 0 0 0 0.1rem rgba(242, 101, 34, 0.14);
+}
+
+.cookie-card__button--primary:hover,
+.cookie-card__save:hover {
+  background:
+    linear-gradient(180deg, rgba(242, 101, 34, 0.34) 0%, rgba(242, 101, 34, 0.2) 100%),
+    rgba(var(--vd-white), 0.04);
+  border-color: rgba(242, 101, 34, 0.28);
+  box-shadow:
+    0 1.2rem 2.4rem rgba(var(--vd-shadow), 0.16),
+    inset 0 0 0 0.1rem rgba(242, 101, 34, 0.2);
+  transform: translateY(-0.1rem);
+}
+
+.cookie-card__button--ghost {
+  background: rgba(var(--vd-white), 0.04);
+  color: rgb(var(--vd-ivory));
+  border-color: rgba(var(--vd-white), 0.1);
+}
+
+.cookie-card__button--ghost:hover {
+  background:
+    linear-gradient(180deg, rgba(242, 101, 34, 0.16) 0%, rgba(242, 101, 34, 0.08) 100%),
+    rgba(var(--vd-white), 0.04);
+  border-color: rgba(242, 101, 34, 0.22);
+  transform: translateY(-0.1rem);
 }
 
 .cookie-card__footer {
@@ -333,74 +414,31 @@ cookie-banner,
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-top: 1rem;
+  margin-top: 1.2rem;
+  padding-top: 0.4rem;
 }
-
-.cookie-card__button,
-.cookie-card__save {
-  min-height: 4.4rem;
-  padding: 0.8rem 1.6rem;
-  background: transparent;
-  border: 1px solid var(--vd-ck-line);
-  border-radius: 0;
-  color: var(--vd-ck-fg);
-  font-family: var(--vd-ck-font-body);
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background var(--vd-ck-dur) var(--vd-ck-ease),
-              border-color var(--vd-ck-dur) var(--vd-ck-ease),
-              color var(--vd-ck-dur) var(--vd-ck-ease);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-}
-
-.cookie-card__button--primary,
-.cookie-card__save {
-  background: var(--vd-ck-dark);
-  border-color: var(--vd-ck-dark);
-  color: #F6F2EC;
-}
-
-.cookie-card__button--primary:hover,
-.cookie-card__save:hover {
-  background: var(--vd-ck-accent);
-  border-color: var(--vd-ck-accent);
-}
-
-.cookie-card__button--ghost:hover {
-  border-color: var(--vd-ck-fg);
-  color: var(--vd-ck-fg);
-  background: var(--vd-ck-bg-soft);
-}
-
-.cookie-card__save { min-width: 11rem; }
-.cookie-card__save[hidden] { display: none !important; }
 
 .cookie-card__pref {
-  padding: 0.6rem 0;
+  padding: 0;
+  border: none;
   background: transparent;
-  border: 0;
-  color: var(--vd-ck-fg-dim);
-  font-family: var(--vd-ck-font-body);
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  cursor: pointer;
+  color: rgba(var(--vd-ivory), 0.84);
+  font-size: 1.2rem;
   text-decoration: underline;
-  text-underline-offset: 0.3rem;
-  text-decoration-color: var(--vd-ck-line);
-  transition: color var(--vd-ck-dur) var(--vd-ck-ease), text-decoration-color var(--vd-ck-dur) var(--vd-ck-ease);
+  text-underline-offset: 0.2rem;
+  cursor: pointer;
 }
 
 .cookie-card__pref:hover {
-  color: var(--vd-ck-fg);
-  text-decoration-color: var(--vd-ck-accent);
+  color: #f26522;
+}
+
+.cookie-card__save[hidden] {
+  display: none !important;
+}
+
+.cookie-card__save {
+  min-width: 12rem;
 }
 
 .cookie-banner__launcher:focus-visible,
@@ -408,205 +446,42 @@ cookie-banner,
 .cookie-card__button:focus-visible,
 .cookie-card__save:focus-visible,
 .cookie-card__pref:focus-visible {
-  outline: 2px solid var(--vd-ck-accent);
-  outline-offset: 3px;
+  outline: 0.2rem solid rgba(242, 101, 34, 0.34);
+  outline-offset: 0.2rem;
 }
 
-/* ---- Mobile: bottom-sheet (≤749px) ---- */
-
 @media screen and (max-width: 749px) {
-  .cookie-banner__launcher {
+  .cookie-banner {
     right: 1.2rem;
     bottom: 1.2rem;
   }
 
   .cookie-card {
-    left: 0;
     right: 0;
-    bottom: 0;
-    width: 100%;
-    max-width: none;
-    max-height: 88vh;
-    max-height: 88dvh;
-    padding: 2rem 1.6rem calc(2rem + env(safe-area-inset-bottom));
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 0;
-    transform: translateY(100%);
+    bottom: 6rem;
+    width: min(calc(100vw - 2.4rem), 34rem);
+    padding: 1.5rem;
   }
 
-  .cookie-banner.is-open .cookie-card {
-    transform: translateY(0);
-  }
-
-  .cookie-banner.is-open .cookie-banner__launcher {
-    opacity: 0;
-    pointer-events: none;
+  .cookie-card__title {
+    font-size: 1.9rem;
   }
 
   .cookie-card__actions {
-    flex-direction: column-reverse;
-    align-items: stretch;
+    grid-template-columns: 1fr;
   }
-
-  .cookie-card__actions .cookie-card__button,
-  .cookie-card__actions .cookie-card__pref { width: 100%; text-align: center; }
-
-  .cookie-card__footer {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.8rem;
-  }
-
-  .cookie-card__footer .cookie-card__button,
-  .cookie-card__footer .cookie-card__save { width: 100%; }
 }
-
-/* ---- Medium tablet (750-989): still corner popover, slightly narrower ---- */
-
-@media screen and (min-width: 750px) and (max-width: 989px) {
-  .cookie-card { width: min(calc(100vw - 3.2rem), 38rem); }
-}
-
-/* ---- Reduced motion ---- */
 
 @media (prefers-reduced-motion: reduce) {
   .cookie-banner__launcher,
-  .cookie-card,
-  .cookie-banner--pending .cookie-banner__launcher {
-    animation: none !important;
-    transition: none !important;
-  }
-}
-
-/* ==========================================================================
-   Native Shopify cookie banner (#shopify-pc__banner) — aligned to site look
-   ========================================================================== */
-
-#shopify-pc__banner,
-#shopify-pc__banner.shopify-pc__banner__dialog {
-  position: fixed !important;
-  top: auto !important;
-  left: auto !important;
-  right: 1.6rem !important;
-  bottom: 1.6rem !important;
-  transform: none !important;
-  width: min(calc(100vw - 3.2rem), 42rem) !important;
-  max-width: min(calc(100vw - 3.2rem), 42rem) !important;
-  margin: 0 !important;
-  padding: 0;
-  background: var(--vd-ck-bg, #F6F2EC);
-  color: var(--vd-ck-fg, #1a1613);
-  border: 1px solid var(--vd-ck-line, rgba(26, 22, 19, 0.12));
-  border-radius: 0;
-  box-shadow: 0 2.4rem 5rem rgba(0, 0, 0, 0.22);
-  overflow: hidden;
-  font-family: "Manrope", sans-serif;
-  z-index: 9999 !important;
-}
-
-#shopify-pc__banner .shopify-pc__banner__wrapper {
-  max-width: none;
-  margin: 0;
-  padding: 2rem;
-  background: transparent;
-  box-shadow: none;
-}
-
-#shopify-pc__banner .shopify-pc__banner__body h2 {
-  margin: 0 0 0.6rem;
-  font-family: "Marcellus", serif;
-  font-size: 2.2rem;
-  line-height: 1.15;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  color: var(--vd-ck-fg, #1a1613);
-}
-
-#shopify-pc__banner .shopify-pc__banner__body p {
-  margin: 0;
-  color: rgba(26, 22, 19, 0.72);
-  font-size: 1.3rem;
-  line-height: 1.55;
-}
-
-#shopify-pc__banner .shopify-pc__banner__body a {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-}
-
-#shopify-pc__banner .shopify-pc__banner__btns {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0.8rem;
-  margin-top: 1.6rem;
-}
-
-#shopify-pc__banner .shopify-pc__banner__btn-manage-prefs,
-#shopify-pc__banner .shopify-pc__banner__btn-decline,
-#shopify-pc__banner .shopify-pc__banner__btn-accept {
-  min-height: 4.4rem;
-  padding: 0.8rem 1.6rem;
-  background: transparent;
-  border: 1px solid rgba(26, 22, 19, 0.12);
-  border-radius: 0;
-  color: var(--vd-ck-fg, #1a1613);
-  font-family: inherit;
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 200ms ease, border-color 200ms ease, color 200ms ease;
-}
-
-#shopify-pc__banner .shopify-pc__banner__btn-manage-prefs {
-  padding-left: 0;
-  padding-right: 0;
-  border: 0;
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
-  margin-right: auto;
-}
-
-#shopify-pc__banner .shopify-pc__banner__btn-accept {
-  background: #111;
-  border-color: #111;
-  color: #F6F2EC;
-}
-
-#shopify-pc__banner .shopify-pc__banner__btn-accept:hover {
-  background: #F26522;
-  border-color: #F26522;
-}
-
-#shopify-pc__banner .shopify-pc__banner__btn-decline:hover {
-  border-color: #1a1613;
-}
-
-@media screen and (max-width: 749px) {
-  #shopify-pc__banner.shopify-pc__banner__dialog {
-    right: 0;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    max-width: none;
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 0;
+  .cookie-banner__launcher-icon::before,
+  .cookie-banner__launcher-icon::after,
+  .cookie-banner--pending .cookie-banner__launcher::after {
+    animation: none;
+    transition: none;
   }
 
-  #shopify-pc__banner .shopify-pc__banner__wrapper {
-    padding: 2rem 1.6rem calc(2rem + env(safe-area-inset-bottom));
+  .cookie-banner__launcher-icon::after {
+    transform: rotate(12deg);
   }
-
-  #shopify-pc__banner .shopify-pc__banner__btns {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  #shopify-pc__banner .shopify-pc__banner__btn-manage-prefs { margin-right: 0; text-align: center; }
 }

@@ -10,3 +10,10 @@ Thumbs.db
 .shopify
 theme_export__*.zip
 references/motion-live-export/
+
+# Local env (Shopify credentials, never commit)
+.env*
+!.env.example
+
+# Local Claude Code worktrees and state
+.claude/

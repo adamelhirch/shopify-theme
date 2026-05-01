@@ -1,6 +1,9 @@
 {% comment %}theme-check-disable UndefinedObject{% endcomment %}
 {{ 'section-footer.css' | asset_url | stylesheet_tag }}
 {{ 'component-newsletter.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-payment.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-social.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .footer {
@@ -24,249 +27,296 @@
   }
 {%- endstyle -%}
 
-{%- liquid
-  assign footer_wiki_page = pages['wiki']
-  assign footer_contact_page = pages['contact']
-  assign footer_faq_page = pages['faq']
-  assign footer_recipes_page = pages['recettes']
-  assign footer_savoir_faire_page = pages['savoir-faire']
-  assign footer_vanille_collection = collections['vanille-bourbon']
-  assign footer_epices_collection = collections['epices-madagascar']
-  assign footer_poivres_collection = collections['poivre-baies']
-  assign footer_primary_link = section.settings.primary_link | default: routes.all_products_collection_url
-  assign footer_wiki_url = footer_wiki_page.url | default: '/pages/wiki'
-  assign footer_recipes_url = footer_recipes_page.url | default: '/pages/recettes'
-  assign footer_savoir_faire_url = footer_savoir_faire_page.url | default: '/pages/savoir-faire'
-  assign footer_contact_url = footer_contact_page.url | default: '/pages/contact'
-  assign footer_faq_url = footer_faq_page.url | default: '/pages/faq'
-  assign footer_vanille_url = footer_vanille_collection.url | default: '/collections/vanille-bourbon'
-  assign footer_epices_url = footer_epices_collection.url | default: '/collections/epices-madagascar'
-  assign footer_poivres_url = footer_poivres_collection.url | default: '/collections/poivre-baies'
-  assign footer_shipping_url = '/policies/shipping-policy'
-  if shop.shipping_policy != blank
-    assign footer_shipping_url = shop.shipping_policy.url
-  endif
-  assign footer_refund_url = '/policies/refund-policy'
-  if shop.refund_policy != blank
-    assign footer_refund_url = shop.refund_policy.url
-  endif
-  assign footer_legal_url = '/pages/mentions-legales'
-  if pages['mentions-legales'] != blank
-    assign footer_legal_url = pages['mentions-legales'].url
-  endif
-  assign footer_terms_url = '/policies/terms-of-service'
-  if shop.terms_of_service != blank
-    assign footer_terms_url = shop.terms_of_service.url
-  endif
-  assign footer_video_url = ''
-  if section.settings.background_video != blank
-    for source in section.settings.background_video.sources
-      if source.mime_type == 'video/mp4'
-        assign footer_video_url = source.url
-        break
-      endif
-    endfor
-  endif
-  assign footer_image = section.settings.background_image
-  assign footer_journal_kicker = section.settings.newsletter_kicker | strip
-  if footer_journal_kicker == blank or footer_journal_kicker == 'Journal de la maison'
-    assign footer_journal_kicker = 'Journal'
-  endif
-  assign footer_journal_heading = section.settings.newsletter_heading_shell | strip
-  if footer_journal_heading == blank or footer_journal_heading == 'Une correspondance plus rare, pas un bruit de plus.'
-    assign footer_journal_heading = 'Recevoir les nouvelles de la maison.'
-  endif
-  assign footer_journal_text_plain = section.settings.newsletter_text | strip_html | strip
-  assign footer_journal_text = section.settings.newsletter_text
-  if footer_journal_text_plain == blank or footer_journal_text_plain == 'Nouveaux lots, éditions limitées, recettes et matières à suivre avec un rythme plus juste.'
-    assign footer_journal_text = '<p>Arrivages choisis, éditions limitées et recettes à suivre sans bruit inutile.</p>'
-  endif
--%}
+<footer class="footer color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  {%- liquid
+    assign has_social_icons = true
+    if settings.social_facebook_link == blank and settings.social_instagram_link == blank and settings.social_youtube_link == blank and settings.social_tiktok_link == blank and settings.social_twitter_link == blank and settings.social_pinterest_link == blank and settings.social_snapchat_link == blank and settings.social_tumblr_link == blank and settings.social_vimeo_link == blank
+      assign has_social_icons = false
+    endif
 
-<footer
-  class="footer footer--scene footer--millia color-{{ section.settings.color_scheme }} gradient"
-  data-vd-footer-scene
->
-  <div class="vd-footer-millia">
-    <section class="vd-footer-millia__hero">
-      <div class="vd-footer-millia__hero-media" aria-hidden="true">
-        {%- if footer_video_url != blank -%}
-          <video
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="none"
-            data-vd-deferred-video
-            data-video-src="{{ footer_video_url }}"
-            data-min-width="990"
-            poster="{% if footer_image != blank %}{{ footer_image | image_url: width: 2400 }}{% else %}{{ 'vd-hero-origin-poster.jpg' | asset_url }}{% endif %}"
+    if settings.brand_image == blank and settings.brand_headline == blank and settings.brand_description == blank
+      assign brand_empty = true
+    endif
+
+    if section.blocks.size == 1 and section.blocks[0].type == 'brand_information' and brand_empty and has_social_icons == false and section.settings.newsletter_enable == false and section.settings.enable_follow_on_shop == false
+      assign only_empty_brand = true
+    endif
+  -%}
+  {%- if section.blocks.size > 0
+    or section.settings.newsletter_enable
+    or section.settings.show_social
+    and has_social_icons == true
+    or section.settings.enable_follow_on_shop
+  -%}
+    {%- unless only_empty_brand -%}
+      <div class="footer__content-top page-width">
+        {%- if section.blocks.size > 0 -%}
+          {%- liquid
+            if section.blocks.size == 9
+              assign footer_grid_class = 'grid--3-col-tablet'
+            elsif section.blocks.size > 6
+              assign footer_grid_class = 'grid--4-col-desktop'
+            elsif section.blocks.size > 4
+              assign footer_grid_class = 'grid--3-col-tablet'
+            endif
+          -%}
+          <div
+            class="footer__blocks-wrapper grid grid--1-col grid--2-col grid--4-col-tablet {{ footer_grid_class }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            {% if settings.animations_reveal_on_scroll %}
+              data-cascade
+            {% endif %}
           >
-            {% comment %}theme-check-disable RemoteAsset{% endcomment %}
-            <source data-src="{{ footer_video_url }}" type="video/mp4">
-            {% comment %}theme-check-enable RemoteAsset{% endcomment %}
-          </video>
-        {%- elsif footer_image != blank -%}
-          {{
-            footer_image
-            | image_url: width: 2400
-            | image_tag:
-              class: 'vd-footer-millia__hero-image',
-              widths: '720, 960, 1280, 1600, 2200, 2400',
-              sizes: '100vw',
-              loading: 'lazy',
-              alt: ''
-          }}
-        {%- else -%}
-          <img src="{{ 'vd-hero-origin-poster.jpg' | asset_url }}" alt="" class="vd-footer-millia__hero-image" loading="lazy" width="2400" height="1600">
-        {%- endif -%}
-      </div>
-      <div class="vd-footer-millia__hero-overlay" aria-hidden="true"></div>
-      <div class="vd-footer-millia__hero-shell">
-        <div class="vd-footer-millia__hero-copy">
-          <h2 class="vd-footer-millia__hero-title" data-vd-footer-item>
-            {{ footer_journal_heading }}
-          </h2>
-          <div class="vd-footer-millia__hero-text rte" data-vd-footer-item>
-            {{ footer_journal_text }}
-          </div>
-          {%- if section.settings.newsletter_enable -%}
-            <div class="vd-footer-millia__hero-form" data-vd-footer-item>
-              {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form' -%}
-                <input type="hidden" name="contact[tags]" value="newsletter">
-                <div class="vd-footer-millia__newsletter-line">
-                  <input
-                    id="NewsletterForm--{{ section.id }}"
-                    type="email"
-                    name="contact[email]"
-                    class="vd-footer-millia__newsletter-input"
-                    value="{{ form.email }}"
-                    autocorrect="off"
-                    autocapitalize="off"
-                    autocomplete="email"
-                    {% if form.errors %}
-                      autofocus
-                      aria-invalid="true"
-                      aria-describedby="ContactFooter-error"
-                    {% elsif form.posted_successfully? %}
-                      aria-describedby="ContactFooter-success"
-                    {% endif %}
-                    placeholder="E-mail"
-                    required
-                  >
-                  <button
-                    type="submit"
-                    class="vd-footer-millia__newsletter-submit"
-                    name="commit"
-                    aria-label="{{ 'newsletter.button_label' | t }}"
-                  >
-                    <span aria-hidden="true">→</span>
-                  </button>
-                </div>
-                {%- if form.errors -%}
-                  <small class="newsletter-form__message form__message" id="ContactFooter-error">
-                    <span class="svg-wrapper">{{- 'icon-error.svg' | inline_asset_content -}}</span>
-                    {{- form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email -}}
-                  </small>
+            {%- for block in section.blocks -%}
+              <div
+                class="footer-block grid__item{% if block.type == 'link_list' %} footer-block--menu{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {{ block.shopify_attributes }}
+                {% if settings.animations_reveal_on_scroll %}
+                  data-cascade
+                  style="--animation-order: {{ forloop.index }};"
+                {% endif %}
+              >
+                {%- if block.settings.heading != blank -%}
+                  <h2 class="footer-block__heading inline-richtext">{{- block.settings.heading -}}</h2>
                 {%- endif -%}
+
+                {%- case block.type -%}
+                  {%- when '@app' -%}
+                    {% render block %}
+                  {%- when 'text' -%}
+                    <div class="footer-block__details-content rte">
+                      {{ block.settings.subtext }}
+                    </div>
+                  {%- when 'link_list' -%}
+                    {%- if block.settings.menu != blank -%}
+                      <ul class="footer-block__details-content list-unstyled">
+                        {%- for link in block.settings.menu.links -%}
+                          <li>
+                            <a
+                              href="{{ link.url }}"
+                              class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}"
+                            >
+                              {{ link.title | escape }}
+                            </a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+                  {%- when 'brand_information' -%}
+                    <div class="footer-block__brand-info">
+                      {%- if settings.brand_image != blank -%}
+                        {%- assign brand_image_height = settings.brand_image_width
+                          | divided_by: settings.brand_image.aspect_ratio
+                        -%}
+                        <div
+                          class="footer-block__image-wrapper"
+                          style="max-width: min(100%, {{ settings.brand_image_width }}px);"
+                        >
+                          {{
+                            settings.brand_image
+                            | image_url: width: 1100
+                            | image_tag:
+                              loading: 'lazy',
+                              widths: '50, 100, 150, 200, 300, 400, 550, 800, 1100',
+                              height: brand_image_height,
+                              width: settings.brand_image_width
+                          }}
+                        </div>
+                      {%- endif -%}
+                      {%- if settings.brand_headline != blank -%}
+                        <h2 class="footer-block__heading rte">{{ settings.brand_headline }}</h2>
+                      {%- endif -%}
+                      {%- if settings.brand_description != blank -%}
+                        <div class="rte">{{ settings.brand_description }}</div>
+                      {%- endif -%}
+                      {%- if block.settings.show_social and has_social_icons -%}
+                        {%- render 'social-icons', class: 'footer__list-social' -%}
+                      {%- endif -%}
+                    </div>
+                  {%- when 'image' -%}
+                    <div class="footer-block__details-content footer-block-image {{ block.settings.alignment }}">
+                      {%- if block.settings.image != blank -%}
+                        {%- assign image_size_2x = block.settings.image_width | times: 2 | at_most: 5760 -%}
+                        <div
+                          class="footer-block__image-wrapper"
+                          style="max-width: min(100%, {{ block.settings.image_width }}px);"
+                        >
+                          <img
+                            srcset="{{ block.settings.image | image_url: width: block.settings.image_width }}, {{ block.settings.image | image_url: width: image_size_2x }} 2x"
+                            src="{{ block.settings.image | image_url: width: 760 }}"
+                            alt="{{ block.settings.image.alt | escape }}"
+                            loading="lazy"
+                            width="{{ block.settings.image.width }}"
+                            height="{{ block.settings.image.height }}"
+                          >
+                        </div>
+                      {%- else -%}
+                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+                      {%- endif -%}
+                    </div>
+                {%- endcase -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        <div
+          class="footer-block--newsletter{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          {% if settings.animations_reveal_on_scroll %}
+            data-cascade
+          {% endif %}
+        >
+          {%- if section.settings.newsletter_enable -%}
+            <div class="footer-block__newsletter vd-form-shell vd-form-shell--footer">
+              {%- if section.settings.newsletter_heading != blank -%}
+                <h2 class="footer-block__heading inline-richtext">{{ section.settings.newsletter_heading }}</h2>
+              {%- endif -%}
+              {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form vd-form vd-form--newsletter' -%}
+                <input type="hidden" name="contact[tags]" value="newsletter">
+                <div class="newsletter-form__field-wrapper vd-form__stack">
+                  <div class="field vd-form__field">
+                    <input
+                      id="NewsletterForm--{{ section.id }}"
+                      type="email"
+                      name="contact[email]"
+                      class="field__input"
+                      value="{{ form.email }}"
+                      aria-required="true"
+                      autocorrect="off"
+                      autocapitalize="off"
+                      autocomplete="email"
+                      {% if form.errors %}
+                        autofocus
+                        aria-invalid="true"
+                        aria-describedby="ContactFooter-error"
+                      {% elsif form.posted_successfully? %}
+                        aria-describedby="ContactFooter-success"
+                      {% endif %}
+                      placeholder="{{ 'newsletter.label' | t }}"
+                      required
+                    >
+                    <label class="field__label" for="NewsletterForm--{{ section.id }}">
+                      {{ 'newsletter.label' | t }}
+                    </label>
+                    <button
+                      type="submit"
+                      class="newsletter-form__button field__button vd-form__submit"
+                      name="commit"
+                      id="Subscribe"
+                      aria-label="{{ 'newsletter.button_label' | t }}"
+                    >
+                      <span class="svg-wrapper">
+                        {{- 'icon-arrow.svg' | inline_asset_content -}}
+                      </span>
+                    </button>
+                  </div>
+                  {%- if form.errors -%}
+                    <small class="newsletter-form__message form__message" id="ContactFooter-error">
+                      <span class="svg-wrapper">
+                        {{- 'icon-error.svg' | inline_asset_content -}}
+                      </span>
+                      {{- form.errors.translated_fields.email | capitalize }}
+                      {{ form.errors.messages.email -}}
+                    </small>
+                  {%- endif -%}
+                </div>
                 {%- if form.posted_successfully? -%}
-                  <h3 class="newsletter-form__message newsletter-form__message--success form__message" id="ContactFooter-success" tabindex="-1" autofocus>
-                    <span class="svg-wrapper">{{- 'icon-success.svg' | inline_asset_content -}}</span>
+                  <h3
+                    class="newsletter-form__message newsletter-form__message--success form__message"
+                    id="ContactFooter-success"
+                    tabindex="-1"
+                    autofocus
+                  >
+                    <span class="svg-wrapper">
+                      {{- 'icon-success.svg' | inline_asset_content -}}
+                    </span>
                     {{- 'newsletter.success' | t }}
                   </h3>
                 {%- endif -%}
               {%- endform -%}
             </div>
           {%- endif -%}
+
+          {%- if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
+            <div class="footer__follow-on-shop">
+              {{ shop | login_button: action: 'follow' }}
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.show_social and has_social_icons -%}
+            {%- render 'social-icons', class: 'footer__list-social' -%}
+          {%- endif -%}
         </div>
       </div>
-    </section>
+    {%- endunless -%}
+  {%- endif -%}
 
-    <section class="vd-footer-millia__base">
-      <div class="vd-footer-millia__crumb" data-vd-footer-item>
-        <a href="{{ routes.root_url }}">Accueil</a>
+  <div
+    class="footer__content-bottom{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+    {% if settings.animations_reveal_on_scroll %}
+      data-cascade
+    {% endif %}
+  >
+    <div class="footer__content-bottom-wrapper page-width">
+      <div class="footer__column footer__localization isolate">
+        {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
+          <localization-form>
+            {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
+              <div>
+                <h2 class="caption-large text-body" id="FooterCountryLabel">{{ 'localization.country_label' | t }}</h2>
+                {%- render 'country-localization', localPosition: 'FooterCountry' -%}
+              </div>
+            {%- endform -%}
+          </localization-form>
+        {%- endif -%}
+
+        {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+          <localization-form>
+            {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
+              <div>
+                <h2 class="caption-large text-body" id="FooterLanguageLabel">
+                  {{ 'localization.language_label' | t }}
+                </h2>
+                {%- render 'language-localization', localPosition: 'FooterLanguage' -%}
+              </div>
+            {%- endform -%}
+          </localization-form>
+        {%- endif -%}
       </div>
-      <div class="vd-footer-millia__grid">
-        <nav class="vd-footer-millia__column" aria-label="E-shop" data-vd-footer-item>
-          <h3>E-Shop</h3>
-          <ul role="list">
-            <li><a href="{{ footer_primary_link }}">Le catalogue</a></li>
-            <li><a href="{{ footer_vanille_url }}">Vanille Bourbon</a></li>
-            <li><a href="{{ footer_epices_url }}">Epices</a></li>
-            <li><a href="{{ footer_poivres_url }}">Poivres & baies</a></li>
-          </ul>
-        </nav>
-
-        <nav class="vd-footer-millia__column" aria-label="La marque" data-vd-footer-item>
-          <h3>La Marque</h3>
-          <ul role="list">
-            <li><a href="{{ footer_wiki_url }}">Le Wiki</a></li>
-            <li><a href="{{ footer_recipes_url }}">Recettes</a></li>
-            <li><a href="{{ footer_savoir_faire_url }}">Savoir-faire</a></li>
-            <li><a href="{{ footer_contact_url }}">Contact</a></li>
-          </ul>
-        </nav>
-
-        <div class="vd-footer-millia__mark" data-vd-footer-item>
-          <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
-            {%- if settings.logo != blank -%}
-              {%- assign footer_logo_alt = settings.logo.alt | default: shop.name | escape -%}
-              {%- assign footer_logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
-              {{
-                settings.logo
-                | image_url: width: 320
-                | image_tag:
-                  class: 'vd-footer-millia__logo',
-                  widths: '120, 160, 220, 320',
-                  width: settings.logo_width,
-                  height: footer_logo_height,
-                  alt: footer_logo_alt,
-                  loading: 'lazy'
-              }}
-            {%- else -%}
-              <img src="{{ 'vanille-desire-logo.png' | asset_url }}" alt="{{ shop.name }}" class="vd-footer-millia__logo" loading="lazy" width="320" height="96">
-            {%- endif -%}
-          </a>
-        </div>
-
-        <nav class="vd-footer-millia__column" aria-label="Aide" data-vd-footer-item>
-          <h3>Aide</h3>
-          <ul role="list">
-            <li><a href="{{ footer_faq_url }}">FAQ</a></li>
-            <li><a href="{{ footer_contact_url }}">Contact</a></li>
-            <li><a href="{{ footer_shipping_url }}">Expédition</a></li>
-            <li><a href="{{ footer_refund_url }}">Retours</a></li>
-          </ul>
-        </nav>
-
-        <nav class="vd-footer-millia__column" aria-label="Social media" data-vd-footer-item>
-          <h3>Social Media</h3>
-          <ul role="list">
-            {%- if settings.social_instagram_link != blank -%}
-              <li><a href="{{ settings.social_instagram_link }}">Instagram</a></li>
-            {%- endif -%}
-            {%- if settings.social_tiktok_link != blank -%}
-              <li><a href="{{ settings.social_tiktok_link }}">Tiktok</a></li>
-            {%- endif -%}
-            {%- if settings.social_youtube_link != blank -%}
-              <li><a href="{{ settings.social_youtube_link }}">Youtube</a></li>
-            {%- elsif settings.social_facebook_link != blank -%}
-              <li><a href="{{ settings.social_facebook_link }}">Facebook</a></li>
-            {%- endif -%}
-          </ul>
-        </nav>
+      <div class="footer__column footer__column--info">
+        {%- if section.settings.payment_enable -%}
+          <div class="footer__payment">
+            <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
+            <ul class="list list-payment" role="list">
+              {%- for type in shop.enabled_payment_types -%}
+                <li class="list-payment__item">
+                  {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
       </div>
-
-      <div class="vd-footer-millia__bottom" data-vd-footer-item>
-        <div class="vd-footer-millia__policies">
-          <a href="{{ footer_legal_url }}">Mentions légales</a>
-          <a href="{{ footer_terms_url }}">Conditions générales de vente</a>
-        </div>
-        <div class="vd-footer-millia__copyright">
-          &copy; {{ 'now' | date: '%Y' }} {{ shop.name }} - all rights reserved
-        </div>
+    </div>
+    <div class="footer__content-bottom-wrapper page-width{% if section.settings.enable_country_selector == false and section.settings.enable_language_selector == false %} footer__content-bottom-wrapper--center{% endif %}">
+      <div class="footer__copyright caption">
+        <small class="copyright__content"
+          >&copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url -}}
+        </small>
+        {%- if section.settings.show_policy -%}
+          <ul class="policies list-unstyled">
+            {%- for policy in shop.policies -%}
+              {%- if policy != blank -%}
+                <li>
+                  <small class="copyright__content"
+                    ><a href="{{ policy.url }}">{{ policy.title | escape }}</a></small
+                  >
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
       </div>
-    </section>
+    </div>
   </div>
 </footer>
 
@@ -381,51 +431,8 @@
     },
     {
       "type": "header",
-      "content": "Scene"
-    },
-    {
-      "type": "text",
-      "id": "scene_eyebrow",
-      "label": "Sur-titre",
-      "default": "Maison"
-    },
-    {
-      "type": "inline_richtext",
-      "id": "scene_heading",
-      "label": "Titre principal",
-      "default": "Vanille, épices, poivres et recettes dans une même maison."
-    },
-    {
-      "type": "richtext",
-      "id": "scene_text",
-      "label": "Texte principal",
-      "default": "<p>Vanille Désiré relie sourcing à Madagascar, produits de caractère, idées recettes et conseils utiles dans une lecture plus éditoriale, plus fluide et plus premium.</p>"
-    },
-    {
-      "type": "text",
-      "id": "primary_link_label",
-      "label": "CTA principal",
-      "default": "Voir le catalogue"
-    },
-    {
-      "type": "url",
-      "id": "primary_link",
-      "label": "Lien CTA principal"
-    },
-    {
-      "type": "text",
-      "id": "secondary_link_label",
-      "label": "CTA secondaire",
-      "default": "Nous contacter"
-    },
-    {
-      "type": "url",
-      "id": "secondary_link",
-      "label": "Lien CTA secondaire"
-    },
-    {
-      "type": "header",
-      "content": "Newsletter"
+      "content": "t:sections.footer.settings.header__1.content",
+      "info": "t:sections.footer.settings.header__1.info"
     },
     {
       "type": "checkbox",
@@ -434,129 +441,10 @@
       "label": "t:sections.footer.settings.newsletter_enable.label"
     },
     {
-      "type": "text",
-      "id": "newsletter_kicker",
-      "label": "Sur-titre newsletter",
-      "default": "Journal de la maison"
-    },
-    {
       "type": "inline_richtext",
-      "id": "newsletter_heading_shell",
-      "label": "Titre newsletter",
-      "default": "Une correspondance plus rare, pas un bruit de plus."
-    },
-    {
-      "type": "richtext",
-      "id": "newsletter_text",
-      "label": "Texte newsletter",
-      "default": "<p>Nouveaux lots, éditions limitées, recettes et matières à suivre avec un rythme plus juste.</p>"
-    },
-    {
-      "type": "header",
-      "content": "Contact"
-    },
-    {
-      "type": "text",
-      "id": "contact_kicker",
-      "label": "Sur-titre contact",
-      "default": "Contact"
-    },
-    {
-      "type": "inline_richtext",
-      "id": "contact_heading",
-      "label": "Titre contact",
-      "default": "Questions, commandes spéciales, collaborations."
-    },
-    {
-      "type": "richtext",
-      "id": "contact_text",
-      "label": "Texte contact",
-      "default": "<p>Un point direct avec la maison pour les demandes sur mesure, cadeaux, sourcing et échanges plus éditoriaux.</p>"
-    },
-    {
-      "type": "text",
-      "id": "contact_link_label",
-      "label": "Libellé lien contact",
-      "default": "Page contact"
-    },
-    {
-      "type": "url",
-      "id": "contact_link",
-      "label": "Lien contact"
-    },
-    {
-      "type": "header",
-      "content": "Repères"
-    },
-    {
-      "type": "text",
-      "id": "signal_1_label",
-      "label": "Repère 1 label",
-      "default": "Origine"
-    },
-    {
-      "type": "text",
-      "id": "signal_1_value",
-      "label": "Repère 1 valeur",
-      "default": "Direct Madagascar"
-    },
-    {
-      "type": "text",
-      "id": "signal_2_label",
-      "label": "Repère 2 label",
-      "default": "Maison"
-    },
-    {
-      "type": "text",
-      "id": "signal_2_value",
-      "label": "Repère 2 valeur",
-      "default": "Vanille, épices, poivres"
-    },
-    {
-      "type": "text",
-      "id": "signal_3_label",
-      "label": "Repère 3 label",
-      "default": "Service"
-    },
-    {
-      "type": "text",
-      "id": "signal_3_value",
-      "label": "Repère 3 valeur",
-      "default": "Expédition soignée"
-    },
-    {
-      "type": "header",
-      "content": "Fond"
-    },
-    {
-      "type": "image_picker",
-      "id": "background_image",
-      "label": "Image de fond"
-    },
-    {
-      "type": "video",
-      "id": "background_video",
-      "label": "Vidéo de fond"
-    },
-    {
-      "type": "range",
-      "id": "backdrop_opacity",
-      "min": 10,
-      "max": 80,
-      "step": 5,
-      "unit": "%",
-      "label": "Opacité du fond",
-      "default": 35
-    },
-    {
-      "type": "range",
-      "id": "backdrop_blur",
-      "min": 0,
-      "max": 36,
-      "step": 2,
-      "unit": "px",
-      "label": "Flou du fond",
-      "default": 16
+      "id": "newsletter_heading",
+      "default": "t:sections.footer.settings.newsletter_heading.default",
+      "label": "t:sections.footer.settings.newsletter_heading.label"
     },
     {
       "type": "header",

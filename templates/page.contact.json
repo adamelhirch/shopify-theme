@@ -1,32 +1,29 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
-      "type": "main-page",
-      "disabled": true,
-      "settings": {}
-    },
-    "form": {
-      "type": "contact-form",
+      "type": "vd-yc-contact",
       "settings": {
-        "heading": "Contactez-nous",
-        "lede": "Question produit, demande pro, partenariat ou commande : écrivez-nous via le formulaire ci-dessous. Réponse sous 24 h ouvrées.",
-        "color_scheme": "scheme-3",
-        "padding_top": 24,
-        "padding_bottom": 56
+        "eyebrow": "Une question ?",
+        "heading": "Nous contacter",
+        "intro": "<p>On répond sous 24h ouvrées. Pour les questions courantes (livraison, conservation, dosage), un détour par la <a href=\"/pages/faq\">FAQ</a> peut suffire.</p>",
+        "email": "contact@vanilledesire.com",
+        "phone": "",
+        "hours": "<p>Lundi → Vendredi<br>9h – 18h (heure de Paris)</p>",
+        "address": "",
+        "shipping_note": "<p>Commande passée avant 14h, expédiée le jour même. France métropolitaine en 48h.</p>",
+        "success_message": "Merci, votre message est bien reçu. On vous répond dans la journée."
+      }
+    },
+    "newsletter": {
+      "type": "vd-yc-newsletter-inline",
+      "settings": {
+        "eyebrow": "Newsletter",
+        "heading": "Recevez -10% sur votre première commande",
+        "placeholder": "Votre adresse email",
+        "button_label": "Je m'inscris",
+        "legal": "En cliquant, vous acceptez de recevoir notre newsletter. Désinscription à tout moment."
       }
     }
   },
-  "order": [
-    "main",
-    "form"
-  ]
+  "order": ["main", "newsletter"]
 }

@@ -1,0 +1,25 @@
+{%- comment -%}
+  Template /policies/* (Refund / Privacy / Terms / Shipping).
+  Shopify n'accepte pas un .json ici, on rend directement la section
+  vd-yc-policy qui lit l'objet `policy` global.
+{%- endcomment -%}
+
+<section class="vd-policy vd-reveal">
+  <div class="vd-policy__inner">
+    <header class="vd-policy__head">
+      <div class="vd-policy__eyebrow">Légal</div>
+      <h1 class="vd-policy__title">{{ policy.title }}</h1>
+      <div class="vd-policy__intro">
+        <p>Document mis à jour régulièrement. Pour toute question, <a href="/pages/contact">contactez-nous</a>.</p>
+      </div>
+    </header>
+
+    <article class="vd-policy__body rte">
+      {{ policy.body }}
+    </article>
+
+    <div class="vd-policy__foot">
+      <a href="{{ routes.root_url }}" class="vd-btn vd-btn--ghost">← Retour à l'accueil</a>
+    </div>
+  </div>
+</section>

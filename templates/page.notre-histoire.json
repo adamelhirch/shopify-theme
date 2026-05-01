@@ -1,0 +1,100 @@
+{
+  "sections": {
+    "hero": {
+      "type": "vd-yc-story",
+      "settings": {
+        "layout": "overlay",
+        "eyebrow": "Notre histoire",
+        "heading": "Découvrez l'histoire de Désiré",
+        "text": "<p>Une lignée de producteurs, un engagement qui se transmet, un goût qui reste.</p>",
+        "button_label": "",
+        "button_link": "",
+        "image_url": "https://vanilledesire.com/cdn/shop/files/IMG_2118_c8b0cc88-e733-4634-b28c-f80f4a854cd2.jpg"
+      }
+    },
+    "intro": {
+      "type": "vd-yc-story",
+      "settings": {
+        "layout": "editorial",
+        "reverse_media": false,
+        "eyebrow": "Un héritage familial unique",
+        "heading": "Trois générations, une même exigence",
+        "text": "<p>À Vangaindrano, l'histoire commence avec Désiré. Trois générations plus tard, nous poursuivons la même exigence : travailler simplement, transmettre sans bruit, faire sentir l'origine.</p><p>Le 1ᵉʳ juillet 2025, nous avons célébré ses 80 ans. Notre père, grand-père et arrière-grand-père reste le repère : patience, sobriété, travail bien fait.</p>",
+        "button_label": "",
+        "button_link": "",
+        "image_url": "https://vanilledesire.com/cdn/shop/files/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg"
+      }
+    },
+    "ch1": {
+      "type": "vd-yc-story",
+      "settings": {
+        "layout": "split",
+        "reverse_media": false,
+        "eyebrow": "1960s",
+        "heading": "Débuts à Vangaindrano",
+        "text": "<p>Le geste juste, appris dehors : observer, cueillir, faire au rythme des saisons.</p>",
+        "button_label": "",
+        "button_link": "",
+        "image_url": "https://vanilledesire.com/cdn/shop/files/IMG_2118_c8b0cc88-e733-4634-b28c-f80f4a854cd2.jpg"
+      }
+    },
+    "ch2": {
+      "type": "vd-yc-story",
+      "settings": {
+        "layout": "split",
+        "reverse_media": true,
+        "eyebrow": "1990s",
+        "heading": "Transmission",
+        "text": "<p>La famille rejoint l'atelier. Les gestes deviennent des repères, la parole se fait mémoire.</p>",
+        "button_label": "",
+        "button_link": "",
+        "image_url": "https://vanilledesire.com/cdn/shop/files/0e699bde-1f3e-4819-bcbc-3e0ef18b7cb8_5e42f3de-5c84-4cab-9e64-643b4a5bb8bf.jpg"
+      }
+    },
+    "ch3": {
+      "type": "vd-yc-story",
+      "settings": {
+        "layout": "split",
+        "reverse_media": false,
+        "eyebrow": "2010s",
+        "heading": "La voie claire",
+        "text": "<p>Dire ce que l'on fait, montrer la matière, rester sobres sur les promesses.</p>",
+        "button_label": "",
+        "button_link": "",
+        "image_url": "https://vanilledesire.com/cdn/shop/files/9878b4e2-28bc-4ada-b855-a8d2abb7600d_221b2310-601a-4a0a-8249-5d3af3e011b7.jpg"
+      }
+    },
+    "ch4": {
+      "type": "vd-yc-story",
+      "settings": {
+        "layout": "split",
+        "reverse_media": true,
+        "eyebrow": "Aujourd'hui",
+        "heading": "Faire & partager",
+        "text": "<p>Nous avançons avec les familles et l'école du village. Aider où l'on vit, sans bruit.</p><p>Depuis toujours, on partage ici. Un coup de main à l'école, des fournitures, du temps. Rien d'extraordinaire : juste notre manière de remercier le village qui nous porte.</p>",
+        "button_label": "",
+        "button_link": "",
+        "image_url": "https://vanilledesire.com/cdn/shop/files/IMG_2909.jpg"
+      }
+    },
+    "newsletter": {
+      "type": "vd-yc-newsletter-inline",
+      "settings": {
+        "eyebrow": "Newsletter",
+        "heading": "Recevez -10% sur votre première commande",
+        "placeholder": "Votre adresse email",
+        "button_label": "Je m'inscris",
+        "legal": "En cliquant, vous acceptez de recevoir notre newsletter. Désinscription à tout moment."
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "intro",
+    "ch1",
+    "ch2",
+    "ch3",
+    "ch4",
+    "newsletter"
+  ]
+}

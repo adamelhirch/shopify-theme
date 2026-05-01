@@ -1,0 +1,145 @@
+{%- comment -%}
+  Trust icons row — port of yanncouvreur.com `.trust-icons` section.
+  Centered icon + h7 title + subdued subtitle, 4-up on desktop,
+  snap-x horizontal carousel on mobile.
+{%- endcomment -%}
+
+<section class="vd-section--tight">
+  <div class="vd-trust" style="--vd-trust-count: {{ section.blocks.size }};">
+    <div class="vd-trust__carousel" data-vd-trust-carousel>
+      {%- for block in section.blocks -%}
+        <div class="vd-trust__item" role="group" aria-label="Élément {{ forloop.index }} de {{ section.blocks.size }}" {{ block.shopify_attributes }}>
+          <div class="vd-trust__icon{% if block.settings.icon == 'bike' %} vd-trust__icon--lg{% endif %}" aria-hidden="true">
+            {%- case block.settings.icon -%}
+              {%- when 'bike' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="5.5" cy="17" r="3.5"/>
+                  <circle cx="18.5" cy="17" r="3.5"/>
+                  <path d="M5.5 17l3-7h7l3 7"/>
+                  <path d="M8 10l1.5-3h4"/>
+                  <rect x="9" y="3" width="7" height="4" rx="0.5"/>
+                </svg>
+              {%- when 'store' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21 5V10H3V5L5 1H19L21 5Z"/>
+                  <path d="M4 13V23H20V13"/>
+                  <path d="M13 23V13"/>
+                  <path d="M4 19H13"/>
+                </svg>
+              {%- when 'pin' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 17.5997C3.57111 18.1471 2 19.0185 2 20C2 21.6568 6.47715 23 12 23C17.5228 23 22 21.6568 22 20C22 19.0185 20.4289 18.1471 18 17.5997"/>
+                  <path d="M12.5 8.5H11.5V7.5H12.5V8.5Z"/>
+                  <path d="M5 8.03448C5 12.7241 12 18 12 18C12 18 19 12.7241 19 8.03448C19 4.14945 15.866 1 12 1C8.13401 1 5 4.14945 5 8.03448Z"/>
+                </svg>
+              {%- when 'secure' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 1V18L11.9999 22.86L21 18V1H3Z"/>
+                  <path d="M8 10.5H16V15.5H8V10.5Z"/>
+                  <path d="M9.5 10.5V7.50002C9.5 6.1193 10.6193 5 12 5C13.3807 5 14.5 6.1193 14.5 7.50002V10.5"/>
+                </svg>
+              {%- when 'hourglass' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 2h12"/>
+                  <path d="M6 22h12"/>
+                  <path d="M7 2v3.5L12 11l5-5.5V2"/>
+                  <path d="M7 22v-3.5L12 13l5 5.5V22"/>
+                </svg>
+              {%- when 'clock' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 7v5l3.5 2"/>
+                </svg>
+              {%- when 'truck' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2 7h11v9H2zM13 10h5l3 3v3h-8z"/>
+                  <circle cx="6" cy="18" r="2"/>
+                  <circle cx="17" cy="18" r="2"/>
+                </svg>
+              {%- when 'leaf' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4 20c8 0 16-8 16-16-8 0-16 8-16 16zM4 20l16-16"/>
+                </svg>
+              {%- when 'lock' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="4" y="11" width="16" height="10" rx="1"/>
+                  <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+                </svg>
+              {%- when 'chat' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+              {%- else -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="9"/>
+                </svg>
+            {%- endcase -%}
+          </div>
+          {%- if block.settings.title != blank -%}
+            <p class="vd-trust__title">{{ block.settings.title }}</p>
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+            <p class="vd-trust__sub">{{ block.settings.text }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.blocks.size > 1 -%}
+      <div class="vd-trust__markers" aria-hidden="true">
+        {%- for block in section.blocks -%}
+          <span class="vd-trust__marker{% if forloop.first %} is-active{% endif %}" data-trust-marker="{{ forloop.index0 }}"></span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bandeau réassurance",
+  "tag": "section",
+  "max_blocks": 6,
+  "settings": [],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icône",
+          "default": "bike",
+          "options": [
+            { "value": "bike", "label": "Vélo (livraison)" },
+            { "value": "store", "label": "Boutique" },
+            { "value": "pin", "label": "Pin localisation (Click & Collect)" },
+            { "value": "secure", "label": "Bouclier sécurité" },
+            { "value": "hourglass", "label": "Sablier (affinage)" },
+            { "value": "clock", "label": "Horloge" },
+            { "value": "truck", "label": "Camion" },
+            { "value": "leaf", "label": "Feuille" },
+            { "value": "lock", "label": "Cadenas" },
+            { "value": "chat", "label": "Chat" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Titre (h7)" },
+        { "type": "text", "id": "text", "label": "Sous-texte" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bandeau réassurance",
+      "category": "Accueil",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "bike", "title": "LIVRAISON (J+1)", "text": "Par coursier" } },
+        { "type": "feature", "settings": { "icon": "store", "title": "ACHAT EN BOUTIQUE", "text": "Ouvert 7/7 - 24/24" } },
+        { "type": "feature", "settings": { "icon": "pin", "title": "Click & collect", "text": "Commandez aujourd'hui avant 20H et retirez dès demain à partir de 10H" } },
+        { "type": "feature", "settings": { "icon": "secure", "title": "PAIEMENT SÉCURISÉ", "text": "Paiements protégés garantissant une expérience sécurisée." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -14,13 +14,7 @@
       {%- endif -%}
       <div>
         {%- if settings.show_vendor -%}
-          {%- capture item_vendor_label -%}
-            {%- render 'vd-product-meta-label', product: item.product, prefer: 'vendor' -%}
-          {%- endcapture -%}
-          {%- assign item_vendor_label = item_vendor_label | strip -%}
-          {%- if item_vendor_label != blank -%}
-            <p class="caption-with-letter-spacing light">{{ item_vendor_label }}</p>
-          {%- endif -%}
+          <p class="caption-with-letter-spacing light">{{ item.product.vendor }}</p>
         {%- endif -%}
         <h3 class="cart-notification-product__name h4">{{ item.product.title | escape }}</h3>
         <dl>

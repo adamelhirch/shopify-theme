@@ -16,7 +16,7 @@
         {{- 'icon-close.svg' | inline_asset_content -}}
       </span>
     </summary>
-    <div id="menu-drawer" class="menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
+    <div id="menu-drawer" class="gradient menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
       <div class="menu-drawer__inner-container">
         <div class="menu-drawer__navigation-container">
           <nav class="menu-drawer__navigation">
@@ -78,6 +78,7 @@
 
             {% if section.settings.menu != blank %}
               <div class="vd-drawer-group">
+                <p class="vd-drawer-group__title">{{ section.settings.brand_menu_label | default: shop.name }}</p>
                 <ul class="menu-drawer__menu has-submenu list-menu" role="list">
                   {%- for link in section.settings.menu.links -%}
                     <li>
@@ -97,7 +98,7 @@
                           </summary>
                           <div
                             id="link-{{ link.handle | escape }}"
-                            class="menu-drawer__submenu has-submenu motion-reduce"
+                            class="menu-drawer__submenu has-submenu gradient motion-reduce"
                             tabindex="-1"
                           >
                             <div class="menu-drawer__inner-submenu">
@@ -137,7 +138,7 @@
                                         </summary>
                                         <div
                                           id="childlink-{{ childlink.handle | escape }}"
-                                          class="menu-drawer__submenu has-submenu motion-reduce"
+                                          class="menu-drawer__submenu has-submenu gradient motion-reduce"
                                         >
                                           <button
                                             class="menu-drawer__close-button link link--text focus-inset"

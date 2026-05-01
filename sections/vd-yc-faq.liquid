@@ -1,0 +1,81 @@
+{%- comment -%}
+  Section FAQ — liste de questions/réponses en accordéons.
+  Chaque bloc = une question + une réponse riche.
+{%- endcomment -%}
+
+<section class="vd-faq vd-reveal">
+  <div class="vd-faq__inner">
+    <header class="vd-faq__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="vd-faq__eyebrow">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+      <h1 class="vd-faq__title">{{ section.settings.heading | default: 'Questions fréquentes' }}</h1>
+      {%- if section.settings.intro != blank -%}
+        <div class="vd-faq__intro">{{ section.settings.intro }}</div>
+      {%- endif -%}
+    </header>
+
+    <div class="vd-faq__list">
+      {%- for block in section.blocks -%}
+        <details class="vd-faq__item" {{ block.shopify_attributes }}>
+          <summary class="vd-faq__summary">
+            <span class="vd-faq__q">{{ block.settings.question }}</span>
+            <svg class="vd-faq__chev" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M3 5l4 4 4-4"/>
+            </svg>
+          </summary>
+          <div class="vd-faq__a rte">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.contact_text != blank or section.settings.contact_link_label != blank -%}
+      <div class="vd-faq__contact">
+        {%- if section.settings.contact_text != blank -%}
+          <p class="vd-faq__contact-text">{{ section.settings.contact_text }}</p>
+        {%- endif -%}
+        {%- if section.settings.contact_link_label != blank -%}
+          <a href="{{ section.settings.contact_link | default: '/pages/contact' }}" class="vd-btn">{{ section.settings.contact_link_label }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "section",
+  "max_blocks": 50,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Questions fréquentes" },
+    { "type": "richtext", "id": "intro", "label": "Texte d'intro" },
+    { "type": "header", "content": "Bloc contact (en bas de FAQ)" },
+    { "type": "text", "id": "contact_text", "label": "Texte", "default": "Pas trouvé votre réponse ?" },
+    { "type": "text", "id": "contact_link_label", "label": "Bouton — libellé", "default": "Nous contacter" },
+    { "type": "url", "id": "contact_link", "label": "Bouton — lien" }
+  ],
+  "blocks": [
+    {
+      "type": "qa",
+      "name": "Question / Réponse",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "richtext", "id": "answer", "label": "Réponse" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "category": "Page",
+      "blocks": [
+        { "type": "qa" },
+        { "type": "qa" },
+        { "type": "qa" }
+      ]
+    }
+  ]
+}
+{% endschema %}

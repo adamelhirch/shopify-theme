@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "vd-yc-policy",
+      "settings": {
+        "eyebrow": "Légal",
+        "intro": "<p>Pour toute question, <a href=\"/pages/contact\">contactez-nous</a>.</p>",
+        "show_back": true
+      }
+    }
+  },
+  "order": ["main"]
+}

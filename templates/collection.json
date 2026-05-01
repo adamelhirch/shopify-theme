@@ -1,64 +1,60 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "banner": {
-      "type": "main-collection-banner",
+    "main": {
+      "type": "vd-yc-collection",
       "settings": {
-        "eyebrow": "Collection",
-        "show_collection_description": false,
-        "show_collection_image": true,
-        "color_scheme": "scheme-3",
-        "metric_primary_label": "Sélection",
-        "metric_secondary_label": "Lecture",
-        "metric_secondary_value": "Formats, intensité, usages",
-        "metric_tertiary_label": "Suite",
-        "metric_tertiary_value": "Recettes, conseils, wiki",
-        "primary_link_label": "Voir tout le catalogue",
-        "primary_link": "shopify://collections/all",
-        "secondary_link_label": "Voir les recettes",
-        "secondary_link": "shopify://pages/recettes"
-      }
-    },
-    "product-grid": {
-      "type": "main-collection-product-grid",
-      "settings": {
-        "products_per_page": 16,
-        "columns_desktop": 4,
-        "image_ratio": "adapt",
-        "show_secondary_image": false,
-        "show_vendor": false,
-        "show_rating": false,
-        "show_subtitle": true,
-        "show_product_type": true,
-        "enable_filtering": true,
-        "enable_sorting": true,
-        "color_scheme": "scheme-3",
-        "show_intro_shell": false,
-        "intro_kicker": "",
-        "intro_heading": "",
-        "intro_text": "",
-        "primary_link_label": "",
-        "primary_link": "",
-        "secondary_link_label": "",
-        "secondary_link": "",
-        "grid_note_eyebrow": "",
-        "grid_note": "",
-        "columns_mobile": "2",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
+        "show_promo_tile": true,
+        "promo_eyebrow": "Découvrez notre gamme de",
+        "show_description": true,
+        "enable_sorting": true
+      },
+      "blocks": {
+        "t1": {
+          "type": "tab",
+          "settings": {
+            "label": "Vanille",
+            "collection": "vanille-bourbon"
+          }
+        },
+        "t2": {
+          "type": "tab",
+          "settings": {
+            "label": "Poivres",
+            "collection": "poivre-baies"
+          }
+        },
+        "t3": {
+          "type": "tab",
+          "settings": {
+            "label": "Épices",
+            "collection": "epices-madagascar"
+          }
+        },
+        "t4": {
+          "type": "tab",
+          "settings": {
+            "label": "Sels",
+            "collection": "sels"
+          }
+        },
+        "t5": {
+          "type": "tab",
+          "settings": {
+            "label": "Huiles",
+            "collection": "huiles-madagascar"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5"
+      ]
     }
   },
   "order": [
-    "banner",
-    "product-grid"
+    "main"
   ]
 }

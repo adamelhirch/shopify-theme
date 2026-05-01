@@ -1,0 +1,617 @@
+{%- comment -%}
+  Wiki — hub éditorial.
+  Trois sous-blocs : 4 cards catégorie en bento asymétrique
+  (1 large + 3 stack), 3 articles "À lire en ce moment", et un index
+  typographique numéroté avec filtres par catégorie.
+  Le tout dans un wrapper unique `.vd-wiki-hub` pour cohérence visuelle.
+{%- endcomment -%}
+
+{%- liquid
+  assign overlay_alpha = section.settings.hero_overlay | default: 50
+  assign overlay_alpha_fraction = overlay_alpha | divided_by: 100.0
+
+  assign cat_count = 0
+  assign feat_count = 0
+  assign index_count = 0
+  for b in section.blocks
+    case b.type
+      when 'category'
+        assign cat_count = cat_count | plus: 1
+      when 'featured'
+        assign feat_count = feat_count | plus: 1
+      when 'index_item'
+        assign index_count = index_count | plus: 1
+    endcase
+  endfor
+
+  # Catégories uniques rencontrées dans les blocs index_item, pour générer
+  # dynamiquement les filter pills.
+  assign cat_keys = ''
+  for b in section.blocks
+    if b.type == 'index_item' and b.settings.category != blank
+      unless cat_keys contains b.settings.category
+        if cat_keys == ''
+          assign cat_keys = b.settings.category
+        else
+          assign cat_keys = cat_keys | append: '|' | append: b.settings.category
+        endif
+      endunless
+    endif
+  endfor
+  assign cat_keys_arr = cat_keys | split: '|'
+
+  # Mapping clé → libellé filter pill.
+  assign cat_labels = 'vanille=Vanille|poivres=Poivres & baies|epices=Épices|sels-huiles=Sels & huiles|transversal=Transversal'
+-%}
+
+<section class="vd-wiki-hub">
+
+  {%- comment -%} ========== HERO ========== {%- endcomment -%}
+  {%- liquid
+    # Fallback chain hero : explicit > image de la collection optionnelle
+    # définie dans le réglage section > photo Unsplash dédiée au hub
+    # (pas réutilisée ailleurs sur le site).
+    assign hero_img_resolved = section.settings.hero_image
+    if hero_img_resolved == blank
+      assign fallback_coll_handle = section.settings.hero_fallback_collection
+      if fallback_coll_handle != blank
+        assign hero_img_resolved = collections[fallback_coll_handle].image
+      endif
+    endif
+  -%}
+  <div
+    class="vd-wiki-hub__hero"
+    style="--vd-wh-overlay: rgba(10, 10, 10, {{ overlay_alpha_fraction }});"
+  >
+    <div class="vd-wiki-hub__hero-bg">
+      {%- if hero_img_resolved != blank -%}
+        {%- assign hero_alt = section.settings.hero_title | default: 'Wiki Vanille Désiré' | escape -%}
+        {{ hero_img_resolved | image_url: width: 2400 | image_tag: widths: '600,900,1200,1600,2000,2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: hero_alt, class: 'vd-wiki-hub__hero-img' }}
+      {%- else -%}
+        <img
+          src="https://images.unsplash.com/photo-1532336414038-cf19250c5757?w=2400&auto=format&fit=crop"
+          alt=""
+          loading="eager"
+          fetchpriority="high"
+          width="2400"
+          height="1400"
+          class="vd-wiki-hub__hero-img"
+        >
+      {%- endif -%}
+      <div class="vd-wiki-hub__hero-overlay" aria-hidden="true"></div>
+    </div>
+
+    <div class="vd-wiki-hub__hero-inner vd-page">
+      {%- if section.settings.hero_eyebrow != blank -%}
+        <div class="vd-wiki-hub__hero-eyebrow">{{ section.settings.hero_eyebrow }}</div>
+      {%- endif -%}
+      {%- if section.settings.hero_title != blank -%}
+        <h1 class="vd-wiki-hub__hero-title">{{ section.settings.hero_title }}</h1>
+      {%- endif -%}
+      {%- if section.settings.hero_lede != blank -%}
+        <p class="vd-wiki-hub__hero-lede">{{ section.settings.hero_lede }}</p>
+      {%- endif -%}
+      {%- if section.settings.hero_scroll_label != blank -%}
+        <a href="#vd-wiki-cats" class="vd-wiki-hub__hero-scroll">
+          <span>{{ section.settings.hero_scroll_label }}</span>
+          <svg aria-hidden="true" focusable="false" width="14" height="22" viewBox="0 0 14 22" fill="none">
+            <path d="M7 1v19m0 0L1 14m6 6 6-6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- comment -%} ========== 4 CATÉGORIES — bento ========== {%- endcomment -%}
+  {%- if cat_count > 0 -%}
+    <section class="vd-wiki-hub__cats vd-page" id="vd-wiki-cats">
+      <header class="vd-wiki-hub__sec-head">
+        {%- if section.settings.cats_eyebrow != blank -%}
+          <div class="vd-wiki-hub__sec-eyebrow">{{ section.settings.cats_eyebrow }}</div>
+        {%- endif -%}
+        {%- if section.settings.cats_heading != blank -%}
+          <h2 class="vd-wiki-hub__sec-title">{{ section.settings.cats_heading }}</h2>
+        {%- endif -%}
+      </header>
+
+      <div class="vd-wiki-hub__cats-grid" data-cat-count="{{ cat_count }}">
+        {%- assign cat_idx = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type != 'category' -%}{% continue %}{%- endif -%}
+          {%- liquid
+            assign cat_idx = cat_idx | plus: 1
+            assign target_page = block.settings.page
+            assign target_collection = collections[block.settings.collection]
+            assign cat_url = block.settings.url
+            if cat_url == blank and target_page != blank
+              assign cat_url = target_page.url
+            endif
+            if cat_url == blank and target_collection != blank
+              assign cat_url = target_collection.url
+            endif
+            if cat_url == blank
+              assign cat_url = '/pages/wiki'
+            endif
+            assign cat_label = block.settings.label
+            if cat_label == blank and target_page != blank
+              assign cat_label = target_page.title
+            endif
+            if cat_label == blank and target_collection != blank
+              assign cat_label = target_collection.title
+            endif
+            assign cat_count_text = block.settings.count_text
+            # Fallback chain pour l'image : explicit > image collection liée
+            assign cat_img = block.settings.image
+            if cat_img == blank and target_collection != blank
+              assign cat_img = target_collection.image
+            endif
+          -%}
+          <a
+            href="{{ cat_url }}"
+            class="vd-wiki-hub__cat{% if forloop.first %} vd-wiki-hub__cat--featured{% endif %}"
+            {{ block.shopify_attributes }}
+          >
+            <div class="vd-wiki-hub__cat-media">
+              {%- if cat_img != blank -%}
+                {%- assign cat_alt = cat_label | default: '' | escape -%}
+                {{ cat_img | image_url: width: 1600 | image_tag: widths: '600,900,1200,1600', sizes: '(min-width:1000px) 50vw, 100vw', loading: 'lazy', alt: cat_alt, class: 'vd-wiki-hub__cat-img' }}
+              {%- else -%}
+                {%- liquid
+                  assign cat_placeholders = 'photo-1592788174877-3f99727fd23d|photo-1599639668273-cdc91e4afb47|photo-1505993597083-3bd19fb75e57|photo-1631478187829-f1e60ce72b27' | split: '|'
+                  assign ph_idx = forloop.index0
+                  if ph_idx >= cat_placeholders.size
+                    assign ph_idx = cat_placeholders.size | minus: 1
+                  endif
+                  assign cat_ph = cat_placeholders[ph_idx]
+                -%}
+                <img
+                  src="https://images.unsplash.com/{{ cat_ph }}?w=1600&auto=format&fit=crop"
+                  alt=""
+                  loading="lazy"
+                  width="1600"
+                  height="1200"
+                  class="vd-wiki-hub__cat-img"
+                >
+              {%- endif -%}
+              <div class="vd-wiki-hub__cat-shade" aria-hidden="true"></div>
+            </div>
+            <div class="vd-wiki-hub__cat-content">
+              <span class="vd-wiki-hub__cat-num">{{ cat_idx | prepend: '00' | slice: -2, 2 }}</span>
+              <span class="vd-wiki-hub__cat-title">{{ cat_label }}</span>
+              {%- if cat_count_text != blank -%}
+                <span class="vd-wiki-hub__cat-count">{{ cat_count_text }}</span>
+              {%- endif -%}
+              <span class="vd-wiki-hub__cat-cta">
+                Explorer
+                <svg aria-hidden="true" focusable="false" width="14" height="10" viewBox="0 0 14 10" fill="none">
+                  <path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+    </section>
+  {%- endif -%}
+
+  {%- comment -%} ========== FEATURED — À lire en ce moment ========== {%- endcomment -%}
+  {%- if feat_count > 0 -%}
+    <section class="vd-wiki-hub__featured vd-page">
+      <header class="vd-wiki-hub__sec-head">
+        {%- if section.settings.feat_eyebrow != blank -%}
+          <div class="vd-wiki-hub__sec-eyebrow">{{ section.settings.feat_eyebrow }}</div>
+        {%- endif -%}
+        {%- if section.settings.feat_heading != blank -%}
+          <h2 class="vd-wiki-hub__sec-title">{{ section.settings.feat_heading }}</h2>
+        {%- endif -%}
+      </header>
+
+      <ol class="vd-wiki-hub__feat-list">
+        {%- assign feat_idx = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type != 'featured' -%}{% continue %}{%- endif -%}
+          {%- liquid
+            assign feat_idx = feat_idx | plus: 1
+            assign target_page = block.settings.page
+            assign feat_url = block.settings.url
+            if feat_url == blank and target_page != blank
+              assign feat_url = target_page.url
+            endif
+            if feat_url == blank
+              assign feat_url = '#'
+            endif
+            assign feat_title = block.settings.title
+            if feat_title == blank and target_page != blank
+              assign feat_title = target_page.title
+            endif
+            assign feat_excerpt = block.settings.excerpt
+            assign feat_img = block.settings.image
+            assign feat_eyebrow = block.settings.eyebrow
+          -%}
+          <li class="vd-wiki-hub__feat" {{ block.shopify_attributes }}>
+            <a href="{{ feat_url }}" class="vd-wiki-hub__feat-link">
+              <div class="vd-wiki-hub__feat-media">
+                {%- if feat_img != blank -%}
+                  {%- assign feat_alt = feat_title | default: '' | escape -%}
+                  {{ feat_img | image_url: width: 1200 | image_tag: widths: '400,600,800,1200', sizes: '(min-width:1000px) 40vw, 100vw', loading: 'lazy', alt: feat_alt, class: 'vd-wiki-hub__feat-img' }}
+                {%- else -%}
+                  <img
+                    src="https://images.unsplash.com/photo-1599639668273-cdc91e4afb47?w=1200&auto=format&fit=crop"
+                    alt=""
+                    loading="lazy"
+                    width="1200"
+                    height="900"
+                    class="vd-wiki-hub__feat-img"
+                  >
+                {%- endif -%}
+              </div>
+              <div class="vd-wiki-hub__feat-body">
+                <span class="vd-wiki-hub__feat-num">{{ feat_idx | prepend: '00' | slice: -2, 2 }}</span>
+                {%- if feat_eyebrow != blank -%}
+                  <span class="vd-wiki-hub__feat-eyebrow">{{ feat_eyebrow }}</span>
+                {%- endif -%}
+                <h3 class="vd-wiki-hub__feat-title">{{ feat_title }}</h3>
+                {%- if feat_excerpt != blank -%}
+                  <p class="vd-wiki-hub__feat-excerpt">{{ feat_excerpt }}</p>
+                {%- endif -%}
+                <span class="vd-wiki-hub__feat-cta">
+                  Lire l'article
+                  <svg aria-hidden="true" focusable="false" width="14" height="10" viewBox="0 0 14 10" fill="none">
+                    <path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </div>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ol>
+    </section>
+  {%- endif -%}
+
+  {%- comment -%} ========== INDEX typographique + filtres ========== {%- endcomment -%}
+  {%- if index_count > 0 -%}
+    <section class="vd-wiki-hub__index vd-page" data-vd-wiki-index>
+      <header class="vd-wiki-hub__sec-head vd-wiki-hub__sec-head--row">
+        <div>
+          {%- if section.settings.idx_eyebrow != blank -%}
+            <div class="vd-wiki-hub__sec-eyebrow">{{ section.settings.idx_eyebrow }}</div>
+          {%- endif -%}
+          {%- if section.settings.idx_heading != blank -%}
+            <h2 class="vd-wiki-hub__sec-title">{{ section.settings.idx_heading }}</h2>
+          {%- endif -%}
+        </div>
+        <span class="vd-wiki-hub__index-count" data-vd-wiki-count>
+          <span data-vd-wiki-count-num>{{ index_count }}</span>
+          <span class="vd-wiki-hub__index-count-label">articles</span>
+        </span>
+      </header>
+
+      <div class="vd-wiki-hub__search" role="search">
+        <svg class="vd-wiki-hub__search-icon" aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.4"/>
+          <path d="m11 11 3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <input
+          type="search"
+          class="vd-wiki-hub__search-input"
+          placeholder="Rechercher dans tous les articles…"
+          aria-label="Rechercher dans le wiki"
+          autocomplete="off"
+          spellcheck="false"
+          data-vd-wiki-query
+        >
+        <button
+          type="button"
+          class="vd-wiki-hub__search-clear"
+          aria-label="Effacer la recherche"
+          data-vd-wiki-clear
+          hidden
+        >
+          <svg aria-hidden="true" focusable="false" width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      {%- if cat_keys_arr.size > 0 -%}
+        <div class="vd-wiki-hub__filters" role="tablist" aria-label="Filtrer par catégorie">
+          <button
+            type="button"
+            class="vd-wiki-hub__pill is-active"
+            role="tab"
+            aria-selected="true"
+            data-vd-wiki-filter="all"
+          >Tout</button>
+          {%- for key in cat_keys_arr -%}
+            {%- liquid
+              assign label = key
+              assign pairs = cat_labels | split: '|'
+              for p in pairs
+                assign kv = p | split: '='
+                if kv[0] == key
+                  assign label = kv[1]
+                  break
+                endif
+              endfor
+            -%}
+            <button
+              type="button"
+              class="vd-wiki-hub__pill"
+              role="tab"
+              aria-selected="false"
+              data-vd-wiki-filter="{{ key }}"
+            >{{ label }}</button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <ol class="vd-wiki-hub__index-list">
+        {%- assign idx_n = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type != 'index_item' -%}{% continue %}{%- endif -%}
+          {%- liquid
+            assign idx_n = idx_n | plus: 1
+            assign target_page = block.settings.page
+            assign idx_url = block.settings.url
+            if idx_url == blank and target_page != blank
+              assign idx_url = target_page.url
+            endif
+            if idx_url == blank
+              assign idx_url = '#'
+            endif
+            assign idx_title = block.settings.title
+            if idx_title == blank and target_page != blank
+              assign idx_title = target_page.title
+            endif
+            assign idx_cat_key = block.settings.category | default: 'transversal'
+            assign idx_cat_label = idx_cat_key
+            assign pairs = cat_labels | split: '|'
+            for p in pairs
+              assign kv = p | split: '='
+              if kv[0] == idx_cat_key
+                assign idx_cat_label = kv[1]
+                break
+              endif
+            endfor
+            assign idx_eyebrow = block.settings.eyebrow
+
+            # Construire l'index de recherche : titre + eyebrow + catégorie
+            # + corps de l'article (HTML strippé, lowercase, ~3500 char max)
+            # pour rester sous ~100 KB cumulé sur 25-30 articles.
+            assign search_body = ''
+            if target_page != blank
+              assign search_body = target_page.content | strip_html | strip_newlines | replace: '  ', ' '
+            endif
+            assign search_text = idx_title | append: ' ' | append: idx_eyebrow | append: ' ' | append: idx_cat_label | append: ' ' | append: search_body | downcase | strip | truncate: 3500, ''
+          -%}
+          <li
+            class="vd-wiki-hub__row"
+            data-vd-wiki-cat="{{ idx_cat_key }}"
+            data-vd-wiki-search="{{ search_text | escape }}"
+            {{ block.shopify_attributes }}
+          >
+            <a href="{{ idx_url }}" class="vd-wiki-hub__row-link">
+              <span class="vd-wiki-hub__row-num">{{ idx_n | prepend: '00' | slice: -2, 2 }}</span>
+              <span class="vd-wiki-hub__row-cat">{{ idx_cat_label }}</span>
+              <span class="vd-wiki-hub__row-title">{{ idx_title }}</span>
+              <span class="vd-wiki-hub__row-meta">
+                {%- if idx_eyebrow != blank -%}{{ idx_eyebrow }}{%- endif -%}
+              </span>
+              <span class="vd-wiki-hub__row-arrow" aria-hidden="true">
+                <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+                  <path d="M1 5h12m0 0L9 1m4 4L9 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ol>
+
+      <p class="vd-wiki-hub__index-empty" data-vd-wiki-empty hidden>
+        Aucun article ne correspond. Essayez un autre mot ou une autre catégorie.
+      </p>
+    </section>
+
+    <script>
+      (function () {
+        var root = document.querySelector('.vd-wiki-hub__index[data-vd-wiki-index]');
+        if (!root) return;
+        var pills = root.querySelectorAll('[data-vd-wiki-filter]');
+        var rows = root.querySelectorAll('[data-vd-wiki-cat]');
+        var queryEl = root.querySelector('[data-vd-wiki-query]');
+        var clearEl = root.querySelector('[data-vd-wiki-clear]');
+        var countEl = root.querySelector('[data-vd-wiki-count-num]');
+        var emptyEl = root.querySelector('[data-vd-wiki-empty]');
+
+        var activeFilter = 'all';
+        var activeQuery = '';
+
+        function normalize(s) {
+          return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function apply() {
+          var q = normalize(activeQuery.trim());
+          var visible = 0;
+          rows.forEach(function (row) {
+            var cat = row.getAttribute('data-vd-wiki-cat');
+            var text = normalize(row.getAttribute('data-vd-wiki-search') || '');
+            var passFilter = (activeFilter === 'all' || cat === activeFilter);
+            var passQuery = (q === '' || text.indexOf(q) !== -1);
+            var match = passFilter && passQuery;
+            row.hidden = !match;
+            if (match) visible++;
+          });
+          if (countEl) countEl.textContent = visible;
+          if (emptyEl) emptyEl.hidden = visible !== 0;
+          pills.forEach(function (p) {
+            var on = p.getAttribute('data-vd-wiki-filter') === activeFilter;
+            p.classList.toggle('is-active', on);
+            p.setAttribute('aria-selected', on ? 'true' : 'false');
+          });
+          if (clearEl) clearEl.hidden = activeQuery === '';
+        }
+
+        pills.forEach(function (p) {
+          p.addEventListener('click', function () {
+            activeFilter = p.getAttribute('data-vd-wiki-filter');
+            apply();
+          });
+        });
+
+        if (queryEl) {
+          var debounce;
+          queryEl.addEventListener('input', function () {
+            activeQuery = queryEl.value;
+            clearTimeout(debounce);
+            debounce = setTimeout(apply, 80);
+          });
+          queryEl.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && activeQuery !== '') {
+              queryEl.value = '';
+              activeQuery = '';
+              apply();
+            }
+          });
+        }
+        if (clearEl) {
+          clearEl.addEventListener('click', function () {
+            if (queryEl) queryEl.value = '';
+            activeQuery = '';
+            apply();
+            if (queryEl) queryEl.focus();
+          });
+        }
+
+        apply();
+      })();
+    </script>
+  {%- endif -%}
+
+</section>
+
+{% schema %}
+{
+  "name": "Wiki — hub",
+  "tag": "section",
+  "class": "shopify-section--vd-wiki-hub",
+  "max_blocks": 50,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    { "type": "image_picker", "id": "hero_image", "label": "Image de fond (override)" },
+    { "type": "collection", "id": "hero_fallback_collection", "label": "Image fallback (collection — utilisée si pas d'image override)" },
+    { "type": "range", "id": "hero_overlay", "min": 0, "max": 90, "step": 5, "default": 50, "unit": "%", "label": "Voile sombre sur l'image" },
+    { "type": "text", "id": "hero_eyebrow", "label": "Sur-titre", "default": "Le carnet d'origine" },
+    { "type": "text", "id": "hero_title", "label": "Titre principal", "default": "Le Wiki" },
+    { "type": "textarea", "id": "hero_lede", "label": "Sous-titre", "default": "Tout savoir sur la vanille, les épices, les poivres et les sels — du producteur à l'assiette." },
+    { "type": "text", "id": "hero_scroll_label", "label": "Lien de scroll (vide pour masquer)", "default": "Explorer" },
+
+    { "type": "header", "content": "Section catégories" },
+    { "type": "text", "id": "cats_eyebrow", "label": "Sur-titre", "default": "Quatre familles" },
+    { "type": "text", "id": "cats_heading", "label": "Titre", "default": "Choisir une famille pour commencer" },
+
+    { "type": "header", "content": "Section À lire en ce moment" },
+    { "type": "text", "id": "feat_eyebrow", "label": "Sur-titre", "default": "À lire en ce moment" },
+    { "type": "text", "id": "feat_heading", "label": "Titre", "default": "Trois articles pour démarrer" },
+
+    { "type": "header", "content": "Section Index" },
+    { "type": "text", "id": "idx_eyebrow", "label": "Sur-titre", "default": "Sommaire" },
+    { "type": "text", "id": "idx_heading", "label": "Titre", "default": "Tous les articles" }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Catégorie (bento)",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Libellé (sinon titre de la page ou de la collection)" },
+        { "type": "page", "id": "page", "label": "Page de catégorie (lien)" },
+        { "type": "collection", "id": "collection", "label": "Collection liée (image et lien fallback)" },
+        { "type": "url", "id": "url", "label": "Lien personnalisé (sinon URL de la page / collection)" },
+        { "type": "image_picker", "id": "image", "label": "Image (sinon image de la collection liée, sinon placeholder)" },
+        { "type": "text", "id": "count_text", "label": "Mention sous le titre (ex : « 9 articles »)" }
+      ]
+    },
+    {
+      "type": "featured",
+      "name": "À lire en ce moment",
+      "limit": 3,
+      "settings": [
+        { "type": "page", "id": "page", "label": "Page article" },
+        { "type": "url", "id": "url", "label": "Lien personnalisé (sinon URL de la page)" },
+        { "type": "text", "id": "eyebrow", "label": "Sur-titre (catégorie / temps de lecture)" },
+        { "type": "text", "id": "title", "label": "Titre (sinon titre de la page)" },
+        { "type": "textarea", "id": "excerpt", "label": "Extrait (2-3 lignes)" },
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    },
+    {
+      "type": "index_item",
+      "name": "Index — article",
+      "settings": [
+        { "type": "page", "id": "page", "label": "Page article" },
+        { "type": "url", "id": "url", "label": "Lien personnalisé (sinon URL de la page)" },
+        { "type": "text", "id": "title", "label": "Titre (sinon titre de la page)" },
+        { "type": "text", "id": "eyebrow", "label": "Mention secondaire (date, temps de lecture, sous-titre)" },
+        {
+          "type": "select",
+          "id": "category",
+          "label": "Catégorie",
+          "options": [
+            { "value": "vanille", "label": "Vanille" },
+            { "value": "poivres", "label": "Poivres & baies" },
+            { "value": "epices", "label": "Épices" },
+            { "value": "sels-huiles", "label": "Sels & huiles" },
+            { "value": "transversal", "label": "Transversal" }
+          ],
+          "default": "transversal"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Wiki — hub",
+      "category": "Vanille Désiré",
+      "blocks": [
+        { "type": "category", "settings": { "label": "Vanille", "count_text": "5 articles" } },
+        { "type": "category", "settings": { "label": "Poivres & baies", "count_text": "5 articles" } },
+        { "type": "category", "settings": { "label": "Épices", "count_text": "9 articles" } },
+        { "type": "category", "settings": { "label": "Sels & huiles", "count_text": "2 articles" } },
+        { "type": "featured", "settings": { "eyebrow": "Vanille", "title": "Bien choisir sa vanille Bourbon", "excerpt": "Les bons réflexes pour repérer une gousse de qualité — humidité, longueur, aspect, parfum." } },
+        { "type": "featured", "settings": { "eyebrow": "Épices", "title": "Cannelle de Madagascar", "excerpt": "Des écorces récoltées à la main dans les forêts de l'Est, plus fines et plus florales que la cannelle commune." } },
+        { "type": "featured", "settings": { "eyebrow": "Savoir-faire", "title": "Trois générations, une exigence", "excerpt": "L'histoire de Désiré, des plants de Vangaindrano aux malles d'affinage — et ce que ça change dans la tasse." } },
+        { "type": "index_item", "settings": { "title": "Bien choisir sa vanille Bourbon", "category": "vanille", "eyebrow": "5 min" } },
+        { "type": "index_item", "settings": { "title": "Comment conserver des gousses de vanille", "category": "vanille", "eyebrow": "4 min" } },
+        { "type": "index_item", "settings": { "title": "Usages & recettes à la vanille", "category": "vanille", "eyebrow": "6 min" } },
+        { "type": "index_item", "settings": { "title": "Vanille Bourbon Planifolia", "category": "vanille", "eyebrow": "Dossier" } },
+        { "type": "index_item", "settings": { "title": "Vanille Pompona", "category": "vanille", "eyebrow": "Variétés" } },
+        { "type": "index_item", "settings": { "title": "Poivre noir de Madagascar", "category": "poivres", "eyebrow": "4 min" } },
+        { "type": "index_item", "settings": { "title": "Poivre blanc de Madagascar", "category": "poivres", "eyebrow": "4 min" } },
+        { "type": "index_item", "settings": { "title": "Poivre sauvage (Voatsiperifery)", "category": "poivres", "eyebrow": "Sauvage" } },
+        { "type": "index_item", "settings": { "title": "Baies roses de Madagascar", "category": "poivres", "eyebrow": "3 min" } },
+        { "type": "index_item", "settings": { "title": "Mélange Poivre sauvage, Poivre blanc & Baies roses", "category": "poivres", "eyebrow": "Assemblage" } },
+        { "type": "index_item", "settings": { "title": "Cannelle de Madagascar", "category": "epices", "eyebrow": "5 min" } },
+        { "type": "index_item", "settings": { "title": "Curcuma de Madagascar", "category": "epices", "eyebrow": "4 min" } },
+        { "type": "index_item", "settings": { "title": "Gingembre de Madagascar", "category": "epices", "eyebrow": "4 min" } },
+        { "type": "index_item", "settings": { "title": "Girofle de Madagascar", "category": "epices", "eyebrow": "4 min" } },
+        { "type": "index_item", "settings": { "title": "Combava de Madagascar", "category": "epices", "eyebrow": "Agrume" } },
+        { "type": "index_item", "settings": { "title": "Curry de Madagascar", "category": "epices", "eyebrow": "Mélange" } },
+        { "type": "index_item", "settings": { "title": "Piment pili-pili de Madagascar", "category": "epices", "eyebrow": "Force 7/10" } },
+        { "type": "index_item", "settings": { "title": "Graines de sésame de Madagascar", "category": "epices", "eyebrow": "3 min" } },
+        { "type": "index_item", "settings": { "title": "Fond d'épices de Madagascar", "category": "epices", "eyebrow": "Mélange" } },
+        { "type": "index_item", "settings": { "title": "Sels gourmets & mélanges", "category": "sels-huiles", "eyebrow": "Famille" } },
+        { "type": "index_item", "settings": { "title": "Huiles essentielles & plantes", "category": "sels-huiles", "eyebrow": "Famille" } },
+        { "type": "index_item", "settings": { "title": "Savoir-faire & producteurs", "category": "transversal", "eyebrow": "Reportage" } },
+        { "type": "index_item", "settings": { "title": "Bienfaits & usages santé", "category": "transversal", "eyebrow": "Guide" } },
+        { "type": "index_item", "settings": { "title": "Recettes & accords", "category": "transversal", "eyebrow": "Cuisine" } },
+        { "type": "index_item", "settings": { "title": "Glossaire des épices", "category": "transversal", "eyebrow": "Référence" } },
+        { "type": "index_item", "settings": { "title": "FAQ — Vanille & épices", "category": "transversal", "eyebrow": "Questions" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,99 +1,83 @@
 {
   "sections": {
+    "breadcrumbs": {
+      "type": "vd-yc-breadcrumbs",
+      "settings": {}
+    },
     "main": {
-      "type": "vd-product",
+      "type": "vd-yc-product",
       "blocks": {
-        "faq_01": {
-          "type": "faq_item",
+        "tagline": {
+          "type": "vd_tagline"
+        },
+        "title": {
+          "type": "title"
+        },
+        "price": {
+          "type": "price"
+        },
+        "sep1": {
+          "type": "separator"
+        },
+        "desc": {
+          "type": "description"
+        },
+        "variant": {
+          "type": "variant_picker"
+        },
+        "buy": {
+          "type": "buy_buttons"
+        },
+        "acc-ing": {
+          "type": "accordion_ingredients"
+        },
+        "acc-not": {
+          "type": "accordion_notes"
+        },
+        "acc-use": {
+          "type": "accordion_usages"
+        },
+        "acc-cnd": {
+          "type": "accordion_conditionnement"
+        },
+        "acc-prv": {
+          "type": "accordion_provenance"
+        },
+        "acc-cons": {
+          "type": "accordion",
           "settings": {
-            "question": "Comment conserver ce produit ?",
-            "answer": "<p>Dans un récipient hermétique, à l'abri de la chaleur, de la lumière et de l'humidité. Plusieurs années sans perte d'arôme.</p>"
+            "title": "Conservation",
+            "content": "<p>Au sec, à l'abri de la chaleur et de la lumière. Bien refermer après usage.</p>"
           }
         },
-        "faq_02": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Quel dosage utiliser ?",
-            "answer": "<p>Selon le format et l'usage : pâtisserie, infusion, dosage quotidien. Nous indiquons systématiquement un repère sur la fiche.</p>"
-          }
-        },
-        "faq_03": {
-          "type": "faq_item",
-          "settings": {
-            "question": "Quelle est l'origine ?",
-            "answer": "<p>Sélection directe auprès de familles productrices à Madagascar. Origine, méthode et taux d'humidité sont consignés à chaque réception.</p>"
-          }
+        "acc-all": {
+          "type": "accordion_allergenes"
         }
       },
-      "block_order": ["faq_01", "faq_02", "faq_03"],
+      "block_order": [
+        "tagline",
+        "title",
+        "price",
+        "sep1",
+        "desc",
+        "variant",
+        "buy",
+        "acc-ing",
+        "acc-not",
+        "acc-use",
+        "acc-cnd",
+        "acc-prv",
+        "acc-cons",
+        "acc-all"
+      ],
       "settings": {
-        "kicker_extra": "MADAGASCAR",
-        "subtitle": "",
-        "reassurance_1": "Livraison offerte dès 30 €",
-        "reassurance_2": "Sélection directe, sans intermédiaire",
-        "reassurance_3": "Mise en pot propre en France",
-        "detail_1_label": "Format",
-        "detail_1_value": "Tube · 2 gousses",
-        "detail_2_label": "Poids net",
-        "detail_2_value": "8 g",
-        "detail_3_label": "Origine",
-        "detail_3_value": "SAVA, Madagascar",
-        "detail_4_label": "",
-        "detail_4_value": "",
-        "ingredients_label": "Ingrédients",
-        "ingredients": "<p>Vanille Bourbon de Madagascar (<em>Vanilla planifolia</em>) — 100 %.</p>",
-        "allergens_label": "Allergènes",
-        "allergens_list": "Aucun allergène à déclaration obligatoire",
-        "allergens_note": "Conditionné dans un atelier qui manipule fruits à coque, soja, sésame et lait.",
-        "nutri_label": "Valeurs nutritionnelles",
-        "nutri_intro": "Pour 100 g (à titre indicatif)",
-        "nutri_1_label": "Énergie",
-        "nutri_1_value": "288 kcal",
-        "nutri_2_label": "Matières grasses",
-        "nutri_2_value": "0,1 g",
-        "nutri_3_label": "Glucides",
-        "nutri_3_value": "12,7 g",
-        "nutri_4_label": "Sucres",
-        "nutri_4_value": "12,5 g",
-        "nutri_5_label": "Protéines",
-        "nutri_5_value": "0,1 g",
-        "nutri_6_label": "Sel",
-        "nutri_6_value": "0 g",
-        "conservation_text": "<p>À l'abri de la chaleur et de la lumière, dans un récipient hermétique. Plusieurs années sans perte d'arôme.</p>",
-        "usage_text": "<p>Idéal en pâtisserie, en infusion lente dans un liquide chaud, ou râpé à la râpe fine sur une préparation finie.</p>",
-        "delivery_label": "Livraison & retrait",
-        "delivery_text": "<p>Expédition sous 48 h ouvrées depuis la France. Livraison Colissimo ou Mondial Relay. Offerte dès 30 € d'achat.</p>",
-        "quote": "",
-        "quote_author": "",
-        "method_kicker": "Notre méthode",
-        "method_heading": "Le geste avant le rendement.",
-        "method_pillars": "Récolte au bon stade | Tri & contrôle à l'arrivée | Mise en pot claire en France",
-        "method_link_label": "Lire le savoir-faire",
-        "method_link": "shopify://pages/savoir-faire",
-        "faq_label": "Questions fréquentes",
-        "color_scheme": "scheme-3"
-      }
-    },
-    "related-products": {
-      "type": "related-products",
-      "settings": {
-        "heading": "Aussi à découvrir",
-        "heading_size": "h2",
-        "editorial_text": "",
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "color_scheme": "scheme-3",
-        "image_ratio": "square",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "padding_top": 36,
-        "padding_bottom": 28
+        "show_related": true,
+        "related_heading": "Dans la même collection"
       }
     }
   },
   "order": [
-    "main",
-    "related-products"
+    "breadcrumbs",
+    "main"
   ]
 }

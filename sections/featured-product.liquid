@@ -1,17 +1,8 @@
 {%- liquid
   assign product = section.settings.product
-  assign has_rating_block = false
-
   if product == null
     assign placeholder = true
   endif
-
-  for block in section.blocks
-    if block.type == 'rating'
-      assign has_rating_block = true
-      break
-    endif
-  endfor
 -%}
 
 <product-info
@@ -28,9 +19,7 @@
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
-  {%- if has_rating_block -%}
-    {{ 'component-rating.css' | asset_url | stylesheet_tag }}
-  {%- endif -%}
+  {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
   {% unless section.settings.product.has_only_default_variant %}
     {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
@@ -493,6 +482,14 @@
     </script>
     <script src="{{ 'product-model.js' | asset_url }}" defer></script>
   {%- endif -%}
+
+  {%- liquid
+    if product.selected_or_first_available_variant.featured_media
+      assign seo_media = product.selected_or_first_available_variant.featured_media
+    else
+      assign seo_media = product.featured_media
+    endif
+  -%}
 
   <script type="application/ld+json">
     {{ product | structured_data }}

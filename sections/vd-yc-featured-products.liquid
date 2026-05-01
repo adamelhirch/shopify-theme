@@ -1,0 +1,75 @@
+<section class="vd-tcoll vd-reveal" data-vd-tcoll>
+  {%- if section.blocks.size > 0 -%}
+    <div class="vd-tcoll__bar">
+      <div class="vd-tcoll__tabs" role="tablist">
+        {%- for block in section.blocks -%}
+          {%- assign coll = collections[block.settings.collection] -%}
+          <button type="button" class="vd-tcoll__tab{% if forloop.first %} is-active{% endif %}" data-tab="tab-{{ block.id }}" data-coll-url="{{ coll.url | default: '#' }}" role="tab">
+            {{ block.settings.label | default: coll.title | default: 'Catégorie' }}
+          </button>
+        {%- endfor -%}
+      </div>
+      <a href="#" class="vd-tcoll__viewall" data-vd-viewall>
+        <span class="vd-tcoll__viewall-label">Voir tout</span>
+        <svg class="vd-tcoll__viewall-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+    {%- assign products_per_tab = section.settings.products_to_show | default: 8 -%}
+    {%- assign skip_card_product_styles = false -%}
+
+    {%- for block in section.blocks -%}
+      {%- assign coll = collections[block.settings.collection] -%}
+      <div class="vd-tcoll__panel{% if forloop.first %} is-active{% endif %}" data-panel="tab-{{ block.id }}" {{ block.shopify_attributes }}>
+        <div class="vd-tcoll__grid">
+          {%- if coll != blank and coll.products.size > 0 -%}
+            {%- for product in coll.products limit: products_per_tab -%}
+              {%- render 'card-product', card_product: product, section_id: section.id, skip_styles: skip_card_product_styles -%}
+              {%- assign skip_card_product_styles = true -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- for i in (1..8) -%}
+              {%- render 'card-product', section_id: section.id, skip_styles: skip_card_product_styles -%}
+              {%- assign skip_card_product_styles = true -%}
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Produits par onglets",
+  "tag": "section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "range", "id": "products_to_show", "min": 4, "max": 12, "step": 2, "default": 8, "label": "Produits affichés par onglet" }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Onglet collection",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Libellé onglet" },
+        { "type": "collection", "id": "collection", "label": "Collection" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Produits par onglets",
+      "category": "Accueil",
+      "blocks": [
+        { "type": "tab", "settings": { "label": "Vanille" } },
+        { "type": "tab", "settings": { "label": "Poivre" } },
+        { "type": "tab", "settings": { "label": "Épices" } },
+        { "type": "tab", "settings": { "label": "Huiles" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

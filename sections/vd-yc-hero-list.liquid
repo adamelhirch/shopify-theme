@@ -1,0 +1,67 @@
+{%- comment -%} YC-style hero: single full-bleed image + vertical text list of categories overlay {%- endcomment -%}
+
+<section class="vd-herolist">
+  <div class="vd-herolist__bg">
+    {%- if section.settings.image != blank -%}
+      <img src="{{ section.settings.image | image_url: width: 2400 }}"
+           srcset="{{ section.settings.image | image_url: width: 1200 }} 1200w, {{ section.settings.image | image_url: width: 2000 }} 2000w, {{ section.settings.image | image_url: width: 2800 }} 2800w"
+           sizes="100vw"
+           alt="{{ section.settings.eyebrow | escape }}"
+           loading="eager"
+           width="2400" height="1500">
+    {%- else -%}
+      <img src="https://images.unsplash.com/photo-1599629954294-14df9ec8bcb1?w=2400&auto=format&fit=crop"
+           alt="placeholder" loading="eager" width="2400" height="1500">
+    {%- endif -%}
+  </div>
+  <div class="vd-herolist__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="vd-herolist__eyebrow">{{ section.settings.eyebrow }}</div>
+    {%- endif -%}
+    <div class="vd-herolist__list">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign coll = collections[block.settings.collection]
+          assign link = block.settings.link | default: coll.url | default: '#'
+        -%}
+        <a href="{{ link }}" class="vd-herolist__item" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero (liste catégories)",
+  "tag": "section",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image de fond" },
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre (optionnel)", "default": "Les collections" }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Catégorie",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Libellé", "default": "Vanilles" },
+        { "type": "collection", "id": "collection", "label": "Collection (optionnel)" },
+        { "type": "url", "id": "link", "label": "Lien personnalisé (sinon URL collection)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero (liste catégories)",
+      "category": "Accueil",
+      "blocks": [
+        { "type": "category", "settings": { "label": "Nouveautés" } },
+        { "type": "category", "settings": { "label": "Vanilles" } },
+        { "type": "category", "settings": { "label": "Épices" } },
+        { "type": "category", "settings": { "label": "Sels & poivres" } },
+        { "type": "category", "settings": { "label": "Coffrets" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

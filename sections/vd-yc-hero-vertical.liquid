@@ -1,0 +1,85 @@
+{%- comment -%} YC vertical-sections-carousel hero — full-screen image slides with collection labels {%- endcomment -%}
+
+<section class="vd-fullhero" data-vd-fullhero>
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign coll = collections[block.settings.collection]
+      assign image = block.settings.image
+      if image == blank and coll != blank
+        assign image = coll.image | default: coll.products.first.featured_image
+      endif
+      assign link = block.settings.link | default: coll.url
+    -%}
+    <div class="vd-fullhero__slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+      {%- if image != blank -%}
+        <img src="{{ image | image_url: width: 2400 }}"
+             srcset="{{ image | image_url: width: 1200 }} 1200w, {{ image | image_url: width: 2000 }} 2000w, {{ image | image_url: width: 2800 }} 2800w"
+             sizes="100vw"
+             alt="{{ block.settings.title | escape }}"
+             loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+             width="2400" height="1600">
+      {%- else -%}
+        <img src="https://images.unsplash.com/photo-1610450949065-1f2841536c88?w=2400&auto=format&fit=crop"
+             alt="placeholder" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" width="2400" height="1600">
+      {%- endif -%}
+      <div class="vd-fullhero__inner">
+        <div class="vd-fullhero__eyebrow">{{ block.settings.eyebrow | default: 'Découvrez nos' }}</div>
+        <h1 class="vd-fullhero__title">{{ block.settings.title }}</h1>
+        {%- if link != blank -%}
+          <a href="{{ link }}" class="vd-btn vd-btn--light vd-fullhero__cta">{{ block.settings.cta | default: 'Commander' }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endfor -%}
+
+  {%- if section.blocks.size > 1 -%}
+    <div class="vd-fullhero__nav" role="tablist">
+      {%- for block in section.blocks -%}
+        <button type="button" class="vd-fullhero__dot{% if forloop.first %} is-active{% endif %}" aria-label="Slide {{ forloop.index }}"></button>
+      {%- endfor -%}
+    </div>
+    <div class="vd-fullhero__scroll-hint">
+      <span>{{ section.settings.scroll_label | default: 'Scrollez pour voir les autres collections' }}</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 5l4 4 4-4"/></svg>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Hero plein écran",
+  "tag": "section",
+  "max_blocks": 10,
+  "settings": [
+    { "type": "text", "id": "scroll_label", "label": "Texte 'scrollez'", "default": "Scrollez pour voir les autres collections" }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide collection",
+      "settings": [
+        { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "Découvrez nos" },
+        { "type": "text", "id": "title", "label": "Titre principal", "default": "Vanilles" },
+        { "type": "image_picker", "id": "image", "label": "Image (sinon image collection)" },
+        { "type": "collection", "id": "collection", "label": "Collection liée" },
+        { "type": "url", "id": "link", "label": "Lien (sinon URL collection)" },
+        { "type": "text", "id": "cta", "label": "Libellé CTA", "default": "Commander" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero plein écran",
+      "category": "Accueil",
+      "blocks": [
+        { "type": "slide", "settings": { "title": "Nouveautés", "eyebrow": "Découvrez nos" } },
+        { "type": "slide", "settings": { "title": "Vanilles", "eyebrow": "Découvrez nos" } },
+        { "type": "slide", "settings": { "title": "Épices", "eyebrow": "Découvrez nos" } },
+        { "type": "slide", "settings": { "title": "Sels & poivres", "eyebrow": "Découvrez nos" } },
+        { "type": "slide", "settings": { "title": "Coffrets", "eyebrow": "Découvrez nos" } },
+        { "type": "slide", "settings": { "title": "Espace Pro", "eyebrow": "Découvrez", "cta": "En savoir plus" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

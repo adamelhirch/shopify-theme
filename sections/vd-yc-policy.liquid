@@ -1,0 +1,58 @@
+{%- comment -%}
+  Page policy / mentions légales — layout brandé.
+  Affiche soit le contenu d'une `policy` (Shopify auto-genère pour
+  /policies/refund-policy etc.), soit le contenu d'une `page` Shopify si
+  elle est passée (mentions-legales, etc.).
+{%- endcomment -%}
+
+{%- liquid
+  assign body_html = ''
+  assign page_title = ''
+  if policy != blank and policy != null
+    assign body_html = policy.body
+    assign page_title = policy.title
+  elsif page != blank and page != null
+    assign body_html = page.content
+    assign page_title = page.title
+  endif
+-%}
+
+<section class="vd-policy vd-reveal">
+  <div class="vd-policy__inner">
+    <header class="vd-policy__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="vd-policy__eyebrow">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+      <h1 class="vd-policy__title">{{ section.settings.heading_override | default: page_title }}</h1>
+      {%- if section.settings.intro != blank -%}
+        <div class="vd-policy__intro">{{ section.settings.intro }}</div>
+      {%- endif -%}
+    </header>
+
+    <article class="vd-policy__body rte">
+      {{ body_html }}
+    </article>
+
+    {%- if section.settings.show_back -%}
+      <div class="vd-policy__foot">
+        <a href="{{ routes.root_url }}" class="vd-btn vd-btn--ghost">← Retour à l'accueil</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page politique",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre" },
+    { "type": "text", "id": "heading_override", "label": "Titre custom (sinon prend celui de la page/policy)" },
+    { "type": "richtext", "id": "intro", "label": "Texte d'intro court" },
+    { "type": "checkbox", "id": "show_back", "label": "Afficher le bouton retour", "default": true }
+  ],
+  "presets": [
+    { "name": "Page politique", "category": "Page" }
+  ]
+}
+{% endschema %}

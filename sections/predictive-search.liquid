@@ -6,11 +6,6 @@
     | plus: predictive_search.resources.articles.size
   %}
   <div id="predictive-search-results" role="listbox">
-    <div class="vd-predictive-search__shell">
-      <div class="vd-predictive-search__head">
-        <p class="vd-predictive-search__eyebrow">Recherche instantanee</p>
-        <h2>Explorer "{{ predictive_search.terms | escape }}"</h2>
-      </div>
     {%- if first_column_results_size > 0 or predictive_search.resources.products.size > 0 -%}
       <div
         id="predictive-search-results-groups-wrapper"
@@ -157,16 +152,10 @@
                     {%- endif -%}
                     <div class="predictive-search__item-content{% unless settings.predictive_search_show_vendor or settings.predictive_search_show_price %} predictive-search__item-content--centered{% endunless %}">
                       {%- if settings.predictive_search_show_vendor -%}
-                        {%- capture predictive_vendor_label -%}
-                          {%- render 'vd-product-meta-label', product: product, prefer: 'vendor' -%}
-                        {%- endcapture -%}
-                        {%- assign predictive_vendor_label = predictive_vendor_label | strip -%}
-                        {%- if predictive_vendor_label != blank -%}
-                          <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
-                          <div class="predictive-search__item-vendor caption-with-letter-spacing">
-                            {{ predictive_vendor_label }}
-                          </div>
-                        {%- endif -%}
+                        <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
+                        <div class="predictive-search__item-vendor caption-with-letter-spacing">
+                          {{ product.vendor }}
+                        </div>
                       {%- endif -%}
                       <p class="predictive-search__item-heading h5">{{ product.title | escape }}</p>
                       {%- if settings.predictive_search_show_price -%}
@@ -246,7 +235,6 @@
           {{- 'icon-arrow.svg' | inline_asset_content -}}
         </span>
       </button>
-    </div>
     </div>
   </div>
 

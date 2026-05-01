@@ -1,62 +1,68 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
-  "name": "t:sections.footer.name",
+  "name": "Footer",
   "type": "footer",
   "sections": {
-    "footer": {
-      "type": "footer",
+    "features-bar": {
+      "type": "vd-yc-features-bar",
       "blocks": {
-        "footer-0": {
-          "type": "link_list",
+        "origin": { "type": "feature", "settings": { "icon": "pin", "title": "SANS INTERMÉDIAIRE", "text": "Au plus près des producteurs" } },
+        "harvest": { "type": "feature", "settings": { "icon": "hourglass", "title": "GRADE GOURMET", "text": "Affinage 24 mois" } },
+        "shipping": { "type": "feature", "settings": { "icon": "truck", "title": "EXPÉDITION SOUS 48H", "text": "France métropolitaine" } },
+        "secure": { "type": "feature", "settings": { "icon": "secure", "title": "PAIEMENT SÉCURISÉ", "text": "Paiements protégés garantissant une expérience sécurisée." } }
+      },
+      "block_order": ["origin", "harvest", "shipping", "secure"]
+    },
+    "footer": {
+      "type": "vd-yc-footer",
+      "blocks": {
+        "about": {
+          "type": "links",
           "settings": {
-            "heading": "Navigation",
-            "menu": "footer"
+            "heading": "À propos",
+            "link_1_label": "Notre histoire",
+            "link_1_url": "/pages/notre-histoire",
+            "link_2_label": "Espace Pro",
+            "link_2_url": "https://pro.vanilledesire.com",
+            "link_3_label": "Salons",
+            "link_3_url": ""
           }
         },
-        "footer-1": {
-          "type": "text",
+        "help": {
+          "type": "links",
           "settings": {
-            "heading": "Maison",
-            "subtext": "<p>Vanille Désiré sélectionne des gousses, extraits et épices de Madagascar en lien direct avec les producteurs, dans une lecture plus éditoriale que folklorique.</p>"
+            "heading": "Aide",
+            "link_1_label": "Retours",
+            "link_1_url": "/policies/refund-policy",
+            "link_2_label": "CGV",
+            "link_2_url": "/policies/terms-of-service",
+            "link_3_label": "Mentions légales",
+            "link_3_url": "/pages/mentions-legales",
+            "link_4_label": "Confidentialité",
+            "link_4_url": "/policies/privacy-policy"
           }
         },
-        "footer-2": {
-          "type": "text",
+        "contact": {
+          "type": "links",
           "settings": {
             "heading": "Contact",
-            "subtext": "<p>Instagram<br>@vanilledesire</p><p>Questions, commandes spéciales et collaborations via la page contact.</p>"
+            "link_1_label": "Nous écrire",
+            "link_1_url": "/pages/contact",
+            "link_2_label": "Espace Pro",
+            "link_2_url": "https://pro.vanilledesire.com",
+            "link_3_label": "Suivre une commande",
+            "link_3_url": "/account/login",
+            "link_4_label": "FAQ",
+            "link_4_url": "/pages/faq"
           }
         }
       },
-      "block_order": [
-        "footer-0",
-        "footer-1",
-        "footer-2"
-      ],
+      "block_order": ["about", "help", "contact"],
       "settings": {
-        "color_scheme": "scheme-2",
-        "newsletter_enable": true,
-        "enable_follow_on_shop": false,
         "show_social": true,
-        "enable_country_selector": false,
-        "enable_language_selector": false,
-        "payment_enable": false,
-        "show_policy": false,
-        "margin_top": 48,
-        "padding_top": 36,
-        "padding_bottom": 36
+        "show_payments": true,
+        "brand_text": "<p>Vanille Désiré sélectionne des gousses, extraits et épices de Madagascar en lien direct avec les producteurs.</p>"
       }
     }
   },
-  "order": [
-    "footer"
-  ]
+  "order": ["features-bar", "footer"]
 }

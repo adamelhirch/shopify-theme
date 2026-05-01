@@ -1,0 +1,141 @@
+{%- liquid
+  assign layout = section.settings.layout | default: 'split'
+  assign reverse = section.settings.reverse_media
+
+  # Image src + alt — priorité : image_picker > image_url (text URL) > placeholder Unsplash
+  if section.settings.image != blank
+    assign img_url_2400 = section.settings.image | image_url: width: 2400
+    assign img_url_1400 = section.settings.image | image_url: width: 1400
+    assign img_url_700  = section.settings.image | image_url: width: 700
+  elsif section.settings.image_url != blank
+    assign img_url_2400 = section.settings.image_url
+    assign img_url_1400 = section.settings.image_url
+    assign img_url_700  = section.settings.image_url
+  else
+    assign img_url_2400 = 'https://images.unsplash.com/photo-1592788174877-3f99727fd23d?w=2400&auto=format&fit=crop'
+    assign img_url_1400 = 'https://images.unsplash.com/photo-1592788174877-3f99727fd23d?w=1400&auto=format&fit=crop'
+    assign img_url_700  = 'https://images.unsplash.com/photo-1592788174877-3f99727fd23d?w=700&auto=format&fit=crop'
+  endif
+  assign img_alt = section.settings.heading | default: '' | escape
+-%}
+
+<section
+  class="vd-story vd-reveal{% if reverse %} vd-story--reverse{% endif %}"
+  data-layout="{{ layout }}"
+>
+  {%- comment -%} Wrapper interne — markup adapté au layout {%- endcomment -%}
+  {%- if layout == 'overlay' -%}
+
+    {%- comment -%} ============== Layout 2 : Image full-bleed + overlay ============== {%- endcomment -%}
+    <div class="vd-story__overlay-wrap">
+      <img
+        class="vd-story__overlay-img"
+        src="{{ img_url_1400 }}"
+        srcset="{{ img_url_700 }} 700w, {{ img_url_1400 }} 1400w, {{ img_url_2400 }} 2400w"
+        sizes="100vw"
+        alt="{{ img_alt }}"
+        loading="lazy"
+      >
+      <div class="vd-story__overlay-shade" aria-hidden="true"></div>
+      <div class="vd-story__overlay-content">
+        {%- if section.settings.eyebrow != blank -%}
+          <div class="vd-story__eyebrow vd-story__eyebrow--light">{{ section.settings.eyebrow }}</div>
+        {%- endif -%}
+        <h2 class="vd-story__title vd-story__title--light">{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}
+          <div class="vd-story__text vd-story__text--light">{{ section.settings.text }}</div>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link }}" class="vd-btn vd-btn--light">{{ section.settings.button_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+
+  {%- elsif layout == 'editorial' -%}
+
+    {%- comment -%} ============== Layout 3 : Magazine asymétrique ============== {%- endcomment -%}
+    <div class="vd-story__inner vd-story__inner--editorial">
+      <figure class="vd-story__media vd-story__media--editorial">
+        <img
+          src="{{ img_url_1400 }}"
+          srcset="{{ img_url_700 }} 700w, {{ img_url_1400 }} 1400w"
+          sizes="(min-width: 1100px) 60vw, 100vw"
+          alt="{{ img_alt }}"
+          loading="lazy"
+        >
+        {%- if section.settings.eyebrow != blank -%}
+          <figcaption class="vd-story__media-caption">{{ section.settings.eyebrow }}</figcaption>
+        {%- endif -%}
+      </figure>
+      <div class="vd-story__content vd-story__content--editorial">
+        <h2 class="vd-story__title vd-story__title--editorial">{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}
+          <div class="vd-story__text">{{ section.settings.text }}</div>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link }}" class="vd-btn vd-btn--ghost">{{ section.settings.button_label }} →</a>
+        {%- endif -%}
+      </div>
+    </div>
+
+  {%- else -%}
+
+    {%- comment -%} ============== Layout 1 (default) : Split 50/50 ============== {%- endcomment -%}
+    <div class="vd-story__inner">
+      <div class="vd-story__media" data-vd-parallax-container>
+        <img
+          src="{{ img_url_1400 }}"
+          srcset="{{ img_url_700 }} 700w, {{ img_url_1400 }} 1400w"
+          sizes="(min-width: 1100px) 50vw, 100vw"
+          alt="{{ img_alt }}"
+          loading="lazy"
+          data-vd-parallax
+        >
+      </div>
+      <div class="vd-story__content">
+        {%- if section.settings.eyebrow != blank -%}
+          <div class="vd-story__eyebrow">{{ section.settings.eyebrow }}</div>
+        {%- endif -%}
+        <h2 class="vd-story__title">{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}
+          <div class="vd-story__text">{{ section.settings.text }}</div>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link }}" class="vd-btn">{{ section.settings.button_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Notre histoire",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Variante de mise en page",
+      "default": "split",
+      "options": [
+        { "value": "split", "label": "1 — Split 50/50 (image / texte)" },
+        { "value": "overlay", "label": "2 — Image plein-cadre + texte overlay" },
+        { "value": "editorial", "label": "3 — Magazine asymétrique" }
+      ]
+    },
+    { "type": "checkbox", "id": "reverse_media", "label": "Inverser image / texte", "default": false, "info": "Sur les layouts split et editorial uniquement." },
+    { "type": "image_picker", "id": "image", "label": "Image (upload)" },
+    { "type": "url", "id": "image_url", "label": "OU URL d'image directe", "info": "Utilisé seulement si l'image upload est vide. Permet de pointer vers une URL externe (CDN Shopify, Unsplash, etc.)." },
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "L'aventure Vanille Désiré" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "De Madagascar jusqu'à votre cuisine" },
+    { "type": "richtext", "id": "text", "label": "Texte", "default": "<p>Tout commence sur les terres malgaches, où nous travaillons en lien direct avec les familles productrices. Chaque gousse est récoltée à la main, à pleine maturité, selon un savoir-faire ancestral. Nous sélectionnons ensuite les meilleurs profils aromatiques pour vous offrir une vanille d'exception.</p>" },
+    { "type": "text", "id": "button_label", "label": "Bouton", "default": "Notre histoire" },
+    { "type": "url", "id": "button_link", "label": "Lien bouton" }
+  ],
+  "presets": [
+    { "name": "Notre histoire", "category": "Accueil" }
+  ]
+}
+{% endschema %}
