@@ -180,12 +180,52 @@
       # Source manuelle : on construira la boucle directement sur les blocs.
       assign rp_count = products_count
     else
-      # Auto : collection famille de l'article, fallback best-sellers
-      # pour les pages transversales (savoir-faire, recettes, FAQ…).
-      assign rp_collection = nil
-      if cat_slug != ''
-        assign rp_collection = collections[cat_slug]
+      # Auto-derivation : on tente la sous-collection la plus précise
+      # (ex : cannelle-madagascar pour l'article cannelle), puis la
+      # collection famille (cat_slug), puis best-sellers en dernier
+      # recours pour les transversaux.
+      assign rp_slug = ''
+      # Épices → sous-collections par variété
+      if h contains 'cannelle'
+        assign rp_slug = 'cannelle-madagascar'
+      elsif h contains 'curcuma'
+        assign rp_slug = 'curcuma-madagascar'
+      elsif h contains 'gingembre'
+        assign rp_slug = 'gingembre-madagascar'
+      elsif h contains 'girofle'
+        assign rp_slug = 'girofle-madagascar'
+      elsif h contains 'combava'
+        assign rp_slug = 'combava-madagascar'
+      elsif h contains 'curry'
+        assign rp_slug = 'curry-madagascar'
+      elsif h contains 'piment' or h contains 'pili-pili'
+        assign rp_slug = 'piment-pili-pili-madagascar'
+      elsif h contains 'sesame'
+        assign rp_slug = 'sesame-madagascar'
+      elsif h contains 'fond-epices' or h contains 'fond-d-epices'
+        assign rp_slug = 'fond-epices'
+      # Poivres & baies → sous-collections par variété
+      elsif h contains 'voatsiperifery' or h contains 'poivre-sauvage'
+        assign rp_slug = 'poivre-sauvage'
+      elsif h contains 'poivre-noir'
+        assign rp_slug = 'poivre-noir-madagascar'
+      elsif h contains 'poivre-blanc'
+        assign rp_slug = 'poivre-blanc'
+      elsif h contains 'baies-roses'
+        assign rp_slug = 'baies-roses'
       endif
+
+      assign rp_collection = nil
+      if rp_slug != ''
+        assign rp_collection = collections[rp_slug]
+      endif
+      # Fallback 1 : la collection famille
+      if rp_collection == nil or rp_collection.products.size == 0
+        if cat_slug != ''
+          assign rp_collection = collections[cat_slug]
+        endif
+      endif
+      # Fallback 2 : best-sellers (pages transversales)
       if rp_collection == nil or rp_collection.products.size == 0
         assign rp_collection = collections['best-selling-products']
       endif
