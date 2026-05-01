@@ -881,43 +881,131 @@
     }
   });
 
-  /* ---------- Reviews section: live aggregate from Judge.me public API ----------
-     Le public token Judge.me donne accès à 2 endpoints publics :
-       - /api/v1/widgets/all_reviews_count   → total d'avis
-       - /api/v1/widgets/all_reviews_rating  → note moyenne
-     Les textes des avis ne sont pas accessibles avec un public token : ils
-     restent gérés via les blocs de la section (l'admin choisit quels
-     témoignages mettre en avant). On met juste à jour la ligne
-     "X / 5 — Y avis" en haut de la section avec les vraies valeurs. */
+  /* ---------- Reviews section: live aggregate + carrousel from Judge.me ----------
+     Le public token Judge.me donne accès :
+       - /api/v1/widgets/all_reviews_count    → total d'avis
+       - /api/v1/widgets/all_reviews_rating   → note moyenne
+       - /api/v1/widgets/featured_carousel    → HTML des avis featured
+     On fetch les 3, on met à jour la ligne "X / 5 — Y avis" et on
+     remplace les blocs admin par les vrais avis si le carousel renvoie
+     des données. Si le token n'est pas posé OU que le fetch échoue,
+     on garde les blocs admin curated comme fallback. */
   document.querySelectorAll('[data-vd-judgeme]').forEach(async (section) => {
     const token = section.dataset.judgemeToken;
     const shop = section.dataset.judgemeShop;
     if (!token || !shop) return;
     const params = new URLSearchParams({ shop_domain: shop, api_token: token });
+
+    // 1) Aggregate (count + rating)
     try {
       const [countRes, rateRes] = await Promise.all([
         fetch(`https://judge.me/api/v1/widgets/all_reviews_count?${params}`),
         fetch(`https://judge.me/api/v1/widgets/all_reviews_rating?${params}`),
       ]);
-      if (!countRes.ok || !rateRes.ok) {
-        console.warn('[vd] Judge.me aggregate fetch failed', countRes.status, rateRes.status);
-        return;
+      if (countRes.ok && rateRes.ok) {
+        const countData = await countRes.json();
+        const rateData = await rateRes.json();
+        const count = countData.all_reviews_count;
+        const rating = parseFloat(rateData.all_reviews_rating);
+        if (Number.isFinite(rating) && Number.isFinite(count)) {
+          const ratingTextEl = section.querySelector('.vd-rev__rating-text');
+          if (ratingTextEl) ratingTextEl.textContent = `${rating.toFixed(2)} / 5 — ${count} avis`;
+          const starsEl = section.querySelector('.vd-rev__stars');
+          if (starsEl) starsEl.setAttribute('aria-label', `${rating.toFixed(2)} étoiles sur 5`);
+        }
       }
-      const countData = await countRes.json();
-      const rateData = await rateRes.json();
-      const count = countData.all_reviews_count;
-      const rating = parseFloat(rateData.all_reviews_rating);
-      if (!Number.isFinite(rating) || !Number.isFinite(count)) return;
-
-      const ratingTextEl = section.querySelector('.vd-rev__rating-text');
-      if (ratingTextEl) {
-        ratingTextEl.textContent = `${rating.toFixed(2)} / 5 — ${count} avis`;
-      }
-      // Met à jour aussi l'aria-label des étoiles header.
-      const starsEl = section.querySelector('.vd-rev__stars');
-      if (starsEl) starsEl.setAttribute('aria-label', `${rating.toFixed(2)} étoiles sur 5`);
     } catch (err) {
-      console.warn('[vd] Judge.me error:', err);
+      console.warn('[vd] Judge.me aggregate error:', err);
+    }
+
+    // 2) Real review texts via featured_carousel widget
+    try {
+      const carouselRes = await fetch(`https://judge.me/api/v1/widgets/featured_carousel?${params}`);
+      if (!carouselRes.ok) return;
+      const carouselData = await carouselRes.json();
+      const html = carouselData.widget || carouselData.html || '';
+      if (!html) return;
+
+      // Parse HTML and extract reviews
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      // Judge.me's HTML uses several class patterns across versions; we try
+      // a few known selectors and fall back gracefully.
+      const itemSelectors = [
+        '.jdgm-carousel-item',
+        '.jdgm-carousel__item',
+        '.jdgm-rev',
+      ];
+      let items = [];
+      for (const sel of itemSelectors) {
+        items = Array.from(doc.querySelectorAll(sel));
+        if (items.length) break;
+      }
+      if (!items.length) return;
+
+      const list = section.querySelector('.vd-rev__list');
+      if (!list) return;
+
+      const extractRating = (el) => {
+        // Look for data-score, data-rating, or count filled stars
+        const ds = el.querySelector('[data-score]');
+        if (ds) {
+          const v = parseInt(ds.getAttribute('data-score'), 10);
+          if (Number.isFinite(v)) return v;
+        }
+        const filled = el.querySelectorAll('.jdgm-star.jdgm--on, .jdgm--star-filled, .jdgm--on');
+        if (filled.length) return Math.min(filled.length, 5);
+        return 5;
+      };
+      const extractText = (el) => {
+        const body = el.querySelector('.jdgm-carousel-item__body, .jdgm-rev__body, .jdgm-rev__title, [class*="body"]');
+        if (body) return (body.textContent || '').trim();
+        return (el.textContent || '').trim().slice(0, 280);
+      };
+      const extractAuthor = (el) => {
+        const a = el.querySelector('.jdgm-carousel-item__reviewer-name, .jdgm-rev__author, [class*="author"], [class*="reviewer"]');
+        return a ? (a.textContent || '').trim() : '';
+      };
+      const extractProductHandle = (el) => {
+        const link = el.querySelector('a[href*="/products/"]');
+        if (!link) return null;
+        const m = link.getAttribute('href').match(/\/products\/([a-z0-9-]+)/);
+        return m ? m[1] : null;
+      };
+
+      const reviews = items.map((el) => ({
+        rating: extractRating(el),
+        text: extractText(el),
+        author: extractAuthor(el),
+        productHandle: extractProductHandle(el),
+      })).filter((r) => r.text && r.text.length > 10);
+
+      if (!reviews.length) return;
+
+      // Build star SVG (filled or empty)
+      const starSvg = (filled) => `<svg viewBox="0 0 24 24" fill="${filled ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="${filled ? 0 : 1.5}" width="14" height="14"><path d="M12 2l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>`;
+      const escapeHtml = (s) => (s || '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+      const cardHtml = (r) => {
+        const stars = Array.from({ length: 5 }, (_, i) => starSvg(i < r.rating)).join('');
+        const product = r.productHandle ? `<a href="/products/${r.productHandle}" class="vd-rev__card-product">À propos de ce produit →</a>` : '';
+        return `
+          <div class="vd-rev__card" data-vd-judgeme-real>
+            <div class="vd-rev__card-stars" aria-label="${r.rating}/5">${stars}</div>
+            <p class="vd-rev__card-text">"${escapeHtml(r.text)}"</p>
+            <div class="vd-rev__card-meta">
+              <span class="vd-rev__card-name">${escapeHtml(r.author || 'Client vérifié')}</span>
+            </div>
+            ${product}
+          </div>`;
+      };
+
+      // Replace admin-curated blocks with real reviews
+      list.innerHTML = reviews.slice(0, 12).map(cardHtml).join('');
+      // Re-init carousel scroll math if a refresh hook exists
+      if (typeof window.dispatchEvent === 'function') {
+        window.dispatchEvent(new CustomEvent('vd:carousel-refresh'));
+      }
+    } catch (err) {
+      console.warn('[vd] Judge.me carousel fetch error:', err);
     }
   });
 
