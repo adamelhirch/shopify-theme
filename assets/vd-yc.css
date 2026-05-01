@@ -339,13 +339,29 @@ p { margin: 0; }
   background: var(--vd-bg);
 }
 
-/* Sur ces mêmes pages, le 1er bloc visuel passe sous le header
-   uniquement (pas sous l'announcement bar, qui reste pleinement
-   visible au-dessus). */
+/* Annoucement bar : fond opaque, z-index élevé pour rester nette au
+   premier plan. Le hero passe DESSOUS (header + announcement). */
+.template-index .shopify-section--announcement,
+.template-page-le-wiki .shopify-section--announcement,
+.template-page-wiki-article .shopify-section--announcement {
+  position: relative;
+  z-index: 60;
+  background: var(--vd-bg-dark);
+}
+/* Le 1er bloc visuel remonte sous le header ET sous l'annonce, pour
+   éviter tout gap. Z-index 0 pour rester derrière. */
 .template-index .shopify-section:has(.vd-herolist),
 .template-page-le-wiki .shopify-section:has(.vd-wiki-hub__hero),
 .template-page-wiki-article .shopify-section:has(.vd-wiki-article__hero--image) {
-  margin-top: calc(-1 * var(--vd-header-h));
+  margin-top: calc(-1 * var(--vd-header-h) - var(--vd-announcement-h, 32px));
+  position: relative;
+  z-index: 0;
+}
+/* Wrapper du header transparent sur ces pages. */
+.template-index .shopify-section--header,
+.template-page-le-wiki .shopify-section--header,
+.template-page-wiki-article .shopify-section--header {
+  background: transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {
