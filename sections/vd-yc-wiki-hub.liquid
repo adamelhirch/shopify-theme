@@ -109,9 +109,13 @@
           {%- liquid
             assign cat_idx = cat_idx | plus: 1
             assign target_page = block.settings.page
+            assign target_collection = collections[block.settings.collection]
             assign cat_url = block.settings.url
             if cat_url == blank and target_page != blank
               assign cat_url = target_page.url
+            endif
+            if cat_url == blank and target_collection != blank
+              assign cat_url = target_collection.url
             endif
             if cat_url == blank
               assign cat_url = '/pages/wiki'
@@ -120,8 +124,15 @@
             if cat_label == blank and target_page != blank
               assign cat_label = target_page.title
             endif
+            if cat_label == blank and target_collection != blank
+              assign cat_label = target_collection.title
+            endif
             assign cat_count_text = block.settings.count_text
+            # Fallback chain pour l'image : explicit > image collection liée
             assign cat_img = block.settings.image
+            if cat_img == blank and target_collection != blank
+              assign cat_img = target_collection.image
+            endif
           -%}
           <a
             href="{{ cat_url }}"
@@ -503,10 +514,11 @@
       "name": "Catégorie (bento)",
       "limit": 4,
       "settings": [
-        { "type": "text", "id": "label", "label": "Libellé (sinon titre de la page)" },
-        { "type": "page", "id": "page", "label": "Page de catégorie" },
-        { "type": "url", "id": "url", "label": "Lien personnalisé (sinon URL de la page)" },
-        { "type": "image_picker", "id": "image", "label": "Image (sinon placeholder)" },
+        { "type": "text", "id": "label", "label": "Libellé (sinon titre de la page ou de la collection)" },
+        { "type": "page", "id": "page", "label": "Page de catégorie (lien)" },
+        { "type": "collection", "id": "collection", "label": "Collection liée (image et lien fallback)" },
+        { "type": "url", "id": "url", "label": "Lien personnalisé (sinon URL de la page / collection)" },
+        { "type": "image_picker", "id": "image", "label": "Image (sinon image de la collection liée, sinon placeholder)" },
         { "type": "text", "id": "count_text", "label": "Mention sous le titre (ex : « 9 articles »)" }
       ]
     },

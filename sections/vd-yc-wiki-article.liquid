@@ -8,7 +8,6 @@
 {%- endcomment -%}
 
 {%- liquid
-  assign hero_image = section.settings.hero_image
   assign hero_eyebrow = section.settings.hero_eyebrow
   assign hero_subtitle = section.settings.hero_subtitle
   assign hero_meta = section.settings.hero_meta
@@ -18,6 +17,44 @@
 
   assign toc_label = section.settings.toc_label | default: 'Sommaire'
   assign toc_enabled = section.settings.toc_enabled
+
+  # ─── Auto-détection de la catégorie depuis le handle de page ────
+  # Mapping handle → collection Shopify pour piocher l'image
+  # signature partagée par tous les articles de la famille.
+  assign cat_slug = ''
+  assign cat_label_auto = ''
+  assign h = page.handle | default: ''
+  if h contains 'huile'
+    assign cat_slug = 'huiles-madagascar'
+    assign cat_label_auto = 'Huiles essentielles & plantes'
+  elsif h contains 'sel'
+    assign cat_slug = 'sels'
+    assign cat_label_auto = 'Sels gourmets & mélanges'
+  elsif h contains 'vanille' or h contains 'pompona' or h contains 'bourbon-planifolia' or h contains 'vanille-bourbon'
+    assign cat_slug = 'vanille-bourbon'
+    assign cat_label_auto = 'Vanille Bourbon de Madagascar'
+  elsif h contains 'poivre' or h contains 'baies' or h contains 'voatsiperifery' or h contains 'melange-poivres'
+    assign cat_slug = 'poivre-baies'
+    assign cat_label_auto = 'Poivres & baies'
+  elsif h contains 'epice' or h contains 'cannelle' or h contains 'curcuma' or h contains 'gingembre' or h contains 'girofle' or h contains 'combava' or h contains 'curry' or h contains 'piment' or h contains 'sesame' or h contains 'fond'
+    assign cat_slug = 'epices-madagascar'
+    assign cat_label_auto = 'Épices de Madagascar'
+  endif
+
+  # Image hero : explicit > image catégorie (collection.image) > rien
+  assign hero_image = section.settings.hero_image
+  assign category_image = nil
+  if cat_slug != ''
+    assign category_image = collections[cat_slug].image
+  endif
+
+  # Auto-fill du fil d'Ariane si l'admin n'a rien saisi
+  if bc_cat_label == blank and cat_label_auto != ''
+    assign bc_cat_label = cat_label_auto
+  endif
+  if bc_cat_url == blank and cat_slug != ''
+    assign bc_cat_url = collections[cat_slug].url
+  endif
 
   # Compter les blocs de chaque type
   assign products_count = 0
@@ -53,11 +90,21 @@
   </nav>
 
   {%- comment -%} ========== HERO ========== {%- endcomment -%}
-  <header class="vd-wiki-article__hero{% if hero_image != blank %} vd-wiki-article__hero--image{% endif %}">
-    {%- if hero_image != blank -%}
+  {%- liquid
+    assign has_hero_media = false
+    if hero_image != blank or category_image != blank
+      assign has_hero_media = true
+    endif
+  -%}
+  <header class="vd-wiki-article__hero{% if has_hero_media %} vd-wiki-article__hero--image{% endif %}">
+    {%- if has_hero_media -%}
       <div class="vd-wiki-article__hero-bg">
         {%- assign hero_alt = page.title | escape -%}
-        {{ hero_image | image_url: width: 2400 | image_tag: widths: '600,900,1200,1600,2000,2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: hero_alt, class: 'vd-wiki-article__hero-img' }}
+        {%- if hero_image != blank -%}
+          {{ hero_image | image_url: width: 2400 | image_tag: widths: '600,900,1200,1600,2000,2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: hero_alt, class: 'vd-wiki-article__hero-img' }}
+        {%- else -%}
+          {{ category_image | image_url: width: 2400 | image_tag: widths: '600,900,1200,1600,2000,2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: hero_alt, class: 'vd-wiki-article__hero-img' }}
+        {%- endif -%}
         <div class="vd-wiki-article__hero-overlay" aria-hidden="true"></div>
       </div>
     {%- endif -%}

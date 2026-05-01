@@ -26,7 +26,8 @@
             "label": "Vanille",
             "url": "/pages/wiki-vanille-bien-choisir",
             "count_text": "5 articles",
-            "page": "wiki-vanille-bien-choisir"
+            "page": "wiki-vanille-bien-choisir",
+            "collection": "vanille-bourbon"
           }
         },
         "cat-poivres": {
@@ -35,7 +36,8 @@
             "label": "Poivres & baies",
             "url": "/pages/wiki-poivres-baies-madagascar",
             "count_text": "5 articles",
-            "page": "wiki-poivres-baies-madagascar"
+            "page": "wiki-poivres-baies-madagascar",
+            "collection": "poivre-baies"
           }
         },
         "cat-epices": {
@@ -44,7 +46,8 @@
             "label": "Épices",
             "url": "/pages/wiki-epices-madagascar",
             "count_text": "9 articles",
-            "page": "wiki-epices-madagascar"
+            "page": "wiki-epices-madagascar",
+            "collection": "epices-madagascar"
           }
         },
         "cat-sels": {
@@ -53,7 +56,8 @@
             "label": "Sels & huiles",
             "url": "/pages/wiki-sels-melanges",
             "count_text": "2 familles",
-            "page": "wiki-sels-melanges"
+            "page": "wiki-sels-melanges",
+            "collection": "sels"
           }
         },
         "feat-1": {
